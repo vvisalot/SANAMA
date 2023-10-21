@@ -27,7 +27,7 @@ export const patientService = {
     buscarPorFiltro: async (filtro) => {
         try {
             const response = await axiosInstance.post(
-                "/admision/post/buscarPaciente",
+                "/admision/post/buscarPacientePrueba",
                 { pv_filtro: filtro }
             )
             return response.data

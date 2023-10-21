@@ -4,12 +4,12 @@ const PatientInfo = ({ gender, dni, dateofbirth, patientState, insuranceCode, in
 
     return (
         <div className="block p-6 h-[300px] bg-white border border-gray-200 rounded-2xl shadow">
-            <div className="p-2 text-2xl font-bold tracking-wider text-gray-900">
+            <div className="p-5  text-2xl font-bold tracking-wider text-gray-900">
                 Informacion personal:
             </div>
 
-            <div className="flex text-large py-5 text-gray-700">
-                <div className="pr-10">
+            <div className="flex text-large text-gray-700">
+                <div className="pr-30">
                     <div className=" text-sm px-5 py-7">
                         <div>Genero</div>
                         <div className="font-bold">{gender}</div>
@@ -19,11 +19,9 @@ const PatientInfo = ({ gender, dni, dateofbirth, patientState, insuranceCode, in
                         <div>DNI</div>
                         <div className="font-bold">{dni}</div>
                     </div>
-
-
                 </div>
 
-                <div className="pr-10">
+                <div className="pr-30">
                     <div className="text-sm px-5 py-7">
                         <div>Codigo de seguro</div>
                         <div className="font-bold">{insuranceCode}</div>
@@ -35,8 +33,8 @@ const PatientInfo = ({ gender, dni, dateofbirth, patientState, insuranceCode, in
                     </div>
                 </div>
 
-                <div>
-                    <div className=" text-sm px-5 py-3">
+                <div className="pr-20">
+                    <div className=" text-sm px-5 py-7">
                         <div>Estado</div>
                         <div className="font-bold">
                             {patientState == 1 ? "Activo" : "Inactivo"}
@@ -47,8 +45,8 @@ const PatientInfo = ({ gender, dni, dateofbirth, patientState, insuranceCode, in
                         <div className="font-bold">{dateofbirth}</div>
                     </div>
                 </div>
-            </div>
-        </div>
+            </div >
+        </div >
     )
 }
 

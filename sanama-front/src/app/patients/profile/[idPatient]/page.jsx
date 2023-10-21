@@ -2,7 +2,9 @@
 import PatientInfo from "@/app/patients/profile/[idPatient]/PatientInfo"
 import ProfileCard from "@/components/cards/ProfileCard"
 import { patientService } from "@/services/patientService"
+import Link from "next/link"
 import { useEffect, useState } from "react"
+import LatestLabResults from "./LatestLabResults"
 
 const PatientProfile = ({ params }) => {
     const [dataPatient, setDataPatient] = useState({})
@@ -22,8 +24,11 @@ const PatientProfile = ({ params }) => {
 
     return (
         <div className="min-h-screen p-10 bg-slate-200">
+            <head>
+                <title>Perfil del paciente</title>
+            </head>
             <div className="flex min-h bg-slate-100 p-10">
-                <div className="w-1/3 h-1/3 flex-row px-5">
+                <div className="w-1/3 h-1/3 flex-row px-10">
                     <div className="py-10">
                         <ProfileCard
                             name={`${dataPatient.nombres} ${dataPatient.apellidoPaterno} ${dataPatient.apellidoMaterno}`}
@@ -33,9 +38,7 @@ const PatientProfile = ({ params }) => {
                         />
                     </div>
 
-                    <div className="bg-slate-500">
-                        HOLA
-                    </div>
+                    <LatestLabResults></LatestLabResults>
                 </div>
 
                 <div className="w-2/3 h-1/3 flex-row px-10">

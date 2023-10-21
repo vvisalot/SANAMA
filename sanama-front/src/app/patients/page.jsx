@@ -16,7 +16,7 @@ const PatientPage = () => {
             const tableData = parsePatientTable(data)
             setPatientTable(tableData)
         } catch (error) {
-            console.log(error)
+            console.log("No se pudo obtener los datos de los pacientes")
         }
     }
 
@@ -27,6 +27,9 @@ const PatientPage = () => {
 
     return (
         <main>
+            <head>
+                <title>Lista de pacientes</title>
+            </head>
             <div className=" font-bold min-h-screen p-5 bg-slate-200">
                 <div className=" font-bold min-h-screen bg-slate-100 p-10">
                     <h1 className="text-blue-500 text-6xl pb-8" >Pacientes</h1>
