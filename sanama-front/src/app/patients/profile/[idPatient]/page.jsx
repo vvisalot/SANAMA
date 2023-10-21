@@ -21,18 +21,41 @@ const PatientProfile = ({ params }) => {
     }, [])
 
     return (
-        <div className="flex p-20">
-            <div className="p-10">
-                <ProfileCard
-                    name={`${dataPatient.nombres} ${dataPatient.apellidoPaterno} ${dataPatient.apellidoMaterno}`}
-                    email={dataPatient.correo}
-                    phone={dataPatient.telefono}
-                    address={dataPatient.direccion}
-                />
+        <div className="min-h-screen p-10 bg-slate-200">
+            <div className="flex min-h bg-slate-100 p-10">
+                <div className="w-1/3 h-1/3 flex-row px-5">
+                    <div className="py-10">
+                        <ProfileCard
+                            name={`${dataPatient.nombres} ${dataPatient.apellidoPaterno} ${dataPatient.apellidoMaterno}`}
+                            email={dataPatient.correo}
+                            phone={dataPatient.telefono}
+                            address={dataPatient.direccion}
+                        />
+                    </div>
+
+                    <div className="bg-slate-500">
+                        HOLA
+                    </div>
+                </div>
+
+                <div className="w-2/3 h-1/3 flex-row px-10">
+                    <div className="py-10">
+                        <PatientInfo
+                            gender={dataPatient.sexo}
+                            dni={dataPatient.dni}
+                            dateofbirth={dataPatient.fechaNacimiento}
+                            patientState={dataPatient.estado}
+                            insuranceCode={dataPatient.codigoSeguro}
+                            insuranceType={dataPatient.tipoSeguro}
+                        />
+                    </div>
+                </div>
+
+
+
             </div>
-            <div className="p-10">
-                <PatientInfo />
-            </div>
+
+
         </div>
     )
 }

@@ -6,18 +6,6 @@ import { useEffect, useState } from "react"
 const DoctorsPage = () => {
     const [doctorTable, setDoctorTable] = useState([])
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const data = await doctorService.buscarPorFiltro("")
-                const tableData = parsePatientTable(data)
-                setDoctorTable(tableData)
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        fetchData()
-    }, [])
 
 
     return (

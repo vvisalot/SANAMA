@@ -27,7 +27,7 @@ const PatientPage = () => {
 
     return (
         <main>
-            <div className=" font-bold min-h-screen p-10 bg-slate-200">
+            <div className=" font-bold min-h-screen p-5 bg-slate-200">
                 <div className=" font-bold min-h-screen bg-slate-100 p-10">
                     <h1 className="text-blue-500 text-6xl pb-8" >Pacientes</h1>
 

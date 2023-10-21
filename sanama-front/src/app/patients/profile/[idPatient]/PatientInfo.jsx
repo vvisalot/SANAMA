@@ -1,22 +1,54 @@
-const PatientInfo = () => {
-    return (
+"use client"
+const PatientInfo = ({ gender, dni, dateofbirth, patientState, insuranceCode, insuranceType }) => {
 
-        <section className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow">
-            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">Informacion personal</h5>
-            <div className="font-normal text-gray-700 dark:text-gray-400">
-                <div className="p-4">
-                    <span>Genero</span>
-                    <span>DNI</span>
-                    <span>Fecha de nacimiento </span>
+
+    return (
+        <div className="block p-6 h-[300px] bg-white border border-gray-200 rounded-2xl shadow">
+            <div className="p-2 text-2xl font-bold tracking-wider text-gray-900">
+                Informacion personal:
+            </div>
+
+            <div className="flex text-large py-5 text-gray-700">
+                <div className="pr-10">
+                    <div className=" text-sm px-5 py-7">
+                        <div>Genero</div>
+                        <div className="font-bold">{gender}</div>
+                    </div>
+
+                    <div className=" text-sm px-5 py-7">
+                        <div>DNI</div>
+                        <div className="font-bold">{dni}</div>
+                    </div>
+
+
                 </div>
-                <div className="p-4">
-                    <span>Estado</span>
-                    <span>Codigo de seguro</span>
-                    <span>Tipo de seguro</span>
+
+                <div className="pr-10">
+                    <div className="text-sm px-5 py-7">
+                        <div>Codigo de seguro</div>
+                        <div className="font-bold">{insuranceCode}</div>
+                    </div>
+
+                    <div className="text-sm px-5 py-7">
+                        <div>Tipo de seguro</div>
+                        <div className="font-bold">{insuranceType}</div>
+                    </div>
+                </div>
+
+                <div>
+                    <div className=" text-sm px-5 py-3">
+                        <div>Estado</div>
+                        <div className="font-bold">
+                            {patientState == 1 ? "Activo" : "Inactivo"}
+                        </div>
+                    </div>
+                    <div className=" text-sm px-5 py-3">
+                        <div>Fecha de nacimiento </div>
+                        <div className="font-bold">{dateofbirth}</div>
+                    </div>
                 </div>
             </div>
-        </section>
-
+        </div>
     )
 }
 
