@@ -8,19 +8,20 @@ import SearchBar from "@/components/bars/SearchBar"
 
 const PatientPage = () => {
     const [patientTable, setPatientTable] = useState([])
+    const [filtro, setFiltro] = useState("")
 
+    const fetchData = async (filtro) => {
+        try {
+            const data = await patientService.buscarPorFiltro(filtro)
+            const tableData = parsePatientTable(data)
+            setPatientTable(tableData)
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const data = await patientService.buscarPorFiltro("")
-                const tableData = parsePatientTable(data)
-                setPatientTable(tableData)
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        fetchData()
+        fetchData("")
     }, [])
 
 
@@ -30,7 +31,7 @@ const PatientPage = () => {
                 <div className=" font-bold min-h-screen bg-slate-100 p-10">
                     <h1 className="text-blue-500 text-6xl pb-8" >Pacientes</h1>
 
-                    <SearchBar />
+                    <SearchBar filtro={filtro} setFiltro={setFiltro} fetchData={fetchData} />
 
                     <div className="pt-10" >
                         <PatientTable data={patientTable}></PatientTable>

@@ -22,9 +22,9 @@ export default function RootLayout({ children }) {
 
           <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
-          <div className="flex-auto transition-all duration-500">
+          <main className="flex-auto transition-all duration-500">
             {children}
-          </div>
+          </main>
         </div>
       </body>
     </html >

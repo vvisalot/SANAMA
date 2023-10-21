@@ -8,6 +8,7 @@ const columns = [
     { name: "DNI" },
     { name: "Fecha de nacimiento" },
     { name: "Telefono" },
+    { name: "Opciones" },
 ]
 
 //Parsear antes de meterlo a la tabla
