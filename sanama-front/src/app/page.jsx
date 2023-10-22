@@ -1,4 +1,5 @@
-import Image from 'next/image'
+//Pagina de inicio al cargar por primera vez la aplicacion
+//TODO: Un componente Dashboard que muestre datos iniciales. 
 
 export default function Home() {
   return (
