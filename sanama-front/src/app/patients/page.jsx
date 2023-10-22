@@ -26,22 +26,11 @@ const PatientPage = () => {
 
 
     return (
-        <main>
-            <head>
-                <title>Lista de pacientes</title>
-            </head>
-            <div className=" font-bold min-h-screen p-5 bg-slate-200">
-                <div className=" font-bold min-h-screen bg-slate-100 p-10">
-                    <h1 className="text-blue-500 text-6xl pb-8" >Pacientes</h1>
-
-                    <SearchBar filtro={filtro} setFiltro={setFiltro} fetchData={fetchData} />
-
-                    <div className="pt-10" >
-                        <PatientTable data={patientTable}></PatientTable>
-                    </div>
-                </div>
-            </div>
-        </main>
+        <section className="  p-10">
+            <h1 className="font-bold text-blue-500 text-6xl pb-8" >Pacientes</h1>
+            <SearchBar filtro={filtro} setFiltro={setFiltro} fetchData={fetchData} />
+            <PatientTable data={patientTable}></PatientTable>
+        </section>
     )
 }
 

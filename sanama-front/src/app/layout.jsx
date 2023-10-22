@@ -20,15 +20,12 @@ export default function RootLayout({ children }) {
       <head>
         <title>SANAMA</title>
       </head>
-      <body className={inter.className}>
-        <div className='flex'>
+      <body className={`${inter.className} flex  transition-all ease-linear duration-300`}>
+        <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+        <main className="min-h-screen box-border w-full border-[40px] border-slate-300 bg-slate-200">
+          {children}
+        </main>
 
-          <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-
-          <main className="flex-auto transition-all duration-500">
-            {children}
-          </main>
-        </div>
       </body>
     </html >
   )

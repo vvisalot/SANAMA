@@ -9,7 +9,7 @@ const SidebarHeader = ({ isOpen }) => {
             {isOpen && <Link href="/">
                 <div className="flex hover:scale-105 transition duration-300 ease-in-out">
                     <SanamaIcon className="mr-3" />
-                    <span className="self-center text-3xl font-bold tracking-wider">SANAMA</span>
+                    <span className="mr-3 self-center text-3xl font-bold tracking-wider">SANAMA</span>
 
                 </div>
             </Link>}

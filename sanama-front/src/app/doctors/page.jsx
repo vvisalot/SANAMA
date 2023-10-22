@@ -9,7 +9,7 @@ const DoctorsPage = () => {
 
 
     return (
-        <div className="p-24 font-bold min-h-screen" >
+        <div className="p-24 font-bold" >
             <h1 className="text-blue-500">Doctores</h1>
             <DoctorTable data={doctorTable}></DoctorTable>
         </div>

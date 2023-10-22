@@ -3,50 +3,37 @@ const PatientInfo = ({ gender, dni, dateofbirth, patientState, insuranceCode, in
 
 
     return (
-        <div className="block p-6 h-[300px] bg-white border border-gray-200 rounded-2xl shadow">
-            <div className="p-5  text-2xl font-bold tracking-wider text-gray-900">
+        <section className="block p-6 h-[300px] bg-white border border-gray-200 rounded-2xl shadow">
+            <header className="p-5  text-2xl font-bold tracking-wider text-gray-900">
                 Informacion personal:
-            </div>
+            </header>
 
-            <div className="flex text-large text-gray-700">
-                <div className="pr-30">
-                    <div className=" text-sm px-5 py-7">
-                        <div>Genero</div>
-                        <div className="font-bold">{gender}</div>
-                    </div>
+            <section className="flex text-large pt-4 text-gray-700">
+                <dl className="basis-1/3">
+                    <dt className="text-sm px-5">Género</dt>
+                    <dd className="text-l font-bold px-5 pb-10">{gender}</dd>
 
-                    <div className=" text-sm px-5 py-7">
-                        <div>DNI</div>
-                        <div className="font-bold">{dni}</div>
-                    </div>
-                </div>
+                    <dt className="text-sm px-5 ">DNI</dt>
+                    <dd className="text-l font-bold px-5 ">{dni}</dd>
+                </dl>
 
-                <div className="pr-30">
-                    <div className="text-sm px-5 py-7">
-                        <div>Codigo de seguro</div>
-                        <div className="font-bold">{insuranceCode}</div>
-                    </div>
+                <dl className="basis-1/3">
+                    <dt className="text-sm px-5 ">Código de seguro</dt>
+                    <dd className="font-bold px-5 pb-10">{insuranceCode}</dd>
 
-                    <div className="text-sm px-5 py-7">
-                        <div>Tipo de seguro</div>
-                        <div className="font-bold">{insuranceType}</div>
-                    </div>
-                </div>
+                    <dt className="text-sm px-5 ">Tipo de seguro</dt>
+                    <dd className="font-bold px-5 ">{insuranceType}</dd>
+                </dl>
 
-                <div className="pr-20">
-                    <div className=" text-sm px-5 py-7">
-                        <div>Estado</div>
-                        <div className="font-bold">
-                            {patientState == 1 ? "Activo" : "Inactivo"}
-                        </div>
-                    </div>
-                    <div className=" text-sm px-5 py-3">
-                        <div>Fecha de nacimiento </div>
-                        <div className="font-bold">{dateofbirth}</div>
-                    </div>
-                </div>
-            </div >
-        </div >
+                <dl className="basis-1/3">
+                    <dt className="text-sm px-5">Estado</dt>
+                    <dd className="font-bold px-5 pb-10">{patientState == 1 ? "Activo" : "Inactivo"}</dd>
+
+                    <dt className="text-sm px-5">Fecha de nacimiento</dt>
+                    <dd className="font-bold px-5">{dateofbirth}</dd>
+                </dl>
+            </section>
+        </section >
     )
 }
 

@@ -1,6 +1,6 @@
 const TableHeader = ({ columns }) => {
     return (
-        <thead className="text-left text-[16px] text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <thead className="border-gray-200 border-2 text-left text-[16px] text-gray-700 uppercase bg-gray-50">
             <tr>
                 {columns.map((column, index) =>
                     column.name !== "ID" ?

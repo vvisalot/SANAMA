@@ -1,3 +1,4 @@
+import { Fragment } from "react"
 import TableCell from "./TableCell"
 import TableOptions from "./TableOptions"
 
@@ -10,10 +11,10 @@ const TableRow = ({ row }) => {
                     if (index === row.length - 1) {
                         console.log(row[0])
                         return (
-                            <>
-                                <TableCell key={index} data={cell.data} />
+                            <Fragment key={index}>
+                                <TableCell data={cell.data} />
                                 <TableOptions id={parseInt(row[0].data)} />
-                            </>
+                            </Fragment>
                         )
                     } else {
                         return (
