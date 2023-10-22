@@ -10,11 +10,7 @@ const columns = [
 
 const DoctorTable = ({ data }) => {
     return (
-        <div className="relative overflow-x-auto">
-            <Table columns={columns} data={data} />
-
-
-        </div>
+        <Table columns={columns} data={data} />
     )
 }
 export default DoctorTable
