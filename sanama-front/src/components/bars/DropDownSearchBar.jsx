@@ -1,13 +1,25 @@
 "use client"
-const SearchBar = ({ filtro, setFiltro, fetchData }) => {
+import { useState } from "react"
+import Dropdown from "./Dropdown"
+
+const DropDownSearchBar = ({ filtro, setFiltro, fetchData, data, defaultText, text, defaultValue, value }) => {
+    const [dropdownValue, setDropdownValue] = useState("")
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        fetchData(filtro)
+        fetchData(filtro, dropdownValue)
     }
 
     return (
         <form onSubmit={handleSubmit} className="pb-10">
+            <Dropdown
+                data={data}
+                defaultText={defaultText}
+                text={text}
+                defaultValue={defaultValue}
+                value={value}
+                setDropdownValue={setDropdownValue}
+            />
             <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
             <div className="relative">
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -28,4 +40,4 @@ const SearchBar = ({ filtro, setFiltro, fetchData }) => {
     )
 }
 
-export default SearchBar
+export default DropDownSearchBar

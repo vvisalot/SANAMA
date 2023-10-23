@@ -2,35 +2,31 @@
 import DoctorTable from "./DoctorsTable"
 import { doctorService } from "@/services/doctorService"
 import { useEffect, useState } from "react"
-import SearchBarDropdown from "@/components/bars/SearchBarDropdown"
+import Dropdown from "@/components/bars/Dropdown"
+import DropDownSearchBar from "@/components/bars/DropDownSearchBar"
 
 const DoctorsPage = () => {
     const [doctorTable, setDoctorTable] = useState([])
     const [filtro, setFiltro] = useState("")
+    const [specialties, setSpecialties] = useState([])
 
-    // const fetchData = async (filtro) => {
-    //     try {
-    //         const data = await doctorService.buscarPorFiltro(filtro)
-    //         const tableData = parseDoctorTable(data)
-    //         setDoctorTable(tableData)
-    //     } catch (error) {
-    //         console.log("No se pudo obtener los datos de los doctores")
-    //     }
-    // }
+    const fetchData = async (filtro, especialidad) => {
+        try {
+            const data = await doctorService.buscarPorMedicoEspecialidad(filtro, especialidad)
+            console.log(data)
+            // const tableData = parseDoctorTable(data)
+            // setDoctorTable(tableData)
+        } catch (error) {
+            console.log("No se pudo obtener los datos de los doctores")
+        }
+    }
 
-    // useEffect(() => {
-    //     fetchData("")
-    // }, [])
-
-
-    const [specialty, setSpecialty] = useState([])
 
     const fetchSpecialty = async () => {
         try {
             const data = await doctorService.listarEspecialidades()
-            const specialty = data.data
-            setSpecialty(specialty)
-            console.log(specialty)
+            setSpecialties(data)
+            console.log(data)
         } catch (error) {
             console.log("No se pudo obtener los datos de las especialidades")
         }
@@ -38,6 +34,7 @@ const DoctorsPage = () => {
 
 
     useEffect(() => {
+        fetchData("", "")
         fetchSpecialty("")
     }, [])
 
@@ -45,7 +42,16 @@ const DoctorsPage = () => {
     return (
         <section className="p-10">
             <h1 className="font-bold tracking-wide text-blue-950 text-6xl pb-8" >Doctores</h1>
-            <SearchBarDropdown />
+            <DropDownSearchBar
+                filtro={filtro}
+                setFiltro={setFiltro}
+                fetchData={fetchData}
+                data={specialties}
+                defaultText={"Todas las especialidades"}
+                text={"nombre"}
+                defaultValue={""}
+                value={"nombre"}
+            />
             {/* <DoctorTable data={doctorTable}></DoctorTable> */}
         </section>
 

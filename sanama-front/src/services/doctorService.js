@@ -41,10 +41,10 @@ export const doctorService = {
         }
     },
 
-    buscarPorEspecialidad: async (especialidad) => {
+    buscarPorMedicoEspecialidad: async (filtro, especialidad) => {
         try {
             const response = await axiosInstance.post("/rrhh/post/medicoNombre", {
-                pv_medico: "",
+                pv_medico: filtro,
                 pv_especialidad: especialidad,
             })
             return response.data
