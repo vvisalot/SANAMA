@@ -22,8 +22,9 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
             <ul className={`w-full font-medium text-lg`}>
                 <SidebarItem name={"Pacientes"} route={"/patients"} isOpen={isSidebarOpen} Icon={PatientIcon}></SidebarItem>
                 <SidebarItem name={"Medicos"} route={"/doctors"} isOpen={isSidebarOpen} Icon={DoctorIcon} ></SidebarItem>
+                {/* TODO: CAMBIAR LOS DEMAS ICONOS DE LA SIDEBAR */}
                 <SidebarItem name={"Citas"} route={"/appointments"} isOpen={isSidebarOpen} Icon={DoctorIcon} ></SidebarItem>
-
+                <SidebarItem name={"Triaje"} route={"/triaje"} isOpen={isSidebarOpen} Icon={DoctorIcon} ></SidebarItem>
             </ul>
 
         </nav>
