@@ -25,7 +25,6 @@ export default function RootLayout({ children }) {
         <main className="min-h-screen box-border w-full border-[40px] border-slate-300 bg-slate-200">
           {children}
         </main>
-
       </body>
     </html >
   )
