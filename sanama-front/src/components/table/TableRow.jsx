@@ -2,7 +2,7 @@ import { Fragment } from "react"
 import TableCell from "./TableCell"
 import TableOptions from "./TableOptions"
 
-const TableRow = ({ row }) => {
+const TableRow = ({ row, url }) => {
 
     return (
         <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
@@ -12,7 +12,7 @@ const TableRow = ({ row }) => {
                         return (
                             <Fragment key={index}>
                                 <TableCell data={cell.data} />
-                                <TableOptions id={parseInt(row[0].data)} />
+                                <TableOptions id={parseInt(row[0].data)} url={url} />
                             </Fragment>
                         )
                     } else {
