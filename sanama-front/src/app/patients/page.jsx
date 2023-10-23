@@ -27,7 +27,7 @@ const PatientPage = () => {
 
     return (
         <section className="  p-10">
-            <h1 className="font-bold text-blue-500 text-6xl pb-8" >Pacientes</h1>
+            <h1 className="font-bold text-blue-500 text-6xl pb-8" >Gestión de Pacientes</h1>
             <SearchBar filtro={filtro} setFiltro={setFiltro} fetchData={fetchData} />
             <PatientTable data={patientTable}></PatientTable>
         </section>
