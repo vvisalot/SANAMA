@@ -1,9 +1,7 @@
 "use client"
-import SearchBar from "@/components/bars/SearchBar"
 import DoctorTable from "./DoctorsTable"
 import { doctorService } from "@/services/doctorService"
 import { useEffect, useState } from "react"
-import SpecialtyDropdown from "./SpecialtyDropdown"
 import SearchBarDropdown from "@/components/bars/SearchBarDropdown"
 
 const DoctorsPage = () => {
@@ -23,6 +21,26 @@ const DoctorsPage = () => {
     // useEffect(() => {
     //     fetchData("")
     // }, [])
+
+
+    const [specialty, setSpecialty] = useState([])
+
+    const fetchSpecialty = async () => {
+        try {
+            const data = await doctorService.listarEspecialidades()
+            const specialty = data.data
+            setSpecialty(specialty)
+            console.log(specialty)
+        } catch (error) {
+            console.log("No se pudo obtener los datos de las especialidades")
+        }
+    }
+
+
+    useEffect(() => {
+        fetchSpecialty("")
+    }, [])
+
 
     return (
         <section className="p-10">

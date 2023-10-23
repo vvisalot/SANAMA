@@ -1,6 +1,5 @@
 "use client"
 
-import { doctorService } from "@/services/doctorService"
 import { useEffect, useState } from "react"
 
 const SearchBarDropdown = () => {
@@ -10,25 +9,6 @@ const SearchBarDropdown = () => {
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen)
     }
-
-    const [specialty, setSpecialty] = useState([])
-
-    const fetchSpecialty = async () => {
-        try {
-            const data = await doctorService.listarEspecialidades()
-            const specialty = data.data
-            setSpecialty(specialty)
-            console.log(specialty)
-        } catch (error) {
-            console.log("No se pudo obtener los datos de las especialidades")
-        }
-    }
-
-
-    useEffect(() => {
-        fetchSpecialty("")
-    }, [])
-
 
     return (
         <form>
