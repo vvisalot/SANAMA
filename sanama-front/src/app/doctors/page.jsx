@@ -3,6 +3,7 @@ import DoctorTable from "./DoctorsTable"
 import { doctorService } from "@/services/doctorService"
 import { useEffect, useState } from "react"
 import DropDownSearchBar from "@/components/bars/DropDownSearchBar"
+import { parseDoctorsTable } from "@/util/doctorParser"
 
 const DoctorsPage = () => {
     const [doctorTable, setDoctorTable] = useState([])
@@ -12,8 +13,8 @@ const DoctorsPage = () => {
     const fetchData = async (filtro, especialidad) => {
         try {
             const data = await doctorService.buscarPorMedicoEspecialidad(filtro, especialidad)
-            console.log(data)
-            const tableData = parseDoctorTable(data)
+            const tableData = parseDoctorsTable(data)
+            console.log(tableData)
             setDoctorTable(tableData)
         } catch (error) {
             console.log("No se pudo obtener los datos de los doctores")
@@ -41,7 +42,6 @@ const DoctorsPage = () => {
     return (
         <section className="p-10">
             <h1 className="font-bold text-blue-500 text-6xl pb-8" >Gestión de Médicos</h1>
-            <h1 className="font-bold tracking-wide text-blue-950 text-6xl pb-8" >Doctores</h1>
             <DropDownSearchBar
                 filtro={filtro}
                 setFiltro={setFiltro}

@@ -33,7 +33,10 @@ export function parseDoctorsTable(data) {
                 return {
                     "data": `${row["nombres"]} ${row["apellidoPaterno"]} ${row["apellidoMaterno"]}`
                 }
-            } else {
+            } else if (column === "especialidad") {
+                return { "data": row["especialidad"]["nombre"] }
+            }
+            else {
                 return { "data": row[column] }
             }
         })

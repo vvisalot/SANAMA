@@ -14,6 +14,7 @@ const PatientPage = () => {
         try {
             const data = await patientService.buscarPorFiltro(filtro)
             const tableData = parsePatientTable(data)
+            console.log(tableData)
             setPatientTable(tableData)
         } catch (error) {
             console.log("No se pudo obtener los datos de los pacientes")

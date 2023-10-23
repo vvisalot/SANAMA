@@ -9,7 +9,6 @@ const TableRow = ({ row }) => {
             {row.map((cell, index) => {
                 if (index != 0) {
                     if (index === row.length - 1) {
-                        console.log(row[0])
                         return (
                             <Fragment key={index}>
                                 <TableCell data={cell.data} />

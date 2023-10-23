@@ -6,6 +6,7 @@ const columns = [
     { name: "CMP" },
     { name: "Especialidad" },
     { name: "Area" },
+    { name: "Opciones" }
 ]
 
 const DoctorTable = ({ data }) => {
