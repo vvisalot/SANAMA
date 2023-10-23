@@ -1,43 +1,47 @@
 "use client"
 
-import { useState } from "react"
+import { doctorService } from "@/services/doctorService"
+import { useEffect, useState } from "react"
 
 const SearchBarDropdown = () => {
+    //Para controlar el estado del dropdown
     const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen)
     }
 
+    const [specialty, setSpecialty] = useState([])
+
+    const fetchSpecialty = async () => {
+        try {
+            const data = await doctorService.listarEspecialidades()
+            const specialty = data.data
+            setSpecialty(specialty)
+            console.log(specialty)
+        } catch (error) {
+            console.log("No se pudo obtener los datos de las especialidades")
+        }
+    }
+
+
+    useEffect(() => {
+        fetchSpecialty("")
+    }, [])
+
+
     return (
         <form>
             <div className="flex">
-                <button id="dropdown-button" type="button" onClick={toggleDropdown} data-dropdown-toggle="dropdown"
-                    className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-l-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100">
-                    Todas las especialidades
-                    <svg className="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
-                    </svg>
-                </button>
+                <select id="countries" className="relative w-1/5 bg-gray-50 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block p-2.5">
+                    <option defaultValue>Todas las especialidades</option>
+                    <option value="US">United States</option>
+                    <option value="CA">Canada</option>
+                    <option value="FR">France</option>
+                    <option value="DE">Germany</option>
+                </select>
 
-                <div id="dropdown" className={` relative top-full left-0 mt-2 z-10 ${isDropdownOpen ? '' : 'hidden'}  bg-white divide-y divide-gray-100 rounded-lg shadow w-44`}>
-                    <ul className="py-2 text-sm text-gray-700" aria-labelledby="dropdown-button">
-                        <li>
-                            <button type="button" className="inline-flex w-full px-4 py-2 hover:bg-gray-100 ">Mockups</button>
-                        </li>
-                        <li>
-                            <button type="button" className="inline-flex w-full px-4 py-2 hover:bg-gray-100">Templates</button>
-                        </li>
-                        <li>
-                            <button type="button" className="inline-flex w-full px-4 py-2 hover:bg-gray-100">Design</button>
-                        </li>
-                        <li>
-                            <button type="button" className="inline-flex w-full px-4 py-2 hover:bg-gray-100">Logos</button>
-                        </li>
-                    </ul>
-                </div>
-
-                <div className="relative w-full">
+                <div className="relative w-4/5 ">
                     <input type="search" id="search-dropdown" className="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-r-lg border-l-gray-50 border-l-2 border border-gray-300
                      focus:ring-blue-500 focus:border-blue-500" placeholder=" Search Mockups, Logos, Design Templates..." required />
                     <button type="submit" className="absolute top-0 right-0 p-2.5 text-sm font-medium h-full text-white bg-blue-700 rounded-r-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
@@ -49,7 +53,7 @@ const SearchBarDropdown = () => {
                 </div>
 
             </div>
-        </form>
+        </form >
     )
 }
 
