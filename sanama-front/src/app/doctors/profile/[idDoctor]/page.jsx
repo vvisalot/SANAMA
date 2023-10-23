@@ -23,10 +23,13 @@ const DoctorProfile = ({ params }) => {
     return (
         <article className="flex box-content p-10">
             <div className="w-1/3 flex-row p-10">
-
-
+                <ProfileCard
+                    name={`${dataDoctor?.nombres ?? ''} ${dataDoctor?.apellidoPaterno ?? ''} ${dataDoctor?.apellidoMaterno ?? ''}`}
+                    email={dataDoctor?.correo ?? ''}
+                    phone={dataDoctor?.telefono ?? ''}
+                    address={dataDoctor?.direccion ?? ''}
+                />
             </div>
-
             <div className="w-2/3 flex-row p-10">
 
             </div>
