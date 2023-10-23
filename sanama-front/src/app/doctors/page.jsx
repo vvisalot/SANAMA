@@ -2,7 +2,6 @@
 import DoctorTable from "./DoctorsTable"
 import { doctorService } from "@/services/doctorService"
 import { useEffect, useState } from "react"
-import Dropdown from "@/components/bars/Dropdown"
 import DropDownSearchBar from "@/components/bars/DropDownSearchBar"
 
 const DoctorsPage = () => {
@@ -14,8 +13,8 @@ const DoctorsPage = () => {
         try {
             const data = await doctorService.buscarPorMedicoEspecialidad(filtro, especialidad)
             console.log(data)
-            // const tableData = parseDoctorTable(data)
-            // setDoctorTable(tableData)
+            const tableData = parseDoctorTable(data)
+            setDoctorTable(tableData)
         } catch (error) {
             console.log("No se pudo obtener los datos de los doctores")
         }
@@ -26,7 +25,7 @@ const DoctorsPage = () => {
         try {
             const data = await doctorService.listarEspecialidades()
             setSpecialties(data)
-            console.log(data)
+            //console.log(data)
         } catch (error) {
             console.log("No se pudo obtener los datos de las especialidades")
         }
