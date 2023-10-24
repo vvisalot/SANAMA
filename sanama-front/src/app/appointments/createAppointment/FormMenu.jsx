@@ -1,6 +1,6 @@
 const FormMenu = () => {
     return (
-        <div className="w-1/5 pt-10 px-6 text-xl text-gray-800 leading-normal">
+        <nav className="w-1/5 pt-10 px-6 text-xl text-gray-800 leading-normal">
             <div className="block lg:hidden sticky inset-0">
                 <button id="menu-toggle" className="flex w-full justify-end px-3 py-3 bg-white lg:bg-transparent border rounded border-gray-600 hover:border-yellow-600 appearance-none focus:outline-none">
                     <svg className="fill-current h-3 float-right" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -38,7 +38,7 @@ const FormMenu = () => {
                     </li>
                 </ul>
             </div>
-        </div>
+        </nav>
     )
 }
 
