@@ -1,62 +1,55 @@
 // {
-//     "idCita": 5,
+//     "idTriaje": 2,
+//     "codigoTriaje": "TR-20230831-113512",
+//     "peso": 80,
+//     "talla": 175,
+//     "temperatura": 37,
+//     "motivoVisita": "Dolor de cabeza",
+//     "presionArterial": 120,
+//     "estado": 1,
+//     "prioridad": "Media",
+//     "fechaTriaje": "2022-12-18",
+//     "horaTriaje": "14:32:51",
+//     "saturacionOxigeno": "98",
+//     "frecuenciaCardiaca": "75",
+//     "nivelConciencia": "Consciente",
+//     "nivelDolor": "Leve",
+//     "condicionesPrexistentes": "Ninguna",
 //     "paciente": {
 //         "idPersona": 0,
 //         "nombres": "Javier",
 //         "apellidoPaterno": "Mendez",
 //         "apellidoMaterno": "Molinas",
 //         "dni": "74032409",
-//         "fechaNacimiento": "1998-09-10",
-//         "sexo": "MASCULINO",
-//         "telefono": null,
-//         "correoElectronico": null,
-//         "foto": null,
-//         "estado": 0,
-//         "codigoSeguro": null,
-//         "tipoSeguro": null,
-//         "tieneAcompanhante": false,
-//         "nombreAcompnhante": null,
-//         "dniAcompanhante": null,
-//         "correo": null,
-//         "direccion": null,
-//         "parentezco": null,
-//         "historialClinico": null,
-//         "programacionesCitas": null
-//     },
-//     "triaje": {
-//         "idTriaje": 2,
-//         "codigoTriaje": "TR-20230831-113512",
-//         "peso": 70,
-//         "talla": 180,
-//         "temperatura": 37,
-//         "motivoVisita": "Dolor de poto",
-//         "presionArterial": 120,
-//         "estado": 1,
-//         "prioridad": "Media",
-//         "fechaTriaje": "2022-12-18",
-//         "horaTriaje": "14:32:51",
-//         "saturacionOxigeno": "98",
-//         "frecuenciaCardiaca": "75",
-//         "frecuenciaRespiratoria": null,
-//         "nivelConciencia": "Consciente",
-//         "nivelDolor": "Leve",
-//         "condicionesPrexistentes": "Ninguna",
-//         "enfermera": null
-//     },
+//         "fechaNacimiento": "1990-09-27",
+//         "sexo": "MASCULINO"
+//     }
+// },
+// {
+//     "idTriaje": 3,
+//     "estado": 4,
+//     "prioridad": "1",
+//     "fechaTriaje": "2022-11-28",
+//     "paciente": {
+//         "nombres": "Javier",
+//         "apellidoPaterno": "Mendez",
+//         "apellidoMaterno": "Molinas",
+//         "dni": "74032409",
+//     }
 // }
+// ]
 
 export function parseTriajeTable(data) {
-    const table = data.map(row => {
-        const paciente = row.paciente;
-        const triaje = row.triaje;
-        return [
-            { "data": triaje.fechaTriaje }, // Fecha de Triaje
-            { "data": `${paciente.nombres} ${paciente.apellidoPaterno} ${paciente.apellidoMaterno}` }, // Nombre completo
-            { "data": paciente.dni }, // DNI del paciente
-            { "data": triaje.estado == 0 ? "Inactivo" : "Activo" }, // Estado 
-            { "data": triaje.prioridad } // Urgencia
-        ];
-    });
+    const table = data.map( row => [
+            { "data": row["idTriaje"] }, //ID
+            { "data": row["fechaTriaje"] }, // Fecha de Triaje <- en formato del orto
+            { "data": `${row["paciente"]["nombres"]} ${row["paciente"]["apellidoPaterno"]} ${row["paciente"]["apellidoMaterno"]}` }, // Nombre completo
+            { "data": row["paciente"]["dni"] }, // DNI del paciente
+            { "data": row["estado"] === 0 ? "Inactivo" : "Activo" }, // Estado 
+            { "data": row["prioridad"] } // Urgencia
+        ]
+    )
+    console.log(table)
     return table;
 }
 

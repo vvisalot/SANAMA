@@ -1,3 +1,5 @@
+"use client"
+import LegalResponsibility from "./LegalResponsibility"
 import PatientForm from "./PatientForm"
 
 const FormContainer = () => {
@@ -5,68 +7,10 @@ const FormContainer = () => {
         <section className="px-10 w-4/5">
             <hr className="bg-gray-300 mt-12" />
             <PatientForm />
-            <hr className="bg-gray-300 my-12" />
 
-            {/* <h2 className="font-sans font-bold break-normal text-gray-700 px-2 pb-8 text-xl">Section 2</h2>
-        <div id='section2' className="p-8 mt-6 lg:mt-0 rounded shadow bg-white">
-            <form>
-
-                <div className="md:flex mb-6">
-                    <div className="md:w-1/3">
-                        <label className="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="my-textfield">
-                            Text Field
-                        </label>
-                    </div>
-                    <div className="md:w-2/3">
-                        <input className="form-input block w-full focus:bg-white" id="my-textfield" type="text" value="" />
-                        <p className="py-2 text-sm text-gray-600">add notes about populating the field</p>
-                    </div>
-                </div>
-
-                <div className="md:flex mb-6">
-                    <div className="md:w-1/3">
-                        <label className="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="my-select">
-                            Drop down field
-                        </label>
-                    </div>
-                    <div className="md:w-2/3">
-                        <select name="" className="form-select block w-full focus:bg-white" id="my-select">
-                            <option value="Default">Default</option>
-                            <option value="A">A</option>
-                            <option value="B">B</option>
-                            <option value="C">C</option>
-                        </select>
-
-                        <p className="py-2 text-sm text-gray-600">add notes about populating the field</p>
-                    </div>
-                </div>
-
-                <div className="md:flex mb-6">
-                    <div className="md:w-1/3">
-                        <label className="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="my-textarea">
-                            Text Area
-                        </label>
-                    </div>
-                    <div className="md:w-2/3">
-                        <textarea className="form-textarea block w-full focus:bg-white" id="my-textarea" value="" rows="8"></textarea>
-                        <p className="py-2 text-sm text-gray-600">add notes about populating the field</p>
-                    </div>
-                </div>
-
-                <div className="md:flex md:items-center">
-                    <div className="md:w-1/3"></div>
-                    <div className="md:w-2/3">
-                        <button className="shadow bg-yellow-700 hover:bg-yellow-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
-                            Save
-                        </button>
-                    </div>
-                </div>
-            </form>
-
-        </div>
-
-        <hr className="bg-gray-300 my-12" />
-
+            <hr className="bg-gray-300 mt-12" />
+            <LegalResponsibility />
+            {/*
         <h2 className="font-sans font-bold break-normal text-gray-700 px-2 pb-8 text-xl">Section 3</h2>
 
         <div id='section3' className="p-8 mt-6 lg:mt-0 rounded shadow bg-white">

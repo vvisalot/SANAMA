@@ -6,15 +6,16 @@ import SearchBar from "@/components/bars/SearchBar"
 import { triajeService } from "@/services/triajeService"
 
 const TriajePage = () => {
-    const [triajeTable, setTriajeTable] = useState([]) 
+    const [triajeTable, setTriajeTable] = useState([])
     const [filtro, setFiltro] = useState("")
 
     const fetchData = async (filtro) => {
         try {
             const data = await triajeService.listarTriajePorFiltro(filtro)
-            const tableData = parseTriajeTable(data) 
-            console.log(tableData)
-            setTriajeTable(tableData) 
+            console.log(data)
+            const tableData = parseTriajeTable(data)
+
+            //setTriajeTable(tableData)
         } catch (error) {
             console.log("No se pudo obtener los datos de los triajes")
         }

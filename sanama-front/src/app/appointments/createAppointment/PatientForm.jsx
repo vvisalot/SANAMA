@@ -1,5 +1,5 @@
 import DatePicker from "@/components/buttons/DatePicker"
-import GenderPicker from "@/components/buttons/GenderPicker"
+import DualPicker from "@/components/buttons/DualPicker"
 
 const PatientForm = () => {
     return (
@@ -31,7 +31,7 @@ const PatientForm = () => {
 
                 <div class="grid grid-cols-2 md:gap-6">
                     <DatePicker />
-                    <GenderPicker></GenderPicker>
+                    <DualPicker text={"Elegir genero:"} option1={"Masculino"} option2={"Femenino"} />
                 </div>
                 {/* <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Registrar</button> */}
             </form>
