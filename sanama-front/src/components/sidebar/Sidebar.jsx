@@ -24,7 +24,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
                 <SidebarItem name={"Medicos"} route={"/doctors"} isOpen={isSidebarOpen} Icon={DoctorIcon} ></SidebarItem>
                 {/* TODO: CAMBIAR LOS DEMAS ICONOS DE LA SIDEBAR */}
                 <SidebarItem name={"Citas"} route={"/appointments"} isOpen={isSidebarOpen} Icon={DoctorIcon} ></SidebarItem>
-                <SidebarItem name={"Triaje"} route={"/triaje"} isOpen={isSidebarOpen} Icon={DoctorIcon} ></SidebarItem>
+                <SidebarItem name={"Triajes"} route={"/triajes"} isOpen={isSidebarOpen} Icon={DoctorIcon} ></SidebarItem>
             </ul>
 
         </nav>
