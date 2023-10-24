@@ -11,7 +11,7 @@ const columns = [
 
 const DoctorTable = ({ data }) => {
     return (
-        <Table columns={columns} data={data} />
+        <Table columns={columns} data={data} url="doctors/profile" />
     )
 }
 export default DoctorTable

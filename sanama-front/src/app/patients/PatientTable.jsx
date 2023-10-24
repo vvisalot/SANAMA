@@ -13,7 +13,7 @@ const columns = [
 
 const PatientTable = ({ data }) => {
     return (
-        <Table columns={columns} data={data} />
+        <Table columns={columns} data={data} url="/patients/profile" />
     )
 }
 

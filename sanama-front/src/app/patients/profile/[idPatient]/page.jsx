@@ -2,8 +2,7 @@
 import PatientInfo from "@/app/patients/profile/[idPatient]/PatientInfo"
 import ProfileCard from "@/components/cards/ProfileCard"
 import { patientService } from "@/services/patientService"
-import Link from "next/link"
-import { Fragment, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import LatestLabResults from "./LatestLabResults"
 import PatientActions from "./PatientActions"
 
