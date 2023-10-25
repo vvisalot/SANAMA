@@ -4,12 +4,12 @@ const TableHeader = ({ columns }) => {
             <tr>
                 {columns.map((column, index) =>
                     column.name !== "ID" ?
-                        <th key={index} scope="col" className=" px-6 py-6">
+                        <th key={index} scope="col" className="px-6 py-6">
                             {column.name}
                         </th> : null
                 )}
             </tr>
-        </thead>
+        </thead >
     )
 }
 

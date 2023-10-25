@@ -22,14 +22,10 @@ const FormMenu = () => {
                     </li>
                     <li className="py-1 md:my-2 hover:bg-yellow-100 lg:hover:bg-transparent border-l-4 border-transparent">
                         <a href='#section3' className="block pl-4 align-middle text-gray-700 no-underline hover:text-yellow-600">
-                            <span className="pb-1 md:pb-0 text-sm">Medico</span>
+                            <span className="pb-1 md:pb-0 text-sm">Medicos y horarios disponibles</span>
                         </a>
                     </li>
-                    <li className="py-1 md:my-2 hover:bg-yellow-100 lg:hover:bg-transparent border-l-4 border-transparent">
-                        <a href='#section4' className="block pl-4 align-middle text-gray-700 no-underline hover:text-yellow-600">
-                            <span className="pb-1 md:pb-0 text-sm">Horarios disponibles</span>
-                        </a>
-                    </li>
+
 
                     <li className="py-1 md:my-2 hover:bg-yellow-100 lg:hover:bg-transparent border-l-4 border-transparent">
                         <a href='#section5' className="block pl-4 align-middle text-gray-700 no-underline hover:text-yellow-600">

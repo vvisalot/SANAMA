@@ -2,12 +2,12 @@
 import DoctorTable from "./DoctorsTable"
 import { doctorService } from "@/services/doctorService"
 import { useEffect, useState } from "react"
-import DropDownSearchBar from "@/components/bars/DropDownSearchBar"
 import { parseDoctorsTable } from "@/util/doctorParser"
+import Dropdown from "@/components/bars/Dropdown"
+import SearchBar from "@/components/bars/SearchBar"
 
 const DoctorsPage = () => {
     const [doctorTable, setDoctorTable] = useState([])
-    const [filtro, setFiltro] = useState("")
     const [specialties, setSpecialties] = useState([])
 
     const fetchData = async (filtro, especialidad) => {
@@ -20,7 +20,6 @@ const DoctorsPage = () => {
             console.log("No se pudo obtener los datos de los doctores")
         }
     }
-
 
     const fetchSpecialty = async () => {
         try {
@@ -35,26 +34,40 @@ const DoctorsPage = () => {
 
     useEffect(() => {
         fetchData("", "")
-        fetchSpecialty("")
+        fetchSpecialty()
     }, [])
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        const elements = e.target.elements
+        const dropdownValue = elements.namedItem("speciality-dropdown").value
+        const filtro = elements.namedItem("doctor-search").value
+        fetchData(filtro, dropdownValue)
+    }
 
 
     return (
-        <section className="p-10">
-            <h1 className="font-bold text-blue-500 text-6xl pb-8" >Gestión de Médicos</h1>
-            <DropDownSearchBar
-                filtro={filtro}
-                setFiltro={setFiltro}
-                fetchData={fetchData}
-                data={specialties}
-                defaultText={"Todas las especialidades"}
-                text={"nombre"}
-                defaultValue={""}
-                value={"nombre"}
-            />
-            <DoctorTable data={doctorTable}></DoctorTable>
-        </section>
-
+        <>
+            <h1 className="font-bold text-blue-500 text-6xl p-12" >Gestión de Médicos</h1>
+            <form className="flex px-10 pb-4" onSubmit={handleSubmit}>
+                <Dropdown
+                    data={specialties}
+                    defaultText={"Todas las especialidades"}
+                    text={"nombre"}
+                    defaultValue={""}
+                    value={"nombre"}
+                    name={"speciality-dropdown"}
+                    width={"w-[400px]"}
+                ></Dropdown>
+                <SearchBar
+                    name={"doctor-search"}
+                    width={"w-full"}>
+                </SearchBar>
+            </form>
+            <section className="pl-12 pr-14">
+                <DoctorTable data={doctorTable}></DoctorTable>
+            </section>
+        </>
     )
 }
 

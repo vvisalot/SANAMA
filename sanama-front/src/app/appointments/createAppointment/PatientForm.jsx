@@ -46,7 +46,7 @@ const PatientForm = () => {
 
             <div className="grid grid-cols-2 md:gap-6">
                 <DatePicker name={"fecha-nacimiento-paciente"} />
-                <Picker text={"Elegir genero:"} option1={"Masculino"} option2={"Femenino"} />
+                <Picker name1={"masculino"} name2={"femenino"} text={"Elegir genero:"} option1={"Masculino"} option2={"Femenino"} />
             </div>
         </section >
     )

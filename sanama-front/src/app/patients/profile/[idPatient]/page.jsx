@@ -7,7 +7,20 @@ import LatestLabResults from "./LatestLabResults"
 import PatientActions from "./PatientActions"
 
 const PatientProfile = ({ params }) => {
-    const [dataPatient, setDataPatient] = useState({})
+    const [dataPatient, setDataPatient] = useState({
+        nombres: "",
+        apellidoPaterno: "",
+        apellidoMaterno: "",
+        correo: "",
+        telefono: "",
+        direccion: "",
+        sexo: "",
+        dni: "",
+        fechaNacimiento: "",
+        estado: "",
+        codigoSeguro: "",
+        tipoSeguro: ""
+    })
 
     useEffect(() => {
         const fetchData = async () => {

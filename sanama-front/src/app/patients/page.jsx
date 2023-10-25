@@ -8,7 +8,6 @@ import SearchBar from "@/components/bars/SearchBar"
 
 const PatientPage = () => {
     const [patientTable, setPatientTable] = useState([])
-    const [filtro, setFiltro] = useState("")
 
     const fetchData = async (filtro) => {
         try {
@@ -25,13 +24,24 @@ const PatientPage = () => {
         fetchData("")
     }, [])
 
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        const elements = e.target.elements
+        const filtro = elements.namedItem("patients-search").value
+        fetchData(filtro)
+    }
 
     return (
-        <section className="  p-10">
-            <h1 className="font-bold text-blue-500 text-6xl pb-8" >Gestión de Pacientes</h1>
-            <SearchBar filtro={filtro} setFiltro={setFiltro} fetchData={fetchData} />
-            <PatientTable data={patientTable}></PatientTable>
-        </section>
+        <>
+            <h1 className="font-bold text-blue-500 text-6xl p-12" >Gestión de Pacientes</h1>
+            <form className="flex pl-8 pr-10 pb-4" onSubmit={handleSubmit}>
+                <SearchBar name={"patients-search"} width={"w-full"} />
+            </form>
+
+            <section className="pl-12 pr-14">
+                <PatientTable data={patientTable}></PatientTable>
+            </section>
+        </>
     )
 }
 

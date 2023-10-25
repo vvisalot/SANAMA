@@ -1,6 +1,8 @@
 "use client"
+import DoctorSchedules from "./DoctorSchedules"
 import LegalResponsibility from "./LegalResponsibility"
 import PatientForm from "./PatientForm"
+import TriageForm from "./TriageForm"
 
 // Para acceder a los elementos
 // elements.namedItem("first_last_name").value
@@ -28,46 +30,17 @@ const FormContainer = () => {
 
 
     return (
-        <form onSubmit={handleSubmit} className="px-10 w-4/5" >
-            <hr className="bg-gray-600 mt-12" />
+        <form onSubmit={handleSubmit} className="p-10 w-4/5" >
+
             <PatientForm />
-            <hr className="bg-gray-300 mt-12" />
+            <hr className="bg-gray-600 mt-20" />
             <LegalResponsibility />
-            <button
-                type="submit"
-                className="mt-10 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 
-                font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Registrar</button>
 
+            <hr className="bg-gray-600 mt-10" />
+            <DoctorSchedules />
 
-            {/*
-            <h2 className="font-sans font-bold break-normal text-gray-700 px-2 mt-10 text-xl">Seleccionar medico y horarios disponibles</h2>
-            <div id='section3' className="p-8 mt-6 lg:mt-0 rounded shadow bg-white">
-                <form>
-                    <div className="md:flex mb-6">
-                        <div className="md:w-1/3">
-                            <label className="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="my-multiselect">
-                                Multi Select
-                            </label>
-                        </div>
-                        <div className="md:w-2/3">
-                            <select className="form-multiselect block w-full" multiple id="my-multiselect">
-                                <option>Option 1</option>
-                                <option>Option 2</option>
-                            </select>
-                            <p className="py-2 text-sm text-gray-600">add notes about populating the field</p>
-                        </div>
-                    </div>
-
-                    <div className="md:flex md:items-center">
-                        <div className="md:w-1/3"></div>
-                        <div className="md:w-2/3">
-                            <button className="shadow bg-yellow-700 hover:bg-yellow-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
-                                Save
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div> */}
+            <hr className="bg-gray-600 mt-20" />
+            <TriageForm></TriageForm>
 
             {/* <hr className="bg-gray-300 my-12" />
 
@@ -155,6 +128,11 @@ const FormContainer = () => {
                     </button>
                 </div>
             </div> */}
+            {/* <button
+                type="submit"
+                className="mt-10 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 
+                font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Registrar</button> */}
+
         </form>
     )
 }
