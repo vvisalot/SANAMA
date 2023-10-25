@@ -13,7 +13,7 @@ export const triajeService = {
     listarTriajePorFiltro: async (filtro) => {
         try {
             const response = await axiosInstance.post(
-                "/admision/post/listarTriajePorFiltro",
+                "admision/post/listarTriajePorFiltro",
                 { pv_filtro: filtro }
             )
             return response.data
@@ -22,4 +22,16 @@ export const triajeService = {
             throw error
         }
     },
+
+    buscarPorFiltro: async (idTriaje) => {
+        try {
+            const response = await axiosInstance.post("admision/post/buscarTriaje", { 
+                pv_filtro: idTriaje,
+            });
+            return response.data;
+        } catch (error) {
+            console.error("Error al buscar triaje por filtro", error);
+            throw error;
+        }
+    }
 }

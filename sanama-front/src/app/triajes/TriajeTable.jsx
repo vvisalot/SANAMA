@@ -14,7 +14,7 @@ const columns = [
 
 const TriajeTable = ({ data }) => {
     return (
-        <Table columns={columns} data={data} url="\triajes\info" />
+        <Table columns={columns} data={data} url="/triajes/profile"/>
     )
 }
 
