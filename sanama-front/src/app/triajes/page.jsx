@@ -14,8 +14,7 @@ const TriajePage = () => {
             const data = await triajeService.listarTriajePorFiltro(filtro)
             console.log(data)
             const tableData = parseTriajeTable(data)
-
-            //setTriajeTable(tableData)
+            setTriajeTable(tableData)
         } catch (error) {
             console.log("No se pudo obtener los datos de los triajes")
         }

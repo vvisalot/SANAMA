@@ -18,7 +18,7 @@ export function parseTriajeTable(data) {
                 estadoTexto = "Pendiente";
                 break;
             default:
-                estadoTexto = "Desconocido"; 
+                estadoTexto = "Desconocido";
         }
 
         return [
