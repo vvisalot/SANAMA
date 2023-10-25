@@ -68,43 +68,33 @@
 //     "requiereTriaje": 0
 // },
 
+const getStatus = (estado) => {
+    switch (estado) {
+        case 1:
+            return "Atendida"
+        case 2:
+            return "En Consultorio"
+        case 3:
+            return "Cancelada"
+        case 4:
+            return "Pendiente"
+        default:
+            return "Desconocido" // Puedes cambiar este valor predeterminado por lo que consideres adecuado.
+    }
+}
 
-// let parsedRows = []
-
-// data.foreach(cita=>{
-// 	let columns = []
-// 	columns.push({data: cita["triaje"]["idTriaje"]})
-// 	let nombreCompleto = `$cita["paciente"]["nombre"] $cita["paciente"]["apellidoPaterno"] $cita["paciente"]["apellidoMaterno"]`
-// 	columns.push({data: nombreCompleto})
-// 	columns.push({data: cita["paciente"]["dni"]})
-// 	columns.push({data: cita["triaje"]["estado"]})
-// 	columns.push({data: cita["triaje"]["prioridad"]})
-// 	let fechaCompleta = `$cita["triaje"]["horaTriaje"] $cita["triaje"]["fechaTriaje"]`
-// 	columns.push({data: fechaCompleta)
-// 	parsedRows.push(columns)
-// }
 
 
 export function parseAppointmentTable(data) {
-    const columns = ["idCita", "paciente", "medico", "especialidad", "fechaCita", "horaCita", "estadoCita"]
-    const table = data.map(row => {
-        return columns.map(column => {
-            if (column === "paciente") {
-                return {
-                    "data": `${row["paciente"]["nombres"]} ${row["paciente"]["apellidoPaterno"]} ${row["paciente"]["apellidoMaterno"]}`
-                }
-            } else if (column === "medico") {
-                return {
-                    "data": `${row["medico"]["nombres"]} ${row["medico"]["apellidoPaterno"]} ${row["medico"]["apellidoMaterno"]}`
-                }
-            } else if (column === "especialidad") {
-                return {
-                    "data": row["medico"]["especialidad"]["nombre"]
-                }
-            } else {
-                return { "data": row[column] }
-            }
-        })
-    })
+    const table = data.map(row => [
+        { "data": row["idCita"] },
+        { "data": `${row["paciente"]["nombres"]} ${row["paciente"]["apellidoPaterno"]} ${row["paciente"]["apellidoMaterno"]}` },
+        { "data": `${row["medico"]["nombres"]} ${row["medico"]["apellidoPaterno"]} ${row["medico"]["apellidoMaterno"]}` },
+        { "data": row["medico"]["especialidad"]["nombre"] },
+        { "data": row["fechaCita"] },
+        { "data": row["horaCita"] },
+        { "data": getStatus(row["estado"]) }  // Utilizando la función getStatus aquí
+    ])
+    console.log(table)
     return table
 }

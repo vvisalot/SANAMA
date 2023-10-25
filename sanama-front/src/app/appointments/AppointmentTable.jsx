@@ -7,6 +7,7 @@ const columns = [
     { name: "ID" },
     { name: "Nombre del paciente" },
     { name: "Nombre del doctor" },
+    { name: "Especialidad" },
     { name: "Fecha" },
     { name: "Hora" },
     { name: "Estado" },
@@ -15,7 +16,7 @@ const columns = [
 
 const AppointmentTable = ({ data }) => {
     return (
-        <Table columns={columns} data={data} />
+        <Table url={'appointments/info'} columns={columns} data={data} />
     )
 }
 
