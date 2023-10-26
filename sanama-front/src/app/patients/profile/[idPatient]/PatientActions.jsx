@@ -1,27 +1,32 @@
 import ActionButton from "@/components/buttons/ActionButton"
 import Link from "next/link"
 
-const PatientActions = () => {
+const PatientActions = ({ id }) => {
 
     return (
         <section className="mt-10 rounded-2xl h-[300px] grid grid-cols-3 items-center bg-white shadow" >
-            <div className="pt-20 h-[300px] flex flex-col items-center text-center group  hover:bg-slate-50 cursor-pointer">
-                <span className="p-5 rounded-full bg-red-500 text-white shadow-lg shadow-red-200"></span>
-                <p className="text-xl font-medium text-slate-700 mt-3">Citas</p>
-            </div>
+            <ActionButton
+                url={`/patients/profile/${id}/appointments`}
+                color={"bg-orange-400"}
+                shadow={"shadow-orange-200"}
+                name={"Citas"} />
 
-            <div className="p-20 h-[300px] flex flex-col items-center text-center group  hover:bg-slate-50 cursor-pointer">
-                <span className="p-5 rounded-full bg-orange-500 text-white shadow-lg shadow-orange-200"></span>
-                <p className="text-xl font-medium text-slate-700 mt-3">Historial medico</p>
-            </div>
+            <ActionButton
+                url={`/patients/profile/${id}/medical-records`}
+                color={"bg-red-400"}
+                shadow={"shadow-red-200"}
+                name={"Historial"} />
 
-            <div className="p-20 h-[300px] flex flex-col items-center text-center group   hover:bg-slate-50 cursor-pointer">
-                <span className="p-5 rounded-full bg-yellow-500 text-white shadow-lg shadow-yellow-200"></span>
-                <p className="text-xl font-medium text-slate-700 mt-3">Analisis de laboratorio</p>
-            </div>
+            <ActionButton
+                url={`/patients/profile/${id}/lab-results`}
+                color={"bg-green-400"}
+                shadow={"shadow-green-200"}
+                name={"Analisis de laboratorios"} />
         </section>
 
     )
 }
 
 export default PatientActions
+
+

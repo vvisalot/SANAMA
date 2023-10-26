@@ -29,18 +29,26 @@ const AppointmentPage = () => {
 
 
     return (
-        <section className="p-10">
-            <h1 className="font-bold text-blue-500 text-6xl pb-8" >Citas</h1>
-            <div className="flex items-center">
-                <SearchBar width={"w-full"} />
+        <>
+            <section className="flex items-center">
+                <h1 className="font-bold text-blue-500 text-6xl p-12" >Citas</h1>
                 <Link href='appointments/createAppointment'>
-                    <button className="w-full text-white bg-blue-700 hover:bg-blue-800  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-1">
+                    <button className=" text-white bg-blue-700 hover:bg-blue-800  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">
                         Crear cita
                     </button>
                 </Link>
-            </div>
-            <AppointmentTable data={appointmentTable} ></AppointmentTable>
-        </section>
+            </section>
+
+
+            <form className="flex pl-8 pr-10 pb-4">
+                <SearchBar width={"w-full"} />
+            </form>
+
+
+            <section className="pl-12 pr-14">
+                <AppointmentTable data={appointmentTable} ></AppointmentTable>
+            </section>
+        </>
     )
 }
 

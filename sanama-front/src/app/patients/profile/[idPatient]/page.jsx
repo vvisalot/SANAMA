@@ -37,9 +37,9 @@ const PatientProfile = ({ params }) => {
 
     return (
         <article className="flex flex-row justify-between items-start p-10 box-border"
-        style={{display: 'flex',}}>
-            <section className="box-border overflow-hidden p-10 w-1/3 -m-2.5" 
-            style={{flex: 1, }}>
+            style={{ display: 'flex', }}>
+            <section className="box-border overflow-hidden p-10 w-1/3 -m-2.5"
+                style={{ flex: 1, }}>
                 <ProfileCard
                     name={`${dataPatient.nombres} ${dataPatient.apellidoPaterno} ${dataPatient.apellidoMaterno}`}
                     email={dataPatient.correo}
@@ -47,10 +47,10 @@ const PatientProfile = ({ params }) => {
                     address={dataPatient.direccion}
                 />
                 <LatestLabResults />
-            </section>      
+            </section>
 
-            <section className="box-border overflow-hidden p-10 w-2/3 -m-2.5" 
-            style={{flex: 2, }}>
+            <section className="box-border overflow-hidden p-10 w-2/3 -m-2.5"
+                style={{ flex: 2, }}>
                 <PatientInfo
                     gender={dataPatient.sexo}
                     dni={dataPatient.dni}
@@ -59,7 +59,7 @@ const PatientProfile = ({ params }) => {
                     insuranceCode={dataPatient.codigoSeguro}
                     insuranceType={dataPatient.tipoSeguro}
                 />
-                <PatientActions />
+                <PatientActions id={params.idPatient} />
             </section>
         </article>
     )

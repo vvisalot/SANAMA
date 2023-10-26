@@ -98,3 +98,16 @@ export function parseAppointmentTable(data) {
     console.log(table)
     return table
 }
+
+export function parsePatientAppointmentTable(data) {
+    const table = data.map(row => [
+        { "data": row["idCita"] },
+        { "data": `${row["medico"]["nombres"]} ${row["medico"]["apellidoPaterno"]} ${row["medico"]["apellidoMaterno"]}` },
+        { "data": row["medico"]["especialidad"]["nombre"] },
+        { "data": row["fechaCita"] },
+        { "data": row["horaCita"] },
+        { "data": getStatus(row["estado"]) }  // Utilizando la función getStatus aquí
+    ])
+    console.log(table)
+    return table
+}
