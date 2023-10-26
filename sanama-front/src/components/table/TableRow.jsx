@@ -5,14 +5,15 @@ import TableOptions from "./TableOptions"
 const TableRow = ({ row, url }) => {
 
     return (
-        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+        <tr className="bg-white border-b ">
             {row.map((cell, index) => {
                 if (index != 0) {
                     if (index === row.length - 1) {
                         return (
                             <Fragment key={index}>
                                 <TableCell data={cell.data} />
-                                <TableOptions id={parseInt(row[0].data)} url={url} />
+                                {url.length > 0 ? <TableOptions id={parseInt(row[0].data)} url={url} />
+                                    : null}
                             </Fragment>
                         )
                     } else {

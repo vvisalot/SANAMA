@@ -7,7 +7,6 @@ const columns = [
     { name: "Fecha" },
     { name: "Hora" },
     { name: "Estado" },
-    { name: "Opciones" },
 ]
 
 //TODO: PENDIENTE REDIRECCIONAR INFORMACION DE LAS CITAS DE UN PACIENTE.

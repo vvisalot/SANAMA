@@ -1,5 +1,6 @@
 "use client"
 import { startOfWeek, addDays, format, subWeeks, addWeeks, isBefore, endOfWeek, getMonth, isSameDay, isAfter, startOfDay, set, isEqual } from 'date-fns'
+import { parse } from 'date-fns/esm'
 import es from 'date-fns/locale/es'
 import { useEffect, useState } from 'react'
 
@@ -61,7 +62,8 @@ const Calendar = () => {
 
     //Pasar por props
     const createHandleDateClick = (date) => () => {
-        console.log(date)
+        console.log(format(date, 'yyyy-MM-dd'))
+
         setSelectedDate(date)
         // Con la fecha y la especialidad obtener los horarios
         // [   

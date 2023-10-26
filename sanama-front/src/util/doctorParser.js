@@ -25,6 +25,7 @@
 //     "horariosAtencion": null
 // },
 
+//Para la tabla de doctores
 export function parseDoctorsTable(data) {
     const columns = ["idPersona", "nombres", "cmp", "especialidad", "area"]
     const table = data.map(row => {
@@ -43,3 +44,13 @@ export function parseDoctorsTable(data) {
     })
     return table
 }
+
+//Para el dropdown del form de citas
+export function parseDoctorsDropdown(data) {
+    const table = data.map(row => {
+        return {
+            "nombreCompleto": `${row["nombres"]} ${row["apellidoPaterno"]} ${row["apellidoMaterno"]}`
+        }
+    })
+    return table
+} 

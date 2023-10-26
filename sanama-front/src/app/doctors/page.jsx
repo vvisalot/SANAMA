@@ -58,6 +58,7 @@ const DoctorsPage = () => {
                     value={"nombre"}
                     name={"speciality-dropdown"}
                     width={"w-[400px]"}
+                    handleChange={() => { }}
                 ></Dropdown>
                 <SearchBar
                     name={"doctor-search"}
