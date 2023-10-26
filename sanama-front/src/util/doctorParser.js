@@ -49,7 +49,8 @@ export function parseDoctorsTable(data) {
 export function parseDoctorsDropdown(data) {
     const table = data.map(row => {
         return {
-            "nombreCompleto": `${row["nombres"]} ${row["apellidoPaterno"]} ${row["apellidoMaterno"]}`
+            "nombreCompleto": `${row["nombres"]} ${row["apellidoPaterno"]} ${row["apellidoMaterno"]}`,
+            "idPersona": row["idPersona"],
         }
     })
     return table

@@ -54,7 +54,7 @@ export const doctorService = {
         }
     },
 
-    buscarHorariosByID: async (fecha, medicId) => {
+    buscarHorariosMedicoFecha: async (fecha, medicId) => {
         try {
             const response = await axiosInstance.post(
                 "/rrhh/post/horarios_por_medico_y_fecha",

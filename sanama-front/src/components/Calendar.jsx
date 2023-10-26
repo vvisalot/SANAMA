@@ -1,16 +1,14 @@
 "use client"
-import { startOfWeek, addDays, format, subWeeks, addWeeks, isBefore, endOfWeek, getMonth, isSameDay, isAfter, startOfDay, set, isEqual } from 'date-fns'
-import { parse } from 'date-fns/esm'
+import { startOfWeek, addDays, format, subWeeks, addWeeks, isBefore, endOfWeek, getMonth, isSameDay, isAfter, startOfDay, isEqual } from 'date-fns'
 import es from 'date-fns/locale/es'
 import { useEffect, useState } from 'react'
 
-const Calendar = () => {
+const Calendar = ({ selectedDate, createHandleDateClick }) => {
     const startOfThisWeek = startOfWeek(new Date(), { weekStartsOn: 1 })
     const [currentWeek, setCurrentWeek] = useState(startOfThisWeek)
     const [weekDates, setWeekDates] = useState([])
 
-    //Pasar por props
-    const [selectedDate, setSelectedDate] = useState(new Date())
+
 
     useEffect(() => {
         const dates = Array.from({ length: 7 }).map((_, index) => addDays(currentWeek, index))
@@ -60,32 +58,6 @@ const Calendar = () => {
         return !isAfter(new Date(), date) || isEqual(new Date().getDate(), date.getDate())
     }
 
-    //Pasar por props
-    const createHandleDateClick = (date) => () => {
-        console.log(format(date, 'yyyy-MM-dd'))
-
-        setSelectedDate(date)
-        // Con la fecha y la especialidad obtener los horarios
-        // [   
-        //     {         
-        //         "idDoctor": 1,
-        //         "nombre": "Jose Pipa",
-        //         "horarios":[
-        //             "10:00",
-        //             "11:00"
-        //         ]
-        //     },
-        //     {
-        //         "idDoctor": 2,
-        //         "nombre": "Pablo Popa",
-        //         "horarios":[
-        //             "11:00",
-        //             "12:00",
-        //             "13:00"
-        //         ],
-        //     }
-        // ]
-    }
 
     return (
         <div className="flex flex-col w-[500px] m-2 items-center  bg-white rounded-lg border border-gray-300">

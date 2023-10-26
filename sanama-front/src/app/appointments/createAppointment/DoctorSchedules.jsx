@@ -3,14 +3,16 @@ import Calendar from "@/components/Calendar"
 import Dropdown from "@/components/bars/Dropdown"
 import { doctorService } from "@/services/doctorService"
 import { parseDoctorsDropdown } from "@/util/doctorParser"
-import { set } from "date-fns"
+import { format, set } from "date-fns"
 import { useEffect, useState } from "react"
 
 const DoctorSchedules = () => {
+    //Para los dropdowns
     const [specialties, setSpecialties] = useState([])
     const [doctors, setDoctors] = useState([])
 
-    const [dropdownValue, setDropdownValue] = useState("")
+    //Para el calendario
+    const [selectedDate, setSelectedDate] = useState(new Date())
 
     const fetchSpecialty = async () => {
         try {
@@ -27,6 +29,15 @@ const DoctorSchedules = () => {
             const data = await doctorService.buscarPorMedicoEspecialidad(filtro, especialidad)
             const drop = parseDoctorsDropdown(data)
             setDoctors(drop)
+            console.log(drop)
+        } catch (error) {
+            console.log("No se pudo obtener el listado de medicos para esta especialidad")
+        }
+    }
+
+    const fetchAvailableHours = async (date, doctorId) => {
+        try {
+            const data = await doctorService.buscarHorariosMedicoFecha(date, doctorId)
             console.log(data)
         } catch (error) {
             console.log("No se pudo obtener el listado de medicos para esta especialidad")
@@ -35,12 +46,44 @@ const DoctorSchedules = () => {
 
     useEffect(() => {
         fetchSpecialty()
-
     }, [])
 
     const handleDropdownChange = (e) => {
+        document.getElementById("dropdown-doctor").value = ""
         fetchDoctors("", e.target.value)
     }
+
+
+    //Pasar por props
+    const createHandleDateClick = (date) => () => {
+        console.log(format(date, 'yyyy-MM-dd'))
+        setSelectedDate(date)
+        const doctorId = document.getElementById("dropdown-doctor").value
+        console.log(doctorId)
+        fetchAvailableHours(format(date, 'yyyy-MM-dd'), doctorId)
+
+        // Con la fecha y la especialidad obtener los horarios
+        // [   
+        //     {         
+        //         "idDoctor": 1,
+        //         "nombre": "Jose Pipa",
+        //         "horarios":[
+        //             "10:00",
+        //             "11:00"
+        //         ]
+        //     },
+        //     {
+        //         "idDoctor": 2,
+        //         "nombre": "Pablo Popa",
+        //         "horarios":[
+        //             "11:00",
+        //             "12:00",
+        //             "13:00"
+        //         ],
+        //     }
+        // ]
+    }
+
 
 
     return (
@@ -66,11 +109,14 @@ const DoctorSchedules = () => {
                 defaultText={"Selecciona un medico"}
                 text={"nombreCompleto"}
                 defaultValue={""}
-                value={"nombreCompleto"}
+                value={"idPersona"}
                 width={"w-[500px]"}
                 handleChange={() => { }}
             />
-            <Calendar></Calendar>
+            <Calendar
+                selectedDate={selectedDate}
+                createHandleDateClick={createHandleDateClick}
+            ></Calendar>
 
 
 

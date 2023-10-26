@@ -3,6 +3,7 @@ const Dropdown = ({ data, defaultText, text, defaultValue, value, name, width, h
 
     return (
         <select
+            id={name}
             name={name}
             onChange={handleChange}
             className={`block h-fit ${width} p-4 m-2 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500`}>
