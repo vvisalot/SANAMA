@@ -221,21 +221,43 @@ function SeleccionarHorarioMedico(props) {
     }
   };
 
+  // <td scope="row" className="px-6 py-4  text-gray-900 whitespace-nowrap dark:text-white">
+  //           <Link href={`${url}/${id}`} className="text-blue-700 hover:text-white border 
+  //           border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">
+  //               Ver perfil
+  //           </Link>
+
+  //       </td>
   return (
     <div>
       {isLoading ? (
         <p>Cargando...</p>
       ) : (
         <div style={{ height: "auto" }}>
-          <div style={{ margin: "2rem 0" }}>
-            <button onClick={handleIngresarDisponibilidad} disabled={isCalendarEnabled}>
+          <div className="flex justify-center space-x-4" style={{ margin: "2rem 0" }}>
+            <button className={`${!isCalendarEnabled
+              ? 'text-white bg-purple-800 border border-purple-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 '
+              : 'text-gray-400 bg-gray-100 border border-black-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 '
+              }`}
+              onClick={handleIngresarDisponibilidad} disabled={isCalendarEnabled}>
               Ingresar Disponibilidad
             </button>
-            <button onClick={handleGuardar} disabled={!isCalendarEnabled}>
-              Guardar
-            </button>
-            <button onClick={handleCancelarIngresoDisponibilidad} disabled={!isCalendarEnabled}>
+            <button
+              className={`${isCalendarEnabled
+                ? 'text-white bg-red-800 border border-red-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 '
+                : 'text-gray-400 bg-gray-100 border border-black-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 '
+                }`}
+              onClick={handleCancelarIngresoDisponibilidad}
+              disabled={!isCalendarEnabled}
+            >
               Cancelar
+            </button>
+            <button className={`${isCalendarEnabled
+              ? 'text-white bg-blue-800 border border-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 '
+              : 'text-gray-400 bg-gray-100 border border-black-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 '
+              }`}
+              onClick={handleIngresarDisponibilidad} disabled={isCalendarEnabled}>
+              Guardar
             </button>
           </div>
           <Calendar
