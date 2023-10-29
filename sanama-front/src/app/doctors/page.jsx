@@ -9,7 +9,7 @@ import SearchBar from "@/components/bars/SearchBar"
 const DoctorsPage = () => {
     const [doctorTable, setDoctorTable] = useState([])
     const [specialties, setSpecialties] = useState([])
-
+    const [especialidadSeleccionada, setEspecialidadSeleccionada] = useState("Todas las especialidades")
     const fetchData = async (filtro, especialidad) => {
         try {
             const data = await doctorService.buscarPorMedicoEspecialidad(filtro, especialidad)
@@ -37,6 +37,10 @@ const DoctorsPage = () => {
         fetchSpecialty()
     }, [])
 
+    // useEffect(() => {
+    //     fetchData("", especialidadSeleccionada)
+    // }, [especialidadSeleccionada])
+
     const handleSubmit = (e) => {
         e.preventDefault()
         const elements = e.target.elements
@@ -58,7 +62,7 @@ const DoctorsPage = () => {
                     value={"nombre"}
                     name={"speciality-dropdown"}
                     width={"w-[400px]"}
-                    handleChange={() => { }}
+                    handleChange={(event) => {setEspecialidadSeleccionada(event.target.value)}}
                 ></Dropdown>
                 <SearchBar
                     name={"doctor-search"}

@@ -34,6 +34,7 @@ export const doctorService = {
     listarEspecialidades: async () => {
         try {
             const response = await axiosInstance.get("/rrhh/get/especialidad")
+            console.log(response)
             return response.data
         } catch (error) {
             console.error("Error al listar las especialidades", error)
@@ -47,6 +48,7 @@ export const doctorService = {
                 pv_medico: filtro,
                 pv_especialidad: especialidad,
             })
+            console.log(response)
             return response.data
         } catch (error) {
             console.error("Error al buscar doctores por especialidad", error)
