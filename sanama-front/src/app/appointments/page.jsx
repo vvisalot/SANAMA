@@ -27,6 +27,12 @@ const AppointmentPage = () => {
         fetchData()
     }, [])
 
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        const elements = e.target.elements
+        const filtro = elements.namedItem("search-bar-cita").value
+        fetchData(filtro)
+    }
 
     return (
         <>
@@ -40,8 +46,8 @@ const AppointmentPage = () => {
             </section>
 
 
-            <form className="flex pl-8 pr-10 pb-4">
-                <SearchBar width={"w-full"} />
+            <form className="flex pl-8 pr-10 pb-4" onSubmit={handleSubmit}>
+                <SearchBar name={"search-bar-cita"} width={"w-full"} />
             </form>
 
 

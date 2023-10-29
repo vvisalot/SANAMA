@@ -12,8 +12,8 @@ const PatientAppointments = ({ params }) => {
         try {
             const data = await patientService.listarCitasPorPaciente(params.idPatient)
             const tableData = parsePatientAppointmentTable(data)
-            setPatientAppointmentsTable(tableData)
             console.log(data)
+            setPatientAppointmentsTable(tableData)
         } catch (error) {
             console.error("Error al obtener las citas del paciente")
         }

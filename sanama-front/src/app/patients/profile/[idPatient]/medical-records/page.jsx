@@ -5,8 +5,8 @@ import { useEffect } from "react"
 const PatientMedicalRecords = ({ params }) => {
 
     return (
-        <div>
-            PatientMedicalRecords
+        <div className="font-bold text-blue-500 text-6xl p-12">
+            Historial Medico
         </div>
     )
 }
