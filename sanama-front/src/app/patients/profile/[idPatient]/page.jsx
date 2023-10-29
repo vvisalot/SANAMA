@@ -46,7 +46,7 @@ const PatientProfile = ({ params }) => {
                     phone={dataPatient.telefono}
                     address={dataPatient.direccion}
                 />
-                <LatestLabResults />
+
             </section>
 
             <section className="box-border overflow-hidden p-10 w-2/3 -m-2.5"

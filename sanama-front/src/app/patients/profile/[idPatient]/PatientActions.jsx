@@ -15,7 +15,7 @@ const PatientActions = ({ id }) => {
                 url={`/patients/profile/${id}/medical-records`}
                 color={"bg-red-400"}
                 shadow={"shadow-red-200"}
-                name={"Historial"} />
+                name={"Historia clinica"} />
 
             <ActionButton
                 url={`/patients/profile/${id}/lab-results`}
