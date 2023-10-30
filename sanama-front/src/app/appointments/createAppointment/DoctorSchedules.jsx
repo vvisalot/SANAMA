@@ -13,10 +13,10 @@ const DoctorSchedules = () => {
     const [doctors, setDoctors] = useState([])
 
     //Para el calendario
-    const [selectedDate, setSelectedDate] = useState(new Date())
+    const [selectedDate, setSelectedDate] = useState(null)
     const [availableHours, setAvailableHours] = useState([])
     const [selectedHour, setSelectedHour] = useState(null)
-
+    const [disabled, setDisabled] = useState(true)
 
     const fetchSpecialty = async () => {
         try {
@@ -61,17 +61,33 @@ const DoctorSchedules = () => {
             return hour // Devuelve la hora original en caso de error
         }
     }
+
+
     useEffect(() => {
         fetchSpecialty()
     }, [])
 
     //Handles insanos
-    const handleDropdownChange = (e) => {
+    const handleSpecialityChange = (e) => {
         document.getElementById("dropdown-doctor").value = ""
+        setDisabled(true)
+        setAvailableHours([])
+        setSelectedHour(null)
+        setSelectedDate(null)
         fetchDoctors("", e.target.value)
     }
 
-
+    const handleDoctorChange = (e) => {
+        //console.log(e.target.value)
+        setAvailableHours([])
+        setSelectedHour(null)
+        setSelectedDate(null)
+        if (e.target.value === "") {
+            setDisabled(true)
+        } else {
+            setDisabled(false)
+        }
+    }
 
     const handleDateClick = (date) => () => {
         //console.log(format(date, 'yyyy-MM-dd'))
@@ -103,6 +119,7 @@ const DoctorSchedules = () => {
     }
 
     const handleHourSelect = (hour) => {
+        console.log(hour)
         setSelectedHour(hour)
     }
 
@@ -120,7 +137,7 @@ const DoctorSchedules = () => {
                 defaultValue={""}
                 value={"nombre"}
                 width={"w-[500px]"}
-                handleChange={handleDropdownChange}
+                handleChange={handleSpecialityChange}
             />
 
             <Dropdown
@@ -131,13 +148,14 @@ const DoctorSchedules = () => {
                 defaultValue={""}
                 value={"idPersona"}
                 width={"w-[500px]"}
-                handleChange={() => { }}
+                handleChange={handleDoctorChange}
             />
 
             <div className="flex">
                 <Calendar
                     selectedDate={selectedDate}
                     handleDateClick={handleDateClick}
+                    disabled={disabled}
                 ></Calendar>
 
                 {/* TODO: QUE NO ME DEJE BUSCAR HORARIOS DEL CALENDARIO CUANDO TODAVIA NO SE HA SELECCIONADO EL DOCTOR Y LA ESPECIALIDAD */}
@@ -152,6 +170,21 @@ const DoctorSchedules = () => {
                     ))}
                 </div>
 
+            </div>
+
+            <div className="flex pl-4 pt-5">
+                <label htmlFor="fechaSeleccionada">
+                    Fecha:
+                </label>
+                <input type="text" name="fechaSeleccionada" className="ml-2 bg-transparent"
+                    id="fechaSeleccionada" value={selectedDate !== null ? format(selectedDate, "yyyy-MM-dd") : ""}
+                    disabled />
+                <label htmlFor="horaSeleccionada">
+                    Hora:
+                </label>
+                <input type="text" name="horaSeleccionada" className="ml-2 bg-transparent"
+                    id="horaSeleccionada" value={selectedHour !== null ? selectedHour.substring(0, 5) : ""}
+                    disabled />
             </div>
 
         </section>

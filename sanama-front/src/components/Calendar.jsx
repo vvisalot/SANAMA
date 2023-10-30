@@ -3,11 +3,10 @@ import { startOfWeek, addDays, format, subWeeks, addWeeks, isBefore, endOfWeek, 
 import es from 'date-fns/locale/es'
 import { useEffect, useState } from 'react'
 
-const Calendar = ({ selectedDate, handleDateClick }) => {
+const Calendar = ({ selectedDate, handleDateClick, disabled }) => {
     const startOfThisWeek = startOfWeek(new Date(), { weekStartsOn: 1 })
     const [currentWeek, setCurrentWeek] = useState(startOfThisWeek)
     const [weekDates, setWeekDates] = useState([])
-
 
 
     useEffect(() => {

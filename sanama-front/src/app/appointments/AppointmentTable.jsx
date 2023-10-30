@@ -16,7 +16,7 @@ const columns = [
 
 const AppointmentTable = ({ data }) => {
     return (
-        <Table url={'appointments/info'} columns={columns} data={data} />
+        <Table url={'appointments/info'} columns={columns} data={data} optionsText={"Ver cita"} />
     )
 }
 

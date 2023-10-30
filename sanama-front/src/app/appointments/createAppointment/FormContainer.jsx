@@ -1,4 +1,5 @@
 "use client"
+import useAppointmentForm from "@/hooks/useAppointmentForm"
 import DoctorSchedules from "./DoctorSchedules"
 import LegalResponsibility from "./LegalResponsibility"
 import PatientForm from "./PatientForm"
@@ -8,23 +9,26 @@ import TriageForm from "./TriageForm"
 // elements.namedItem("first_last_name").value
 
 const FormContainer = () => {
-
+    const { patientForm } = useAppointmentForm()
     const handleSubmit = async (event) => {
-        // //Evitar que el boton me rompa la pagina
-        // event.preventDefault()
-        // //Recuperar datos del formulario
-        // const elements = event.target.elements
-        // console.log(elements.namedItem("option1").checked ?? elements.namedItem("option1").value)
-        // let nombre = elements.namedItem("option1").value
-        // let apellido = elements.namedItem("option1").value
-        // let aplleiomaterno = elements.namedItem("option1").value
 
-        // let Nombres = nombre + apellido + aplleiomaterno
+        //Evitar que el boton me rompa la pagina
+        event.preventDefault()
+        //Recuperar datos del formulario
+        console.log(patientForm)
 
-        // //llamar al servicio
+        //llamar al servicio
         // const response = await citasService.citar({
-        //     nombreCompleto: Nombres
-
+        //     paciente: { idPersona: pacienteData.idPersona },
+        //     medico: { idPersona: doctorResponsable.idPersona },
+        //     horaCita: appointmentData.selectedHour,
+        //     fechaCita: appointmentData.selectedDate,
+        //     tieneAcompanhante: companionData ? true : false,
+        //     nombreAcompanhante: companionData.nombres,
+        //     dniAcompanhante: companionData.documentoIdentidad,
+        //     parentezco: companionData.relationship,
+        //     requiereTriaje: selectedTriage ? 1 : 0,
+        //     estado: 1,
         // })
     }
 
