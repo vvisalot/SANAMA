@@ -3,10 +3,12 @@ package com.minsa.sanama.model.admision;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.minsa.sanama.model.rrhh.Medico;
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProgramacionCita {
-    private int idCita;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    private int idCita=0;
     private Paciente paciente;
     private Medico medico;
     private LocalTime horaCita;
@@ -15,7 +17,8 @@ public class ProgramacionCita {
     private String tipoCita;
     private String codigoCita;
     private EstadoCita estadoCita;
-    private int estado;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    private int estado=0;
     private Triaje triaje;
 
     public ProgramacionCita() {
@@ -108,5 +111,4 @@ public class ProgramacionCita {
     public void setEstado(int estado) {
         this.estado = estado;
     }
-
 }

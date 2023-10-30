@@ -1,14 +1,10 @@
 package com.minsa.sanama.repository.admision;
 
 import com.minsa.sanama.model.admision.Triaje;
-import com.minsa.sanama.model.atencionmedica.CitaMedica;
 import com.minsa.sanama.model.admision.Paciente;
-import com.minsa.sanama.model.rrhh.Medico;
-import com.minsa.sanama.model.rrhh.Especialidad;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
@@ -30,7 +26,7 @@ public class TriajeRepository {
 
     private final TriajeMapper triajeMapper = new TriajeMapper();
 
-    public List<CitaMedica> listarTriajePorFiltro(String pv_filtro) {
+    public List<Triaje> listarTriajePorFiltro(String pv_filtro) {
         String procedureCall = "{call dbSanama.ssm_adm_listar_triaje_por_filtro('"+pv_filtro+"')};";
         return jdbcTemplate.query(procedureCall, triajeMapper);
     }
@@ -51,6 +47,7 @@ public class TriajeRepository {
                         new SqlParameter("pn_estado", Types.INTEGER),
                         new SqlParameter("pn_saturacionOxigeno", Types.INTEGER),
                         new SqlParameter("pn_frecuenciaCardiaca", Types.INTEGER),
+                        new SqlParameter("pn_frecuenciaRespiratoria", Types.INTEGER),
                         new SqlParameter("pv_nivelConciencia", Types.VARCHAR),
                         new SqlParameter("pv_nivelDolor", Types.VARCHAR)
                 );
@@ -67,6 +64,7 @@ public class TriajeRepository {
                 .addValue("pn_estado", triaje.getEstado())
                 .addValue("pn_saturacionOxigeno", triaje.getSaturacionOxigeno())
                 .addValue("pn_frecuenciaCardiaca", triaje.getFrecuenciaCardiaca())
+                .addValue("pn_frecuenciaRespiratoria", triaje.getFrecuenciaRespiratoria())
                 .addValue("pv_nivelConciencia", triaje.getNivelConciencia())
                 .addValue("pv_nivelDolor", triaje.getNivelDolor());
 
@@ -79,9 +77,9 @@ public class TriajeRepository {
         }
     }
 
-    private static class TriajeMapper implements RowMapper<CitaMedica> {
+    private static class TriajeMapper implements RowMapper<Triaje> {
         @Override
-        public CitaMedica mapRow(ResultSet rs, int rowNum) throws SQLException {
+        public Triaje mapRow(ResultSet rs, int rowNum) throws SQLException {
 
             Triaje triaje = new Triaje();
             // Mapea los campos de Triaje
@@ -98,29 +96,10 @@ public class TriajeRepository {
             triaje.setHoraTriaje(rs.getTime("hora").toLocalTime());
             triaje.setSaturacionOxigeno(rs.getString("saturacionOxigeno"));
             triaje.setFrecuenciaCardiaca(rs.getString("frecuenciaCardiaca"));
+            triaje.setFrecuenciaRespiratoria(rs.getString("frecuenciaRespiratoria"));
             triaje.setNivelConciencia(rs.getString("nivelConciencia"));
             triaje.setNivelDolor(rs.getString("nivelDolor"));
             triaje.setCondicionesPrexistentes(rs.getString("condicionesPrexistentes"));
-
-            // Mapea ProgramacionCita
-            CitaMedica programacionCita = new CitaMedica();
-            programacionCita.setIdCita(rs.getInt("id_cita"));
-            programacionCita.setCodigoCita(rs.getString("codigo_cita_laboratorio"));
-            programacionCita.setTipoCita(rs.getString("tipo_cita"));
-            programacionCita.setHoraCita(rs.getTime("hora_cita").toLocalTime());
-            programacionCita.setFechaCita(rs.getDate("fecha_cita").toLocalDate());
-            programacionCita.setLugarCita(rs.getString("lugar_cita"));
-            programacionCita.setRequiereTriaje(rs.getInt("requiere_triaje"));
-
-            // Mapea Medico
-            Medico medico = new Medico();
-            medico.setNombres(rs.getString("medico_nombres"));
-            medico.setApellidoPaterno(rs.getString("medico_apellido_paterno"));
-            medico.setApellidoMaterno(rs.getString("medico_apellido_materno"));
-
-            // Mapea Especialidad
-            Especialidad especialidad = new Especialidad();
-            especialidad.setNombre(rs.getString("especialidad"));
 
             // Mapea Paciente
             Paciente paciente = new Paciente();
@@ -131,13 +110,8 @@ public class TriajeRepository {
             paciente.setFechaNacimiento(rs.getDate("paciente_fecha_nacimiento").toLocalDate());
             paciente.setSexo(rs.getString("paciente_sexo"));
 
-            // Establece las relaciones
-            programacionCita.setTriaje(triaje);
-            medico.setEspecialidad(especialidad);
-            programacionCita.setMedico(medico);
-            programacionCita.setPaciente(paciente);
-
-            return programacionCita;
+            triaje.setPaciente(paciente);
+            return triaje;
         }
     }
 }

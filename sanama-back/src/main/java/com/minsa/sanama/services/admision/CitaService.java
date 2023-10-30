@@ -25,6 +25,18 @@ public class CitaService {
         return lCitas;
     }
 
+    public List<CitaMedica> listarCitasxFiltro(String pn_id_especialidad, String pv_filtro, String pd_fecha_inicio, String pd_fecha_fin, String pn_estado) {
+        List<CitaMedica> lCitas;
+        lCitas = citaRepository.listarCitasxFiltro(pn_id_especialidad, pv_filtro, pd_fecha_inicio, pd_fecha_fin, pn_estado);
+        return lCitas;
+    }
+
+    public List<CitaMedica> listarCitasxMedico(String pn_id_medico, String pn_estado) {
+        List<CitaMedica> lCitas;
+        lCitas = citaRepository.listarCitasxMedico(pn_id_medico, pn_estado);
+        return lCitas;
+    }
+
     public int registrarCitaMedicaPaciente(CitaMedica citaMedica) {
         int idCita = 0;
         int dd, mm, aa, hora, min, seg;
@@ -37,7 +49,8 @@ public class CitaService {
         seg = citaMedica.getHoraCita().getSecond();
         citaMedica.setCodigoCitaMedica("CM-" + aa + mm + dd + "-" +
                 hora + min + seg + "-" + idMedico);
-
+        citaMedica.setTipoCita("MEDICA");
+        citaMedica.setEstado(4);
         idCita = citaRepository.registrarCita(citaMedica);
         if (idCita != -1)
             return idCita;
