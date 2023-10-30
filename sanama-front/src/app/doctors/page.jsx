@@ -62,13 +62,16 @@ const DoctorsPage = () => {
                     value={"nombre"}
                     name={"speciality-dropdown"}
                     width={"w-[400px]"}
-                    handleChange={(event) => {setEspecialidadSeleccionada(event.target.value)}}
+                    handleChange={(event) => { setEspecialidadSeleccionada(event.target.value) }}
                 ></Dropdown>
                 <SearchBar
                     name={"doctor-search"}
                     width={"w-full"}>
                 </SearchBar>
             </form>
+            <div style={{ marginBottom: '1rem', color: 'black' }} className="pl-12 pr-14">
+                Número de resultados: {doctorTable.length}
+            </div>
             <section className="pl-12 pr-14">
                 <DoctorTable data={doctorTable}></DoctorTable>
             </section>

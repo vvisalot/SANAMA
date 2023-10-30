@@ -44,7 +44,7 @@ export const doctorService = {
 
     buscarPorMedicoEspecialidad: async (filtro, especialidad) => {
         try {
-            const response = await axiosInstance.post("/rrhh/post/medicoNombre", {
+            const response = await axiosInstance.post("/rrhh/post/listarMedicosPorEspecialidad", {
                 pv_medico: filtro,
                 pv_especialidad: especialidad,
             })
