@@ -64,7 +64,6 @@ function convertirDatosParaCalendar(datos) {
 
 function SeleccionarHorarioMedico(props) {
   const { doctor } = props;
-  console.log(doctor);
   const [isLoading, setIsLoading] = useState(true);
   const [isCalendarEnabled, setIsCalendarEnabled] = useState(false);
   const [backData, setBackData] = useState([]);
@@ -73,7 +72,7 @@ function SeleccionarHorarioMedico(props) {
   const [calendarHeight, setCalendarHeight] = useState(600);
   const fechaHoy = new Date();
   fechaHoy.setDate(fechaHoy.getDate() - 15);
-
+  const [seHaModificadoHorario, setSeHaModificadoHorario] = useState(false);
   const handleIngresarDisponibilidad = () => {
     setBackData(events);
     setIsCalendarEnabled(true);
@@ -82,9 +81,16 @@ function SeleccionarHorarioMedico(props) {
   const handleCancelarIngresoDisponibilidad = () => {
     setEvents(backData);
     setIsCalendarEnabled(false);
+    setSeHaModificadoHorario(false);
   };
 
   const handleGuardar = () => {
+    if(!seHaModificadoHorario){
+      alert("No hubo modificación de horario");
+      setIsCalendarEnabled(false);
+      
+      return;
+    }
     const eventosTransformados = events.map((evento) => {
       return {
         pn_id_medico: `${doctor.idPersona}`,
@@ -121,10 +127,11 @@ function SeleccionarHorarioMedico(props) {
       for (const evento of eventosTransformados) {
         await registrarEvento(evento);
       }
+      setIsCalendarEnabled(false);
     };
 
     registrarEventos();
-    setIsCalendarEnabled(false);
+    
   };
 
   useEffect(() => {
@@ -184,6 +191,7 @@ function SeleccionarHorarioMedico(props) {
   };
 
   const handleSelectSlot = (slotInfo) => {
+    setSeHaModificadoHorario(true);
     if (view === "week") {
       const newEvent = {
         start: slotInfo.start,
@@ -209,6 +217,7 @@ function SeleccionarHorarioMedico(props) {
     }
   };
   const handleDoubleClickEvent = (event) => {
+    setSeHaModificadoHorario(true);
     if (view === "month") {
       // const shouldDelete = window.confirm("¿Desea eliminar este evento?");
       // if (shouldDelete) {
@@ -256,7 +265,7 @@ function SeleccionarHorarioMedico(props) {
               ? 'text-white bg-blue-800 border border-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 '
               : 'text-gray-400 bg-gray-100 border border-black-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 '
               }`}
-              onClick={handleIngresarDisponibilidad} disabled={isCalendarEnabled}>
+              onClick={handleGuardar} disabled={!isCalendarEnabled}>
               Guardar
             </button>
           </div>
