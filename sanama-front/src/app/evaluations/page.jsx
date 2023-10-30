@@ -19,10 +19,7 @@ const Evaluations = () => {
 
         <div className="mb-6 space-x-4">
           <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
-            Historia Clínico de Hospitalización
-          </button>
-          <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
-            Consulta externa médica
+            Nueva Evalución médica
           </button>
           <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
             Solicitar Orden de Laboratorio
@@ -35,7 +32,6 @@ const Evaluations = () => {
             <label className="font-semibold mb-2">Desde:</label>
             <input className="border rounded p-2 w-full" type="date" />
           </div>
-          {/* ... similar blocks for other fields */}
         </div>
 
         <table className="w-full border-collapse">
@@ -44,7 +40,6 @@ const Evaluations = () => {
               <th className="p-2">N° de Atención</th>
               <th className="p-2">Fecha</th>
               <th className="p-2">Nombre del Doctor</th>
-              {/* ... other headers */}
               <th className="p-2">Opciones</th>
             </tr>
           </thead>
