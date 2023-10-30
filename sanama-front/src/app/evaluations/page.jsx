@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 
-const Evaluations = () => {
+const Evaluations = (props) => {
   return (
     <div className="min-h-screen bg-gray-100 p-10">
       <div className="max-w-screen-xl mx-auto bg-white p-6 rounded-lg shadow-md">
