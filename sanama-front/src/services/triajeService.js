@@ -33,5 +33,15 @@ export const triajeService = {
             console.error("Error al buscar triaje por filtro", error);
             throw error;
         }
-    }
+    },
+
+    actualizarTriaje: async (data) => {
+        try {
+            const response = await axiosInstance.put("admision/put/actualizarTriaje", data);
+            return 1;
+        } catch (error) {
+            console.error("Error al actualizar el triaje", error);
+            throw error;
+        }
+    },
 }
