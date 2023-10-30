@@ -85,7 +85,7 @@ const Calendar = ({ selectedDate, handleDateClick, disabled }) => {
                         className={`flex rounded-lg mx-1 my-1 transition-all duration-300 justify-center w-16  
                         ${isPastDate(date) ? 'text-slate-400' : 'group hover:bg-orange-200 hover:shadow-lg hover-light-shadow cursor-pointer'}}
                         ${date.getTime() === selectedDate?.getTime() ? 'bg-orange-100' : ''}`}
-                        onClick={isValidDate(date) ? handleDateClick(date) : () => { }}
+                        onClick={isValidDate(date) && !disabled ? handleDateClick(date) : () => { }}
 
                     >
                         <div className="flex p-4">
