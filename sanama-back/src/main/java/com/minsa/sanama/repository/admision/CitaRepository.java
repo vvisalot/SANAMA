@@ -30,15 +30,30 @@ public class CitaRepository {
     }
 
     private final CitaMedicaMapper citaMedicaMapper = new CitaMedicaMapper();
-
+    private final CitaMedicaMedicoMapper citaMedicaMedicoMapper = new CitaMedicaMedicoMapper();
+    private final CitaMedicaPacienteMapper citaMedicaPacienteMapper = new CitaMedicaPacienteMapper();
     public List<CitaMedica> listarCitasTodas() {
         String procedureCall = "{call dbSanama.ssm_adm_listar_citas_medicas()};";
         return jdbcTemplate.query(procedureCall, citaMedicaMapper);
     }
 
-    public List<CitaMedica> listarCitasxPaciente(int pv_idPaciente) {
-        String procedureCall = "{call dbSanama.ssm_adm_listar_citas_medicas_x_paciente('" + pv_idPaciente + "')};";
+    public List<CitaMedica> listarCitasxPaciente(int pn_idPaciente) {
+        String procedureCall = "{call dbSanama.ssm_adm_listar_citas_medicas_x_paciente('" + pn_idPaciente + "')};";
+        return jdbcTemplate.query(procedureCall, citaMedicaPacienteMapper);
+    }
+
+    public List<CitaMedica> listarCitasxFiltro(String pn_id_especialidad, String pv_filtro, String pd_fecha_inicio, String pd_fecha_fin, String pn_estado) {
+        if (pd_fecha_inicio != null)pd_fecha_inicio = "'"+pd_fecha_inicio+"'";
+        if (pd_fecha_fin != null)pd_fecha_fin = "'"+pd_fecha_fin+"'";
+        if (pn_estado != null)pn_estado = "'"+pn_estado+"'";
+        String procedureCall = "{call dbSanama.ssm_adm_listar_citas_medicas_filtro("+pn_id_especialidad+",'"+pv_filtro+"',"+pd_fecha_inicio+","+pd_fecha_fin+","+pn_estado+")};";
         return jdbcTemplate.query(procedureCall, citaMedicaMapper);
+    }
+
+    public List<CitaMedica> listarCitasxMedico(String pn_id_medico, String pn_estado) {
+        if (pn_estado != null)pn_estado = "'"+pn_estado+"'";
+        String procedureCall = "{call dbSanama.ssm_adm_listar_citas_medicas_x_medico("+pn_id_medico+","+pn_estado+")};";
+        return jdbcTemplate.query(procedureCall, citaMedicaMedicoMapper);
     }
 
     private static class CitaMedicaMapper implements RowMapper<CitaMedica> {
@@ -46,17 +61,67 @@ public class CitaRepository {
         public CitaMedica mapRow(ResultSet rs, int rowNum) throws SQLException {
 
             CitaMedica citaMedica = new CitaMedica();
-
             citaMedica.setIdCita(rs.getInt("id_cita"));
+            citaMedica.setCodigoCita(rs.getString("codigo_cita_medica"));
+            citaMedica.setFechaCita(rs.getDate("fecha_cita").toLocalDate());
+            citaMedica.setHoraCita(rs.getTime("hora_cita").toLocalTime());
+            citaMedica.setEstado(rs.getInt("estado"));
+
             Paciente paciente = new Paciente();
-            paciente.setIdPersona(rs.getInt("id_paciente"));
             paciente.setNombres(rs.getString("nombres_paciente"));
             paciente.setApellidoPaterno(rs.getString("apellido_paterno_paciente"));
             paciente.setApellidoMaterno(rs.getString("apellido_materno_paciente"));
-            paciente.setDni(rs.getString("dni"));
-            citaMedica.setPaciente(paciente);
+            paciente.setDni(rs.getString("dni_paciente"));
+
             Medico medico = new Medico();
-            medico.setIdPersona(rs.getInt("id_medico"));
+            medico.setNombres(rs.getString("nombres_medico"));
+            medico.setApellidoPaterno(rs.getString("apellido_paterno_medico"));
+            medico.setApellidoMaterno(rs.getString("apellido_materno_medico"));
+
+            Especialidad especialidad = new Especialidad();
+            especialidad.setNombre(rs.getString("nombre_especialidad"));
+            medico.setEspecialidad(especialidad);
+
+            citaMedica.setMedico(medico);
+            citaMedica.setPaciente(paciente);
+
+            return citaMedica;
+        }
+    }
+
+    private static class CitaMedicaMedicoMapper implements RowMapper<CitaMedica> {
+        @Override
+        public CitaMedica mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+            CitaMedica citaMedica = new CitaMedica();
+
+            citaMedica.setIdCita(rs.getInt("id_cita"));
+            citaMedica.setTipoCita(rs.getString("tipo_cita"));
+            citaMedica.setCodigoCita(rs.getString("codigo_cita_medica"));
+
+            Paciente paciente = new Paciente();
+            paciente.setNombres(rs.getString("nombres_paciente"));
+            paciente.setApellidoPaterno(rs.getString("apellido_paterno_paciente"));
+            paciente.setApellidoMaterno(rs.getString("apellido_materno_paciente"));
+
+            citaMedica.setPaciente(paciente);
+            citaMedica.setHoraCita(rs.getTime("hora_cita").toLocalTime());
+            citaMedica.setFechaCita(rs.getDate("fecha_cita").toLocalDate());
+            citaMedica.setEstado(rs.getInt("estado"));
+
+            return citaMedica;
+        }
+    }
+
+    private static class CitaMedicaPacienteMapper implements RowMapper<CitaMedica> {
+        @Override
+        public CitaMedica mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+            CitaMedica citaMedica = new CitaMedica();
+
+            citaMedica.setIdCita(rs.getInt("id_cita"));
+            citaMedica.setCodigoCita(rs.getString("codigo_cita_medica"));
+            Medico medico = new Medico();
             medico.setNombres(rs.getString("nombres_medico"));
             medico.setApellidoPaterno(rs.getString("apellido_paterno_medico"));
             medico.setApellidoMaterno(rs.getString("apellido_materno_medico"));
@@ -70,7 +135,7 @@ public class CitaRepository {
             citaMedica.setFechaCita(rs.getDate("fecha_cita").toLocalDate());
             citaMedica.setHoraCita(rs.getTime("hora_cita").toLocalTime());
             citaMedica.setEstado(rs.getInt("estado"));
-            citaMedica.setCodigoCita(rs.getString("codigo_cita_medica"));
+
             return citaMedica;
         }
     }
@@ -89,6 +154,10 @@ public class CitaRepository {
                         new SqlParameter("pt_hora_cita", Types.TIME),
                         new SqlParameter("pd_fecha_cita", Types.DATE),
                         new SqlParameter("pn_requiere_triaje", Types.INTEGER),
+                        new SqlParameter("pb_tiene_acompanhante", Types.BOOLEAN),
+                        new SqlParameter("pv_nombre_acompanhante", Types.VARCHAR),
+                        new SqlParameter("pv_dni_acompanhante", Types.VARCHAR),
+                        new SqlParameter("pv_parentezco", Types.VARCHAR),
                         new SqlParameter("pn_estado", Types.INTEGER)
                 });
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
@@ -100,6 +169,10 @@ public class CitaRepository {
                 .addValue("pt_hora_cita", citaMedica.getHoraCita())
                 .addValue("pd_fecha_cita", citaMedica.getFechaCita())
                 .addValue("pn_requiere_triaje", citaMedica.getRequiereTriaje())
+                .addValue("pb_tiene_acompanhante", citaMedica.isTieneAcompanhante())
+                .addValue("pv_nombre_acompanhante", citaMedica.getNombreAcompanhante())
+                .addValue("pv_dni_acompanhante", citaMedica.getDniAcompanhante())
+                .addValue("pv_parentezco", citaMedica.getParentezco())
                 .addValue("pn_estado", 1);
 
         Map<String, Object> result = simpleJdbcCall.execute(mapSqlParameterSource);

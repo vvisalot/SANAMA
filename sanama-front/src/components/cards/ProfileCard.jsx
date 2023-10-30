@@ -8,11 +8,11 @@ const ProfileCard = ({ name, phone, email, address }) => {
             </figure>
 
             <address className="px-10 not-italic">
-                <h3 className="text-xl font-semibold tracking-wide">Datos de contacto</h3>
+                <h3 className="text-xl font-semibold tracking-wide text-black">Datos de contacto</h3>
                 <dl className="py-2">
-                    <dd className="text-sm text-gray-500">Direccion: {address}</dd>
                     <dd className="text-sm text-gray-500">Correo electronico: {email}</dd>
                     <dd className="text-sm text-gray-500">Telefono: {phone}</dd>
+                    <dd className="text-sm text-gray-500">Direccion: {address}</dd>
                 </dl>
             </address>
 
@@ -20,4 +20,4 @@ const ProfileCard = ({ name, phone, email, address }) => {
     )
 }
 
-export default ProfileCard
+export default ProfileCard;

@@ -1,14 +1,17 @@
 package com.minsa.sanama.model.rrhh;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class TurnoAtencion {
     private int idTurno;
     private LocalTime horaInicio;
     private LocalTime horaFin;
     private LocalDate fecha;
-    private int estado;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    private int estado=0;
 
     public TurnoAtencion() {
     }
