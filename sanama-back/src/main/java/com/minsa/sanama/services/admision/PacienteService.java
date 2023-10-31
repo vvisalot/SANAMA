@@ -27,6 +27,12 @@ public class PacienteService {
         return lPacientes;
     }
 
+    public List<Paciente> buscarPaciente(String pv_nombre_dni){
+        List<Paciente> lPacientes;
+        lPacientes = pacienteRepository.buscarPaciente(pv_nombre_dni);
+        return lPacientes;
+    }
+
     public List<Paciente> buscarPacienteFiltroPrueba(String pv_filtro){
         List<Paciente> lPacientes;
         lPacientes = pacienteRepository.buscarPacienteFiltroPrueba(pv_filtro);
