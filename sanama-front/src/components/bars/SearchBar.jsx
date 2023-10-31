@@ -1,6 +1,5 @@
 "use client"
-//TODO: ARREGLAR PADDINGS. O PONERLOS EN PROPS SI ES NECESARIO
-const SearchBar = ({ name, width, ph }) => {
+const SearchBar = ({ name, width, placeholderText }) => {
     return (
         <div className={`py-2 px-4 ${width}`}>
             <div className="relative w-full">
@@ -14,12 +13,12 @@ const SearchBar = ({ name, width, ph }) => {
                     id={name} 
                     type="search" 
                     className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg  bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder={ph} 
+                    placeholder={placeholderText} 
                 />
                 <button type="submit" className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">Buscar</button>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default SearchBar;
