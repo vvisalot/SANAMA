@@ -1,9 +1,14 @@
 import React from "react";
 import Link from "next/link";
 
-const SearchAndAddBar = ({ searchTerm, onSearchChange, linkHref }) => (
+const SearchAndAddBar = ({
+  searchTerm,
+  onSearchChange,
+  onSubmit,
+  linkHref,
+}) => (
   <div className="my-2 p-4 bg-white shadow-md">
-    <div className="flex items-center space-x-4">
+    <form onSubmit={onSubmit} className="flex items-center space-x-4">
       <div className="flex-1">
         <div className="relative">
           <div className="absolute inset-y-0 left-0 flex items-center pl-3">
@@ -75,7 +80,10 @@ const SearchAndAddBar = ({ searchTerm, onSearchChange, linkHref }) => (
       </div>
 
       <div className="flex-1">
-        <button className="w-full px-4 py-2 text-sm text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500">
+        <button
+          type="submit"
+          className="flex-1 w-full px-4 py-2 text-sm text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500"
+        >
           Buscar
         </button>
       </div>
@@ -87,7 +95,7 @@ const SearchAndAddBar = ({ searchTerm, onSearchChange, linkHref }) => (
           </href>
         </Link>
       </div>
-    </div>
+    </form>
   </div>
 );
 

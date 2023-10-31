@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
 import useUpdateAppointmentStatus from "@/hooks/useUpdateAppointmentStatus";
-import useAppointmentInfo from "@/hooks/useAppointmentInfo"; // Asegúrate de importar el hook correcto
 
 const patientFieldsConfig = [
   { name: "codigoSeguro", label: "N° DE SEGURO" },
@@ -117,8 +116,6 @@ const getValue = (appointmentData, id, nombreDoctor, especialidadNombre) => {
 };
 
 const ReviewAppointment = ({ appointmentData }) => {
-  const { loading, error, handleRegisterAppointment } = useAppointmentInfo();
-
   const pacienteData = appointmentData.selectedPatientData;
   const doctorResponsable = appointmentData.selectedDoctor;
   const nombreDoctor = getFullName(doctorResponsable);
