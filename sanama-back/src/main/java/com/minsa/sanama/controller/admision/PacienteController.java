@@ -46,6 +46,24 @@ public class PacienteController {
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE},
+            value = "/post/mostrarPacienteRegistrado")
+    @ResponseBody
+    public Paciente mostrarPacienteRegistrado(@RequestBody String pv_filtro){
+        Paciente paciente = null;
+        try{
+            JSONObject job = (JSONObject) new JSONParser().parse(pv_filtro);
+            String pn_id_paciente = job.get("pn_id_paciente").toString();
+            paciente = pacienteService.mostrarPacienteRegistrado(pn_id_paciente);
+            paciente.setHistorialClinico(null);
+
+        }catch(Exception ex){
+
+        }
+        return paciente;
+    }
+
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE},
             value = "/post/buscarPacienteModal")
     @ResponseBody
     public List<Paciente> buscarPacienteModal(@RequestBody String pv_filtro){
@@ -78,11 +96,6 @@ public class PacienteController {
         }
         return pacientes;
     }
-
-    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE},
-            produces = {MediaType.APPLICATION_JSON_VALUE},
-            value = "/post/obtenerPaciente")
-
 
 
     @PutMapping(value = "/put/paciente")
