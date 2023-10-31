@@ -26,7 +26,7 @@ const SearchAndAddBar = ({ searchTerm, onSearchChange, linkHref }) => (
           <input
             type="text"
             className="block w-full p-2 pl-8 text-sm text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Buscar por nombre, email, especialidad..."
+            placeholder="Buscar por nombre o DNI..."
             value={searchTerm}
             onChange={onSearchChange}
           />
