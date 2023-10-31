@@ -58,7 +58,7 @@ const TriajePage = () => {
           <SearchBar
             name={"patients-search"}
             width={"flex-grow"}
-            placeholderText="Nombre o DNI..."
+            placeholderText="Buscar por Nombre o DNI"
           />
           
         </div>
