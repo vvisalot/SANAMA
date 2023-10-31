@@ -37,7 +37,9 @@ const TriajePage = () => {
             <form className="w-full" onSubmit={handleSubmit}>
                 <SearchBar name={"patients-search"} width={"w-full"} placeholderText="Nombre o DNI..."/>
             </form>
-            <TriajeTable data={triajeTable}></TriajeTable>
+            <section className="pl-8 pr-14">
+                <TriajeTable data={triajeTable}></TriajeTable>
+            </section>
         </section>
     )
 }

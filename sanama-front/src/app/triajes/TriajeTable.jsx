@@ -4,9 +4,9 @@ import Table from "@/components/table/Table"
 //Nombre de las columnas a secas
 const columns = [
     { name: "ID" },
-    { name: "Fecha" },
-    { name: "Nombre completo" },
+    { name: "Fecha Actualización" },
     { name: "DNI" },
+    { name: "Nombre completo" },
     { name: "Estado" },
     { name: "Urgencia" },
     { name: "Opciones" },
