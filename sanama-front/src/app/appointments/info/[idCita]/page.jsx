@@ -16,14 +16,14 @@ const ReviewAppointment = ({ params }) => {
     const fetchData = async () => {
       try {
         const data = await appointmentService.buscarCita(params.idCita);
-        if (data && data.length > 0) {
-          setAppointmentData(data[0]);
+        if (data) {
+          setAppointmentData(data);
         } else {
-          setError("No se encontraron datos de la cita");
+          setError(`No se encontraron datos de la cita  ${params.idCita}`);
         }
       } catch (error) {
-        console.error(error);
         setError("Ocurrió un error al cargar los datos de la cita");
+        console.error(error);
       } finally {
         setLoading(false);
       }
@@ -42,12 +42,7 @@ const ReviewAppointment = ({ params }) => {
   if (!appointmentData) {
     return null;
   }
-
-  const {
-    selectedPatientData: pacienteData,
-    selectedDoctor: doctorResponsable,
-    estado,
-  } = appointmentData;
+  const { idCita, estado } = appointmentData;
 
   const handleActionClick = async (status) => {
     try {
@@ -64,11 +59,8 @@ const ReviewAppointment = ({ params }) => {
 
   return (
     <div className="container mx-auto p-4">
-      <PatientInfo pacienteData={pacienteData} />
-      <AppointmentInfo
-        appointmentData={appointmentData}
-        doctor={doctorResponsable}
-      />
+      <PatientInfo pacienteData={appointmentData} />
+      <AppointmentInfo appointmentData={appointmentData} />
 
       <button
         className="bg-blue-500 text-white p-2 w-full rounded-md"
@@ -91,10 +83,10 @@ const ReviewAppointment = ({ params }) => {
       >
         Cancelar Cita
       </button>
-      <Link href="/AppointmentManagement">
-        <a className="block bg-gray-500 text-white p-2 w-full rounded-md text-center mt-2">
+      <Link href="/appointments">
+        <href className="block bg-gray-500 text-white p-2 w-full rounded-md text-center mt-2">
           Volver
-        </a>
+        </href>
       </Link>
     </div>
   );
