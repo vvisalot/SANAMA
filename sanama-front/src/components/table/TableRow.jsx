@@ -10,7 +10,7 @@ const TableRow = ({ row, url, optionsText, iconName }) => {
           if (index === row.length - 1) {
             return (
               <Fragment key={index}>
-                <TableCell data={cell.data} />
+                <TableCell data={cell.data} className={cell.className ? cell.className : ""} />
                 {url.length > 0 ? (
                   <TableOptions
                     id={parseInt(row[0].data)}
@@ -22,7 +22,7 @@ const TableRow = ({ row, url, optionsText, iconName }) => {
               </Fragment>
             );
           } else {
-            return <TableCell key={index} data={cell.data} />;
+            return <TableCell key={index} data={cell.data} className={cell.className ? cell.className : ""} />;
           }
         }
       })}
@@ -31,3 +31,4 @@ const TableRow = ({ row, url, optionsText, iconName }) => {
 };
 
 export default TableRow;
+

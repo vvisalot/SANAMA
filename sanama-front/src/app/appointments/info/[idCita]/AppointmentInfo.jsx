@@ -22,8 +22,7 @@ const getValue = (appointmentData, id, nombreDoctor, especialidadNombre) => {
   }
 };
 
-const AppointmentInfo = ({ appointmentData }) => {
-  const doctor = appointmentData.doctor;
+const AppointmentInfo = ({ appointmentData, doctor }) => {
   const nombreDoctor = `${doctor.sexo === "M" ? "Dr." : "Dra."} ${
     doctor.nombres
   } ${doctor.apellidoPaterno} ${doctor.apellidoMaterno}`;
