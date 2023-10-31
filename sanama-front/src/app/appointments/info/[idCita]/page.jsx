@@ -1,177 +1,100 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import useUpdateAppointmentStatus from "@/hooks/useUpdateAppointmentStatus";
+import { appointmentService } from "@/services/appointmentService";
+import PatientInfo from "./PatientInfo";
+import AppointmentInfo from "./AppointmentInfo";
 
-const patientFieldsConfig = [
-  { name: "codigoSeguro", label: "N° DE SEGURO" },
-  { name: "dni", label: "DOCUMENTO DE IDENTIDAD" },
-  { name: "tipoSeguro", label: "TIPO DE SEGURO" },
-  { name: "nombres", label: "NOMBRES" },
-  { name: "apellidoPaterno", label: "PRIMER APELLIDO" },
-  { name: "apellidoMaterno", label: "SEGUNDO APELLIDO" },
-  { name: "fechaNacimiento", label: "FECHA DE NACIMIENTO" },
-  { name: "telefono", label: "TELEFONO" },
-  { name: "correo", label: "CORREO" },
-];
-
-const camposAtencion = [
-  { id: "numero-cita", label: "CODIGO DE CITA", type: "text" },
-  { id: "fecha-atencion", label: "FECHA DE ATENCION", type: "date" },
-  { id: "hora-atencion", label: "HORA DE ATENCION", type: "time" },
-  { id: "medico-responsable", label: "MEDICO RESPONSABLE", type: "text" },
-  { id: "especialidad", label: "ESPECIALIDAD", type: "text" },
-  { id: "dniAcompanhante", label: "DOCUMENTO ACOMPAÑANTE", type: "text" },
-  { id: "nombreAcompanhante", label: "NOMBRES ACOMPAÑANTE", type: "text" },
-  { id: "estado", label: "ESTADO", type: "text" },
-];
-
-const getFullName = (doctor) => {
-  return doctor
-    ? `${doctor.sexo === "M" ? "Dr." : "Dra."} ${doctor.nombres} ${
-        doctor.apellidoPaterno
-      } ${doctor.apellidoMaterno}`
-    : "";
-};
-
-const getSpecialtyName = (doctor) => {
-  return doctor && doctor.especialidad ? doctor.especialidad.nombre : "";
-};
-
-const PatientInfo = ({ pacienteData }) => (
-  <div className="bg-white p-6 rounded-lg shadow-md mb-6">
-    <h2 className="text-2xl font-semibold mb-4">Información del paciente</h2>
-    <div className="grid grid-cols-3 gap-4">
-      {patientFieldsConfig.map((campo) => (
-        <div key={campo.name}>
-          <label
-            htmlFor={campo.name}
-            className="block text-sm font-medium text-gray-700"
-          >
-            {campo.label}
-          </label>
-          <input
-            type="text" // Todos los inputs son de tipo texto y readonly
-            id={campo.name}
-            name={campo.name}
-            className="mt-1 p-2 w-full border rounded-md"
-            defaultValue={pacienteData ? pacienteData[campo.name] : ""}
-            readOnly
-          />
-        </div>
-      ))}
-    </div>
-  </div>
-);
-
-const AppointmentInfo = ({
-  appointmentData,
-  nombreDoctor,
-  especialidadNombre,
-}) => (
-  <div className="bg-white p-6 rounded-lg shadow-md mb-6">
-    <h2 className="text-2xl font-semibold mb-4">Información de la atención</h2>
-    <div className="grid grid-cols-3 gap-4">
-      {camposAtencion.map((campo) => (
-        <div key={campo.id}>
-          <label
-            htmlFor={campo.id}
-            className="block text-sm font-medium text-gray-700"
-          >
-            {campo.label}
-          </label>
-          <input
-            type={campo.type}
-            id={campo.id}
-            name={campo.id}
-            className="mt-1 p-2 w-full border rounded-md"
-            defaultValue={getValue(
-              appointmentData,
-              campo.id,
-              nombreDoctor,
-              especialidadNombre
-            )}
-            readOnly
-          />
-        </div>
-      ))}
-    </div>
-  </div>
-);
-
-const getValue = (appointmentData, id, nombreDoctor, especialidadNombre) => {
-  switch (id) {
-    case "fecha-atencion":
-      return appointmentData.selectedDate;
-    case "hora-atencion":
-      return appointmentData.selectedHour;
-    case "medico-responsable":
-      return nombreDoctor;
-    case "estado":
-      return "PENDIENTE";
-    case "especialidad":
-      return especialidadNombre;
-    default:
-      return appointmentData[id];
-  }
-};
-
-const ReviewAppointment = ({ appointmentData }) => {
-  const pacienteData = appointmentData.selectedPatientData;
-  const doctorResponsable = appointmentData.selectedDoctor;
-  const nombreDoctor = getFullName(doctorResponsable);
-  const especialidadNombre = getSpecialtyName(doctorResponsable);
-
-  const { idCita, estado } = appointmentData;
+const ReviewAppointment = ({ params }) => {
+  const [appointmentData, setAppointmentData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const { updateAppointmentStatus } = useUpdateAppointmentStatus();
 
-  const handleAtenderCita = () => updateAppointmentStatus(idCita, 2);
-  const handleCancelarCita = () => updateAppointmentStatus(idCita, 3);
-  const handleReprogramarCita = () => {
-    /* ... */
-  }; // Implementa la lógica necesaria
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await appointmentService.buscarCita(params.idCita);
+        if (data && data.length > 0) {
+          setAppointmentData(data[0]);
+        } else {
+          setError("No se encontraron datos de la cita");
+        }
+      } catch (error) {
+        console.error(error);
+        setError("Ocurrió un error al cargar los datos de la cita");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [params.idCita]);
+
+  if (loading) {
+    return <p>Cargando...</p>;
+  }
+
+  if (error) {
+    return <p className="text-red-500">{error}</p>;
+  }
+
+  if (!appointmentData) {
+    return null;
+  }
+
+  const {
+    selectedPatientData: pacienteData,
+    selectedDoctor: doctorResponsable,
+    estado,
+  } = appointmentData;
+
+  const handleActionClick = async (status) => {
+    try {
+      setLoading(true);
+      await updateAppointmentStatus(appointmentData.idCita, status);
+      // Actualizar la interfaz de usuario según sea necesario
+    } catch (error) {
+      console.error(error);
+      setError("Ocurrió un error al actualizar el estado de la cita");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="container mx-auto p-4">
       <PatientInfo pacienteData={pacienteData} />
       <AppointmentInfo
         appointmentData={appointmentData}
-        nombreDoctor={nombreDoctor}
-        especialidadNombre={especialidadNombre}
+        doctor={doctorResponsable}
       />
 
       <button
         className="bg-blue-500 text-white p-2 w-full rounded-md"
-        onClick={handleAtenderCita}
-        disabled={loading || estado === "EN_CONSULTORIO"} // Asegúrate de deshabilitar el botón en el estado correspondiente
+        onClick={() => handleActionClick(2)}
+        disabled={loading || estado === "EN_CONSULTORIO"}
       >
         Atender Cita
       </button>
-
-      {error && <p className="text-red-500 mt-2">{error}</p>}
-      {isStatusUpdated && (
-        <p className="text-blue-500 mt-2">{confirmationMessage}</p>
-      )}
-
       <button
         className="bg-blue-500 text-white p-2 w-full rounded-md mt-2"
-        onClick={handleReprogramarCita}
+        onClick={() => handleActionClick(/* estado adecuado */)}
         disabled={loading}
       >
         Reprogramar Cita
       </button>
-
       <button
         className="bg-red-500 text-white p-2 w-full rounded-md mt-2"
-        onClick={handleCancelarCita}
-        disabled={loading || estado === "CANCELADA"} // Asegúrate de deshabilitar el botón en el estado correspondiente
+        onClick={() => handleActionClick(3)}
+        disabled={loading || estado === "CANCELADA"}
       >
-        Cancelar
+        Cancelar Cita
       </button>
-
       <Link href="/AppointmentManagement">
-        <href className="bg-gray-500 text-white p-2 w-full rounded-md text-center block mt-2">
+        <a className="block bg-gray-500 text-white p-2 w-full rounded-md text-center mt-2">
           Volver
-        </href>
+        </a>
       </Link>
     </div>
   );
