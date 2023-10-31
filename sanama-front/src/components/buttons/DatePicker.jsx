@@ -3,6 +3,7 @@ const DatePicker = ({ name, value, setValue }) => {
     const minDate = "1920-01-01"
     const today = new Date()
     const formattedDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`
+
     const handleDateChange = (event) => {
         const selectedDate = new Date(event.target.value)
         if (selectedDate > today) {

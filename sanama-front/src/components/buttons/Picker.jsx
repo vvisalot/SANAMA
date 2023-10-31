@@ -4,7 +4,6 @@ const Picker = ({ name1, name2, text, option1, option2, value, setValue }) => {
 
     const handleOptionChange = (event) => {
         setValue(event.target.value)
-
     }
 
 

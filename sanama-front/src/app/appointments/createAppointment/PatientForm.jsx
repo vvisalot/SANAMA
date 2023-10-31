@@ -2,10 +2,10 @@
 import DatePicker from "@/components/buttons/DatePicker"
 import Picker from "@/components/buttons/Picker"
 import useAppointmentForm from "@/hooks/useAppointmentForm"
+import usePatientForm from "@/hooks/usePatientForm"
+import { useEffect } from 'react'
 
-const PatientForm = () => {
-    const { patientForm, setPatientForm, fechaNacimiento, setFechaNacimiento, sexo, setSexo } = useAppointmentForm()
-
+const PatientForm = ({ patientForm, fechaNacimiento, setFechaNacimiento, sexo, setSexo, setPatientForm }) => {
 
     return (
         <section id='section1'>
@@ -19,7 +19,6 @@ const PatientForm = () => {
                         className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
                         value={patientForm.apellidoPaterno}
-                        //TODO LO MISMO PARA LOS DEMAS INPUTS
                         onChange={(event) => setPatientForm((prev) => ({
                             ...prev,
                             apellidoPaterno: event.target.value,
@@ -31,7 +30,7 @@ const PatientForm = () => {
                         Apellido paterno
                     </label>
                 </div>
-                {/* <div className="relative z-0 w-full mb-6 group">
+                <div className="relative z-0 w-full mb-6 group">
                     <input type="text"
                         name="second_last_name"
                         id="second_last_name"
@@ -48,10 +47,10 @@ const PatientForm = () => {
                         className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                         Apellido materno
                     </label>
-                </div> */}
+                </div>
 
             </div>
-            {/* <div className="relative z-0 w-full mb-6 group">
+            <div className="relative z-0 w-full mb-6 group">
                 <input
                     type="text"
                     name="names"
@@ -144,9 +143,9 @@ const PatientForm = () => {
                         Direccion
                     </label>
                 </div>
-            </div> */}
+            </div>
 
-            {/* 
+
 
             <div className="grid grid-cols-2 md:gap-6">
                 <DatePicker
@@ -163,7 +162,7 @@ const PatientForm = () => {
                     value={sexo}
                     setValue={setSexo}
                 />
-            </div> */}
+            </div>
         </section >
     )
 }

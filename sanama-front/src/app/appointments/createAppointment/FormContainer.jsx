@@ -4,20 +4,37 @@ import DoctorSchedules from "./DoctorSchedules"
 import LegalResponsibility from "./LegalResponsibility"
 import PatientForm from "./PatientForm"
 import TriageForm from "./TriageForm"
-
+import usePatientForm from "@/hooks/usePatientForm"
+import { useEffect } from 'react'
+import useLegalResponsibility from "@/hooks/useLegalResponsibility"
 // Para acceder a los elementos
 // elements.namedItem("first_last_name").value
 
 const FormContainer = () => {
-    const { patientForm } = useAppointmentForm()
+    const {
+        patientForm,
+        setPatientForm,
+        fechaNacimiento,
+        setFechaNacimiento,
+        sexo,
+        setSexo,
+    } = usePatientForm()
+
+    const {
+        legalResponsibility,
+        setLegalResponsibility
+    } = useLegalResponsibility()
+
     const handleSubmit = async (event) => {
 
         //Evitar que el boton me rompa la pagina
         event.preventDefault()
         //Recuperar datos del formulario
         console.log(patientForm)
-
+        console.log(legalResponsibility)
         //llamar al servicio
+
+
         // const response = await citasService.citar({
         //     paciente: { idPersona: pacienteData.idPersona },
         //     medico: { idPersona: doctorResponsable.idPersona },
@@ -32,13 +49,28 @@ const FormContainer = () => {
         // })
     }
 
+    useEffect(() => {
+        console.log(patientForm) // Esto mostrará el estado actual del formulario en la consola cada vez que cambie
+        console.log(fechaNacimiento)
+        console.log(sexo)
+        console.log(legalResponsibility)
+    }, [patientForm, fechaNacimiento, sexo, legalResponsibility])
 
     return (
         <form onSubmit={handleSubmit} className="p-10 w-4/5" >
-
-            <PatientForm />
+            <PatientForm
+                patientForm={patientForm}
+                setPatientForm={setPatientForm}
+                fechaNacimiento={fechaNacimiento}
+                setFechaNacimiento={setFechaNacimiento}
+                sexo={sexo}
+                setSexo={setSexo} />
             <hr className="bg-gray-600 mt-20" />
-            <LegalResponsibility />
+
+            <LegalResponsibility
+                legalResponsibility={legalResponsibility}
+                setLegalResponsibility={setLegalResponsibility}
+            />
 
             <hr className="bg-gray-600 mt-10" />
             <DoctorSchedules />
