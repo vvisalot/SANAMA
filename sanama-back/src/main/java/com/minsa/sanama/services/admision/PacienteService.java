@@ -33,11 +33,7 @@ public class PacienteService {
         return lPacientes;
     }
 
-    public List<Paciente> ObtenerDatosPaciente(String pv_filtro){
-        List<Paciente> lPacientes;
-        lPacientes = pacienteRepository.ObtenerDatosPaciente(pv_filtro);
-        return lPacientes;
-    }
+
 
     public int registrarPaciente(Paciente paciente){
         int idPaciente, idHistoria;

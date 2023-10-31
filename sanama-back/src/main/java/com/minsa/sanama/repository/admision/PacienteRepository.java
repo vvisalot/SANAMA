@@ -45,11 +45,6 @@ public class PacienteRepository {
         return jdbcTemplate.query(procedureCall, pacienteHistorialMapperPrueba);
     }
 
-    public List<Paciente> ObtenerDatosPaciente(String pv_filtro){
-        String procedureCall = "{call dbSanama.ssm_adm_ObtenerDatosPaciente('"+pv_filtro+"')};";
-        return jdbcTemplate.query(procedureCall, pacienteMapper);
-    }
-
     private static class PacienteMapper implements RowMapper<Paciente> {
         @Override
         public Paciente mapRow(ResultSet rs, int rowNum) throws SQLException {
