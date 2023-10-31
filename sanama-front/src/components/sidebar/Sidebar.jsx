@@ -28,6 +28,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
                 {/* TODO: ESTO ESTA POR PROBAR, NO DEBERIA ESTAR EN SIDEBAR */}
                 <SidebarItem name={"Evaluaciones"} route={"/evaluations"} isOpen={isSidebarOpen} Icon={DoctorIcon} ></SidebarItem>
 
+                <SidebarItem name={"Laboratory"} route={"/laboratories"} isOpen={isSidebarOpen} Icon={DoctorIcon} ></SidebarItem>
             </ul>
 
         </nav>
