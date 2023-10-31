@@ -83,7 +83,7 @@ const ReviewAppointment = ({ params }) => {
       >
         Cancelar Cita
       </button>
-      <Link href="/AppointmentManagement">
+      <Link href="/appointments">
         <href className="block bg-gray-500 text-white p-2 w-full rounded-md text-center mt-2">
           Volver
         </href>
