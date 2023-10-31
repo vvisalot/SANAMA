@@ -1,4 +1,4 @@
-import { useSort } from "@/hooks/useSort"; // Adjust the path according to your project structure
+import { useSort } from "@/hooks/useSort";
 import Table from "@/components/table/Table";
 
 const columns = [
