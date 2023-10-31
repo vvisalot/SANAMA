@@ -24,10 +24,19 @@ const TriajePage = () => {
         fetchData("")
     }, [])
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const elements = e.target.elements;
+        const filtro = elements.namedItem("patients-search").value;
+        fetchData(filtro);
+    };
+
     return (
         <section className="p-10">
             <h1 className="font-bold text-blue-500 text-6xl pb-8">Gestión de Triajes</h1>
-            <SearchBar filtro={filtro} setFiltro={setFiltro} fetchData={fetchData} />
+            <form className="w-full" onSubmit={handleSubmit}>
+                <SearchBar name={"patients-search"} width={"w-full"} placeholderText="Nombre o DNI..."/>
+            </form>
             <TriajeTable data={triajeTable}></TriajeTable>
         </section>
     )
