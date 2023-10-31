@@ -5,14 +5,14 @@ import { triajeService } from "@/services/triajeService"
 
 const TriajeProfile = ({ params }) => {
 
-    const [dataTriaje, setDataTriaje] = useState([]);
-    const [showModal, setShowModal] = useState(false);
+    const [dataTriaje, setDataTriaje] = useState([])
+    const [showModal, setShowModal] = useState(false)
 
     const handleSave = async () => {
 
         const triajeData = {
             pn_id_triaje: dataTriaje.idTriaje,
-            pn_peso: dataTriaje.peso,  
+            pn_peso: dataTriaje.peso,
             pn_talla: dataTriaje.talla,
             pn_temperatura: dataTriaje.temperatura,
             pv_motivo_visita: dataTriaje.motivoVisita,
@@ -25,48 +25,48 @@ const TriajeProfile = ({ params }) => {
             pv_nivelConciencia: dataTriaje.nivelConciencia,
             pv_nivelDolor: dataTriaje.nivelDolor,
             pv_condicionesPrexistentes: dataTriaje.condicionesPrexistentes
-        };
+        }
 
-        console.log("Verificación directa:", dataTriaje.pv_condicionesPrexistentes);
+        console.log("Verificación directa:", dataTriaje.pv_condicionesPrexistentes)
 
 
-        const incompleteFields = [];
+        const incompleteFields = []
         for (let key in triajeData) {
-            const value = triajeData[key];
+            const value = triajeData[key]
             if (value === null || value === undefined || (typeof value === 'string' && !value.trim())) {
-                incompleteFields.push(key);
+                incompleteFields.push(key)
             }
         }
 
         if (incompleteFields.length > 0) {
-            const fieldsString = incompleteFields.join(', ');
-            alert(`Por favor, completa los siguientes campos antes de guardar: ${fieldsString}`);
-            return;
+            const fieldsString = incompleteFields.join(', ')
+            alert(`Por favor, completa los siguientes campos antes de guardar: ${fieldsString}`)
+            return
         }
-        
+
         try {
-            const result = await triajeService.actualizarTriaje(triajeData);
-    
+            const result = await triajeService.actualizarTriaje(triajeData)
+
             if (result === 1) {
-                setShowModal(true);
+                setShowModal(true)
             } else {
                 alert("Ocurrió un problema al guardar la información. Por favor, inténtalo de nuevo.")
             }
-    
+
         } catch (error) {
             console.error("Error al guardar el triaje", error)
             alert("Hubo un error al guardar. Por favor, inténtalo de nuevo.")
         }
     }
-    
+
 
     const handleAcceptModal = () => {
-        setShowModal(false);
+        setShowModal(false)
         if (typeof window !== "undefined") {
-            window.history.back();
+            window.history.back()
         }
     }
-        
+
     const handleCancel = () => {
         if (typeof window !== "undefined") {
             window.history.back()
@@ -126,27 +126,8 @@ const TriajeProfile = ({ params }) => {
         }
     }
 
-        const edad = dataTriaje?.paciente ? calcularEdad(dataTriaje.paciente.fechaNacimiento) : "";
-   
-        const handleChange = (e) => {
-            const { name, value } = e.target;
-    
-            if (name.includes('paciente.')) {
-                const field = name.split('.')[1];
-                setDataTriaje(prevState => ({
-                    ...prevState,
-                    paciente: {
-                        ...prevState.paciente,
-                        [field]: value
-                    }
-                }));
-            } else {
-                setDataTriaje(prevState => ({
-                    ...prevState,
-                    [name]: value
-                }));
-            }
-        };
+    const edad = dataTriaje?.paciente ? calcularEdad(dataTriaje.paciente.fechaNacimiento) : ""
+
 
     const handleChange = (e) => {
         const { name, value } = e.target
