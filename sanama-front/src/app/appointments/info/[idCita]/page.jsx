@@ -16,14 +16,14 @@ const ReviewAppointment = ({ params }) => {
     const fetchData = async () => {
       try {
         const data = await appointmentService.buscarCita(params.idCita);
-        if (data && data.length > 0) {
-          setAppointmentData(data[0]);
+        if (data) {
+          setAppointmentData(data);
         } else {
           setError(`No se encontraron datos de la cita  ${params.idCita}`);
         }
       } catch (error) {
-        console.error(error);
         setError("Ocurrió un error al cargar los datos de la cita");
+        console.error(error);
       } finally {
         setLoading(false);
       }
@@ -42,6 +42,7 @@ const ReviewAppointment = ({ params }) => {
   if (!appointmentData) {
     return null;
   }
+  const { idCita, estado } = appointmentData;
 
   const handleActionClick = async (status) => {
     try {

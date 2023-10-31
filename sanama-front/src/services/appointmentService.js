@@ -143,10 +143,10 @@ export const appointmentService = {
     }
   },
 
-  buscarCita: async (id_cita) => {
+  buscarCita: async (pn_id_cita) => {
     try {
       const response = await axiosInstance.post(ENDPOINTS.BUSCAR_CITAS, {
-        pn_id_cita: id_cita,
+        pn_id_cita,
       });
       return response.data;
     } catch (error) {
