@@ -24,6 +24,7 @@ public class MedicoRepository {
 
     private final MedicoMapper medicoMapper = new MedicoMapper();
     private final HorarioMapper horarioMapper = new HorarioMapper();
+    private final HorarioFechaMapper horarioFechaMapper = new HorarioFechaMapper();
     private final FechaMapper fechaMapper = new FechaMapper();
 
     public List<Medico> listarMedicos() {
@@ -40,15 +41,15 @@ public class MedicoRepository {
     public List<TurnoAtencion> listarHorariosDisponibles(String pn_id_medico, String pd_fecha) {
         String procedureCall = "{call dbSanama.ssm_rrhh_listar_horarios_disponibles_x_medico(" + pn_id_medico + ",'"
                 + pd_fecha + "')}";
-        try {
-            return jdbcTemplate.query(procedureCall, horarioMapper);
 
-        } catch (Exception ex) {
-            // Manejo de excepciones aquí
-            ex.printStackTrace();
-            System.out.println("error controller");
-        }
-        return jdbcTemplate.query(procedureCall, horarioMapper);
+            return jdbcTemplate.query(procedureCall, horarioMapper);
+    }
+
+    public List<TurnoAtencion> listarHorariosDisponiblesIntervalo(String pn_id_medico, String pd_fecha_inicio, String pd_fecha_fin) {
+        String procedureCall = "{call dbSanama.ssm_rrhh_listar_horarios_disponibles_x_medico_y_fechas(" + pn_id_medico + ",'"
+                + pd_fecha_inicio + "','"+pd_fecha_fin+"')}";
+
+        return jdbcTemplate.query(procedureCall, horarioFechaMapper);
     }
 
     public List<LocalDate> listarDiasDisponibles(String pn_id_medico) {
@@ -104,6 +105,19 @@ public class MedicoRepository {
             turnoAtencion.setIdTurno(rs.getInt("id_turno"));
             turnoAtencion.setHoraInicio(rs.getTime("hora_inicio").toLocalTime());
             turnoAtencion.setHoraFin(rs.getTime("hora_fin").toLocalTime());
+            turnoAtencion.setEstado(1);
+            return turnoAtencion;
+        }
+    }
+
+    private static class HorarioFechaMapper implements RowMapper<TurnoAtencion> {
+        @Override
+        public TurnoAtencion mapRow(ResultSet rs, int rowNum) throws SQLException {
+            TurnoAtencion turnoAtencion = new TurnoAtencion();
+            turnoAtencion.setIdTurno(rs.getInt("id_turno"));
+            turnoAtencion.setHoraInicio(rs.getTime("hora_inicio").toLocalTime());
+            turnoAtencion.setHoraFin(rs.getTime("hora_fin").toLocalTime());
+            turnoAtencion.setFecha(rs.getDate("fecha").toLocalDate());
             turnoAtencion.setEstado(1);
             return turnoAtencion;
         }

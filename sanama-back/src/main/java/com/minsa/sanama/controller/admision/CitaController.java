@@ -91,7 +91,22 @@ public class CitaController {
         }
         return Lcita;
     }
-
+    @PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = {
+            MediaType.APPLICATION_JSON_VALUE }, value = "/post/buscarCitaMedica")
+    @ResponseBody
+    public CitaMedica buscarCitaMedica(@RequestBody String pv_datos) {
+        CitaMedica citaMedica = null;
+        try {
+            JSONObject job = (JSONObject) new JSONParser().parse(pv_datos);
+            String pn_id_cita= job.get("pn_id_cita").toString();
+            // Llama al servicio para buscar la Cita Medica por ID
+            citaMedica = citaService.buscarCitaMedica(Integer.parseInt(pn_id_cita));
+        } catch (Exception ex) {
+            // Manejo de excepciones aquí
+            ex.printStackTrace();
+        }
+        return citaMedica;
+    }
     @GetMapping(value = "/get/cita")
     @ResponseBody
     public List<CitaMedica> listarCitasTodas() {

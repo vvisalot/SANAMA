@@ -10,7 +10,7 @@ const useAppointmentForm = () => {
         idDoctor: ''
     })
 
-    const [legalResponsibility, setLegalResponsibility] = useState({
+    const [legalResponsibilityForm, setLegalResponsibilityForm] = useState({
         tieneAcompañante: '',
         nombres: '',
         apellidoPaterno: '',
@@ -36,8 +36,8 @@ const useAppointmentForm = () => {
         setPatientId,
         doctorId,
         setDoctorId,
-        legalResponsibility,
-        setLegalResponsibility,
+        legalResponsibilityForm,
+        setLegalResponsibilityForm,
         schedule,
         setSchedule,
         triageRequirement,

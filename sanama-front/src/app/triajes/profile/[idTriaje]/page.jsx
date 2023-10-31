@@ -6,7 +6,6 @@ import { triajeService } from "@/services/triajeService"
 const TriajeProfile = ({ params }) => {
 
     const [dataTriaje, setDataTriaje] = useState(null);
-    const [selectedDolor, setSelectedDolor] = useState(null);
 
     const handleSave = async () => {
         try {
@@ -41,8 +40,7 @@ const TriajeProfile = ({ params }) => {
             alert("Hubo un error al guardar. Por favor, inténtalo de nuevo.");
         }
     }
-    
-    
+        
 
     const handleCancel = () => {
         if (typeof window !== "undefined") {
@@ -50,12 +48,13 @@ const TriajeProfile = ({ params }) => {
         }
     }
 
-    function handleDolor(num) {
+    function handleDolor(value) {
         setDataTriaje(prevState => ({
             ...prevState,
-            pv_nivelDolor: num.toString() || "1"
+            nivelDolor: value
         }));
     }
+   
 
     useEffect(() => {
         const fetchData = async () => {
@@ -159,7 +158,7 @@ const TriajeProfile = ({ params }) => {
             <section className="rounded-lg p-8 w-full flex flex-col space-y-6">
 
                 <div>
-                    <h2 className="text-2xl font-bold mb-8">Información del Triaje</h2>
+                    <h2 className="text-2xl font-bold mb-4">Información básica</h2>
                     
                     <div className="grid grid-cols-3 gap-x-20 gap-y-8">
                         <div>
@@ -175,43 +174,74 @@ const TriajeProfile = ({ params }) => {
 
                         <div>
                             <label className="text-black block mb-2">Primer Apellido</label>
-                            <input disabled className="border rounded p-4 w-full" type="text" value={dataTriaje?.paciente?.apellidoPaterno} onChange={handleChange} />
+                            <input disabled className="border rounded p-4 w-full bg-gray-200 cursor-not-allowed" type="text" value={dataTriaje?.paciente?.apellidoPaterno} onChange={handleChange} />
                         </div>
                         <div>
                             <label className="text-black block mb-2">Segundo Apellido</label>
-                            <input disabled className="border rounded p-4 w-full" type="text" value={dataTriaje?.paciente?.apellidoMaterno} onChange={handleChange} />
+                            <input disabled className="border rounded p-4 w-full bg-gray-200 cursor-not-allowed" type="text" value={dataTriaje?.paciente?.apellidoMaterno} onChange={handleChange} />
                         </div>
+
                         <div>
-                            <label className="text-black block mb-2">Edad</label>
-                            <input disabled className="border rounded p-4 w-full" type="text" value={edad} onChange={handleChange} />
+                            <label className="text-black block mb-2">Documento de identidad</label>
+                            <input disabled className="border rounded p-4 w-full bg-gray-200 cursor-not-allowed" type="text" value={dataTriaje?.paciente?.dni} onChange={handleChange} />
                         </div>
+
                         <div>
                             <label className="text-black block mb-2">Sexo</label>
-                            <select disabled className="border rounded p-4 w-full" value={dataTriaje?.sexo} onChange={handleChange}>
+                            <select disabled className="border rounded p-4 w-full bg-gray-200 cursor-not-allowed" value={dataTriaje?.sexo} onChange={handleChange}>
                                 <option value="Masculino">Masculino</option>
                                 <option value="Femenino">Femenino</option>
                             </select>
                         </div>
-                        <div>
-                            <label className="text-black block mb-2">Documento de identidad</label>
-                            <input disabled className="border rounded p-4 w-full" type="text" value={dataTriaje?.paciente?.dni} onChange={handleChange} />
+
+                        <div className="flex space-x-4">
+                            <div className="flex-1">
+                                <label className="text-black block mb-2">Edad</label>
+                                <input 
+                                    disabled 
+                                    className="border rounded p-4 w-full bg-gray-200 cursor-not-allowed" 
+                                    type="text" 
+                                    value={edad} 
+                                    onChange={handleChange} 
+                                />
+                            </div>
+
+                            <div className="flex-1">
+                                <label className="text-black block mb-2">Talla (cm)</label>
+                                <input 
+                                    className="border rounded p-4 w-full" 
+                                    type="text" 
+                                    name="talla" 
+                                    value={dataTriaje?.talla} 
+                                    onChange={handleChange} 
+                                />
+                            </div>
+
+                            <div className="flex-1">
+                                <label className="text-black block mb-2">Peso (kg)</label>
+                                <input 
+                                    className="border rounded p-4 w-full" 
+                                    type="text" 
+                                    name="peso" 
+                                    value={dataTriaje?.peso} 
+                                    onChange={handleChange} 
+                                />
+                            </div>
                         </div>
-                        <div>
-                            <label className="text-black block mb-2">Talla (cm)</label>
-                            <input className="border rounded p-4 w-full" type="text" name="talla" value={dataTriaje?.talla} onChange={handleChange} />
-                        </div>
-                        <div>
-                            <label className="text-black block mb-2">Peso (kg)</label>
-                            <input className="border rounded p-4 w-full" type="text" name="peso" value={dataTriaje?.peso} onChange={handleChange} />
-                        </div>
+
                     </div>
 
                     <div className="col-span-3">
-                        <label className="text-black block mb-2">Motivo de consulta</label>
+                        <h4 className="text-xl font-bold mb-4 mt-4">Motivo de consulta</h4>
                         <textarea value={dataTriaje?.motivoVisita} onChange={handleChange} name="motivoVisita" className="border rounded w-full py-2 px-3"></textarea>
                     </div>
 
                     <div className="grid grid-cols-3 gap-6 mb-6">
+
+                        <div className="col-span-3">
+                            <h4 className="text-xl font-bold mt-4">Signos vitales</h4>
+                        </div>
+
                         <div>
                             <label className="text-black block mb-2">Temperatura (°C)</label>
                             <input className="border rounded p-4 w-full" type="text" value={dataTriaje?.temperatura} onChange={handleChange} />
@@ -233,50 +263,47 @@ const TriajeProfile = ({ params }) => {
                             <input className="border rounded p-4 w-full" type="text" value={dataTriaje?.frecuenciaRespiratoria} onChange={handleChange} />
                         </div>
                     </div>
+     
 
+                    <div className="flex justify-between items-center">
+                        <div className="flex-grow mr-4">
+                            <label className="text-black block mb-2">Nivel de conciencia</label>
+                            <select value={dataTriaje?.nivelConciencia} onChange={handleChange} name="nivelConciencia" className="border rounded w-full py-4 px-3">
+                                <option value="Alerta">Alerta</option>
+                                <option value="Responde a la voz">Responde a la voz</option>
+                                <option value="Responde al dolor">Responde al dolor</option>
+                                <option value="Inconsciente">Inconsciente</option>
+                            </select>
+                        </div>
 
-
-
-                </div>
-                
-                <div className="space-y-6">
-                    <div>
-                        <label className="text-black block mb-2">Nivel de conciencia</label>
-                        <select value={dataTriaje?.nivelConciencia} onChange={handleChange} name="nivelConciencia" className="border rounded w-full py-2 px-3">
-                            <option value="Alerta">Alerta</option>
-                            <option value="Responde a la voz">Responde a la voz</option>
-                            <option value="Responde al dolor">Responde al dolor</option>
-                            <option value="Inconsciente">Inconsciente</option>
-                        </select>
-                    </div>
-
-                    <div className="col-span-2">
-                        <label className="text-black block mb-4">Evaluación del dolor</label>
-                        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
-                            <button 
-                                key={num} 
-                                className={`mx-2 py-2 px-4 border rounded focus:outline-none transition-colors ${getColor(num)} ${String(num) === dataTriaje?.nivelDolor ? 'bg-black text-white' : ''}`}
-                                onClick={() => handleDolor(String(num))}
-                            >
-                                {num}
-                            </button>
-                        ))}
+                        <div className="col-span-2">
+                            <label className="text-black block mb-4">Evaluación del dolor</label>
+                            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
+                                <button 
+                                    key={num} 
+                                    className={`mx-2 py-2 px-4 border rounded focus:outline-none transition-colors ${getColor(num)} ${String(num) === dataTriaje?.nivelDolor ? 'bg-black text-white' : ''}`}
+                                    onClick={() => handleDolor(String(num))}
+                                >
+                                    {num}
+                                </button>
+                            ))}
+                        </div>
                     </div>
 
 
                     <div className="col-span-3">
-                        <label className="text-black block mb-2">Condiciones preexistentes</label>
+                        <h4 className="text-xl font-bold mb-4 mt-4">Condiciones preexistentes</h4>
                         <textarea value={dataTriaje?.condicionesPrexistentes} onChange={handleChange} name="condicionesPrexistentes" className="border rounded w-full py-2 px-3"></textarea>
                     </div>
 
-                    <div>
-                        <label className="text-black block mb-2">Prioridad</label>
-                        <select value={dataTriaje?.prioridad} onChange={handleChange} name="prioridad" className="border rounded w-full py-2 px-3">
-                            <option value="RESUCITACION" style={{backgroundColor: '#D32F2F', color: 'white'}}>Resucitación</option>
-                            <option value="EMERGENCIA" style={{backgroundColor: '#F57C00', color: 'white'}}>Emergencia</option>
-                            <option value="URGENCIA" style={{backgroundColor: '#FFEB3B', color: 'white'}}>Urgencia</option>
-                            <option value="URGENCIA MENOR" style={{backgroundColor: '#4CAF50', color: 'white'}}>Urgencia menor</option>
-                            <option value="SIN URGENCIA" style={{backgroundColor: '#2196F3', color: 'white'}}>Sin urgencia</option>
+                    <div div className="flex-grow">
+                        <h4 className="text-xl font-bold mb-4 mt-4">Prioridad</h4>
+                        <select value={dataTriaje?.prioridad} onChange={handleChange} name="prioridad" className="border rounded w-full py-4 px-4">
+                            <option value="Resucitacion" style={{backgroundColor: '#D32F2F', color: 'white'}}>Resucitación</option>
+                            <option value="Emergencia" style={{backgroundColor: '#F57C00', color: 'white'}}>Emergencia</option>
+                            <option value="Urgencia" style={{backgroundColor: '#FFEB3B', color: 'white'}}>Urgencia</option>
+                            <option value="Urgencia menor" style={{backgroundColor: '#4CAF50', color: 'white'}}>Urgencia menor</option>
+                            <option value="Sin Urgencia" style={{backgroundColor: '#2196F3', color: 'white'}}>Sin urgencia</option>
                         </select>
                     </div>
 

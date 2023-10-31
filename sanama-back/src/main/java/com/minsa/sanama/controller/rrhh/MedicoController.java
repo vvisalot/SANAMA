@@ -60,7 +60,25 @@ public class MedicoController {
             // Manejo de excepciones aquí
             ex.printStackTrace();
         }
+        return horarios;
+    }
 
+    @PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = {
+            MediaType.APPLICATION_JSON_VALUE }, value = "/post/horarios_por_medico_e_intervaloFechas")
+    @ResponseBody
+    public List<TurnoAtencion> listarHorariosDisponiblesIntervalo(@RequestBody String pv_datos) {
+        List<TurnoAtencion> horarios = null;
+        try {
+            JSONObject job = (JSONObject) new JSONParser().parse(pv_datos);
+            String pn_id_medico = job.get("pn_id_medico").toString();
+            String pd_fecha_inicio = job.get("pd_fecha_inicio").toString();
+            String pd_fecha_fin = job.get("pd_fecha_fin").toString();
+            System.out.println(pv_datos);
+            horarios = medicoService.listarHorariosDisponiblesIntervalo(pn_id_medico, pd_fecha_inicio, pd_fecha_fin);
+        } catch (Exception ex) {
+            // Manejo de excepciones aquí
+            ex.printStackTrace();
+        }
         return horarios;
     }
 
