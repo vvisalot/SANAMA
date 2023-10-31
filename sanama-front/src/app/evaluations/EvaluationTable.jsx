@@ -1,4 +1,3 @@
-import { useSort } from "@/hooks/useSort";
 import Table from "@/components/table/Table";
 
 const columns = [
@@ -8,18 +7,15 @@ const columns = [
   { name: "Opciones", sortable: false },
 ];
 
-const evaluationTable = ({ data }) => {
-  const { sortedData, requestSort, sortConfig } = useSort(data);
+const EvaluationTable = ({ data }) => {
   return (
     <Table
       url={"appointments/info"}
       columns={columns}
-      data={sortedData}
-      requestSort={requestSort}
-      sortConfig={sortConfig}
+      data={data}
       optionsText="Ver Hoja Medica"
     />
   );
 };
 
-export default evaluationTable;
+export default EvaluationTable;
