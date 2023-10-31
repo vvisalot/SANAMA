@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import { DateRangePicker } from "react-date-range";
 
 const SearchAndAddBar = ({ searchTerm, onSearchChange, linkHref }) => (
   <div className="my-2 p-4 bg-white shadow-md">
