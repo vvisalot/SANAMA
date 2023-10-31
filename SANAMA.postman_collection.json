@@ -377,7 +377,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "//Filtro OBLIGATORIO pn_id_medico: ID DEL MEDICO A REVISAR\r\n//Filtro OBLIGATORIO pd_fecha: FECHA DESEADA PARA REVISAR\r\n{\r\n    \"pn_id_medico\": \"1\",\r\n    \"pd_fecha\": \"2023-11-02\"\r\n}",
+							"raw": "//Filtro OBLIGATORIO pn_id_medico: ID DEL MEDICO A REVISAR\r\n//Filtro OBLIGATORIO pd_fecha: FECHA DESEADA PARA REVISAR\r\n{\r\n    \"pn_id_medico\": \"1\",\r\n    \"pd_fecha\": \"2023-11-05\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -406,7 +406,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "//Filtro OBLIGATORIO pn_id_medico: ID DEL MEDICO A REVISAR\r\n//Filtro OBLIGATORIO pd_fecha_inicio: FECHA inicial DESEADA PARA REVISAR\r\n//Filtro OBLIGATORIO pd_fecha_inicio: FECHA final DESEADA PARA REVISAR\r\n{\r\n    \"pn_id_medico\": \"2\",\r\n    \"pd_fecha_inicio\": \"2023-10-23\",\r\n    \"pd_fecha_fin\": \"2023-10-31\"\r\n}",
+							"raw": "//Filtro OBLIGATORIO pn_id_medico: ID DEL MEDICO A REVISAR\r\n//Filtro OBLIGATORIO pd_fecha_inicio: FECHA inicial DESEADA PARA REVISAR\r\n//Filtro OBLIGATORIO pd_fecha_inicio: FECHA final DESEADA PARA REVISAR\r\n{\r\n    \"pn_id_medico\": \"1\",\r\n    \"pd_fecha_inicio\": \"2023-11-04\",\r\n    \"pd_fecha_fin\": \"2023-11-04\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -818,7 +818,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "//call ssm_rrhh_registrar_turno_atencion(@nTurnos, 1, '8:00', '16:00', '2022-10-29');\r\n{\r\n    \"pn_id_medico\": \"1\",\r\n    \"pt_hora_inicio\": \"08:00\",\r\n    \"pt_hora_fin\": \"18:00\",\r\n    \"pd_fecha\": \"2023-11-02\"\r\n}",
+							"raw": "//usa call ssm_rrhh_eliminar_turno_atencion(1, '2022-10-25','2022-11-05')\r\n//usa call ssm_rrhh_registrar_turno_atencion(@nTurnos, 1, '8:00', '16:00', '2022-10-29');\r\n{\r\n    \"pn_id_medico\": \"1\",\r\n    \"pd_fecha_inicio\": \"2023-11-02\",\r\n    \"pd_fecha_fin\": \"2023-11-05\",\r\n    \"arregloHorarios\":\r\n    [\r\n        {\r\n            \"horaInicio\": \"09:00\",\r\n            \"horaFin\":  \"15:00\",\r\n            \"fecha\": \"2023-11-02\"\r\n        },\r\n        {\r\n            \"horaInicio\": \"09:00\",\r\n            \"horaFin\": \"15:00\",\r\n            \"fecha\": \"2023-11-03\"\r\n        },\r\n        {\r\n            \"horaInicio\": \"09:00\",\r\n            \"horaFin\": \"15:00\",\r\n            \"fecha\": \"2023-11-05\"\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
