@@ -3,17 +3,51 @@ import DatePicker from "@/components/buttons/DatePicker"
 import Picker from "@/components/buttons/Picker"
 import { useState } from 'react'
 import { validateNumberInput, validateSecurityCode, validateTextInput } from "@/util/formValidations"
+import AppointementForm from "./AppointementForm"
+import useAppointmentForm from "@/hooks/useAppointmentForm"
 const PatientForm = ({ patientForm, fechaNacimiento, setFechaNacimiento, sexo, setSexo, setPatientForm }) => {
-    const [isModalOpen, setModalOpen] = useState(false)
+    const [isFormComplete, setFormComplete] = useState(false)
+    const [errorMessage, setErrorMessage] = useState("")
+    const validateForm = () => {
+        const patientFormValues = Object.values(patientForm)
+        if (patientFormValues.includes("") || !fechaNacimiento || !sexo) {
+            setErrorMessage("Todos los campos deben estar llenos")
+        } else {
+            setErrorMessage("")
+            setFormComplete(true)
+        }
+    }
 
+    const [isModalOpen, setModalOpen] = useState(false)
     const toggleModal = () => {
         setModalOpen(!isModalOpen)
     }
 
 
+
+    const {
+        patientId,
+        setPatientId,
+        doctorId,
+        setDoctorId,
+        legalResponsibility,
+        setLegalResponsibility,
+        schedule,
+        setSchedule,
+        triageRequirement,
+        setTriageRequirement,
+    } = useAppointmentForm()
+
     return (
         <section id='section1'>
-            <h2 className="font-sans font-bold break-normal text-gray-700  pb-8 text-2xl">Informacion del paciente</h2>
+            <div className="pb-8 flex justify-between items-center">
+                <h2 className="font-sans font-bold break-normal text-gray-700  text-2xl">Informacion del paciente</h2>
+                <button
+                    type="submit"
+                    className=" m-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 
+                font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center">Buscar paciente
+                </button>
+            </div>
             <div className="grid grid-cols-2 md:gap-6">
                 <div className="relative z-0 w-full mb-6 group">
                     <input
@@ -221,13 +255,26 @@ const PatientForm = ({ patientForm, fechaNacimiento, setFechaNacimiento, sexo, s
             <hr></hr>
 
             <div className="flex flex-row-reverse">
-
                 <button
-                    type="submit"
+                    type="button"
                     className=" m-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 
-                font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center">Registrar paciente
+                font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center" onClick={validateForm}>Siguiente
                 </button>
             </div>
+
+
+            {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+            {isFormComplete && <AppointementForm
+                legalResponsibility={legalResponsibility}
+                setLegalResponsibility={setLegalResponsibility}
+                doctorId={doctorId}
+                setDoctorId={setDoctorId}
+                schedule={schedule}
+                setSchedule={setSchedule}
+                triageRequirement={triageRequirement}
+                setTriageRequirement={setTriageRequirement}
+            />}
+
         </section >
     )
 }
