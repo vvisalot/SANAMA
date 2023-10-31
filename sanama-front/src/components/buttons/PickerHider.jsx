@@ -7,7 +7,7 @@ const PickerHider = ({ text, option1, option2, onOptionSelected, optionSelected 
             <h1 className="text-sm text-gray-500 pr-10">{text}</h1>
             <div className="grid grid-cols-2">
                 <div className="relative">
-                    <input id="default-radio-1"
+                    <input id={option1}
                         type="radio"
                         value={option1}
                         name="dual-picker-1"
@@ -15,13 +15,13 @@ const PickerHider = ({ text, option1, option2, onOptionSelected, optionSelected 
                         checked={optionSelected === option1}
                         onChange={handleChange}
                     />
-                    <label htmlFor="default-radio-1"
+                    <label htmlFor={option1}
                         className="ml-2 text-sm font-medium text-gray-900 ">
                         {option1}
                     </label>
                 </div>
                 <div className="relative ">
-                    <input id="default-radio-2"
+                    <input id={option2}
                         type="radio"
                         value={option2}
                         name="dual-picker-2"
@@ -29,7 +29,7 @@ const PickerHider = ({ text, option1, option2, onOptionSelected, optionSelected 
                         checked={optionSelected === option2}
                         onChange={handleChange}
                     />
-                    <label htmlFor="default-radio-2"
+                    <label htmlFor={option2}
                         className="ml-2 text-sm font-medium text-gray-900">
                         {option2}
                     </label>

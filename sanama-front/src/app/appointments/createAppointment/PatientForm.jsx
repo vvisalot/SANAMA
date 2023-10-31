@@ -6,9 +6,11 @@ import { validateNumberInput, validateSecurityCode, validateTextInput } from "@/
 import AppointementForm from "./AppointementForm"
 import useAppointmentForm from "@/hooks/useAppointmentForm"
 import SearchPatientModal from "./SearchPatientModal"
-const PatientForm = ({ formComplete, setFormComplete, patientForm, fechaNacimiento, setFechaNacimiento, sexo, setSexo, setPatientForm }) => {
+const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, patientForm, fechaNacimiento, setFechaNacimiento, sexo, setSexo, setPatientForm }) => {
     const [errorMessage, setErrorMessage] = useState("")
     const [showModal, setShowModal] = useState(false)
+    const [isFormEnabled, setIsFormEnabled] = useState(false)
+    const [cancelButton, setCancelButton] = useState(false)
 
     const handleOpenModal = () => {
         setShowModal(true)
@@ -16,6 +18,18 @@ const PatientForm = ({ formComplete, setFormComplete, patientForm, fechaNacimien
 
     const handleCloseModal = () => {
         setShowModal(false)
+    }
+
+    const handleRegister = () => {
+        if (!isFormEnabled) {
+            // Habilitar el formulario y cambiar el texto y color del botón
+            setIsFormEnabled(true)
+            setCancelButton(true)
+        } else {
+            // Deshabilitar el formulario y cambiar el texto y color del botón
+            setIsFormEnabled(false)
+            setCancelButton(false)
+        }
     }
 
     const validateForm = () => {
@@ -32,17 +46,30 @@ const PatientForm = ({ formComplete, setFormComplete, patientForm, fechaNacimien
         <section id='section1'>
             <div className="pb-8 flex justify-between items-center">
                 <h2 className="font-sans font-bold break-normal text-gray-700  text-2xl">Informacion del paciente</h2>
-                <button
-                    type="button"
-                    onClick={handleOpenModal}
-                    className=" m-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 
+                <div>
+                    <button
+                        type="button"
+                        onClick={handleRegister}
+                        className={`m-2 text-white ${cancelButton ? 'bg-red-600 hover:bg-red-700' : 'bg-orange-400 hover:bg-orange-500'
+                            } focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center`}
+                    >
+                        {cancelButton ? 'Cancelar' : 'Nuevo paciente'}
+                    </button>
+                    <button
+                        type="button"
+                        onClick={handleOpenModal}
+                        className=" m-2 text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300 
                     font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center"
-                >Buscar paciente
-                </button>
+                    >Buscar paciente
+                    </button>
+                </div>
+
                 <SearchPatientModal show={showModal} onClose={handleCloseModal} />
             </div>
 
-            <div>
+            <fieldset disabled={!isFormEnabled}>
+                <legend></legend>
+
                 <div className="grid grid-cols-2 md:gap-6">
                     <div className="relative z-0 w-full mb-6 group">
                         <input
@@ -123,8 +150,8 @@ const PatientForm = ({ formComplete, setFormComplete, patientForm, fechaNacimien
                             type="text"
                             minLength={3}
                             maxLength={255}
-                            name="first_last_name"
-                            id="first_last_name"
+                            name="tipo_seguro"
+                            id="tipo_seguro"
                             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                             placeholder=" "
                             value={patientForm.tipoSeguro}
@@ -134,15 +161,15 @@ const PatientForm = ({ formComplete, setFormComplete, patientForm, fechaNacimien
                                     tipoSeguro: event.target.value
                                 })}
                             required />
-                        <label htmlFor="first_last_name"
+                        <label htmlFor="tipo_seguro"
                             className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                             Tipo seguro
                         </label>
                     </div>
                     <div className="relative z-0 w-full mb-6 group">
                         <input type="text"
-                            name="second_last_name"
-                            id="second_last_name"
+                            name="security_number"
+                            id="security_number"
                             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                             placeholder=" "
                             minLength={3}
@@ -156,7 +183,7 @@ const PatientForm = ({ formComplete, setFormComplete, patientForm, fechaNacimien
                                 })
                             }}
                             required />
-                        <label htmlFor="second_last_name"
+                        <label htmlFor="security_number"
                             className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                             Codigo seguro
                         </label>
@@ -167,8 +194,8 @@ const PatientForm = ({ formComplete, setFormComplete, patientForm, fechaNacimien
                     <div className="relative z-0 w-full mb-6 group">
                         <input
                             type="text"
-                            name="first_last_name"
-                            id="first_last_name"
+                            name="dni"
+                            id="dni"
                             minLength={3}
                             maxLength={8}
                             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -182,24 +209,25 @@ const PatientForm = ({ formComplete, setFormComplete, patientForm, fechaNacimien
                                 })
                             }}
                             required />
-                        <label htmlFor="first_last_name"
+                        <label htmlFor="dni"
                             className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                             DNI
                         </label>
                     </div>
                     <div className="relative z-0 w-full mb-6 group">
                         <input type="text"
-                            name="second_last_name"
-                            id="second_last_name"
+                            name="address"
+                            id="address"
                             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                             placeholder=" "
+                            autoComplete="off"
                             value={patientForm.direccion}
                             onChange={(event) => setPatientForm({
                                 ...patientForm,
                                 direccion: event.target.value
                             })}
                             required />
-                        <label htmlFor="second_last_name"
+                        <label htmlFor="address"
                             className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                             Direccion
                         </label>
@@ -212,6 +240,7 @@ const PatientForm = ({ formComplete, setFormComplete, patientForm, fechaNacimien
                         minLength={3}
                         maxLength={9}
                         id="phone"
+                        autoComplete="off"
                         className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
                         value={patientForm.telefono}
@@ -223,7 +252,7 @@ const PatientForm = ({ formComplete, setFormComplete, patientForm, fechaNacimien
                             })
                         }}
                         required />
-                    <label htmlFor="second_last_name"
+                    <label htmlFor="phone"
                         className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                         Telefono
                     </label>
@@ -246,7 +275,7 @@ const PatientForm = ({ formComplete, setFormComplete, patientForm, fechaNacimien
                         setValue={setSexo}
                     />
                 </div>
-            </div>
+            </fieldset>
 
 
             <hr></hr>
