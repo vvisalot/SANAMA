@@ -7,7 +7,7 @@ import { format, parse } from "date-fns"
 import { useEffect, useState } from "react"
 import ScheduleChip from "./ScheduleChip"
 
-const DoctorSchedules = () => {
+const DoctorSchedules = ({ doctorId, setDoctorId, schedule, setSchedule }) => {
     //Para los dropdowns
     const [specialties, setSpecialties] = useState([])
     const [doctors, setDoctors] = useState([])
@@ -78,6 +78,8 @@ const DoctorSchedules = () => {
     }
 
     const handleDoctorChange = (e) => {
+        const selectedDoctorId = e.target.value
+        setDoctorId({ doctorId: selectedDoctorId })
         //console.log(e.target.value)
         setAvailableHours([])
         setSelectedHour(null)
@@ -92,35 +94,17 @@ const DoctorSchedules = () => {
     const handleDateClick = (date) => () => {
         //console.log(format(date, 'yyyy-MM-dd'))
         setSelectedDate(date)
-        const doctorId = document.getElementById("dropdown-doctor").value
+        setSchedule({ ...schedule, fecha: format(date, 'yyyy-MM-dd') })
+        const selectedDoctor = document.getElementById("dropdown-doctor").value
         //console.log(doctorId)
-        fetchAvailableHours(format(date, 'yyyy-MM-dd'), doctorId)
+        fetchAvailableHours(format(date, 'yyyy-MM-dd'), selectedDoctor)
 
-        // Con la fecha y la especialidad obtener los horarios
-        // [   
-        //     {         
-        //         "idDoctor": 1,
-        //         "nombre": "Jose Pipa",
-        //         "horarios":[
-        //             "10:00",
-        //             "11:00"
-        //         ]
-        //     },
-        //     {
-        //         "idDoctor": 2,
-        //         "nombre": "Pablo Popa",
-        //         "horarios":[
-        //             "11:00",
-        //             "12:00",
-        //             "13:00"
-        //         ],
-        //     }
-        // ]
     }
 
     const handleHourSelect = (hour) => {
-        console.log(hour)
+        // console.log(hour)
         setSelectedHour(hour)
+        setSchedule({ ...schedule, hora: hour })
     }
 
     return (

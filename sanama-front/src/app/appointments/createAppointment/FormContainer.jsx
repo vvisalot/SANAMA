@@ -4,20 +4,47 @@ import DoctorSchedules from "./DoctorSchedules"
 import LegalResponsibility from "./LegalResponsibility"
 import PatientForm from "./PatientForm"
 import TriageForm from "./TriageForm"
+import usePatientForm from "@/hooks/usePatientForm"
+import { useEffect } from 'react'
 
 // Para acceder a los elementos
 // elements.namedItem("first_last_name").value
 
 const FormContainer = () => {
-    const { patientForm } = useAppointmentForm()
+    const {
+        patientForm,
+        setPatientForm,
+        fechaNacimiento,
+        setFechaNacimiento,
+        sexo,
+        setSexo,
+    } = usePatientForm()
+
+
+    const {
+        patientId,
+        setPatientId,
+        doctorId,
+        setDoctorId,
+        legalResponsibility,
+        setLegalResponsibility,
+        schedule,
+        setSchedule,
+        triageRequirement,
+        setTriageRequirement,
+    } = useAppointmentForm()
+
     const handleSubmit = async (event) => {
 
         //Evitar que el boton me rompa la pagina
         event.preventDefault()
         //Recuperar datos del formulario
-        console.log(patientForm)
-
+        // console.log(patientForm)
+        // console.log(legalResponsibility)
+        // console.log(triageForm)
         //llamar al servicio
+
+        //const response = await patientService.registrarPaciente(patientForm)
         // const response = await citasService.citar({
         //     paciente: { idPersona: pacienteData.idPersona },
         //     medico: { idPersona: doctorResponsable.idPersona },
@@ -32,19 +59,46 @@ const FormContainer = () => {
         // })
     }
 
+    useEffect(() => {
+        // console.log(patientForm) 
+        // console.log(fechaNacimiento)
+        // console.log(sexo)
+        // console.log(legalResponsibility)
+        // console.log(triageRequirement)
+        console.log(schedule)
+        console.log(doctorId)
+    }, [patientForm, fechaNacimiento, sexo, legalResponsibility, triageRequirement, doctorId, schedule])
 
     return (
         <form onSubmit={handleSubmit} className="p-10 w-4/5" >
-
-            <PatientForm />
+            <PatientForm
+                patientForm={patientForm}
+                setPatientForm={setPatientForm}
+                fechaNacimiento={fechaNacimiento}
+                setFechaNacimiento={setFechaNacimiento}
+                sexo={sexo}
+                setSexo={setSexo} />
             <hr className="bg-gray-600 mt-20" />
-            <LegalResponsibility />
+
+            <LegalResponsibility
+                legalResponsibility={legalResponsibility}
+                setLegalResponsibility={setLegalResponsibility}
+            />
 
             <hr className="bg-gray-600 mt-10" />
-            <DoctorSchedules />
+            <DoctorSchedules
+                doctorId={doctorId}
+                setDoctorId={setDoctorId}
+                schedule={schedule}
+                setSchedule={setSchedule}
+            />
 
             <hr className="bg-gray-600 mt-20" />
-            <TriageForm></TriageForm>
+            <TriageForm
+                triageForm={triageRequirement}
+                setTriageForm={setTriageRequirement}
+
+            ></TriageForm>
 
 
             <div className="flex flex-row-reverse">
@@ -55,7 +109,7 @@ const FormContainer = () => {
                 </button>
             </div>
 
-        </form>
+        </form >
     )
 }
 

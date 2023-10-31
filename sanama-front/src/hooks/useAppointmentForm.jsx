@@ -2,56 +2,46 @@
 import { useState } from "react"
 
 const useAppointmentForm = () => {
-    const [patientForm, setPatientForm] = useState({
-        id: '',
+    const [patientId, setPatientId] = useState({
+        idPaciente: ''
+    })
+
+    const [doctorId, setDoctorId] = useState({
+        idDoctor: ''
+    })
+
+    const [legalResponsibility, setLegalResponsibility] = useState({
+        tieneAcompañante: '',
         nombres: '',
         apellidoPaterno: '',
         apellidoMaterno: '',
-        tipoSeguro: '',
-        codigoSeguro: '',
         dni: '',
-        direccion: ''
+        parentesco: '',
     })
 
-    const today = new Date()
-    const [fechaNacimiento, setFechaNacimiento] = useState(`${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`)
-    const [sexo, setSexo] = useState('')
-    const [doctorForm, setDoctorForm] = useState({
-        id: '',
-        nombres: '',
-        apellidoPaterno: '',
-        apellidoMaterno: '',
+    const [schedule, setSchedule] = useState({
+        fecha: '',
+        hora: '',
+
     })
 
-    const [companionForm, setCompanionForm] = useState({
-        tiene: false,
-        nombre: '',
-        dni: '',
-        parentesco: ''
+    const [triageRequirement, setTriageRequirement] = useState({
+        requiereTriaje: ''
     })
 
-    const [triageRequirement, setTriageRequirement] = useState(false)
 
-    const [appointmentDateTime, setAppointmentDateTime] = useState({
-        fecha: null,
-        hora: null
-    })
 
     return {
-        patientForm,
-        setPatientForm,
-        doctorForm,
-        setDoctorForm,
-        companionForm,
-        setCompanionForm,
+        patientId,
+        setPatientId,
+        doctorId,
+        setDoctorId,
+        legalResponsibility,
+        setLegalResponsibility,
+        schedule,
+        setSchedule,
         triageRequirement,
         setTriageRequirement,
-        appointmentDateTime,
-        setAppointmentDateTime,
-        fechaNacimiento,
-        setFechaNacimiento,
-        sexo,
-        setSexo
     }
 }
 
