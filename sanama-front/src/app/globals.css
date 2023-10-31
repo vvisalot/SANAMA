@@ -16,6 +16,11 @@
   }
 } */
 
+option {
+  font-size: 20px; /* O el tamaño que desees */
+  padding: 12px 18px; /* Agrega un padding para darle más espacio */
+}
+
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
@@ -25,4 +30,3 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
-
