@@ -59,8 +59,11 @@ const ReviewAppointment = ({ params }) => {
 
   return (
     <div className="container mx-auto p-4">
-      <PatientInfo pacienteData={appointmentData} />
-      <AppointmentInfo appointmentData={appointmentData} />
+      <PatientInfo pacienteData={appointmentData.paciente} />
+      <AppointmentInfo
+        appointmentData={appointmentData}
+        doctor={appointmentData.medico}
+      />
 
       <button
         className="bg-blue-500 text-white p-2 w-full rounded-md"
