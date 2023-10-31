@@ -5,7 +5,33 @@ import { triajeService } from "@/services/triajeService"
 
 const TriajeProfile = ({ params }) => {
 
-    const [dataTriaje, setDataTriaje] = useState([]);
+    const [dataTriaje, setDataTriaje] = useState({
+        idTriaje: null,
+        codigoTriaje: "",
+        peso: null,
+        talla: null,
+        temperatura: null,
+        motivoVisita: "",
+        presionArterial: null,
+        estado: null,
+        prioridad: "",
+        fechaTriaje: "",
+        horaTriaje: "",
+        saturacionOxigeno: "",
+        frecuenciaCardiaca: "",
+        nivelConciencia: "",
+        nivelDolor: "",
+        condicionesPrexistentes: "",
+        paciente: {
+            idPersona: null,
+            nombres: "",
+            apellidoPaterno: "",
+            apellidoMaterno: "",
+            dni: "",
+            fechaNacimiento: "",
+            sexo: ""
+        }
+    });
     const [showModal, setShowModal] = useState(false);
 
     const handleSave = async () => {
@@ -146,6 +172,15 @@ const TriajeProfile = ({ params }) => {
                     [name]: value
                 }));
             }
+            if (event.target.name === "motivoVisita") {
+                const count = event.target.value.length;
+                document.getElementById('charCount').textContent = `${count}/255`;
+            }
+   
+            if (event.target.name === "condicionesPrexistentes") {
+                const count = event.target.value.length;
+                document.getElementById('charCountPreexistentes').textContent = `${count}/255`;
+            }
         };
 
     return (
@@ -202,33 +237,49 @@ const TriajeProfile = ({ params }) => {
                             </div>
 
                             <div className="flex-1">
-                                <label className="text-black block mb-2">Talla (cm)</label>
-                                <input 
-                                    className="border rounded p-4 w-full" 
-                                    type="text" 
-                                    name="talla" 
-                                    value={dataTriaje?.talla} 
-                                    onChange={handleChange} 
-                                />
-                            </div>
+                            <label className="text-black block mb-2">Talla (cm)</label>
+                            <input 
+                                className="border rounded p-4 w-full" 
+                                type="number"
+                                pattern="\d*" 
+                                name="talla" 
+                                value={dataTriaje?.talla} 
+                                onChange={handleChange}
+                                onInput={(e) => { 
+                                    e.target.value = e.target.value.replace(/[^\d]/g, ''); 
+                                }}
+                            />
+                        </div>
 
-                            <div className="flex-1">
-                                <label className="text-black block mb-2">Peso (kg)</label>
-                                <input 
-                                    className="border rounded p-4 w-full" 
-                                    type="text" 
-                                    name="peso" 
-                                    value={dataTriaje?.peso} 
-                                    onChange={handleChange} 
-                                />
-                            </div>
+                        <div className="flex-1">
+                            <label className="text-black block mb-2">Peso (kg)</label>
+                            <input 
+                                className="border rounded p-4 w-full" 
+                                type="number"
+                                pattern="\d*" 
+                                name="peso" 
+                                value={dataTriaje?.peso} 
+                                onChange={handleChange}
+                                onInput={(e) => { 
+                                    e.target.value = e.target.value.replace(/[^\d]/g, ''); 
+                                }}
+                            />
+                        </div>
+
                         </div>
 
                     </div>
 
                     <div className="col-span-3">
                         <h4 className="text-xl font-bold mb-4 mt-4">Motivo de consulta</h4>
-                        <textarea value={dataTriaje?.motivoVisita} onChange={handleChange} name="motivoVisita" className="border rounded w-full py-2 px-3"></textarea>
+                        <textarea 
+                            value={dataTriaje?.motivoVisita} 
+                            onChange={handleChange} 
+                            name="motivoVisita" 
+                            className="border rounded w-full py-2 px-3"
+                            maxLength={255}
+                        ></textarea>
+                        <span className="text-right block mt-2" id="charCount">0/255</span>
                     </div>
 
                     <div className="grid grid-cols-3 gap-6 mb-6">
@@ -238,25 +289,76 @@ const TriajeProfile = ({ params }) => {
                         </div>
 
                         <div>
-                            <label className="text-black block mb-2">Temperatura (°C)</label>
-                            <input className="border rounded p-4 w-full" type="text" value={dataTriaje?.temperatura} onChange={handleChange} />
-                        </div>
-                        <div>
-                            <label className="text-black block mb-2">Frecuencia Cardíaca (lpm)</label>
-                            <input className="border rounded p-4 w-full" type="text" value={dataTriaje?.frecuenciaCardiaca} onChange={handleChange} />
-                        </div>
-                        <div>
-                            <label className="text-black block mb-2">Saturación de Oxígeno (%)</label>
-                            <input className="border rounded p-4 w-full" type="text" value={dataTriaje?.saturacionOxigeno} onChange={handleChange} />
-                        </div>
-                        <div>
-                            <label className="text-black block mb-2">Presión arterial (mm Hg)</label>
-                            <input  className="border rounded p-4 w-full" type="text" value={dataTriaje?.presionArterial} onChange={handleChange} />
-                        </div>
-                        <div>
-                            <label className="text-black block mb-2">Frecuencia Respiratoria (rpm)</label>
-                            <input className="border rounded p-4 w-full" type="text" value={dataTriaje?.frecuenciaRespiratoria} onChange={handleChange} />
-                        </div>
+                        <label className="text-black block mb-2">Temperatura (°C)</label>
+                        <input 
+                            name="temperatura" 
+                            className="border rounded p-4 w-full" 
+                            type="number"
+                            pattern="\d*"
+                            value={dataTriaje?.temperatura} 
+                            onChange={handleChange}
+                            onInput={(e) => { 
+                                e.target.value = e.target.value.replace(/[^\d]/g, ''); 
+                            }}
+                        />
+                    </div>
+                    <div>
+                        <label className="text-black block mb-2">Frecuencia Cardíaca (lpm)</label>
+                        <input 
+                            name="frecuenciaCardiaca" 
+                            className="border rounded p-4 w-full" 
+                            type="number"
+                            pattern="\d*"
+                            value={dataTriaje?.frecuenciaCardiaca} 
+                            onChange={handleChange}
+                            onInput={(e) => { 
+                                e.target.value = e.target.value.replace(/[^\d]/g, ''); 
+                            }}
+                        />
+                    </div>
+                    <div>
+                        <label className="text-black block mb-2">Saturación de Oxígeno (%)</label>
+                        <input 
+                            name="saturacionOxigeno"  
+                            className="border rounded p-4 w-full" 
+                            type="number"
+                            pattern="\d*"
+                            value={dataTriaje?.saturacionOxigeno} 
+                            onChange={handleChange}
+                            onInput={(e) => { 
+                                e.target.value = e.target.value.replace(/[^\d]/g, ''); 
+                            }}
+                        />
+                    </div>
+                    <div>
+                        <label className="text-black block mb-2">Presión arterial (mm Hg)</label>
+                        <input 
+                            name="presionArterial" 
+                            className="border rounded p-4 w-full" 
+                            type="number"
+                            pattern="\d*"
+                            value={dataTriaje?.presionArterial} 
+                            onChange={handleChange}
+                            onInput={(e) => { 
+                                e.target.value = e.target.value.replace(/[^\d]/g, ''); 
+                            }}
+                        />
+                    </div>
+                    <div>
+                        <label className="text-black block mb-2">Frecuencia Respiratoria (rpm)</label>
+                        <input 
+                            name="frecuenciaRespiratoria"  
+                            className="border rounded p-4 w-full" 
+                            type="number"
+                            pattern="\d*"
+                            value={dataTriaje?.frecuenciaRespiratoria} 
+                            onChange={handleChange}
+                            onInput={(e) => { 
+                                e.target.value = e.target.value.replace(/[^\d]/g, ''); 
+                            }}
+                        />
+                    </div>
+
                     </div>
      
 
@@ -288,8 +390,16 @@ const TriajeProfile = ({ params }) => {
 
                     <div className="col-span-3">
                         <h4 className="text-xl font-bold mb-4 mt-4">Condiciones preexistentes</h4>
-                        <textarea value={dataTriaje?.condicionesPrexistentes} onChange={handleChange} name="condicionesPrexistentes" className="border rounded w-full py-2 px-3"></textarea>
+                        <textarea 
+                            value={dataTriaje?.condicionesPrexistentes} 
+                            onChange={handleChange} 
+                            name="condicionesPrexistentes" 
+                            className="border rounded w-full py-2 px-3"
+                            maxLength={255}
+                        ></textarea>
+                        <span className="text-right block mt-2" id="charCountPreexistentes">0/255</span>
                     </div>
+
 
                     <div className="flex-grow">
                         <h4 className="text-xl font-bold mb-4 mt-4">Prioridad</h4>
