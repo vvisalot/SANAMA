@@ -58,19 +58,22 @@ const FormContainer = () => {
     }
 
     useEffect(() => {
-        // console.log(patientForm)
-        // console.log(fechaNacimiento)
-        // console.log(sexo)
+        console.log(patientForm)
+        console.log(fechaNacimiento)
+        console.log(sexo)
         console.log(legalResponsibilityForm)
         console.log(triageRequirement)
+        console.log(schedule)
 
-    }, [patientForm, fechaNacimiento, sexo, legalResponsibilityForm, triageRequirement])
+    }, [patientForm, fechaNacimiento, sexo, legalResponsibilityForm, triageRequirement, schedule])
 
     return (
         <form onSubmit={handleSubmit} className="p-10 w-full" >
             <PatientForm
                 formComplete={formComplete}
                 setFormComplete={setFormComplete}
+                patientId={patientId}
+                setPatientId={setPatientId}
                 patientForm={patientForm}
                 setPatientForm={setPatientForm}
                 fechaNacimiento={fechaNacimiento}
@@ -80,18 +83,18 @@ const FormContainer = () => {
 
             <hr className="bg-gray-600 mt-20" />
 
-            {/* {formComplete && */}
-            <AppointementForm
-                legalResponsibilityForm={legalResponsibilityForm}
-                setLegalResponsibilityForm={setLegalResponsibilityForm}
-                doctorId={doctorId}
-                setDoctorId={setDoctorId}
-                schedule={schedule}
-                setSchedule={setSchedule}
-                triageRequirement={triageRequirement}
-                setTriageRequirement={setTriageRequirement}
-            />
-            {/* } */}
+            {formComplete &&
+                <AppointementForm
+                    legalResponsibilityForm={legalResponsibilityForm}
+                    setLegalResponsibilityForm={setLegalResponsibilityForm}
+                    doctorId={doctorId}
+                    setDoctorId={setDoctorId}
+                    schedule={schedule}
+                    setSchedule={setSchedule}
+                    triageRequirement={triageRequirement}
+                    setTriageRequirement={setTriageRequirement}
+                />
+            }
         </form >
     )
 }

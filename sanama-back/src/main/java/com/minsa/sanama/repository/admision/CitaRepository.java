@@ -79,12 +79,14 @@ public class CitaRepository {
             citaMedica.setParentezco(rs.getString("parentezco"));
 
             Paciente paciente = new Paciente();
+            paciente.setIdPersona(rs.getInt("id_paciente"));
             paciente.setNombres(rs.getString("nombres_paciente"));
             paciente.setApellidoPaterno(rs.getString("apellido_paterno_paciente"));
             paciente.setApellidoMaterno(rs.getString("apellido_materno_paciente"));
             paciente.setDni(rs.getString("dni_paciente"));
 
             Medico medico = new Medico();
+            medico.setIdPersona(rs.getInt("id_medico"));
             medico.setNombres(rs.getString("nombres_medico"));
             medico.setApellidoPaterno(rs.getString("apellido_paterno_medico"));
             medico.setApellidoMaterno(rs.getString("apellido_materno_medico"));

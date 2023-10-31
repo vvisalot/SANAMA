@@ -38,7 +38,7 @@ const TriajeProfile = ({ params }) => {
 
         const triajeData = {
             pn_id_triaje: dataTriaje.idTriaje,
-            pn_peso: dataTriaje.peso,  
+            pn_peso: dataTriaje.peso,
             pn_talla: dataTriaje.talla,
             pn_temperatura: dataTriaje.temperatura,
             pv_motivo_visita: dataTriaje.motivoVisita,
@@ -51,51 +51,51 @@ const TriajeProfile = ({ params }) => {
             pv_nivelConciencia: dataTriaje.nivelConciencia,
             pv_nivelDolor: dataTriaje.nivelDolor,
             pv_condicionesPrexistentes: dataTriaje.condicionesPrexistentes
-        };
+        }
 
-        console.log("Verificación directa:", dataTriaje.pv_condicionesPrexistentes);
+        console.log("Verificación directa:", dataTriaje.pv_condicionesPrexistentes)
 
 
-        const incompleteFields = [];
+        const incompleteFields = []
         for (let key in triajeData) {
-            const value = triajeData[key];
+            const value = triajeData[key]
             if (value === null || value === undefined || (typeof value === 'string' && !value.trim())) {
-                incompleteFields.push(key);
+                incompleteFields.push(key)
             }
         }
 
         if (incompleteFields.length > 0) {
-            const fieldsString = incompleteFields.join(', ');
-            alert(`Por favor, completa los siguientes campos antes de guardar: ${fieldsString}`);
-            return;
+            const fieldsString = incompleteFields.join(', ')
+            alert(`Por favor, completa los siguientes campos antes de guardar: ${fieldsString}`)
+            return
         }
-        
+
         try {
-            const result = await triajeService.actualizarTriaje(triajeData);
-    
+            const result = await triajeService.actualizarTriaje(triajeData)
+
             if (result === 1) {
-                setShowModal(true);
+                setShowModal(true)
             } else {
-                alert("Ocurrió un problema al guardar la información. Por favor, inténtalo de nuevo.");
+                alert("Ocurrió un problema al guardar la información. Por favor, inténtalo de nuevo.")
             }
-    
+
         } catch (error) {
-            console.error("Error al guardar el triaje", error);
-            alert("Hubo un error al guardar. Por favor, inténtalo de nuevo.");
+            console.error("Error al guardar el triaje", error)
+            alert("Hubo un error al guardar. Por favor, inténtalo de nuevo.")
         }
     }
-    
+
 
     const handleAcceptModal = () => {
-        setShowModal(false);
+        setShowModal(false)
         if (typeof window !== "undefined") {
-            window.history.back();
+            window.history.back()
         }
     }
-        
+
     const handleCancel = () => {
         if (typeof window !== "undefined") {
-            window.history.back();
+            window.history.back()
         }
     }
 
@@ -103,9 +103,9 @@ const TriajeProfile = ({ params }) => {
         setDataTriaje(prevState => ({
             ...prevState,
             nivelDolor: value
-        }));
+        }))
     }
-   
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -120,37 +120,37 @@ const TriajeProfile = ({ params }) => {
         fetchData()
     }, [])
 
-        function calcularEdad(fechaNacimiento) {
-            const hoy = new Date();
-            const cumpleanos = new Date(fechaNacimiento);
-            let edad = hoy.getFullYear() - cumpleanos.getFullYear();
-            const mes = hoy.getMonth() - cumpleanos.getMonth();
-        
-            if (mes < 0 || (mes === 0 && hoy.getDate() < cumpleanos.getDate())) {
-                edad--;
-            }
-        
-            return edad;
+    function calcularEdad(fechaNacimiento) {
+        const hoy = new Date()
+        const cumpleanos = new Date(fechaNacimiento)
+        let edad = hoy.getFullYear() - cumpleanos.getFullYear()
+        const mes = hoy.getMonth() - cumpleanos.getMonth()
+
+        if (mes < 0 || (mes === 0 && hoy.getDate() < cumpleanos.getDate())) {
+            edad--
         }
 
-        function getColor(num) {
-            if (num.toString() === dataTriaje?.nivelDolor) {
-                return 'bg-black text-white';
-            }            
-            switch(num) {
-                case 1: return 'bg-red-0';
-                case 2: return 'bg-red-100';
-                case 3: return 'bg-red-200';
-                case 4: return 'bg-red-300';
-                case 5: return 'bg-red-400';
-                case 6: return 'bg-red-500';
-                case 7: return 'bg-red-600';
-                case 8: return 'bg-red-700';
-                case 9: return 'bg-red-800';
-                case 10: return 'bg-red-900';  
-                default: return 'bg-red-500';
-            }
+        return edad
+    }
+
+    function getColor(num) {
+        if (num.toString() === dataTriaje?.nivelDolor) {
+            return 'bg-black text-white'
         }
+        switch (num) {
+            case 1: return 'bg-red-0'
+            case 2: return 'bg-red-100'
+            case 3: return 'bg-red-200'
+            case 4: return 'bg-red-300'
+            case 5: return 'bg-red-400'
+            case 6: return 'bg-red-500'
+            case 7: return 'bg-red-600'
+            case 8: return 'bg-red-700'
+            case 9: return 'bg-red-800'
+            case 10: return 'bg-red-900'
+            default: return 'bg-red-500'
+        }
+    }
 
         const edad = dataTriaje?.paciente ? calcularEdad(dataTriaje.paciente.fechaNacimiento) : "";
    
@@ -189,15 +189,15 @@ const TriajeProfile = ({ params }) => {
 
                 <div>
                     <h2 className="text-2xl font-bold mb-4">Información básica</h2>
-                    
+
                     <div className="grid grid-cols-3 gap-x-20 gap-y-8">
                         <div>
                             <label className="text-black block mb-2">Nombres</label>
-                            <input 
-                                className="border rounded p-4 w-full bg-gray-200 cursor-not-allowed" 
-                                type="text" 
-                                value={dataTriaje?.paciente?.nombres} 
-                                onChange={handleChange} 
+                            <input
+                                className="border rounded p-4 w-full bg-gray-200 cursor-not-allowed"
+                                type="text"
+                                value={dataTriaje?.paciente?.nombres}
+                                onChange={handleChange}
                                 disabled
                             />
                         </div>
@@ -217,8 +217,8 @@ const TriajeProfile = ({ params }) => {
                         </div>
 
                         <div>
-                            <label className="text-black block mb-2">Sexo</label>
-                            <select disabled className="border rounded p-4 w-full bg-gray-200 cursor-not-allowed" value={dataTriaje?.sexo} onChange={handleChange}>
+                            <label htmlFor="sexo" className="text-black block mb-2">Sexo</label>
+                            <select id="sexo" disabled className="border rounded p-4 w-full bg-gray-200 cursor-not-allowed" value={dataTriaje?.sexo} onChange={handleChange}>
                                 <option value="Masculino">Masculino</option>
                                 <option value="Femenino">Femenino</option>
                             </select>
@@ -227,12 +227,12 @@ const TriajeProfile = ({ params }) => {
                         <div className="flex space-x-4">
                             <div className="flex-1">
                                 <label className="text-black block mb-2">Edad</label>
-                                <input 
-                                    disabled 
-                                    className="border rounded p-4 w-full bg-gray-200 cursor-not-allowed" 
-                                    type="text" 
-                                    value={edad} 
-                                    onChange={handleChange} 
+                                <input
+                                    disabled
+                                    className="border rounded p-4 w-full bg-gray-200 cursor-not-allowed"
+                                    type="text"
+                                    value={edad}
+                                    onChange={handleChange}
                                 />
                             </div>
 
@@ -360,7 +360,7 @@ const TriajeProfile = ({ params }) => {
                     </div>
 
                     </div>
-     
+
 
                     <div className="flex justify-between items-center">
                         <div className="flex-grow mr-4">
@@ -376,8 +376,8 @@ const TriajeProfile = ({ params }) => {
                         <div className="col-span-2">
                             <label className="text-black block mb-4">Evaluación del dolor</label>
                             {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
-                                <button 
-                                    key={num} 
+                                <button
+                                    key={num}
                                     className={`mx-2 py-2 px-4 border rounded focus:outline-none transition-colors ${getColor(num)} ${String(num) === dataTriaje?.nivelDolor ? 'bg-black text-white' : ''}`}
                                     onClick={() => handleDolor(String(num))}
                                 >
