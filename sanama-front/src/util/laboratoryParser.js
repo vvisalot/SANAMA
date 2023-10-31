@@ -1,29 +1,35 @@
 export function parseLaboratoryTable(data) {
     return data.map(row => {
-        const paciente = row.paciente;
+        const paciente = row.citaMedica.paciente;
 
-        let estadoOrdenTexto;
-        switch (row.ordenLaboratorio.estado) {
+        let estadoTexto;
+        switch (row.estado) {
             case 1:
-                estadoOrdenTexto = "Atendida";
+                estadoTexto = "Atendida";
                 break;
             case 2:
-                estadoOrdenTexto = "En Consultorio";
+                estadoTexto = "En Consultorio";
                 break;
             case 3:
-                estadoOrdenTexto = "Cancelada";
+                estadoTexto = "Cancelada";
                 break;
             case 4:
-                estadoOrdenTexto = "Pendiente";
+                estadoTexto = "Pendiente";
                 break;
             default:
-                estadoOrdenTexto = "Desconocido"; 
+                estadoTexto = "Desconocido";
         }
 
+        const resultados = row.resultados ? row.resultados : "No disponible";
+
         return [
-            { "data": `${paciente.nombres} ${paciente.apellidoPaterno} ${paciente.apellidoMaterno}` },  // Nombre completo del paciente
-            { "data": row.ordenLaboratorio.fechaOrden },  // Fecha de Actualización (Usé la fecha de Orden de Laboratorio para este campo, asumiendo que es la fecha de actualización)
-            { "data": estadoOrdenTexto },  // Estado de la Orden
+            { "data": row.idOrdenLaboratorio }, // ID
+            { "data": row.fechaOrden }, // FECHA
+            { "data": `${paciente.nombres} ${paciente.apellidoPaterno} ${paciente.apellidoMaterno}` }, // NOMBRE COMPLETO
+            { "data": paciente.dni }, // DNI
+            { "data": row.tipoOrden }, // EXAMEN
+            { "data": estadoTexto },  // ESTADO 
+            { "data": resultados }, // RESULTADOS
         ];
     });
 }
