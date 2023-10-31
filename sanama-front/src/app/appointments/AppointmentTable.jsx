@@ -72,8 +72,6 @@ const AppointmentsTable = () => {
     if (sortConfig.key !== "") {
       let keyA = a[sortConfig.key];
       let keyB = b[sortConfig.key];
-
-      // String sort
       if (
         typeof keyA === "string" &&
         sortConfig.key !== "date" &&
@@ -83,7 +81,6 @@ const AppointmentsTable = () => {
         keyB = keyB.toLowerCase();
       }
 
-      // Date and Time sort
       if (sortConfig.key === "date") {
         keyA = new Date(`${a.date} ${a.time}`);
         keyB = new Date(`${b.date} ${b.time}`);
