@@ -9,9 +9,19 @@ const LaboratoryPage = () => {
     const [laboratoryTable, setLaboratoryTable] = useState([])
     const [filtro, setFiltro] = useState("")
 
+    const handleButtonClick = async () => {
+        try {
+            const data = await laboratoryService.listarOrdenLaboratorioPorFiltro(filtro);
+            const tableData = parseLaboratoryTable(data);
+            setLaboratoryTable(tableData);
+        } catch (error) {
+            console.log("No se pudo obtener los datos de los laboratorios");
+        }
+    }
+    
     const fetchData = async (filtro) => {
         try {
-            const data = await laboratoryService.buscarPorFiltro(filtro)
+            const data = await laboratoryService.listarOrdenLaboratorioPorFiltro(filtro)
             const tableData = parseLaboratoryTable(data)
             console.log(tableData)
             setLaboratoryTable(tableData)
@@ -23,6 +33,13 @@ const LaboratoryPage = () => {
     useEffect(() => {
         fetchData("")
     }, [])
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        const elements = e.target.elements
+        const filtro = elements.namedItem("patients-search").value
+        fetchData(filtro)
+    }
 
     return (
         <section className="p-10">
