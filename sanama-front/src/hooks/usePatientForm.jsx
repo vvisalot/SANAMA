@@ -9,6 +9,7 @@ const usePatientForm = () => {
         codigoSeguro: '',
         dni: '',
         direccion: '',
+        telefono: ''
     })
 
     const [fechaNacimiento, setFechaNacimiento] = useState('')

@@ -9,7 +9,7 @@ const axiosInstance = axios.create({
 })
 
 export const patientService = {
-    insertar: async (patientForm) => {
+    registrarPaciente: async (patientForm) => {
         try {
             const response = await axiosInstance.put(
                 "/admision/put/paciente",
