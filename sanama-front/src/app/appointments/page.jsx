@@ -8,7 +8,6 @@ import { appointmentService } from "@/services/appointmentService";
 import { parseAppointmentTable } from "@/util/appointmentParser";
 
 const AppointmentPage = () => {
-  // const [filtro, setFiltro] = useState("")
   const [appointmentTable, setAppointmentTable] = useState([]);
 
   const fetchData = async () => {
