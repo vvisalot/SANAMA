@@ -19,7 +19,7 @@ const ReviewAppointment = ({ params }) => {
         if (data && data.length > 0) {
           setAppointmentData(data[0]);
         } else {
-          setError("No se encontraron datos de la cita");
+          setError(`No se encontraron datos de la cita  ${params.idCita}`);
         }
       } catch (error) {
         console.error(error);
@@ -43,12 +43,6 @@ const ReviewAppointment = ({ params }) => {
     return null;
   }
 
-  const {
-    selectedPatientData: pacienteData,
-    selectedDoctor: doctorResponsable,
-    estado,
-  } = appointmentData;
-
   const handleActionClick = async (status) => {
     try {
       setLoading(true);
@@ -64,11 +58,8 @@ const ReviewAppointment = ({ params }) => {
 
   return (
     <div className="container mx-auto p-4">
-      <PatientInfo pacienteData={pacienteData} />
-      <AppointmentInfo
-        appointmentData={appointmentData}
-        doctor={doctorResponsable}
-      />
+      <PatientInfo pacienteData={appointmentData} />
+      <AppointmentInfo appointmentData={appointmentData} />
 
       <button
         className="bg-blue-500 text-white p-2 w-full rounded-md"
