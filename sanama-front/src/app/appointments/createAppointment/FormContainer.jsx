@@ -23,8 +23,8 @@ const FormContainer = () => {
         setPatientId,
         doctorId,
         setDoctorId,
-        legalResponsibility,
-        setLegalResponsibility,
+        legalResponsibilityForm,
+        setLegalResponsibilityForm,
         schedule,
         setSchedule,
         triageRequirement,
@@ -39,8 +39,7 @@ const FormContainer = () => {
         event.preventDefault()
         //Recuperar datos del formulario
         // console.log(patientForm)
-        // console.log(legalResponsibility)
-        // console.log(triageForm)
+
         //llamar al servicio
 
         //const response = await patientService.registrarPaciente(patientForm)
@@ -59,11 +58,13 @@ const FormContainer = () => {
     }
 
     useEffect(() => {
-        console.log(patientForm)
-        console.log(fechaNacimiento)
-        console.log(sexo)
+        // console.log(patientForm)
+        // console.log(fechaNacimiento)
+        // console.log(sexo)
+        console.log(legalResponsibilityForm)
+        console.log(triageRequirement)
 
-    }, [patientForm, fechaNacimiento, sexo])
+    }, [patientForm, fechaNacimiento, sexo, legalResponsibilityForm, triageRequirement])
 
     return (
         <form onSubmit={handleSubmit} className="p-10 w-full" >
@@ -79,16 +80,18 @@ const FormContainer = () => {
 
             <hr className="bg-gray-600 mt-20" />
 
-            {formComplete && <AppointementForm
-                legalResponsibility={legalResponsibility}
-                setLegalResponsibility={setLegalResponsibility}
+            {/* {formComplete && */}
+            <AppointementForm
+                legalResponsibilityForm={legalResponsibilityForm}
+                setLegalResponsibilityForm={setLegalResponsibilityForm}
                 doctorId={doctorId}
                 setDoctorId={setDoctorId}
                 schedule={schedule}
                 setSchedule={setSchedule}
                 triageRequirement={triageRequirement}
                 setTriageRequirement={setTriageRequirement}
-            />}
+            />
+            {/* } */}
         </form >
     )
 }
