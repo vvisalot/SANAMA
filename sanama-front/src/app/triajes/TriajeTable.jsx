@@ -4,9 +4,9 @@ import Table from "@/components/table/Table"
 //Nombre de las columnas a secas
 const columns = [
     { name: "ID" },
-    { name: "Fecha" },
-    { name: "Nombre completo" },
+    { name: "Fecha Actualización" },
     { name: "DNI" },
+    { name: "Nombre completo" },
     { name: "Estado" },
     { name: "Urgencia" },
     { name: "Opciones" },
@@ -14,7 +14,7 @@ const columns = [
 
 const TriajeTable = ({ data }) => {
     return (
-        <Table columns={columns} data={data} url="/triajes/profile" optionsText="Ver triaje" />
+        <Table columns={columns} data={data} url="/triajes/profile" iconName="fa fa-file"/>
     )
 }
 

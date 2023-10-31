@@ -1,6 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
 :root {
   --foreground-rgb: 0, 0, 0;
@@ -16,6 +16,11 @@
   }
 } */
 
+option {
+  font-size: 18px; /* O el tamaño que desees */
+  padding: 10px 16px; /* Agrega un padding para darle más espacio */
+}
+
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
@@ -26,3 +31,37 @@ body {
     rgb(var(--background-start-rgb));
 }
 
+.bg-atendida {
+  background-color: #D1FFD6; /* Color de fondo para "Atendida" */
+}
+
+.bg-pendiente {
+  background-color: #FFF5D1; /* Color de fondo para "Pendiente" */
+}
+
+
+.bg-emergencia {
+  background-color: orange;
+}
+
+.bg-urgencia {
+  background-color: yellow;
+}
+
+.bg-sin-urgencia {
+  background-color: blue;
+}
+
+.bg-resucitacion {
+  background-color: red;
+}
+
+.bg-urgencia-menor {
+  background-color: green;
+}
+
+#charCount {
+  display: block;
+  text-align: right;
+  color: #777;
+}

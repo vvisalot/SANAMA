@@ -3,7 +3,7 @@ import TableBody from "./TableBody";
 import TableHeader from "./TableHeader";
 
 const Table = memo(
-  ({ columns, data, url, optionsText, requestSort, sortConfig }) => (
+  ({ columns, data, url, optionsText, iconName, requestSort, sortConfig }) => (
     <table className="w-full">
       <TableHeader
         columns={columns}
@@ -15,6 +15,7 @@ const Table = memo(
         nColumns={columns.length}
         url={url}
         optionsText={optionsText}
+        iconName={iconName}
       />
     </table>
   )

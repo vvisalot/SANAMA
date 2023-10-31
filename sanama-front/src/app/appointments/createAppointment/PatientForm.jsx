@@ -5,9 +5,33 @@ import { useState } from 'react'
 import { validateNumberInput, validateSecurityCode, validateTextInput } from "@/util/formValidations"
 import AppointementForm from "./AppointementForm"
 import useAppointmentForm from "@/hooks/useAppointmentForm"
-const PatientForm = ({ patientForm, fechaNacimiento, setFechaNacimiento, sexo, setSexo, setPatientForm }) => {
-    const [isFormComplete, setFormComplete] = useState(false)
+import SearchPatientModal from "./SearchPatientModal"
+const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, patientForm, fechaNacimiento, setFechaNacimiento, sexo, setSexo, setPatientForm }) => {
     const [errorMessage, setErrorMessage] = useState("")
+    const [showModal, setShowModal] = useState(false)
+    const [isFormEnabled, setIsFormEnabled] = useState(false)
+    const [cancelButton, setCancelButton] = useState(false)
+
+    const handleOpenModal = () => {
+        setShowModal(true)
+    }
+
+    const handleCloseModal = () => {
+        setShowModal(false)
+    }
+
+    const handleRegister = () => {
+        if (!isFormEnabled) {
+            // Habilitar el formulario y cambiar el texto y color del botón
+            setIsFormEnabled(true)
+            setCancelButton(true)
+        } else {
+            // Deshabilitar el formulario y cambiar el texto y color del botón
+            setIsFormEnabled(false)
+            setCancelButton(false)
+        }
+    }
+
     const validateForm = () => {
         const patientFormValues = Object.values(patientForm)
         if (patientFormValues.includes("") || !fechaNacimiento || !sexo) {
@@ -18,239 +42,241 @@ const PatientForm = ({ patientForm, fechaNacimiento, setFechaNacimiento, sexo, s
         }
     }
 
-    const [isModalOpen, setModalOpen] = useState(false)
-    const toggleModal = () => {
-        setModalOpen(!isModalOpen)
-    }
-
-
-
-    const {
-        patientId,
-        setPatientId,
-        doctorId,
-        setDoctorId,
-        legalResponsibility,
-        setLegalResponsibility,
-        schedule,
-        setSchedule,
-        triageRequirement,
-        setTriageRequirement,
-    } = useAppointmentForm()
-
     return (
         <section id='section1'>
             <div className="pb-8 flex justify-between items-center">
                 <h2 className="font-sans font-bold break-normal text-gray-700  text-2xl">Informacion del paciente</h2>
-                <button
-                    type="submit"
-                    className=" m-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 
-                font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center">Buscar paciente
-                </button>
+                <div>
+                    <button
+                        type="button"
+                        onClick={handleRegister}
+                        className={`m-2 text-white ${cancelButton ? 'bg-red-600 hover:bg-red-700' : 'bg-orange-400 hover:bg-orange-500'
+                            } focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center`}
+                    >
+                        {cancelButton ? 'Cancelar' : 'Nuevo paciente'}
+                    </button>
+                    <button
+                        type="button"
+                        onClick={handleOpenModal}
+                        className=" m-2 text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300 
+                    font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center"
+                    >Buscar paciente
+                    </button>
+                </div>
+
+                <SearchPatientModal show={showModal} onClose={handleCloseModal} />
             </div>
-            <div className="grid grid-cols-2 md:gap-6">
+
+            <fieldset disabled={!isFormEnabled}>
+                <legend></legend>
+
+                <div className="grid grid-cols-2 md:gap-6">
+                    <div className="relative z-0 w-full mb-6 group">
+                        <input
+                            type="text"
+                            name="first_last_name"
+                            id="first_last_name"
+                            minLength={3}
+                            maxLength={255}
+                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder=" "
+                            value={patientForm.apellidoPaterno}
+                            onChange={(event) => {
+                                validateTextInput(event.target)
+                                setPatientForm((prev) => ({
+                                    ...prev,
+                                    apellidoPaterno: event.target.value,
+                                }))
+                            }}
+
+                            required />
+                        <label htmlFor="first_last_name"
+                            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                            Apellido paterno
+                        </label>
+                    </div>
+                    <div className="relative z-0 w-full mb-6 group">
+                        <input type="text"
+                            name="second_last_name"
+                            id="second_last_name"
+                            minLength={3}
+                            maxLength={255}
+                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder=" "
+                            value={patientForm.apellidoMaterno}
+                            onChange={(event) => {
+                                validateTextInput(event.target)
+                                setPatientForm({
+                                    ...patientForm,
+                                    apellidoMaterno: event.target.value
+
+                                })
+                            }}
+                            required />
+                        <label htmlFor="second_last_name"
+                            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                            Apellido materno
+                        </label>
+                    </div>
+
+                </div>
                 <div className="relative z-0 w-full mb-6 group">
                     <input
                         type="text"
-                        name="first_last_name"
-                        id="first_last_name"
+                        name="names"
+                        id="names"
                         minLength={3}
                         maxLength={255}
-                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
-                        value={patientForm.apellidoPaterno}
-                        onChange={(event) => {
-                            validateTextInput(event.target)
-                            setPatientForm((prev) => ({
-                                ...prev,
-                                apellidoPaterno: event.target.value,
-                            }))
-                        }}
-
-                        required />
-                    <label htmlFor="first_last_name"
-                        className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                        Apellido paterno
-                    </label>
-                </div>
-                <div className="relative z-0 w-full mb-6 group">
-                    <input type="text"
-                        name="second_last_name"
-                        id="second_last_name"
-                        minLength={3}
-                        maxLength={255}
-                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                        value={patientForm.apellidoMaterno}
+                        value={patientForm.nombres}
                         onChange={(event) => {
                             validateTextInput(event.target)
                             setPatientForm({
                                 ...patientForm,
-                                apellidoMaterno: event.target.value
-
+                                nombres: event.target.value
                             })
                         }}
                         required />
-                    <label htmlFor="second_last_name"
+                    <label htmlFor="names"
                         className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                        Apellido materno
+                        Nombres
                     </label>
                 </div>
 
-            </div>
-            <div className="relative z-0 w-full mb-6 group">
-                <input
-                    type="text"
-                    name="names"
-                    id="names"
-                    minLength={3}
-                    maxLength={255}
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    placeholder=" "
-                    value={patientForm.nombres}
-                    onChange={(event) => {
-                        validateTextInput(event.target)
-                        setPatientForm({
-                            ...patientForm,
-                            nombres: event.target.value
-                        })
-                    }}
-                    required />
-                <label htmlFor="names"
-                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                    Nombres
-                </label>
-            </div>
+                <div className="grid grid-cols-2 md:gap-6">
+                    <div className="relative z-0 w-full mb-6 group">
+                        <input
+                            type="text"
+                            minLength={3}
+                            maxLength={255}
+                            name="tipo_seguro"
+                            id="tipo_seguro"
+                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder=" "
+                            value={patientForm.tipoSeguro}
+                            onChange={(event) =>
+                                setPatientForm({
+                                    ...patientForm,
+                                    tipoSeguro: event.target.value
+                                })}
+                            required />
+                        <label htmlFor="tipo_seguro"
+                            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                            Tipo seguro
+                        </label>
+                    </div>
+                    <div className="relative z-0 w-full mb-6 group">
+                        <input type="text"
+                            name="security_number"
+                            id="security_number"
+                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder=" "
+                            minLength={3}
+                            maxLength={6}
+                            value={patientForm.codigoSeguro}
+                            onChange={(event) => {
+                                validateSecurityCode(event.target)
+                                setPatientForm({
+                                    ...patientForm,
+                                    codigoSeguro: event.target.value
+                                })
+                            }}
+                            required />
+                        <label htmlFor="security_number"
+                            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                            Codigo seguro
+                        </label>
+                    </div>
+                </div>
 
-            <div className="grid grid-cols-2 md:gap-6">
-                <div className="relative z-0 w-full mb-6 group">
-                    <input
-                        type="text"
-                        minLength={3}
-                        maxLength={255}
-                        name="first_last_name"
-                        id="first_last_name"
-                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                        value={patientForm.tipoSeguro}
-                        onChange={(event) =>
-                            setPatientForm({
+                <div className="grid grid-cols-2 md:gap-6">
+                    <div className="relative z-0 w-full mb-6 group">
+                        <input
+                            type="text"
+                            name="dni"
+                            id="dni"
+                            minLength={3}
+                            maxLength={8}
+                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder=" "
+                            value={patientForm.dni}
+                            onChange={(event) => {
+                                validateNumberInput(event.target)
+                                setPatientForm({
+                                    ...patientForm,
+                                    dni: event.target.value
+                                })
+                            }}
+                            required />
+                        <label htmlFor="dni"
+                            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                            DNI
+                        </label>
+                    </div>
+                    <div className="relative z-0 w-full mb-6 group">
+                        <input type="text"
+                            name="address"
+                            id="address"
+                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder=" "
+                            autoComplete="off"
+                            value={patientForm.direccion}
+                            onChange={(event) => setPatientForm({
                                 ...patientForm,
-                                tipoSeguro: event.target.value
+                                direccion: event.target.value
                             })}
-                        required />
-                    <label htmlFor="first_last_name"
-                        className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                        Tipo seguro
-                    </label>
+                            required />
+                        <label htmlFor="address"
+                            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                            Direccion
+                        </label>
+                    </div>
                 </div>
+
                 <div className="relative z-0 w-full mb-6 group">
                     <input type="text"
-                        name="second_last_name"
-                        id="second_last_name"
+                        name="phone"
+                        minLength={3}
+                        maxLength={9}
+                        id="phone"
+                        autoComplete="off"
                         className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
-                        minLength={3}
-                        maxLength={255}
-                        value={patientForm.codigoSeguro}
-                        onChange={(event) => {
-                            validateSecurityCode(event.target)
-                            setPatientForm({
-                                ...patientForm,
-                                codigoSeguro: event.target.value
-                            })
-                        }}
-                        required />
-                    <label htmlFor="second_last_name"
-                        className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                        Codigo seguro
-                    </label>
-                </div>
-            </div>
-
-            <div className="grid grid-cols-2 md:gap-6">
-                <div className="relative z-0 w-full mb-6 group">
-                    <input
-                        type="text"
-                        name="first_last_name"
-                        id="first_last_name"
-                        minLength={3}
-                        maxLength={8}
-                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                        value={patientForm.dni}
+                        value={patientForm.telefono}
                         onChange={(event) => {
                             validateNumberInput(event.target)
                             setPatientForm({
                                 ...patientForm,
-                                dni: event.target.value
+                                telefono: event.target.value
                             })
                         }}
                         required />
-                    <label htmlFor="first_last_name"
+                    <label htmlFor="phone"
                         className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                        DNI
+                        Telefono
                     </label>
                 </div>
-                <div className="relative z-0 w-full mb-6 group">
-                    <input type="text"
-                        name="second_last_name"
-                        id="second_last_name"
-                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                        value={patientForm.direccion}
-                        onChange={(event) => setPatientForm({
-                            ...patientForm,
-                            direccion: event.target.value
-                        })}
-                        required />
-                    <label htmlFor="second_last_name"
-                        className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                        Direccion
-                    </label>
+
+
+                <div className="grid grid-cols-2 md:gap-6">
+                    <DatePicker
+                        name={"fecha-nacimiento-paciente"}
+                        value={fechaNacimiento}
+                        setValue={setFechaNacimiento}
+                    />
+                    <Picker
+                        name1={"masculino"}
+                        name2={"femenino"}
+                        text={"Elegir genero:"}
+                        option1={"Masculino"}
+                        option2={"Femenino"}
+                        value={sexo}
+                        setValue={setSexo}
+                    />
                 </div>
-            </div>
+            </fieldset>
 
-            <div className="relative z-0 w-full mb-6 group">
-                <input type="text"
-                    name="phone"
-                    minLength={3}
-                    maxLength={9}
-                    id="phone"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    placeholder=" "
-                    value={patientForm.telefono}
-                    onChange={(event) => {
-                        validateNumberInput(event.target)
-                        setPatientForm({
-                            ...patientForm,
-                            telefono: event.target.value
-                        })
-                    }}
-                    required />
-                <label htmlFor="second_last_name"
-                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                    Telefono
-                </label>
-            </div>
-
-
-            <div className="grid grid-cols-2 md:gap-6">
-                <DatePicker
-                    name={"fecha-nacimiento-paciente"}
-                    value={fechaNacimiento}
-                    setValue={setFechaNacimiento}
-                />
-                <Picker
-                    name1={"masculino"}
-                    name2={"femenino"}
-                    text={"Elegir genero:"}
-                    option1={"Masculino"}
-                    option2={"Femenino"}
-                    value={sexo}
-                    setValue={setSexo}
-                />
-            </div>
 
             <hr></hr>
 
@@ -264,17 +290,6 @@ const PatientForm = ({ patientForm, fechaNacimiento, setFechaNacimiento, sexo, s
 
 
             {errorMessage && <p className="text-red-500">{errorMessage}</p>}
-            {isFormComplete && <AppointementForm
-                legalResponsibility={legalResponsibility}
-                setLegalResponsibility={setLegalResponsibility}
-                doctorId={doctorId}
-                setDoctorId={setDoctorId}
-                schedule={schedule}
-                setSchedule={setSchedule}
-                triageRequirement={triageRequirement}
-                setTriageRequirement={setTriageRequirement}
-            />}
-
         </section >
     )
 }

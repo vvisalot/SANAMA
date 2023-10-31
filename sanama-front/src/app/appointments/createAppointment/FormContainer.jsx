@@ -1,11 +1,8 @@
 "use client"
 import useAppointmentForm from "@/hooks/useAppointmentForm"
-import DoctorSchedules from "./DoctorSchedules"
-import LegalResponsibility from "./LegalResponsibility"
 import PatientForm from "./PatientForm"
-import TriageForm from "./TriageForm"
 import usePatientForm from "@/hooks/usePatientForm"
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import AppointementForm from "./AppointementForm"
 
 // Para acceder a los elementos
@@ -21,7 +18,20 @@ const FormContainer = () => {
         setSexo,
     } = usePatientForm()
 
+    const {
+        patientId,
+        setPatientId,
+        doctorId,
+        setDoctorId,
+        legalResponsibilityForm,
+        setLegalResponsibilityForm,
+        schedule,
+        setSchedule,
+        triageRequirement,
+        setTriageRequirement,
+    } = useAppointmentForm()
 
+    const [formComplete, setFormComplete] = useState(false)
 
     const handleSubmit = async (event) => {
 
@@ -29,8 +39,7 @@ const FormContainer = () => {
         event.preventDefault()
         //Recuperar datos del formulario
         // console.log(patientForm)
-        // console.log(legalResponsibility)
-        // console.log(triageForm)
+
         //llamar al servicio
 
         //const response = await patientService.registrarPaciente(patientForm)
@@ -49,18 +58,22 @@ const FormContainer = () => {
     }
 
     useEffect(() => {
-        // console.log(patientForm) 
-        // console.log(fechaNacimiento)
-        // console.log(sexo)
-        // console.log(legalResponsibility)
-        // console.log(triageRequirement)
+        console.log(patientForm)
+        console.log(fechaNacimiento)
+        console.log(sexo)
+        console.log(legalResponsibilityForm)
+        console.log(triageRequirement)
         console.log(schedule)
-        console.log(doctorId)
-    }, [patientForm, fechaNacimiento, sexo, legalResponsibility, triageRequirement, doctorId, schedule])
+
+    }, [patientForm, fechaNacimiento, sexo, legalResponsibilityForm, triageRequirement, schedule])
 
     return (
-        <form onSubmit={handleSubmit} className="p-10 w-4/5" >
+        <form onSubmit={handleSubmit} className="p-10 w-full" >
             <PatientForm
+                formComplete={formComplete}
+                setFormComplete={setFormComplete}
+                patientId={patientId}
+                setPatientId={setPatientId}
                 patientForm={patientForm}
                 setPatientForm={setPatientForm}
                 fechaNacimiento={fechaNacimiento}
@@ -70,7 +83,18 @@ const FormContainer = () => {
 
             <hr className="bg-gray-600 mt-20" />
 
-
+            {formComplete &&
+                <AppointementForm
+                    legalResponsibilityForm={legalResponsibilityForm}
+                    setLegalResponsibilityForm={setLegalResponsibilityForm}
+                    doctorId={doctorId}
+                    setDoctorId={setDoctorId}
+                    schedule={schedule}
+                    setSchedule={setSchedule}
+                    triageRequirement={triageRequirement}
+                    setTriageRequirement={setTriageRequirement}
+                />
+            }
         </form >
     )
 }

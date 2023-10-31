@@ -27,6 +27,7 @@ public class PacienteRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
     private final PacienteMapper pacienteMapper = new PacienteMapper();
+    private final PacienteMapperSolo pacienteMapperSolo = new PacienteMapperSolo();
     private final PacienteHistorialMapper pacienteHistorialMapper = new PacienteHistorialMapper();
     private final PacienteHistorialMapperPrueba pacienteHistorialMapperPrueba = new PacienteHistorialMapperPrueba();
 
@@ -43,6 +44,27 @@ public class PacienteRepository {
     public List<Paciente> buscarPacienteFiltroPrueba(String pv_filtro){
         String procedureCall = "{call dbSanama.prueba_ssm_adm_buscar_paciente_filtro('"+pv_filtro+"')};";
         return jdbcTemplate.query(procedureCall, pacienteHistorialMapperPrueba);
+    }
+
+    public List<Paciente> buscarPaciente(String pv_nombre_dni){
+        String procedureCall = "{call dbSanama.ssm_adm_buscar_paciente('"+pv_nombre_dni+"')};";
+        return jdbcTemplate.query(procedureCall, pacienteMapperSolo);
+    }
+
+    private static class PacienteMapperSolo implements RowMapper<Paciente> {
+        @Override
+        public Paciente mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+            Paciente paciente = new Paciente();
+
+            paciente.setIdPersona(rs.getInt("id_paciente"));
+            paciente.setNombres(rs.getString("nombres"));
+            paciente.setApellidoPaterno(rs.getString("apellido_paterno"));
+            paciente.setApellidoMaterno(rs.getString("apellido_materno"));
+            paciente.setDni(rs.getString("dni"));
+
+            return paciente;
+        }
     }
 
     private static class PacienteMapper implements RowMapper<Paciente> {

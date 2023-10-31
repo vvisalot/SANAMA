@@ -5,7 +5,7 @@ import PickerHider from "@/components/buttons/PickerHider"
 import { validateNumberInput, validateTextInput } from "@/util/formValidations"
 import { useState } from "react"
 
-const LegalResponsibility = ({ legalResponsibility, setLegalResponsibility }) => {
+const LegalResponsibility = ({ legalResponsibilityForm, setLegalResponsibilityForm }) => {
     const [isResponsible, setIsResponsible] = useState("Si")
 
     const handleResponsibilityChange = (option) => {
@@ -29,10 +29,10 @@ const LegalResponsibility = ({ legalResponsibility, setLegalResponsibility }) =>
                             type="text"
                             name="r_first_name"
                             id="r_first_name"
-                            value={legalResponsibility.apellidoPaterno}
+                            value={legalResponsibilityForm.apellidoPaterno}
                             onChange={(event) => {
                                 validateTextInput(event.target)
-                                setLegalResponsibility((prev) => ({
+                                setLegalResponsibilityForm((prev) => ({
                                     ...prev,
                                     apellidoPaterno: event.target.value,
                                 }))
@@ -50,10 +50,10 @@ const LegalResponsibility = ({ legalResponsibility, setLegalResponsibility }) =>
                             type="text"
                             name="floating_last_name"
                             id="floating_last_name"
-                            value={legalResponsibility.apellidoMaterno}
+                            value={legalResponsibilityForm.apellidoMaterno}
                             onChange={(event) => {
                                 validateTextInput(event.target)
-                                setLegalResponsibility((prev) => ({
+                                setLegalResponsibilityForm((prev) => ({
                                     ...prev,
                                     apellidoMaterno: event.target.value,
                                 }))
@@ -72,10 +72,10 @@ const LegalResponsibility = ({ legalResponsibility, setLegalResponsibility }) =>
                         type="text"
                         name="floating_name"
                         id="floating_name"
-                        value={legalResponsibility.nombres}
+                        value={legalResponsibilityForm.nombres}
                         onChange={(event) => {
                             validateTextInput(event.target)
-                            setLegalResponsibility((prev) => ({
+                            setLegalResponsibilityForm((prev) => ({
                                 ...prev,
                                 nombres: event.target.value,
                             }))
@@ -95,10 +95,10 @@ const LegalResponsibility = ({ legalResponsibility, setLegalResponsibility }) =>
                             id="floating_dni"
                             maxLength={8}
                             minLength={8}
-                            value={legalResponsibility.dni}
+                            value={legalResponsibilityForm.dni}
                             onChange={(event) => {
                                 validateNumberInput(event.target)
-                                setLegalResponsibility((prev) => ({
+                                setLegalResponsibilityForm((prev) => ({
                                     ...prev,
                                     dni: event.target.value,
                                 }))
@@ -118,10 +118,10 @@ const LegalResponsibility = ({ legalResponsibility, setLegalResponsibility }) =>
                             name="floating_relationship"
                             id="floating_relationship"
                             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                            value={legalResponsibility.parentesco}
+                            value={legalResponsibilityForm.parentesco}
                             onChange={(event) => {
                                 validateTextInput(event.target)
-                                setLegalResponsibility((prev) => ({
+                                setLegalResponsibilityForm((prev) => ({
                                     ...prev,
                                     parentesco: event.target.value,
                                 }))

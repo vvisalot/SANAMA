@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4af282cb-cd1d-46e3-a3e5-694c5df7a002" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/app/appointments/createAppointment/PatientForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/appointments/createAppointment/PatientForm.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/sidebar/Sidebar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/sidebar/Sidebar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,9 +15,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 2
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
   <component name="ProjectId" id="2XVSOWy7XBcIv46X8SvivGb00hj" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -30,7 +29,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "D:/Repos/sanama-remake/sanama-front",
+    "last_opened_file_path": "C:/Users/user/Desktop/sanama/sanama-front",
     "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   }
@@ -44,6 +43,7 @@
       <option name="presentableId" value="Default" />
       <updated>1698712721103</updated>
       <workItem from="1698712722701" duration="12000" />
+      <workItem from="1698773501403" duration="75000" />
     </task>
     <servers />
   </component>

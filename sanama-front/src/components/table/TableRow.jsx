@@ -2,7 +2,7 @@ import { Fragment } from "react";
 import TableCell from "./TableCell";
 import TableOptions from "./TableOptions";
 
-const TableRow = ({ row, url, optionsText, icons }) => {
+const TableRow = ({ row, url, optionsText, iconName }) => {
   return (
     <tr className="bg-white border-b ">
       {row.map((cell, index) => {
@@ -10,18 +10,19 @@ const TableRow = ({ row, url, optionsText, icons }) => {
           if (index === row.length - 1) {
             return (
               <Fragment key={index}>
-                <TableCell data={cell.data} />
+                <TableCell data={cell.data} className={cell.className ? cell.className : ""} />
                 {url.length > 0 ? (
                   <TableOptions
                     id={parseInt(row[0].data)}
                     url={url}
                     text={optionsText}
+                    iconName={iconName}
                   />
                 ) : null}
               </Fragment>
             );
           } else {
-            return <TableCell key={index} data={cell.data} />;
+            return <TableCell key={index} data={cell.data} className={cell.className ? cell.className : ""} />;
           }
         }
       })}
@@ -30,3 +31,4 @@ const TableRow = ({ row, url, optionsText, icons }) => {
 };
 
 export default TableRow;
+

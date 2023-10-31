@@ -5,9 +5,8 @@ export function validateNumberInput(input) {
     }
 }
 
-
 export function validateTextInput(input) {
-    input.value = input.value.replace(/[^A-Za-z]/g, '')
+    input.value = input.value.replace(/[^A-Za-z\s]/g, '')
 }
 
 export function validateSecurityCode(input) {

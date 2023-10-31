@@ -33,6 +33,12 @@ public class MedicoService {
         return lTurnos;
     }
 
+    public List<TurnoAtencion> listarHorariosDisponiblesIntervalo(String pn_id_medico, String pd_fecha_inicio, String pd_fecha_fin) {
+        List<TurnoAtencion> lTurnos = null;
+        lTurnos = medicoRepository.listarHorariosDisponiblesIntervalo(pn_id_medico, pd_fecha_inicio, pd_fecha_fin);
+        return lTurnos;
+    }
+
     public List<LocalDate> listarDiasDisponibles(String pn_id_medico) {
         List<LocalDate> lDates = null;
         lDates = medicoRepository.listarDiasDisponibles(pn_id_medico);
