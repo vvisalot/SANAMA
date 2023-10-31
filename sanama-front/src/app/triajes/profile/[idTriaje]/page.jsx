@@ -174,12 +174,12 @@ const TriajeProfile = ({ params }) => {
             }
             if (event.target.name === "motivoVisita") {
                 const count = event.target.value.length;
-                document.getElementById('charCount').textContent = `${count}/255`;
+                document.getElementById('charCount').textContent = `${count}/1000`;
             }
    
             if (event.target.name === "condicionesPrexistentes") {
                 const count = event.target.value.length;
-                document.getElementById('charCountPreexistentes').textContent = `${count}/255`;
+                document.getElementById('charCountPreexistentes').textContent = `${count}/1000`;
             }
         };
 
@@ -279,7 +279,7 @@ const TriajeProfile = ({ params }) => {
                             className="border rounded w-full py-2 px-3"
                             maxLength={255}
                         ></textarea>
-                        <span className="text-right block mt-2" id="charCount">0/255</span>
+                        <span className="text-right block mt-2" id="charCount">0/1000</span>
                     </div>
 
                     <div className="grid grid-cols-3 gap-6 mb-6">
@@ -397,7 +397,7 @@ const TriajeProfile = ({ params }) => {
                             className="border rounded w-full py-2 px-3"
                             maxLength={255}
                         ></textarea>
-                        <span className="text-right block mt-2" id="charCountPreexistentes">0/255</span>
+                        <span className="text-right block mt-2" id="charCountPreexistentes">0/1000</span>
                     </div>
 
 
