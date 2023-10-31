@@ -65,13 +65,16 @@ const ReviewAppointment = ({ params }) => {
         doctor={appointmentData.medico}
       />
 
-      <button
-        className="bg-blue-500 text-white p-2 w-full rounded-md"
-        onClick={() => handleActionClick(2)}
-        disabled={loading || estado === "EN_CONSULTORIO"}
-      >
-        Atender Cita
-      </button>
+      <Link href="/evaluations">
+        <href
+          className="block bg-blue-500 text-white p-2 w-full rounded-md text-center mt-2"
+          onClick={() => handleActionClick(2)}
+          disabled={loading || estado === "EN_CONSULTORIO"}
+        >
+          Atender Cita
+        </href>
+      </Link>
+
       <button
         className="bg-blue-500 text-white p-2 w-full rounded-md mt-2"
         onClick={() => handleActionClick(/* estado adecuado */)}
@@ -86,6 +89,7 @@ const ReviewAppointment = ({ params }) => {
       >
         Cancelar Cita
       </button>
+
       <Link href="/appointments">
         <href className="block bg-gray-500 text-white p-2 w-full rounded-md text-center mt-2">
           Volver
