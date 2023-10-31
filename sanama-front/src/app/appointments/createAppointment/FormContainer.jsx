@@ -1,11 +1,8 @@
 "use client"
 import useAppointmentForm from "@/hooks/useAppointmentForm"
-import DoctorSchedules from "./DoctorSchedules"
-import LegalResponsibility from "./LegalResponsibility"
 import PatientForm from "./PatientForm"
-import TriageForm from "./TriageForm"
 import usePatientForm from "@/hooks/usePatientForm"
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import AppointementForm from "./AppointementForm"
 
 // Para acceder a los elementos
@@ -21,7 +18,20 @@ const FormContainer = () => {
         setSexo,
     } = usePatientForm()
 
+    const {
+        patientId,
+        setPatientId,
+        doctorId,
+        setDoctorId,
+        legalResponsibility,
+        setLegalResponsibility,
+        schedule,
+        setSchedule,
+        triageRequirement,
+        setTriageRequirement,
+    } = useAppointmentForm()
 
+    const [formComplete, setFormComplete] = useState(false)
 
     const handleSubmit = async (event) => {
 
@@ -49,18 +59,17 @@ const FormContainer = () => {
     }
 
     useEffect(() => {
-        // console.log(patientForm) 
-        // console.log(fechaNacimiento)
-        // console.log(sexo)
-        // console.log(legalResponsibility)
-        // console.log(triageRequirement)
-        console.log(schedule)
-        console.log(doctorId)
-    }, [patientForm, fechaNacimiento, sexo, legalResponsibility, triageRequirement, doctorId, schedule])
+        console.log(patientForm)
+        console.log(fechaNacimiento)
+        console.log(sexo)
+
+    }, [patientForm, fechaNacimiento, sexo])
 
     return (
-        <form onSubmit={handleSubmit} className="p-10 w-4/5" >
+        <form onSubmit={handleSubmit} className="p-10 w-full" >
             <PatientForm
+                formComplete={formComplete}
+                setFormComplete={setFormComplete}
                 patientForm={patientForm}
                 setPatientForm={setPatientForm}
                 fechaNacimiento={fechaNacimiento}
@@ -70,7 +79,16 @@ const FormContainer = () => {
 
             <hr className="bg-gray-600 mt-20" />
 
-
+            {formComplete && <AppointementForm
+                legalResponsibility={legalResponsibility}
+                setLegalResponsibility={setLegalResponsibility}
+                doctorId={doctorId}
+                setDoctorId={setDoctorId}
+                schedule={schedule}
+                setSchedule={setSchedule}
+                triageRequirement={triageRequirement}
+                setTriageRequirement={setTriageRequirement}
+            />}
         </form >
     )
 }
