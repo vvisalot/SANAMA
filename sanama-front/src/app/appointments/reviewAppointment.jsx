@@ -11,7 +11,6 @@ import {
   useTheme,
 } from "@mui/material";
 import Link from "next/link";
-import { useAppointments } from "@/context/AppointmentsContext";
 import useAppointmentInfo from "./path/to/your/useAppointmentInfo";
 
 const patientFieldsConfig = [
@@ -37,9 +36,8 @@ const camposAtencion = [
   { id: "estado", label: "Estado", type: "text" },
 ];
 
-function AppointmentInfo() {
+function reviewAppointment(appointmentData) {
   const theme = useTheme();
-  const { appointmentData } = useAppointments();
   const {
     loading,
     error,
@@ -62,94 +60,110 @@ function AppointmentInfo() {
     doctorResponsable && doctorResponsable.especialidad
       ? doctorResponsable.especialidad.nombre
       : "";
-  const selectedTriage = appointmentData.selectedTriage; // Obtenemos el valor de selectedTriage
+  const horaCita = appointmentData.selectedHour;
+  const fechaCita = appointmentData.selectedDate;
 
   return (
-    <Container>
-      <Paper elevation={3} style={{ padding: theme.spacing(3) }}>
-        <Box sx={{ marginBottom: 4, color: "black" }}>
-          <Typography variant="h5" gutterBottom>
-            Información del paciente
-          </Typography>
-          <Grid container spacing={3}>
-            {patientFieldsConfig.map((campo) => (
-              <Grid item xs={4} key={campo.name}>
-                <InputLabel htmlFor={campo.name}>{campo.label}</InputLabel>
-                <TextField
-                  type={campo.type}
-                  id={campo.name}
-                  name={campo.name}
-                  variant="outlined"
-                  required
-                  fullWidth
-                  defaultValue={pacienteData ? pacienteData[campo.name] : ""}
-                  InputProps={{ readOnly: true }}
-                />
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
+    <div className="container mx-auto p-4">
+      <div className="bg-white p-6 rounded-lg shadow-md mb-6">
+        <h2 className="text-2xl font-semibold mb-4">
+          Información del paciente
+        </h2>
+        <div className="grid grid-cols-3 gap-4">
+          {patientFieldsConfig.map((campo) => (
+            <div key={campo.name}>
+              <label
+                htmlFor={campo.name}
+                className="block text-sm font-medium text-gray-700"
+              >
+                {campo.label}
+              </label>
+              <input
+                type={campo.type}
+                id={campo.name}
+                name={campo.name}
+                className="mt-1 p-2 w-full border rounded-md"
+                defaultValue={pacienteData ? pacienteData[campo.name] : ""}
+                readOnly
+              />
+            </div>
+          ))}
+        </div>
+      </div>
 
-        <Box sx={{ marginBottom: 4, color: "black" }}>
-          <Typography variant="h5" gutterBottom>
-            Información de la atención
-          </Typography>
-          <Grid container spacing={3}>
-            {camposAtencion.map((campo) => (
-              <Grid item xs={4} key={campo.id}>
-                <InputLabel htmlFor={campo.id}>{campo.label}</InputLabel>
-                <TextField
-                  type={campo.type}
-                  id={campo.id}
-                  name={campo.id}
-                  variant="outlined"
-                  required
-                  fullWidth
-                  defaultValue={
-                    campo.id === "fecha-atencion"
-                      ? appointmentData.selectedDate
-                      : campo.id === "hora-atencion"
-                      ? appointmentData.selectedHour
-                      : campo.id === "medico-responsable"
-                      ? nombreDoctor
-                      : campo.id === "estado"
-                      ? "PENDIENTE"
-                      : campo.id === "especialidad"
-                      ? especialidadNombre
-                      : appointmentData[campo.id]
-                  }
-                  InputProps={{ readOnly: true }}
-                />
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-        <Button
-          variant="contained"
-          color="primary"
-          fullWidth
-          onClick={handleRegisterAppointment}
-          disabled={loading || isAppointmentRegistered}
-        >
-          Registrar Cita
-        </Button>
+      <div className="bg-white p-6 rounded-lg shadow-md mb-6">
+        <h2 className="text-2xl font-semibold mb-4">
+          Información de la atención
+        </h2>
+        <div className="grid grid-cols-3 gap-4">
+          {camposAtencion.map((campo) => (
+            <div key={campo.id}>
+              <label
+                htmlFor={campo.id}
+                className="block text-sm font-medium text-gray-700"
+              >
+                {campo.label}
+              </label>
+              <input
+                type={campo.type}
+                id={campo.id}
+                name={campo.id}
+                className="mt-1 p-2 w-full border rounded-md"
+                defaultValue={
+                  campo.id === "fecha-atencion"
+                    ? appointmentData.selectedDate
+                    : campo.id === "hora-atencion"
+                    ? appointmentData.selectedHour
+                    : campo.id === "medico-responsable"
+                    ? nombreDoctor
+                    : campo.id === "estado"
+                    ? "PENDIENTE"
+                    : campo.id === "especialidad"
+                    ? especialidadNombre
+                    : appointmentData[campo.id]
+                }
+                readOnly
+              />
+            </div>
+          ))}
+        </div>
+      </div>
 
-        {error && <Typography color="error">{error}</Typography>}
-        {isAppointmentRegistered && (
-          <Typography color="primary" style={{ marginTop: 16 }}>
-            {confirmationMessage}
-          </Typography>
-        )}
+      <button
+        className="bg-blue-500 text-white p-2 w-full rounded-md"
+        onClick={handleRegisterAppointment}
+        disabled={loading || isAppointmentRegistered}
+      >
+        Atender Cita
+      </button>
 
-        {error && <Typography color="error">{error}</Typography>}
-        <Link href="/AppointmentManagement" passHref>
-          <Button variant="contained" color="secondary" fullWidth>
-            Volver
-          </Button>
-        </Link>
-      </Paper>
-    </Container>
+      {error && <p className="text-red-500 mt-2">{error}</p>}
+      {isAppointmentRegistered && (
+        <p className="text-blue-500 mt-2">{confirmationMessage}</p>
+      )}
+
+      <button
+        className="bg-blue-500 text-white p-2 w-full rounded-md mt-2"
+        disabled={loading || isAppointmentRegistered}
+      >
+        Reprogramar Cita
+      </button>
+
+      <button
+        className="bg-red-500 text-white p-2 w-full rounded-md mt-2"
+        onClick={handleRegisterAppointment}
+        disabled={loading || isAppointmentRegistered}
+      >
+        Cancelar
+      </button>
+
+      <Link href="/AppointmentManagement">
+        <href className="bg-gray-500 text-white p-2 w-full rounded-md text-center block mt-2">
+          Volver
+        </href>
+      </Link>
+    </div>
   );
 }
 
-export default AppointmentInfo;
+export default reviewAppointment;
