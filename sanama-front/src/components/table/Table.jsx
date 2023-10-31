@@ -1,10 +1,15 @@
+import React, { memo } from "react";
 import TableBody from "./TableBody";
 import TableHeader from "./TableHeader";
 
-const Table = ({ columns, data, url, optionsText }) => {
-  return (
+const Table = memo(
+  ({ columns, data, url, optionsText, requestSort, sortConfig }) => (
     <table className="w-full">
-      <TableHeader columns={columns} />
+      <TableHeader
+        columns={columns}
+        requestSort={requestSort}
+        sortConfig={sortConfig}
+      />
       <TableBody
         data={data}
         nColumns={columns.length}
@@ -12,7 +17,7 @@ const Table = ({ columns, data, url, optionsText }) => {
         optionsText={optionsText}
       />
     </table>
-  );
-};
+  )
+);
 
 export default Table;
