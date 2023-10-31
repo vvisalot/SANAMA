@@ -6,6 +6,7 @@ import { parseDoctorsDropdown } from "@/util/doctorParser"
 import { format, parse } from "date-fns"
 import { useEffect, useState } from "react"
 import ScheduleChip from "./ScheduleChip"
+import { TextInput } from "flowbite-react"
 
 const DoctorSchedules = ({ doctorId, setDoctorId, schedule, setSchedule }) => {
     //Para los dropdowns
@@ -156,19 +157,25 @@ const DoctorSchedules = ({ doctorId, setDoctorId, schedule, setSchedule }) => {
 
             </div>
 
-            <div className="flex pl-4 pt-5">
-                <label htmlFor="fechaSeleccionada">
-                    Fecha:
-                </label>
-                <input type="text" name="fechaSeleccionada" className="ml-2 bg-transparent"
-                    id="fechaSeleccionada" value={selectedDate !== null ? format(selectedDate, "yyyy-MM-dd") : ""}
-                    disabled />
-                <label htmlFor="horaSeleccionada">
-                    Hora:
-                </label>
-                <input type="text" name="horaSeleccionada" className="ml-2 bg-transparent"
-                    id="horaSeleccionada" value={selectedHour !== null ? selectedHour.substring(0, 5) : ""}
-                    disabled />
+            <div className="flex pl-4 pt-5 items-center w-fit">
+                <div className="pt-3 pr-3">
+                    <label htmlFor="fechaSeleccionada">
+                        Fecha:
+                    </label>
+                    <TextInput type="text" name="fechaSeleccionada" className=" bg-transparent"
+                        id="fechaSeleccionada" value={selectedDate !== null ? format(selectedDate, "yyyy-MM-dd") : ""}
+                        disabled />
+                </div>
+
+                <div className="pt-3 pl-3">
+                    <label htmlFor="horaSeleccionada">
+                        Hora:
+                    </label>
+                    <TextInput type="text" name="horaSeleccionada" className="bg-transparent"
+                        id="horaSeleccionada" value={selectedHour !== null ? selectedHour.substring(0, 5) : ""}
+                        disabled />
+                </div>
+
             </div>
 
         </section>

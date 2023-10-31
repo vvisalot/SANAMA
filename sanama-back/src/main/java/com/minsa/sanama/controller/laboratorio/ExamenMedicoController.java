@@ -26,7 +26,7 @@ public class ExamenMedicoController {
         try{
             idExamenMedico = examenmedicoService.registrarExamenMedico(examenMedico);
         } catch(Exception ex){
-
+            ex.printStackTrace();
         }
         return idExamenMedico;
     }
@@ -38,6 +38,7 @@ public class ExamenMedicoController {
     public ExamenMedico buscarExamenMedico(@RequestBody String pv_datos){
         ExamenMedico examenMedico = null;
         try {
+            System.out.println(pv_datos);
             JSONObject job = (JSONObject) new JSONParser().parse(pv_datos);
             String pv_filtro = job.get("pv_filtro").toString();
             examenMedico = examenmedicoService.buscarExamenMedico(pv_filtro);
