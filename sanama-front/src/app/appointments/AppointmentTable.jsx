@@ -21,6 +21,7 @@ const AppointmentTable = ({ data }) => {
       data={sortedData}
       requestSort={requestSort}
       sortConfig={sortConfig}
+      optionsText="Ver Cita"
     />
   );
 };
