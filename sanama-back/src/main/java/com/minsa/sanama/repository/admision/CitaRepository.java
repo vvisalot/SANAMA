@@ -29,12 +29,18 @@ public class CitaRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    private final CitaMedicaIDMapper citaMapper = new CitaMedicaIDMapper();
     private final CitaMedicaMapper citaMedicaMapper = new CitaMedicaMapper();
     private final CitaMedicaMedicoMapper citaMedicaMedicoMapper = new CitaMedicaMedicoMapper();
     private final CitaMedicaPacienteMapper citaMedicaPacienteMapper = new CitaMedicaPacienteMapper();
     public List<CitaMedica> listarCitasTodas() {
         String procedureCall = "{call dbSanama.ssm_adm_listar_citas_medicas()};";
         return jdbcTemplate.query(procedureCall, citaMedicaMapper);
+    }
+
+    public List<CitaMedica> buscarCitaMedica(int pn_id_cita) {
+        String procedureCall = "{call dbSanama.ssm_adm_buscar_cita_medica("+ pn_id_cita +")};";
+        return jdbcTemplate.query(procedureCall, citaMapper);
     }
 
     public List<CitaMedica> listarCitasxPaciente(int pn_idPaciente) {
@@ -54,6 +60,46 @@ public class CitaRepository {
         if (pn_estado != null)pn_estado = "'"+pn_estado+"'";
         String procedureCall = "{call dbSanama.ssm_adm_listar_citas_medicas_x_medico("+pn_id_medico+","+pn_estado+")};";
         return jdbcTemplate.query(procedureCall, citaMedicaMedicoMapper);
+    }
+
+    private static class CitaMedicaIDMapper implements RowMapper<CitaMedica> {
+        @Override
+        public CitaMedica mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+            CitaMedica citaMedica = new CitaMedica();
+            citaMedica.setIdCita(rs.getInt("id_cita"));
+            citaMedica.setCodigoCita(rs.getString("codigo_cita_medica"));
+            citaMedica.setFechaCita(rs.getDate("fecha_cita").toLocalDate());
+            citaMedica.setHoraCita(rs.getTime("hora_cita").toLocalTime());
+            citaMedica.setEstado(rs.getInt("estado"));
+            citaMedica.setRequiereTriaje(rs.getInt("requiere_triaje"));
+            citaMedica.setTieneAcompanhante(rs.getBoolean("tiene_acompanhante"));
+            citaMedica.setNombreAcompanhante(rs.getString("nombre_acompanhante"));
+            citaMedica.setDniAcompanhante(rs.getString("dni_acompanhante"));
+            citaMedica.setParentezco(rs.getString("parentezco"));
+
+            Paciente paciente = new Paciente();
+            paciente.setIdPersona(rs.getInt("id_paciente"));
+            paciente.setNombres(rs.getString("nombres_paciente"));
+            paciente.setApellidoPaterno(rs.getString("apellido_paterno_paciente"));
+            paciente.setApellidoMaterno(rs.getString("apellido_materno_paciente"));
+            paciente.setDni(rs.getString("dni_paciente"));
+
+            Medico medico = new Medico();
+            medico.setIdPersona(rs.getInt("id_medico"));
+            medico.setNombres(rs.getString("nombres_medico"));
+            medico.setApellidoPaterno(rs.getString("apellido_paterno_medico"));
+            medico.setApellidoMaterno(rs.getString("apellido_materno_medico"));
+
+            Especialidad especialidad = new Especialidad();
+            especialidad.setNombre(rs.getString("nombre_especialidad"));
+            medico.setEspecialidad(especialidad);
+
+            citaMedica.setMedico(medico);
+            citaMedica.setPaciente(paciente);
+
+            return citaMedica;
+        }
     }
 
     private static class CitaMedicaMapper implements RowMapper<CitaMedica> {

@@ -5,43 +5,68 @@ import { triajeService } from "@/services/triajeService"
 
 const TriajeProfile = ({ params }) => {
 
-    const [dataTriaje, setDataTriaje] = useState(null)
+    const [dataTriaje, setDataTriaje] = useState([]);
+    const [showModal, setShowModal] = useState(false);
 
     const handleSave = async () => {
-        try {
-            const triajeData = {
-                pn_id_triaje: dataTriaje.idTriaje || 2,
-                pn_peso: dataTriaje.peso || 80,
-                pn_talla: dataTriaje.talla || 176,
-                pn_temperatura: dataTriaje.temperatura || 37,
-                pv_motivo_visita: dataTriaje.motivoVisita || "Dolor de cabeza",
-                pn_presion_arterial: dataTriaje.presionArterial || 120,
-                pn_estado: dataTriaje.estado || 1,
-                pv_prioridad: dataTriaje.prioridad || "Media",
-                pn_saturacionOxigeno: dataTriaje.saturacionOxigeno || "98",
-                pn_frecuenciaCardiaca: dataTriaje.frecuenciaCardiaca || "75",
-                pn_frecuenciaRespiratoria: dataTriaje.frecuenciaRespiratoria || "20",
-                pv_nivelConciencia: dataTriaje.nivelConciencia || "Consciente",
-                pv_nivelDolor: dataTriaje.nivelDolor || "4",
-                pv_condicionesPrexistentes: dataTriaje.condicionesPreexistentes
-            }
 
-            const result = await triajeService.actualizarTriaje(triajeData)
+        const triajeData = {
+            pn_id_triaje: dataTriaje.idTriaje,
+            pn_peso: dataTriaje.peso,  
+            pn_talla: dataTriaje.talla,
+            pn_temperatura: dataTriaje.temperatura,
+            pv_motivo_visita: dataTriaje.motivoVisita,
+            pn_presion_arterial: dataTriaje.presionArterial,
+            pn_estado: 1,
+            pv_prioridad: dataTriaje.prioridad,
+            pn_saturacionOxigeno: dataTriaje.saturacionOxigeno,
+            pn_frecuenciaCardiaca: dataTriaje.frecuenciaCardiaca,
+            pn_frecuenciaRespiratoria: dataTriaje.frecuenciaRespiratoria,
+            pv_nivelConciencia: dataTriaje.nivelConciencia,
+            pv_nivelDolor: dataTriaje.nivelDolor,
+            pv_condicionesPrexistentes: dataTriaje.condicionesPrexistentes
+        };
+
+        console.log("Verificación directa:", dataTriaje.pv_condicionesPrexistentes);
+
+
+        const incompleteFields = [];
+        for (let key in triajeData) {
+            const value = triajeData[key];
+            if (value === null || value === undefined || (typeof value === 'string' && !value.trim())) {
+                incompleteFields.push(key);
+            }
+        }
+
+        if (incompleteFields.length > 0) {
+            const fieldsString = incompleteFields.join(', ');
+            alert(`Por favor, completa los siguientes campos antes de guardar: ${fieldsString}`);
+            return;
+        }
+        
+        try {
+            const result = await triajeService.actualizarTriaje(triajeData);
+    
             if (result === 1) {
-                alert("Información guardada exitosamente!")
-                if (typeof window !== "undefined") {
-                    window.history.back()
-                }
+                setShowModal(true);
             } else {
                 alert("Ocurrió un problema al guardar la información. Por favor, inténtalo de nuevo.")
             }
+    
         } catch (error) {
             console.error("Error al guardar el triaje", error)
             alert("Hubo un error al guardar. Por favor, inténtalo de nuevo.")
         }
     }
+    
 
-
+    const handleAcceptModal = () => {
+        setShowModal(false);
+        if (typeof window !== "undefined") {
+            window.history.back();
+        }
+    }
+        
     const handleCancel = () => {
         if (typeof window !== "undefined") {
             window.history.back()
@@ -101,38 +126,27 @@ const TriajeProfile = ({ params }) => {
         }
     }
 
-    const edad = dataTriaje?.paciente ? calcularEdad(dataTriaje.paciente.fechaNacimiento) : ""
-
-    function TuComponente() {
-        const [dataTriaje, setDataTriaje] = useState({
-            // Inicializando con la estructura básica del JSON
-            idTriaje: '',
-            codigoTriaje: '',
-            peso: '',
-            talla: '',
-            temperatura: '',
-            motivoVisita: '',
-            presionArterial: '',
-            estado: '',
-            prioridad: '',
-            fechaTriaje: '',
-            horaTriaje: '',
-            saturacionOxigeno: '',
-            frecuenciaCardiaca: '',
-            nivelConciencia: '',
-            nivelDolor: '',
-            condicionesPrexistentes: '',
-            paciente: {
-                idPersona: '',
-                nombres: '',
-                apellidoPaterno: '',
-                apellidoMaterno: '',
-                dni: '',
-                fechaNacimiento: '',
-                sexo: ''
+        const edad = dataTriaje?.paciente ? calcularEdad(dataTriaje.paciente.fechaNacimiento) : "";
+   
+        const handleChange = (e) => {
+            const { name, value } = e.target;
+    
+            if (name.includes('paciente.')) {
+                const field = name.split('.')[1];
+                setDataTriaje(prevState => ({
+                    ...prevState,
+                    paciente: {
+                        ...prevState.paciente,
+                        [field]: value
+                    }
+                }));
+            } else {
+                setDataTriaje(prevState => ({
+                    ...prevState,
+                    [name]: value
+                }));
             }
-        })
-    }
+        };
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -297,16 +311,17 @@ const TriajeProfile = ({ params }) => {
                         <textarea value={dataTriaje?.condicionesPrexistentes} onChange={handleChange} name="condicionesPrexistentes" className="border rounded w-full py-2 px-3"></textarea>
                     </div>
 
-                    <div div className="flex-grow">
+                    <div className="flex-grow">
                         <h4 className="text-xl font-bold mb-4 mt-4">Prioridad</h4>
                         <select value={dataTriaje?.prioridad} onChange={handleChange} name="prioridad" className="border rounded w-full py-4 px-4">
-                            <option value="Resucitacion" style={{ backgroundColor: '#D32F2F', color: 'white' }}>Resucitación</option>
-                            <option value="Emergencia" style={{ backgroundColor: '#F57C00', color: 'white' }}>Emergencia</option>
-                            <option value="Urgencia" style={{ backgroundColor: '#FFEB3B', color: 'white' }}>Urgencia</option>
-                            <option value="Urgencia menor" style={{ backgroundColor: '#4CAF50', color: 'white' }}>Urgencia menor</option>
-                            <option value="Sin Urgencia" style={{ backgroundColor: '#2196F3', color: 'white' }}>Sin urgencia</option>
+                            <option value="Resucitacion">🔴 Resucitación</option>
+                            <option value="Emergencia">🟠 Emergencia</option>
+                            <option value="Urgencia">🟡 Urgencia</option>
+                            <option value="Urgencia menor">🟢 Urgencia menor</option>
+                            <option value="Sin Urgencia">🔵 Sin urgencia</option>
                         </select>
                     </div>
+
 
 
                     <div>
@@ -317,6 +332,16 @@ const TriajeProfile = ({ params }) => {
                             </div>
                         </div>
                     </div>
+
+                    {showModal && (
+                        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50">
+                            <div className="bg-white p-8 rounded shadow-lg flex flex-col items-center">
+                                <p>Información guardada exitosamente!</p>
+                                <button onClick={handleAcceptModal} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded">Aceptar</button>
+                            </div>
+                        </div>
+                    )}
+
                 </div>
             </section>
         </div>

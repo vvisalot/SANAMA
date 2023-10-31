@@ -14,6 +14,7 @@ const ENDPOINTS = {
   APPOINTMENT_TYPES: "/admision/get/tipos",
   SLOTS_AVAILABLE: "/admision/get/slots",
   LISTAR_CITAS_FILTRO: "/admision/post/listarCitasPorFiltro",
+  BUSCAR_CITAS: "/admision/post/buscarCitaMedica",
 };
 
 const formatDate = (date) => {
@@ -139,6 +140,18 @@ export const appointmentService = {
     } catch (error) {
       console.error("Error fetching available slots:", error.message);
       throw new Error("Failed to fetch available slots");
+    }
+  },
+
+  buscarCita: async (pn_id_cita) => {
+    try {
+      const response = await axiosInstance.post(ENDPOINTS.BUSCAR_CITAS, {
+        pn_id_cita,
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error al buscar cita", error.message);
+      throw new Error("Failed to list filtered appointments");
     }
   },
 };
