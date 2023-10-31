@@ -26,7 +26,7 @@ public class EspecialidadController {
         especialidades = especialidadService.listarEspecialidades();
         return especialidades;
     }
-
+/*
     @PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = {
             MediaType.APPLICATION_JSON_VALUE }, value = "/post/especialidadNombre")
 
@@ -41,4 +41,5 @@ public class EspecialidadController {
         }
         return especialidades;
     }
+ */
 }
