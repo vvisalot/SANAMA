@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import dayjs from "dayjs";
+import AvailableHoursBlock from "./AvailableHoursBlock";
+import { useAppointments } from "@/context/AppointmentsContext";
+import { medicService } from "../../services/medicService";
 import { Badge, Typography, Box } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import {
@@ -7,9 +10,6 @@ import {
   PickersDay,
   DateCalendar,
 } from "@mui/x-date-pickers";
-import AvailableHoursBlock from "./AvailableHoursBlock";
-import { useAppointments } from "@/context/AppointmentsContext";
-import { medicService } from "../../services/medicService";
 
 function ServerDay({
   highlightedDays = [],

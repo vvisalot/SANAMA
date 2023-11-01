@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo } from "react";
-import { Button, Box, Typography, Fade, CircularProgress } from "@mui/material";
-import { useAppointments } from "@/context/AppointmentsContext";
 import PropTypes from "prop-types";
+import { useAppointments } from "@/context/AppointmentsContext";
 
 function AvailableHoursBlock({ availableHours = [], onHourClick, isLoading }) {
   const { appointmentData } = useAppointments();
@@ -27,58 +26,36 @@ function AvailableHoursBlock({ availableHours = [], onHourClick, isLoading }) {
 
   if (isLoading) {
     return (
-      <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
-        <CircularProgress size={24} />
-      </Box>
+      <div className="flex justify-center mt-2">
+        <div className="w-6 h-6 border-4 border-blue-500 border-solid rounded-full animate-spin"></div>
+      </div>
     );
   }
 
   if (availableHours.length === 0) {
     return (
-      <Typography variant="body2" align="center" sx={{ mt: 2 }}>
+      <p className="text-center mt-2 text-sm text-gray-600">
         No hay horarios disponibles
-      </Typography>
+      </p>
     );
   }
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        gap: 1,
-        width: "100%",
-        overflowY: "auto",
-        maxHeight: "250px",
-        mt: 2,
-      }}
-    >
+    <div className="flex flex-col gap-1 w-full overflow-y-auto max-h-[250px] mt-2">
       {formattedHours.map((horario, index) => (
-        <Fade in key={horario.idTurno} timeout={500 * (index + 1)}>
-          <Button
-            variant={
-              appointmentData.selectedHour === horario.horaInicio
-                ? "contained"
-                : "outlined"
-            }
-            fullWidth
-            onClick={() => onHourClick(horario.horaInicio)}
-            sx={{
-              textTransform: "none",
-              transition: "0.3s",
-              "&:hover": {
-                backgroundColor:
-                  appointmentData.selectedHour === horario.horaInicio
-                    ? null
-                    : "#e6e6e6",
-              },
-            }}
-          >
-            {horario.rangoHorario}
-          </Button>
-        </Fade>
+        <button
+          key={horario.idTurno}
+          onClick={() => onHourClick(horario.horaInicio)}
+          className={`px-4 py-2 text-sm w-full border rounded-md transition-all ${
+            appointmentData.selectedHour === horario.horaInicio
+              ? "bg-blue-500 text-white border-blue-500"
+              : "text-gray-700 border-gray-300"
+          }`}
+        >
+          {horario.rangoHorario}
+        </button>
       ))}
-    </Box>
+    </div>
   );
 }
 
