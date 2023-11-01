@@ -12,14 +12,6 @@ function Mensaje({ text }) {
   };
 
   return (
-    // <div className="relative cursor-pointer" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-    //   {message && (
-    //     <div className="absolute top-0 -mt-10 bg-gray-200 border border-gray-300 rounded p-2 text-center">
-    //       {message}
-    //     </div>
-    //   )}
-    //   <span className="text-4xl">!</span>
-    // </div>
     <div className="cursor-pointer inline-block relative" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <div className="mr-2 relative">
         <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center relative">
