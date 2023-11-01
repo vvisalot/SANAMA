@@ -17,7 +17,7 @@ export const patientService = {
             )
             return response.data
         } catch (error) {
-            console.error("Error al insertar los datos del paciente", error)
+            console.error("Error al registrar los datos del paciente", error)
             throw error
         }
     },
@@ -26,9 +26,10 @@ export const patientService = {
     //Si hay filtro, es decir, para la busqueda, se usa el filtro.
     buscarPorFiltro: async (filtro) => {
         try {
-            const response = await axiosInstance.post(
-                "/admision/post/buscarPacientePrueba",
-                { pv_filtro: filtro }
+            const response = await axiosInstance.post("/admision/post/buscarPaciente",
+                {
+                    pv_filtro: filtro
+                }
             )
             return response.data
         } catch (error) {
@@ -53,9 +54,10 @@ export const patientService = {
     },
 
 
-    buscarPacienteModal: async (idPaciente) => {
+    //CUANDO SE BUSCA DESDE EL MODAL SE DEVUELVE UN ID Y ESTO ME DEJA LLENAR LOS CAMPOS DEL FORM
+    mostrarPacienteRegistrado: async (idPaciente) => {
         try {
-            const response = await axiosInstance.post("/admision/post/buscarPacienteModal",
+            const response = await axiosInstance.post("/admision/post/mostrarPacienteRegistrado",
                 {
                     pn_id_paciente: idPaciente,
                 }
@@ -65,5 +67,43 @@ export const patientService = {
             console.error("Error al llenar los datos del modal", error)
             throw error
         }
+    },
+
+    //Dentro del modal, busco por nombre o dni el paciente. 
+    buscarPacienteModal: async (filtro) => {
+        try {
+            const response = await axiosInstance.post("/admision/post/buscarPacienteModal",
+                {
+                    pv_nombre_dni: filtro,
+                }
+            )
+            return response.data
+        } catch (error) {
+            console.error("Error al llenar los datos del modal", error)
+            throw error
+        }
+    },
+
+    listarParentescos: async () => {
+        try {
+            const response = await axiosInstance.get('/configuracion/get/listarParentezcos')
+            return response.data
+        } catch (error) {
+            console.error("Error al listar los parentescos", error)
+            throw error
+        }
+    },
+
+
+    listarSeguros: async () => {
+        try {
+            const response = await axiosInstance.get('/configuracion/get/listarSeguros')
+            return response.data
+        } catch (error) {
+            console.error("Error al listar los seguros", error)
+            throw error
+        }
     }
+
+
 }

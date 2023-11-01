@@ -33,6 +33,25 @@ const TriajeProfile = ({ params }) => {
         }
     });
     const [showModal, setShowModal] = useState(false);
+    const [missingFieldsModal, setMissingFieldsModal] = useState(false);
+    const [missingFields, setMissingFields] = useState([]);
+    const fieldNames = {
+        pn_id_triaje: "ID de Triaje",
+        pn_peso: "Peso (kg)",
+        pn_talla: "Talla (cm)",
+        pn_temperatura: "Temperatura (°C)",
+        pv_motivo_visita: "Motivo de consulta",
+        pn_presion_arterial: "Presión arterial (mm Hg)",
+        pn_estado: "Estado",
+        pv_prioridad: "Prioridad",
+        pn_saturacionOxigeno: "Saturación de Oxígeno (%)",
+        pn_frecuenciaCardiaca: "Frecuencia Cardiaca (bpm)",
+        pn_frecuenciaRespiratoria: "Frecuencia Respiratoria (rpm)",
+        pv_nivelConciencia: "Nivel de conciencia",
+        pv_nivelDolor: "Evaluación del dolor",
+        pv_condicionesPrexistentes: "Condiciones preexistentes"
+    };
+    
 
     const handleSave = async () => {
 
@@ -60,13 +79,13 @@ const TriajeProfile = ({ params }) => {
         for (let key in triajeData) {
             const value = triajeData[key]
             if (value === null || value === undefined || (typeof value === 'string' && !value.trim())) {
-                incompleteFields.push(key)
+                incompleteFields.push(fieldNames[key] || key)  
             }
         }
 
         if (incompleteFields.length > 0) {
-            const fieldsString = incompleteFields.join(', ')
-            alert(`Por favor, completa los siguientes campos antes de guardar: ${fieldsString}`)
+            setMissingFields(incompleteFields)
+            setMissingFieldsModal(true)
             return
         }
 
@@ -152,6 +171,55 @@ const TriajeProfile = ({ params }) => {
         }
     }
 
+    const handleAnularTriajeClick = () => {
+        
+        setShowConfirmPopup(true);
+    };
+
+    
+
+    const [showConfirmPopup, setShowConfirmPopup] = useState(false);
+
+    const handleConfirmAnulacion = async () => {
+        const triajeDataCancelled = {
+            pn_id_triaje: dataTriaje.pn_id_triaje,
+            pn_peso:  '',
+            pn_talla:  '',
+            pn_temperatura:  '',
+            pv_motivo_visita: '',
+            pn_presion_arterial:  '',
+            pn_estado: 3,  
+            pv_prioridad:  '',
+            pn_saturacionOxigeno:  '',
+            pn_frecuenciaCardiaca:  '',
+            pn_frecuenciaRespiratoria:  '',
+            pv_nivelConciencia: '',
+            pv_nivelDolor: '',
+            pv_condicionesPrexistentes: ''
+        };
+    
+        try {
+            const result = await triajeService.actualizarTriaje(triajeDataCancelled)
+    
+            if (result === 1) {
+                
+                closeModal();    
+            } else {
+                alert("Ocurrió un problema al anular el triaje. Por favor, inténtalo de nuevo.");
+            }
+    
+        } catch (error) {
+            console.error("Error al anular el triaje", error);
+            alert("Hubo un error al anular el triaje. Por favor, inténtalo de nuevo.");
+        }
+        setShowConfirmPopup(false);
+    };
+
+    const handleClosePopup = () => {
+        // Cerrar el popup
+        setShowConfirmPopup(false);
+    };
+
         const edad = dataTriaje?.paciente ? calcularEdad(dataTriaje.paciente.fechaNacimiento) : "";
    
         const handleChange = (e) => {
@@ -184,7 +252,38 @@ const TriajeProfile = ({ params }) => {
         };
 
     return (
+        
         <div className="w-full p-10 rounded-lg shadow-md">
+            <button className="bg-red-500 text-white hover:bg-red-600 px-4 py-2 rounded float-right mb-4" onClick={handleAnularTriajeClick}>Anular Triaje</button>
+
+
+
+            {showConfirmPopup && (
+            <div className="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <div className="fixed inset-0 bg-gray-500 bg-opacity-75" aria-hidden="true"></div>
+
+                <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+                <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                    <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-title">Confirmación</h3>
+                    <div className="mt-2">
+                        <p className="text-sm text-gray-500">¿Está seguro que desea anular el triaje?</p>
+                    </div>
+                    </div>
+                    <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button onClick={handleConfirmAnulacion} className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 focus:outline-none">Sí, anular</button>
+                    <button onClick={handleClosePopup} className="mr-2 bg-gray-200 text-black px-4 py-2 rounded hover:bg-gray-300 focus:outline-none">Cancelar</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+            )}
+
+
+
+
             <section className="rounded-lg p-8 w-full flex flex-col space-y-6">
 
                 <div>
@@ -276,11 +375,12 @@ const TriajeProfile = ({ params }) => {
                             value={dataTriaje?.motivoVisita} 
                             onChange={handleChange} 
                             name="motivoVisita" 
-                            className="border rounded w-full py-2 px-3"
-                            maxLength={255}
+                            className="textarea-custom w-full"
+                            maxLength={1000}
                         ></textarea>
                         <span className="text-right block mt-2" id="charCount">0/1000</span>
                     </div>
+
 
                     <div className="grid grid-cols-3 gap-6 mb-6">
 
@@ -394,8 +494,8 @@ const TriajeProfile = ({ params }) => {
                             value={dataTriaje?.condicionesPrexistentes} 
                             onChange={handleChange} 
                             name="condicionesPrexistentes" 
-                            className="border rounded w-full py-2 px-3"
-                            maxLength={255}
+                            className="textarea-custom w-full"
+                            maxLength={1000}
                         ></textarea>
                         <span className="text-right block mt-2" id="charCountPreexistentes">0/1000</span>
                     </div>
@@ -424,13 +524,36 @@ const TriajeProfile = ({ params }) => {
                     </div>
 
                     {showModal && (
-                        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50">
-                            <div className="bg-white p-8 rounded shadow-lg flex flex-col items-center">
-                                <p>Información guardada exitosamente!</p>
-                                <button onClick={handleAcceptModal} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded">Aceptar</button>
+                        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50 bg-gray-800 bg-opacity-50">
+                            <div className="bg-white p-8 rounded-lg shadow-lg flex flex-col items-center space-y-4">
+                                {/* Icono de check en SVG */}
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-green-500" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <path d="M20 6L9 17l-5-5l-1.41 1.42L9 19.84L21.41 7.41L20 6z"></path>
+                                </svg>
+                                <p className="text-gray-700 font-semibold">Información guardada exitosamente!</p>
+                                <button onClick={handleAcceptModal} className="mt-4 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded">Aceptar</button>
                             </div>
                         </div>
                     )}
+
+                    {missingFieldsModal && (
+                        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50 bg-gray-800 bg-opacity-50">
+                            <div className="bg-white p-8 rounded-lg shadow-lg flex flex-col items-center space-y-4">
+                                {/* Icono de advertencia en SVG */}
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-yellow-500" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"></path>
+                                </svg>
+                                <p className="text-gray-700 font-semibold">Por favor, completa los siguientes campos antes de guardar:</p>
+                                <ul className="text-gray-600 list-disc pl-5">
+                                    {missingFields.map(field => (
+                                        <li key={field}>{field}</li>
+                                    ))}
+                                </ul>
+                                <button onClick={() => setMissingFieldsModal(false)} className="mt-4 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded">Entendido</button>
+                            </div>
+                        </div>
+                    )}
+
 
                 </div>
             </section>

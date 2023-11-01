@@ -2,34 +2,36 @@ export function parseTriajeTable(data) {
     return data.map(row => {
         const paciente = row.paciente;
         let prioridadTexto = row.prioridad;
-        let prioridadClase;
+        let prioridadIcon; 
 
-        
         switch (prioridadTexto) {
             case 'Resucitacion':
-                prioridadClase = "bg-resucitacion";
+                prioridadIcon = "🔴";
                 break;
             case 'Emergencia':
-                prioridadClase = "bg-emergencia";
+                prioridadIcon = "🟠";
                 break;
             case 'Urgencia':
-                prioridadClase = "bg-urgencia";
+                prioridadIcon = "🟡";
                 break;
             case 'Urgencia menor':
-                prioridadClase = "bg-urgencia-menor";
+                prioridadIcon = "🟢";
                 break;
             case 'Sin Urgencia':
-                prioridadClase = "bg-sin-urgencia";
+                prioridadIcon = "🔵";
+                break;
+            case 'N.A.': 
+                prioridadIcon = "⚪";
+                prioridadTexto = "Sin atender"; 
                 break;
         }
-
 
         let estadoTexto;
         let estadoClase;
         switch (row.estado) {
             case 1:
                 estadoTexto = "Atendida";
-                estadoClase = "bg-atendida"; // Color de fondo para "Atendida"
+                estadoClase = "bg-atendida";
                 break;
             case 2:
                 estadoTexto = "En Consultorio";
@@ -39,19 +41,19 @@ export function parseTriajeTable(data) {
                 break;
             case 4:
                 estadoTexto = "Pendiente";
-                estadoClase = "bg-pendiente";  // Color de fondo para "Pendiente"
+                estadoClase = "bg-pendiente";
                 break;
             default:
                 estadoTexto = "Desconocido";
         }
 
         return [
-            { "data": row.idTriaje }, // ID
-            { "data": row.fechaTriaje }, // Fecha
-            { "data": paciente.dni }, // DNI del paciente
-            { "data": `${paciente.nombres} ${paciente.apellidoPaterno} ${paciente.apellidoMaterno}` }, // Nombre completo
-            { "data": estadoTexto, "className": estadoClase }, // Estado con la clase CSS
-            { "data": prioridadTexto, "className": prioridadClase },
+            { "data": row.idTriaje },
+            { "data": `${row.fechaTriaje}     ${row.horaTriaje}`},
+            { "data": paciente.dni },
+            { "data": `${paciente.nombres} ${paciente.apellidoPaterno} ${paciente.apellidoMaterno}` },
+            { "data": estadoTexto, "className": estadoClase },
+            { "data": `${prioridadIcon} ${prioridadTexto}`, "className": "" }, 
         ];
     });
 }

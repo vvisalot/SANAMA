@@ -26,13 +26,16 @@ public class TriajeController {
         List<Triaje> triajes = null;
         try{
             JSONObject job = (JSONObject) new JSONParser().parse(pv_datos);
-            System.out.println(pv_datos);
             String pv_filtro = job.get("pv_filtro").toString();
-            String pd_fecha_inicio=null;
-            String pd_fecha_fin=null;
+            String pd_fecha_inicio;
+            String pd_fecha_fin;
 
-            if(job.get("pd_fecha_inicio") != null) pd_fecha_inicio = job.get("pd_fecha_inicio").toString();
-            if(job.get("pd_fecha_fin") != null) pd_fecha_fin = job.get("pd_fecha_fin").toString();
+            if(job.get("pd_fecha_inicio") == null) pd_fecha_inicio=null;
+            else pd_fecha_inicio = job.get("pd_fecha_inicio").toString();
+
+            if(job.get("pd_fecha_fin") == null) pd_fecha_fin=null;
+            else pd_fecha_fin = job.get("pd_fecha_fin").toString();
+
 
             triajes = triajeService.listarTriajePorFiltro(pv_filtro,pd_fecha_inicio,pd_fecha_fin);
         }catch(Exception ex){
