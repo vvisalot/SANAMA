@@ -14,6 +14,10 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
     const [cancelButton, setCancelButton] = useState(false)
     const [obtainedPatientId, setObtainedPatientId] = useState("")
 
+    //Dropdowns
+    const [securityTypes, setSecurityTypes] = useState([])
+    const [relationships, setRelationships] = useState([])
+
     const validateForm = () => {
         const patientFormValues = Object.values(patientForm)
         if (patientFormValues.includes("") || !fechaNacimiento || !sexo) {
@@ -23,7 +27,25 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
             setFormComplete(true)
         }
     }
+    const fetchSecurityTypes = async () => {
+        try {
+            const data = await patientService.listarSeguros()
+            console.log(data)
+            setSecurityTypes(data)
+        } catch (error) {
+            console.log("No se pudo obtener el listado de seguros")
+        }
+    }
 
+    const fetchRelationships = async () => {
+        try {
+            const data = await patientService.listarParentescos()
+            console.log(data)
+            setRelationships(data)
+        } catch (error) {
+            console.log("No se pudo obtener el listado de parentescos")
+        }
+    }
 
     const handleRegister = () => {
         if (!isFormEnabled) {
@@ -46,7 +68,7 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
     }
 
     const handlePatientSelect = (selectedPatient) => {
-        console.log('Paciente seleccionado:', selectedPatient.idPersona)
+        //console.log('Paciente seleccionado:', selectedPatient.idPersona)
         setObtainedPatientId(selectedPatient.idPersona)
     }
 
@@ -78,6 +100,8 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
 
 
     useEffect(() => {
+        fetchRelationships()
+        fetchSecurityTypes()
         console.log(obtainedPatientId)
         if (obtainedPatientId) {
             fetchData(obtainedPatientId)

@@ -181,24 +181,5 @@ export const appointmentService = {
     }
   },
 
-  listarParentescos: async () => {
-    try {
-      const response = await axiosInstance.get('/configuracion/get/listarParentezcos')
-      return response.data
-    } catch (error) {
-      console.error("Error al listar los parentescos", error)
-      throw error
-    }
-  },
 
-
-  listarSeguros: async () => {
-    try {
-      const response = await axiosInstance.get('/configuracion/get/listarSeguros')
-      return response.data
-    } catch (error) {
-      console.error("Error al listar los seguros", error)
-      throw error
-    }
-  }
 }
