@@ -1,7 +1,7 @@
-import React, { useMemo } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 
-const camposAtencion = [
+const CAMPOS_ATENCION = [
   { id: "numero-cita", label: "CODIGO DE CITA", type: "text" },
   { id: "fecha-atencion", label: "FECHA DE ATENCION", type: "date" },
   { id: "hora-atencion", label: "HORA DE ATENCION", type: "time" },
@@ -12,60 +12,23 @@ const camposAtencion = [
   { id: "estado", label: "ESTADO", type: "text" },
 ];
 
-const getValue = (
-  id,
-  appointmentData,
-  nombreDoctor,
-  especialidadNombre,
-  status
-) => {
-  switch (id) {
-    case "medico-responsable":
-      return nombreDoctor;
-    case "especialidad":
-      return especialidadNombre;
-    case "estado":
-      return status;
-    default:
-      return appointmentData[id];
-  }
-};
+const ESTADOS = ["Atendida", "En Consultorio", "Cancelada", "Pendiente"];
 
-const getStatus = (estado) => {
-  switch (estado) {
-    case 1:
-      return "Atendida";
-    case 2:
-      return "En Consultorio";
-    case 3:
-      return "Cancelada";
-    case 4:
-      return "Pendiente";
-    default:
-      return "Desconocido";
-  }
-};
-
-const DoctorInfo = ({ doctor }) => {
-  if (!doctor) return { nombreDoctor: "N/A", especialidadNombre: "N/A" };
-
-  const nombreDoctor = useMemo(() => {
-    return `${doctor.sexo === "M" ? "Dr." : "Dra."} ${doctor.nombres} ${
-      doctor.apellidoPaterno
-    } ${doctor.apellidoMaterno}`;
-  }, [doctor]);
-
-  const especialidadNombre = useMemo(() => {
-    return doctor.especialidad ? doctor.especialidad.nombre : "";
-  }, [doctor]);
-
-  return { nombreDoctor, especialidadNombre };
-};
-
-const AppointmentInfo = React.memo(({ appointmentData, doctor }) => {
-  const { estado, ...restAppointmentData } = appointmentData || {};
-  const { nombreDoctor, especialidadNombre } = DoctorInfo({ doctor });
-  const status = useMemo(() => getStatus(estado), [estado]);
+const AppointmentInfo = ({ appointmentData, doctor }) => {
+  const getValue = (id) => {
+    switch (id) {
+      case "medico-responsable":
+        return `${doctor.sexo === "M" ? "Dr." : "Dra."} ${doctor.nombres} ${
+          doctor.apellidoPaterno
+        } ${doctor.apellidoMaterno}`;
+      case "especialidad":
+        return doctor.especialidad ? doctor.especialidad.nombre : "";
+      case "estado":
+        return ESTADOS[appointmentData.estado - 1] || "Desconocido";
+      default:
+        return appointmentData[id];
+    }
+  };
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md mb-6">
@@ -73,7 +36,7 @@ const AppointmentInfo = React.memo(({ appointmentData, doctor }) => {
         Información de la atención
       </h2>
       <div className="grid grid-cols-3 gap-4">
-        {camposAtencion.map(({ id, label, type }) => (
+        {CAMPOS_ATENCION.map(({ id, label, type }) => (
           <div key={id}>
             <label
               htmlFor={id}
@@ -86,13 +49,7 @@ const AppointmentInfo = React.memo(({ appointmentData, doctor }) => {
               id={id}
               name={id}
               className="mt-1 p-2 w-full border rounded-md"
-              defaultValue={getValue(
-                id,
-                restAppointmentData,
-                nombreDoctor,
-                especialidadNombre,
-                status
-              )}
+              defaultValue={getValue(id)}
               readOnly
             />
           </div>
@@ -100,11 +57,11 @@ const AppointmentInfo = React.memo(({ appointmentData, doctor }) => {
       </div>
     </div>
   );
-});
+};
 
 AppointmentInfo.propTypes = {
   appointmentData: PropTypes.object.isRequired,
-  doctor: PropTypes.object,
+  doctor: PropTypes.object.isRequired,
 };
 
-export default AppointmentInfo;
+export default React.memo(AppointmentInfo);

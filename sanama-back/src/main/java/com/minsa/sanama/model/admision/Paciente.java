@@ -7,7 +7,7 @@ import com.minsa.sanama.model.atencionmedica.HistorialClinico;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class  Paciente extends Persona{
     private String codigoSeguro;
-    private String tipoSeguro;
+    private int tipoSeguro;
     private String correo;
     private String direccion;
     private HistorialClinico historialClinico;
@@ -25,11 +25,11 @@ public class  Paciente extends Persona{
         this.codigoSeguro = codigoSeguro;
     }
 
-    public String getTipoSeguro() {
+    public int getTipoSeguro() {
         return tipoSeguro;
     }
 
-    public void setTipoSeguro(String tipoSeguro) {
+    public void setTipoSeguro(int tipoSeguro) {
         this.tipoSeguro = tipoSeguro;
     }
 

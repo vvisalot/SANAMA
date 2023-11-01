@@ -80,7 +80,7 @@ public class PacienteRepository {
             paciente.setCorreo(rs.getString("correo"));
             paciente.setDireccion(rs.getString("direccion"));
             paciente.setCodigoSeguro(rs.getString("codigo_seguro"));
-            paciente.setTipoSeguro(rs.getString("tipo_seguro"));
+            paciente.setTipoSeguro(rs.getInt("tipo_seguro"));
             paciente.setEstado(rs.getInt("estado"));
 
             return paciente;
@@ -106,7 +106,7 @@ public class PacienteRepository {
             paciente.setCorreo(rs.getString("correo"));
             paciente.setDireccion(rs.getString("direccion"));
             paciente.setCodigoSeguro(rs.getString("codigo_seguro"));
-            paciente.setTipoSeguro(rs.getString("tipo_seguro"));
+            paciente.setTipoSeguro(rs.getInt("tipo_seguro"));
             paciente.setEstado(rs.getInt("estado"));
             paciente.setHistorialClinico(new HistorialClinico());
             paciente.getHistorialClinico().setIdHistorialClinico(rs.getInt("id_historial_clinico"));
@@ -133,7 +133,7 @@ public class PacienteRepository {
                         new SqlParameter("pv_telefono", Types.VARCHAR),
                         new SqlParameter("pb_foto", Types.BLOB),
                         new SqlParameter("pv_codigo_seguro", Types.VARCHAR),
-                        new SqlParameter("pv_tipo_seguro", Types.VARCHAR),
+                        new SqlParameter("pn_tipo_seguro", Types.INTEGER),
                         new SqlParameter("pv_correo", Types.VARCHAR),
                         new SqlParameter("pv_direccion", Types.VARCHAR)
                 });
@@ -148,7 +148,7 @@ public class PacienteRepository {
                 .addValue("pv_telefono", paciente.getTelefono())
                 .addValue("pb_foto", paciente.getFoto())
                 .addValue("pv_codigo_seguro", paciente.getCodigoSeguro())
-                .addValue("pv_tipo_seguro", paciente.getTipoSeguro())
+                .addValue("pn_tipo_seguro", paciente.getTipoSeguro())
                 .addValue("pv_correo", paciente.getCorreo())
                 .addValue("pv_direccion", paciente.getDireccion());
 
@@ -178,7 +178,7 @@ public class PacienteRepository {
                         new SqlParameter("pv_telefono", Types.VARCHAR),
                         new SqlParameter("pb_foto", Types.BLOB),
                         new SqlParameter("pv_codigo_seguro", Types.VARCHAR),
-                        new SqlParameter("pv_tipo_seguro", Types.VARCHAR),
+                        new SqlParameter("pn_tipo_seguro", Types.INTEGER),
                         new SqlParameter("pv_correo", Types.VARCHAR),
                         new SqlParameter("pv_direccion", Types.VARCHAR)
                 });
@@ -194,7 +194,7 @@ public class PacienteRepository {
                 .addValue("pv_telefono", paciente.getTelefono())
                 .addValue("pb_foto", paciente.getFoto())
                 .addValue("pv_codigo_seguro", paciente.getCodigoSeguro())
-                .addValue("pv_tipo_seguro", paciente.getTipoSeguro())
+                .addValue("pn_tipo_seguro", paciente.getTipoSeguro())
                 .addValue("pv_correo", paciente.getCorreo())
                 .addValue("pv_direccion", paciente.getDireccion());
 
