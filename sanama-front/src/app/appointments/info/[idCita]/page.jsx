@@ -19,6 +19,7 @@ const ReviewAppointment = ({ params }) => {
     isStatusUpdated,
     error: statusUpdateError,
   } = useUpdateAppointmentStatus();
+
   const { appointmentReschedule } = useAppointmentReschedule();
 
   useEffect(() => {
@@ -77,8 +78,7 @@ const ReviewAppointment = ({ params }) => {
     }
   };
 
-  const isCancelledOrInConsultation =
-    estado === "CANCELADO" || estado === "EN_CONSULTORIO";
+  const isCancelledOrInConsultation = estado === 3 || estado === 2;
 
   return (
     <div className="container mx-auto p-4">

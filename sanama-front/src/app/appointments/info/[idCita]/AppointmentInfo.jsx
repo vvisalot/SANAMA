@@ -11,14 +11,37 @@ const camposAtencion = [
   { id: "estado", label: "ESTADO", type: "text" },
 ];
 
-const getValue = (appointmentData, id, nombreDoctor, especialidadNombre) => {
+const getValue = (
+  appointmentData,
+  id,
+  nombreDoctor,
+  especialidadNombre,
+  estado
+) => {
   switch (id) {
     case "medico-responsable":
       return nombreDoctor;
     case "especialidad":
       return especialidadNombre;
+    case "estado":
+      return getStatus(estado);
     default:
       return appointmentData[id];
+  }
+};
+
+const getStatus = (estado) => {
+  switch (estado) {
+    case 1:
+      return "Atendida";
+    case 2:
+      return "En Consultorio";
+    case 3:
+      return "Cancelada";
+    case 4:
+      return "Pendiente";
+    default:
+      return "Desconocido";
   }
 };
 
@@ -29,6 +52,7 @@ const AppointmentInfo = ({ appointmentData, doctor }) => {
   const especialidadNombre = doctor.especialidad
     ? doctor.especialidad.nombre
     : "";
+  const status = getStatus(appointmentData.estado);
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md mb-6">
@@ -53,7 +77,8 @@ const AppointmentInfo = ({ appointmentData, doctor }) => {
                 appointmentData,
                 campo.id,
                 nombreDoctor,
-                especialidadNombre
+                especialidadNombre,
+                appointmentData.estado
               )}
               readOnly
             />
