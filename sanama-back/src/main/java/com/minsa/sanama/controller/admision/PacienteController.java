@@ -81,23 +81,7 @@ public class PacienteController {
             produces = {MediaType.APPLICATION_JSON_VALUE},
             value = "/post/buscarPacientePrueba")
 
-    @ResponseBody
-    public List<Paciente> buscarPacienteFiltroPrueba(@RequestBody String pv_filtro){
-        List<Paciente> pacientes = null;
-        try{
-            System.out.println(pv_filtro);
-            JSONObject job = (JSONObject) new JSONParser().parse(pv_filtro);
-            String cadena = job.get("pv_filtro").toString();
-            System.out.println(cadena);
-            pacientes = pacienteService.buscarPacienteFiltroPrueba(cadena);
-
-        }catch(Exception ex){
-
-        }
-        return pacientes;
-    }
-
-
+    
     @PutMapping(value = "/put/paciente")
     @ResponseBody
     public int registrarPaciente(@RequestBody Paciente paciente){

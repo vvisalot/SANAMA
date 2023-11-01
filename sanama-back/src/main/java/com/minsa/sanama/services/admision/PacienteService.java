@@ -39,14 +39,6 @@ public class PacienteService {
         return lPacientes;
     }
 
-    public List<Paciente> buscarPacienteFiltroPrueba(String pv_filtro){
-        List<Paciente> lPacientes;
-        lPacientes = pacienteRepository.buscarPacienteFiltroPrueba(pv_filtro);
-        return lPacientes;
-    }
-
-
-
     public int registrarPaciente(Paciente paciente){
         int idPaciente, idHistoria;
         paciente.setHistorialClinico(new HistorialClinico());
