@@ -71,14 +71,25 @@ function SeleccionarHorarioMedico(props) {
   const [events, setEvents] = useState([]);
   const [view, setView] = useState("month");
   const [calendarHeight, setCalendarHeight] = useState(600);
+  const fechaInicioManana = new Date();
+  fechaInicioManana.setDate(fechaInicioManana.getDate() + 1); // Establece la fecha para mañana
+  fechaInicioManana.setHours(0, 0, 0, 0);
+
   const fechaHoy = new Date();
+  fechaHoy.setDate(1); // Establece el día como el primer día del mes actual
+  fechaHoy.setHours(0, 0, 0, 0); // Establece la hora a las 00:00:00
+
   const fechaLimite = new Date();
-  fechaHoy.setDate(fechaHoy.getDate() - 7); //Aquí defino que tambien quiero traer data de 2 semanas antes*********
-  fechaLimite.setDate(fechaLimite.getDate() + 60); //Aquí defino que tambien quiero traer data hasta 14 dias despues*********
+  fechaLimite.setMonth(fechaLimite.getMonth() + 2, 0); // Establece el mes como el mes siguiente y el día como el último día del mes
+  fechaLimite.setHours(23, 59, 59, 999); // Establece el mes como el mes siguiente y el día como el último día del mes
+  //console.log(fechaHoy);
+  //console.log(fechaLimite);
+  //Aquí defino que tambien quiero traer data hasta 14 dias despues*********
   const [seHaModificadoHorario, setSeHaModificadoHorario] = useState(false);
   const handleIngresarDisponibilidad = () => {
     setBackData(events);
     setIsCalendarEnabled(true);
+    setSeHaModificadoHorario(false);
   };
 
   const handleCancelarIngresoDisponibilidad = () => {
@@ -97,8 +108,8 @@ function SeleccionarHorarioMedico(props) {
     //FECHAS
     let fechaInicioReg = events[0].start.toISOString().split("T")[0];; // Inicializa con la primera fecha
     let fechaFinReg = events[0].start.toISOString().split("T")[0];; // Inicializa con la primera fecha
-    console.log(fechaInicioReg)
-    console.log(fechaFinReg)
+    //console.log(fechaInicioReg)
+    //console.log(fechaFinReg)
     const eventosTransformados = events.map((evento) => {
       const horaInicio = evento.start.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false });
       const horaFin = evento.end.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false });
@@ -140,7 +151,7 @@ function SeleccionarHorarioMedico(props) {
 
     //console.log(jsonParaServidor);
 
-    
+
     const registrarEvento = async (jsonParaServidor) => {
       const url = "http://localhost:8080/rrhh/post/registrarHorarioMedico";
       const requestOptions = {
@@ -155,11 +166,11 @@ function SeleccionarHorarioMedico(props) {
         const response = await fetch(url, requestOptions);
         if (response.ok) {
           console.log("Solicitud exitosa");
-          setSeHaModificadoHorario(true);
           setIsCalendarEnabled(false);
+          setSeHaModificadoHorario(false);
         } else {
           console.error("Error en la solicitud:", response.statusText);
-          setSeHaModificadoHorario(true);
+          setSeHaModificadoHorario(false);
         }
       } catch (error) {
         console.error("Error en la solicitud:", error);
@@ -168,7 +179,7 @@ function SeleccionarHorarioMedico(props) {
 
     const registrarEventos = async () => {
       await registrarEvento(jsonParaServidor);
-      setIsCalendarEnabled(true);
+      //setIsCalendarEnabled(true);
     };
 
     registrarEventos();
@@ -240,7 +251,12 @@ function SeleccionarHorarioMedico(props) {
       };
 
       if (!isEventOverlapping(newEvent)) {
-        setEvents((prevEvents) => [...prevEvents, newEvent]);
+        if (slotInfo.start >= fechaInicioManana && slotInfo.start <= fechaLimite) {
+          setEvents((prevEvents) => [...prevEvents, newEvent]);
+
+        } else {
+          alert("Puedes ingresar tu disponibilidad a partir del día siguiente");
+        }
       } else {
         alert(
           "El nuevo turno se superpone con un turno existente. Por favor, seleccione otra hora."
@@ -265,8 +281,14 @@ function SeleccionarHorarioMedico(props) {
       //   setEvents(updatedEvents);
       // }
     } else {
-      const updatedEvents = events.filter((e) => e !== event);
-      setEvents(updatedEvents);
+      if (event.start >= fechaInicioManana && event.start <= fechaLimite) {
+        const updatedEvents = events.filter((e) => e !== event);
+        setEvents(updatedEvents);
+      } else {
+        alert(
+          "Puedes editar tu disponibilidad a partir del día siguiente"
+        );
+      }
     }
   };
 
@@ -308,7 +330,7 @@ function SeleccionarHorarioMedico(props) {
               onClick={handleGuardar} disabled={!isCalendarEnabled}>
               Guardar
             </button>
-            <Mensaje text={"Solo podrá visualizar su disponibilidad de los siguientes 30 dias"}></Mensaje>
+            <Mensaje text={"Podrá visualizar y registrar su disponibilidad en el mes actual y mes siguiente"}></Mensaje>
           </div>
           <Calendar
             localizer={localizer}
