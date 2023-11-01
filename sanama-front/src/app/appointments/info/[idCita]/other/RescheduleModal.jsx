@@ -82,7 +82,8 @@ const RescheduleModal = ({ isOpen, onClose, medicId }) => {
               <AvailableHoursBlock
                 availableHours={availableHours}
                 onHourClick={handleHourChange}
-                selectedDate={selectedDate}
+                selectedHour={selectedHour}
+                isLoading={loading}
               />
             </div>
           </div>
