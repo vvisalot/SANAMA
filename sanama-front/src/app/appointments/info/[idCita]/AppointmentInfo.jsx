@@ -17,16 +17,24 @@ const ESTADOS = ["Atendida", "En Consultorio", "Cancelada", "Pendiente"];
 const AppointmentInfo = ({ appointmentData, doctor }) => {
   const getValue = (id) => {
     switch (id) {
+      case "numero-cita":
+        return appointmentData.codigoCita;
+      case "fecha-atencion":
+        return appointmentData.fechaCita;
+      case "hora-atencion":
+        return appointmentData.horaCita;
       case "medico-responsable":
-        return `${doctor.sexo === "M" ? "Dr." : "Dra."} ${doctor.nombres} ${
-          doctor.apellidoPaterno
-        } ${doctor.apellidoMaterno}`;
+        return `${doctor.nombres} ${doctor.apellidoPaterno} ${doctor.apellidoMaterno}`;
       case "especialidad":
         return doctor.especialidad ? doctor.especialidad.nombre : "";
+      case "dniAcompanhante":
+        return appointmentData.dniAcompanhante || "No especificado";
+      case "nombreAcompanhante":
+        return appointmentData.nombreAcompanhante || "No especificado";
       case "estado":
         return ESTADOS[appointmentData.estado - 1] || "Desconocido";
       default:
-        return appointmentData[id];
+        return "Desconocido";
     }
   };
 
