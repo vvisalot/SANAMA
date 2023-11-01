@@ -6,6 +6,7 @@ import { validateNumberInput, validateSecurityCode, validateTextInput } from "@/
 import AppointementForm from "./AppointementForm"
 import useAppointmentForm from "@/hooks/useAppointmentForm"
 import SearchPatientModal from "./SearchPatientModal"
+import { TextInput } from "flowbite-react"
 const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, patientForm, fechaNacimiento, setFechaNacimiento, sexo, setSexo, setPatientForm }) => {
     const [errorMessage, setErrorMessage] = useState("")
     const [showModal, setShowModal] = useState(false)
@@ -57,9 +58,13 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
                     </button>
                     <button
                         type="button"
+                        disabled={isFormEnabled}
                         onClick={handleOpenModal}
-                        className=" m-2 text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300 
-                    font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center"
+                        className={`m-2 text-white ${isFormEnabled
+                                ? 'bg-gray-400 cursor-not-allowed'
+                                : 'bg-green-500 hover:bg-green-600'
+                            } focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center ${isFormEnabled ? 'text-gray-700' : '' // Color apagado cuando está deshabilitado
+                            }`}
                     >Buscar paciente
                     </button>
                 </div>
@@ -72,13 +77,13 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
 
                 <div className="grid grid-cols-2 md:gap-6">
                     <div className="relative z-0 w-full mb-6 group">
-                        <input
+                        <TextInput
                             type="text"
                             name="first_last_name"
                             id="first_last_name"
                             minLength={3}
                             maxLength={255}
-                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent"
                             placeholder=" "
                             value={patientForm.apellidoPaterno}
                             onChange={(event) => {
@@ -91,17 +96,17 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
 
                             required />
                         <label htmlFor="first_last_name"
-                            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                            className="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0]">
                             Apellido paterno
                         </label>
                     </div>
                     <div className="relative z-0 w-full mb-6 group">
-                        <input type="text"
+                        <TextInput type="text"
                             name="second_last_name"
                             id="second_last_name"
                             minLength={3}
                             maxLength={255}
-                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent"
                             placeholder=" "
                             value={patientForm.apellidoMaterno}
                             onChange={(event) => {
@@ -114,20 +119,20 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
                             }}
                             required />
                         <label htmlFor="second_last_name"
-                            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                            className="peer-focus:font-medium absolute text-sm text-gray-500  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0]">
                             Apellido materno
                         </label>
                     </div>
 
                 </div>
                 <div className="relative z-0 w-full mb-6 group">
-                    <input
+                    <TextInput
                         type="text"
                         name="names"
                         id="names"
                         minLength={3}
                         maxLength={255}
-                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent"
                         placeholder=" "
                         value={patientForm.nombres}
                         onChange={(event) => {
@@ -146,13 +151,13 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
 
                 <div className="grid grid-cols-2 md:gap-6">
                     <div className="relative z-0 w-full mb-6 group">
-                        <input
+                        <TextInput
                             type="text"
                             minLength={3}
                             maxLength={255}
                             name="tipo_seguro"
                             id="tipo_seguro"
-                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent"
                             placeholder=" "
                             value={patientForm.tipoSeguro}
                             onChange={(event) =>
@@ -167,10 +172,10 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
                         </label>
                     </div>
                     <div className="relative z-0 w-full mb-6 group">
-                        <input type="text"
+                        <TextInput type="text"
                             name="security_number"
                             id="security_number"
-                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent"
                             placeholder=" "
                             minLength={3}
                             maxLength={6}
@@ -192,13 +197,13 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
 
                 <div className="grid grid-cols-2 md:gap-6">
                     <div className="relative z-0 w-full mb-6 group">
-                        <input
+                        <TextInput
                             type="text"
                             name="dni"
                             id="dni"
                             minLength={3}
                             maxLength={8}
-                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent "
                             placeholder=" "
                             value={patientForm.dni}
                             onChange={(event) => {
@@ -215,10 +220,10 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
                         </label>
                     </div>
                     <div className="relative z-0 w-full mb-6 group">
-                        <input type="text"
+                        <TextInput type="text"
                             name="address"
                             id="address"
-                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent "
                             placeholder=" "
                             autoComplete="off"
                             value={patientForm.direccion}
@@ -228,20 +233,20 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
                             })}
                             required />
                         <label htmlFor="address"
-                            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 ">
                             Direccion
                         </label>
                     </div>
                 </div>
 
                 <div className="relative z-0 w-full mb-6 group">
-                    <input type="text"
+                    <TextInput type="text"
                         name="phone"
                         minLength={3}
                         maxLength={9}
                         id="phone"
                         autoComplete="off"
-                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent "
                         placeholder=" "
                         value={patientForm.telefono}
                         onChange={(event) => {
@@ -253,7 +258,7 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
                         }}
                         required />
                     <label htmlFor="phone"
-                        className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                        className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] ">
                         Telefono
                     </label>
                 </div>
@@ -278,7 +283,6 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
             </fieldset>
 
 
-            <hr></hr>
 
             <div className="flex flex-row-reverse">
                 <button

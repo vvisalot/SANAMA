@@ -35,3 +35,14 @@ export function parsePatientTable(data) {
     })
     return table
 }
+
+export function parsePatientModal(data) {
+    return data.map(row => {
+        return {
+            "data": row.idPersona,
+            "data": `${row.nombres} ${row.apellidoPaterno} ${row.apellidoMaterno}`,
+            "data": row.dni
+        }
+    })
+}
+
