@@ -77,11 +77,6 @@ public class PacienteController {
         return pacientes;
     }
 
-    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE},
-            produces = {MediaType.APPLICATION_JSON_VALUE},
-            value = "/post/buscarPacientePrueba")
-
-    
     @PutMapping(value = "/put/paciente")
     @ResponseBody
     public int registrarPaciente(@RequestBody Paciente paciente){
