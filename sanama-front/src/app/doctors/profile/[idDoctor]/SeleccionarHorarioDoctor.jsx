@@ -74,7 +74,7 @@ function SeleccionarHorarioMedico(props) {
   const fechaHoy = new Date();
   const fechaLimite = new Date();
   fechaHoy.setDate(fechaHoy.getDate() - 7); //Aquí defino que tambien quiero traer data de 2 semanas antes*********
-  fechaLimite.setDate(fechaLimite.getDate() + 30); //Aquí defino que tambien quiero traer data hasta 14 dias despues*********
+  fechaLimite.setDate(fechaLimite.getDate() + 60); //Aquí defino que tambien quiero traer data hasta 14 dias despues*********
   const [seHaModificadoHorario, setSeHaModificadoHorario] = useState(false);
   const handleIngresarDisponibilidad = () => {
     setBackData(events);
