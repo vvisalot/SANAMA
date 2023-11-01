@@ -46,3 +46,14 @@ export function parsePatientModal(data) {
     })
 }
 
+
+export const sexParser = (sex) => {
+    if (sex === "M") {
+        return "Masculino"
+    } else if (sex === "F") {
+        return "Femenino"
+    } else {
+        // Puedes manejar otros valores o dejarlo como está
+        return sex
+    }
+}

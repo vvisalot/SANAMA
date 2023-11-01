@@ -1,25 +1,29 @@
 "use client"
 import DatePicker from "@/components/buttons/DatePicker"
 import Picker from "@/components/buttons/Picker"
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { validateNumberInput, validateSecurityCode, validateTextInput } from "@/util/formValidations"
-import AppointementForm from "./AppointementForm"
-import useAppointmentForm from "@/hooks/useAppointmentForm"
 import SearchPatientModal from "./SearchPatientModal"
 import { TextInput } from "flowbite-react"
+import { patientService } from "@/services/patientService"
+import { sexParser } from "@/util/patientParser"
 const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, patientForm, fechaNacimiento, setFechaNacimiento, sexo, setSexo, setPatientForm }) => {
     const [errorMessage, setErrorMessage] = useState("")
     const [showModal, setShowModal] = useState(false)
     const [isFormEnabled, setIsFormEnabled] = useState(false)
     const [cancelButton, setCancelButton] = useState(false)
+    const [obtainedPatientId, setObtainedPatientId] = useState("")
 
-    const handleOpenModal = () => {
-        setShowModal(true)
+    const validateForm = () => {
+        const patientFormValues = Object.values(patientForm)
+        if (patientFormValues.includes("") || !fechaNacimiento || !sexo) {
+            setErrorMessage("Todos los campos deben estar llenos")
+        } else {
+            setErrorMessage("")
+            setFormComplete(true)
+        }
     }
 
-    const handleCloseModal = () => {
-        setShowModal(false)
-    }
 
     const handleRegister = () => {
         if (!isFormEnabled) {
@@ -33,15 +37,51 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
         }
     }
 
-    const validateForm = () => {
-        const patientFormValues = Object.values(patientForm)
-        if (patientFormValues.includes("") || !fechaNacimiento || !sexo) {
-            setErrorMessage("Todos los campos deben estar llenos")
-        } else {
-            setErrorMessage("")
-            setFormComplete(true)
+    const handleOpenModal = () => {
+        setShowModal(true)
+    }
+
+    const handleCloseModal = () => {
+        setShowModal(false)
+    }
+
+    const handlePatientSelect = (selectedPatient) => {
+        console.log('Paciente seleccionado:', selectedPatient.idPersona)
+        setObtainedPatientId(selectedPatient.idPersona)
+    }
+
+
+    const fetchData = async (filtro) => {
+        try {
+            const data = await patientService.buscarPacienteModal(filtro)
+            setPatientForm({
+                ...patientForm,
+                apellidoPaterno: data.apellidoPaterno,
+                apellidoMaterno: data.apellidoMaterno,
+                nombres: data.nombres,
+                tipoSeguro: data.tipoSeguro,
+                codigoSeguro: data.codigoSeguro,
+                dni: data.dni,
+                direccion: data.direccion,
+                telefono: data.telefono,
+            })
+            setFechaNacimiento(data.fechaNacimiento)
+            setSexo(sexParser(data.sexo))
+            // console.log(data)
+        } catch (error) {
+            console.log(error)
         }
     }
+
+
+    useEffect(() => {
+        console.log(obtainedPatientId)
+        if (obtainedPatientId) {
+            fetchData(obtainedPatientId)
+        }
+    }, [obtainedPatientId])
+
+
 
     return (
         <section id='section1'>
@@ -61,15 +101,18 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
                         disabled={isFormEnabled}
                         onClick={handleOpenModal}
                         className={`m-2 text-white ${isFormEnabled
-                                ? 'bg-gray-400 cursor-not-allowed'
-                                : 'bg-green-500 hover:bg-green-600'
+                            ? 'bg-gray-400 cursor-not-allowed'
+                            : 'bg-green-500 hover:bg-green-600'
                             } focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center ${isFormEnabled ? 'text-gray-700' : '' // Color apagado cuando está deshabilitado
                             }`}
                     >Buscar paciente
                     </button>
                 </div>
 
-                <SearchPatientModal show={showModal} onClose={handleCloseModal} />
+                <SearchPatientModal
+                    show={showModal}
+                    onClose={handleCloseModal}
+                    onSelect={handlePatientSelect} />
             </div>
 
             <fieldset disabled={!isFormEnabled}>
@@ -282,8 +325,6 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
                 </div>
             </fieldset>
 
-
-
             <div className="flex flex-row-reverse">
                 <button
                     type="button"
@@ -291,8 +332,6 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
                 font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center" onClick={validateForm}>Siguiente
                 </button>
             </div>
-
-
             {errorMessage && <p className="text-red-500">{errorMessage}</p>}
         </section >
     )

@@ -55,7 +55,7 @@ export const patientService = {
 
     buscarPacienteModal: async (idPaciente) => {
         try {
-            const response = await axiosInstance.post("/admision/post/buscarPacienteModal",
+            const response = await axiosInstance.post("/admision/post/mostrarPacienteRegistrado",
                 {
                     pn_id_paciente: idPaciente,
                 }
