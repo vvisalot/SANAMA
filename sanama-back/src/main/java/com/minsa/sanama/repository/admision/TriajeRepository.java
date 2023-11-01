@@ -25,9 +25,15 @@ public class TriajeRepository {
     public TriajeRepository(JdbcTemplate jdbcTemplate) {this.jdbcTemplate = jdbcTemplate;}
 
     private final TriajeMapper triajeMapper = new TriajeMapper();
+    private final TriajeListarMapper triajeListarMapper = new TriajeListarMapper();
 
-    public List<Triaje> listarTriajePorFiltro(String pv_filtro) {
-        String procedureCall = "{call dbSanama.ssm_adm_listar_triaje_por_filtro('"+pv_filtro+"')};";
+    public List<Triaje> listarTriajePorFiltro(String pv_filtro,String pd_fecha_inicio,String pd_fecha_fin,String pn_estado) {
+        String procedureCall = "{call dbSanama.ssm_adm_listar_triaje_por_filtro('"+pv_filtro+"',"+pd_fecha_inicio+","+pd_fecha_fin+","+ pn_estado+")};";
+        return jdbcTemplate.query(procedureCall, triajeListarMapper);
+    }
+
+    public List<Triaje> buscarTriaje(String pv_filtro) {
+        String procedureCall = "{call dbSanama.ssm_adm_buscar_triaje('"+pv_filtro+"')};";
         return jdbcTemplate.query(procedureCall, triajeMapper);
     }
 
@@ -109,6 +115,31 @@ public class TriajeRepository {
             paciente.setDni(rs.getString("paciente_dni"));
             paciente.setFechaNacimiento(rs.getDate("paciente_fecha_nacimiento").toLocalDate());
             paciente.setSexo(rs.getString("paciente_sexo"));
+
+            triaje.setPaciente(paciente);
+            return triaje;
+        }
+    }
+
+    private static class TriajeListarMapper implements RowMapper<Triaje> {
+        @Override
+        public Triaje mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+            Triaje triaje = new Triaje();
+            // Mapea los campos de Triaje
+            triaje.setIdTriaje(rs.getInt("id_triaje"));
+            triaje.setCodigoTriaje(rs.getString("codigo_triaje"));
+            triaje.setEstado(rs.getInt("estado"));
+            triaje.setFechaTriaje(rs.getDate("fecha").toLocalDate());
+            triaje.setHoraTriaje(rs.getTime("hora").toLocalTime());
+            triaje.setPrioridad(rs.getString("prioridad"));
+
+            // Mapea Paciente
+            Paciente paciente = new Paciente();
+            paciente.setNombres(rs.getString("paciente_nombres"));
+            paciente.setApellidoPaterno(rs.getString("paciente_apellido_paterno"));
+            paciente.setApellidoMaterno(rs.getString("paciente_apellido_materno"));
+            paciente.setDni(rs.getString("paciente_dni"));
 
             triaje.setPaciente(paciente);
             return triaje;

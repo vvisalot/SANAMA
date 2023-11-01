@@ -22,14 +22,19 @@ public class TriajeController {
             produces = {MediaType.APPLICATION_JSON_VALUE},
             value = "/post/listarTriajePorFiltro")
     @ResponseBody
-    public List<Triaje> listarTriajeporFiltro(@RequestBody String pv_filtro){
+    public List<Triaje> listarTriajeporFiltro(@RequestBody String pv_datos){
         List<Triaje> triajes = null;
         try{
-            JSONObject job = (JSONObject) new JSONParser().parse(pv_filtro);
-            String cadena = job.get("pv_filtro").toString();
-            System.out.println(cadena);
-            triajes = triajeService.listarTriajePorFiltro(cadena);
-            System.out.println(triajes.get(0).getPaciente().getNombres());
+            JSONObject job = (JSONObject) new JSONParser().parse(pv_datos);
+            System.out.println(pv_datos);
+            String pv_filtro = job.get("pv_filtro").toString();
+            String pd_fecha_inicio=null;
+            String pd_fecha_fin=null;
+
+            if(job.get("pd_fecha_inicio") != null) pd_fecha_inicio = job.get("pd_fecha_inicio").toString();
+            if(job.get("pd_fecha_fin") != null) pd_fecha_fin = job.get("pd_fecha_fin").toString();
+
+            triajes = triajeService.listarTriajePorFiltro(pv_filtro,pd_fecha_inicio,pd_fecha_fin);
         }catch(Exception ex){
             System.out.println(ex);
         }
@@ -40,12 +45,12 @@ public class TriajeController {
             produces = {MediaType.APPLICATION_JSON_VALUE},
             value = "/post/buscarTriaje")
     @ResponseBody
-    public Triaje buscarTriaje(@RequestBody String pv_filtro){
+    public Triaje buscarTriaje(@RequestBody String pv_datos){
         Triaje triaje = null;
         try{
-            JSONObject job = (JSONObject) new JSONParser().parse(pv_filtro);
-            String cadena = job.get("pv_filtro").toString();
-            triaje = triajeService.listarTriajePorFiltro(cadena).get(0);
+            JSONObject job = (JSONObject) new JSONParser().parse(pv_datos);
+            String pn_id_triaje = job.get("pv_filtro").toString();
+            triaje = triajeService.buscarTriajeID(pn_id_triaje);
 
         }catch(Exception ex){
 
