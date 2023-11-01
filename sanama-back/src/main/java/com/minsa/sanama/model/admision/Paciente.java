@@ -7,7 +7,8 @@ import com.minsa.sanama.model.atencionmedica.HistorialClinico;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class  Paciente extends Persona{
     private String codigoSeguro;
-    private int tipoSeguro;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    private int tipoSeguro=0;
     private String correo;
     private String direccion;
     private HistorialClinico historialClinico;
