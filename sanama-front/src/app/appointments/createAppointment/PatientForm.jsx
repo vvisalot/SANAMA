@@ -8,7 +8,7 @@ import { TextInput } from "flowbite-react"
 import { patientService } from "@/services/patientService"
 import { sexParser } from "@/util/patientParser"
 import Dropdown from "@/components/bars/Dropdown"
-const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, patientForm, fechaNacimiento, setFechaNacimiento, sexo, setSexo, setPatientForm }) => {
+const PatientForm = ({ setFormComplete, setPatientId, patientForm, fechaNacimiento, setFechaNacimiento, sexo, setSexo, setPatientForm }) => {
     //Flujo insano
     const [errorMessage, setErrorMessage] = useState("")
     const [showModal, setShowModal] = useState(false)
@@ -41,7 +41,7 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
                 apellidoPaterno: data.apellidoPaterno,
                 apellidoMaterno: data.apellidoMaterno,
                 nombres: data.nombres,
-                tipoSeguro: tipoSeguro.idValue,
+                tipoSeguro: tipoSeguro ? tipoSeguro.idValue : null,
                 codigoSeguro: data.codigoSeguro,
                 dni: data.dni,
                 direccion: data.direccion,
@@ -49,6 +49,7 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
             })
             setFechaNacimiento(data.fechaNacimiento)
             setSexo(sexParser(data.sexo))
+            setPatientId(data.idPersona)
         } catch (error) {
             console.log(error)
         }
@@ -216,8 +217,8 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
                             Apellido materno
                         </label>
                     </div>
-
                 </div>
+
                 <div className="relative z-0 w-full mb-6 group">
                     <TextInput
                         type="text"
@@ -312,7 +313,8 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
                         </label>
                     </div>
                     <div className="relative z-0 w-full mb-6 group">
-                        <TextInput type="text"
+                        <TextInput
+                            type="text"
                             name="address"
                             id="address"
                             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent "

@@ -70,9 +70,7 @@ const FormContainer = () => {
     return (
         <form onSubmit={handleSubmit} className="p-10 w-full" >
             <PatientForm
-                formComplete={formComplete}
                 setFormComplete={setFormComplete}
-                patientId={patientId}
                 setPatientId={setPatientId}
                 patientForm={patientForm}
                 setPatientForm={setPatientForm}
@@ -84,17 +82,26 @@ const FormContainer = () => {
             <hr className="bg-gray-600 mt-20" />
 
             {formComplete &&
-                <AppointementForm
-                    legalResponsibilityForm={legalResponsibilityForm}
-                    setLegalResponsibilityForm={setLegalResponsibilityForm}
-                    doctorId={doctorId}
-                    setDoctorId={setDoctorId}
-                    schedule={schedule}
-                    setSchedule={setSchedule}
-                    triageRequirement={triageRequirement}
-                    setTriageRequirement={setTriageRequirement}
-                />
+                <>
+                    <AppointementForm
+                        legalResponsibilityForm={legalResponsibilityForm}
+                        setLegalResponsibilityForm={setLegalResponsibilityForm}
+                        doctorId={doctorId}
+                        setDoctorId={setDoctorId}
+                        schedule={schedule}
+                        setSchedule={setSchedule}
+                        triageRequirement={triageRequirement}
+                        setTriageRequirement={setTriageRequirement}
+                    />
+                    <div className="flex flex-row-reverse">
+                        <button type="submit" className=" m-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 
+                font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center">
+                            Registrar cita
+                        </button>
+                    </div>
+                </>
             }
+
         </form >
     )
 }

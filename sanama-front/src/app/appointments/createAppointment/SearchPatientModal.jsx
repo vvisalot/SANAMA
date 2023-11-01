@@ -62,6 +62,7 @@ const SearchPatientModal = ({ show, onClose, onSelect }) => {
                     <div className="relative">
                         <div className="flex rounded-md m-2 bg-white shadow shadow-black/20">
                             <input
+                                id="search-modal"
                                 type="text"
                                 value={searchText}
                                 onChange={(e) => setSearchText(e.target.value)}
