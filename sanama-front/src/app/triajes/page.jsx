@@ -57,7 +57,7 @@ const TriajePage = () => {
   return (
     <section className="p-10">
       <h1 className="font-bold text-blue-500 text-6xl pb-8">
-        Gestión de Triajes
+        Triajes
       </h1>
       <form className="w-full" onSubmit={handleSubmit}>
         <div className="flex justify-start items-center">
