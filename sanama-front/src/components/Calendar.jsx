@@ -59,7 +59,7 @@ const Calendar = ({ selectedDate, handleDateClick, disabled }) => {
 
 
     return (
-        <div className="flex flex-col w-[500px] m-2 items-center  bg-white rounded-lg border border-gray-300">
+        <div className="flex flex-col w-[500px] items-center  bg-white rounded-lg border border-gray-300">
             <div className='flex items-center space-x-4 py-4'>
                 <button
                     className=" hover:bg-gray-300 p-2 rounded"

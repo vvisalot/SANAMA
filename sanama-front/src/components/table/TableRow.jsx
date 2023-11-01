@@ -16,7 +16,8 @@ const TableRow = ({ row, url, optionsText, iconName }) => {
                     id={parseInt(row[0].data)}
                     url={url}
                     text={optionsText}
-                    iconName={iconName}
+                    iconName={iconName}                    
+                    estado={row[4].data}
                   />
                 ) : null}
               </Fragment>

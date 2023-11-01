@@ -3,6 +3,7 @@ import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "moment/locale/es"; // Importa la localización en español
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import Mensaje from "./Mensaje";
 
 moment.locale("es");
 const localizer = momentLocalizer(moment);
@@ -71,7 +72,9 @@ function SeleccionarHorarioMedico(props) {
   const [view, setView] = useState("month");
   const [calendarHeight, setCalendarHeight] = useState(600);
   const fechaHoy = new Date();
-  fechaHoy.setDate(fechaHoy.getDate() - 15); //Aquí defino que tambien quiero traer data de 2 semanas antes*********
+  const fechaLimite = new Date();
+  fechaHoy.setDate(fechaHoy.getDate() - 7); //Aquí defino que tambien quiero traer data de 2 semanas antes*********
+  fechaLimite.setDate(fechaLimite.getDate() + 14); //Aquí defino que tambien quiero traer data hasta 14 dias despues*********
   const [seHaModificadoHorario, setSeHaModificadoHorario] = useState(false);
   const handleIngresarDisponibilidad = () => {
     setBackData(events);
@@ -85,10 +88,10 @@ function SeleccionarHorarioMedico(props) {
   };
 
   const handleGuardar = () => {
-    if(!seHaModificadoHorario){
+    if (!seHaModificadoHorario) {
       alert("No hubo modificación de horario");
       setIsCalendarEnabled(false);
-      
+
       return;
     }
     const eventosTransformados = events.map((evento) => {
@@ -131,46 +134,47 @@ function SeleccionarHorarioMedico(props) {
     };
 
     registrarEventos();
-    
+
   };
 
   useEffect(() => {
     const obtenerEventos = async () => {
       const eventosTotales = [];
-      for (let i = 0; i < 30; i++) {
-        fechaHoy.setDate(fechaHoy.getDate());
-        const year = fechaHoy.getFullYear();
-        const month = fechaHoy.getMonth() + 1;
-        const day = fechaHoy.getDate();
-        const requestData = {
-          pn_id_medico: doctor.idPersona,
-          pd_fecha: `${year}-${month}-${day}`,
-        };
-        const url = "http://localhost:8080/rrhh/post/horarios_por_medico_y_fecha";
-        const requestOptions = {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(requestData),
-        };
+      fechaHoy.setDate(fechaHoy.getDate()); //mi limite inferior
+      const year = fechaHoy.getFullYear();
+      const month = fechaHoy.getMonth() + 1;
+      const day = fechaHoy.getDate();
+      fechaLimite.setDate(fechaLimite.getDate()); //mi limite inferior
+      const year2 = fechaLimite.getFullYear();
+      const month2 = fechaLimite.getMonth() + 1;
+      const day2 = fechaLimite.getDate();
+      const requestData = {
+        pn_id_medico: doctor.idPersona,
+        pd_fecha_inicio: `${year}-${month}-${day}`,
+        pd_fecha_fin: `${year2}-${month2}-${day2}`,
+      };
+      {console.log(`${year}-${month}-${day}`)}
+      {console.log(`${year2}-${month2}-${day2}`)}
+      const url = "http://localhost:8080/rrhh/post/horarios_por_medico_e_intervaloFechas";
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestData),
+      };
 
-        try {
-          const response = await fetch(url, requestOptions);
-          if (response.ok) {
-            const data = await response.json();
-            data.forEach((d) => {
-              d.fecha = `${year}-${month}-${day}`;
-            });
-            eventosTotales.push(...convertirDatosParaCalendar(data));
-          }
-        } catch (error) {
-          console.error("Error al obtener los horarios:", error);
+      try {
+        const response = await fetch(url, requestOptions);
+        if (response.ok) {
+          const data = await response.json();
+          eventosTotales.push(...convertirDatosParaCalendar(data));
         }
-        fechaHoy.setDate(fechaHoy.getDate() + 1);
+      } catch (error) {
+        console.error("Error al obtener los horarios:", error);
       }
-      setEvents(eventosTotales);
-      setIsLoading(false);
+      setEvents(eventosTotales); //guardamos eventos
+      setIsLoading(false); //permitimos su visualizacion en front
     };
 
     obtenerEventos();
@@ -268,6 +272,7 @@ function SeleccionarHorarioMedico(props) {
               onClick={handleGuardar} disabled={!isCalendarEnabled}>
               Guardar
             </button>
+            <Mensaje text={"Solo podrá visualizar su disponibilidad de los siguientes 14 dias"}></Mensaje>
           </div>
           <Calendar
             localizer={localizer}

@@ -29,8 +29,6 @@ const TriajePage = () => {
     const fechaDesdeToSend = fechaDesde ? addHours(fechaDesde, 15) : null;
     const fechaHastaToSend = fechaHasta ? addHours(fechaHasta, 15) : null;
 
-        console.log("La fecha inicial es: " + fechaDesdeToSend);
-        console.log("La fecha final es: " + fechaHastaToSend);
     
 
         const data = await triajeService.listarTriajePorFiltro(filtro, fechaDesdeToSend, fechaHastaToSend)

@@ -13,7 +13,7 @@ public class CitaMedica extends ProgramacionCita{
     private boolean tieneAcompanhante;
     private String nombreAcompanhante;
     private String dniAcompanhante;
-    private String parentezco;
+    private int parentezco;
 
 
     public CitaMedica() {
@@ -74,11 +74,11 @@ public class CitaMedica extends ProgramacionCita{
         this.dniAcompanhante = dniAcompanhante;
     }
 
-    public String getParentezco() {
+    public int getParentezco() {
         return parentezco;
     }
 
-    public void setParentezco(String parentezco) {
+    public void setParentezco(int parentezco) {
         this.parentezco = parentezco;
     }
 }

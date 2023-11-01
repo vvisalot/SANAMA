@@ -7,26 +7,19 @@ import SearchPatientModal from "./SearchPatientModal"
 import { TextInput } from "flowbite-react"
 import { patientService } from "@/services/patientService"
 import { sexParser } from "@/util/patientParser"
-const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, patientForm, fechaNacimiento, setFechaNacimiento, sexo, setSexo, setPatientForm }) => {
+import Dropdown from "@/components/bars/Dropdown"
+const PatientForm = ({ setFormComplete, setPatientId, patientForm, fechaNacimiento, setFechaNacimiento, sexo, setSexo, setPatientForm }) => {
+    //Flujo insano
     const [errorMessage, setErrorMessage] = useState("")
     const [showModal, setShowModal] = useState(false)
     const [isFormEnabled, setIsFormEnabled] = useState(false)
     const [cancelButton, setCancelButton] = useState(false)
     const [obtainedPatientId, setObtainedPatientId] = useState("")
+    const [isNextPart, setIsNextPart] = useState(false)
 
     //Dropdowns
     const [securityTypes, setSecurityTypes] = useState([])
-    const [relationships, setRelationships] = useState([])
 
-    const validateForm = () => {
-        const patientFormValues = Object.values(patientForm)
-        if (patientFormValues.includes("") || !fechaNacimiento || !sexo) {
-            setErrorMessage("Todos los campos deben estar llenos")
-        } else {
-            setErrorMessage("")
-            setFormComplete(true)
-        }
-    }
     const fetchSecurityTypes = async () => {
         try {
             const data = await patientService.listarSeguros()
@@ -37,13 +30,39 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
         }
     }
 
-    const fetchRelationships = async () => {
+    const fetchData = async (filtro) => {
         try {
-            const data = await patientService.listarParentescos()
+            const data = await patientService.mostrarPacienteRegistrado(filtro)
+            let tipoSeguro = securityTypes.find(securityType => securityType.descripcion == data.tipoSeguro)
             console.log(data)
-            setRelationships(data)
+            console.log(tipoSeguro)
+            setPatientForm({
+                ...patientForm,
+                apellidoPaterno: data.apellidoPaterno,
+                apellidoMaterno: data.apellidoMaterno,
+                nombres: data.nombres,
+                tipoSeguro: tipoSeguro ? tipoSeguro.idValue : null,
+                codigoSeguro: data.codigoSeguro,
+                dni: data.dni,
+                direccion: data.direccion,
+                telefono: data.telefono,
+            })
+            setFechaNacimiento(data.fechaNacimiento)
+            setSexo(sexParser(data.sexo))
+            setPatientId(data.idPersona)
         } catch (error) {
-            console.log("No se pudo obtener el listado de parentescos")
+            console.log(error)
+        }
+    }
+
+    const validateForm = () => {
+        const patientFormValues = Object.values(patientForm)
+        if (patientFormValues.includes("") || !fechaNacimiento || !sexo) {
+            setErrorMessage("Todos los campos deben estar llenos")
+        } else {
+            setErrorMessage("")
+            setFormComplete(true)
+            setIsNextPart(true)
         }
     }
 
@@ -56,6 +75,18 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
             // Deshabilitar el formulario y cambiar el texto y color del botón
             setIsFormEnabled(false)
             setCancelButton(false)
+            setPatientForm({
+                apellidoPaterno: '',
+                apellidoMaterno: '',
+                nombres: '',
+                tipoSeguro: '',
+                codigoSeguro: '',
+                dni: '',
+                direccion: '',
+                telefono: ''
+            })
+            setFechaNacimiento('')
+            setSexo('')
         }
     }
 
@@ -72,37 +103,30 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
         setObtainedPatientId(selectedPatient.idPersona)
     }
 
-    const resetFields = () => {
-        //Reinicia los campos en caso que presione nuevo paciente o cancelo el registro de un nuevo paciente
+    const handleClearForm = () => {
+        // Limpia el formulario y vuelve a la primera parte
+        setPatientForm({
+            apellidoPaterno: "",
+            apellidoMaterno: "",
+            nombres: "",
+            tipoSeguro: "",
+            codigoSeguro: "",
+            dni: "",
+            direccion: "",
+            telefono: "",
+        })
+        setFechaNacimiento("")
+        setSexo("")
+        setIsNextPart(false)
+        setFormComplete(false)
     }
 
-    const fetchData = async (filtro) => {
-        try {
-            const data = await patientService.mostrarPacienteRegistrado(filtro)
-            setPatientForm({
-                ...patientForm,
-                apellidoPaterno: data.apellidoPaterno,
-                apellidoMaterno: data.apellidoMaterno,
-                nombres: data.nombres,
-                tipoSeguro: data.tipoSeguro,
-                codigoSeguro: data.codigoSeguro,
-                dni: data.dni,
-                direccion: data.direccion,
-                telefono: data.telefono,
-            })
-            setFechaNacimiento(data.fechaNacimiento)
-            setSexo(sexParser(data.sexo))
-            // console.log(data)
-        } catch (error) {
-            console.log(error)
-        }
-    }
 
 
     useEffect(() => {
-        fetchRelationships()
+
         fetchSecurityTypes()
-        console.log(obtainedPatientId)
+        //console.log(obtainedPatientId)
         if (obtainedPatientId) {
             fetchData(obtainedPatientId)
         }
@@ -142,7 +166,7 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
                     onSelect={handlePatientSelect} />
             </div>
 
-            <fieldset disabled={!isFormEnabled}>
+            <fieldset disabled={!isFormEnabled || isNextPart} >
                 <legend></legend>
 
                 <div className="grid grid-cols-2 md:gap-6">
@@ -193,8 +217,8 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
                             Apellido materno
                         </label>
                     </div>
-
                 </div>
+
                 <div className="relative z-0 w-full mb-6 group">
                     <TextInput
                         type="text"
@@ -221,23 +245,22 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
 
                 <div className="grid grid-cols-2 md:gap-6">
                     <div className="relative z-0 w-full mb-6 group">
-                        <TextInput
-                            type="text"
-                            minLength={3}
-                            maxLength={255}
-                            name="tipo_seguro"
-                            id="tipo_seguro"
-                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent"
-                            placeholder=" "
+                        <Dropdown
+                            data={securityTypes}
+                            name={"dropdown-tipo-seguro"}
+                            defaultText={"Elegir un tipo de seguro"}
+                            text={"descripcion"}
+                            defaultValue={""}
+                            width={"w-fit"}
                             value={patientForm.tipoSeguro}
-                            onChange={(event) =>
+                            handleChange={(event) =>
                                 setPatientForm({
                                     ...patientForm,
                                     tipoSeguro: event.target.value
                                 })}
-                            required />
-                        <label htmlFor="tipo_seguro"
-                            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                        />
+                        <label htmlFor="dropdown-tipo-seguro"
+                            className="peer-focus:font-medium absolute text-sm  text-gray-500  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                             Tipo seguro
                         </label>
                     </div>
@@ -290,7 +313,8 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
                         </label>
                     </div>
                     <div className="relative z-0 w-full mb-6 group">
-                        <TextInput type="text"
+                        <TextInput
+                            type="text"
                             name="address"
                             id="address"
                             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent "
@@ -356,7 +380,10 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
                 <button
                     type="button"
                     className=" m-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 
-                font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center" onClick={validateForm}>Siguiente
+          font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center"
+                    onClick={isNextPart ? handleClearForm : validateForm} // Cambia el comportamiento del botón en la segunda parte
+                >
+                    {isNextPart ? 'Limpiar campos' : 'Siguiente'}
                 </button>
             </div>
             {errorMessage && <p className="text-red-500">{errorMessage}</p>}

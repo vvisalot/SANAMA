@@ -182,28 +182,32 @@ const TriajeProfile = ({ params }) => {
 
     const handleConfirmAnulacion = async () => {
         const triajeDataCancelled = {
-            pn_id_triaje: dataTriaje.pn_id_triaje,
-            pn_peso:  '',
-            pn_talla:  '',
-            pn_temperatura:  '',
-            pv_motivo_visita: '',
-            pn_presion_arterial:  '',
-            pn_estado: 3,  
-            pv_prioridad:  '',
-            pn_saturacionOxigeno:  '',
-            pn_frecuenciaCardiaca:  '',
-            pn_frecuenciaRespiratoria:  '',
-            pv_nivelConciencia: '',
-            pv_nivelDolor: '',
-            pv_condicionesPrexistentes: ''
+
+            pn_id_triaje: Number(params.idTriaje),
+            pn_peso: 80,
+            pn_talla: 176,
+            pn_temperatura: 37,
+            pv_motivo_visita: "Dolor de cabeza",
+            pn_presion_arterial: 120,
+            pn_estado: 3,
+            pv_prioridad: "N.A.",
+            pn_saturacionOxigeno: "98",
+            pn_frecuenciaCardiaca: "75",
+            pn_frecuenciaRespiratoria: "20",
+            pv_nivelConciencia: "Consciente",
+            pv_nivelDolor: "4",
+            pv_condicionesPrexistentes: "Ninguna"
         };
+
     
         try {
+            console.log("ANTES DEL RESULT ES: ", triajeDataCancelled);
             const result = await triajeService.actualizarTriaje(triajeDataCancelled)
-    
+            console.log("EL TRIAJE ES: ", triajeDataCancelled);
             if (result === 1) {
-                
-                closeModal();    
+                if (typeof window !== "undefined") {
+                    window.history.back()
+                }
             } else {
                 alert("Ocurrió un problema al anular el triaje. Por favor, inténtalo de nuevo.");
             }
@@ -214,9 +218,9 @@ const TriajeProfile = ({ params }) => {
         }
         setShowConfirmPopup(false);
     };
-
+    
     const handleClosePopup = () => {
-        // Cerrar el popup
+        
         setShowConfirmPopup(false);
     };
 
