@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @RestController
@@ -128,4 +130,43 @@ public class CitaController {
         }
         return -1;
     }
+
+    @PostMapping(value = "/post/cambiarEstadoCita")
+    @ResponseBody
+    public int cambiarEstadoCita(@RequestBody String pv_datos) {
+        int validar=-1;
+        try {
+            JSONObject job = (JSONObject) new JSONParser().parse(pv_datos);
+            int pn_id_cita= Integer.parseInt(job.get("pn_id_cita").toString());
+            int pn_estado= Integer.parseInt(job.get("pn_estado").toString());
+
+            validar = citaService.cambiarEstadoCita(pn_id_cita, pn_estado);
+            return validar;
+        } catch (Exception ex) {
+            // Manejo de excepciones aquí
+            ex.printStackTrace();
+        }
+        return -1;
+    }
+
+    @PostMapping(value = "/post/cambiarHorarioCita")
+    @ResponseBody
+    public int cambiarHorarioCita(@RequestBody String pv_datos) {
+        int validar=-1;
+        try {
+            JSONObject job = (JSONObject) new JSONParser().parse(pv_datos);
+            int pn_id_cita= Integer.parseInt(job.get("pn_id_cita").toString());
+            LocalTime pt_hora_cita= LocalTime.parse(job.get("pt_hora_cita").toString());
+            LocalDate pd_fecha_cita= LocalDate.parse(job.get("pd_fecha_cita").toString());
+
+            validar = citaService.cambiarHorarioCita(pn_id_cita, pt_hora_cita, pd_fecha_cita);
+            return validar;
+        } catch (Exception ex) {
+            // Manejo de excepciones aquí
+            ex.printStackTrace();
+        }
+        return -1;
+    }
+
+
 }

@@ -37,20 +37,23 @@ public class HorarioAtencionRepository {
                 });
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
 
-
+        LocalDate fecha_inicio=LocalDate.parse(pd_fecha_inicio);
+        LocalDate fecha_fin=LocalDate.parse(pd_fecha_fin);
         int nTurnos =0;
         for (TurnoAtencion turno : turnos) {
-            mapSqlParameterSource
-                    .addValue("pn_id_medico", idMedico)
-                    .addValue("pt_hora_inicio", turno.getHoraInicio())
-                    .addValue("pt_hora_fin", turno.getHoraFin())
-                    .addValue("pd_fecha", turno.getFecha());
+            if(!fecha_inicio.isAfter(turno.getFecha()) && !fecha_fin.isBefore(turno.getFecha())){
+                mapSqlParameterSource
+                        .addValue("pn_id_medico", idMedico)
+                        .addValue("pt_hora_inicio", turno.getHoraInicio())
+                        .addValue("pt_hora_fin", turno.getHoraFin())
+                        .addValue("pd_fecha", turno.getFecha());
 
-            Map<String, Object> result = simpleJdbcCall.execute(mapSqlParameterSource);
-            if (result.containsKey("ERROR_CODE") || result.containsKey("ERROR_MESSAGE")) {
-                return -1;
-            } else {
-                nTurnos += (int) result.get("pn_nTurnos");
+                Map<String, Object> result = simpleJdbcCall.execute(mapSqlParameterSource);
+                if (result.containsKey("ERROR_CODE") || result.containsKey("ERROR_MESSAGE")) {
+                    return -1;
+                } else {
+                    nTurnos += (int) result.get("pn_nTurnos");
+                }
             }
         }
         return nTurnos;

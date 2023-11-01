@@ -17,6 +17,8 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 
@@ -229,5 +231,55 @@ public class CitaRepository {
             return idCita;
         }
     }
+
+    public int cambiarEstadoCita(int pn_id_cita, int pn_estado) {
+        SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                .withSchemaName("dbSanama")
+                .withProcedureName("ssm_rrhh_cambiar_estado_cita")
+                .declareParameters(new SqlParameter[] {
+                        new SqlOutParameter("pn_validar", Types.INTEGER),
+                        new SqlParameter("pn_id_cita", Types.INTEGER),
+                        new SqlParameter("pn_estado", Types.INTEGER)
+                });
+        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
+        mapSqlParameterSource
+                .addValue("pn_id_cita", pn_id_cita)
+                .addValue("pn_estado", pn_estado);
+
+        Map<String, Object> result = simpleJdbcCall.execute(mapSqlParameterSource);
+        if (result.containsKey("ERROR_CODE") || result.containsKey("ERROR_MESSAGE")) {
+            return -1;
+        } else {
+            int validar = (int) result.get("pn_validar");
+            return validar;
+        }
+    }
+
+    public int cambiarHorarioCita(int pn_id_cita, LocalTime pt_hora_cita, LocalDate pd_fecha_cita) {
+        SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                .withSchemaName("dbSanama")
+                .withProcedureName("ssm_rrhh_cambiar_horario_cita")
+                .declareParameters(new SqlParameter[] {
+                        new SqlOutParameter("pn_validar", Types.INTEGER),
+                        new SqlParameter("pn_id_cita", Types.INTEGER),
+                        new SqlParameter("pt_hora_cita", Types.TIME),
+                        new SqlParameter("pd_fecha_cita", Types.DATE)
+                });
+        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
+        mapSqlParameterSource
+                .addValue("pn_id_cita", pn_id_cita)
+                .addValue("pt_hora_cita", pt_hora_cita)
+                .addValue("pd_fecha_cita", pd_fecha_cita);
+
+        Map<String, Object> result = simpleJdbcCall.execute(mapSqlParameterSource);
+        if (result.containsKey("ERROR_CODE") || result.containsKey("ERROR_MESSAGE")) {
+            return -1;
+        } else {
+            int validar = (int) result.get("pn_validar");
+            return validar;
+        }
+    }
+
+
 
 }
