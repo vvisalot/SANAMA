@@ -12,7 +12,7 @@ const SearchPatientModal = ({ show, onClose, onSelect }) => {
 
     const fetchData = async (filtro) => {
         try {
-            const data = await patientService.buscarPorFiltro(filtro)
+            const data = await patientService.buscarPacienteModal(filtro)
             setSearchResults(data)
             //console.log(data)
         } catch (error) {

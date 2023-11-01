@@ -50,10 +50,13 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
         setObtainedPatientId(selectedPatient.idPersona)
     }
 
+    const resetFields = () => {
+        //Reinicia los campos en caso que presione nuevo paciente o cancelo el registro de un nuevo paciente
+    }
 
     const fetchData = async (filtro) => {
         try {
-            const data = await patientService.buscarPacienteModal(filtro)
+            const data = await patientService.mostrarPacienteRegistrado(filtro)
             setPatientForm({
                 ...patientForm,
                 apellidoPaterno: data.apellidoPaterno,
