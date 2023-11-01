@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import AvailableHoursBlock from "./AvailableHoursBlock";
 import { useAppointments } from "@/context/AppointmentsContext";
 import { medicService } from "../../services/medicService";
-import { Badge, Typography, Box } from "@mui/material";
+import { Badge } from "flowbite-react";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import {
   LocalizationProvider,
@@ -104,10 +104,10 @@ export default function SelectDate() {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Typography variant="subtitle1">
+      <h2 className="text-lg font-semibold mb-4">
         Selecciona una Fecha y hora disponible:
-      </Typography>
-      <Box display="flex">
+      </h2>
+      <div className="flex">
         <DateCalendar
           onChange={handleDateChange}
           value={
@@ -118,19 +118,15 @@ export default function SelectDate() {
           slots={{ day: ServerDay }}
           slotProps={{ day: { highlightedDays } }}
         />
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
+        <div className="flex flex-col ml-4">
           {appointmentData.selectedDate && appointmentData.selectedHour ? (
-            <Typography>
-              Fecha y Hora: {appointmentData.selectedDate}{" "}
+            <p>
+              Fecha y Hora: {appointmentData.selectedDate}
+              {"  "}
               {appointmentData.selectedHour}
-            </Typography>
+            </p>
           ) : (
-            <Typography>No hay fecha ni hora reservada</Typography>
+            <p>No hay fecha ni hora reservada</p>
           )}
           <AvailableHoursBlock
             availableHours={appointmentData.availableHours}
@@ -142,8 +138,8 @@ export default function SelectDate() {
             }}
             selectedDate={appointmentData.selectedDate}
           />
-        </Box>
-      </Box>
+        </div>
+      </div>
     </LocalizationProvider>
   );
 }
