@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import useUpdateAppointmentStatus from "@/hooks/useUpdateAppointmentStatus";
+import useAppointmentReschedule from "@/hooks/useAppointmentReschedule";
 import { appointmentService } from "@/services/appointmentService";
 import PatientInfo from "./PatientInfo";
 import AppointmentInfo from "./AppointmentInfo";
@@ -11,6 +12,7 @@ const ReviewAppointment = ({ params }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const { updateAppointmentStatus } = useUpdateAppointmentStatus();
+  const { appointmentReschedule } = useAppointmentReschedule();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -57,6 +59,18 @@ const ReviewAppointment = ({ params }) => {
     }
   };
 
+  const handleReSchedule = async (newHour, newDate) => {
+    try {
+      setLoading(true);
+      await appointmentReschedule(appointmentData.idCita, newHour, newDate);
+    } catch (error) {
+      console.error(error);
+      setError("Ocurrió un error al actualizar el estado de la cita");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="container mx-auto p-4">
       <PatientInfo pacienteData={appointmentData.paciente} />
@@ -77,7 +91,7 @@ const ReviewAppointment = ({ params }) => {
 
       <button
         className="bg-blue-500 text-white p-2 w-full rounded-md mt-2"
-        onClick={() => handleActionClick(/* estado adecuado */)}
+        onClick={() => handleReSchedule(/* estado adecuado */)}
         disabled={loading}
       >
         Reprogramar Cita
