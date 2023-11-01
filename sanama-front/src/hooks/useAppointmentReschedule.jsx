@@ -9,7 +9,7 @@ function useAppointmentReschedule() {
   const [isStatusUpdated, setIsStatusUpdated] = useState(false);
   const [confirmationMessage, setConfirmationMessage] = useState("");
 
-  const updateAppointmentStatus = async (idCita, newHour, newDate) => {
+  const updateAppointmentHorario = async (idCita, newHour, newDate) => {
     setLoading(true);
     setError(null);
     try {
@@ -38,7 +38,7 @@ function useAppointmentReschedule() {
     error,
     isStatusUpdated,
     confirmationMessage,
-    updateAppointmentStatus,
+    updateAppointmentHorario,
   };
 }
 

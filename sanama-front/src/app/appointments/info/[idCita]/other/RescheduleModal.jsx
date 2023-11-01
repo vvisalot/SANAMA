@@ -8,7 +8,8 @@ import {
   PickersDay,
   DateCalendar,
 } from "@mui/x-date-pickers";
-import { Badge, Modal } from "flowbite-react";
+import { Badge, Modal, Spinner } from "flowbite-react";
+import useAppointmentReschedule from "@/hooks/useAppointmentReschedule";
 
 function ServerDay({
   highlightedDays = [],
@@ -49,19 +50,27 @@ const RescheduleModal = ({
   const [highlightedDays, setHighlightedDays] = useState([]);
   const [availableDays, setAvailableDays] = useState([]);
   const [availableHours, setAvailableHours] = useState([]);
+  const {
+    updateAppointmentHorario,
+    loading,
+    error,
+    isStatusUpdated,
+    confirmationMessage,
+  } = useAppointmentReschedule();
 
-  const fetchAvailableHours = (fecha) => {
-    medicService
-      .buscarHorariosByID(fecha, medicId)
-      .then((data) => {
-        setAvailableHours(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching available hours:", error);
-      });
-  };
+  const fetchAvailableHours = useCallback(
+    (fecha) => {
+      medicService
+        .buscarHorariosByID(fecha, medicId)
+        .then((data) => setAvailableHours(data))
+        .catch((error) =>
+          console.error("Error fetching available hours:", error)
+        );
+    },
+    [medicId]
+  );
 
-  const fetchAvailableDays = () => {
+  const fetchAvailableDays = useCallback(() => {
     medicService
       .DiasDisponiblesByID(medicId)
       .then((data) => {
@@ -71,22 +80,20 @@ const RescheduleModal = ({
         );
         setHighlightedDays(daysToHighlight);
       })
-      .catch((error) => {
-        console.error("Error fetching available days:", error);
-      });
-  };
+      .catch((error) => console.error("Error fetching available days:", error));
+  }, [medicId]);
 
   useEffect(() => {
     if (medicId) {
       fetchAvailableDays();
     }
-  }, [medicId]);
+  }, [medicId, fetchAvailableDays]);
 
   useEffect(() => {
     if (selectedDate) {
       fetchAvailableHours(selectedDate);
     }
-  }, [selectedDate]);
+  }, [selectedDate, fetchAvailableHours]);
 
   const handleDateChange = useCallback(
     (newDate) => {
@@ -94,6 +101,18 @@ const RescheduleModal = ({
     },
     [onDateChange]
   );
+
+  const handleConfirm = async () => {
+    if (selectedDate && selectedHour) {
+      await updateAppointmentHorario(appointmentId, selectedHour, selectedDate);
+      if (isStatusUpdated) {
+        onSelect();
+        onClose();
+      }
+    } else {
+      console.error("Fecha y hora no seleccionadas");
+    }
+  };
 
   return (
     <Modal show={show} size="lg" popup={true} onClose={onClose}>
@@ -103,23 +122,25 @@ const RescheduleModal = ({
         </h2>
       </Modal.Header>
       <Modal.Body>
+        {error && <p className="text-red-500 mb-4">{error}</p>}
+        {confirmationMessage && (
+          <p className="text-green-500 mb-4">{confirmationMessage}</p>
+        )}
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <div className="flex">
+          <div className="flex flex-col md:flex-row">
             <DateCalendar
               onChange={handleDateChange}
               value={selectedDate ? dayjs(selectedDate) : null}
               slots={{ day: ServerDay }}
               slotProps={{ day: { highlightedDays } }}
             />
-            <div className="flex flex-col ml-4">
+            <div className="flex flex-col ml-4 mt-4 md:mt-0">
               {selectedDate && selectedHour ? (
-                <p>
-                  Fecha y Hora: {selectedDate}
-                  {"  "}
-                  {selectedHour}
+                <p className="mb-4">
+                  Fecha y Hora: {selectedDate} {selectedHour}
                 </p>
               ) : (
-                <p>No hay fecha ni hora reservada </p>
+                <p className="mb-4">No hay fecha ni hora reservada</p>
               )}
               <AvailableHoursBlock
                 availableHours={availableHours}
@@ -131,13 +152,12 @@ const RescheduleModal = ({
         </LocalizationProvider>
       </Modal.Body>
       <Modal.Footer>
-        {/* Add your confirm and cancel buttons here */}
-        {/* Example: */}
         <button
           className="bg-blue-500 text-white px-4 py-2 rounded"
-          onClick={onSelect}
+          onClick={handleConfirm}
+          disabled={loading}
         >
-          Confirmar
+          {loading ? <Spinner size="sm" light={true} /> : "Confirmar"}
         </button>
         <button
           className="bg-gray-500 text-white px-4 py-2 rounded ml-2"
