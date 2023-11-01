@@ -52,7 +52,7 @@ const DoctorsPage = () => {
 
     return (
         <>
-            <h1 className="font-bold text-blue-500 text-6xl p-12" >Gestión de Médicos</h1>
+            <h1 className="font-bold text-blue-500 text-6xl p-12" >Médicos</h1>
             <form className="flex px-10 pb-4" onSubmit={handleSubmit}>
                 <Dropdown
                     data={specialties}
@@ -67,7 +67,7 @@ const DoctorsPage = () => {
                 <SearchBar
                     name={"doctor-search"}
                     width={"w-full"} 
-                    placeholderText={"Busacar por nombre o CMP"}>
+                    placeholderText={"Buscar por nombre o CMP"}>
                 </SearchBar>
             </form>
             <div style={{ marginBottom: '1rem', color: 'black' }} className="pl-12 pr-14">
