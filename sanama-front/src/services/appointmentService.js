@@ -157,16 +157,13 @@ export const appointmentService = {
     }
   },
 
-  actualizarEstadoCita: async (pn_id_cita, newStatus) => {
+  actualizarEstadoCita: async (data) => {
     try {
-      const response = await axiosInstance.post(ENDPOINTS.CAMBIAR_ESTADO, {
-        pn_id_cita,
-        newStatus,
-      });
+      const response = await axiosInstance.post(ENDPOINTS.CAMBIAR_ESTADO, data);
       return response.data;
     } catch (error) {
-      console.error("Error al buscar cita", error.message);
-      throw new Error("Failed to list filtered appointments");
+      console.error("Error al actualizar estado de la cita", error.message);
+      throw new Error("Failed to update appointment status");
     }
   },
 

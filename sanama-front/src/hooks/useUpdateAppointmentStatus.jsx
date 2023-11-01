@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import { appointmentService } from "@/services/appointmentService";
 
@@ -9,13 +8,13 @@ function useUpdateAppointmentStatus() {
   const [isStatusUpdated, setIsStatusUpdated] = useState(false);
   const [confirmationMessage, setConfirmationMessage] = useState("");
 
-  const updateAppointmentStatus = async (idCita, newStatus) => {
+  const updateAppointmentStatus = async (pn_id_cita, pn_estado) => {
     setLoading(true);
     setError(null);
     try {
       const data = {
-        idCita: idCita,
-        nuevoEstado: newStatus,
+        pn_id_cita,
+        pn_estado,
       };
 
       await appointmentService.actualizarEstadoCita(data);
@@ -31,7 +30,6 @@ function useUpdateAppointmentStatus() {
       setLoading(false);
     }
   };
-
   return {
     loading,
     error,
