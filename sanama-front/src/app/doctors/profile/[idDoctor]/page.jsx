@@ -3,7 +3,7 @@ import ProfileCard from "@/components/cards/ProfileCard";
 import { doctorService } from "@/services/doctorService";
 import { useState, useEffect } from "react";
 import SeleccionarHorarioMedico from "./SeleccionarHorarioDoctor";
-
+import CitasMedico from "./CitasMedico";
 const DoctorProfile = ({ params }) => {
   const [dataDoctor, setDataDoctor] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -77,6 +77,11 @@ const DoctorProfile = ({ params }) => {
       <div className="p-10 ">
         <div className="bg-white flex-row p-10 text-black border border-gray-200 rounded-xl shadow">
           <SeleccionarHorarioMedico doctor={dataDoctor} />
+        </div>
+      </div>
+      <div className="p-10 ">
+        <div className="bg-white flex-row p-10 text-black border border-gray-200 rounded-xl shadow">
+          <CitasMedico doctor={dataDoctor} />
         </div>
       </div>
     </article>

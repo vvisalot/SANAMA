@@ -349,60 +349,65 @@ function SeleccionarHorarioMedico(props) {
     next: 'Siguiente'
   };
   return (
-    <div>
-      {isLoading ? (
-        <p>Cargando...</p>
-      ) : (
-        <div style={{ height: "auto" }}>
-          <div className="flex justify-center space-x-4" style={{ margin: "2rem 0" }}>
-            <button className={`${!isCalendarEnabled
-              ? 'text-white bg-purple-800 border border-purple-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 '
-              : 'text-gray-400 bg-gray-100 border border-black-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 '
-              }`}
-              onClick={handleIngresarDisponibilidad} disabled={isCalendarEnabled}>
-              Ingresar Disponibilidad
-            </button>
-            <button
-              className={`${isCalendarEnabled
-                ? 'text-white bg-red-800 border border-red-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 '
+    <>
+      <header className="p-5  text-2xl font-bold tracking-wider text-gray-900">
+        Disponibilidad:
+      </header>
+      <div>
+        {isLoading ? (
+          <p>Cargando...</p>
+        ) : (
+          <div style={{ height: "auto" }}>
+            <div className="flex justify-center space-x-4" style={{ margin: "2rem 0" }}>
+              <button className={`${!isCalendarEnabled
+                ? 'text-white bg-purple-800 border border-purple-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 '
                 : 'text-gray-400 bg-gray-100 border border-black-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 '
                 }`}
-              onClick={handleCancelarIngresoDisponibilidad}
-              disabled={!isCalendarEnabled}
-            >
-              Cancelar
-            </button>
-            <button className={`${isCalendarEnabled
-              ? 'text-white bg-blue-800 border border-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 '
-              : 'text-gray-400 bg-gray-100 border border-black-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 '
-              }`}
-              onClick={handleGuardar} disabled={!isCalendarEnabled}>
-              Guardar
-            </button>
-            <Mensaje text={"Podrá visualizar y registrar su disponibilidad en los meses actual y siguiente"}></Mensaje>
+                onClick={handleIngresarDisponibilidad} disabled={isCalendarEnabled}>
+                Ingresar Disponibilidad
+              </button>
+              <button
+                className={`${isCalendarEnabled
+                  ? 'text-white bg-red-800 border border-red-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 '
+                  : 'text-gray-400 bg-gray-100 border border-black-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 '
+                  }`}
+                onClick={handleCancelarIngresoDisponibilidad}
+                disabled={!isCalendarEnabled}
+              >
+                Cancelar
+              </button>
+              <button className={`${isCalendarEnabled
+                ? 'text-white bg-blue-800 border border-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 '
+                : 'text-gray-400 bg-gray-100 border border-black-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 '
+                }`}
+                onClick={handleGuardar} disabled={!isCalendarEnabled}>
+                Guardar
+              </button>
+              <Mensaje text={"Podrá visualizar y registrar su disponibilidad en los meses actual y siguiente"}></Mensaje>
+            </div>
+            <Calendar
+              messages={messages}
+              localizer={localizer}
+              events={events}
+              startAccessor="start"
+              endAccessor="end"
+              style={{ height: calendarHeight }}
+              views={{
+                month: true,
+                week: true,
+              }}
+              formats={{
+                dayFormat: "dddd",
+              }}
+              onSelectSlot={handleSelectSlot}
+              onDoubleClickEvent={isCalendarEnabled && handleDoubleClickEvent}
+              selectable={view === "week" && isCalendarEnabled}
+              onView={handleView}
+            />
           </div>
-          <Calendar
-            messages={messages}
-            localizer={localizer}
-            events={events}
-            startAccessor="start"
-            endAccessor="end"
-            style={{ height: calendarHeight }}
-            views={{
-              month: true,
-              week: true,
-            }}
-            formats={{
-              dayFormat: "dddd",
-            }}
-            onSelectSlot={handleSelectSlot}
-            onDoubleClickEvent={isCalendarEnabled && handleDoubleClickEvent}
-            selectable={view === "week" && isCalendarEnabled}
-            onView={handleView}
-          />
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   );
 }
 
