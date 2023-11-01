@@ -26,22 +26,6 @@ function AvailableHoursBlock({
     [availableHours]
   );
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center mt-2">
-        <div className="w-6 h-6 border-4 border-blue-500 border-solid rounded-full animate-spin"></div>
-      </div>
-    );
-  }
-
-  if (availableHours.length === 0) {
-    return (
-      <p className="text-center mt-2 text-sm text-gray-600">
-        No hay horarios disponibles
-      </p>
-    );
-  }
-
   return (
     <div className="flex flex-col gap-1 w-full overflow-y-auto max-h-[250px] mt-2">
       {formattedHours.map((horario) => (
@@ -51,7 +35,7 @@ function AvailableHoursBlock({
           className={`px-4 py-2 text-sm w-full border rounded-md transition-all ${
             selectedHour === horario.horaInicio
               ? "bg-blue-500 text-white border-blue-500"
-              : "text-gray-700 border-gray-300"
+              : "text-gray-700 border-gray-300 hover:bg-blue-100 hover:border-blue-500"
           }`}
         >
           {horario.rangoHorario}
