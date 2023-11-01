@@ -2,11 +2,11 @@ import React, { useEffect, useState, useCallback } from "react";
 import dayjs from "dayjs";
 import AvailableHoursBlock from "./AvailableHoursBlock";
 import { doctorService } from "@/services/doctorService";
+import { appointmentService } from "@/services/appointmentService";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider, DateCalendar } from "@mui/x-date-pickers";
 import { Modal } from "flowbite-react";
 import PropTypes from "prop-types";
-import { appointmentService } from "@/services/appointmentService";
 
 const RescheduleModal = ({ isOpen, onClose, medicId, appointmentId }) => {
   const [selectedDate, setSelectedDate] = useState(null);
@@ -14,6 +14,8 @@ const RescheduleModal = ({ isOpen, onClose, medicId, appointmentId }) => {
   const [highlightedDays, setHighlightedDays] = useState([]);
   const [availableHours, setAvailableHours] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isStatusUpdated, setIsStatusUpdated] = useState(false);
+  const [confirmationMessage, setConfirmationMessage] = useState("");
 
   const fetchAvailableDays = useCallback(async () => {
     try {
@@ -42,6 +44,7 @@ const RescheduleModal = ({ isOpen, onClose, medicId, appointmentId }) => {
   useEffect(() => {
     if (medicId) fetchAvailableDays();
   }, [medicId, fetchAvailableDays]);
+
   useEffect(() => {
     if (selectedDate) fetchAvailableHours(selectedDate);
   }, [selectedDate, fetchAvailableHours]);
@@ -50,16 +53,15 @@ const RescheduleModal = ({ isOpen, onClose, medicId, appointmentId }) => {
     setSelectedDate(dayjs(newDate).format("YYYY-MM-DD"));
   const handleHourChange = (newHour) => setSelectedHour(newHour);
 
-  const handleConfirm = async (newDate, newHour) => {
+  const handleConfirm = async () => {
     if (selectedDate && selectedHour) {
       setLoading(true);
       try {
-        const data = {
+        await appointmentService.actualizarHoraFecha({
           appointmentId,
-          newDate,
-          newHour,
-        };
-        await appointmentService.actualizarHoraFecha(data);
+          newDate: selectedDate,
+          newHour: selectedHour,
+        });
         setIsStatusUpdated(true);
         setConfirmationMessage(
           "El horario de la cita se ha actualizado exitosamente."
@@ -77,30 +79,34 @@ const RescheduleModal = ({ isOpen, onClose, medicId, appointmentId }) => {
     <Modal show={isOpen} size="lg" onClose={onClose}>
       <Modal.Header>Selecciona una Fecha y hora disponible:</Modal.Header>
       <Modal.Body>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <div className="flex">
-            <DateCalendar
-              onChange={handleDateChange}
-              value={selectedDate ? dayjs(selectedDate) : null}
-            />
-            <div className="ml-4">
-              <p className="mb-4">
-                {selectedDate && selectedHour
-                  ? `Fecha y Hora: ${selectedDate} ${selectedHour}`
-                  : "No hay fecha ni hora reservada"}
-              </p>
-              <AvailableHoursBlock
-                availableHours={availableHours}
-                onHourClick={handleHourChange}
-                selectedHour={selectedHour}
-                isLoading={loading}
+        {isStatusUpdated ? (
+          <p>{confirmationMessage}</p>
+        ) : (
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <div className="flex">
+              <DateCalendar
+                onChange={handleDateChange}
+                value={selectedDate ? dayjs(selectedDate) : null}
               />
+              <div className="ml-4">
+                <p className="mb-4">
+                  {selectedDate && selectedHour
+                    ? `Fecha y Hora: ${selectedDate} ${selectedHour}`
+                    : "No hay fecha ni hora reservada"}
+                </p>
+                <AvailableHoursBlock
+                  availableHours={availableHours}
+                  onHourClick={handleHourChange}
+                  selectedHour={selectedHour}
+                  isLoading={loading}
+                />
+              </div>
             </div>
-          </div>
-        </LocalizationProvider>
+          </LocalizationProvider>
+        )}
       </Modal.Body>
       <Modal.Footer>
-        <button onClick={handleConfirm} disabled={loading}>
+        <button onClick={handleConfirm} disabled={loading || isStatusUpdated}>
           Confirmar
         </button>
         <button onClick={onClose}>Cancelar</button>
