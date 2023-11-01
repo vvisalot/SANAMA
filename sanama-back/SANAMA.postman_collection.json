@@ -106,7 +106,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n        \"idPersona\": 1,\r\n        \"nombres\": \"Carlos Andrés\",\r\n        \"apellidoPaterno\": \"De la Valle\",\r\n        \"apellidoMaterno\": \"Orbegoso\",\r\n        \"dni\": \"39482739\",\r\n        \"fechaNacimiento\": \"1990-09-29\",\r\n        \"sexo\": \"MASCULINO\",\r\n        \"telefono\": \"937581946\",\r\n        \"foto\": null,\r\n        \"estado\": 1,\r\n        \"codigoSeguro\": \"SEG39482739\",\r\n        \"tipoSeguro\": \"Pacífico\",\r\n        \"tieneAcompanhante\": true,\r\n        \"nombreAcompnhante\": \"Maria\",\r\n        \"dniAcompanhante\": \"302948538\",\r\n        \"parentezco\": \"Mamá\",\r\n        \"correo\": \"javier.mendez@gmail.com\",\r\n        \"direccion\": \"Av. Vulcano 115, Ate Vitarte\",\r\n        \"historialClinico\": null,\r\n        \"programacionesCitas\": null\r\n}",
+							"raw": "{\r\n    \"nombres\": \"Aracelli\",\r\n    \"apellidoPaterno\": \"Novoa\",\r\n    \"apellidoMaterno\": \"Martinez\",\r\n    \"dni\": \"70336777\",\r\n    \"fechaNacimiento\": \"1990-09-29\",\r\n    \"sexo\": \"MASCULINO\",\r\n    \"telefono\": \"937581949\",\r\n    \"estado\": 1,\r\n    \"codigoSeguro\": \"1478777\",\r\n    \"tipoSeguro\": 1,\r\n    \"correo\": \"javier.mendez@gmail.com\",\r\n    \"direccion\": \"Av. Vulcano 115, Ate Vitarte\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -193,7 +193,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n        \"idPersona\": 23,\r\n        \"nombres\": \"Javier\",\r\n        \"apellidoPaterno\": \"Mendes\",\r\n        \"apellidoMaterno\": \"Molinas\",\r\n        \"dni\": \"74032409\",\r\n        \"fechaNacimiento\": \"1990-09-27\",\r\n        \"sexo\": \"MASCULINO\",\r\n        \"telefono\": \"937581946\",\r\n        \"estado\": 1,\r\n        \"codigoSeguro\": \"SEG74032409\",\r\n        \"tipoSeguro\": \"Pacífico\",\r\n        \"correo\": \"javier.mendez@gmail.com\",\r\n        \"direccion\": \"Av. Vulcano 115, Ate Vitarte\"\r\n    }",
+							"raw": "{\r\n    \"idPersona\": 109,\r\n    \"nombres\": \"Aracelli\",\r\n    \"apellidoPaterno\": \"Novoa\",\r\n    \"apellidoMaterno\": \"Martinez\",\r\n    \"dni\": \"70336777\",\r\n    \"fechaNacimiento\": \"1990-09-29\",\r\n    \"sexo\": \"FEMENINO\",\r\n    \"telefono\": \"937581949\",\r\n    \"codigoSeguro\": \"1478777\",\r\n    \"tipoSeguro\": 1,\r\n    \"correo\": \"javier.mendez@gmail.com\",\r\n    \"direccion\": \"Av. Vulcano 115, Ate Vitarte\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -606,7 +606,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"id_cita\": 1,\r\n  \"paciente\": {\r\n    \"idPersona\": 35\r\n  },\r\n  \"medico\": {\r\n    \"idPersona\": 2\r\n  },\r\n  \"codigoCitaMedica\": \"CM-123\",\r\n  \"tipoCita\": \"MEDICA\",\r\n  \"horaCita\": \"09:40\",\r\n  \"fechaCita\": \"2023-10-23\",\r\n  \"requiereTriaje\": 0,\r\n  \"estado\": 1\r\n}",
+							"raw": "{\r\n  \"paciente\": {\r\n    \"idPersona\": 109\r\n  },\r\n  \"medico\": {\r\n    \"idPersona\": 2\r\n  },\r\n  \"horaCita\": \"15:20\",\r\n  \"fechaCita\": \"2023-10-23\",\r\n  \"tieneAcompanhante\" : true,\r\n  \"nombreAcompanhante\" : \"MAGDALENA\",\r\n  \"dniAcompanhante\" : \"456789\",\r\n  \"parentezco\" : 1,\r\n  \"requiereTriaje\": 1\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
