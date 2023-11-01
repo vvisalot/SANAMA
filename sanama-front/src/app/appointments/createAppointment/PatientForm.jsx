@@ -9,24 +9,17 @@ import { patientService } from "@/services/patientService"
 import { sexParser } from "@/util/patientParser"
 import Dropdown from "@/components/bars/Dropdown"
 const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, patientForm, fechaNacimiento, setFechaNacimiento, sexo, setSexo, setPatientForm }) => {
+    //Flujo insano
     const [errorMessage, setErrorMessage] = useState("")
     const [showModal, setShowModal] = useState(false)
     const [isFormEnabled, setIsFormEnabled] = useState(false)
     const [cancelButton, setCancelButton] = useState(false)
     const [obtainedPatientId, setObtainedPatientId] = useState("")
+    const [isNextPart, setIsNextPart] = useState(false)
 
     //Dropdowns
     const [securityTypes, setSecurityTypes] = useState([])
 
-    const validateForm = () => {
-        const patientFormValues = Object.values(patientForm)
-        if (patientFormValues.includes("") || !fechaNacimiento || !sexo) {
-            setErrorMessage("Todos los campos deben estar llenos")
-        } else {
-            setErrorMessage("")
-            setFormComplete(true)
-        }
-    }
     const fetchSecurityTypes = async () => {
         try {
             const data = await patientService.listarSeguros()
@@ -37,6 +30,40 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
         }
     }
 
+    const fetchData = async (filtro) => {
+        try {
+            const data = await patientService.mostrarPacienteRegistrado(filtro)
+            let tipoSeguro = securityTypes.find(securityType => securityType.descripcion == data.tipoSeguro)
+            console.log(data)
+            console.log(tipoSeguro)
+            setPatientForm({
+                ...patientForm,
+                apellidoPaterno: data.apellidoPaterno,
+                apellidoMaterno: data.apellidoMaterno,
+                nombres: data.nombres,
+                tipoSeguro: tipoSeguro.idValue,
+                codigoSeguro: data.codigoSeguro,
+                dni: data.dni,
+                direccion: data.direccion,
+                telefono: data.telefono,
+            })
+            setFechaNacimiento(data.fechaNacimiento)
+            setSexo(sexParser(data.sexo))
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const validateForm = () => {
+        const patientFormValues = Object.values(patientForm)
+        if (patientFormValues.includes("") || !fechaNacimiento || !sexo) {
+            setErrorMessage("Todos los campos deben estar llenos")
+        } else {
+            setErrorMessage("")
+            setFormComplete(true)
+            setIsNextPart(true)
+        }
+    }
 
     const handleRegister = () => {
         if (!isFormEnabled) {
@@ -47,6 +74,18 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
             // Deshabilitar el formulario y cambiar el texto y color del botón
             setIsFormEnabled(false)
             setCancelButton(false)
+            setPatientForm({
+                apellidoPaterno: '',
+                apellidoMaterno: '',
+                nombres: '',
+                tipoSeguro: '',
+                codigoSeguro: '',
+                dni: '',
+                direccion: '',
+                telefono: ''
+            })
+            setFechaNacimiento('')
+            setSexo('')
         }
     }
 
@@ -63,29 +102,24 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
         setObtainedPatientId(selectedPatient.idPersona)
     }
 
-
-
-    const fetchData = async (filtro) => {
-        try {
-            const data = await patientService.mostrarPacienteRegistrado(filtro)
-            setPatientForm({
-                ...patientForm,
-                apellidoPaterno: data.apellidoPaterno,
-                apellidoMaterno: data.apellidoMaterno,
-                nombres: data.nombres,
-                tipoSeguro: data.tipoSeguro,
-                codigoSeguro: data.codigoSeguro,
-                dni: data.dni,
-                direccion: data.direccion,
-                telefono: data.telefono,
-            })
-            setFechaNacimiento(data.fechaNacimiento)
-            setSexo(sexParser(data.sexo))
-            // console.log(data)
-        } catch (error) {
-            console.log(error)
-        }
+    const handleClearForm = () => {
+        // Limpia el formulario y vuelve a la primera parte
+        setPatientForm({
+            apellidoPaterno: "",
+            apellidoMaterno: "",
+            nombres: "",
+            tipoSeguro: "",
+            codigoSeguro: "",
+            dni: "",
+            direccion: "",
+            telefono: "",
+        })
+        setFechaNacimiento("")
+        setSexo("")
+        setIsNextPart(false)
+        setFormComplete(false)
     }
+
 
 
     useEffect(() => {
@@ -131,7 +165,7 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
                     onSelect={handlePatientSelect} />
             </div>
 
-            <fieldset disabled={!isFormEnabled}>
+            <fieldset disabled={!isFormEnabled || isNextPart} >
                 <legend></legend>
 
                 <div className="grid grid-cols-2 md:gap-6">
@@ -210,21 +244,6 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
 
                 <div className="grid grid-cols-2 md:gap-6">
                     <div className="relative z-0 w-full mb-6 group">
-                        {/* <TextInput
-                            type="text"
-                            minLength={3}
-                            maxLength={255}
-                            name="tipo_seguro"
-                            id="tipo_seguro"
-                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent"
-                            placeholder=" "
-                            value={patientForm.tipoSeguro}
-                            onChange={(event) =>
-                                setPatientForm({
-                                    ...patientForm,
-                                    tipoSeguro: event.target.value
-                                })}
-                            required /> */}
                         <Dropdown
                             data={securityTypes}
                             name={"dropdown-tipo-seguro"}
@@ -359,7 +378,10 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
                 <button
                     type="button"
                     className=" m-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 
-                font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center" onClick={validateForm}>Siguiente
+          font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center"
+                    onClick={isNextPart ? handleClearForm : validateForm} // Cambia el comportamiento del botón en la segunda parte
+                >
+                    {isNextPart ? 'Limpiar campos' : 'Siguiente'}
                 </button>
             </div>
             {errorMessage && <p className="text-red-500">{errorMessage}</p>}
