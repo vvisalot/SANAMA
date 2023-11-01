@@ -19,6 +19,7 @@ const ReviewAppointment = ({ params }) => {
     isStatusUpdated,
     error: statusUpdateError,
   } = useUpdateAppointmentStatus();
+
   const { appointmentReschedule } = useAppointmentReschedule();
 
   useEffect(() => {
@@ -50,7 +51,7 @@ const ReviewAppointment = ({ params }) => {
   if (error) return <p className="text-red-500">{error}</p>;
   if (!appointmentData) return null;
 
-  const { idCita, estado, paciente, medico } = appointmentData;
+  const { idCita, estado } = appointmentData;
 
   const handleActionClick = async (status) => {
     try {
@@ -77,41 +78,24 @@ const ReviewAppointment = ({ params }) => {
     }
   };
 
-  const isCancelledOrInConsultation =
-    estado === "CANCELADO" || estado === "EN_CONSULTORIO";
-
   return (
     <div className="container mx-auto p-4">
-      <PatientInfo pacienteData={paciente} />
-      <AppointmentInfo appointmentData={appointmentData} doctor={medico} />
+      <PatientInfo pacienteData={appointmentData.paciente} />
+      <AppointmentInfo
+        appointmentData={appointmentData}
+        doctor={appointmentData.medico}
+      />
 
-      <Link href="/evaluations">
-        <href
-          className="block bg-blue-500 text-white p-2 w-full rounded-md text-center mt-2"
-          onClick={() => handleActionClick(2)}
-          disabled={loading || isCancelledOrInConsultation}
-        >
-          Atender Cita
-        </href>
-      </Link>
+      <ActionButtons
+        estado={estado}
+        loading={loading}
+        handleActionClick={handleActionClick}
+        handleReSchedule={handleReSchedule}
+        handleCancelClick={handleCancelClick}
+        hasBeenCanceled={hasBeenCanceled}
+      />
 
-      <button
-        className="bg-blue-500 text-white p-2 w-full rounded-md mt-2"
-        onClick={() => handleReSchedule(/* estado adecuado */)}
-        disabled={loading || isCancelledOrInConsultation}
-      >
-        Reprogramar Cita
-      </button>
-
-      <button
-        className="bg-red-500 text-white p-2 w-full rounded-md mt-2"
-        onClick={handleCancelClick}
-        disabled={loading || hasBeenCanceled || isCancelledOrInConsultation}
-      >
-        Cancelar Cita
-      </button>
-
-      <Link href="/appointments">
+      <Link href="/appointments" passHref>
         <href className="block bg-gray-500 text-white p-2 w-full rounded-md text-center mt-2">
           Volver
         </href>
@@ -121,3 +105,46 @@ const ReviewAppointment = ({ params }) => {
 };
 
 export default ReviewAppointment;
+
+const ActionButtons = ({
+  estado,
+  loading,
+  handleActionClick,
+  handleReSchedule,
+  handleCancelClick,
+  hasBeenCanceled,
+}) => {
+  return (
+    <>
+      {estado === 4 && (
+        <>
+          <Link href="/evaluations" passHref>
+            <href
+              className="block bg-blue-500 text-white p-2 w-full rounded-md text-center mt-2"
+              onClick={() => handleActionClick(2)}
+              disabled={loading}
+            >
+              Atender Cita
+            </href>
+          </Link>
+
+          <button
+            className="bg-blue-500 text-white p-2 w-full rounded-md mt-2"
+            onClick={() => handleReSchedule(/* estado adecuado */)}
+            disabled={loading}
+          >
+            Reprogramar Cita
+          </button>
+
+          <button
+            className="bg-red-500 text-white p-2 w-full rounded-md mt-2"
+            onClick={handleCancelClick}
+            disabled={loading || hasBeenCanceled}
+          >
+            Cancelar Cita
+          </button>
+        </>
+      )}
+    </>
+  );
+};
