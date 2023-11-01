@@ -1,23 +1,25 @@
 "use client";
+
 import { useState } from "react";
 import { appointmentService } from "@/services/appointmentService";
 
-function useUpdateAppointmentStatus() {
+function useAppointmentReschedule() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isStatusUpdated, setIsStatusUpdated] = useState(false);
   const [confirmationMessage, setConfirmationMessage] = useState("");
 
-  const updateAppointmentStatus = async (pn_id_cita, pn_estado) => {
+  const updateAppointmentStatus = async (idCita, newHour, newDate) => {
     setLoading(true);
     setError(null);
     try {
       const data = {
-        pn_id_cita,
-        pn_estado,
+        pn_id_cita: idCita,
+        pt_hora_cita: newHour,
+        pd_fecha_cita: newDate,
       };
 
-      await appointmentService.actualizarEstadoCita(data);
+      await appointmentService.actualizarHoraFecha(data);
       setIsStatusUpdated(true);
       setConfirmationMessage(
         "El estado de la cita se ha actualizado exitosamente."
@@ -30,6 +32,7 @@ function useUpdateAppointmentStatus() {
       setLoading(false);
     }
   };
+
   return {
     loading,
     error,
@@ -39,4 +42,4 @@ function useUpdateAppointmentStatus() {
   };
 }
 
-export default useUpdateAppointmentStatus;
+export default useAppointmentReschedule;

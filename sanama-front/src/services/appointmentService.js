@@ -15,6 +15,8 @@ const ENDPOINTS = {
   SLOTS_AVAILABLE: "/admision/get/slots",
   LISTAR_CITAS_FILTRO: "/admision/post/listarCitasPorFiltro",
   BUSCAR_CITAS: "/admision/post/buscarCitaMedica",
+  CAMBIAR_ESTADO: "/admision/post/cambiarEstadoCita",
+  CAMBIAR_HORA_FECHA: "/admision/post/cambiarHorarioCita",
 };
 
 const formatDate = (date) => {
@@ -147,6 +149,30 @@ export const appointmentService = {
     try {
       const response = await axiosInstance.post(ENDPOINTS.BUSCAR_CITAS, {
         pn_id_cita,
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error al buscar cita", error.message);
+      throw new Error("Failed to list filtered appointments");
+    }
+  },
+
+  actualizarEstadoCita: async (data) => {
+    try {
+      const response = await axiosInstance.post(ENDPOINTS.CAMBIAR_ESTADO, data);
+      return response.data;
+    } catch (error) {
+      console.error("Error al actualizar estado de la cita", error.message);
+      throw new Error("Failed to update appointment status");
+    }
+  },
+
+  actualizarHoraFecha: async (pn_id_cita, pt_hora_cita, pd_fecha_cita) => {
+    try {
+      const response = await axiosInstance.post(ENDPOINTS.CAMBIAR_HORA_FECHA, {
+        pn_id_cita,
+        pt_hora_cita,
+        pd_fecha_cita,
       });
       return response.data;
     } catch (error) {

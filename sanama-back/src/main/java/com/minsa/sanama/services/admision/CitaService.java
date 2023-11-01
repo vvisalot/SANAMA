@@ -5,6 +5,8 @@ import com.minsa.sanama.repository.admision.CitaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -62,5 +64,17 @@ public class CitaService {
             return idCita;
         else
             return -1;
+    }
+
+    public int cambiarEstadoCita(int pn_id_cita, int pn_estado) {
+        int validar=-1;
+        validar = citaRepository.cambiarEstadoCita(pn_id_cita, pn_estado);
+        return validar;
+    }
+
+    public int cambiarHorarioCita(int pn_id_cita, LocalTime pt_hora_cita, LocalDate pd_fecha_cita) {
+        int validar=-1;
+        validar = citaRepository.cambiarHorarioCita(pn_id_cita, pt_hora_cita, pd_fecha_cita);
+        return validar;
     }
 }
