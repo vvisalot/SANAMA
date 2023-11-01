@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import dayjs from "dayjs";
 import AvailableHoursBlock from "./AvailableHoursBlock";
-import { medicService } from "../../services/medicService";
+import { medicService } from "@/services/medicService";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import {
   LocalizationProvider,
@@ -37,15 +37,11 @@ function ServerDay({
 }
 
 const RescheduleModal = ({
-  show,
+  isOpen,
   onClose,
-  onSelect,
-  appointmentId,
+  onReschedule,
   medicId,
-  selectedDate,
-  onDateChange,
-  selectedHour,
-  onHourChange,
+  appointmentId,
 }) => {
   const [highlightedDays, setHighlightedDays] = useState([]);
   const [availableDays, setAvailableDays] = useState([]);
@@ -104,10 +100,13 @@ const RescheduleModal = ({
 
   const handleConfirm = async () => {
     if (selectedDate && selectedHour) {
-      await updateAppointmentHorario(appointmentId, selectedHour, selectedDate);
-      if (isStatusUpdated) {
-        onSelect();
-        onClose();
+      try {
+        setLoading(true);
+        await onReschedule(selectedHour, selectedDate);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error al confirmar reprogramación:", error);
+        setLoading(false);
       }
     } else {
       console.error("Fecha y hora no seleccionadas");

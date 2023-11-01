@@ -1,17 +1,22 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import useUpdateAppointmentStatus from "@/hooks/useUpdateAppointmentStatus";
-import useAppointmentReschedule from "@/hooks/useAppointmentReschedule";
 import { appointmentService } from "@/services/appointmentService";
 import PatientInfo from "./PatientInfo";
 import AppointmentInfo from "./AppointmentInfo";
+import RescheduleModal from "./other/RescheduleModal";
+import useUpdateAppointmentStatus from "@/hooks/useUpdateAppointmentStatus";
+import useAppointmentReschedule from "@/hooks/useAppointmentReschedule";
 
 const ReviewAppointment = ({ params }) => {
   const [appointmentData, setAppointmentData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [hasBeenCanceled, setHasBeenCanceled] = useState(false);
+  const [isRescheduleModalOpen, setIsRescheduleModalOpen] = useState(false);
+
+  const openRescheduleModal = () => setIsRescheduleModalOpen(true);
+  const closeRescheduleModal = () => setIsRescheduleModalOpen(false);
 
   const {
     updateAppointmentStatus,
@@ -71,13 +76,14 @@ const ReviewAppointment = ({ params }) => {
     try {
       setLoading(true);
       await appointmentReschedule(idCita, newHour, newDate);
+      closeRescheduleModal();
     } catch (error) {
-      console.error(error);
+      console.error("Error al reprogramar la cita:", error);
+      setError("Error al reprogramar la cita");
     } finally {
       setLoading(false);
     }
   };
-
   return (
     <div className="container mx-auto p-4">
       <PatientInfo pacienteData={appointmentData.paciente} />
@@ -90,9 +96,17 @@ const ReviewAppointment = ({ params }) => {
         estado={estado}
         loading={loading}
         handleActionClick={handleActionClick}
-        handleReSchedule={handleReSchedule}
+        openRescheduleModal={openRescheduleModal}
         handleCancelClick={handleCancelClick}
         hasBeenCanceled={hasBeenCanceled}
+      />
+
+      <RescheduleModal
+        isOpen={isRescheduleModalOpen}
+        onClose={closeRescheduleModal}
+        onReschedule={handleReSchedule}
+        medicId={appointmentData.medico.id}
+        appointmentId={appointmentData.idCita}
       />
 
       <Link href="/appointments" passHref>
@@ -104,13 +118,11 @@ const ReviewAppointment = ({ params }) => {
   );
 };
 
-export default ReviewAppointment;
-
 const ActionButtons = ({
   estado,
   loading,
   handleActionClick,
-  handleReSchedule,
+  openRescheduleModal,
   handleCancelClick,
   hasBeenCanceled,
 }) => {
@@ -119,18 +131,18 @@ const ActionButtons = ({
       {estado === 4 && (
         <>
           <Link href="/evaluations" passHref>
-            <href
+            <a
               className="block bg-blue-500 text-white p-2 w-full rounded-md text-center mt-2"
               onClick={() => handleActionClick(2)}
               disabled={loading}
             >
               Atender Cita
-            </href>
+            </a>
           </Link>
 
           <button
             className="bg-blue-500 text-white p-2 w-full rounded-md mt-2"
-            onClick={() => handleReSchedule(/* estado adecuado */)}
+            onClick={openRescheduleModal}
             disabled={loading}
           >
             Reprogramar Cita
@@ -148,3 +160,5 @@ const ActionButtons = ({
     </>
   );
 };
+
+export default ReviewAppointment;
