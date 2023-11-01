@@ -67,7 +67,7 @@ const DoctorsPage = () => {
                 <SearchBar
                     name={"doctor-search"}
                     width={"w-full"} 
-                    ph={"Ingrese su nombre, apellido o CMP"}>
+                    placeholderText={"Busacar por nombre o CMP"}>
                 </SearchBar>
             </form>
             <div style={{ marginBottom: '1rem', color: 'black' }} className="pl-12 pr-14">
