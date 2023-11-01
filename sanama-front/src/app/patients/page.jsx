@@ -35,7 +35,7 @@ const PatientPage = () => {
         <>
             <h1 className="font-bold text-blue-500 text-6xl p-12" >Gestión de Pacientes</h1>
             <form className="flex pl-8 pr-10 pb-4" onSubmit={handleSubmit}>
-                <SearchBar name={"patients-search"} width={"w-full"} ph={"Ingrese su nombre, apellido o DNI completo"} /> {/*ph: placeholder */}
+                <SearchBar name={"patients-search"} width={"w-full"} placeholderText={"Buscar por nombre o DNI"} /> {/*ph: placeholder */}
             </form>
 
             <section className="pl-12 pr-14">
