@@ -86,9 +86,39 @@ const ReviewAppointment = ({ params }) => {
         doctor={appointmentData.medico}
       />
 
+      <ActionButtons
+        estado={estado}
+        loading={loading}
+        handleActionClick={handleActionClick}
+        handleReSchedule={handleReSchedule}
+        handleCancelClick={handleCancelClick}
+        hasBeenCanceled={hasBeenCanceled}
+      />
+
+      <Link href="/appointments" passHref>
+        <href className="block bg-gray-500 text-white p-2 w-full rounded-md text-center mt-2">
+          Volver
+        </href>
+      </Link>
+    </div>
+  );
+};
+
+export default ReviewAppointment;
+
+const ActionButtons = ({
+  estado,
+  loading,
+  handleActionClick,
+  handleReSchedule,
+  handleCancelClick,
+  hasBeenCanceled,
+}) => {
+  return (
+    <>
       {estado === 4 && (
         <>
-          <Link href="#" passHref>
+          <Link href="/evaluations" passHref>
             <href
               className="block bg-blue-500 text-white p-2 w-full rounded-md text-center mt-2"
               onClick={() => handleActionClick(2)}
@@ -115,14 +145,6 @@ const ReviewAppointment = ({ params }) => {
           </button>
         </>
       )}
-
-      <Link href="/appointments" passHref>
-        <href className="block bg-gray-500 text-white p-2 w-full rounded-md text-center mt-2">
-          Volver
-        </href>
-      </Link>
-    </div>
+    </>
   );
 };
-
-export default ReviewAppointment;
