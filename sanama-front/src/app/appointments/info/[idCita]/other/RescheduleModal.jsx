@@ -6,8 +6,9 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider, DateCalendar } from "@mui/x-date-pickers";
 import { Modal } from "flowbite-react";
 import PropTypes from "prop-types";
+import { appointmentService } from "@/services/appointmentService";
 
-const RescheduleModal = ({ isOpen, onClose, medicId }) => {
+const RescheduleModal = ({ isOpen, onClose, medicId, appointmentId }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedHour, setSelectedHour] = useState(null);
   const [highlightedDays, setHighlightedDays] = useState([]);
@@ -49,11 +50,20 @@ const RescheduleModal = ({ isOpen, onClose, medicId }) => {
     setSelectedDate(dayjs(newDate).format("YYYY-MM-DD"));
   const handleHourChange = (newHour) => setSelectedHour(newHour);
 
-  const handleConfirm = async () => {
+  const handleConfirm = async (newDate, newHour) => {
     if (selectedDate && selectedHour) {
       setLoading(true);
       try {
-        // Lógica para actualizar el horario de la cita
+        const data = {
+          appointmentId,
+          newDate,
+          newHour,
+        };
+        await appointmentService.actualizarHoraFecha(data);
+        setIsStatusUpdated(true);
+        setConfirmationMessage(
+          "El horario de la cita se ha actualizado exitosamente."
+        );
       } catch (error) {
         console.error("Error al confirmar reprogramación:", error);
       }
