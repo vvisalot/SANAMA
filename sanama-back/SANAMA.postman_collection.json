@@ -10,35 +10,6 @@
 			"name": "Paciente",
 			"item": [
 				{
-					"name": "RegistrarPaciente",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n        \"idPersona\": 1,\r\n        \"nombres\": \"Carlos Andrés\",\r\n        \"apellidoPaterno\": \"De la Valle\",\r\n        \"apellidoMaterno\": \"Orbegoso\",\r\n        \"dni\": \"39482739\",\r\n        \"fechaNacimiento\": \"1990-09-29\",\r\n        \"sexo\": \"MASCULINO\",\r\n        \"telefono\": \"937581946\",\r\n        \"foto\": null,\r\n        \"estado\": 1,\r\n        \"codigoSeguro\": \"SEG39482739\",\r\n        \"tipoSeguro\": \"Pacífico\",\r\n        \"tieneAcompanhante\": true,\r\n        \"nombreAcompnhante\": \"Maria\",\r\n        \"dniAcompanhante\": \"302948538\",\r\n        \"parentezco\": \"Mamá\",\r\n        \"correo\": \"javier.mendez@gmail.com\",\r\n        \"direccion\": \"Av. Vulcano 115, Ate Vitarte\",\r\n        \"historialClinico\": null,\r\n        \"programacionesCitas\": null\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:8080/admision/put/paciente",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"admision",
-								"put",
-								"paciente"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "listarPacientes",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -64,6 +35,93 @@
 							"path": [
 								"admision",
 								"get",
+								"paciente"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ListarPacientesFiltro",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "//Filtros: NOMBRES Y APELLIDOS, DNI, CODIGOSEGURO, IDPACIENTE\r\n{\r\n    \"pv_filtro\":\"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/admision/post/buscarPaciente",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admision",
+								"post",
+								"buscarPaciente"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MostrarPacienteRegistrado",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "//Retorna solo 1 paciente\r\n//Filtros: DNI, NOMBRE(no apellidos)\r\n{\r\n    \"pn_id_paciente\":\"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/admision/post/mostrarPacienteRegistrado",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admision",
+								"post",
+								"mostrarPacienteRegistrado"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RegistrarPaciente",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"idPersona\": 1,\r\n        \"nombres\": \"Carlos Andrés\",\r\n        \"apellidoPaterno\": \"De la Valle\",\r\n        \"apellidoMaterno\": \"Orbegoso\",\r\n        \"dni\": \"39482739\",\r\n        \"fechaNacimiento\": \"1990-09-29\",\r\n        \"sexo\": \"MASCULINO\",\r\n        \"telefono\": \"937581946\",\r\n        \"foto\": null,\r\n        \"estado\": 1,\r\n        \"codigoSeguro\": \"SEG39482739\",\r\n        \"tipoSeguro\": \"Pacífico\",\r\n        \"tieneAcompanhante\": true,\r\n        \"nombreAcompnhante\": \"Maria\",\r\n        \"dniAcompanhante\": \"302948538\",\r\n        \"parentezco\": \"Mamá\",\r\n        \"correo\": \"javier.mendez@gmail.com\",\r\n        \"direccion\": \"Av. Vulcano 115, Ate Vitarte\",\r\n        \"historialClinico\": null,\r\n        \"programacionesCitas\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/admision/put/paciente",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admision",
+								"put",
 								"paciente"
 							]
 						}
@@ -100,13 +158,13 @@
 					"response": []
 				},
 				{
-					"name": "ListarPacientesFiltro",
+					"name": "ListarPacientesModalFiltro",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "//Filtros: NOMBRES Y APELLIDOS, DNI, CODIGOSEGURO, IDPACIENTE\r\n{\r\n    \"pv_filtro\":\"\"\r\n}",
+							"raw": "//Filtros: NOMBRES Y APELLIDOS, DNI, CODIGOSEGURO, IDPACIENTE\r\n{\r\n    \"pv_nombre_dni\":\"\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -114,7 +172,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/admision/post/buscarPaciente",
+							"raw": "localhost:8080/admision/post/buscarPacienteModal",
 							"host": [
 								"localhost"
 							],
@@ -122,36 +180,7 @@
 							"path": [
 								"admision",
 								"post",
-								"buscarPaciente"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "ListarPacientesFiltroPrueba",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "//Filtros: NOMBRES Y APELLIDOS, DNI, CODIGOSEGURO, IDPACIENTE\r\n{\r\n    \"pv_filtro\":\"\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:8080/admision/post/buscarPacientePrueba",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"admision",
-								"post",
-								"buscarPacientePrueba"
+								"buscarPacienteModal"
 							]
 						}
 					},
@@ -664,7 +693,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"pn_id_cita\":\"3\",\r\n    \"pt_hora_cita\":\"08:40\",\r\n    \"pd_fecha_cita\":\"2023-11-06\"\r\n}",
+							"raw": "{\r\n    \"pn_id_cita\":\"3\",\r\n    \"pt_hora_cita\":\"08:00\",\r\n    \"pd_fecha_cita\":\"2023-11-06\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
