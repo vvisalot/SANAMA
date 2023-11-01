@@ -72,18 +72,6 @@ const ReviewAppointment = ({ params }) => {
   const handleCancelClick = () =>
     handleActionClick(3).then(() => setHasBeenCanceled(true));
 
-  const handleReSchedule = async (newHour, newDate) => {
-    try {
-      setLoading(true);
-      await appointmentReschedule(idCita, newHour, newDate);
-      closeRescheduleModal();
-    } catch (error) {
-      console.error("Error al reprogramar la cita:", error);
-      setError("Error al reprogramar la cita");
-    } finally {
-      setLoading(false);
-    }
-  };
   return (
     <div className="container mx-auto p-4">
       <PatientInfo pacienteData={appointmentData.paciente} />
@@ -101,19 +89,18 @@ const ReviewAppointment = ({ params }) => {
         hasBeenCanceled={hasBeenCanceled}
       />
 
-      <RescheduleModal
-        isOpen={isRescheduleModalOpen}
-        onClose={closeRescheduleModal}
-        onReschedule={handleReSchedule}
-        medicId={appointmentData.medico.id}
-        appointmentId={appointmentData.idCita}
-      />
-
       <Link href="/appointments" passHref>
         <href className="block bg-gray-500 text-white p-2 w-full rounded-md text-center mt-2">
           Volver
         </href>
       </Link>
+
+      <RescheduleModal
+        isOpen={isRescheduleModalOpen}
+        onClose={closeRescheduleModal}
+        medicId={appointmentData.medico.idPersona}
+        appointmentId={appointmentData.idCita}
+      />
     </div>
   );
 };
@@ -131,13 +118,13 @@ const ActionButtons = ({
       {estado === 4 && (
         <>
           <Link href="/evaluations" passHref>
-            <a
+            <href
               className="block bg-blue-500 text-white p-2 w-full rounded-md text-center mt-2"
               onClick={() => handleActionClick(2)}
               disabled={loading}
             >
               Atender Cita
-            </a>
+            </href>
           </Link>
 
           <button

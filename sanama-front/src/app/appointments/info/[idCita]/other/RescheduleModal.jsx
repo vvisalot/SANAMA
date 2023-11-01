@@ -1,149 +1,87 @@
 import React, { useEffect, useState, useCallback } from "react";
 import dayjs from "dayjs";
 import AvailableHoursBlock from "./AvailableHoursBlock";
-import { medicService } from "@/services/medicService";
+import { doctorService } from "@/services/doctorService";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import {
-  LocalizationProvider,
-  PickersDay,
-  DateCalendar,
-} from "@mui/x-date-pickers";
-import { Badge, Modal, Spinner } from "flowbite-react";
-import useAppointmentReschedule from "@/hooks/useAppointmentReschedule";
+import { LocalizationProvider, DateCalendar } from "@mui/x-date-pickers";
+import { Modal } from "flowbite-react";
+import PropTypes from "prop-types";
 
-function ServerDay({
-  highlightedDays = [],
-  day,
-  outsideCurrentMonth,
-  ...other
-}) {
-  const dayString = day.format("YYYY-MM-DD");
-  const isSelected =
-    !outsideCurrentMonth && highlightedDays.includes(dayString);
-
-  return (
-    <Badge
-      key={day.toString()}
-      overlap="circular"
-      badgeContent={isSelected ? "✅" : undefined}
-    >
-      <PickersDay
-        {...other}
-        outsideCurrentMonth={outsideCurrentMonth}
-        day={day}
-      />
-    </Badge>
-  );
-}
-
-const RescheduleModal = ({
-  isOpen,
-  onClose,
-  onReschedule,
-  medicId,
-  appointmentId,
-}) => {
+const RescheduleModal = ({ isOpen, onClose, medicId }) => {
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedHour, setSelectedHour] = useState(null);
   const [highlightedDays, setHighlightedDays] = useState([]);
-  const [availableDays, setAvailableDays] = useState([]);
   const [availableHours, setAvailableHours] = useState([]);
-  const {
-    updateAppointmentHorario,
-    loading,
-    error,
-    isStatusUpdated,
-    confirmationMessage,
-  } = useAppointmentReschedule();
+  const [loading, setLoading] = useState(false);
+
+  const fetchAvailableDays = useCallback(async () => {
+    try {
+      const data = await doctorService.DiasDisponiblesByID(medicId);
+      setHighlightedDays(data.map((date) => dayjs(date).format("YYYY-MM-DD")));
+    } catch (error) {
+      console.error("Error fetching available days:", error);
+    }
+  }, [medicId]);
 
   const fetchAvailableHours = useCallback(
-    (fecha) => {
-      medicService
-        .buscarHorariosByID(fecha, medicId)
-        .then((data) => setAvailableHours(data))
-        .catch((error) =>
-          console.error("Error fetching available hours:", error)
+    async (fecha) => {
+      try {
+        const data = await doctorService.buscarHorariosMedicoFecha(
+          fecha,
+          medicId
         );
+        setAvailableHours(data);
+      } catch (error) {
+        console.error("Error fetching available hours:", error);
+      }
     },
     [medicId]
   );
 
-  const fetchAvailableDays = useCallback(() => {
-    medicService
-      .DiasDisponiblesByID(medicId)
-      .then((data) => {
-        setAvailableDays(data);
-        const daysToHighlight = data.map((date) =>
-          dayjs(date).format("YYYY-MM-DD")
-        );
-        setHighlightedDays(daysToHighlight);
-      })
-      .catch((error) => console.error("Error fetching available days:", error));
-  }, [medicId]);
-
   useEffect(() => {
-    if (medicId) {
-      fetchAvailableDays();
-    }
+    if (medicId) fetchAvailableDays();
   }, [medicId, fetchAvailableDays]);
-
   useEffect(() => {
-    if (selectedDate) {
-      fetchAvailableHours(selectedDate);
-    }
+    if (selectedDate) fetchAvailableHours(selectedDate);
   }, [selectedDate, fetchAvailableHours]);
 
-  const handleDateChange = useCallback(
-    (newDate) => {
-      onDateChange(dayjs(newDate).format("YYYY-MM-DD"));
-    },
-    [onDateChange]
-  );
+  const handleDateChange = (newDate) =>
+    setSelectedDate(dayjs(newDate).format("YYYY-MM-DD"));
+  const handleHourChange = (newHour) => setSelectedHour(newHour);
 
   const handleConfirm = async () => {
     if (selectedDate && selectedHour) {
+      setLoading(true);
       try {
-        setLoading(true);
-        await onReschedule(selectedHour, selectedDate);
-        setLoading(false);
+        // Lógica para actualizar el horario de la cita
       } catch (error) {
         console.error("Error al confirmar reprogramación:", error);
-        setLoading(false);
       }
+      setLoading(false);
     } else {
       console.error("Fecha y hora no seleccionadas");
     }
   };
 
   return (
-    <Modal show={show} size="lg" popup={true} onClose={onClose}>
-      <Modal.Header>
-        <h2 className="text-lg font-semibold mb-4">
-          Selecciona una Fecha y hora disponible:
-        </h2>
-      </Modal.Header>
+    <Modal show={isOpen} size="lg" onClose={onClose}>
+      <Modal.Header>Selecciona una Fecha y hora disponible:</Modal.Header>
       <Modal.Body>
-        {error && <p className="text-red-500 mb-4">{error}</p>}
-        {confirmationMessage && (
-          <p className="text-green-500 mb-4">{confirmationMessage}</p>
-        )}
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <div className="flex flex-col md:flex-row">
+          <div className="flex">
             <DateCalendar
               onChange={handleDateChange}
               value={selectedDate ? dayjs(selectedDate) : null}
-              slots={{ day: ServerDay }}
-              slotProps={{ day: { highlightedDays } }}
             />
-            <div className="flex flex-col ml-4 mt-4 md:mt-0">
-              {selectedDate && selectedHour ? (
-                <p className="mb-4">
-                  Fecha y Hora: {selectedDate} {selectedHour}
-                </p>
-              ) : (
-                <p className="mb-4">No hay fecha ni hora reservada</p>
-              )}
+            <div className="ml-4">
+              <p className="mb-4">
+                {selectedDate && selectedHour
+                  ? `Fecha y Hora: ${selectedDate} ${selectedHour}`
+                  : "No hay fecha ni hora reservada"}
+              </p>
               <AvailableHoursBlock
                 availableHours={availableHours}
-                onHourClick={onHourChange}
+                onHourClick={handleHourChange}
                 selectedDate={selectedDate}
               />
             </div>
@@ -151,22 +89,20 @@ const RescheduleModal = ({
         </LocalizationProvider>
       </Modal.Body>
       <Modal.Footer>
-        <button
-          className="bg-blue-500 text-white px-4 py-2 rounded"
-          onClick={handleConfirm}
-          disabled={loading}
-        >
-          {loading ? <Spinner size="sm" light={true} /> : "Confirmar"}
+        <button onClick={handleConfirm} disabled={loading}>
+          Confirmar
         </button>
-        <button
-          className="bg-gray-500 text-white px-4 py-2 rounded ml-2"
-          onClick={onClose}
-        >
-          Cancelar
-        </button>
+        <button onClick={onClose}>Cancelar</button>
       </Modal.Footer>
     </Modal>
   );
+};
+
+RescheduleModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  medicId: PropTypes.string.isRequired,
+  appointmentId: PropTypes.string.isRequired,
 };
 
 export default RescheduleModal;

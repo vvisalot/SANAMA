@@ -15,7 +15,7 @@ function AvailableHoursBlock({
 
   const formattedHours = useMemo(
     () =>
-      availableHours.map((horario) => {
+      (Array.isArray(availableHours) ? availableHours : []).map((horario) => {
         const horaInicioFormateada = horario.horaInicio.slice(0, 5);
         const horaFinFormateada = horario.horaFin.slice(0, 5);
         return {
