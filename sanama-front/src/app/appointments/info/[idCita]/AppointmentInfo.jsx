@@ -62,7 +62,7 @@ const DoctorInfo = ({ doctor }) => {
   return { nombreDoctor, especialidadNombre };
 };
 
-const AppointmentInfo = ({ appointmentData, doctor }) => {
+const AppointmentInfo = React.memo(({ appointmentData, doctor }) => {
   const { estado, ...restAppointmentData } = appointmentData || {};
   const { nombreDoctor, especialidadNombre } = DoctorInfo({ doctor });
   const status = useMemo(() => getStatus(estado), [estado]);
@@ -100,7 +100,7 @@ const AppointmentInfo = ({ appointmentData, doctor }) => {
       </div>
     </div>
   );
-};
+});
 
 AppointmentInfo.propTypes = {
   appointmentData: PropTypes.object.isRequired,
