@@ -7,25 +7,26 @@ import java.util.ArrayList;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class HojaMedica {
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-    private int idHojaClinica=0;
+    private int idHojaMedica=0;
     private String codigo;
     private LocalDate fecha;
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private int estado=0;
     // private ArrayList<CitaMedica> citasMedicas;
     private Diagnostico diagnostico;
+    private int idMedicoCreador;
     private ArrayList<Resultado> resultados;
     private RecetaMedica recetaMedica;
 
     public HojaMedica() {
     }
 
-    public int getIdHojaClinica() {
-        return idHojaClinica;
+    public int getIdHojaMedica() {
+        return idHojaMedica;
     }
 
-    public void setIdHojaClinica(int idHojaClinica) {
-        this.idHojaClinica = idHojaClinica;
+    public void setIdHojaMedica(int idHojaClinica) {
+        this.idHojaMedica = idHojaClinica;
     }
 
     public String getCodigo() {
@@ -85,4 +86,11 @@ public class HojaMedica {
         this.recetaMedica = recetaMedica;
     }
 
+    public int getIdMedicoCreador() {
+        return idMedicoCreador;
+    }
+
+    public void setIdMedicoCreador(int idMedicoCreador) {
+        this.idMedicoCreador = idMedicoCreador;
+    }
 }

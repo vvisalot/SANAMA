@@ -9,24 +9,24 @@ function useAppointmentReschedule() {
   const [isStatusUpdated, setIsStatusUpdated] = useState(false);
   const [confirmationMessage, setConfirmationMessage] = useState("");
 
-  const updateAppointmentHorario = async (idCita, newHour, newDate) => {
+  const updateAppointmentSchedule = async (appointmentId, newDate, newHour) => {
     setLoading(true);
     setError(null);
     try {
-      const data = {
-        pn_id_cita: idCita,
-        pt_hora_cita: newHour,
+      await appointmentService.actualizarHoraFecha({
+        pn_id_cita: appointmentId,
         pd_fecha_cita: newDate,
-      };
-
-      await appointmentService.actualizarHoraFecha(data);
+        pt_hora_cita: newHour,
+      });
       setIsStatusUpdated(true);
       setConfirmationMessage(
-        "El estado de la cita se ha actualizado exitosamente."
+        "El horario de la cita se ha actualizado exitosamente."
       );
     } catch (error) {
-      console.error("Error al actualizar el estado de la cita:", error.message);
-      setError("Error al actualizar el estado de la cita");
+      console.error("Error al actualizar el horario de la cita:", error);
+      setError(
+        "No se pudo actualizar el horario de la cita. Por favor, intente nuevamente."
+      );
       setIsStatusUpdated(false);
     } finally {
       setLoading(false);
@@ -38,7 +38,7 @@ function useAppointmentReschedule() {
     error,
     isStatusUpdated,
     confirmationMessage,
-    updateAppointmentHorario,
+    updateAppointmentSchedule,
   };
 }
 

@@ -178,7 +178,7 @@ public class CitaRepository {
             medico.setEspecialidad(especialidad);
             citaMedica.setMedico(medico);
             HojaMedica hoja = new HojaMedica();
-            hoja.setIdHojaClinica(rs.getInt("id_hoja_medica"));
+            hoja.setIdHojaMedica(rs.getInt("id_hoja_medica"));
             citaMedica.setHojaMedica(hoja);
             citaMedica.setFechaCita(rs.getDate("fecha_cita").toLocalDate());
             citaMedica.setHoraCita(rs.getTime("hora_cita").toLocalTime());
