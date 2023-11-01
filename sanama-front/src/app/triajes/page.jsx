@@ -11,7 +11,29 @@ const TriajePage = () => {
 
   const fetchData = async (filtro, fechaDesde, fechaHasta) => {
     try {
-        const data = await triajeService.listarTriajePorFiltro(filtro, fechaDesde, fechaHasta)
+      const addHours = (dateStr, hoursToAdd) => {
+        let date = new Date(dateStr);
+        date.setHours(date.getHours() + hoursToAdd);
+        
+        // Formatear de vuelta al formato original
+        let dd = String(date.getDate()).padStart(2, '0');
+        let mm = String(date.getMonth() + 1).padStart(2, '0'); // Enero es 0!
+        let yyyy = date.getFullYear();
+        let hh = String(date.getHours()).padStart(2, '0');
+        let min = String(date.getMinutes()).padStart(2, '0');
+        let ss = String(date.getSeconds()).padStart(2, '0');
+    
+        return `${yyyy}-${mm}-${dd} ${hh}:${min}:${ss}`; // Esto asume que tu formato es "YYYY-MM-DD HH:mm:ss"
+    }
+    
+    const fechaDesdeToSend = fechaDesde ? addHours(fechaDesde, 15) : null;
+    const fechaHastaToSend = fechaHasta ? addHours(fechaHasta, 15) : null;
+
+        console.log("La fecha inicial es: " + fechaDesdeToSend);
+        console.log("La fecha final es: " + fechaHastaToSend);
+    
+
+        const data = await triajeService.listarTriajePorFiltro(filtro, fechaDesdeToSend, fechaHastaToSend)
         console.log(data);
         const tableData = parseTriajeTable(data);
         setTriajeTable(tableData);

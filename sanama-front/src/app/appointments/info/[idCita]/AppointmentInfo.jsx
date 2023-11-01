@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 const camposAtencion = [
   { id: "numero-cita", label: "CODIGO DE CITA", type: "text" },
@@ -11,24 +11,56 @@ const camposAtencion = [
   { id: "estado", label: "ESTADO", type: "text" },
 ];
 
-const getValue = (appointmentData, id, nombreDoctor, especialidadNombre) => {
+const getValue = (
+  id,
+  appointmentData,
+  nombreDoctor,
+  especialidadNombre,
+  status
+) => {
   switch (id) {
     case "medico-responsable":
       return nombreDoctor;
     case "especialidad":
       return especialidadNombre;
+    case "estado":
+      return status;
     default:
       return appointmentData[id];
   }
 };
 
-const AppointmentInfo = ({ appointmentData, doctor }) => {
-  const nombreDoctor = `${doctor.sexo === "M" ? "Dr." : "Dra."} ${
-    doctor.nombres
-  } ${doctor.apellidoPaterno} ${doctor.apellidoMaterno}`;
-  const especialidadNombre = doctor.especialidad
-    ? doctor.especialidad.nombre
-    : "";
+const getStatus = (estado) => {
+  switch (estado) {
+    case 1:
+      return "Atendida";
+    case 2:
+      return "En Consultorio";
+    case 3:
+      return "Cancelada";
+    case 4:
+      return "Pendiente";
+    default:
+      return "Desconocido";
+  }
+};
+
+const AppointmentInfo = ({
+  appointmentData: { estado, ...appointmentData },
+  doctor,
+}) => {
+  const nombreDoctor = useMemo(
+    () =>
+      `${doctor.sexo === "M" ? "Dr." : "Dra."} ${doctor.nombres} ${
+        doctor.apellidoPaterno
+      } ${doctor.apellidoMaterno}`,
+    [doctor]
+  );
+  const especialidadNombre = useMemo(
+    () => (doctor.especialidad ? doctor.especialidad.nombre : ""),
+    [doctor]
+  );
+  const status = useMemo(() => getStatus(estado), [estado]);
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md mb-6">
@@ -36,24 +68,25 @@ const AppointmentInfo = ({ appointmentData, doctor }) => {
         Información de la atención
       </h2>
       <div className="grid grid-cols-3 gap-4">
-        {camposAtencion.map((campo) => (
-          <div key={campo.id}>
+        {camposAtencion.map(({ id, label, type }) => (
+          <div key={id}>
             <label
-              htmlFor={campo.id}
+              htmlFor={id}
               className="block text-sm font-medium text-gray-700"
             >
-              {campo.label}
+              {label}
             </label>
             <input
-              type={campo.type}
-              id={campo.id}
-              name={campo.id}
+              type={type}
+              id={id}
+              name={id}
               className="mt-1 p-2 w-full border rounded-md"
               defaultValue={getValue(
+                id,
                 appointmentData,
-                campo.id,
                 nombreDoctor,
-                especialidadNombre
+                especialidadNombre,
+                status
               )}
               readOnly
             />

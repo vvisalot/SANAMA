@@ -48,7 +48,6 @@ public class CitaController {
             String pd_fecha_fin;
             String pn_estado;
 
-
             if(job.get("pd_fecha_inicio") == null) pd_fecha_inicio=null;
             else pd_fecha_inicio = job.get("pd_fecha_inicio").toString();
 
@@ -57,6 +56,7 @@ public class CitaController {
 
             if(job.get("pn_estado") == null) pn_estado=null;
             else pn_estado = job.get("pn_estado").toString();
+
 
             // Llama al servicio para listar citas por filtros
             Lcita = citaService.listarCitasxFiltro(null, pv_filtro, pd_fecha_inicio, pd_fecha_fin, pn_estado);
