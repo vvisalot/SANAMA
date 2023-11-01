@@ -14,7 +14,7 @@ const DoctorsPage = () => {
         try {
             const data = await doctorService.buscarPorMedicoEspecialidad(filtro, especialidad)
             const tableData = parseDoctorsTable(data)
-            console.log(tableData)
+            //console.log(tableData)
             setDoctorTable(tableData)
         } catch (error) {
             console.log("No se pudo obtener los datos de los doctores")
