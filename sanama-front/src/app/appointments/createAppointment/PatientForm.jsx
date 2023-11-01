@@ -23,7 +23,6 @@ const PatientForm = ({ setFormComplete, setPatientId, patientForm, fechaNacimien
     const fetchSecurityTypes = async () => {
         try {
             const data = await patientService.listarSeguros()
-            console.log(data)
             setSecurityTypes(data)
         } catch (error) {
             console.log("No se pudo obtener el listado de seguros")
@@ -33,15 +32,14 @@ const PatientForm = ({ setFormComplete, setPatientId, patientForm, fechaNacimien
     const fetchData = async (filtro) => {
         try {
             const data = await patientService.mostrarPacienteRegistrado(filtro)
-            let tipoSeguro = securityTypes.find(securityType => securityType.descripcion == data.tipoSeguro)
-            console.log(data)
-            console.log(tipoSeguro)
+            let selectedSecurityType = securityTypes.find((securityType) => securityType.idValue === data.tipoSeguro)
+
             setPatientForm({
                 ...patientForm,
                 apellidoPaterno: data.apellidoPaterno,
                 apellidoMaterno: data.apellidoMaterno,
                 nombres: data.nombres,
-                tipoSeguro: tipoSeguro ? tipoSeguro.idValue : null,
+                tipoSeguro: selectedSecurityType ? selectedSecurityType.idValue : "",
                 codigoSeguro: data.codigoSeguro,
                 dni: data.dni,
                 direccion: data.direccion,
@@ -50,6 +48,9 @@ const PatientForm = ({ setFormComplete, setPatientId, patientForm, fechaNacimien
             setFechaNacimiento(data.fechaNacimiento)
             setSexo(sexParser(data.sexo))
             setPatientId(data.idPersona)
+            console.log(selectedSecurityType.idValue)
+            console.log(patientForm.tipoSeguro)
+
         } catch (error) {
             console.log(error)
         }
@@ -253,11 +254,13 @@ const PatientForm = ({ setFormComplete, setPatientId, patientForm, fechaNacimien
                             defaultValue={""}
                             width={"w-fit"}
                             value={patientForm.tipoSeguro}
-                            handleChange={(event) =>
+                            handleChange={(event) => {
                                 setPatientForm({
                                     ...patientForm,
                                     tipoSeguro: event.target.value
-                                })}
+                                })
+                            }
+                            }
                         />
                         <label htmlFor="dropdown-tipo-seguro"
                             className="peer-focus:font-medium absolute text-sm  text-gray-500  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
