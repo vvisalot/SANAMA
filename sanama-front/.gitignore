@@ -39,3 +39,7 @@ next-env.d.ts
 
 # gaaa
 *.jar
+
+/.idea
+
+/.vscode

@@ -6,14 +6,20 @@ import java.time.LocalTime;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Triaje {
-    private int idTriaje;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    private int idTriaje=0;
     private String codigoTriaje;
-    private int peso;
-    private int talla;
-    private int temperatura;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    private int peso=0;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    private int talla=0;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    private int temperatura=0;
     private String motivoVisita;
-    private int presionArterial;
-    private int estado;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    private int presionArterial=0;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    private int estado=0;
     private String prioridad;
     private LocalDate fechaTriaje;
     private LocalTime horaTriaje;

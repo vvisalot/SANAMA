@@ -59,3 +59,9 @@ body {
 .bg-urgencia-menor {
   background-color: green;
 }
+
+#charCount {
+  display: block;
+  text-align: right;
+  color: #777;
+}

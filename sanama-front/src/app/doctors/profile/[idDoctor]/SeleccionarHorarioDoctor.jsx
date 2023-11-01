@@ -71,7 +71,7 @@ function SeleccionarHorarioMedico(props) {
   const [view, setView] = useState("month");
   const [calendarHeight, setCalendarHeight] = useState(600);
   const fechaHoy = new Date();
-  fechaHoy.setDate(fechaHoy.getDate() - 15);
+  fechaHoy.setDate(fechaHoy.getDate() - 15); //Aquí defino que tambien quiero traer data de 2 semanas antes*********
   const [seHaModificadoHorario, setSeHaModificadoHorario] = useState(false);
   const handleIngresarDisponibilidad = () => {
     setBackData(events);

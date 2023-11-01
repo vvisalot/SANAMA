@@ -15,10 +15,16 @@ public class TriajeService {
     @Autowired
     TriajeRepository triajeRepository;
 
-    public List<Triaje> listarTriajePorFiltro(String pv_filtro) {
+    public List<Triaje> listarTriajePorFiltro(String pv_filtro,String pd_fecha_inicio,String pd_fecha_fin) {
         List<Triaje> triajes;
-        triajes = triajeRepository.listarTriajePorFiltro(pv_filtro);
+        triajes = triajeRepository.listarTriajePorFiltro(pv_filtro,pd_fecha_inicio,pd_fecha_fin,null);
         return triajes;
+    }
+
+    public Triaje buscarTriajeID(String pv_filtro) {
+        List<Triaje> triajes;
+        triajes = triajeRepository.buscarTriaje(pv_filtro);
+        return triajes.get(0);
     }
 
     public int actualizarTriaje(Triaje triaje) {
