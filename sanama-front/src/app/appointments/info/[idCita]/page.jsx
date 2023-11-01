@@ -118,7 +118,7 @@ const ActionButtons = ({
     <>
       {estado === 4 && (
         <>
-          <Link href="#" passHref>
+          <Link href="/evaluations" passHref>
             <href
               className="block bg-blue-500 text-white p-2 w-full rounded-md text-center mt-2"
               onClick={() => handleActionClick(2)}
