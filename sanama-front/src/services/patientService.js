@@ -51,4 +51,19 @@ export const patientService = {
             throw error
         }
     },
+
+
+    buscarPacienteModal: async (idPaciente) => {
+        try {
+            const response = await axiosInstance.post("/admision/post/buscarPacienteModal",
+                {
+                    pn_id_paciente: idPaciente,
+                }
+            )
+            return response.data
+        } catch (error) {
+            console.error("Error al llenar los datos del modal", error)
+            throw error
+        }
+    }
 }
