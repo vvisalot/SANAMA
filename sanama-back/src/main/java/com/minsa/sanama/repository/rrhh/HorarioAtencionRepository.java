@@ -56,6 +56,7 @@ public class HorarioAtencionRepository {
                 }
             }
         }
+
         return nTurnos;
     }
 }
