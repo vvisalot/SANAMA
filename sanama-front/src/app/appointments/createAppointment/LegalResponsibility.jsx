@@ -1,16 +1,37 @@
 "use client"
 
+import Dropdown from "@/components/bars/Dropdown"
 import DatePicker from "@/components/buttons/DatePicker"
 import PickerHider from "@/components/buttons/PickerHider"
+import { patientService } from "@/services/patientService"
 import { validateNumberInput, validateTextInput } from "@/util/formValidations"
-import { useState } from "react"
+import { TextInput } from "flowbite-react"
+import { useState, useEffect } from "react"
 
 const LegalResponsibility = ({ legalResponsibilityForm, setLegalResponsibilityForm }) => {
     const [isResponsible, setIsResponsible] = useState("Si")
+    const [relationships, setRelationships] = useState([])
 
     const handleResponsibilityChange = (option) => {
         setIsResponsible(option)
     }
+
+
+    const fetchRelationships = async () => {
+        try {
+            const data = await patientService.listarParentescos()
+            console.log(data)
+            setRelationships(data)
+        } catch (error) {
+            console.log("No se pudo obtener el listado de parentescos")
+        }
+    }
+
+    useEffect(() => {
+        fetchRelationships()
+    }, [])
+
+
 
     return (
 
@@ -25,7 +46,7 @@ const LegalResponsibility = ({ legalResponsibilityForm, setLegalResponsibilityFo
             {isResponsible === "Si" ? <>
                 <div className="grid grid-cols-2 ">
                     <div className="relative z-0 w-full pr-6 mb-6 group">
-                        <input
+                        <TextInput
                             type="text"
                             name="r_first_name"
                             id="r_first_name"
@@ -37,7 +58,7 @@ const LegalResponsibility = ({ legalResponsibilityForm, setLegalResponsibilityFo
                                     apellidoPaterno: event.target.value,
                                 }))
                             }}
-                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent "
                             placeholder=" " required />
                         <label
                             htmlFor="r_first_name"
@@ -46,7 +67,7 @@ const LegalResponsibility = ({ legalResponsibilityForm, setLegalResponsibilityFo
                         </label>
                     </div>
                     <div className="relative z-0 w-full mb-6 group">
-                        <input
+                        <TextInput
                             type="text"
                             name="floating_last_name"
                             id="floating_last_name"
@@ -58,7 +79,7 @@ const LegalResponsibility = ({ legalResponsibilityForm, setLegalResponsibilityFo
                                     apellidoMaterno: event.target.value,
                                 }))
                             }}
-                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent  appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                             placeholder=" " required />
                         <label
                             htmlFor="floating_last_name"
@@ -68,7 +89,7 @@ const LegalResponsibility = ({ legalResponsibilityForm, setLegalResponsibilityFo
                     </div>
                 </div>
                 <div className="relative z-0 w-full mb-6 group">
-                    <input
+                    <TextInput
                         type="text"
                         name="floating_name"
                         id="floating_name"
@@ -80,7 +101,7 @@ const LegalResponsibility = ({ legalResponsibilityForm, setLegalResponsibilityFo
                                 nombres: event.target.value,
                             }))
                         }}
-                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent  appearance-none   "
                         placeholder=" " required />
                     <label htmlFor="floating_name" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                         Nombres
@@ -89,7 +110,7 @@ const LegalResponsibility = ({ legalResponsibilityForm, setLegalResponsibilityFo
 
                 <div className="grid grid-cols-2 items-center">
                     <div className="relative z-0 w-full mb-6 pr-6 group">
-                        <input
+                        <TextInput
                             type="text"
                             name="floating_dni"
                             id="floating_dni"
@@ -103,7 +124,7 @@ const LegalResponsibility = ({ legalResponsibilityForm, setLegalResponsibilityFo
                                     dni: event.target.value,
                                 }))
                             }}
-                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent  appearance-none   "
                             placeholder=" " required />
                         <label htmlFor="floating_dni"
                             className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
@@ -113,11 +134,11 @@ const LegalResponsibility = ({ legalResponsibilityForm, setLegalResponsibilityFo
 
 
                     <div className="relative z-0 w-full mb-6 group">
-                        <input
+                        {/* <TextInput
                             type="text"
                             name="floating_relationship"
                             id="floating_relationship"
-                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent  appearance-none   "
                             value={legalResponsibilityForm.parentesco}
                             onChange={(event) => {
                                 validateTextInput(event.target)
@@ -126,7 +147,22 @@ const LegalResponsibility = ({ legalResponsibilityForm, setLegalResponsibilityFo
                                     parentesco: event.target.value,
                                 }))
                             }}
-                            placeholder=" " required />
+                            placeholder=" " required /> */}
+                        <Dropdown
+                            data={relationships}
+                            name={"dropdown-parentesco"}
+                            defaultText={"Elegir la relacion con el paciente"}
+                            text={"descripcion"}
+                            defaultValue={""}
+                            width={"w-fit"}
+                            value={legalResponsibilityForm.parentesco}
+                            handleChange={(event) => {
+                                setLegalResponsibilityForm((prev) => ({
+                                    ...prev,
+                                    parentesco: event.target.value,
+                                }))
+                            }}
+                        />
                         <label htmlFor="floating_relationship"
                             className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                             Parentesco

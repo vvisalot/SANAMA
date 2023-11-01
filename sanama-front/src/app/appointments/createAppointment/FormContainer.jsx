@@ -58,12 +58,12 @@ const FormContainer = () => {
     }
 
     useEffect(() => {
-        console.log(patientForm)
-        console.log(fechaNacimiento)
-        console.log(sexo)
-        console.log(legalResponsibilityForm)
-        console.log(triageRequirement)
-        console.log(schedule)
+        // console.log(patientForm)
+        // console.log(fechaNacimiento)
+        // console.log(sexo)
+        // console.log(legalResponsibilityForm)
+        // console.log(triageRequirement)
+        // console.log(schedule)
 
     }, [patientForm, fechaNacimiento, sexo, legalResponsibilityForm, triageRequirement, schedule])
 

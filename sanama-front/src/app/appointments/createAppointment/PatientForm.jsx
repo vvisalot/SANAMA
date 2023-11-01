@@ -7,6 +7,7 @@ import SearchPatientModal from "./SearchPatientModal"
 import { TextInput } from "flowbite-react"
 import { patientService } from "@/services/patientService"
 import { sexParser } from "@/util/patientParser"
+import Dropdown from "@/components/bars/Dropdown"
 const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, patientForm, fechaNacimiento, setFechaNacimiento, sexo, setSexo, setPatientForm }) => {
     const [errorMessage, setErrorMessage] = useState("")
     const [showModal, setShowModal] = useState(false)
@@ -16,7 +17,6 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
 
     //Dropdowns
     const [securityTypes, setSecurityTypes] = useState([])
-    const [relationships, setRelationships] = useState([])
 
     const validateForm = () => {
         const patientFormValues = Object.values(patientForm)
@@ -37,15 +37,6 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
         }
     }
 
-    const fetchRelationships = async () => {
-        try {
-            const data = await patientService.listarParentescos()
-            console.log(data)
-            setRelationships(data)
-        } catch (error) {
-            console.log("No se pudo obtener el listado de parentescos")
-        }
-    }
 
     const handleRegister = () => {
         if (!isFormEnabled) {
@@ -72,9 +63,7 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
         setObtainedPatientId(selectedPatient.idPersona)
     }
 
-    const resetFields = () => {
-        //Reinicia los campos en caso que presione nuevo paciente o cancelo el registro de un nuevo paciente
-    }
+
 
     const fetchData = async (filtro) => {
         try {
@@ -100,9 +89,9 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
 
 
     useEffect(() => {
-        fetchRelationships()
+
         fetchSecurityTypes()
-        console.log(obtainedPatientId)
+        //console.log(obtainedPatientId)
         if (obtainedPatientId) {
             fetchData(obtainedPatientId)
         }
@@ -221,7 +210,7 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
 
                 <div className="grid grid-cols-2 md:gap-6">
                     <div className="relative z-0 w-full mb-6 group">
-                        <TextInput
+                        {/* <TextInput
                             type="text"
                             minLength={3}
                             maxLength={255}
@@ -235,9 +224,23 @@ const PatientForm = ({ formComplete, setFormComplete, patientId, setPatientId, p
                                     ...patientForm,
                                     tipoSeguro: event.target.value
                                 })}
-                            required />
-                        <label htmlFor="tipo_seguro"
-                            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                            required /> */}
+                        <Dropdown
+                            data={securityTypes}
+                            name={"dropdown-tipo-seguro"}
+                            defaultText={"Elegir un tipo de seguro"}
+                            text={"descripcion"}
+                            defaultValue={""}
+                            width={"w-fit"}
+                            value={patientForm.tipoSeguro}
+                            handleChange={(event) =>
+                                setPatientForm({
+                                    ...patientForm,
+                                    tipoSeguro: event.target.value
+                                })}
+                        />
+                        <label htmlFor="dropdown-tipo-seguro"
+                            className="peer-focus:font-medium absolute text-sm  text-gray-500  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                             Tipo seguro
                         </label>
                     </div>
