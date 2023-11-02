@@ -14,10 +14,6 @@ public class HistorialClinicoService {
     public HistorialClinico buscarHistorialClinico(String pn_id_paciente) {
         HistorialClinico historialClinico=null;
         historialClinico = historialClinicoRepository.buscarHistorialClinico(pn_id_paciente);
-        if (historialClinico!=null) {
-            return historialClinico;
-        } else {
-            return null;
-        }
+        return historialClinico;
     }
 }
