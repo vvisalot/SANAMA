@@ -29,7 +29,7 @@ const HistorialClinico = () => {
     }
   }, [idPaciente]);
 
-  if (loading) return <p>Cargandooo... {idPaciente} </p>;
+  if (loading) return <p>Cargando...</p>;
   if (error) return <p>Error al cargar el historial clínico</p>;
   if (!historial) return <p>No se encontró el historial clínico</p>;
 
