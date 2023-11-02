@@ -4,7 +4,7 @@ import Link from "next/link";
 import { appointmentService } from "@/services/appointmentService";
 import PatientInfo from "./PatientInfo";
 import AppointmentInfo from "./AppointmentInfo";
-import RescheduleModal from "./other/RescheduleModal";
+import RescheduleModal from "./RescheduleModal";
 import useUpdateAppointmentStatus from "@/hooks/useUpdateAppointmentStatus";
 import useAppointmentReschedule from "@/hooks/useAppointmentReschedule";
 
