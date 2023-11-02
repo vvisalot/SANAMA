@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { patientService } from "@/services/patientService";
 import { useParams } from "next/navigation";
 import MedicalRecordsTable from "../MedicalRecordsTable"; // Asegúrate de que el nombre del componente esté en PascalCase
-
+import { parseHojaMedicaTable } from "@/util/medicalRecordParser";
 const HistorialClinico = () => {
   const params = useParams();
   const idPaciente = params.idmedicalHistory;
@@ -18,12 +18,13 @@ const HistorialClinico = () => {
     const fetchHistorial = async () => {
       try {
         const data = await patientService.buscarHistorialClinico(idPaciente);
+        const tableData = parseHojaMedicaTable(data.hojasMedicas);
         setHistorialClinico({
           idHistorialClinico: data.idHistorialClinico,
           codigo: data.codigo,
           idMedicoCreador: data.idMedicoCreador,
         });
-        setHojasMedicas(data.hojasMedicas);
+        setHojasMedicas(tableData);
       } catch (error) {
         setError(error);
       } finally {
@@ -43,13 +44,8 @@ const HistorialClinico = () => {
   return (
     <div>
       <h3>Historial Clínico: {historialClinico.codigo}</h3>
-      <ul>
-        {hojasMedicas.map((hoja) => (
-          <li key={hoja.idHojaMedica}>
-            {hoja.codigo} {hoja.idMedicoCreador}
-          </li>
-        ))}
-      </ul>
+
+      <MedicalRecordsTable data={hojasMedicas}></MedicalRecordsTable>
     </div>
   );
 };

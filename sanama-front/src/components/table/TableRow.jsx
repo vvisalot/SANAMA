@@ -19,7 +19,6 @@ const TableRow = ({ row, url, optionsText, iconName }) => {
                   url={url}
                   text={optionsText}
                   iconName={iconName}
-                  estado={row[4].data}
                 />
               ) : null}
             </Fragment>
