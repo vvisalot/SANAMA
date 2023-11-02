@@ -24,7 +24,7 @@ function columnExists(columnName) {
 
 const AppointmentTable = ({ data, columns }) => {
   const displayColumns = columns ? columns : defaultColumns;
-  /* De acuerco al parámetro columns, personalizaremos lo que muestra la tabla */ /*INICIO */
+  /* De acuerco al   columns, personalizaremos lo que muestra la tabla */ /*INICIO */
   let count = 0;
   const arrayDeArraysVacios = new Array(data.length).fill(null).map(() => []);
   displayColumns.forEach((column, indexColumn) => {
