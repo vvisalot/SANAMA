@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { patientService } from "@/services/patientService";
 import { useParams } from "next/navigation";
+import medicalRecordsTable from "../medicalRecordsTable";
 
 const HistorialClinico = () => {
   const params = useParams();
@@ -41,6 +42,7 @@ const HistorialClinico = () => {
           <li key={hoja.idHojaMedica}>{hoja.codigo}</li>
         ))}
       </ul>
+      <medicalRecordsTable data={historial}></medicalRecordsTable>
     </div>
   );
 };
