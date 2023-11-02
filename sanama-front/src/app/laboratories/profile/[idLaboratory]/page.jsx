@@ -13,9 +13,8 @@ const LaboratoryProfile = ({ params }) => {
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
-        const data = await doctorService.buscarPorMedicoEspecialidad('', '')
+        const data = await doctorService.buscarPorMedicoEspecialidad("", "");
 
-        console.log("la data es:",data);
         const doctorData = parseDoctorsDropdown(data);
         setDoctors(doctorData);
         // console.log("LOS DOCTORES SON: ", doctors);
@@ -94,7 +93,7 @@ const LaboratoryProfile = ({ params }) => {
             </div>
 
             <div className="relative z-0 w-full mb-6 group">
-              <Dropdown
+              {/* <Dropdown
                 data={doctors}
                 name={"dropdown-doctor"}
                 defaultText={"Selecciona un medico"}
@@ -105,7 +104,7 @@ const LaboratoryProfile = ({ params }) => {
                 handleChange={(event) => {
                   setSelectedDoctor(event.target.value);
                 }}
-              />
+              /> */}
 
               <label
                 htmlFor="dropdown-tipo-seguro"
