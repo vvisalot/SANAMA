@@ -2,8 +2,12 @@
 
 import React, { useState, useEffect } from "react";
 import { patientService } from "@/services/patientService";
+import { useParams } from "next/navigation";
 
-const HistorialClinico = ({ idPaciente }) => {
+const HistorialClinico = () => {
+  const params = useParams();
+  const idPaciente = params.idmedicalHistory;
+
   const [historial, setHistorial] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
