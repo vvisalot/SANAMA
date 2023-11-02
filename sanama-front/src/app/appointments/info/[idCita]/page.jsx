@@ -7,6 +7,7 @@ import AppointmentInfo from "./AppointmentInfo";
 import RescheduleModal from "./RescheduleModal";
 import useUpdateAppointmentStatus from "@/hooks/useUpdateAppointmentStatus";
 import useAppointmentReschedule from "@/hooks/useAppointmentReschedule";
+import { useRouter } from "next/router";
 
 const ReviewAppointment = ({ params }) => {
   const [appointmentData, setAppointmentData] = useState(null);
@@ -14,7 +15,7 @@ const ReviewAppointment = ({ params }) => {
   const [error, setError] = useState(null);
   const [hasBeenCanceled, setHasBeenCanceled] = useState(false);
   const [isRescheduleModalOpen, setIsRescheduleModalOpen] = useState(false);
-
+  const router = useRouter();
   const openRescheduleModal = () => setIsRescheduleModalOpen(true);
   const closeRescheduleModal = () => setIsRescheduleModalOpen(false);
 
@@ -72,6 +73,12 @@ const ReviewAppointment = ({ params }) => {
   const handleCancelClick = () =>
     handleActionClick(3).then(() => setHasBeenCanceled(true));
 
+  const handleAttendClick = () => {
+    handleActionClick(2).then(() =>
+      router.push(`/medicalHistory/${appointmentData.paciente.idPersona}`)
+    );
+  };
+
   return (
     <div className="container mx-auto p-4">
       <PatientInfo pacienteData={appointmentData.paciente} />
@@ -87,6 +94,7 @@ const ReviewAppointment = ({ params }) => {
         openRescheduleModal={openRescheduleModal}
         handleCancelClick={handleCancelClick}
         hasBeenCanceled={hasBeenCanceled}
+        handleAttendClick={handleAttendClick}
       />
 
       <Link href="/appointments" passHref>
@@ -112,20 +120,19 @@ const ActionButtons = ({
   openRescheduleModal,
   handleCancelClick,
   hasBeenCanceled,
+  handleAttendClick,
 }) => {
   return (
     <>
       {estado === 4 && (
         <>
-          <Link href="/evaluations" passHref>
-            <href
-              className="block bg-blue-500 text-white p-2 w-full rounded-md text-center mt-2"
-              onClick={() => handleActionClick(2)}
-              disabled={loading}
-            >
-              Atender Cita
-            </href>
-          </Link>
+          <button
+            className="block bg-blue-500 text-white p-2 w-full rounded-md text-center mt-2"
+            onClick={handleAttendClick}
+            disabled={loading}
+          >
+            Atender Cita
+          </button>
 
           <button
             className="bg-blue-500 text-white p-2 w-full rounded-md mt-2"
