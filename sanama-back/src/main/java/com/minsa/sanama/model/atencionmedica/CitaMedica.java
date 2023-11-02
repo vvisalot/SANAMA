@@ -13,7 +13,8 @@ public class CitaMedica extends ProgramacionCita{
     private boolean tieneAcompanhante;
     private String nombreAcompanhante;
     private String dniAcompanhante;
-    private int parentezco;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    private int parentezco=0;
 
 
     public CitaMedica() {

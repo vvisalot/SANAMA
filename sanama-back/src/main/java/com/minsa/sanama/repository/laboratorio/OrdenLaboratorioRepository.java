@@ -2,16 +2,23 @@ package com.minsa.sanama.repository.laboratorio;
 
 import com.minsa.sanama.model.admision.Paciente;
 import com.minsa.sanama.model.atencionmedica.CitaMedica;
+import com.minsa.sanama.model.laboratorio.ExamenMedico;
 import com.minsa.sanama.model.laboratorio.OrdenLaboratorio;
 import com.minsa.sanama.model.rrhh.Medico;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.SqlOutParameter;
+import org.springframework.jdbc.core.SqlParameter;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class OrdenLaboratorioRepository {
@@ -41,17 +48,20 @@ public class OrdenLaboratorioRepository {
             OrdenLaboratorio orden = new OrdenLaboratorio();
 
             orden.setIdOrdenLaboratorio(rs.getInt("id_orden_laboratorio"));
-            orden.setHoraOrden(rs.getTime("hora_orden").toLocalTime());
-            orden.setFechaOrden(rs.getDate("fecha_orden").toLocalDate());
-            orden.setTipoOrden(rs.getString("tipo_orden"));
+            orden.setCodigoOrden(rs.getString("codigo_orden"));
+            orden.setTipoMuestra(rs.getString("tipo_muestra"));
             orden.setInstrucciones(rs.getString("instrucciones"));
+            orden.setFechaOrden(rs.getDate("fecha_orden").toLocalDate());
+            orden.setHoraOrden(rs.getTime("hora_orden").toLocalTime());
             orden.setEstado(rs.getInt("estado"));
 
             Paciente paciente = new Paciente();
-            paciente.setDni(rs.getString("dni_paciente"));
             paciente.setNombres(rs.getString("nombres_paciente"));
             paciente.setApellidoPaterno(rs.getString("paterno_paciente"));
             paciente.setApellidoMaterno(rs.getString("materno_paciente"));
+            paciente.setDni(rs.getString("dni_paciente"));
+            paciente.setSexo(rs.getString("sexo_paciente"));
+            paciente.setFechaNacimiento(rs.getDate("fecha_nacimiento").toLocalDate());
 
             Medico medico = new Medico();
             medico.setNombres(rs.getString("nombres_medico"));
@@ -72,15 +82,19 @@ public class OrdenLaboratorioRepository {
 
             OrdenLaboratorio orden = new OrdenLaboratorio();
 
-            orden.setTipoOrden(rs.getString("tipo_orden"));
+            orden.setCodigoOrden(rs.getString("codigo_orden"));
+            orden.setTipoMuestra(rs.getString("tipo_muestra"));
             orden.setInstrucciones(rs.getString("instrucciones"));
-
+            orden.setObservaciones(rs.getString("observaciones"));
+            orden.setDoctorFirmante(rs.getString("nombre_doctor_firmante"));
 
             Paciente paciente = new Paciente();
-            paciente.setDni(rs.getString("dni_paciente"));
             paciente.setNombres(rs.getString("nombres_paciente"));
             paciente.setApellidoPaterno(rs.getString("paterno_paciente"));
             paciente.setApellidoMaterno(rs.getString("materno_paciente"));
+            paciente.setDni(rs.getString("dni_paciente"));
+            paciente.setSexo(rs.getString("sexo_paciente"));
+            paciente.setFechaNacimiento(rs.getDate("fecha_nacimiento").toLocalDate());
 
             Medico medico = new Medico();
             medico.setNombres(rs.getString("nombres_medico"));
@@ -93,5 +107,29 @@ public class OrdenLaboratorioRepository {
 
             return orden;
         }
+    }
+
+    public int atenderOrdenLaboratorioV1(OrdenLaboratorio orden) {
+        SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                .withSchemaName("dbSanama")
+                .withProcedureName("ssm_lab_atender_orden_laboratorio_v1")
+                .declareParameters(new SqlParameter[] {
+                        new SqlParameter("pn_id_orden_laboratorio", Types.INTEGER),
+                        new SqlParameter("pv_nombre_doctor_firmante", Types.VARCHAR),
+                        new SqlParameter("pv_observaciones", Types.VARCHAR),
+                        new SqlParameter("pn_estado", Types.INTEGER)
+                });
+        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
+        mapSqlParameterSource
+                .addValue("pn_id_orden_laboratorio", orden.getIdOrdenLaboratorio())
+                .addValue("pv_nombre_doctor_firmante", orden.getDoctorFirmante())
+                .addValue("pv_observaciones", orden.getObservaciones())
+                .addValue("pn_estado", orden.getEstado());
+
+        Map<String, Object> result = simpleJdbcCall.execute(mapSqlParameterSource);
+        if(result.containsKey("ERROR_CODE") || result.containsKey("ERROR_MESSAGE")){
+            return 0;
+        }
+        else return 1;
     }
 }
