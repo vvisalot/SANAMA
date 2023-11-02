@@ -146,7 +146,7 @@ const LaboratoryProfile = ({ params }) => {
         }
     
         try {
-            const result = await laboratoryService.atenderOrdenLaboratorio(laboratoryData);
+            const result = await laboratoryService.atenderOrdenLaboratorio(laboratorioData);
     
             if (result === 1) {
                 setShowModal(true);
@@ -187,11 +187,84 @@ const LaboratoryProfile = ({ params }) => {
             };
         });
     };
+
+    const [showConfirmPopup, setShowConfirmPopup] = useState(false);
+
+    const handleAnularLaboratoryClick = () => {
+        
+        setShowConfirmPopup(true);
+    };
+
+    const handleClosePopup = () => {
+        
+        setShowConfirmPopup(false);
+    };
+
+    const handleConfirmAnulacion = async () => {
+        const laboratorioDataCancelled = {
+            idOrdenLaboratorio: Number(params.idLaboratory),
+            doctorFirmante: "Doctor por defecto", 
+            estado: 3, 
+            examenMedico: [], 
+            observaciones: "Anulado"
+        };
+    
+        try {
+            console.log("Datos antes de anular:", laboratorioDataCancelled);
+            const result = await laboratoryService.atenderOrdenLaboratorio(laboratorioDataCancelled);
+            console.log("Resultado después de intentar anular:", result);
+    
+            if (result === 1) {
+                if (typeof window !== "undefined") {
+                    window.history.back();
+                }
+            } else {
+                alert("Ocurrió un problema al anular la orden de laboratorio. Por favor, inténtalo de nuevo.");
+            }
+    
+        } catch (error) {
+            console.error("Error al anular la orden de laboratorio", error);
+            alert("Hubo un error al anular la orden de laboratorio. Por favor, inténtalo de nuevo.");
+        }
+        setShowConfirmPopup(false);
+    };
+
+    const handleAcceptModal = () => {
+        setShowModal(false)
+        if (typeof window !== "undefined") {
+            window.history.back()
+        }
+    }
     
 
   return (
-    
+
     <div className="w-full p-10 rounded-lg shadow-md">
+
+        <button className="text-xl bg-red-500 text-white hover:bg-red-600 px-4 py-2 rounded float-right mb-4" onClick={handleAnularLaboratoryClick}>Anular Laboratorio</button>
+        
+        {showConfirmPopup && (
+            <div className="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <div className="fixed inset-0 bg-gray-500 bg-opacity-75" aria-hidden="true"></div>
+
+                <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+                <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                    <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-title">Confirmación</h3>
+                    <div className="mt-2">
+                        <p className="text-sm text-gray-500">¿Está seguro que desea anular el laboratorio?</p>
+                    </div>
+                    </div>
+                    <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button onClick={handleConfirmAnulacion} className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 focus:outline-none">Sí, anular</button>
+                    <button onClick={handleClosePopup} className="mr-2 bg-gray-200 text-black px-4 py-2 rounded hover:bg-gray-300 focus:outline-none">Cancelar</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+            )}
         <section className="rounded-lg p-8 w-full flex flex-col space-y-6">
 
         <h4 className="text-2xl font-bold mb-4 mt-4">Información del paciente</h4>
@@ -323,7 +396,7 @@ const LaboratoryProfile = ({ params }) => {
                 name="medicoLaboratorio" 
                 className="text-xl border rounded w-full py-4 px-3"
                 onChange={handleMedicoChange}
-                defaultValue=""
+                value={medicos.find(medico => medico.descripcion === dataLaboratory.doctorFirmante)?.idValue || ""}
             >
                 <option value="" disabled className="text-xl">Seleccionar médico</option>
                 {medicos.map(medico => (
@@ -334,11 +407,16 @@ const LaboratoryProfile = ({ params }) => {
             </select>
         </div>
 
-
-            <div>
-                <label className="text-xl text-black block mb-2">Subir archivo</label>
-                <input name="archivoExamenes" className="text-xl border rounded p-4 w-full" type="file" />
-            </div>
+        <div>
+            <label className="text-xl text-black block mb-2">Subir archivo</label>
+            <input name="archivoExamenes" className="text-xl border rounded p-4 w-full" type="file" />
+            {/* Muestra el nombre del archivo si existe en dataLaboratory */}
+            {dataLaboratory.examenMedico[0]?.nombreArchivo && (
+                <div className="mt-2">
+                    <span className="text-lg">Archivo actual:</span> {dataLaboratory.examenMedico[0].nombreArchivo}
+                </div>
+            )}
+        </div>
 
             <div className="col-span-3">
                 <h4 className="text-2xl font-bold mb-4 mt-4">Observaciones</h4>
@@ -350,7 +428,7 @@ const LaboratoryProfile = ({ params }) => {
                     className="text-4xl textarea-custom w-full"
                     maxLength={1000}
                 ></textarea>
-                <span className="text-right block mt-2" id="charCount">0/1000</span>
+                <span className="text-right block mt-2" id="charCount">{dataLaboratory.observaciones.length}/1000</span>
             </div>
         </div>
 
