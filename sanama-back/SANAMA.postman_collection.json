@@ -714,6 +714,35 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "BuscarCitaMedica",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pn_id_cita\" : 41\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/admision/post/buscarCitaMedica",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admision",
+								"post",
+								"buscarCitaMedica"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -1120,6 +1149,38 @@
 					"response": []
 				},
 				{
+					"name": "ListarMedicosLab",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/configuracion/get/listarMedicosLab",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"configuracion",
+								"get",
+								"listarMedicosLab"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "ListarSeguros",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -1209,6 +1270,40 @@
 								"laboratorio",
 								"post",
 								"registrarExamenMedico"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "HistorialClinica",
+			"item": [
+				{
+					"name": "BuscarHistorialClinico",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pn_id_paciente\":\"23\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/atencion/post/buscarHistorialClinico",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"atencion",
+								"post",
+								"buscarHistorialClinico"
 							]
 						}
 					},

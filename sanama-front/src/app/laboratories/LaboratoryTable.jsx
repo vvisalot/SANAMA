@@ -3,7 +3,7 @@ import Table from "@/components/table/Table"
 // Columns for the Laboratory table
 const columns = [
     { name: "ID" },
-    { name: "Fecha" },
+    { name: "Fecha Actualización" },
     { name: "Nombre completo" },
     { name: "DNI" },
     { name: "Examen" },
@@ -14,7 +14,7 @@ const columns = [
 
 const LaboratoryTable = ({ data }) => {
     return (
-        <Table columns={columns} data={data} url="/laboratories/profile"/>
+        <Table columns={columns} data={data} url="/laboratories/profile" iconName="fa fa-file"/>
     )
 }
 

@@ -11,7 +11,7 @@ const useAppointmentForm = () => {
     })
 
     const [legalResponsibilityForm, setLegalResponsibilityForm] = useState({
-        tieneAcompañante: '',
+        tieneAcompañante: 'No',
         nombres: '',
         apellidoPaterno: '',
         apellidoMaterno: '',
