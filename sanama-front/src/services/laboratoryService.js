@@ -9,13 +9,16 @@ const axiosInstance = axios.create({
 });
 
 export const laboratoryService = {
-    listarOrdenLaboratorioPorFiltro: async (filtro) => {
+    listarOrdenLaboratorioPorFiltro: async (filtro, fechaDesde, fechaHasta) => {
         try {
-            const response = await axiosInstance.post("laboratorio/post/listarOrdenLaboratorioFiltro", {
-                pv_filtro: filtro,
-                pd_fecha_inicio: null,
-                pd_fecha_fin: null,
-            });
+            const response = await axiosInstance.post(
+                "laboratorio/post/listarOrdenLaboratorioFiltro",
+                {
+                    pv_filtro: filtro,
+                    pd_fecha_inicio: fechaDesde,
+                    pd_fecha_fin: fechaHasta
+                }
+            );
             return response.data;
         } catch (error) {
             console.error("Error al listar ordenes de laboratorio por filtro", error);
