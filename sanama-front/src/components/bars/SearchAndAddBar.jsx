@@ -6,6 +6,7 @@ const SearchAndAddBar = ({
   onSearchChange,
   onSubmit,
   linkHref,
+  permitirGenerarNuevaCita
 }) => (
   <div className="my-2 p-4 bg-white shadow-md">
     <form onSubmit={onSubmit} className="flex items-center space-x-4">
@@ -87,14 +88,15 @@ const SearchAndAddBar = ({
           Buscar
         </button>
       </div>
-
-      <div className="flex-1">
-        <Link href={linkHref}>
-          <href className="block w-full px-4 py-2 text-sm text-white text-center bg-green-600 rounded-lg hover:bg-green-700 focus:ring-2 focus:ring-green-500">
-            Nueva Cita
-          </href>
-        </Link>
-      </div>
+      {permitirGenerarNuevaCita && (
+        <div className="flex-1">
+          <Link href={linkHref}>
+            <href className="block w-full px-4 py-2 text-sm text-white text-center bg-green-600 rounded-lg hover:bg-green-700 focus:ring-2 focus:ring-green-500">
+              Nueva Cita
+            </href>
+          </Link>
+        </div>
+      )}
     </form>
   </div>
 );
