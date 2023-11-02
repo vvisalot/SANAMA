@@ -13,6 +13,7 @@ function CitasMedico({ doctor }) {
         //setAppointmentTable(tableData);
         const citasMapeadas = data.map((cita) => ({
           ...cita,
+          idCita: cita.codigoCita,
           medico: {
             nombres: doctor.nombres,
             apellidoPaterno: doctor.apellidoPaterno,
@@ -48,6 +49,15 @@ function CitasMedico({ doctor }) {
     console.log(appointmentTable);
   }, [appointmentTable]);
 
+  const columns = [
+    { name: "Código cita", sortable: true, sortKey: "string", visible: true },
+    { name: "Nombre del paciente", sortable: true, sortKey: "patientName" },
+    { name: "Fecha", sortable: true, sortKey: "date" },
+    { name: "Hora", sortable: true, sortKey: "time" },
+    { name: "Estado", sortable: true, sortKey: "status" },
+    { name: "Opciones", sortable: false },
+  ];
+
   return (
     <>
       <header className="p-5  text-2xl font-bold tracking-wider text-gray-900">
@@ -56,8 +66,9 @@ function CitasMedico({ doctor }) {
       <SearchAndAddBar
         linkHref="appointments/createAppointment"
         onSubmit={handleSubmit}
+        permitirGenerarNuevaCita={false}
       />
-      <AppointmentTable data={appointmentTable}></AppointmentTable>
+      <AppointmentTable data={appointmentTable} columns={columns}></AppointmentTable>
     </>
   );
 }

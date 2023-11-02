@@ -1,201 +1,153 @@
-// "use client"
+"use client";
 
-// import { useEffect, useState } from "react";
-// import { laboratoryService } from "@/services/laboratoryService"; 
-
-// const LaboratoryProfile = ({ params }) => {
-//     const [dataLaboratory, setDataLaboratory] = useState(null);
-
-    
-//     const handleSave = async () => {
-//         // falta
-//     }
-
-//     const handleCancel = () => {
-//         if (typeof window !== "undefined") {
-//             window.history.back();
-//         }
-//     }
-
-//     useEffect(() => {
-//         const fetchData = async () => {
-//             try {
-//                 const data = await laboratoryService.buscarExamenMedico(params.idLaboratory); 
-//                 setDataLaboratory(data);
-//             } catch (error) {
-//                 console.error(error);
-//             }
-//         }
-//         fetchData();
-//     }, []);
-
-//     const handleChange = (e) => {
-//         const { name, value } = e.target;
-//         setDataLaboratory(prevState => ({
-//             ...prevState,
-//             [name]: value
-//         }));
-//     };
-
-//     return (
-//         <div className="p-8 rounded-lg shadow-md text-black space-y-16">
-//             <div>
-//                 <h2 className="text-2xl font-bold mb-8">Información General del Paciente</h2>
-
-//                 <div className="grid grid-cols-3 gap-x-20 gap-y-8">
-//                     {/* Nombres */}
-//                     <div>
-//                         <label className="block mb-2">Nombres</label>
-//                         <input className="border rounded p-4 w-full" type="text" readOnly />
-//                     </div>
-                    
-//                     {/* Primer Apellido */}
-//                     <div>
-//                         <label className="block mb-2">Primer Apellido</label>
-//                         <input className="border rounded p-4 w-full" type="text" readOnly />
-//                     </div>
-                    
-//                     {/* Segundo Apellido */}
-//                     <div>
-//                         <label className="block mb-2">Segundo Apellido</label>
-//                         <input className="border rounded p-4 w-full" type="text" readOnly />
-//                     </div>
-//                 </div>
-
-//                 <h2 className="text-2xl font-bold mb-8">Orden de Laboratorio</h2>
-//                 <div className="grid grid-cols-2 gap-20">
-//                     <div>
-//                         <label className="block mb-2">Tipo de Orden</label>
-//                         <input className="border rounded p-4 w-full" type="text" value={dataLaboratory?.tipoOrden} onChange={handleChange} />
-//                     </div>
-//                     <div>
-//                         <label className="block mb-2">Instrucciones</label>
-//                         <input className="border rounded p-4 w-full" type="text" value={dataLaboratory?.instrucciones} onChange={handleChange} />
-//                     </div>
-//                 </div>
-
-//                 <h2 className="text-2xl font-bold mb-8">Cita Médica</h2>
-//                 <div className="grid grid-cols-2 gap-20">
-//                     <div>
-//                         <label className="block mb-2">Médico asignado</label>
-//                         <input className="border rounded p-4 w-full" type="text" value={dataLaboratory?.medicoAsignado} onChange={handleChange} />
-//                     </div>
-//                     <div>
-//                         <label className="block mb-2">Requiere Triaje</label>
-//                         <select className="border rounded p-4 w-full" value={dataLaboratory?.requiereTriaje} onChange={handleChange}>
-//                             <option value={1}>Sí</option>
-//                             <option value={0}>No</option>
-//                         </select>
-//                     </div>
-//                     <div>
-//                         <label className="block mb-2">Tiene Acompañante</label>
-//                         <select className="border rounded p-4 w-full" value={dataLaboratory?.tieneAcompanhante} onChange={handleChange}>
-//                             <option value={true}>Sí</option>
-//                             <option value={false}>No</option>
-//                         </select>
-//                     </div>
-//                 </div>
-
-//                 <div className="grid grid-cols-3 gap-20 mt-8">
-//                     <div className="col-span-3 flex justify-end">
-//                         <button className="px-8 py-4 bg-gray-300 mr-8 rounded hover:bg-gray-400" onClick={handleCancel}>Cancelar</button>
-//                         <button className="px-8 py-4 bg-blue-500 text-black rounded hover:bg-blue-600" onClick={handleSave}>Guardar</button>
-//                     </div>
-//                 </div>
-//             </div>
-//         </div>
-
-    
-//     );
-// }
-
-// export default LaboratoryProfile;
-
-
-"use client"
-
-import { useEffect, useState } from "react"
-import { laboratoryService } from "@/services/laboratoryService"
+import { useEffect, useState } from "react";
+import { laboratoryService } from "@/services/laboratoryService";
+import { parseDoctorsDropdown } from "@/util/doctorParser";
+import Dropdown from "@/components/bars/Dropdown";
+import { doctorService } from "@/services/doctorService";
 
 const LaboratoryProfile = ({ params }) => {
-    
-    const [selectedDoctor, setSelectedDoctor] = useState('');
-    const [observations, setObservations] = useState('');
-    const [selectedFiles, setSelectedFiles] = useState([]);
-    const [doctorLabSeleccionado, setDoctorLabSeleccionado] = useState("seleccionar");
-    const [medicosLab, setMedicosLab] = useState([]);
+  const [doctors, setDoctors] = useState([]);
+  const [selectedDoctor, setSelectedDoctor] = useState("");
 
-    const handleSave = async () => {
-        // Logic for saving...
-    }
+  useEffect(() => {
+    const fetchDoctors = async () => {
+      try {
+        const data = await doctorService.buscarPorMedicoEspecialidad("", "");
 
-    const handleCancel = () => {
-        if (typeof window !== "undefined") {
-            window.history.back();
-        }
-    }
-
-    const handleDoctorChange = (event) => {
-        setDoctorLabSeleccionado(event.target.value);
+        const doctorData = parseDoctorsDropdown(data);
+        setDoctors(doctorData);
+        // console.log("LOS DOCTORES SON: ", doctors);
+      } catch (error) {
+        console.error("No se pudo obtener el listado de los doctores");
+      }
     };
+    fetchDoctors();
+  }, []);
 
-    return (
-        <div className="container mx-auto px-4">
-            <h4 className="text-2xl font-bold mb-4">Registrar Examen N°{params.idLaboratorio}</h4>
-            <div className="bg-white p-8 rounded-lg shadow-md">
-                <h5 className="text-xl font-semibold mb-4">Paciente</h5>
-                <input 
-                    className="border rounded w-full py-2 px-3 text-gray-700 mb-4" 
-                    type="text"                      
-                    name="nombre"
-                />
-                
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2">Doctor:</label>
-                    <select 
-                        value={doctorLabSeleccionado} 
-                        onChange={handleDoctorChange} 
-                        className="border rounded w-full py-2 px-3 text-gray-700"
-                    >
-                        {medicosLab.map(medico => (
-                            <option key={medico.id} value={medico.id}>
-                                {medico.nombre}
-                            </option>
-                        ))}
-                    </select>
-                </div>
+  const [dataLaboratory, setDataLaboratory] = useState({
+    tipoOrden: "",
+    instrucciones: "",
+    citaMedica: {
+      paciente: {
+        nombres: "",
+        apellidoPaterno: "",
+        apellidoMaterno: "",
+        dni: "",
+      },
+      medico: {
+        nombres: "",
+        apellidoPaterno: "",
+        apellidoMaterno: "",
+      },
+      requiereTriaje: null,
+      tieneAcompanhante: null,
+    },
+  });
 
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2">Observaciones:</label>
-                    <textarea 
-                        value={observations} 
-                        onChange={(e) => setObservations(e.target.value)} 
-                        className="border rounded w-full py-2 px-3 text-gray-700"
-                    ></textarea>
-                </div>
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await laboratoryService.buscarOrdenLaboratorioPorId(
+          params.idLaboratory
+        );
+        console.log(data);
+        setDataLaboratory(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, []);
 
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2">Archivos:</label>
-                    <input 
-                        type="file" 
-                        multiple 
-                        onChange={(e) => setSelectedFiles(e.target.files)} 
-                        className="border rounded py-2 px-3 text-gray-700"
-                    />
-                </div>
+  const handleChange = (e) => {
+    if (event.target.name === "observaciones") {
+      const count = event.target.value.length;
+      document.getElementById("charCount").textContent = `${count}/1000`;
+    }
+  };
 
-                <div className="flex justify-end mt-4">
-                    <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-4" onClick={handleCancel}>
-                        Cancelar
-                    </button>
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleSave}>
-                        Guardar
-                    </button>
-                </div>
+  return (
+    <div className="w-full p-10 rounded-lg shadow-md text-xl">
+      <section className="rounded-lg p-8 w-full flex flex-col space-y-6">
+        <div>
+          <h2 className="text-3xl font-bold mb-4">
+            Información de Laboratorio
+          </h2>
+          <div className="grid grid-cols-3 gap-x-20 gap-y-8">
+            <div>
+              <label className="text-black block mb-2">Paciente</label>
+              <input
+                className="border rounded p-4 w-full bg-gray-200 cursor-not-allowed"
+                type="text"
+                value={`${
+                  dataLaboratory?.citaMedica?.paciente?.nombres || ""
+                } ${
+                  dataLaboratory?.citaMedica?.paciente?.apellidoPaterno || ""
+                } ${
+                  dataLaboratory?.citaMedica?.paciente?.apellidoMaterno || ""
+                }`}
+                onChange={handleChange}
+                disabled
+              />
             </div>
+
+            <div className="relative z-0 w-full mb-6 group">
+              {/* <Dropdown
+                data={doctors}
+                name={"dropdown-doctor"}
+                defaultText={"Selecciona un medico"}
+                text={"nombreCompleto"}
+                defaultValue={""}
+                value={"idPersona"}
+                width={"w-[500px]"}
+                handleChange={(event) => {
+                  setSelectedDoctor(event.target.value);
+                }}
+              /> */}
+
+              <label
+                htmlFor="dropdown-tipo-seguro"
+                className="peer-focus:font-medium absolute text-sm  text-gray-500  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                Doctores
+              </label>
+            </div>
+
+            <div>
+              <label className="text-black block mb-2">Tipo de prueba</label>
+              <input
+                className="border rounded p-4 w-full"
+                type="text"
+                value={dataLaboratory?.tipoPrueba}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="col-span-3">
+              <h2 className="text-2xl font-bold mb-2 mt-2">Observaciones</h2>
+              <textarea
+                value={dataLaboratory?.observaciones}
+                onChange={handleChange}
+                name="observaciones"
+                className="textarea-custom w-full"
+                maxLength={1000}
+              ></textarea>
+              <span className="text-right block mt-2" id="charCount">
+                0/1000
+              </span>
+            </div>
+
+            <div>
+              <label className="text-black block mb-2">
+                Subir archivo (PDF)
+              </label>
+            </div>
+          </div>
         </div>
-    );
-}
+      </section>
+    </div>
+  );
+};
 
 export default LaboratoryProfile;
-

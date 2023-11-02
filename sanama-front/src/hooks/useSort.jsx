@@ -2,7 +2,6 @@ import { useState, useMemo } from "react";
 
 export const useSort = (data) => {
   const [sortConfig, setSortConfig] = useState({ key: "", direction: "" });
-
   const sortedData = useMemo(() => {
     const sortArray = [...data];
     if (sortConfig.key) {
@@ -11,6 +10,7 @@ export const useSort = (data) => {
         let keyB = b[sortConfig.key];
 
         // Lowercase string values for case-insensitive comparison
+        
         if (typeof keyA === "string") keyA = keyA.toLowerCase();
         if (typeof keyB === "string") keyB = keyB.toLowerCase();
 
@@ -31,6 +31,11 @@ export const useSort = (data) => {
           };
           keyA = statusOrder[keyA];
           keyB = statusOrder[keyB];
+        }
+
+        if (sortConfig.key === "ID") {
+          keyA = parseInt(keyA);
+          keyB = parseInt(keyB);
         }
 
         // Comparison logic

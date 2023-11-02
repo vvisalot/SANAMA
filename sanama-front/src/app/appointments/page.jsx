@@ -44,6 +44,7 @@ const AppointmentPage = () => {
       <SearchAndAddBar
         linkHref="appointments/createAppointment"
         onSubmit={handleSubmit}
+        permitirGenerarNuevaCita={true}
       />
       <AppointmentTable data={appointmentTable}></AppointmentTable>
     </section>

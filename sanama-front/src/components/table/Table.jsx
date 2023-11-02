@@ -10,6 +10,7 @@ const Table = memo(
         requestSort={requestSort}
         sortConfig={sortConfig}
       />
+      {/* {console.log("table",data)} */}
       <TableBody
         data={data}
         nColumns={columns.length}

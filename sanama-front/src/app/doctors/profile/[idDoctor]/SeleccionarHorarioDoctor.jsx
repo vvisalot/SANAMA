@@ -276,7 +276,9 @@ function SeleccionarHorarioMedico(props) {
         (moment(newEvent.start).isSameOrAfter(event.start) &&
           moment(newEvent.start).isBefore(event.end)) ||
         (moment(newEvent.end).isAfter(event.start) &&
-          moment(newEvent.end).isSameOrBefore(event.end))
+          moment(newEvent.end).isSameOrBefore(event.end)) ||
+        (moment(newEvent.start).isSameOrBefore(event.start) &&
+          moment(newEvent.end).isSameOrAfter(event.end))
       ) {
         return true;
       }
@@ -284,8 +286,10 @@ function SeleccionarHorarioMedico(props) {
     return false;
   };
 
+
   const handleSelectSlot = (slotInfo) => {
     setSeHaModificadoHorario(true);
+    console.log(slotInfo)
     if (view === "week") {
       const newEvent = {
         start: slotInfo.start,
@@ -300,7 +304,7 @@ function SeleccionarHorarioMedico(props) {
         } else {
           swal({
             title: "Acción no permitida",
-            text: "Puedes ingresar tu disponibilidad a partir del día siguiente", icon: "warning", timer: "3000"
+            text: "Solo puedes ingresar tu disponibilidad desde el día de mañana y hasta máximo el siguiente mes.", icon: "warning", timer: "5000"
           });
           //alert("");
         }
@@ -335,7 +339,7 @@ function SeleccionarHorarioMedico(props) {
       } else {
         swal({
           title: "Acción no permitida",
-          text: "Puedes eliminar tu disponibilidad a partir del día siguiente", icon: "warning", timer: "3000"
+          text: "Puedes eliminar/modificar tu disponibilidad desde el día de mañana y hasta máximo el siguiente mes.", icon: "warning", timer: "3000"
         });
       }
     }
