@@ -10,6 +10,7 @@ export const useSort = (data) => {
         let keyB = b[sortConfig.key];
 
         // Lowercase string values for case-insensitive comparison
+        
         if (typeof keyA === "string") keyA = keyA.toLowerCase();
         if (typeof keyB === "string") keyB = keyB.toLowerCase();
 
