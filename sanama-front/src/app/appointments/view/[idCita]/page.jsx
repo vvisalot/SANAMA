@@ -2,11 +2,12 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { appointmentService } from "@/services/appointmentService";
-import PatientInfo from "./PatientInfo";
-import AppointmentInfo from "./AppointmentInfo";
-import RescheduleModal from "./other/RescheduleModal";
+import PatientInfo from "@/components/appointments/view/PatientInfo";
+import AppointmentInfo from "@/components/appointments/view/AppointmentInfo";
+import RescheduleModal from "@/components/appointments/view/RescheduleModal";
 import useUpdateAppointmentStatus from "@/hooks/useUpdateAppointmentStatus";
 import useAppointmentReschedule from "@/hooks/useAppointmentReschedule";
+import { useRouter } from "next/navigation";
 
 const ReviewAppointment = ({ params }) => {
   const [appointmentData, setAppointmentData] = useState(null);
@@ -14,7 +15,7 @@ const ReviewAppointment = ({ params }) => {
   const [error, setError] = useState(null);
   const [hasBeenCanceled, setHasBeenCanceled] = useState(false);
   const [isRescheduleModalOpen, setIsRescheduleModalOpen] = useState(false);
-
+  const router = useRouter();
   const openRescheduleModal = () => setIsRescheduleModalOpen(true);
   const closeRescheduleModal = () => setIsRescheduleModalOpen(false);
 
@@ -69,6 +70,12 @@ const ReviewAppointment = ({ params }) => {
     }
   };
 
+  const handleAttendClick = () => {
+    handleActionClick(2).then(() =>
+      router.push(`/medicalHistory/${appointmentData.paciente.idPersona}`)
+    );
+  };
+
   const handleCancelClick = () =>
     handleActionClick(3).then(() => setHasBeenCanceled(true));
 
@@ -83,10 +90,10 @@ const ReviewAppointment = ({ params }) => {
       <ActionButtons
         estado={estado}
         loading={loading}
-        handleActionClick={handleActionClick}
         openRescheduleModal={openRescheduleModal}
         handleCancelClick={handleCancelClick}
         hasBeenCanceled={hasBeenCanceled}
+        handleAttendClick={handleAttendClick}
       />
 
       <Link href="/appointments" passHref>
@@ -108,24 +115,22 @@ const ReviewAppointment = ({ params }) => {
 const ActionButtons = ({
   estado,
   loading,
-  handleActionClick,
   openRescheduleModal,
   handleCancelClick,
   hasBeenCanceled,
+  handleAttendClick,
 }) => {
   return (
     <>
       {estado === 4 && (
         <>
-          <Link href="/evaluations" passHref>
-            <href
-              className="block bg-blue-500 text-white p-2 w-full rounded-md text-center mt-2"
-              onClick={() => handleActionClick(2)}
-              disabled={loading}
-            >
-              Atender Cita
-            </href>
-          </Link>
+          <button
+            className="block bg-blue-500 text-white p-2 w-full rounded-md text-center mt-2"
+            onClick={handleAttendClick}
+            disabled={loading}
+          >
+            Atender Cita
+          </button>
 
           <button
             className="bg-blue-500 text-white p-2 w-full rounded-md mt-2"

@@ -12,9 +12,8 @@ const defaultColumns = [
   { name: "Opciones", sortable: false },
 ];
 
-
 function columnExists(columnName) {
-  for (let i = 0; i < defaultColumns.length-1; i++){
+  for (let i = 0; i < defaultColumns.length - 1; i++) {
     if (defaultColumns[i].name === columnName) {
       return i;
     }
@@ -23,25 +22,25 @@ function columnExists(columnName) {
 }
 
 const AppointmentTable = ({ data, columns }) => {
-  const displayColumns = columns? columns: defaultColumns;
-  /* De acuerco al parámetro columns, personalizaremos lo que muestra la Table */ /*INICIO */
+  const displayColumns = columns ? columns : defaultColumns;
+  /* De acuerco al parámetro columns, personalizaremos lo que muestra la tabla */ /*INICIO */
   let count = 0;
   const arrayDeArraysVacios = new Array(data.length).fill(null).map(() => []);
   displayColumns.forEach((column, indexColumn) => {
-    let indexTablaDefa = columnExists(column.name); 
+    let indexTablaDefa = columnExists(column.name);
     if (indexTablaDefa != -1) {
       data.forEach((elemento, index) => {
         arrayDeArraysVacios[index][count] = elemento[indexTablaDefa];
       });
       count++;
-    }else {
+    } else {
     }
   });
   /* De acuerco al parámetro columns, personalizaremos lo que muestra la tabla */ /* FIN */
   const { sortedData, requestSort, sortConfig } = useSort(arrayDeArraysVacios);
   return (
     <Table
-      url={"appointments/info"}
+      url={"appointments/view"}
       columns={displayColumns}
       data={sortedData}
       requestSort={requestSort}

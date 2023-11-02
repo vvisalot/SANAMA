@@ -2,6 +2,7 @@ package com.minsa.sanama.controller.laboratorio;
 
 import com.minsa.sanama.model.laboratorio.OrdenLaboratorio;
 import com.minsa.sanama.services.laboratorio.OrdenLaboratorioService;
+import org.aspectj.weaver.ast.Or;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,6 @@ public class OrdenLaboratorioController {
         OrdenLaboratorio orden = null;
         try {
             JSONObject job = (JSONObject) new JSONParser().parse(pv_datos);
-            System.out.println(pv_datos);
             String pn_id_orden_laboratorio = job.get("pn_id_orden_laboratorio").toString();
             orden = ordenLaboratorioService.buscarOrdenLaboratorio(pn_id_orden_laboratorio);
         } catch (Exception ex) {
@@ -60,5 +60,17 @@ public class OrdenLaboratorioController {
         }
 
         return orden;
+    }
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE},
+            value = "/post/atenderOrdenLaboratorioV1")
+    @ResponseBody
+    public int atenderOrdenLaboratorioV1(@RequestBody OrdenLaboratorio orden){
+        int n;
+        n = ordenLaboratorioService.atenderOrdenLaboratorioV1(orden);
+        if(n!=0)
+            return 1;
+        else
+            return 0;
     }
 }
