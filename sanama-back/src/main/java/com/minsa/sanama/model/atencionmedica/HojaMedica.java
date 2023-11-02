@@ -12,9 +12,9 @@ public class HojaMedica {
     private LocalDate fecha;
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private int estado=0;
-    // private ArrayList<CitaMedica> citasMedicas;
+    //private CitaMedica citasMedica;
     private Diagnostico diagnostico;
-    private int idMedicoCreador;
+
     private ArrayList<Resultado> resultados;
     private RecetaMedica recetaMedica;
 
@@ -86,11 +86,4 @@ public class HojaMedica {
         this.recetaMedica = recetaMedica;
     }
 
-    public int getIdMedicoCreador() {
-        return idMedicoCreador;
-    }
-
-    public void setIdMedicoCreador(int idMedicoCreador) {
-        this.idMedicoCreador = idMedicoCreador;
-    }
 }
