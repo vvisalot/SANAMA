@@ -80,7 +80,7 @@ public class PacienteRepository {
             paciente.setCorreo(rs.getString("correo"));
             paciente.setDireccion(rs.getString("direccion"));
             paciente.setCodigoSeguro(rs.getString("codigo_seguro"));
-            paciente.setTipoSeguro(rs.getInt("tipo_seguro"));
+            paciente.setTipoSeguro(rs.getString("tipo_seguro"));
             paciente.setEstado(rs.getInt("estado"));
 
             return paciente;
@@ -106,7 +106,7 @@ public class PacienteRepository {
             paciente.setCorreo(rs.getString("correo"));
             paciente.setDireccion(rs.getString("direccion"));
             paciente.setCodigoSeguro(rs.getString("codigo_seguro"));
-            paciente.setTipoSeguro(rs.getInt("tipo_seguro"));
+            paciente.setTipoSeguro(rs.getString("tipo_seguro"));
             paciente.setEstado(rs.getInt("estado"));
             paciente.setHistorialClinico(new HistorialClinico());
             paciente.getHistorialClinico().setIdHistorialClinico(rs.getInt("id_historial_clinico"));
