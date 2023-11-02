@@ -14,9 +14,8 @@ public class CitaMedica extends ProgramacionCita{
     private boolean tieneAcompanhante;
     private String nombreAcompanhante;
     private String dniAcompanhante;
-    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-    //private String parentezco=0;
-    private LookupValue parentesco;
+    private String parentezco;
+
 
 
     public CitaMedica() {
@@ -77,11 +76,11 @@ public class CitaMedica extends ProgramacionCita{
         this.dniAcompanhante = dniAcompanhante;
     }
 
-    public int getParentezco() {
+    public String getParentezco() {
         return parentezco;
     }
 
-    public void setParentezco(int parentezco) {
+    public void setParentezco(String parentezco) {
         this.parentezco = parentezco;
     }
 }

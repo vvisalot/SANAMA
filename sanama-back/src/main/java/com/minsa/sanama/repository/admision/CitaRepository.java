@@ -78,7 +78,7 @@ public class CitaRepository {
             citaMedica.setTieneAcompanhante(rs.getBoolean("tiene_acompanhante"));
             citaMedica.setNombreAcompanhante(rs.getString("nombre_acompanhante"));
             citaMedica.setDniAcompanhante(rs.getString("dni_acompanhante"));
-            citaMedica.setParentezco(rs.getInt("parentezco"));
+            citaMedica.setParentezco(rs.getString("parentezco"));
 
             Paciente paciente = new Paciente();
             paciente.setIdPersona(rs.getInt("id_paciente"));
