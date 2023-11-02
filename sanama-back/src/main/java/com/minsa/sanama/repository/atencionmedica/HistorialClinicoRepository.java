@@ -91,7 +91,6 @@ public class HistorialClinicoRepository {
 
             hojaMedica.setIdHojaMedica(rs.getInt("id_hoja_medica"));
             hojaMedica.setCodigo(rs.getString("codigo_hm"));
-            hojaMedica.setIdMedicoCreador(rs.getInt("id_medico_creador"));
             return hojaMedica;
         }
     }

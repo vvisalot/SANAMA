@@ -2,6 +2,7 @@ package com.minsa.sanama.model.atencionmedica;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.minsa.sanama.model.admision.ProgramacionCita;
+import com.minsa.sanama.model.configuracion.LookupValue;
 import com.minsa.sanama.model.laboratorio.OrdenLaboratorio;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -13,8 +14,8 @@ public class CitaMedica extends ProgramacionCita{
     private boolean tieneAcompanhante;
     private String nombreAcompanhante;
     private String dniAcompanhante;
-    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-    private int parentezco=0;
+    private String parentezco;
+
 
 
     public CitaMedica() {
@@ -75,11 +76,11 @@ public class CitaMedica extends ProgramacionCita{
         this.dniAcompanhante = dniAcompanhante;
     }
 
-    public int getParentezco() {
+    public String getParentezco() {
         return parentezco;
     }
 
-    public void setParentezco(int parentezco) {
+    public void setParentezco(String parentezco) {
         this.parentezco = parentezco;
     }
 }

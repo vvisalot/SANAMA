@@ -8,21 +8,24 @@ function CitasMedico({ doctor }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await appointmentService.citasMedicoPorID(doctor.idPersona, 4);
+        const data = await appointmentService.citasMedicoPorID(
+          doctor.idPersona,
+          4
+        );
         //const tableData = parseAppointmentTable(data);
         //setAppointmentTable(tableData);
         const citasMapeadas = data.map((cita) => ({
           ...cita,
-          idCita: cita.codigoCita,
+          idCita: cita.idCita,
+          codigoCita: cita.codigoCita,
           medico: {
             nombres: doctor.nombres,
             apellidoPaterno: doctor.apellidoPaterno,
             apellidoMaterno: doctor.apellidoMaterno,
             especialidad: {
-              nombre: doctor.especialidad.nombre
-            }
+              nombre: doctor.especialidad.nombre,
+            },
           },
-
         }));
         const tableData = parseAppointmentTable(citasMapeadas);
         setAppointmentTable(tableData);
@@ -50,6 +53,7 @@ function CitasMedico({ doctor }) {
   }, [appointmentTable]);
 
   const columns = [
+    { name: "idCita" },
     { name: "Código cita", sortable: true, sortKey: "string", visible: true },
     { name: "Nombre del paciente", sortable: true, sortKey: "patientName" },
     { name: "Fecha", sortable: true, sortKey: "date" },
@@ -68,7 +72,10 @@ function CitasMedico({ doctor }) {
         onSubmit={handleSubmit}
         permitirGenerarNuevaCita={false}
       />
-      <AppointmentTable data={appointmentTable} columns={columns}></AppointmentTable>
+      <AppointmentTable
+        data={appointmentTable}
+        columns={columns}
+      ></AppointmentTable>
     </>
   );
 }

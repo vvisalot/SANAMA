@@ -78,7 +78,7 @@ public class CitaRepository {
             citaMedica.setTieneAcompanhante(rs.getBoolean("tiene_acompanhante"));
             citaMedica.setNombreAcompanhante(rs.getString("nombre_acompanhante"));
             citaMedica.setDniAcompanhante(rs.getString("dni_acompanhante"));
-            citaMedica.setParentezco(rs.getInt("parentezco"));
+            citaMedica.setParentezco(rs.getString("parentezco"));
 
             Paciente paciente = new Paciente();
             paciente.setIdPersona(rs.getInt("id_paciente"));
@@ -205,7 +205,7 @@ public class CitaRepository {
                         new SqlParameter("pb_tiene_acompanhante", Types.BOOLEAN),
                         new SqlParameter("pv_nombre_acompanhante", Types.VARCHAR),
                         new SqlParameter("pv_dni_acompanhante", Types.VARCHAR),
-                        new SqlParameter("pn_parentezco", Types.INTEGER),
+                        new SqlParameter("pv_parentezco", Types.VARCHAR),
                         new SqlParameter("pn_estado", Types.INTEGER)
                 });
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
@@ -220,7 +220,7 @@ public class CitaRepository {
                 .addValue("pb_tiene_acompanhante", citaMedica.isTieneAcompanhante())
                 .addValue("pv_nombre_acompanhante", citaMedica.getNombreAcompanhante())
                 .addValue("pv_dni_acompanhante", citaMedica.getDniAcompanhante())
-                .addValue("pn_parentezco", citaMedica.getParentezco())
+                .addValue("pv_parentezco", citaMedica.getParentezco())
                 .addValue("pn_estado", 1);
 
         Map<String, Object> result = simpleJdbcCall.execute(mapSqlParameterSource);

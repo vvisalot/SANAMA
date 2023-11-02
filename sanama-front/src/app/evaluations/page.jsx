@@ -1,44 +1,79 @@
 "use client";
-import React from "react";
-import { useEffect, useState } from "react";
-import EvaluationTable from "./EvaluationTable";
+import React, { useState } from "react";
 
-const Evaluations = (props) => {
-  const [evaluationsTable, setevaluationsTable] = useState([]);
+const FormularioMedico = () => {
+  const [formData, setFormData] = useState({
+    nombre: "",
+    dni: "",
+    // ... otros campos
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Enviar datos a donde sea necesario
+    console.log(formData);
+  };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-10">
-      <div className="max-w-screen-xl mx-auto bg-white p-6 rounded-lg shadow-md">
-        <h1 className="text-xl font-bold mb-4">Historial Medico:</h1>
-        <div className="grid grid-cols-4 gap-6 mb-6">
-          <div className="flex flex-col">
-            <label className="font-semibold mb-2">N° de Cita:</label>
+    <div className="p-8">
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Nombre y Apellidos
+          </label>
+          <input
+            type="text"
+            name="nombre"
+            value={formData.nombre}
+            onChange={handleChange}
+            className="mt-1 p-2 w-full border-gray-300 rounded-md"
+          />
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              DNI
+            </label>
             <input
-              className="border rounded p-2 w-full"
               type="text"
-              placeholder="xxxxx"
+              name="dni"
+              value={formData.dni}
+              onChange={handleChange}
+              className="mt-1 p-2 w-full border-gray-300 rounded-md"
             />
           </div>
+          {/* Otros campos... */}
         </div>
-        <div className="mb-6 space-x-4">
-          <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
-            Nueva Evalución médica
-          </button>
-          <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
-            Solicitar Orden de Laboratorio
-          </button>
+
+        {/* ... otros campos ... */}
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Antecedentes personales
+          </label>
+          <textarea
+            name="antecedentes"
+            value={formData.antecedentes}
+            onChange={handleChange}
+            rows="4"
+            className="mt-1 p-2 w-full border-gray-300 rounded-md"
+          ></textarea>
         </div>
-        <h2 className="text-xl font-bold mb-4">Hojas Medicas Existentes:</h2>
-        <div className="grid grid-cols-7 gap-6 mb-6 border-b-2 pb-4">
-          <div className="flex flex-col">
-            <label className="font-semibold mb-2">Desde:</label>
-            <input className="border rounded p-2 w-full" type="date" />
-          </div>
-        </div>
-        <EvaluationTable data={evaluationsTable}> </EvaluationTable>
-      </div>
+
+        <button
+          type="submit"
+          className="px-4 py-2 bg-blue-500 text-white rounded-md"
+        >
+          Guardar
+        </button>
+      </form>
     </div>
   );
 };
 
-export default Evaluations;
+export default FormularioMedico;
