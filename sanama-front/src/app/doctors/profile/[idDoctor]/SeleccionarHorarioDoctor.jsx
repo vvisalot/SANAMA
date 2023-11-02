@@ -4,6 +4,7 @@ import moment from "moment";
 import "moment/locale/es"; // Importa la localización en español
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import Mensaje from "./Mensaje";
+import swal from "sweetalert";
 
 moment.locale("es");
 const localizer = momentLocalizer(moment);
@@ -67,10 +68,12 @@ function SeleccionarHorarioMedico(props) {
   const { doctor } = props;
   const [isLoading, setIsLoading] = useState(true);
   const [isCalendarEnabled, setIsCalendarEnabled] = useState(false);
+  const [showConfirmationPopup, setShowConfirmationPopup] = useState(false);
   const [backData, setBackData] = useState([]);
   const [events, setEvents] = useState([]);
   const [view, setView] = useState("month");
   const [calendarHeight, setCalendarHeight] = useState(600);
+
   const fechaInicioManana = new Date();
   fechaInicioManana.setDate(fechaInicioManana.getDate() + 1); // Establece la fecha para mañana
   fechaInicioManana.setHours(0, 0, 0, 0);
@@ -93,98 +96,138 @@ function SeleccionarHorarioMedico(props) {
   };
 
   const handleCancelarIngresoDisponibilidad = () => {
-    setEvents(backData);
-    setIsCalendarEnabled(false);
-    setSeHaModificadoHorario(false);
+    if (!seHaModificadoHorario) {
+      setIsCalendarEnabled(false);
+      return;
+    }
+    swal({
+      title: "¿Cancelar nueva disponibilidad?",
+      text: "Se perderán los horarios seleccionados",
+      icon: "warning",
+      buttons: ["No", "Sí"],
+    }).then((respuesta) => {
+      if (respuesta) {
+        setEvents(backData);
+        setIsCalendarEnabled(false);
+        setSeHaModificadoHorario(false);
+        // swal({ text: "Cancelado", icon: "success" });
+      } else {
+        return;
+      }
+    });
+
   };
 
   const handleGuardar = () => {
     if (!seHaModificadoHorario) {
-      alert("No hubo modificación de horario");
+      swal({ title: "No se encontraron cambios en la disponibilidad", icon: "warning", timer: "2500" });
       setIsCalendarEnabled(false);
-
       return;
     }
-    //FECHAS
-    let fechaInicioReg = events[0].start.toISOString().split("T")[0];; // Inicializa con la primera fecha
-    let fechaFinReg = events[0].start.toISOString().split("T")[0];; // Inicializa con la primera fecha
-    //console.log(fechaInicioReg)
-    //console.log(fechaFinReg)
-    const eventosTransformados = events.map((evento) => {
-      const horaInicio = evento.start.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false });
-      const horaFin = evento.end.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false });
-      const fecha = evento.start.toISOString().split("T")[0];
 
-      // Actualiza fechaInicioReg si la fecha actual es anterior
-      if (fecha < fechaInicioReg) {
-        fechaInicioReg = fecha;
-      }
+    swal({
+      title: "Confirmar",
+      text: "¿Confirmar registro de disponibilidad?",
+      icon: "warning",
+      buttons: ["No", "Sí"],
+      showLoaderOnConfirm: true,
+    }).then((respuesta) => {
+      if (respuesta) {
+        swal({
+          title: "Espere...",
+          buttons: {
+            confirm: null,
+            cancel: null,
+          },
+          closeOnClickOutside: false,
+          closeOnEsc: false,
+        });
 
-      // Actualiza fechaFinReg si la fecha actual es posterior
-      if (fecha > fechaFinReg) {
-        fechaFinReg = fecha;
-      }
+        //FECHAS
+        let fechaInicioReg = events[0].start.toISOString().split("T")[0];
+        let fechaFinReg = events[0].start.toISOString().split("T")[0];
 
-      return {
-        horaInicio,
-        horaFin,
-        fecha,
-      };
-    });
+        const eventosTransformados = events.map((evento) => {
+          const horaInicio = evento.start.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false });
+          const horaFin = evento.end.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false });
+          const fecha = evento.start.toISOString().split("T")[0];
 
-    function crearJSONParaServidor(eventosTransformados, idMedico, fechaInicioReg, fechaFinReg) {
-      const jsonParaServidor = {
-        pn_id_medico: idMedico,
-        pd_fecha_inicio: fechaInicioReg,
-        pd_fecha_fin: fechaFinReg,
-        arregloHorarios: eventosTransformados.map((evento) => ({
-          horaInicio: evento.horaInicio,
-          horaFin: evento.horaFin,
-          fecha: evento.fecha,
-        })),
-      };
+          // Actualiza fechaInicioReg si la fecha actual es anterior
+          if (fecha < fechaInicioReg) {
+            fechaInicioReg = fecha;
+          }
 
-      return jsonParaServidor;
-    }
+          // Actualiza fechaFinReg si la fecha actual es posterior
+          if (fecha > fechaFinReg) {
+            fechaFinReg = fecha;
+          }
 
-    const jsonParaServidor = crearJSONParaServidor(eventosTransformados, doctor.idPersona, fechaInicioReg, fechaFinReg);
+          return {
+            horaInicio,
+            horaFin,
+            fecha,
+          };
+        });
 
-    //console.log(jsonParaServidor);
+        function crearJSONParaServidor(eventosTransformados, idMedico, fechaInicioReg, fechaFinReg) {
+          const jsonParaServidor = {
+            pn_id_medico: idMedico,
+            pd_fecha_inicio: fechaInicioReg,
+            pd_fecha_fin: fechaFinReg,
+            arregloHorarios: eventosTransformados.map((evento) => ({
+              horaInicio: evento.horaInicio,
+              horaFin: evento.horaFin,
+              fecha: evento.fecha,
+            })),
+          };
 
-
-    const registrarEvento = async (jsonParaServidor) => {
-      const url = "http://localhost:8080/rrhh/post/registrarHorarioMedico";
-      const requestOptions = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(jsonParaServidor),
-      };
-
-      try {
-        const response = await fetch(url, requestOptions);
-        if (response.ok) {
-          console.log("Solicitud exitosa");
-          setIsCalendarEnabled(false);
-          setSeHaModificadoHorario(false);
-        } else {
-          console.error("Error en la solicitud:", response.statusText);
-          setSeHaModificadoHorario(false);
+          return jsonParaServidor;
         }
-      } catch (error) {
-        console.error("Error en la solicitud:", error);
+
+        const jsonParaServidor = crearJSONParaServidor(eventosTransformados, doctor.idPersona, fechaInicioReg, fechaFinReg);
+
+        //console.log(jsonParaServidor);
+
+
+        const registrarEvento = async (jsonParaServidor) => {
+          const url = "http://localhost:8080/rrhh/post/registrarHorarioMedico";
+          const requestOptions = {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(jsonParaServidor),
+          };
+
+          try {
+            const response = await fetch(url, requestOptions);
+            if (response.ok) {
+              setIsCalendarEnabled(false);
+              setSeHaModificadoHorario(false);
+              swal.close();
+              swal({ text: "El registro se realizó con éxito", icon: "success" });
+            } else {
+              console.error("Error en la solicitud:", response.statusText);
+              setSeHaModificadoHorario(false);
+            }
+          } catch (error) {
+            console.error("Error en la solicitud:", error);
+          }
+        };
+
+        const registrarEventos = async () => {
+          await registrarEvento(jsonParaServidor);
+        };
+
+        registrarEventos();
+      } else {
+        setIsCalendarEnabled(false);
+        setSeHaModificadoHorario(false);
+        console.log("Cancelado");
       }
-    };
-
-    const registrarEventos = async () => {
-      await registrarEvento(jsonParaServidor);
-      //setIsCalendarEnabled(true);
-    };
-
-    registrarEventos();
-
+    });
   };
+
 
   useEffect(() => {
     const obtenerEventos = async () => {
@@ -255,12 +298,17 @@ function SeleccionarHorarioMedico(props) {
           setEvents((prevEvents) => [...prevEvents, newEvent]);
 
         } else {
-          alert("Puedes ingresar tu disponibilidad a partir del día siguiente");
+          swal({
+            title: "Acción no permitida",
+            text: "Puedes ingresar tu disponibilidad a partir del día siguiente", icon: "warning", timer: "3000"
+          });
+          //alert("");
         }
       } else {
-        alert(
-          "El nuevo turno se superpone con un turno existente. Por favor, seleccione otra hora."
-        );
+        swal({
+          title: "Acción no permitida",
+          text: "El nuevo turno se superpone con un turno existente. Por favor, seleccione otra hora.", icon: "warning", timer: "3000"
+        });
       }
     }
   };
@@ -285,9 +333,10 @@ function SeleccionarHorarioMedico(props) {
         const updatedEvents = events.filter((e) => e !== event);
         setEvents(updatedEvents);
       } else {
-        alert(
-          "Puedes editar tu disponibilidad a partir del día siguiente"
-        );
+        swal({
+          title: "Acción no permitida",
+          text: "Puedes eliminar tu disponibilidad a partir del día siguiente", icon: "warning", timer: "3000"
+        });
       }
     }
   };
@@ -300,60 +349,65 @@ function SeleccionarHorarioMedico(props) {
     next: 'Siguiente'
   };
   return (
-    <div>
-      {isLoading ? (
-        <p>Cargando...</p>
-      ) : (
-        <div style={{ height: "auto" }}>
-          <div className="flex justify-center space-x-4" style={{ margin: "2rem 0" }}>
-            <button className={`${!isCalendarEnabled
-              ? 'text-white bg-purple-800 border border-purple-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 '
-              : 'text-gray-400 bg-gray-100 border border-black-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 '
-              }`}
-              onClick={handleIngresarDisponibilidad} disabled={isCalendarEnabled}>
-              Ingresar Disponibilidad
-            </button>
-            <button
-              className={`${isCalendarEnabled
-                ? 'text-white bg-red-800 border border-red-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 '
+    <>
+      <header className="p-5  text-2xl font-bold tracking-wider text-gray-900">
+        Disponibilidad:
+      </header>
+      <div>
+        {isLoading ? (
+          <p>Cargando...</p>
+        ) : (
+          <div style={{ height: "auto" }}>
+            <div className="flex justify-center space-x-4" style={{ margin: "2rem 0" }}>
+              <button className={`${!isCalendarEnabled
+                ? 'text-white bg-purple-800 border border-purple-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 '
                 : 'text-gray-400 bg-gray-100 border border-black-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 '
                 }`}
-              onClick={handleCancelarIngresoDisponibilidad}
-              disabled={!isCalendarEnabled}
-            >
-              Cancelar
-            </button>
-            <button className={`${isCalendarEnabled
-              ? 'text-white bg-blue-800 border border-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 '
-              : 'text-gray-400 bg-gray-100 border border-black-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 '
-              }`}
-              onClick={handleGuardar} disabled={!isCalendarEnabled}>
-              Guardar
-            </button>
-            <Mensaje text={"Podrá visualizar y registrar su disponibilidad en los meses actual y siguiente"}></Mensaje>
+                onClick={handleIngresarDisponibilidad} disabled={isCalendarEnabled}>
+                Ingresar Disponibilidad
+              </button>
+              <button
+                className={`${isCalendarEnabled
+                  ? 'text-white bg-red-800 border border-red-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 '
+                  : 'text-gray-400 bg-gray-100 border border-black-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 '
+                  }`}
+                onClick={handleCancelarIngresoDisponibilidad}
+                disabled={!isCalendarEnabled}
+              >
+                Cancelar
+              </button>
+              <button className={`${isCalendarEnabled
+                ? 'text-white bg-blue-800 border border-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 '
+                : 'text-gray-400 bg-gray-100 border border-black-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 '
+                }`}
+                onClick={handleGuardar} disabled={!isCalendarEnabled}>
+                Guardar
+              </button>
+              <Mensaje text={"Podrá visualizar y registrar su disponibilidad en los meses actual y siguiente"}></Mensaje>
+            </div>
+            <Calendar
+              messages={messages}
+              localizer={localizer}
+              events={events}
+              startAccessor="start"
+              endAccessor="end"
+              style={{ height: calendarHeight }}
+              views={{
+                month: true,
+                week: true,
+              }}
+              formats={{
+                dayFormat: "dddd",
+              }}
+              onSelectSlot={handleSelectSlot}
+              onDoubleClickEvent={isCalendarEnabled && handleDoubleClickEvent}
+              selectable={view === "week" && isCalendarEnabled}
+              onView={handleView}
+            />
           </div>
-          <Calendar
-            messages={messages}
-            localizer={localizer}
-            events={events}
-            startAccessor="start"
-            endAccessor="end"
-            style={{ height: calendarHeight }}
-            views={{
-              month: true,
-              week: true,
-            }}
-            formats={{
-              dayFormat: "dddd",
-            }}
-            onSelectSlot={handleSelectSlot}
-            onDoubleClickEvent={isCalendarEnabled && handleDoubleClickEvent}
-            selectable={view === "week" && isCalendarEnabled}
-            onView={handleView}
-          />
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   );
 }
 

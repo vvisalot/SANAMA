@@ -11,6 +11,7 @@ const axiosInstance = axios.create({
 const ENDPOINTS = {
   REGISTRAR_CITA: "/admision/post/registrarCitaMedica",
   LISTAR_CITAS: "/admision/get/cita",
+  LISTAR_CITAS_MEDICO: "/admision/post/listarCitasPorMedico",
   APPOINTMENT_TYPES: "/admision/get/tipos",
   SLOTS_AVAILABLE: "/admision/get/slots",
   LISTAR_CITAS_FILTRO: "/admision/post/listarCitasPorFiltro",
@@ -173,6 +174,20 @@ export const appointmentService = {
         pn_id_cita,
         pt_hora_cita,
         pd_fecha_cita,
+      })
+      return response.data
+    } catch (error) {
+      console.error("Error al buscar cita", error.message)
+      throw new Error("Failed to list filtered appointments")
+    }
+  },
+  citasMedicoPorID: async (pn_id_medico, pn_estado) => {
+    // console.log(pn_id_medico)
+    // console.log(pn_estado)
+    try {
+      const response = await axiosInstance.post(ENDPOINTS.LISTAR_CITAS_MEDICO, {
+        pn_id_medico,
+        pn_estado,
       })
       return response.data
     } catch (error) {
