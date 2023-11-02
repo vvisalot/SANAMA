@@ -1,3 +1,5 @@
+import { format } from "date-fns"
+
 export function validateNumberInput(input) {
     input.value = input.value.replace(/[^0-9]/g, '')
     if (input.value.length > 8) {
@@ -24,4 +26,17 @@ export function validateSecurityCode(input) {
     }
 
     input.value = value
+}
+
+export function formatHour(hour) {
+    try {
+        const [hours, minutes, seconds] = hour.split(':')
+        if (!hours || !minutes || !seconds) throw new Error('Formato de hora inválido')
+        const date = new Date()
+        date.setHours(parseInt(hours, 10), parseInt(minutes, 10), parseInt(seconds, 10))
+        return format(date, 'HH:mm')
+    } catch (error) {
+        console.error('Error al formatear la hora:', error)
+        return hour // Devuelve la hora original en caso de error
+    }
 }

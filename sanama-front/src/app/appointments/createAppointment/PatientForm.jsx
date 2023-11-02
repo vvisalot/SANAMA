@@ -23,7 +23,7 @@ const PatientForm = ({ setFormComplete, setPatientId, patientForm, fechaNacimien
     const fetchSecurityTypes = async () => {
         try {
             const data = await patientService.listarSeguros()
-            console.log(data)
+            // console.log(data)
             setSecurityTypes(data)
         } catch (error) {
             console.log("No se pudo obtener el listado de seguros")
@@ -33,7 +33,7 @@ const PatientForm = ({ setFormComplete, setPatientId, patientForm, fechaNacimien
     const fetchData = async (filtro) => {
         try {
             const data = await patientService.mostrarPacienteRegistrado(filtro)
-            console.log(data.tipoSeguro)
+            //  console.log(data.tipoSeguro)
 
             setPatientForm({
                 ...patientForm,
@@ -386,7 +386,7 @@ const PatientForm = ({ setFormComplete, setPatientId, patientForm, fechaNacimien
                     {isNextPart ? 'Limpiar campos' : 'Siguiente'}
                 </button>
             </div>
-            {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+            {errorMessage && <pre className="text-red-500">{errorMessage}</pre>}
         </section >
     )
 }

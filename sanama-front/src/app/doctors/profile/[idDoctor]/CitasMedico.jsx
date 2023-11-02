@@ -13,6 +13,7 @@ function CitasMedico({ doctor }) {
         //setAppointmentTable(tableData);
         const citasMapeadas = data.map((cita) => ({
           ...cita,
+          idCita: cita.codigoCita,
           medico: {
             nombres: doctor.nombres,
             apellidoPaterno: doctor.apellidoPaterno,
@@ -49,7 +50,7 @@ function CitasMedico({ doctor }) {
   }, [appointmentTable]);
 
   const columns = [
-    { name: "ID", sortable: false, visible: false },
+    { name: "Código cita", sortable: true, sortKey: "string", visible: true },
     { name: "Nombre del paciente", sortable: true, sortKey: "patientName" },
     { name: "Fecha", sortable: true, sortKey: "date" },
     { name: "Hora", sortable: true, sortKey: "time" },

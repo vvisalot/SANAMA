@@ -2,8 +2,12 @@
 
 import React, { useState, useEffect } from "react";
 import { patientService } from "@/services/patientService";
+import { useParams } from "next/navigation";
 
-const HistorialClinico = ({ idPaciente }) => {
+const HistorialClinico = () => {
+  const params = useParams();
+  const idPaciente = params.idmedicalHistory;
+
   const [historial, setHistorial] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -25,7 +29,7 @@ const HistorialClinico = ({ idPaciente }) => {
     }
   }, [idPaciente]);
 
-  if (loading) return <p>Cargandooo... {idPaciente} </p>;
+  if (loading) return <p>Cargando...</p>;
   if (error) return <p>Error al cargar el historial clínico</p>;
   if (!historial) return <p>No se encontró el historial clínico</p>;
 

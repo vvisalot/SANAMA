@@ -1,5 +1,4 @@
 import FormContainer from "./FormContainer"
-import FormMenu from "./FormMenu"
 
 const CreateAppointmentForm = () => {
     return (
