@@ -17,7 +17,7 @@ const AppointmentTable = ({ data }) => {
     <Table
       columns={columns}
       data={data}
-      url="appointment/view"
+      url="appointments/view"
       optionsText="Ver perfil"
     />
   );

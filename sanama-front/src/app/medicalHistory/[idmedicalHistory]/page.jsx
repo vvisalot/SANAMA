@@ -21,6 +21,7 @@ const HistorialClinico = () => {
         setHistorialClinico({
           idHistorialClinico: data.idHistorialClinico,
           codigo: data.codigo,
+          idMedicoCreador: data.idMedicoCreador,
         });
         setHojasMedicas(data.hojasMedicas);
       } catch (error) {
@@ -44,10 +45,11 @@ const HistorialClinico = () => {
       <h3>Historial Clínico: {historialClinico.codigo}</h3>
       <ul>
         {hojasMedicas.map((hoja) => (
-          <li key={hoja.idHojaMedica}>{hoja.codigo}</li>
+          <li key={hoja.idHojaMedica}>
+            {hoja.codigo} {hoja.idMedicoCreador}
+          </li>
         ))}
       </ul>
-      <MedicalRecordsTable data={hojasMedicas} />
     </div>
   );
 };

@@ -7,6 +7,13 @@ const columns = [
 ];
 
 const MedicalRecordsTable = ({ data }) => {
-  return <Table columns={columns} data={data} />;
+  return (
+    <Table
+      columns={columns}
+      data={data}
+      url="/patients/profile"
+      optionsText="Ver perfl"
+    />
+  );
 };
 export default MedicalRecordsTable;
