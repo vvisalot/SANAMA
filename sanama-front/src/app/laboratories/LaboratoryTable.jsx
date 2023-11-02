@@ -3,10 +3,10 @@ import Table from "@/components/table/Table"
 // Columns for the Laboratory table
 const columns = [
     { name: "ID" },
-    { name: "Fecha Actualización" },
+    { name: "Fecha actualización" },
     { name: "Nombre completo" },
     { name: "DNI" },
-    { name: "Examen" },
+    { name: "Muestra" },
     { name: "Estado" },
     { name: "Resultados" },
     { name: "Opciones" }

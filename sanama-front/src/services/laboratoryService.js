@@ -26,6 +26,16 @@ export const laboratoryService = {
         }
     },
 
+    listarMedicosLaboratorioValidado: async () => {
+        try {
+            const response = await axiosInstance.get("configuracion/get/listarMedicosLab");
+            return response.data;
+        } catch (error) {
+            console.error("Error al listar médicos de laboratorio validado", error);
+            throw error;
+        }
+    },    
+
     buscarExamenMedico: async (idOrdenLaboratorio) => {
         try {
             const response = await axiosInstance.post("laboratorio/post/buscarExamenMedico", {
@@ -49,4 +59,15 @@ export const laboratoryService = {
             throw error;
         }
     },
+
+    atenderOrdenLaboratorio: async (data) => {
+        try {
+            const response = await axiosInstance.post("laboratorio/post/atenderOrdenLaboratorioV1", data);
+            return 1;
+        } catch (error) {
+            console.error("Error al atender la orden de laboratorio", error);
+            throw error;
+        }
+    },
+    
 };

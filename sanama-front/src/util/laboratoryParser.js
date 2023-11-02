@@ -33,7 +33,7 @@ export function parseLaboratoryTable(data) {
             { "data": `${row.fechaOrden}     ${row.horaOrden}`}, // FECHA Y HORA
             { "data": `${paciente.nombres} ${paciente.apellidoPaterno} ${paciente.apellidoMaterno}` }, // NOMBRE COMPLETO
             { "data": paciente.dni }, // DNI
-            { "data": row.tipoOrden }, // TIPO DE ORDEN/EXAMEN
+            { "data": row.tipoMuestra }, // TIPO DE ORDEN/EXAMEN
             { "data": estadoTexto, "className": estadoClase },  // ESTADO con su clase
             { "data": resultados }, // RESULTADOS
         ];
