@@ -6,6 +6,8 @@ import { laboratoryService } from "@/services/laboratoryService"
 const LaboratoryProfile = ({ params }) => {
 
     const [medicos, setMedicos] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+
 
     useEffect(() => {
         const fetchMedicos = async () => {
@@ -43,7 +45,13 @@ const LaboratoryProfile = ({ params }) => {
                 apellidoMaterno: ""
             }
         },
-        examenMedico: []
+        examenMedico: [
+            {
+                idExamen: null,
+                nombreArchivo: "",
+                archivo: ""
+            }
+        ]
     });
 
     useEffect(() => {
@@ -117,10 +125,44 @@ const LaboratoryProfile = ({ params }) => {
         examenMedico: "Examen Médico",
         observaciones: "Observaciones del Examen"
     };
-
+    
+    // const fileToBase64 = (file) => {
+    //     return new Promise((resolve, reject) => {
+    //         if (!file) {
+    //             reject("No file provided");
+    //             return;
+    //         }
+            
+    //         const reader = new FileReader();
+    //         reader.onload = (event) => {
+    //             resolve(event.target.result.split(',')[1]);
+    //         };
+    //         reader.onerror = (error) => {
+    //             console.error("Error al leer el archivo:", error);
+    //             reject(error);
+    //         };
+    //         reader.readAsDataURL(file);
+    //     });
+    // };
+    
+   
     const handleSave = async () =>{
 
-        console.log("los datos de laboratorio son: ", dataLaboratory)
+        // console.log("los examenes son: ", dataLaboratory.examenMedico)
+        // const examenMedicoPromises = dataLaboratory.examenMedico.map(async (examen) => {
+        //     if (examen.archivo) {
+        //         const archivoBase64 = await fileToBase64(examen.archivo);
+        //         return {
+        //             ...examen,
+        //             archivo: archivoBase64
+        //         };
+        //     }
+        //     return examen;
+        // });
+    
+        // const examenMedicoBase64 = await Promise.all(examenMedicoPromises);
+
+        // console.log("los datos de laboratorio son: ", dataLaboratory)
         const laboratorioData = {
             idOrdenLaboratorio: params.idLaboratory,
             doctorFirmante: dataLaboratory.doctorFirmante,
@@ -128,8 +170,8 @@ const LaboratoryProfile = ({ params }) => {
             examenMedico: dataLaboratory.examenMedico,
             observaciones: dataLaboratory.observaciones
         }
-    
-        console.log("Verificación directa:", dataLaboratory.observaciones);
+
+        console.log("los examenes son: ", dataLaboratory.examenMedico)
     
         const incompleteFields = [];
         for (let key in laboratorioData) {
@@ -144,6 +186,8 @@ const LaboratoryProfile = ({ params }) => {
             setMissingFieldsModal(true);
             return;
         }
+
+        setIsLoading(true);
     
         try {
             const result = await laboratoryService.atenderOrdenLaboratorio(laboratorioData);
@@ -157,6 +201,8 @@ const LaboratoryProfile = ({ params }) => {
         } catch (error) {
             console.error("Error al guardar la orden de laboratorio", error);
             alert("Hubo un error al guardar. Por favor, inténtalo de nuevo.");
+        } finally {
+            setIsLoading(false);
         }
     }
 
@@ -235,11 +281,66 @@ const LaboratoryProfile = ({ params }) => {
             window.history.back()
         }
     }
+
+    // function downloadFile(base64, fileName) {
+    //     const blob = new Blob([Uint8Array.from(atob(base64), c => c.charCodeAt(0))], {type: "application/pdf"}); 
+    //     const url = URL.createObjectURL(blob);
+    //     const a = document.createElement('a');
+    //     a.href = url;
+    //     a.download = fileName;
+    //     a.click();
+    //     URL.revokeObjectURL(url);
+    // }
+    
+    
+    const handleFileChange = (e, index) => {
+        const file = e.target.files[0];
+        if (file && file.type === "application/pdf") {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                if (reader.readyState === 2) {
+                    const base64 = reader.result.split(',')[1];
+                    setDataLaboratory(prevState => {
+                        const updatedExamenMedico = [...prevState.examenMedico];
+                        updatedExamenMedico[index] = {
+                            ...updatedExamenMedico[index],
+                            nombreArchivo: file.name,
+                            archivo: base64
+                        };
+                        return {
+                            ...prevState,
+                            examenMedico: updatedExamenMedico
+                        };
+                    });
+                }
+            };
+        } else {
+            console.error("Archivo no permitido o no es un PDF.");
+        }
+    };
+    
+    const handleRemoveExamen = (indexToRemove) => {
+        setDataLaboratory(prevState => ({
+            ...prevState,
+            examenMedico: prevState.examenMedico.filter((_, index) => index !== indexToRemove)
+        }));
+    }
     
 
   return (
 
     <div className="w-full p-10 rounded-lg shadow-md">
+
+        {isLoading && (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+            <div className="bg-white p-4 rounded shadow-md">
+            <div className="animate-spin w-6 h-6 border-t-4 border-blue-500 rounded-full"></div>
+            <div className="mt-2 text-gray-600">Cargando...</div>
+            </div>
+        </div>
+        )}
+
 
         <button className="text-xl bg-red-500 text-white hover:bg-red-600 px-4 py-2 rounded float-right mb-4" onClick={handleAnularLaboratoryClick}>Anular Laboratorio</button>
         
@@ -407,16 +508,84 @@ const LaboratoryProfile = ({ params }) => {
             </select>
         </div>
 
-        <div>
+        {/* <div>
             <label className="text-xl text-black block mb-2">Subir archivo</label>
             <input name="archivoExamenes" className="text-xl border rounded p-4 w-full" type="file" />
-            {/* Muestra el nombre del archivo si existe en dataLaboratory */}
+        
             {dataLaboratory.examenMedico[0]?.nombreArchivo && (
                 <div className="mt-2">
-                    <span className="text-lg">Archivo actual:</span> {dataLaboratory.examenMedico[0].nombreArchivo}
+                    <span className="text-lg">Archivo actual:</span> 
+                    <a href="#" onClick={(e) => {
+                        e.preventDefault();
+                        downloadFile(dataLaboratory.examenMedico[0].archivo, dataLaboratory.examenMedico[0].nombreArchivo);
+                    }}>
+                        {dataLaboratory.examenMedico[0].nombreArchivo}
+                    </a>
                 </div>
             )}
+        </div> */}
+
+        <div>
+            <label className="text-xl text-black block mb-2">Subir archivo</label>
+            {dataLaboratory.examenMedico.map((examen, index) => (
+                <div key={index} className="mt-4">
+                    <input
+                        name={`examenMedico.${index}.archivo`}
+                        className="text-xl border rounded p-4 w-full"
+                        type="file"
+                        onChange={(e) => handleFileChange(e, index)}
+                    />
+                    {examen.nombreArchivo && (
+                        <div className="mt-2">
+                            <span className="text-lg">Archivo actual:</span>
+                            <a
+                                href="#"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    downloadFile(examen.archivo, examen.nombreArchivo);
+                                }}
+                            >
+                                {examen.nombreArchivo}
+                            </a>
+                        </div>
+                    )}
+
+                    {/* Botón para eliminar este examen médico */}
+                    <button 
+                        onClick={() => handleRemoveExamen(index)} 
+                        className="bg-red-500 text-white py-2 px-4 mt-4 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-50"
+                    >
+                        Eliminar Examen
+                    </button>
+                </div>
+            ))}
+
+            {/* Botón para agregar un nuevo examen médico */}
+            <button 
+                onClick={() => { 
+                    setDataLaboratory(prevState => {
+                        // Encuentra el idExamen más alto en la lista actual o comienza desde 1 si está vacío
+                        const lastId = prevState.examenMedico.length > 0 
+                            ? Math.max(...prevState.examenMedico.map(e => e.idExamen || 0))
+                            : 0;
+
+                        // Retorna el nuevo estado con el nuevo examen añadido
+                        return {
+                            ...prevState,
+                            examenMedico: [...prevState.examenMedico, { idExamen: lastId + 1, nombreArchivo: "", archivo: "" }]
+                        };
+                    });
+                }}
+                className="bg-blue-500 text-white py-2 px-4 mt-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
+            >
+                Añadir Examen
+            </button>
+
+
+
         </div>
+
+
 
             <div className="col-span-3">
                 <h4 className="text-2xl font-bold mb-4 mt-4">Observaciones</h4>
