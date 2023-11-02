@@ -2,12 +2,12 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { appointmentService } from "@/services/appointmentService";
-import PatientInfo from "@/components/appointments/review/PatientInfo";
-import AppointmentInfo from "@/components/appointments/review/AppointmentInfo";
-import RescheduleModal from "@/components/appointments/review/RescheduleModal";
+import PatientInfo from "@/components/appointments/view/PatientInfo";
+import AppointmentInfo from "@/components/appointments/view/AppointmentInfo";
+import RescheduleModal from "@/components/appointments/view/RescheduleModal";
 import useUpdateAppointmentStatus from "@/hooks/useUpdateAppointmentStatus";
 import useAppointmentReschedule from "@/hooks/useAppointmentReschedule";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const ReviewAppointment = ({ params }) => {
   const [appointmentData, setAppointmentData] = useState(null);

@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
 import { patientService } from "@/services/patientService";
 
@@ -23,7 +25,7 @@ const HistorialClinico = ({ idPaciente }) => {
     }
   }, [idPaciente]);
 
-  if (loading) return <p>Cargando...</p>;
+  if (loading) return <p>Cargandooo... {idPaciente} </p>;
   if (error) return <p>Error al cargar el historial clínico</p>;
   if (!historial) return <p>No se encontró el historial clínico</p>;
 
