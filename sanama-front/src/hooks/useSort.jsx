@@ -2,7 +2,6 @@ import { useState, useMemo } from "react";
 
 export const useSort = (data) => {
   const [sortConfig, setSortConfig] = useState({ key: "", direction: "" });
-
   const sortedData = useMemo(() => {
     const sortArray = [...data];
     if (sortConfig.key) {
@@ -31,6 +30,11 @@ export const useSort = (data) => {
           };
           keyA = statusOrder[keyA];
           keyB = statusOrder[keyB];
+        }
+
+        if (sortConfig.key === "ID") {
+          keyA = parseInt(keyA);
+          keyB = parseInt(keyB);
         }
 
         // Comparison logic

@@ -2,7 +2,7 @@ import { useSort } from "@/hooks/useSort";
 import Table from "@/components/table/Table";
 
 const defaultColumns = [
-  { name: "ID", sortable: false, visible: false },
+  { name: "ID", sortable: true, sortKey: "ID" ,visible: true },
   { name: "Nombre del paciente", sortable: true, sortKey: "patientName" },
   { name: "Nombre del doctor", sortable: true, sortKey: "doctorName" },
   { name: "Especialidad", sortable: true, sortKey: "specialty" },
@@ -23,9 +23,8 @@ function columnExists(columnName) {
 }
 
 const AppointmentTable = ({ data, columns }) => {
-  
   const displayColumns = columns? columns: defaultColumns;
-  /* De acuerco al parámetro columns, personalizaremos lo que muestra la tabla */ /*INICIO */
+  /* De acuerco al parámetro columns, personalizaremos lo que muestra la Table */ /*INICIO */
   let count = 0;
   const arrayDeArraysVacios = new Array(data.length).fill(null).map(() => []);
   displayColumns.forEach((column, indexColumn) => {
