@@ -58,13 +58,17 @@ public class HistorialClinicoRepository {
     }
 
     public HistorialClinico buscarHistorialClinico(String pn_id_paciente) {
+
         HistorialClinico historialClinico=null;
         String procedureCall ="{call dbSanama.ssm_ate_buscar_historial_clinico_x_paciente("+pn_id_paciente+")}";
-        historialClinico = jdbcTemplate.query(procedureCall, historialMapper).get(0);
-        procedureCall="{call dbSanama.ssm_ate_listar_hoja_medica_x_hitorial_clinico("+historialClinico.getIdHistorialClinico()+")}";
-        historialClinico.setHojasMedicas((ArrayList<HojaMedica>)jdbcTemplate.query(procedureCall, hojaMedicaMapper));
-
-        return historialClinico;
+        List<HistorialClinico> historiales=jdbcTemplate.query(procedureCall, historialMapper);
+        if(!historiales.isEmpty()){
+            historialClinico = historiales.get(0);
+            procedureCall="{call dbSanama.ssm_ate_listar_hoja_medica_x_hitorial_clinico("+historialClinico.getIdHistorialClinico()+")}";
+            historialClinico.setHojasMedicas((ArrayList<HojaMedica>)jdbcTemplate.query(procedureCall, hojaMedicaMapper));
+            return historialClinico;
+        }
+        return null;
     }
 
     private static class HistorialMapper implements RowMapper<HistorialClinico> {
