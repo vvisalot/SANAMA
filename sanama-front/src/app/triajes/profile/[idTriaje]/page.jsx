@@ -382,7 +382,7 @@ const TriajeProfile = ({ params }) => {
                             className="textarea-custom w-full"
                             maxLength={1000}
                         ></textarea>
-                        <span className="text-right block mt-2" id="charCount">0/1000</span>
+                        <span className="text-right block mt-2" id="charCount">{(dataTriaje?.motivoVisita || '').length}/1000</span>
                     </div>
 
 
@@ -501,7 +501,7 @@ const TriajeProfile = ({ params }) => {
                             className="textarea-custom w-full"
                             maxLength={1000}
                         ></textarea>
-                        <span className="text-right block mt-2" id="charCountPreexistentes">0/1000</span>
+                        <span className="text-right block mt-2" id="charCountPreexistentes">{(dataTriaje?.condicionesPrexistentes || '').length}/1000</span>
                     </div>
 
 

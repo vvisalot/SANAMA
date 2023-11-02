@@ -6,6 +6,8 @@ import { laboratoryService } from "@/services/laboratoryService"
 const LaboratoryProfile = ({ params }) => {
 
     const [medicos, setMedicos] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+
 
     useEffect(() => {
         const fetchMedicos = async () => {
@@ -43,7 +45,13 @@ const LaboratoryProfile = ({ params }) => {
                 apellidoMaterno: ""
             }
         },
-        examenMedico: []
+        examenMedico: [
+            {
+                idExamen: null,
+                nombreArchivo: "",
+                archivo: ""
+            }
+        ]
     });
 
     useEffect(() => {
@@ -117,10 +125,44 @@ const LaboratoryProfile = ({ params }) => {
         examenMedico: "Examen Médico",
         observaciones: "Observaciones del Examen"
     };
-
+    
+    // const fileToBase64 = (file) => {
+    //     return new Promise((resolve, reject) => {
+    //         if (!file) {
+    //             reject("No file provided");
+    //             return;
+    //         }
+            
+    //         const reader = new FileReader();
+    //         reader.onload = (event) => {
+    //             resolve(event.target.result.split(',')[1]);
+    //         };
+    //         reader.onerror = (error) => {
+    //             console.error("Error al leer el archivo:", error);
+    //             reject(error);
+    //         };
+    //         reader.readAsDataURL(file);
+    //     });
+    // };
+    
+   
     const handleSave = async () =>{
 
-        console.log("los datos de laboratorio son: ", dataLaboratory)
+        // console.log("los examenes son: ", dataLaboratory.examenMedico)
+        // const examenMedicoPromises = dataLaboratory.examenMedico.map(async (examen) => {
+        //     if (examen.archivo) {
+        //         const archivoBase64 = await fileToBase64(examen.archivo);
+        //         return {
+        //             ...examen,
+        //             archivo: archivoBase64
+        //         };
+        //     }
+        //     return examen;
+        // });
+    
+        // const examenMedicoBase64 = await Promise.all(examenMedicoPromises);
+
+        // console.log("los datos de laboratorio son: ", dataLaboratory)
         const laboratorioData = {
             idOrdenLaboratorio: params.idLaboratory,
             doctorFirmante: dataLaboratory.doctorFirmante,
@@ -128,8 +170,8 @@ const LaboratoryProfile = ({ params }) => {
             examenMedico: dataLaboratory.examenMedico,
             observaciones: dataLaboratory.observaciones
         }
-    
-        console.log("Verificación directa:", dataLaboratory.observaciones);
+
+        console.log("los examenes son: ", dataLaboratory.examenMedico)
     
         const incompleteFields = [];
         for (let key in laboratorioData) {
@@ -144,9 +186,11 @@ const LaboratoryProfile = ({ params }) => {
             setMissingFieldsModal(true);
             return;
         }
+
+        setIsLoading(true);
     
         try {
-            const result = await laboratoryService.atenderOrdenLaboratorio(laboratoryData);
+            const result = await laboratoryService.atenderOrdenLaboratorio(laboratorioData);
     
             if (result === 1) {
                 setShowModal(true);
@@ -157,6 +201,8 @@ const LaboratoryProfile = ({ params }) => {
         } catch (error) {
             console.error("Error al guardar la orden de laboratorio", error);
             alert("Hubo un error al guardar. Por favor, inténtalo de nuevo.");
+        } finally {
+            setIsLoading(false);
         }
     }
 
@@ -187,11 +233,139 @@ const LaboratoryProfile = ({ params }) => {
             };
         });
     };
+
+    const [showConfirmPopup, setShowConfirmPopup] = useState(false);
+
+    const handleAnularLaboratoryClick = () => {
+        
+        setShowConfirmPopup(true);
+    };
+
+    const handleClosePopup = () => {
+        
+        setShowConfirmPopup(false);
+    };
+
+    const handleConfirmAnulacion = async () => {
+        const laboratorioDataCancelled = {
+            idOrdenLaboratorio: Number(params.idLaboratory),
+            doctorFirmante: "Doctor por defecto", 
+            estado: 3, 
+            examenMedico: [], 
+            observaciones: "Anulado"
+        };
+    
+        try {
+            console.log("Datos antes de anular:", laboratorioDataCancelled);
+            const result = await laboratoryService.atenderOrdenLaboratorio(laboratorioDataCancelled);
+            console.log("Resultado después de intentar anular:", result);
+    
+            if (result === 1) {
+                if (typeof window !== "undefined") {
+                    window.history.back();
+                }
+            } else {
+                alert("Ocurrió un problema al anular la orden de laboratorio. Por favor, inténtalo de nuevo.");
+            }
+    
+        } catch (error) {
+            console.error("Error al anular la orden de laboratorio", error);
+            alert("Hubo un error al anular la orden de laboratorio. Por favor, inténtalo de nuevo.");
+        }
+        setShowConfirmPopup(false);
+    };
+
+    const handleAcceptModal = () => {
+        setShowModal(false)
+        if (typeof window !== "undefined") {
+            window.history.back()
+        }
+    }
+
+    // function downloadFile(base64, fileName) {
+    //     const blob = new Blob([Uint8Array.from(atob(base64), c => c.charCodeAt(0))], {type: "application/pdf"}); 
+    //     const url = URL.createObjectURL(blob);
+    //     const a = document.createElement('a');
+    //     a.href = url;
+    //     a.download = fileName;
+    //     a.click();
+    //     URL.revokeObjectURL(url);
+    // }
+    
+    
+    const handleFileChange = (e, index) => {
+        const file = e.target.files[0];
+        if (file && file.type === "application/pdf") {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                if (reader.readyState === 2) {
+                    const base64 = reader.result.split(',')[1];
+                    setDataLaboratory(prevState => {
+                        const updatedExamenMedico = [...prevState.examenMedico];
+                        updatedExamenMedico[index] = {
+                            ...updatedExamenMedico[index],
+                            nombreArchivo: file.name,
+                            archivo: base64
+                        };
+                        return {
+                            ...prevState,
+                            examenMedico: updatedExamenMedico
+                        };
+                    });
+                }
+            };
+        } else {
+            console.error("Archivo no permitido o no es un PDF.");
+        }
+    };
+    
+    const handleRemoveExamen = (indexToRemove) => {
+        setDataLaboratory(prevState => ({
+            ...prevState,
+            examenMedico: prevState.examenMedico.filter((_, index) => index !== indexToRemove)
+        }));
+    }
     
 
   return (
-    
+
     <div className="w-full p-10 rounded-lg shadow-md">
+
+        {isLoading && (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+            <div className="bg-white p-4 rounded shadow-md">
+            <div className="animate-spin w-6 h-6 border-t-4 border-blue-500 rounded-full"></div>
+            <div className="mt-2 text-gray-600">Cargando...</div>
+            </div>
+        </div>
+        )}
+
+
+        <button className="text-xl bg-red-500 text-white hover:bg-red-600 px-4 py-2 rounded float-right mb-4" onClick={handleAnularLaboratoryClick}>Anular Laboratorio</button>
+        
+        {showConfirmPopup && (
+            <div className="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <div className="fixed inset-0 bg-gray-500 bg-opacity-75" aria-hidden="true"></div>
+
+                <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+                <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                    <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-title">Confirmación</h3>
+                    <div className="mt-2">
+                        <p className="text-sm text-gray-500">¿Está seguro que desea anular el laboratorio?</p>
+                    </div>
+                    </div>
+                    <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button onClick={handleConfirmAnulacion} className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 focus:outline-none">Sí, anular</button>
+                    <button onClick={handleClosePopup} className="mr-2 bg-gray-200 text-black px-4 py-2 rounded hover:bg-gray-300 focus:outline-none">Cancelar</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+            )}
         <section className="rounded-lg p-8 w-full flex flex-col space-y-6">
 
         <h4 className="text-2xl font-bold mb-4 mt-4">Información del paciente</h4>
@@ -323,7 +497,7 @@ const LaboratoryProfile = ({ params }) => {
                 name="medicoLaboratorio" 
                 className="text-xl border rounded w-full py-4 px-3"
                 onChange={handleMedicoChange}
-                defaultValue=""
+                value={medicos.find(medico => medico.descripcion === dataLaboratory.doctorFirmante)?.idValue || ""}
             >
                 <option value="" disabled className="text-xl">Seleccionar médico</option>
                 {medicos.map(medico => (
@@ -334,11 +508,84 @@ const LaboratoryProfile = ({ params }) => {
             </select>
         </div>
 
+        {/* <div>
+            <label className="text-xl text-black block mb-2">Subir archivo</label>
+            <input name="archivoExamenes" className="text-xl border rounded p-4 w-full" type="file" />
+        
+            {dataLaboratory.examenMedico[0]?.nombreArchivo && (
+                <div className="mt-2">
+                    <span className="text-lg">Archivo actual:</span> 
+                    <a href="#" onClick={(e) => {
+                        e.preventDefault();
+                        downloadFile(dataLaboratory.examenMedico[0].archivo, dataLaboratory.examenMedico[0].nombreArchivo);
+                    }}>
+                        {dataLaboratory.examenMedico[0].nombreArchivo}
+                    </a>
+                </div>
+            )}
+        </div> */}
 
-            <div>
-                <label className="text-xl text-black block mb-2">Subir archivo</label>
-                <input name="archivoExamenes" className="text-xl border rounded p-4 w-full" type="file" />
-            </div>
+        <div>
+            <label className="text-xl text-black block mb-2">Subir archivo</label>
+            {dataLaboratory.examenMedico.map((examen, index) => (
+                <div key={index} className="mt-4">
+                    <input
+                        name={`examenMedico.${index}.archivo`}
+                        className="text-xl border rounded p-4 w-full"
+                        type="file"
+                        onChange={(e) => handleFileChange(e, index)}
+                    />
+                    {examen.nombreArchivo && (
+                        <div className="mt-2">
+                            <span className="text-lg">Archivo actual:</span>
+                            <a
+                                href="#"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    downloadFile(examen.archivo, examen.nombreArchivo);
+                                }}
+                            >
+                                {examen.nombreArchivo}
+                            </a>
+                        </div>
+                    )}
+
+                    {/* Botón para eliminar este examen médico */}
+                    <button 
+                        onClick={() => handleRemoveExamen(index)} 
+                        className="bg-red-500 text-white py-2 px-4 mt-4 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-50"
+                    >
+                        Eliminar Examen
+                    </button>
+                </div>
+            ))}
+
+            {/* Botón para agregar un nuevo examen médico */}
+            <button 
+                onClick={() => { 
+                    setDataLaboratory(prevState => {
+                        // Encuentra el idExamen más alto en la lista actual o comienza desde 1 si está vacío
+                        const lastId = prevState.examenMedico.length > 0 
+                            ? Math.max(...prevState.examenMedico.map(e => e.idExamen || 0))
+                            : 0;
+
+                        // Retorna el nuevo estado con el nuevo examen añadido
+                        return {
+                            ...prevState,
+                            examenMedico: [...prevState.examenMedico, { idExamen: lastId + 1, nombreArchivo: "", archivo: "" }]
+                        };
+                    });
+                }}
+                className="bg-blue-500 text-white py-2 px-4 mt-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
+            >
+                Añadir Examen
+            </button>
+
+
+
+        </div>
+
+
 
             <div className="col-span-3">
                 <h4 className="text-2xl font-bold mb-4 mt-4">Observaciones</h4>
@@ -350,7 +597,7 @@ const LaboratoryProfile = ({ params }) => {
                     className="text-4xl textarea-custom w-full"
                     maxLength={1000}
                 ></textarea>
-                <span className="text-right block mt-2" id="charCount">0/1000</span>
+                <span className="text-right block mt-2" id="charCount">{dataLaboratory.observaciones.length}/1000</span>
             </div>
         </div>
 
