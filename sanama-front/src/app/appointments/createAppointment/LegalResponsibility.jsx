@@ -9,11 +9,24 @@ import { TextInput } from "flowbite-react"
 import { useState, useEffect } from "react"
 
 const LegalResponsibility = ({ legalResponsibilityForm, setLegalResponsibilityForm }) => {
-    const [isResponsible, setIsResponsible] = useState("Si")
     const [relationships, setRelationships] = useState([])
 
     const handleResponsibilityChange = (option) => {
-        setIsResponsible(option)
+        if (option === 'No') {
+            setLegalResponsibilityForm({
+                tieneAcompañante: 'No',
+                nombres: '',
+                apellidoPaterno: '',
+                apellidoMaterno: '',
+                dni: '',
+                parentesco: '',
+            })
+        } else {
+            setLegalResponsibilityForm(prev => ({
+                ...prev,
+                tieneAcompañante: option,
+            }))
+        }
     }
 
 
@@ -41,9 +54,9 @@ const LegalResponsibility = ({ legalResponsibilityForm, setLegalResponsibilityFo
                 text={"¿El paciente es responsable legal?"}
                 option1={"Si"} option2={"No"}
                 onOptionSelected={handleResponsibilityChange}
-                optionSelected={isResponsible} />
+                optionSelected={legalResponsibilityForm.tieneAcompañante} />
 
-            {isResponsible === "Si" ? <>
+            {legalResponsibilityForm.tieneAcompañante === "Si" ? <>
                 <div className="grid grid-cols-2 ">
                     <div className="relative z-0 w-full pr-6 mb-6 group">
                         <TextInput
