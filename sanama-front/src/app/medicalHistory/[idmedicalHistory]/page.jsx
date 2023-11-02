@@ -3,13 +3,14 @@
 import React, { useState, useEffect } from "react";
 import { patientService } from "@/services/patientService";
 import { useParams } from "next/navigation";
-import medicalRecordsTable from "../medicalRecordsTable";
+import MedicalRecordsTable from "../MedicalRecordsTable"; // Asegúrate de que el nombre del componente esté en PascalCase
 
 const HistorialClinico = () => {
   const params = useParams();
   const idPaciente = params.idmedicalHistory;
 
-  const [historial, setHistorial] = useState(null);
+  const [historialClinico, setHistorialClinico] = useState(null);
+  const [hojasMedicas, setHojasMedicas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -17,7 +18,11 @@ const HistorialClinico = () => {
     const fetchHistorial = async () => {
       try {
         const data = await patientService.buscarHistorialClinico(idPaciente);
-        setHistorial(data);
+        setHistorialClinico({
+          idHistorialClinico: data.idHistorialClinico,
+          codigo: data.codigo,
+        });
+        setHojasMedicas(data.hojasMedicas);
       } catch (error) {
         setError(error);
       } finally {
@@ -32,17 +37,17 @@ const HistorialClinico = () => {
 
   if (loading) return <p>Cargando...</p>;
   if (error) return <p>Error al cargar el historial clínico</p>;
-  if (!historial) return <p>No se encontró el historial clínico</p>;
+  if (!historialClinico) return <p>No se encontró el historial clínico</p>;
 
   return (
     <div>
-      <h3>Historial Clínico: {historial.codigo}</h3>
+      <h3>Historial Clínico: {historialClinico.codigo}</h3>
       <ul>
-        {historial.hojasMedicas.map((hoja) => (
+        {hojasMedicas.map((hoja) => (
           <li key={hoja.idHojaMedica}>{hoja.codigo}</li>
         ))}
       </ul>
-      <medicalRecordsTable data={historial}></medicalRecordsTable>
+      <MedicalRecordsTable data={hojasMedicas} />
     </div>
   );
 };
