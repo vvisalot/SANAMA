@@ -2,9 +2,9 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { appointmentService } from "@/services/appointmentService";
-import PatientInfo from "./PatientInfo";
-import AppointmentInfo from "./AppointmentInfo";
-import RescheduleModal from "./RescheduleModal";
+import PatientInfo from "@/components/appointments/review/PatientInfo";
+import AppointmentInfo from "@/components/appointments/review/AppointmentInfo";
+import RescheduleModal from "@/components/appointments/review/RescheduleModal";
 import useUpdateAppointmentStatus from "@/hooks/useUpdateAppointmentStatus";
 import useAppointmentReschedule from "@/hooks/useAppointmentReschedule";
 import { useRouter } from "next/router";
@@ -70,14 +70,14 @@ const ReviewAppointment = ({ params }) => {
     }
   };
 
-  const handleCancelClick = () =>
-    handleActionClick(3).then(() => setHasBeenCanceled(true));
-
   const handleAttendClick = () => {
     handleActionClick(2).then(() =>
       router.push(`/medicalHistory/${appointmentData.paciente.idPersona}`)
     );
   };
+
+  const handleCancelClick = () =>
+    handleActionClick(3).then(() => setHasBeenCanceled(true));
 
   return (
     <div className="container mx-auto p-4">
@@ -90,7 +90,6 @@ const ReviewAppointment = ({ params }) => {
       <ActionButtons
         estado={estado}
         loading={loading}
-        handleActionClick={handleActionClick}
         openRescheduleModal={openRescheduleModal}
         handleCancelClick={handleCancelClick}
         hasBeenCanceled={hasBeenCanceled}
@@ -116,7 +115,6 @@ const ReviewAppointment = ({ params }) => {
 const ActionButtons = ({
   estado,
   loading,
-  handleActionClick,
   openRescheduleModal,
   handleCancelClick,
   hasBeenCanceled,
