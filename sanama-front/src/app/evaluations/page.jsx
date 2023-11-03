@@ -329,13 +329,17 @@ const FormularioMedico = () => {
             />
           </div>
         </div>
-
-        {/* Botón Guardar */}
         <button
           type="submit"
           className="px-4 py-2 mt-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
         >
           Guardar
+        </button>
+        <button
+          type="submit"
+          className="px-4 py-2 mt-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+        >
+          Cerrar
         </button>
       </form>
     </div>
