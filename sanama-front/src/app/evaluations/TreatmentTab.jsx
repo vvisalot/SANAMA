@@ -2,31 +2,37 @@ import React, { useState } from "react";
 
 const TratamientoYDecisionCita = () => {
   const [tratamientoData, setTratamientoData] = useState({
-    tratamiento: [],
-    decisionCita: "",
-    observacionesCierre: "",
+    tratamientos: [],
+    estadoHojaMedica: "",
+    crearOrdenDeLaboratorio: "",
+    tipoOrdenDeLaboratorio: "",
+    instruccionesLaboratorio: "",
+    indicacionesFinales: "",
+    recetaMedica: {
+      medicamentosRecetados: "",
+    },
   });
 
   const handleArrayChange = (index, value) => {
     setTratamientoData((prevState) => {
-      const updatedTratamiento = [...prevState.tratamiento];
-      updatedTratamiento[index] = value;
-      return { ...prevState, tratamiento: updatedTratamiento };
+      const updatedTratamientos = [...prevState.tratamientos];
+      updatedTratamientos[index] = value;
+      return { ...prevState, tratamientos: updatedTratamientos };
     });
   };
 
   const addTratamientoField = () => {
     setTratamientoData((prevState) => ({
       ...prevState,
-      tratamiento: [...prevState.tratamiento, ""],
+      tratamientos: [...prevState.tratamientos, ""],
     }));
   };
 
   const removeTratamientoField = (index) => {
     setTratamientoData((prevState) => {
-      const updatedTratamiento = [...prevState.tratamiento];
-      updatedTratamiento.splice(index, 1);
-      return { ...prevState, tratamiento: updatedTratamiento };
+      const updatedTratamientos = [...prevState.tratamientos];
+      updatedTratamientos.splice(index, 1);
+      return { ...prevState, tratamientos: updatedTratamientos };
     });
   };
 
@@ -44,16 +50,16 @@ const TratamientoYDecisionCita = () => {
         Tratamiento y Decisión de Cierre de Cita
       </h4>
 
-      {/* Tratamiento */}
+      {/* Tratamientos */}
       <div className="col-span-2">
         <label className="block text-sm font-medium text-gray-700">
-          Tratamiento
+          Tratamientos
         </label>
-        {tratamientoData.tratamiento.map((treatment, index) => (
+        {tratamientoData.tratamientos.map((tratamiento, index) => (
           <div key={index} className="flex items-center space-x-2">
             <input
               type="text"
-              value={treatment}
+              value={tratamiento}
               onChange={(e) => handleArrayChange(index, e.target.value)}
               className="mt-1 p-2 w-full border-gray-300 rounded-md"
               placeholder={`Tratamiento ${index + 1}`}
@@ -76,35 +82,96 @@ const TratamientoYDecisionCita = () => {
         </button>
       </div>
 
-      {/* Decisión de Cierre de Cita */}
+      {/* Estado Hoja Médica */}
       <div>
         <label className="block text-sm font-medium text-gray-700">
-          Decisión de Cierre de Cita
+          Estado Hoja Médica
         </label>
         <select
-          name="decisionCita"
-          value={tratamientoData.decisionCita}
+          name="estadoHojaMedica"
+          value={tratamientoData.estadoHojaMedica}
           onChange={handleInputChange}
           className="mt-1 p-2 w-full border-gray-300 rounded-md"
         >
           <option value="">Seleccione una opción</option>
-          <option value="Cerrar Cita">Cerrar Cita</option>
-          <option value="No Cerrar Cita">No Cerrar Cita</option>
+          <option value="Cerrar Hoja">Cerrar Hoja</option>
+          <option value="Mantener Abierta">Mantener Abierta</option>
         </select>
       </div>
 
-      {/* Observaciones sobre la Decisión de Cierre de Cita */}
+      {/* Crear Orden de Laboratorio */}
       <div>
         <label className="block text-sm font-medium text-gray-700">
-          Observaciones sobre la Decisión de Cierre de Cita
+          Crear Orden de Laboratorio
         </label>
-        <textarea
-          name="observacionesCierre"
-          value={tratamientoData.observacionesCierre}
+        <input
+          type="text"
+          name="crearOrdenDeLaboratorio"
+          value={tratamientoData.crearOrdenDeLaboratorio}
           onChange={handleInputChange}
           className="mt-1 p-2 w-full border-gray-300 rounded-md"
-          rows="3"
-        ></textarea>
+          placeholder="Modal que abre los datos para generar la orden"
+        />
+      </div>
+
+      {/* Tipo de Orden de Laboratorio */}
+      <div>
+        <label className="block text-sm font-medium text-gray-700">
+          Tipo de Orden de Laboratorio
+        </label>
+        <input
+          type="text"
+          name="tipoOrdenDeLaboratorio"
+          value={tratamientoData.tipoOrdenDeLaboratorio}
+          onChange={handleInputChange}
+          className="mt-1 p-2 w-full border-gray-300 rounded-md"
+          placeholder="Tipo de orden de laboratorio"
+        />
+      </div>
+
+      {/* Instrucciones de Laboratorio */}
+      <div>
+        <label className="block text-sm font-medium text-gray-700">
+          Instrucciones de Laboratorio
+        </label>
+        <input
+          type="text"
+          name="instruccionesLaboratorio"
+          value={tratamientoData.instruccionesLaboratorio}
+          onChange={handleInputChange}
+          className="mt-1 p-2 w-full border-gray-300 rounded-md"
+          placeholder="Instrucciones de laboratorio"
+        />
+      </div>
+
+      {/* Indicaciones Finales */}
+      <div>
+        <label className="block text-sm font-medium text-gray-700">
+          Indicaciones Finales
+        </label>
+        <input
+          type="text"
+          name="indicacionesFinales"
+          value={tratamientoData.indicacionesFinales}
+          onChange={handleInputChange}
+          className="mt-1 p-2 w-full border-gray-300 rounded-md"
+          placeholder="Indicaciones finales"
+        />
+      </div>
+
+      {/* Receta Médica */}
+      <div>
+        <label className="block text-sm font-medium text-gray-700">
+          Receta Médica
+        </label>
+        <input
+          type="text"
+          name="recetaMedica.medicamentosRecetados"
+          value={tratamientoData.recetaMedica.medicamentosRecetados}
+          onChange={handleInputChange}
+          className="mt-1 p-2 w-full border-gray-300 rounded-md"
+          placeholder="Medicamentos recetados"
+        />
       </div>
     </div>
   );

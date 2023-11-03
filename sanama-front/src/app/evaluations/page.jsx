@@ -2,6 +2,9 @@
 import React, { useState } from "react";
 import MainInfoComponent from "./MainInfoTab";
 import ClinicalTab from "./ClinicalTab";
+import DiagnosticoMedico from "./DiagnosisTab";
+import GlasgowComaScale from "./MentalStatusTab";
+import TratamientoYDecisionCita from "./TreatmentTab";
 const FormularioMedico = () => {
   const [formData, setFormData] = useState({
     MainInfo: {
@@ -122,6 +125,11 @@ const FormularioMedico = () => {
             handleInputChange={handleInputChange}
           ></ClinicalTab>
         </div>
+
+        <DiagnosticoMedico></DiagnosticoMedico>
+
+        <GlasgowComaScale></GlasgowComaScale>
+        <TratamientoYDecisionCita></TratamientoYDecisionCita>
         <button
           type="submit"
           className="px-4 py-2 mt-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
