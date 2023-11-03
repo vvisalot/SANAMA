@@ -30,7 +30,10 @@ public class CitaService {
     public CitaMedica buscarCitaMedica(int pn_id_cita) {
         List<CitaMedica> lCitas;
         lCitas = citaRepository.buscarCitaMedica(pn_id_cita);
-        return lCitas.get(0);
+        if(!lCitas.isEmpty()){
+            return lCitas.get(0);
+        }
+        return null;
     }
 
     public List<CitaMedica> listarCitasxFiltro(String pn_id_especialidad, String pv_filtro, String pd_fecha_inicio, String pd_fecha_fin, String pn_estado) {

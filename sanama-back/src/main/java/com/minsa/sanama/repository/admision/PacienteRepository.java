@@ -133,7 +133,7 @@ public class PacienteRepository {
                         new SqlParameter("pv_telefono", Types.VARCHAR),
                         new SqlParameter("pb_foto", Types.BLOB),
                         new SqlParameter("pv_codigo_seguro", Types.VARCHAR),
-                        new SqlParameter("pn_tipo_seguro", Types.INTEGER),
+                        new SqlParameter("pv_tipo_seguro", Types.VARCHAR),
                         new SqlParameter("pv_correo", Types.VARCHAR),
                         new SqlParameter("pv_direccion", Types.VARCHAR)
                 });
@@ -148,7 +148,7 @@ public class PacienteRepository {
                 .addValue("pv_telefono", paciente.getTelefono())
                 .addValue("pb_foto", paciente.getFoto())
                 .addValue("pv_codigo_seguro", paciente.getCodigoSeguro())
-                .addValue("pn_tipo_seguro", paciente.getTipoSeguro())
+                .addValue("pv_tipo_seguro", paciente.getTipoSeguro())
                 .addValue("pv_correo", paciente.getCorreo())
                 .addValue("pv_direccion", paciente.getDireccion());
 
@@ -178,7 +178,7 @@ public class PacienteRepository {
                         new SqlParameter("pv_telefono", Types.VARCHAR),
                         new SqlParameter("pb_foto", Types.BLOB),
                         new SqlParameter("pv_codigo_seguro", Types.VARCHAR),
-                        new SqlParameter("pn_tipo_seguro", Types.INTEGER),
+                        new SqlParameter("pv_tipo_seguro", Types.VARCHAR),
                         new SqlParameter("pv_correo", Types.VARCHAR),
                         new SqlParameter("pv_direccion", Types.VARCHAR)
                 });
@@ -194,7 +194,7 @@ public class PacienteRepository {
                 .addValue("pv_telefono", paciente.getTelefono())
                 .addValue("pb_foto", paciente.getFoto())
                 .addValue("pv_codigo_seguro", paciente.getCodigoSeguro())
-                .addValue("pn_tipo_seguro", paciente.getTipoSeguro())
+                .addValue("pv_tipo_seguro", paciente.getTipoSeguro())
                 .addValue("pv_correo", paciente.getCorreo())
                 .addValue("pv_direccion", paciente.getDireccion());
 
