@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { patientService } from "@/services/patientService";
+import { patientService, createMedicalRecord } from "@/services/patientService";
 import { useParams } from "next/navigation";
 import MedicalRecordsTable from "../MedicalRecordsTable"; // Asegúrate de que el nombre del componente esté en PascalCase
 import { parseHojaMedicaTable } from "@/util/medicalRecordParser";
@@ -28,6 +28,7 @@ const HistorialClinico = () => {
         setHistorialClinico({
           idHistorialClinico: data.idHistorialClinico,
           codigo: data.codigo,
+          estadoHojaMedica: true,
         });
         setHojasMedicas(tableData);
       } catch (error) {
@@ -71,6 +72,33 @@ const HistorialClinico = () => {
       fetchData();
     }
   }, [idPaciente]);
+  const handleCreateMedicalRecord = async () => {
+    const newMedicalRecord = {
+      idHistorialClinico: historialClinico.idHistorialClinico, // Use the existing idHistorialClinico from the state
+      selloFirma: null,
+      fechaProximaCita: "2023-12-15",
+      medicoAtendiente: {
+        idPersona: 1,
+      },
+      especialidadDerivada: {
+        idEspecialidad: 1,
+      },
+    };
+
+    try {
+      const response = await patientService.registrarHojaMedica(
+        newMedicalRecord
+      ); // Assuming the function name in the service
+      if (response.success) {
+        // Update the UI or show a success message
+        console.log("New Medical Record created successfully!");
+      } else {
+        console.error("Failed to create the new medical record.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   if (loading) return <p>Cargando...</p>;
   if (error) return <p>Error al cargar el historial clínico</p>;
@@ -131,8 +159,11 @@ const HistorialClinico = () => {
 
           {/* Botones de acciones */}
           <div className="mb-6 space-x-4">
-            <button className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg shadow-md">
-              Atender Nueva Consulta médica
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg shadow-md"
+              onClick={handleCreateMedicalRecord}
+            >
+              Crear Nueva Hoja médica
             </button>
           </div>
 

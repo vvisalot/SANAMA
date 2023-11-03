@@ -124,4 +124,17 @@ export const patientService = {
       throw error;
     }
   },
+
+  registrarHojaMedica: async (params) => {
+    try {
+      const response = await axiosInstance.post(
+        "/atencion/post/registrarHojaMedica",
+        params
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error al registrar el historial clínico", error);
+      throw error;
+    }
+  },
 };
