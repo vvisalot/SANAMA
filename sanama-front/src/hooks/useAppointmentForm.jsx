@@ -3,11 +3,11 @@ import { useState } from "react"
 
 const useAppointmentForm = () => {
     const [patientId, setPatientId] = useState({
-        idPaciente: ''
+        idPersona: -1
     })
 
     const [doctorId, setDoctorId] = useState({
-        idDoctor: ''
+        idPersona: -1
     })
 
     const [legalResponsibilityForm, setLegalResponsibilityForm] = useState({

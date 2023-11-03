@@ -6,11 +6,13 @@ import { useEffect, useState } from 'react'
 import AppointementForm from "./AppointementForm"
 import { patientService } from "@/services/patientService"
 import { appointmentService } from "@/services/appointmentService"
-
+import { useRouter } from "next/navigation"
 // Para acceder a los elementos
 // elements.namedItem("first_last_name").value
 
 const FormContainer = () => {
+    const router = useRouter()
+
     const {
         patientForm,
         setPatientForm,
@@ -34,53 +36,11 @@ const FormContainer = () => {
     } = useAppointmentForm()
 
 
-    const registrarPaciente = async () => {
-        try {
-            const response = await patientService.registrarPaciente({
-                nombres: patientForm.nombres,
-                apellidoPaterno: patientForm.apellidoPaterno,
-                apellidoMaterno: patientForm.apellidoMaterno,
-                dni: patientForm.dni,
-                fechaNacimiento: fechaNacimiento,
-                sexo: sexo,
-                telefono: patientForm.telefono,
-                estado: 1,
-                codigoSeguro: patientForm.codigoSeguro,
-                tipoSeguro: patientForm.tipoSeguro,
-                direccion: patientForm.direccion,
-            })
-
-        } catch (error) {
-            console.log(response)
-        }
-    }
-
-    const registrarCita = async (params) => {
-        try {
-            const response = await appointmentService.registrarCita({
-                paciente: {
-                    idPersona: patientId
-                },
-                medico: {
-                    idPersona: doctorId
-                },
-                horaCita: appointmentData.selectedHour,
-                fechaCita: appointmentData.selectedDate,
-                tieneAcompanhante: legalResponsibilityForm.tieneAcompañante,
-                nombreAcompanhante: legalResponsibilityForm.nombres + ' ' + legalResponsibilityForm.apellidoPaterno + ' ' + legalResponsibilityForm.apellidoMaterno,
-                dniAcompanhante: legalResponsibilityForm.dni,
-                parentezco: companionData.relationship,
-                requiereTriaje: triageRequirement.requiereTriaje ? 1 : 0,
-            })
-        } catch (error) {
-            console.log(response)
-        }
-    }
 
     const handleSubmit = async (event) => {
         event.preventDefault()
-
-        if (!patientId) {
+        //console.log(patientId)
+        if (patientId.idPersona == -1) {
             try {
                 const patientData = {
                     nombres: patientForm.nombres,
@@ -88,35 +48,41 @@ const FormContainer = () => {
                     apellidoMaterno: patientForm.apellidoMaterno,
                     dni: patientForm.dni,
                     fechaNacimiento: fechaNacimiento,
-                    sexo: sexo,
+                    sexo: sexo.charAt(0),
                     telefono: patientForm.telefono,
                     estado: 1,
                     codigoSeguro: patientForm.codigoSeguro,
                     tipoSeguro: patientForm.tipoSeguro,
                     direccion: patientForm.direccion,
+                    correo: patientForm.correo
                 }
 
-                const patientResponse = await patientService.registrarPaciente(patientFormData)
+                const patientResponse = await patientService.registrarPaciente(patientData)
+                console.log(patientResponse)
+                if (patientResponse !== null) {
+                    const newPatientId = patientResponse
 
-                if (patientResponse && patientResponse.idPersona) {
-                    const newPatientId = patientResponse.idPersona
-                    setPatientId(newPatientId)
+                    setPatientId({
+                        idPersona: newPatientId
+                    })
 
                     const appointmentFormData = {
-                        idPaciente: newPatientId, // Cambia idPaciente por el ID del paciente recién registrado
-                        idMedico: doctorId,
-                        horaCita: schedule.selectedHour, // Ajusta el campo según tu formulario de cita
-                        fechaCita: schedule.selectedDate, // Ajusta el campo según tu formulario de cita
-                        tieneAcompanhante: legalResponsibilityForm.tieneAcompañante,
-                        nombreAcompanhante: `${legalResponsibilityForm.nombres} ${legalResponsibilityForm.apellidoPaterno} ${legalResponsibilityForm.apellidoMaterno}`,
-                        dniAcompanhante: legalResponsibilityForm.dni,
-                        parentezco: companionData.relationship, // Ajusta el campo según tu formulario de cita
+                        paciente: {
+                            idPersona: newPatientId
+                        },
+                        medico: doctorId,
+                        horaCita: schedule.hora,
+                        fechaCita: schedule.fecha,
+                        tieneAcompanhante: legalResponsibilityForm.tieneAcompañante === 'Si' ? true : false,
+                        nombreAcompanhante: legalResponsibilityForm.tieneAcompañante === 'Si' ? `${legalResponsibilityForm.nombres} ${legalResponsibilityForm.apellidoPaterno} ${legalResponsibilityForm.apellidoMaterno}` : null,
+                        dniAcompanhante: legalResponsibilityForm.tieneAcompañante === 'Si' ? legalResponsibilityForm.dni : null,
+                        parentezco: legalResponsibilityForm.tieneAcompañante === 'Si' ? legalResponsibilityForm.parentesco : null,
                         requiereTriaje: triageRequirement.requiereTriaje ? 1 : 0,
                     }
-
-                    await appointmentService.registrarCita(appointmentFormData)
+                    let response = await appointmentService.registrarCita(appointmentFormData)
+                    console.log(response)
+                    router.back()
                     console.log('Paciente registrado y cita registrada')
-
                 } else {
                     console.log('Error al registrar paciente y cita')
                 }
@@ -124,22 +90,29 @@ const FormContainer = () => {
                 console.log('Error en la respuesta del servidor para registrar un paciente y cita')
             }
         } else {
+            console.log(patientId)
+            console.log(doctorId)
+
             try {
                 const appointmentFormData = {
-                    idPaciente: patientId,
-                    idMedico: doctorId,
+                    paciente: patientId,
+                    medico: doctorId,
                     horaCita: schedule.hora,
                     fechaCita: schedule.fecha,
                     tieneAcompanhante: legalResponsibilityForm.tieneAcompañante === 'Si' ? true : false,
-                    nombreAcompanhante: `${legalResponsibilityForm.nombres} ${legalResponsibilityForm.apellidoPaterno} ${legalResponsibilityForm.apellidoMaterno}`,
-                    dniAcompanhante: legalResponsibilityForm.dni,
-                    parentezco: legalResponsibilityForm.parentesco,
+                    nombreAcompanhante: legalResponsibilityForm.tieneAcompañante === 'Si' ? `${legalResponsibilityForm.nombres} ${legalResponsibilityForm.apellidoPaterno} ${legalResponsibilityForm.apellidoMaterno}` : null,
+                    dniAcompanhante: legalResponsibilityForm.tieneAcompañante === 'Si' ? legalResponsibilityForm.dni : null,
+                    parentezco: legalResponsibilityForm.tieneAcompañante === 'Si' ? legalResponsibilityForm.parentesco : null,
                     requiereTriaje: triageRequirement.requiereTriaje ? 1 : 0,
                 }
 
-                await appointmentService.registrarCita(appointmentFormData)
-                console.log('YUPI')
-                console.log(appointmentFormData)
+                let response = await appointmentService.registrarCita(appointmentFormData)
+
+                console.log(response)
+                router.back()
+
+                //console.log('YUPI')
+                //console.log(appointmentFormData)
             } catch (error) {
                 console.log('Error al registrar cita para un paciente existente')
             }

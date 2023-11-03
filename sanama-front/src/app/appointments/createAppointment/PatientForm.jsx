@@ -33,7 +33,7 @@ const PatientForm = ({ setFormComplete, setPatientId, patientForm, fechaNacimien
     const fetchData = async (filtro) => {
         try {
             const data = await patientService.mostrarPacienteRegistrado(filtro)
-            //  console.log(data.tipoSeguro)
+            console.log(data.idPersona)
 
             setPatientForm({
                 ...patientForm,
@@ -45,10 +45,13 @@ const PatientForm = ({ setFormComplete, setPatientId, patientForm, fechaNacimien
                 dni: data.dni,
                 direccion: data.direccion,
                 telefono: data.telefono,
+                correo: data.correo
             })
             setFechaNacimiento(data.fechaNacimiento)
             setSexo(sexParser(data.sexo))
-            setPatientId(data.idPersona)
+            setPatientId({
+                idPersona: data.idPersona
+            })
 
         } catch (error) {
             console.log(error)
@@ -83,7 +86,8 @@ const PatientForm = ({ setFormComplete, setPatientId, patientForm, fechaNacimien
                 codigoSeguro: '',
                 dni: '',
                 direccion: '',
-                telefono: ''
+                telefono: '',
+                correo: ''
             })
             setFechaNacimiento('')
             setSexo('')
@@ -114,6 +118,7 @@ const PatientForm = ({ setFormComplete, setPatientId, patientForm, fechaNacimien
             dni: "",
             direccion: "",
             telefono: "",
+            correo: ""
         })
         setFechaNacimiento("")
         setSexo("")
@@ -249,7 +254,7 @@ const PatientForm = ({ setFormComplete, setPatientId, patientForm, fechaNacimien
                             text={"descripcion"}
                             defaultValue={""}
                             width={"w-fit"}
-                            value={"idValue"}
+                            value={"descripcion"}
                             selectedValue={patientForm.tipoSeguro}
                             handleChange={(event) => {
                                 setPatientForm({
@@ -333,28 +338,54 @@ const PatientForm = ({ setFormComplete, setPatientId, patientForm, fechaNacimien
                     </div>
                 </div>
 
-                <div className="relative z-0 w-full mb-6 group">
-                    <TextInput type="text"
-                        name="phone"
-                        minLength={3}
-                        maxLength={9}
-                        id="phone"
-                        autoComplete="off"
-                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent "
-                        placeholder=" "
-                        value={patientForm.telefono}
-                        onChange={(event) => {
-                            validateNumberInput(event.target)
-                            setPatientForm({
-                                ...patientForm,
-                                telefono: event.target.value
-                            })
-                        }}
-                        required />
-                    <label htmlFor="phone"
-                        className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] ">
-                        Telefono
-                    </label>
+                <div className="grid grid-cols-2 md:gap-6">
+
+                    <div className="relative z-0 w-full mb-6 group">
+                        <TextInput type="text"
+                            name="phone"
+                            minLength={3}
+                            maxLength={9}
+                            id="phone"
+                            autoComplete="off"
+                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent "
+                            placeholder=" "
+                            value={patientForm.telefono}
+                            onChange={(event) => {
+                                validateNumberInput(event.target)
+                                setPatientForm({
+                                    ...patientForm,
+                                    telefono: event.target.value
+                                })
+                            }}
+                            required />
+                        <label htmlFor="phone"
+                            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] ">
+                            Telefono
+                        </label>
+                    </div>
+
+                    <div className="relative z-0 w-full mb-6 group">
+                        <TextInput type="text"
+                            name="email"
+                            minLength={3}
+                            maxLength={255}
+                            id="email"
+                            autoComplete="off"
+                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent "
+                            placeholder=" "
+                            value={patientForm.correo}
+                            onChange={(event) => {
+                                setPatientForm({
+                                    ...patientForm,
+                                    correo: event.target.value
+                                })
+                            }}
+                            required />
+                        <label htmlFor="phone"
+                            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] ">
+                            Correo
+                        </label>
+                    </div>
                 </div>
 
 

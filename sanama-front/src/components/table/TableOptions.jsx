@@ -1,8 +1,8 @@
-import Link from "next/link";
-import "font-awesome/css/font-awesome.min.css";
+import Link from "next/link"
+import "font-awesome/css/font-awesome.min.css"
 
 const TableOptions = ({ url, id, text, iconName, estado }) => {
-  console.log("Estado recibido:", estado);
+  // console.log("Estado recibido:", estado);
   if (estado === "3" || estado === "Cancelada") {
     return (
       <td
@@ -17,7 +17,7 @@ const TableOptions = ({ url, id, text, iconName, estado }) => {
           {text}
         </span>
       </td>
-    );
+    )
   }
 
   return (
@@ -34,7 +34,7 @@ const TableOptions = ({ url, id, text, iconName, estado }) => {
         {text}
       </Link>
     </td>
-  );
-};
+  )
+}
 
-export default TableOptions;
+export default TableOptions

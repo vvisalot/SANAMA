@@ -102,7 +102,9 @@ const AppointementForm = ({ setFormComplete, legalResponsibilityForm, setLegalRe
 
     const handleDoctorChange = (e) => {
         const selectedDoctorId = e.target.value
-        setDoctorId({ doctorId: selectedDoctorId })
+        setDoctorId({
+            idPersona: selectedDoctorId
+        })
         setAvailableHours([])
         setSelectedHour(null)
         setSelectedDate(null)
@@ -175,7 +177,7 @@ const AppointementForm = ({ setFormComplete, legalResponsibilityForm, setLegalRe
             <section id="section2">
                 <h2 className="w-full font-bold break-normal text-gray-700  pb-8 text-2xl">Revision de responsabilidad legal</h2>
                 <PickerHider
-                    text={"¿El paciente es responsable legal?"}
+                    text={"¿El paciente trae a algun responsable legal?"}
                     option1={"Si"} option2={"No"}
                     onOptionSelected={handleResponsibilityChange}
                     optionSelected={legalResponsibilityForm.tieneAcompañante} />
