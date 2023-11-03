@@ -82,7 +82,7 @@ const ReviewAppointment = ({ params }) => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold">Manage Appointment</h1>
+      <h1 className="text-2xl font-bold">Ver Citas</h1>
       <PatientInfo pacienteData={appointmentData.paciente} />
       <AppointmentInfo
         appointmentData={appointmentData}
@@ -129,28 +129,31 @@ const ActionButtons = ({
       {estado === 4 && (
         <>
           <button
-            className="block bg-blue-500 text-white p-2 w-full rounded-md text-center mt-2"
+            className="flex justify-center items-center mr-4 bg-blue-500 text-white p-2 w-full rounded-md mt-2"
             onClick={handleAttendClick}
             disabled={loading}
           >
+            <MdEdit className="mr-2" />
             Atender Cita
           </button>
 
           <button
-            className="bg-blue-500 text-white p-2 w-full rounded-md mt-2"
+            className="flex justify-center items-center mr-4 bg-blue-500 text-white p-2 w-full rounded-md mt-2"
             onClick={openRescheduleModal}
             disabled={loading}
           >
+            <MdEdit />
             Reprogramar Cita
           </button>
 
           <button
-            className={`bg-red-500 text-white p-2 w-full rounded-md mt-2 ${
+            className={`flex justify-center items-center bg-red-500 text-white p-2 w-full rounded-md mt-2 ${
               loading ? "opacity-50 cursor-not-allowed" : ""
             }`}
             onClick={handleCancelClick}
             disabled={loading || hasBeenCanceled}
           >
+            <MdDelete />
             {loading ? (
               <>
                 <svg
