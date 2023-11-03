@@ -11,14 +11,8 @@ import { sexParser } from "@/util/patientParser";
 const HistorialClinico = () => {
   const params = useParams();
   const idPaciente = params.idmedicalHistory;
-  const {
-    patientForm,
-    setPatientForm,
-    fechaNacimiento,
-    setFechaNacimiento,
-    sexo,
-    setSexo,
-  } = usePatientForm();
+
+  const { patientForm, setPatientForm } = usePatientForm();
 
   const [historialClinico, setHistorialClinico] = useState(null);
   const [hojasMedicas, setHojasMedicas] = useState([]);
@@ -64,11 +58,8 @@ const HistorialClinico = () => {
         direccion: data.direccion,
         telefono: data.telefono,
         correo: data.correo,
-      });
-      setFechaNacimiento(data.fechaNacimiento);
-      setSexo(sexParser(data.sexo));
-      setPatientId({
-        idPersona: data.idPersona,
+        sexo: sexParser(data.sexo),
+        fechaNacimiento: data.fechaNacimiento,
       });
     } catch (error) {
       console.log(error);
@@ -88,16 +79,42 @@ const HistorialClinico = () => {
   const PatientDataDisplay = ({ patient }) => (
     <div className="mb-6">
       <h2 className="text-2xl font-bold mb-4">Datos del Paciente:</h2>
-      <p>
-        <strong>Nombre:</strong>{" "}
-        {`${patient.nombres} ${patient.apellidoPaterno} ${patient.apellidoMaterno}`}
-      </p>
-      <p>
-        <strong>DNI:</strong> {patient.dni}
-      </p>
-      <p>
-        <strong>DNI:</strong> {patient.dni}
-      </p>
+      <div className="flex flex-wrap mb-6">
+        <div className="flex-1 min-w-1/2">
+          <p>
+            <strong>Nombre:</strong>{" "}
+            {`${patient.nombres} ${patient.apellidoPaterno} ${patient.apellidoMaterno}`}
+          </p>
+          <p>
+            <strong>DNI:</strong> {patient.dni}
+          </p>
+          <p>
+            <strong>Fecha de Nacimiento:</strong> {patient.fechaNacimiento}
+          </p>{" "}
+          <p>
+            <strong>Sexo:</strong> {patient.sexo}
+          </p>{" "}
+        </div>
+
+        {/* Columna 2 */}
+        <div className="flex-1 min-w-1/2">
+          <p>
+            <strong>Dirección:</strong> {patient.direccion}
+          </p>
+          <p>
+            <strong>Teléfono:</strong> {patient.telefono}
+          </p>
+          <p>
+            <strong>Correo Electrónico:</strong> {patient.correo}
+          </p>
+          <p>
+            <strong>Tipo de Seguro:</strong> {patient.tipoSeguro}
+          </p>
+          <p>
+            <strong>Código de Seguro:</strong> {patient.codigoSeguro}
+          </p>
+        </div>
+      </div>
     </div>
   );
   return (
@@ -114,9 +131,6 @@ const HistorialClinico = () => {
         <button className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg shadow-md">
           Atender Nueva Consulta médica
         </button>
-        <button className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg shadow-md">
-          Solicitar Orden de Laboratorio
-        </button>
       </div>
 
       {/* Sección de Hojas Médicas Existentes */}
@@ -129,7 +143,6 @@ const HistorialClinico = () => {
             <label className="font-semibold mb-2 text-gray-600">Desde:</label>
             <input className="border rounded p-2 w-full" type="date" />
           </div>
-          {/* ... (otros campos similares) */}
         </div>
         <MedicalRecordsTable data={hojasMedicas}></MedicalRecordsTable>
       </div>
