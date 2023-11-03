@@ -8,90 +8,58 @@ const MainInfoComponent = ({ formData, handleInputChange }) => {
         <h4 className="text-lg font-bold text-gray-700 mb-2">
           Información Principal
         </h4>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Nombre */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Nombre
-            </label>
-            <input
-              type="text"
-              name="nombre"
-              value={formData.nombre}
-              onChange={handleInputChange}
-              className="mt-1 p-2 w-full border-gray-300 rounded-md"
-            />
-          </div>
+          <InputField
+            label="Nombre Completo"
+            name="nombre"
+            value={formData.nombre}
+            onChange={handleInputChange}
+          />
 
           {/* DNI */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              DNI
-            </label>
-            <input
-              type="text"
-              name="dni"
-              value={formData.dni}
-              onChange={handleInputChange}
-              className="mt-1 p-2 w-full border-gray-300 rounded-md"
-            />
-          </div>
+          <InputField
+            label="DNI"
+            name="dni"
+            value={formData.dni}
+            onChange={handleInputChange}
+          />
 
           {/* Género */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Género
-            </label>
-            <input
-              type="text"
-              name="genero"
-              value={formData.genero}
-              onChange={handleInputChange}
-              className="mt-1 p-2 w-full border-gray-300 rounded-md"
-            />
-          </div>
+          <InputField
+            label="Género"
+            name="genero"
+            value={formData.genero}
+            onChange={handleInputChange}
+          />
 
           {/* Edad */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Edad
-            </label>
-            <input
-              type="number"
-              name="edad"
-              value={formData.edad}
-              onChange={handleInputChange}
-              className="mt-1 p-2 w-full border-gray-300 rounded-md"
-            />
-          </div>
+          <InputField
+            label="Edad"
+            name="edad"
+            value={formData.edad}
+            onChange={handleInputChange}
+            type="number"
+          />
 
           {/* Altura */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Altura (cm)
-            </label>
-            <input
-              type="number"
-              name="altura"
-              value={formData.altura}
-              onChange={handleInputChange}
-              className="mt-1 p-2 w-full border-gray-300 rounded-md"
-            />
-          </div>
+          <InputField
+            label="Altura (cm)"
+            name="altura"
+            value={formData.altura}
+            onChange={handleInputChange}
+            type="number"
+          />
 
           {/* Peso */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Peso (kg)
-            </label>
-            <input
-              type="number"
-              name="peso"
-              value={formData.peso}
-              onChange={handleInputChange}
-              className="mt-1 p-2 w-full border-gray-300 rounded-md"
-            />
-          </div>
+          <InputField
+            label="Peso (kg)"
+            name="peso"
+            value={formData.peso}
+            onChange={handleInputChange}
+            type="number"
+          />
         </div>
       </div>
 
@@ -102,35 +70,57 @@ const MainInfoComponent = ({ formData, handleInputChange }) => {
         </h4>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Nombre del responsable */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Nombre del Responsable
-            </label>
-            <input
-              type="text"
-              name="personaResponsable.nombre"
-              value={formData.personaResponsable.nombre}
-              onChange={handleInputChange}
-              className="mt-1 p-2 w-full border-gray-300 rounded-md"
-            />
-          </div>
+          <InputField
+            label="Nombre del Responsable"
+            name="personaResponsable.nombre"
+            value={formData.personaResponsable.nombre}
+            onChange={handleInputChange}
+          />
 
           {/* DNI del responsable */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              DNI del Responsable
-            </label>
-            <input
-              type="text"
-              name="personaResponsable.dni"
-              value={formData.personaResponsable.dni}
-              onChange={handleInputChange}
-              className="mt-1 p-2 w-full border-gray-300 rounded-md"
-            />
-          </div>
+          <InputField
+            label="DNI del Responsable"
+            name="personaResponsable.dni"
+            value={formData.personaResponsable.dni}
+            onChange={handleInputChange}
+          />
         </div>
       </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-700">
+          Fecha y Hora de Ultima Atención
+        </label>
+        <input
+          type="date"
+          name="fechaAtencion"
+          value={formData.fechaAtencion}
+          onChange={handleInputChange}
+          className="mt-1 p-2 w-full border-gray-300 rounded-md"
+        />
+        <input
+          type="time"
+          name="hora"
+          value={formData.hora}
+          onChange={handleInputChange}
+          className="mt-1 p-2 w-full border-gray-300 rounded-md"
+        />
+      </div>
     </>
+  );
+};
+
+const InputField = ({ label, name, value, onChange, type = "text" }) => {
+  return (
+    <div>
+      <label className="block text-sm font-medium text-gray-700">{label}</label>
+      <input
+        type={type}
+        name={name}
+        value={value}
+        onChange={onChange}
+        className="mt-1 p-2 w-full border-gray-300 rounded-md"
+      />
+    </div>
   );
 };
 
