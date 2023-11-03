@@ -5,12 +5,24 @@ import { patientService } from "@/services/patientService";
 import { useParams } from "next/navigation";
 import MedicalRecordsTable from "../MedicalRecordsTable"; // Asegúrate de que el nombre del componente esté en PascalCase
 import { parseHojaMedicaTable } from "@/util/medicalRecordParser";
+import usePatientForm from "@/hooks/usePatientForm";
+import { sexParser } from "@/util/patientParser";
+
 const HistorialClinico = () => {
   const params = useParams();
   const idPaciente = params.idmedicalHistory;
+  const {
+    patientForm,
+    setPatientForm,
+    fechaNacimiento,
+    setFechaNacimiento,
+    sexo,
+    setSexo,
+  } = usePatientForm();
 
   const [historialClinico, setHistorialClinico] = useState(null);
   const [hojasMedicas, setHojasMedicas] = useState([]);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -36,24 +48,65 @@ const HistorialClinico = () => {
     }
   }, [idPaciente]);
 
+  const fetchData = async () => {
+    try {
+      const data = await patientService.mostrarPacienteRegistrado(idPaciente);
+      console.log(data.idPersona);
+
+      setPatientForm({
+        ...patientForm,
+        apellidoPaterno: data.apellidoPaterno,
+        apellidoMaterno: data.apellidoMaterno,
+        nombres: data.nombres,
+        tipoSeguro: data.tipoSeguro,
+        codigoSeguro: data.codigoSeguro,
+        dni: data.dni,
+        direccion: data.direccion,
+        telefono: data.telefono,
+        correo: data.correo,
+      });
+      setFechaNacimiento(data.fechaNacimiento);
+      setSexo(sexParser(data.sexo));
+      setPatientId({
+        idPersona: data.idPersona,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (idPaciente) {
+      fetchData();
+    }
+  }, [idPaciente]);
+
   if (loading) return <p>Cargando...</p>;
   if (error) return <p>Error al cargar el historial clínico</p>;
   if (!historialClinico) return <p>No se encontró el historial clínico</p>;
 
+  const PatientDataDisplay = ({ patient }) => (
+    <div className="mb-6">
+      <h2 className="text-2xl font-bold mb-4">Datos del Paciente:</h2>
+      <p>
+        <strong>Nombre:</strong>{" "}
+        {`${patient.nombres} ${patient.apellidoPaterno} ${patient.apellidoMaterno}`}
+      </p>
+      <p>
+        <strong>DNI:</strong> {patient.dni}
+      </p>
+      <p>
+        <strong>DNI:</strong> {patient.dni}
+      </p>
+    </div>
+  );
   return (
     <div className="bg-gray-100 min-h-screen p-4 md:p-8">
-      {/* Barra de navegación en la parte superior */}
       <div className="bg-white p-4 rounded shadow-md mb-6">
-        <h1 className="text-xl font-bold mb-4">Nueva Atención Médica</h1>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-          <div>
-            <label className="block text-sm font-medium text-gray-600">
-              N° de Atención:
-            </label>
-            <span>{historialClinico.codigo}</span>
-          </div>
-          {/* ... (otros campos similares) */}
-        </div>
+        <h1 className="text-3xl font-bold mb-4">
+          Historial Clínico: {historialClinico.codigo}
+        </h1>{" "}
+        <PatientDataDisplay patient={patientForm} />
       </div>
 
       {/* Botones de acciones */}
