@@ -25,7 +25,7 @@ const FormularioMedico = () => {
     ClinicalTab: {
       signosVitales: {
         temperatura: "",
-        fc: "", // Frecuencia Cardiaca
+        fc: "", // Frecuencia Cardiaca pr
         fr: "", // Frecuencia Respiratoria
         pa: "", // Presión Arterial
         sat: "", // Saturación de Oxígeno
@@ -61,6 +61,7 @@ const FormularioMedico = () => {
       proximaCita: "", // fecha tentativa de proxima cita
       atendidoPor: "", // id doctor atendido
       selloYFirma: "", // sello o firma doctor
+
       crearOrdenDeLaboratorio: "", // Modal que abre los datos para generar la orden
       tipoOrdenDeLaboratorio: "",
       instruccionesLaboratorio: "",
@@ -101,8 +102,8 @@ const FormularioMedico = () => {
             handleInputChange={handleInputChange}
           ></ClinicalTab>
         </div>
-        <DiagnosticoMedico></DiagnosticoMedico>
         <GlasgowComaScale></GlasgowComaScale>
+        <DiagnosticoMedico></DiagnosticoMedico>
         <TratamientoYDecisionCita></TratamientoYDecisionCita>
       </form>
     </div>

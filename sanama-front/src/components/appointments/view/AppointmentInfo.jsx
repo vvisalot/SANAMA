@@ -40,9 +40,7 @@ const AppointmentInfo = ({ appointmentData, doctor }) => {
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md mb-6">
-      <h2 className="text-2xl font-semibold mb-4">
-        Información de la atención
-      </h2>
+      <h2 className="text-2xl font-semibold mb-4">Información de la Cita</h2>
       <div className="grid grid-cols-3 gap-4">
         {CAMPOS_ATENCION.map(({ id, label, type }) => (
           <div key={id}>
