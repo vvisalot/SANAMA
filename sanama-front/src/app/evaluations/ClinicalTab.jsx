@@ -42,61 +42,24 @@ const ClinicalTab = ({ clinicalData, handleInputChange }) => {
       <div className="col-span-2">
         <h4 className="text-lg font-bold text-gray-700 mb-2">Signos Vitales</h4>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {renderInputField(
-            "Temperatura (°C)",
-            "signosVitales.temperatura",
-            clinicalData.signosVitales.temperatura,
-            "number"
-          )}
-          {renderInputField(
-            "Frecuencia Cardiaca",
-            "signosVitales.fc",
-            clinicalData.signosVitales.fc,
-            "number"
-          )}
-          {renderInputField(
-            "Frecuencia Respiratoria",
-            "signosVitales.fr",
-            clinicalData.signosVitales.fr,
-            "number"
-          )}
-          {renderInputField(
-            "Presión Arterial",
-            "signosVitales.pa",
-            clinicalData.signosVitales.pa
-          )}
-          {renderInputField(
-            "Saturación de Oxígeno (%)",
-            "signosVitales.sat",
-            clinicalData.signosVitales.sat,
-            "number"
-          )}
-          {renderInputField(
-            "Peso (kg)",
-            "signosVitales.peso",
-            clinicalData.signosVitales.peso,
-            "number"
-          )}
-          {renderInputField(
-            "Talla (cm)",
-            "signosVitales.talla",
-            clinicalData.signosVitales.talla,
-            "number"
-          )}
+          {renderInputField("Temperatura (°C)", "signosVitales.temperatura")}
+          {renderInputField("Frecuencia Cardiaca", "signosVitales.fc")}
+          {renderInputField("Frecuencia Respiratoria", "signosVitales.fr")}
+          {renderInputField("Presión Arterial", "signosVitales.pa")}
+          {renderInputField("Saturación de Oxígeno (%)", "signosVitales.sat")}
+          {renderInputField("Peso (kg)", "signosVitales.peso", "number")}
+          {renderInputField("Talla (cm)", "signosVitales.talla", "number")}
         </div>
       </div>
-
-      {renderTextArea(
-        "Antecedentes",
-        "antecedentes",
-        clinicalData.antecedentes
-      )}
-      {renderTextArea(
-        "Motivo de Consulta",
-        "motivoConsulta",
-        clinicalData.motivoConsulta
-      )}
-
+      <div className="col-span-2">
+        <h4 className="text-lg font-bold text-gray-700 mb-2">
+          Datos de la Consulta
+        </h4>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {renderTextArea("Antecedentes", "antecedentes")}
+          {renderTextArea("Motivo de Consulta", "motivoConsulta")}
+        </div>
+      </div>
       {/* Exploración Física */}
       <div className="col-span-2">
         <h4 className="text-lg font-bold text-gray-700 mb-2">
@@ -122,7 +85,6 @@ const ClinicalTab = ({ clinicalData, handleInputChange }) => {
       </div>
 
       {renderTextArea("Observaciones", "observaciones")}
-      {renderTextArea("Examenes Complementarios", "examenesComplementarios")}
     </>
   );
 };
