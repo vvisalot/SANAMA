@@ -19,7 +19,14 @@ public class OrdenLaboratorioService {
 
     public List<OrdenLaboratorio> listarOrdenLaboratorioFiltro(String pv_filtro, String pd_fecha_inicio, String pd_fecha_fin) {
         List<OrdenLaboratorio> lordenes;
+        //List<ExamenMedico> lexamenes;
         lordenes = ordenLaboratorioRepository.listarOrdenLaboratorioFiltro(pv_filtro, pd_fecha_inicio, pd_fecha_fin);
+        /*
+        for(OrdenLaboratorio orden : lordenes){
+            lexamenes = examenMedicoRepository.buscarExamenMedico(String.valueOf(orden.getIdOrdenLaboratorio()));
+            orden.setExamenMedico(lexamenes);
+        }
+        */
         return lordenes;
     }
 
