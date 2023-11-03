@@ -4,6 +4,7 @@ const columns = [
   { name: "idHojaMedica" },
   { name: "codigo" },
   { name: "idMedicoCreador" },
+  { name: "atender" },
 ];
 
 const MedicalRecordsTable = ({ data }) => {
@@ -12,7 +13,7 @@ const MedicalRecordsTable = ({ data }) => {
       columns={columns}
       data={data}
       url="/patients/profile"
-      optionsText="Ver perfl"
+      optionsText="Atender"
     />
   );
 };
