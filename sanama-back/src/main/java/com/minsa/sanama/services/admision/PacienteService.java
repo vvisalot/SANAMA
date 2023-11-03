@@ -40,15 +40,11 @@ public class PacienteService {
     }
 
     public int registrarPaciente(Paciente paciente){
-        int idPaciente, idHistoria;
+        int idPaciente, idHistoria=1;
         paciente.setHistorialClinico(new HistorialClinico());
         paciente.getHistorialClinico().setCodigo("HCN-"+paciente.getDni());
         idPaciente = pacienteRepository.registrarPaciente(paciente);
-        idHistoria = historiaRepository.registrarHistorialClinico(paciente);
-        if(idPaciente!=-1 && idHistoria!=-1){
-            return idPaciente;
-        }
-        return -1;
+        return idPaciente;
     }
 
     public int actualizarPaciente(Paciente paciente){
