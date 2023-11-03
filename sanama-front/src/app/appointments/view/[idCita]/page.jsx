@@ -82,7 +82,7 @@ const ReviewAppointment = ({ params }) => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold">Ver Citas</h1>
+      <h1 className="font-bold text-blue-500 text-6xl p-12">Ver Citas</h1>
 
       <div className="flex justify-end mb-4">
         <ActionButtons
