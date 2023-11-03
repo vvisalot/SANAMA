@@ -58,7 +58,7 @@ const FormularioMedico = () => {
     DatosHojaMedica: {
       estadoHojaMedica: "", // Puede ser "Cerrar Hoja" o "Mantener Abierta"
       derivacion: "", // especialidad a la que deberia ir
-      proximaCita: "", // fecha de proxima cita
+      proximaCita: "", // fecha tentativa de proxima cita
       atendidoPor: "", // id doctor atendido
       selloYFirma: "", // sello o firma doctor
       crearOrdenDeLaboratorio: "", // Modal que abre los datos para generar la orden
