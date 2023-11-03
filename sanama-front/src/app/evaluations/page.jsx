@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import MainInfoComponent from "./MainInfoTab";
 
 const FormularioMedico = () => {
   const [formData, setFormData] = useState({
@@ -90,7 +91,10 @@ const FormularioMedico = () => {
     <div className="p-8">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Existing Fields... */}
+          <MainInfoComponent
+            formData={formData}
+            handleInputChange={handleInputChange}
+          ></MainInfoComponent>
 
           {/* Signos Vitales */}
           <div className="col-span-2">

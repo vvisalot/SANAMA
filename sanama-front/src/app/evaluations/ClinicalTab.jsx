@@ -1,30 +1,117 @@
-import React from "react";
+import React, { useState } from "react";
 
-const ClinicalTab = ({ clinicalData, handleInputChange }) => {
-  const renderInputField = (label, name, value, type = "text") => {
-    return (
-      <div>
-        <label className="block text-sm font-medium text-gray-700">
-          {label}
-        </label>
-        <input
-          type={type}
-          name={name}
-          value={value}
-          onChange={handleInputChange}
-          className="mt-1 p-2 w-full border-gray-300 rounded-md"
-          placeholder={label}
-        />
-      </div>
-    );
+const DiagnosticoMedico = () => {
+  const [diagnosticoData, setDiagnosticoData] = useState({
+    diagnostico: [""],
+    tratamiento: "",
+    derivacion: "",
+    proximaCita: "",
+    atendidoPor: "",
+    selloYFirma: "",
+  });
+
+  const handleArrayChange = (index, value) => {
+    setDiagnosticoData((prevState) => {
+      const updatedDiagnostico = [...prevState.diagnostico];
+      updatedDiagnostico[index] = value;
+      return { ...prevState, diagnostico: updatedDiagnostico };
+    });
   };
 
-  const renderTextArea = (label, name, value, rows = 3) => {
-    return (
+  const addDiagnosticoField = () => {
+    setDiagnosticoData((prevState) => ({
+      ...prevState,
+      diagnostico: [...prevState.diagnostico, ""],
+    }));
+  };
+
+  const removeDiagnosticoField = (index) => {
+    setDiagnosticoData((prevState) => {
+      const updatedDiagnostico = [...prevState.diagnostico];
+      updatedDiagnostico.splice(index, 1);
+      return { ...prevState, diagnostico: updatedDiagnostico };
+    });
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setDiagnosticoData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  return (
+    <div className="p-8">
+      <h4 className="text-lg font-bold text-gray-700 mb-2">
+        Diagnóstico Médico
+      </h4>
+
+      {/* Diagnóstico */}
       <div className="col-span-2">
         <label className="block text-sm font-medium text-gray-700">
-          {label}
+          Diagnóstico (CIE-10)
         </label>
+        {diagnosticoData.diagnostico.map((diagnose, index) => (
+          <div key={index} className="flex items-center space-x-2">
+            <input
+              type="text"
+              value={diagnose}
+              onChange={(e) => handleArrayChange(index, e.target.value)}
+              className="mt-1 p-2 w-full border-gray-300 rounded-md"
+              placeholder={`Diagnóstico ${index + 1}`}
+            />
+            <button
+              type="button"
+              onClick={() => removeDiagnosticoField(index)}
+              className="bg-red-500 text-white p-2 rounded-md"
+            >
+              X
+            </button>
+          </div>
+        ))}
+        <button
+          type="button"
+          onClick={addDiagnosticoField}
+          className="mt-2 px-4 py-2 bg-green-500 text-white rounded-md"
+        >
+          Añadir Diagnóstico
+        </button>
+      </div>
+
+      {renderInputField(
+        "Tratamiento",
+        "tratamiento",
+        diagnosticoData.tratamiento,
+        "textarea",
+        3
+      )}
+      {renderInputField("Derivación", "derivacion", diagnosticoData.derivacion)}
+      {renderInputField(
+        "Próxima Cita",
+        "proximaCita",
+        diagnosticoData.proximaCita,
+        "date"
+      )}
+      {renderInputField(
+        "Atendido Por",
+        "atendidoPor",
+        diagnosticoData.atendidoPor
+      )}
+      {renderInputField(
+        "Sello y Firma",
+        "selloYFirma",
+        diagnosticoData.selloYFirma
+      )}
+    </div>
+  );
+};
+
+const renderInputField = (label, name, value, type = "text", rows = 1) => {
+  return (
+    <div>
+      <label className="block text-sm font-medium text-gray-700">{label}</label>
+      {type === "textarea" ? (
         <textarea
           name={name}
           value={value}
@@ -32,99 +119,17 @@ const ClinicalTab = ({ clinicalData, handleInputChange }) => {
           className="mt-1 p-2 w-full border-gray-300 rounded-md"
           rows={rows}
         ></textarea>
-      </div>
-    );
-  };
-
-  return (
-    <>
-      {/* Signos Vitales */}
-      <div className="col-span-2">
-        <h4 className="text-lg font-bold text-gray-700 mb-2">Signos Vitales</h4>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {renderInputField(
-            "Temperatura (°C)",
-            "signosVitales.temperatura",
-            clinicalData.signosVitales.temperatura,
-            "number"
-          )}
-          {renderInputField(
-            "Frecuencia Cardiaca",
-            "signosVitales.fc",
-            clinicalData.signosVitales.fc,
-            "number"
-          )}
-          {renderInputField(
-            "Frecuencia Respiratoria",
-            "signosVitales.fr",
-            clinicalData.signosVitales.fr,
-            "number"
-          )}
-          {renderInputField(
-            "Presión Arterial",
-            "signosVitales.pa",
-            clinicalData.signosVitales.pa
-          )}
-          {renderInputField(
-            "Saturación de Oxígeno (%)",
-            "signosVitales.sat",
-            clinicalData.signosVitales.sat,
-            "number"
-          )}
-          {renderInputField(
-            "Peso (kg)",
-            "signosVitales.peso",
-            clinicalData.signosVitales.peso,
-            "number"
-          )}
-          {renderInputField(
-            "Talla (cm)",
-            "signosVitales.talla",
-            clinicalData.signosVitales.talla,
-            "number"
-          )}
-        </div>
-      </div>
-
-      {renderTextArea(
-        "Antecedentes",
-        "antecedentes",
-        clinicalData.antecedentes
+      ) : (
+        <input
+          type={type}
+          name={name}
+          value={value}
+          onChange={handleInputChange}
+          className="mt-1 p-2 w-full border-gray-300 rounded-md"
+        />
       )}
-      {renderTextArea(
-        "Motivo de Consulta",
-        "motivoConsulta",
-        clinicalData.motivoConsulta
-      )}
-
-      {/* Exploración Física */}
-      <div className="col-span-2">
-        <h4 className="text-lg font-bold text-gray-700 mb-2">
-          Exploración Física
-        </h4>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {renderTextArea("Examen General", "exploracionFisica.exGeneral")}
-          {renderTextArea("Piel y Faneras", "exploracionFisica.pielYFaneras")}
-          {renderTextArea("Cabeza y Cuello", "exploracionFisica.cabezaYCuello")}
-          {renderTextArea(
-            "Torax y Pulmones",
-            "exploracionFisica.toraxYPulmones"
-          )}
-          {renderTextArea("Cardiovascular", "exploracionFisica.cardiovascular")}
-          {renderTextArea("Abdomen", "exploracionFisica.abdomen")}
-          {renderTextArea("Urogenital", "exploracionFisica.urogenital")}
-          {renderTextArea("Extremidades", "exploracionFisica.extremidades")}
-          {renderTextArea(
-            "SNC (Sistema Nervioso Central)",
-            "exploracionFisica.snc"
-          )}
-        </div>
-      </div>
-
-      {renderTextArea("Observaciones", "observaciones")}
-      {renderTextArea("Examenes Complementarios", "examenesComplementarios")}
-    </>
+    </div>
   );
 };
 
-export default ClinicalTab;
+export default DiagnosticoMedico;
