@@ -118,33 +118,40 @@ const HistorialClinico = () => {
     </div>
   );
   return (
-    <div className="bg-gray-100 min-h-screen p-4 md:p-8">
-      <div className="bg-white p-4 rounded shadow-md mb-6">
-        <h1 className="text-3xl font-bold mb-4">
-          Historial Clínico: {historialClinico.codigo}
-        </h1>{" "}
-        <PatientDataDisplay patient={patientForm} />
-      </div>
+    <div>
+      <h1 className="font-bold text-blue-500 text-6xl p-12">Ver Historial</h1>
+      <div className="container mx-auto p-4">
+        <div className="bg-gray-100 min-h-screen p-4 md:p-8">
+          <div className="bg-white p-4 rounded shadow-md mb-6">
+            <h1 className="text-3xl font-bold mb-4">
+              Historial Clínico: {historialClinico.codigo}
+            </h1>{" "}
+            <PatientDataDisplay patient={patientForm} />
+          </div>
 
-      {/* Botones de acciones */}
-      <div className="mb-6 space-x-4">
-        <button className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg shadow-md">
-          Atender Nueva Consulta médica
-        </button>
-      </div>
+          {/* Botones de acciones */}
+          <div className="mb-6 space-x-4">
+            <button className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg shadow-md">
+              Atender Nueva Consulta médica
+            </button>
+          </div>
 
-      {/* Sección de Hojas Médicas Existentes */}
-      <div className="bg-white p-4 rounded shadow-md">
-        <h2 className="text-xl font-bold mb-4 border-b pb-2">
-          Hojas Medicas Existentes:
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 mt-4">
-          <div className="flex flex-col">
-            <label className="font-semibold mb-2 text-gray-600">Desde:</label>
-            <input className="border rounded p-2 w-full" type="date" />
+          {/* Sección de Hojas Médicas Existentes */}
+          <div className="bg-white p-4 rounded shadow-md">
+            <h2 className="text-xl font-bold mb-4 border-b pb-2">
+              Hojas Medicas Existentes:
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 mt-4">
+              <div className="flex flex-col">
+                <label className="font-semibold mb-2 text-gray-600">
+                  Desde:
+                </label>
+                <input className="border rounded p-2 w-full" type="date" />
+              </div>
+            </div>
+            <MedicalRecordsTable data={hojasMedicas}></MedicalRecordsTable>
           </div>
         </div>
-        <MedicalRecordsTable data={hojasMedicas}></MedicalRecordsTable>
       </div>
     </div>
   );

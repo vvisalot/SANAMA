@@ -81,37 +81,38 @@ const ReviewAppointment = ({ params }) => {
     handleActionClick(3).then(() => setHasBeenCanceled(true));
 
   return (
-    <div className="container mx-auto p-4">
+    <>
       <h1 className="font-bold text-blue-500 text-6xl p-12">Ver Citas</h1>
+      <div className="container mx-auto p-4">
+        <div className="flex justify-end mb-4">
+          <ActionButtons
+            estado={estado}
+            loading={loading}
+            openRescheduleModal={openRescheduleModal}
+            handleCancelClick={handleCancelClick}
+            hasBeenCanceled={hasBeenCanceled}
+            handleAttendClick={handleAttendClick}
+          />
+        </div>
+        <PatientInfo pacienteData={appointmentData.paciente} />
+        <AppointmentInfo
+          appointmentData={appointmentData}
+          doctor={appointmentData.medico}
+        />
+        <Link href="/appointments" passHref>
+          <href className="block bg-gray-500 text-white p-2 w-full rounded-md text-center mt-2">
+            Volver
+          </href>
+        </Link>
 
-      <div className="flex justify-end mb-4">
-        <ActionButtons
-          estado={estado}
-          loading={loading}
-          openRescheduleModal={openRescheduleModal}
-          handleCancelClick={handleCancelClick}
-          hasBeenCanceled={hasBeenCanceled}
-          handleAttendClick={handleAttendClick}
+        <RescheduleModal
+          isOpen={isRescheduleModalOpen}
+          onClose={closeRescheduleModal}
+          medicId={appointmentData.medico.idPersona}
+          appointmentId={appointmentData.idCita}
         />
       </div>
-      <PatientInfo pacienteData={appointmentData.paciente} />
-      <AppointmentInfo
-        appointmentData={appointmentData}
-        doctor={appointmentData.medico}
-      />
-      <Link href="/appointments" passHref>
-        <href className="block bg-gray-500 text-white p-2 w-full rounded-md text-center mt-2">
-          Volver
-        </href>
-      </Link>
-
-      <RescheduleModal
-        isOpen={isRescheduleModalOpen}
-        onClose={closeRescheduleModal}
-        medicId={appointmentData.medico.idPersona}
-        appointmentId={appointmentData.idCita}
-      />
-    </div>
+    </>
   );
 };
 
