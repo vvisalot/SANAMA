@@ -385,7 +385,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/rrhh/post/medicoNombre",
+							"raw": "localhost:8080/rrhh/post/listarMedicosPorEspecialidadNombreCmp",
 							"host": [
 								"localhost"
 							],
@@ -393,7 +393,7 @@
 							"path": [
 								"rrhh",
 								"post",
-								"medicoNombre"
+								"listarMedicosPorEspecialidadNombreCmp"
 							]
 						}
 					},
@@ -406,7 +406,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "//Filtro OBLIGATORIO pn_id_medico: ID DEL MEDICO A REVISAR\r\n//Filtro OBLIGATORIO pd_fecha: FECHA DESEADA PARA REVISAR\r\n{\r\n    \"pn_id_medico\": \"1\",\r\n    \"pd_fecha\": \"2023-11-06\"\r\n}",
+							"raw": "//Filtro OBLIGATORIO pn_id_medico: ID DEL MEDICO A REVISAR\r\n//Filtro OBLIGATORIO pd_fecha: FECHA DESEADA PARA REVISAR\r\n{\r\n    \"pn_id_medico\": \"2\",\r\n    \"pd_fecha\": \"2023-11-05\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -548,7 +548,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"pn_paciente\":\"23\"\r\n}",
+							"raw": "{\r\n    \"pn_paciente\":\"1\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -606,7 +606,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"paciente\": {\r\n    \"idPersona\": 109\r\n  },\r\n  \"medico\": {\r\n    \"idPersona\": 2\r\n  },\r\n  \"horaCita\": \"15:20\",\r\n  \"fechaCita\": \"2023-10-23\",\r\n  \"tieneAcompanhante\" : true,\r\n  \"nombreAcompanhante\" : \"MAGDALENA\",\r\n  \"dniAcompanhante\" : \"456789\",\r\n  \"parentezco\" : 1,\r\n  \"requiereTriaje\": 1\r\n}\r\n",
+							"raw": "{\r\n  \"paciente\": {\r\n    \"idPersona\": 23\r\n  },\r\n  \"medico\": {\r\n    \"idPersona\": 2\r\n  },\r\n  \"horaCita\": \"09:00\",\r\n  \"fechaCita\": \"2023-11-02\",\r\n  \"tieneAcompanhante\" : false,\r\n  \"nombreAcompanhante\" : \"\",\r\n  \"dniAcompanhante\" : \"\",\r\n  \"parentezco\" : 0,\r\n  \"requiereTriaje\": 0\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1224,7 +1224,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "//el filtro es el id de la orden de laboratorio\r\n{\r\n    \"pv_filtro\":\"23\"\r\n}\r\n",
+							"raw": "//el filtro es el id de la orden de laboratorio\r\n{\r\n    \"pv_filtro\":\"7\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1287,7 +1287,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"pn_id_paciente\":\"23\"\r\n}",
+							"raw": "{\r\n    \"pn_id_paciente\":\"2\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1304,6 +1304,40 @@
 								"atencion",
 								"post",
 								"buscarHistorialClinico"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "HojaMedica",
+			"item": [
+				{
+					"name": "RegistrarHojaMedica",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"idHistorialClinico\": 4,\r\n        \"selloFirma\": null,\r\n        \"fechaProximaCita\": \"2023-12-15\",\r\n        \"medicoAtendiente\":{\r\n            \"idPersona\":1\r\n        },\r\n        \"especialidadDerivada\": {\r\n            \"idEspecialidad\": 1\r\n        }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/atencion/post/registrarHojaMedica",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"atencion",
+								"post",
+								"registrarHojaMedica"
 							]
 						}
 					},
