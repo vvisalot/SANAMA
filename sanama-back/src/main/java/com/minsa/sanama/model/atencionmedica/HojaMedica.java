@@ -1,24 +1,109 @@
 package com.minsa.sanama.model.atencionmedica;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.minsa.sanama.model.rrhh.Especialidad;
+import com.minsa.sanama.model.rrhh.Medico;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class HojaMedica {
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private int idHojaMedica=0;
+
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    private int idHistorialClinico=0;
     private String codigo;
-    private LocalDate fecha;
+    private LocalTime horaAtencion;
+    private LocalDate fechaAtencion;
+    private LocalTime horaCierre;
+    private LocalDate fechaCierre;
+    private boolean estadoHojaMedica;
+    private Especialidad especialidadDerivada;
+    private Medico medicoAtendiente;
+    private byte[] selloFirma;
+    private LocalDate fechaProximaCita;
+
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private int estado=0;
     //private CitaMedica citasMedica;
-    private Diagnostico diagnostico;
-
     private ArrayList<Resultado> resultados;
     private RecetaMedica recetaMedica;
 
     public HojaMedica() {
+    }
+
+    public int getIdHistorialClinico() {
+        return idHistorialClinico;
+    }
+
+    public Medico getMedicoAtendiente() {
+        return medicoAtendiente;
+    }
+
+    public LocalDate getFechaAtencion() {
+        return fechaAtencion;
+    }
+
+    public void setFechaAtencion(LocalDate fechaAtencion) {
+        this.fechaAtencion = fechaAtencion;
+    }
+
+    public LocalTime getHoraCierre() {
+        return horaCierre;
+    }
+
+    public void setHoraCierre(LocalTime horaCierre) {
+        this.horaCierre = horaCierre;
+    }
+
+    public LocalDate getFechaCierre() {
+        return fechaCierre;
+    }
+
+    public void setFechaCierre(LocalDate fechaCierre) {
+        this.fechaCierre = fechaCierre;
+    }
+
+    public boolean isEstadoHojaMedica() {
+        return estadoHojaMedica;
+    }
+
+    public void setEstadoHojaMedica(boolean estadoHojaMedica) {
+        this.estadoHojaMedica = estadoHojaMedica;
+    }
+
+    public byte[] getSelloFirma() {
+        return selloFirma;
+    }
+
+    public void setSelloFirma(byte[] selloFirma) {
+        this.selloFirma = selloFirma;
+    }
+
+    public LocalDate getFechaProximaCita() {
+        return fechaProximaCita;
+    }
+
+    public void setFechaProximaCita(LocalDate fechaProximaCita) {
+        this.fechaProximaCita = fechaProximaCita;
+    }
+
+    public void setMedicoAtendiente(Medico medicoAtendiente) {
+        this.medicoAtendiente = medicoAtendiente;
+    }
+
+    public void setIdHistorialClinico(int idHistorialClinico) {
+        this.idHistorialClinico = idHistorialClinico;
+    }
+
+    public Especialidad getEspecialidadDerivada() {
+        return especialidadDerivada;
+    }
+
+    public void setEspecialidadDerivada(Especialidad especialidadDerivada) {
+        this.especialidadDerivada = especialidadDerivada;
     }
 
     public int getIdHojaMedica() {
@@ -37,13 +122,7 @@ public class HojaMedica {
         this.codigo = codigo;
     }
 
-    public LocalDate getFecha() {
-        return fecha;
-    }
 
-    public void setFecha(LocalDate fecha) {
-        this.fecha = fecha;
-    }
 
     public int getEstado() {
         return estado;
@@ -62,12 +141,13 @@ public class HojaMedica {
      * this.citasMedicas = citasMedicas;
      * }
      */
-    public Diagnostico getDiagnostico() {
-        return diagnostico;
+
+    public LocalTime getHoraAtencion() {
+        return horaAtencion;
     }
 
-    public void setDiagnostico(Diagnostico diagnostico) {
-        this.diagnostico = diagnostico;
+    public void setHoraAtencion(LocalTime horaAtencion) {
+        this.horaAtencion = horaAtencion;
     }
 
     public ArrayList<Resultado> getResultados() {

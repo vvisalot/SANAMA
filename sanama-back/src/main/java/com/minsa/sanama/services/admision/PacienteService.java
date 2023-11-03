@@ -42,7 +42,7 @@ public class PacienteService {
     public int registrarPaciente(Paciente paciente){
         int idPaciente, idHistoria=1;
         paciente.setHistorialClinico(new HistorialClinico());
-        paciente.getHistorialClinico().setCodigo("HCN-"+paciente.getDni());
+
         idPaciente = pacienteRepository.registrarPaciente(paciente);
         return idPaciente;
     }
