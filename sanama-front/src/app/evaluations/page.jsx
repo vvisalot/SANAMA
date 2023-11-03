@@ -104,20 +104,6 @@ const FormularioMedico = () => {
         <DiagnosticoMedico></DiagnosticoMedico>
         <GlasgowComaScale></GlasgowComaScale>
         <TratamientoYDecisionCita></TratamientoYDecisionCita>
-        <div className="space-x-4">
-          <button
-            type="submit"
-            className="px-4 py-2 mt-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-          >
-            Guardar
-          </button>
-          <button
-            type="submit"
-            className="px-4 py-2 mt-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-          >
-            Cerrar
-          </button>
-        </div>
       </form>
     </div>
   );

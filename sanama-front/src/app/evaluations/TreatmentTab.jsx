@@ -173,6 +173,20 @@ const TratamientoYDecisionCita = () => {
           placeholder="Medicamentos recetados"
         />
       </div>
+      <div className="space-x-4">
+        <button
+          type="submit"
+          className="px-4 py-2 mt-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+        >
+          Terminar
+        </button>
+        <button
+          type="submit"
+          className="px-4 py-2 mt-4 bg-red-500 text-white rounded-md hover:bg-red-600 focus:ring focus:ring-red-200 focus:ring-opacity-50"
+        >
+          Marcar como Cerrado
+        </button>
+      </div>
     </div>
   );
 };
