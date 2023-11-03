@@ -58,7 +58,7 @@ const HistorialClinico = () => {
         direccion: data.direccion,
         telefono: data.telefono,
         correo: data.correo,
-        sexo: data.sexo,
+        sexo: sexParser(data.sexo),
         fechaNacimiento: data.fechaNacimiento,
       });
     } catch (error) {
@@ -80,7 +80,6 @@ const HistorialClinico = () => {
     <div className="mb-6">
       <h2 className="text-2xl font-bold mb-4">Datos del Paciente:</h2>
       <div className="flex flex-wrap mb-6">
-        {/* Columna 1 */}
         <div className="flex-1 min-w-1/2">
           <p>
             <strong>Nombre:</strong>{" "}
@@ -144,7 +143,6 @@ const HistorialClinico = () => {
             <label className="font-semibold mb-2 text-gray-600">Desde:</label>
             <input className="border rounded p-2 w-full" type="date" />
           </div>
-          {/* ... (otros campos similares) */}
         </div>
         <MedicalRecordsTable data={hojasMedicas}></MedicalRecordsTable>
       </div>

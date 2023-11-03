@@ -1,10 +1,11 @@
 import Table from "@/components/table/Table";
 
 const columns = [
-  { name: "idHojaMedica" },
-  { name: "codigo" },
-  { name: "idMedicoCreador" },
-  { name: "atender" },
+  { name: "ID" },
+  { name: "Codigo" },
+  { name: "Atendido por" },
+  { name: "Fecha de " },
+  { name: "Atender" },
 ];
 
 const MedicalRecordsTable = ({ data }) => {
@@ -12,7 +13,7 @@ const MedicalRecordsTable = ({ data }) => {
     <Table
       columns={columns}
       data={data}
-      url="/patients/profile"
+      url="/evaluations/"
       optionsText="Atender"
     />
   );
