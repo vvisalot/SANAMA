@@ -89,14 +89,16 @@ const ReviewAppointment = ({ params }) => {
         doctor={appointmentData.medico}
       />
 
-      <ActionButtons
-        estado={estado}
-        loading={loading}
-        openRescheduleModal={openRescheduleModal}
-        handleCancelClick={handleCancelClick}
-        hasBeenCanceled={hasBeenCanceled}
-        handleAttendClick={handleAttendClick}
-      />
+      <div className="flex justify-between items-center">
+        <ActionButtons
+          estado={estado}
+          loading={loading}
+          openRescheduleModal={openRescheduleModal}
+          handleCancelClick={handleCancelClick}
+          hasBeenCanceled={hasBeenCanceled}
+          handleAttendClick={handleAttendClick}
+        />
+      </div>
 
       <Link href="/appointments" passHref>
         <href className="block bg-gray-500 text-white p-2 w-full rounded-md text-center mt-2">
