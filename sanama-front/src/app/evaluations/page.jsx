@@ -5,8 +5,9 @@ import ClinicalTab from "./ClinicalTab";
 import DiagnosticoMedico from "./DiagnosisTab";
 import GlasgowComaScale from "./MentalStatusTab";
 import TratamientoYDecisionCita from "./TreatmentTab";
+
 const FormularioMedico = () => {
-  const [formData, setFormData] = useState({
+  const initialFormData = {
     MainInfo: {
       nombre: "",
       dni: "",
@@ -31,6 +32,7 @@ const FormularioMedico = () => {
       },
       antecedentes: "",
       motivoConsulta: "",
+      observaciones: "",
       exploracionFisica: {
         exGeneral: "",
         pielYFaneras: "",
@@ -42,68 +44,42 @@ const FormularioMedico = () => {
         extremidades: "",
         snc: "",
       },
-      observaciones: "",
+      estadoMental: {
+        glasgow: "",
+        eyesOpen: "",
+        talkingCorrectly: "",
+        ableToMoveBody: "",
+      },
     },
-    EstadoMental: {
-      glasgow: "",
-      eyesOpen: "",
-      talkingCorrectly: "",
-      ableToMoveBody: "",
-    },
-    Diagnostico: {
+    DiagnosticoYTratamientos: {
       diagnosticos: [], // tabla CIE - 10
-      derivacion: "",
-      proximaCita: "",
-      atendidoPor: "",
-      selloYFirma: "",
-    },
-    TratamientoYDecision: {
       tratamientos: [], // tabla CIE - 10
+    },
+    DatosHojaMedica: {
       estadoHojaMedica: "", // Puede ser "Cerrar Hoja" o "Mantener Abierta"
+      derivacion: "", // especialidad a la que deberia ir
+      proximaCita: "", // fecha de proxima cita
+      atendidoPor: "", // id doctor atendido
+      selloYFirma: "", // sello o firma doctor
       crearOrdenDeLaboratorio: "", // Modal que abre los datos para generar la orden
       tipoOrdenDeLaboratorio: "",
       instruccionesLaboratorio: "",
-      indicacionesFinales: "",
+      resultado: "",
       recetaMedica: {
-        medicamentosRecetados: "",
+        indicacionesFinales: "",
+        medicamentosRecetados: [],
       },
     },
-  });
+  };
+
+  const [formData, setFormData] = useState(initialFormData);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    if (name.includes(".")) {
-      const [section, field] = name.split(".");
-      setFormData((prevState) => ({
-        ...prevState,
-        [section]: { ...prevState[section], [field]: value },
-      }));
-    } else {
-      setFormData((prevState) => ({ ...prevState, [name]: value }));
-    }
-  };
-
-  const handleArrayChange = (index, value) => {
-    setFormData((prevState) => {
-      const updatedDiagnostico = [...prevState.diagnostico];
-      updatedDiagnostico[index] = value;
-      return { ...prevState, diagnostico: updatedDiagnostico };
-    });
-  };
-
-  const addDiagnosticoField = () => {
     setFormData((prevState) => ({
       ...prevState,
-      diagnostico: [...prevState.diagnostico, ""],
+      [name]: value,
     }));
-  };
-
-  const removeDiagnosticoField = (index) => {
-    setFormData((prevState) => {
-      const updatedDiagnostico = [...prevState.diagnostico];
-      updatedDiagnostico.splice(index, 1);
-      return { ...prevState, diagnostico: updatedDiagnostico };
-    });
   };
 
   const handleSubmit = (e) => {
@@ -125,23 +101,23 @@ const FormularioMedico = () => {
             handleInputChange={handleInputChange}
           ></ClinicalTab>
         </div>
-
         <DiagnosticoMedico></DiagnosticoMedico>
-
         <GlasgowComaScale></GlasgowComaScale>
         <TratamientoYDecisionCita></TratamientoYDecisionCita>
-        <button
-          type="submit"
-          className="px-4 py-2 mt-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-        >
-          Guardar
-        </button>
-        <button
-          type="submit"
-          className="px-4 py-2 mt-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-        >
-          Cerrar
-        </button>
+        <div className="space-x-4">
+          <button
+            type="submit"
+            className="px-4 py-2 mt-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+          >
+            Guardar
+          </button>
+          <button
+            type="submit"
+            className="px-4 py-2 mt-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+          >
+            Cerrar
+          </button>
+        </div>
       </form>
     </div>
   );
