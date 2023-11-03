@@ -12,7 +12,8 @@ public class HojaMedica {
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private int idHojaMedica=0;
 
-    private int idHistorialClinico;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    private int idHistorialClinico=0;
     private String codigo;
     private LocalTime horaAtencion;
     private LocalDate fechaAtencion;
