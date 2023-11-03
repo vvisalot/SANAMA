@@ -25,7 +25,7 @@ const FormularioMedico = () => {
     ClinicalTab: {
       signosVitales: {
         temperatura: "",
-        fc: "", // Frecuencia Cardiaca
+        fc: "", // Frecuencia Cardiaca pr
         fr: "", // Frecuencia Respiratoria
         pa: "", // Presión Arterial
         sat: "", // Saturación de Oxígeno
