@@ -83,13 +83,8 @@ const ReviewAppointment = ({ params }) => {
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold">Ver Citas</h1>
-      <PatientInfo pacienteData={appointmentData.paciente} />
-      <AppointmentInfo
-        appointmentData={appointmentData}
-        doctor={appointmentData.medico}
-      />
 
-      <div className="flex justify-between items-center">
+      <div className="flex justify-end mb-4">
         <ActionButtons
           estado={estado}
           loading={loading}
@@ -99,7 +94,11 @@ const ReviewAppointment = ({ params }) => {
           handleAttendClick={handleAttendClick}
         />
       </div>
-
+      <PatientInfo pacienteData={appointmentData.paciente} />
+      <AppointmentInfo
+        appointmentData={appointmentData}
+        doctor={appointmentData.medico}
+      />
       <Link href="/appointments" passHref>
         <href className="block bg-gray-500 text-white p-2 w-full rounded-md text-center mt-2">
           Volver
@@ -129,7 +128,7 @@ const ActionButtons = ({
       {estado === 4 && (
         <>
           <button
-            className="flex justify-center items-center mr-4 bg-blue-500 text-white p-2 w-full rounded-md mt-2"
+            className="flex justify-center items-center bg-blue-500 text-white p-2 w-full rounded-md mt-2 mb-2"
             onClick={handleAttendClick}
             disabled={loading}
           >
@@ -138,7 +137,7 @@ const ActionButtons = ({
           </button>
 
           <button
-            className="flex justify-center items-center mr-4 bg-blue-500 text-white p-2 w-full rounded-md mt-2"
+            className="flex justify-center items-center bg-blue-500 text-white p-2 w-full rounded-md mt-2 mb-2"
             onClick={openRescheduleModal}
             disabled={loading}
           >
@@ -147,7 +146,7 @@ const ActionButtons = ({
           </button>
 
           <button
-            className={`flex justify-center items-center bg-red-500 text-white p-2 w-full rounded-md mt-2 ${
+            className={`flex justify-center items-center bg-red-500 text-white p-2 w-full rounded-md mt-2 mb-2 ${
               loading ? "opacity-50 cursor-not-allowed" : ""
             }`}
             onClick={handleCancelClick}
