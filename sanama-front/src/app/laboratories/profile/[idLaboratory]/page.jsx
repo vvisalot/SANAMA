@@ -125,44 +125,10 @@ const LaboratoryProfile = ({ params }) => {
         examenMedico: "Examen Médico",
         observaciones: "Observaciones del Examen"
     };
-    
-    // const fileToBase64 = (file) => {
-    //     return new Promise((resolve, reject) => {
-    //         if (!file) {
-    //             reject("No file provided");
-    //             return;
-    //         }
-            
-    //         const reader = new FileReader();
-    //         reader.onload = (event) => {
-    //             resolve(event.target.result.split(',')[1]);
-    //         };
-    //         reader.onerror = (error) => {
-    //             console.error("Error al leer el archivo:", error);
-    //             reject(error);
-    //         };
-    //         reader.readAsDataURL(file);
-    //     });
-    // };
-    
+      
    
     const handleSave = async () =>{
 
-        // console.log("los examenes son: ", dataLaboratory.examenMedico)
-        // const examenMedicoPromises = dataLaboratory.examenMedico.map(async (examen) => {
-        //     if (examen.archivo) {
-        //         const archivoBase64 = await fileToBase64(examen.archivo);
-        //         return {
-        //             ...examen,
-        //             archivo: archivoBase64
-        //         };
-        //     }
-        //     return examen;
-        // });
-    
-        // const examenMedicoBase64 = await Promise.all(examenMedicoPromises);
-
-        // console.log("los datos de laboratorio son: ", dataLaboratory)
         const laboratorioData = {
             idOrdenLaboratorio: params.idLaboratory,
             doctorFirmante: dataLaboratory.doctorFirmante,
@@ -282,15 +248,7 @@ const LaboratoryProfile = ({ params }) => {
         }
     }
 
-    // function downloadFile(base64, fileName) {
-    //     const blob = new Blob([Uint8Array.from(atob(base64), c => c.charCodeAt(0))], {type: "application/pdf"}); 
-    //     const url = URL.createObjectURL(blob);
-    //     const a = document.createElement('a');
-    //     a.href = url;
-    //     a.download = fileName;
-    //     a.click();
-    //     URL.revokeObjectURL(url);
-    // }
+
     
     
     const handleFileChange = (e, index) => {
@@ -301,11 +259,12 @@ const LaboratoryProfile = ({ params }) => {
             reader.onload = () => {
                 if (reader.readyState === 2) {
                     const base64 = reader.result.split(',')[1];
+                    console.log("EL CUERPO ES", base64),
                     setDataLaboratory(prevState => {
                         const updatedExamenMedico = [...prevState.examenMedico];
                         updatedExamenMedico[index] = {
                             ...updatedExamenMedico[index],
-                            nombreArchivo: file.name,
+                            nombreArchivo: file.name,                            
                             archivo: base64
                         };
                         return {
@@ -326,6 +285,36 @@ const LaboratoryProfile = ({ params }) => {
             examenMedico: prevState.examenMedico.filter((_, index) => index !== indexToRemove)
         }));
     }
+
+    const downloadFile = (base64, fileName) => {
+        // Convertir base64 a un objeto Blob
+        const blob = base64ToBlob(base64, 'application/pdf');
+        // Crear un enlace para la descarga
+        const link = document.createElement('a');
+        // Crear un URL para el Blob
+        const url = URL.createObjectURL(blob);
+        link.href = url;
+        link.download = fileName; // Asignar el nombre de archivo para la descarga
+        document.body.appendChild(link); // Agregar el enlace al cuerpo del documento
+        link.click(); // Simular un click para iniciar la descarga
+        document.body.removeChild(link); // Eliminar el enlace una vez iniciada la descarga
+        URL.revokeObjectURL(url); // Liberar el objeto URL
+      };
+      
+      // Función auxiliar para convertir Base64 a Blob
+      const base64ToBlob = (base64, mimeType) => {
+        // Decodificar la cadena base64 a un array de enteros
+        const byteCharacters = atob(base64);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        // Convertir el array de enteros a un Uint8Array
+        const byteArray = new Uint8Array(byteNumbers);
+        // Crear el Blob a partir del Uint8Array
+        return new Blob([byteArray], { type: mimeType });
+      };
+      
     
 
   return (
@@ -508,23 +497,6 @@ const LaboratoryProfile = ({ params }) => {
             </select>
         </div>
 
-        {/* <div>
-            <label className="text-xl text-black block mb-2">Subir archivo</label>
-            <input name="archivoExamenes" className="text-xl border rounded p-4 w-full" type="file" />
-        
-            {dataLaboratory.examenMedico[0]?.nombreArchivo && (
-                <div className="mt-2">
-                    <span className="text-lg">Archivo actual:</span> 
-                    <a href="#" onClick={(e) => {
-                        e.preventDefault();
-                        downloadFile(dataLaboratory.examenMedico[0].archivo, dataLaboratory.examenMedico[0].nombreArchivo);
-                    }}>
-                        {dataLaboratory.examenMedico[0].nombreArchivo}
-                    </a>
-                </div>
-            )}
-        </div> */}
-
         <div>
             <label className="text-xl text-black block mb-2">Subir archivo</label>
             {dataLaboratory.examenMedico.map((examen, index) => (
@@ -537,13 +509,14 @@ const LaboratoryProfile = ({ params }) => {
                     />
                     {examen.nombreArchivo && (
                         <div className="mt-2">
-                            <span className="text-lg">Archivo actual:</span>
+                            <span className="text-lg">Archivo actual: </span>
                             <a
                                 href="#"
                                 onClick={(e) => {
                                     e.preventDefault();
                                     downloadFile(examen.archivo, examen.nombreArchivo);
                                 }}
+                                className="bg-blue-500 text-white py-2 px-4 mt-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 inline-block"  // Estilos de botón agregados
                             >
                                 {examen.nombreArchivo}
                             </a>
@@ -580,9 +553,6 @@ const LaboratoryProfile = ({ params }) => {
             >
                 Añadir Examen
             </button>
-
-
-
         </div>
 
 
@@ -597,7 +567,7 @@ const LaboratoryProfile = ({ params }) => {
                     className="text-4xl textarea-custom w-full"
                     maxLength={1000}
                 ></textarea>
-                <span className="text-right block mt-2" id="charCount">{dataLaboratory.observaciones.length}/1000</span>
+                <span className="text-right block mt-2" id="charCount">{(dataLaboratory?.observaciones || '').length}/1000</span>
             </div>
         </div>
 

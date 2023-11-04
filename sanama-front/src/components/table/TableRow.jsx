@@ -2,7 +2,18 @@ import { Fragment } from "react";
 import TableCell from "./TableCell";
 import TableOptions from "./TableOptions";
 
+const getEstadoFromRow = (row) => {
+  for (let item of row) {
+      if (["Atendida", "En Consultorio", "Cancelada", "Pendiente", "Desconocido"].includes(item.data)) {
+          return item.data;
+      }
+  }
+  return null; 
+}
+
 const TableRow = ({ row, url, optionsText, iconName }) => {
+
+  const estado = getEstadoFromRow(row);
   return (
     <tr className="bg-white border-b">
       {row.map((cell, index) => {
@@ -19,6 +30,7 @@ const TableRow = ({ row, url, optionsText, iconName }) => {
                   url={url}
                   text={optionsText}
                   iconName={iconName}
+                  estado={estado}
                 />
               ) : null}
             </Fragment>

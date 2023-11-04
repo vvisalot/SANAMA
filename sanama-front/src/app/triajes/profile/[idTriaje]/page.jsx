@@ -184,19 +184,19 @@ const TriajeProfile = ({ params }) => {
         const triajeDataCancelled = {
 
             pn_id_triaje: Number(params.idTriaje),
-            pn_peso: 80,
-            pn_talla: 176,
-            pn_temperatura: 37,
-            pv_motivo_visita: "Dolor de cabeza",
-            pn_presion_arterial: 120,
+            pn_peso: 0,
+            pn_talla: 0,
+            pn_temperatura: 0,
+            pv_motivo_visita: "-",
+            pn_presion_arterial: 0,
             pn_estado: 3,
             pv_prioridad: "N.A.",
-            pn_saturacionOxigeno: "98",
-            pn_frecuenciaCardiaca: "75",
-            pn_frecuenciaRespiratoria: "20",
-            pv_nivelConciencia: "Consciente",
+            pn_saturacionOxigeno: "0",
+            pn_frecuenciaCardiaca: "0",
+            pn_frecuenciaRespiratoria: "0",
+            pv_nivelConciencia: "Inconsciente",
             pv_nivelDolor: "4",
-            pv_condicionesPrexistentes: "Ninguna"
+            pv_condicionesPrexistentes: "-"
         };
 
     

@@ -8,7 +8,6 @@ const columns = [
     { name: "DNI" },
     { name: "Muestra" },
     { name: "Estado" },
-    { name: "Resultados" },
     { name: "Opciones" }
 ]
 

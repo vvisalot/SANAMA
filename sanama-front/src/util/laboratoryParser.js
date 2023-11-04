@@ -26,7 +26,12 @@ export function parseLaboratoryTable(data) {
 
         }
 
-        const resultados = row.resultados ? row.resultados : "No disponible";
+        // let resultados;
+        // if (row.examenMedico && row.examenMedico.urlDescarga) {
+        //     resultados = `<a href="${row.examenMedico.urlDescarga}" download class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 inline-block">Descargar</a>`;
+        // } else {
+        //     resultados = "No disponible";
+        // }
 
         return [
             { "data": row.idOrdenLaboratorio }, // ID
@@ -35,7 +40,7 @@ export function parseLaboratoryTable(data) {
             { "data": paciente.dni }, // DNI
             { "data": row.tipoMuestra }, // TIPO DE ORDEN/EXAMEN
             { "data": estadoTexto, "className": estadoClase },  // ESTADO con su clase
-            { "data": resultados }, // RESULTADOS
+            // { "data": resultados, "className": "text-center" }, // RESULTADOS
         ];
     });
 }
