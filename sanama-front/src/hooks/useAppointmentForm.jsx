@@ -25,9 +25,7 @@ const useAppointmentForm = () => {
 
     })
 
-    const [triageRequirement, setTriageRequirement] = useState({
-        requiereTriaje: ''
-    })
+    const [triageRequirement, setTriageRequirement] = useState(0)
 
 
 

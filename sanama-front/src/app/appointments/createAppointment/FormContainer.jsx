@@ -36,7 +36,6 @@ const FormContainer = () => {
     } = useAppointmentForm()
 
 
-
     const handleSubmit = async (event) => {
         event.preventDefault()
         //console.log(patientId)
@@ -59,6 +58,7 @@ const FormContainer = () => {
 
                 const patientResponse = await patientService.registrarPaciente(patientData)
                 console.log(patientResponse)
+                console.log(triageRequirement.requiereTriaje)
                 if (patientResponse !== null) {
                     const newPatientId = patientResponse
 
@@ -77,7 +77,7 @@ const FormContainer = () => {
                         nombreAcompanhante: legalResponsibilityForm.tieneAcompañante === 'Si' ? `${legalResponsibilityForm.nombres} ${legalResponsibilityForm.apellidoPaterno} ${legalResponsibilityForm.apellidoMaterno}` : null,
                         dniAcompanhante: legalResponsibilityForm.tieneAcompañante === 'Si' ? legalResponsibilityForm.dni : null,
                         parentezco: legalResponsibilityForm.tieneAcompañante === 'Si' ? legalResponsibilityForm.parentesco : null,
-                        requiereTriaje: triageRequirement.requiereTriaje ? 1 : 0,
+                        requiereTriaje: triageRequirement.requiereTriaje==='Si' ? 1 : 0,
                     }
                     let response = await appointmentService.registrarCita(appointmentFormData)
                     console.log(response)
@@ -103,16 +103,13 @@ const FormContainer = () => {
                     nombreAcompanhante: legalResponsibilityForm.tieneAcompañante === 'Si' ? `${legalResponsibilityForm.nombres} ${legalResponsibilityForm.apellidoPaterno} ${legalResponsibilityForm.apellidoMaterno}` : null,
                     dniAcompanhante: legalResponsibilityForm.tieneAcompañante === 'Si' ? legalResponsibilityForm.dni : null,
                     parentezco: legalResponsibilityForm.tieneAcompañante === 'Si' ? legalResponsibilityForm.parentesco : null,
-                    requiereTriaje: triageRequirement.requiereTriaje ? 1 : 0,
+                    requiereTriaje: triageRequirement ? 1 : 0,
                 }
 
                 let response = await appointmentService.registrarCita(appointmentFormData)
 
                 console.log(response)
                 router.back()
-
-                //console.log('YUPI')
-                //console.log(appointmentFormData)
             } catch (error) {
                 console.log('Error al registrar cita para un paciente existente')
             }
@@ -126,7 +123,7 @@ const FormContainer = () => {
         // console.log(fechaNacimiento)
         // console.log(sexo)
         // console.log(legalResponsibilityForm)
-        // console.log(triageRequirement)
+        console.log(triageRequirement)
         // console.log(schedule)
 
     }, [patientForm, fechaNacimiento, sexo, legalResponsibilityForm, triageRequirement, schedule])

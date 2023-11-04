@@ -98,7 +98,7 @@ export function parseAppointmentTable(data) {
     { data: row["horaCita"] },
     { data: getStatus(row["estado"]) }, // Utilizando la función getStatus aquí
   ]);
-  console.log(table);
+  //console.log(table);
   return table;
 }
 
@@ -113,6 +113,6 @@ export function parsePatientAppointmentTable(data) {
     { data: row["horaCita"] },
     { data: getStatus(row["estado"]) }, // Utilizando la función getStatus aquí
   ]);
-  console.log(table);
+  //console.log(table);
   return table;
 }

@@ -15,7 +15,7 @@ const AppointmentPage = () => {
       const data = await appointmentService.listar();
       const tableData = parseAppointmentTable(data);
       setAppointmentTable(tableData);
-      console.log(data);
+      //console.log(data);
     } catch (error) {
       console.log("No se pudo obtener la lista de las citas");
     }
