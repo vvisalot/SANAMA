@@ -88,14 +88,16 @@ const HistorialClinico = () => {
     try {
       const response = await patientService.registrarHojaMedica(
         newMedicalRecord
-      ); // Assuming the function name in the service
-      if (response.success) {
-        // Update the UI or show a success message
+      );
+      if (response !== -1) {
+        alert("¡Nueva Hoja Médica creada con éxito!"); // Esta es la alerta
         console.log("New Medical Record created successfully!");
       } else {
+        alert("Error al crear la Hoja Médica."); // Puedes añadir una alerta en caso de fallo
         console.error("Failed to create the new medical record.");
       }
     } catch (error) {
+      alert("Error al crear la Hoja Médica. Por favor, intente de nuevo."); // Alerta en caso de un error inesperado
       console.error("Error:", error);
     }
   };
