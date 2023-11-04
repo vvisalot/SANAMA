@@ -1,5 +1,5 @@
-import React from "react";
-import Link from "next/link";
+import React from "react"
+import Link from "next/link"
 
 const SearchAndAddBar = ({
   searchTerm,
@@ -99,6 +99,6 @@ const SearchAndAddBar = ({
       )}
     </form>
   </div>
-);
+)
 
-export default SearchAndAddBar;
+export default SearchAndAddBar

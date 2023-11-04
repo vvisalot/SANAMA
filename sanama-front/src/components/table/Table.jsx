@@ -1,6 +1,6 @@
-import React, { memo } from "react";
-import TableBody from "./TableBody";
-import TableHeader from "./TableHeader";
+import React, { memo } from "react"
+import TableBody from "./TableBody"
+import TableHeader from "./TableHeader"
 
 const Table = memo(
   ({ columns, data, url, optionsText, iconName, requestSort, sortConfig }) => (
@@ -12,13 +12,12 @@ const Table = memo(
       />
       <TableBody
         data={data}
-        nColumns={columns.length}
         url={url}
         optionsText={optionsText}
         iconName={iconName}
       />
     </table>
   )
-);
+)
 
-export default Table;
+export default Table

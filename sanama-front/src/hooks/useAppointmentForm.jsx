@@ -22,12 +22,34 @@ const useAppointmentForm = () => {
     const [schedule, setSchedule] = useState({
         fecha: '',
         hora: '',
-
     })
 
-    const [triageRequirement, setTriageRequirement] = useState(0)
+    const [triageRequirement, setTriageRequirement] = useState('Si')
+    const [appointmentFormComplete, setAppointmentFormComplete] = useState(false)
+    const [errorMessage, setErrorMessage] = useState("")
 
 
+    const validateForm = (fechaNacimiento) => {
+        const scheduleFormValues = Object.values(schedule)
+
+        if (scheduleFormValues.includes("")) {
+            setErrorMessage("Por favor, elige un horario de cita")
+            setAppointmentFormComplete(false)
+            return false
+        }
+
+        if (legalResponsibilityForm.tieneAcompañante === "Si") {
+            const legalResponsibilityFormValues = Object.values(legalResponsibilityForm)
+            if (legalResponsibilityFormValues.includes("")) {
+                setErrorMessage("Por favor, completa todos los campos de responsabilidad legal.")
+                setAppointmentFormComplete(false)
+                return false
+            }
+        }
+        setErrorMessage("")
+        setAppointmentFormComplete(true)
+        return true
+    }
 
     return {
         patientId,
@@ -40,6 +62,11 @@ const useAppointmentForm = () => {
         setSchedule,
         triageRequirement,
         setTriageRequirement,
+        appointmentFormComplete,
+        setAppointmentFormComplete,
+        errorMessage,
+        validateForm,
+
     }
 }
 

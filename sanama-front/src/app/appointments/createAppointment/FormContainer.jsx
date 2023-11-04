@@ -12,6 +12,8 @@ import { useRouter } from "next/navigation"
 
 const FormContainer = () => {
     const router = useRouter()
+    const [patientFormComplete, setPatientFormComplete] = useState(false)
+    const [allFormComplete, setAllFormComplete] = useState(false)
 
     const {
         patientForm,
@@ -33,13 +35,36 @@ const FormContainer = () => {
         setSchedule,
         triageRequirement,
         setTriageRequirement,
+        errorMessage,
+        validateForm,
+        setAppointmentFormComplete,
     } = useAppointmentForm()
+
+    useEffect(() => {
+        // console.log(patientForm)
+        // console.log(fechaNacimiento)
+        // console.log(sexo)
+        // console.log(legalResponsibilityForm)
+        console.log(triageRequirement)
+        // console.log(schedule)
+
+    }, [patientForm, fechaNacimiento, sexo, legalResponsibilityForm, triageRequirement, schedule])
 
 
     const handleSubmit = async (event) => {
         event.preventDefault()
-        //console.log(patientId)
+        const isValid = validateForm(fechaNacimiento)
+        if (isValid) {
+            console.log("El formulario es válido. Enviar datos.")
+            setAllFormComplete(true)
+        } else {
+            console.log("Por favor, completa todos los campos obligatorios.")
+            setAllFormComplete(false)
+            return
+        }
+
         if (patientId.idPersona == -1) {
+            console.log('Error')
             try {
                 const patientData = {
                     nombres: patientForm.nombres,
@@ -57,8 +82,7 @@ const FormContainer = () => {
                 }
 
                 const patientResponse = await patientService.registrarPaciente(patientData)
-                console.log(patientResponse)
-                console.log(triageRequirement.requiereTriaje)
+
                 if (patientResponse !== null) {
                     const newPatientId = patientResponse
 
@@ -77,7 +101,7 @@ const FormContainer = () => {
                         nombreAcompanhante: legalResponsibilityForm.tieneAcompañante === 'Si' ? `${legalResponsibilityForm.nombres} ${legalResponsibilityForm.apellidoPaterno} ${legalResponsibilityForm.apellidoMaterno}` : null,
                         dniAcompanhante: legalResponsibilityForm.tieneAcompañante === 'Si' ? legalResponsibilityForm.dni : null,
                         parentezco: legalResponsibilityForm.tieneAcompañante === 'Si' ? legalResponsibilityForm.parentesco : null,
-                        requiereTriaje: triageRequirement.requiereTriaje==='Si' ? 1 : 0,
+                        requiereTriaje: triageRequirement === 'Si' ? 1 : 0,
                     }
                     let response = await appointmentService.registrarCita(appointmentFormData)
                     console.log(response)
@@ -90,9 +114,6 @@ const FormContainer = () => {
                 console.log('Error en la respuesta del servidor para registrar un paciente y cita')
             }
         } else {
-            console.log(patientId)
-            console.log(doctorId)
-
             try {
                 const appointmentFormData = {
                     paciente: patientId,
@@ -103,11 +124,10 @@ const FormContainer = () => {
                     nombreAcompanhante: legalResponsibilityForm.tieneAcompañante === 'Si' ? `${legalResponsibilityForm.nombres} ${legalResponsibilityForm.apellidoPaterno} ${legalResponsibilityForm.apellidoMaterno}` : null,
                     dniAcompanhante: legalResponsibilityForm.tieneAcompañante === 'Si' ? legalResponsibilityForm.dni : null,
                     parentezco: legalResponsibilityForm.tieneAcompañante === 'Si' ? legalResponsibilityForm.parentesco : null,
-                    requiereTriaje: triageRequirement ? 1 : 0,
+                    requiereTriaje: triageRequirement === 'Si' ? 1 : 0,
                 }
 
                 let response = await appointmentService.registrarCita(appointmentFormData)
-
                 console.log(response)
                 router.back()
             } catch (error) {
@@ -115,23 +135,6 @@ const FormContainer = () => {
             }
         }
     }
-
-
-
-    useEffect(() => {
-        // console.log(patientForm)
-        // console.log(fechaNacimiento)
-        // console.log(sexo)
-        // console.log(legalResponsibilityForm)
-        console.log(triageRequirement)
-        // console.log(schedule)
-
-    }, [patientForm, fechaNacimiento, sexo, legalResponsibilityForm, triageRequirement, schedule])
-
-    const [patientFormComplete, setPatientFormComplete] = useState(false)
-    const [appointmentFormComplete, setAppointmentFormComplete] = useState(false)
-    const [allFormComplete, setAllFormComplete] = useState(false)
-
 
     return (
         <form onSubmit={handleSubmit} className="p-10 w-full" >
@@ -160,9 +163,17 @@ const FormContainer = () => {
                         setTriageRequirement={setTriageRequirement}
                         allFormComplete={allFormComplete}
                         setAllFormComplete={setAllFormComplete}
+                        handleSubmit={handleSubmit}
                     />
                 </>
             }
+
+            {errorMessage && (
+                <pre className="text-red-500 mt-2">
+                    {errorMessage}
+                </pre>
+            )}
+
         </form >
     )
 }

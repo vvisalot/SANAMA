@@ -1,42 +1,43 @@
 //Listado de citas
-"use client";
+"use client"
 
-import SearchAndAddBar from "@/components/bars/SearchAndAddBar";
-import { useEffect, useState } from "react";
-import AppointmentTable from "./AppointmentTable";
-import { appointmentService } from "@/services/appointmentService";
-import { parseAppointmentTable } from "@/util/appointmentParser";
+import SearchAndAddBar from "@/components/bars/SearchAndAddBar"
+import { useEffect, useState } from "react"
+import AppointmentTable from "./AppointmentTable"
+import { appointmentService } from "@/services/appointmentService"
+import { parseAppointmentTable } from "@/util/appointmentParser"
+import Link from "next/link"
 
 const AppointmentPage = () => {
-  const [appointmentTable, setAppointmentTable] = useState([]);
+  const [appointmentTable, setAppointmentTable] = useState([])
 
   const fetchData = async () => {
     try {
-      const data = await appointmentService.listar();
-      const tableData = parseAppointmentTable(data);
-      setAppointmentTable(tableData);
+      const data = await appointmentService.listar()
+      const tableData = parseAppointmentTable(data)
+      setAppointmentTable(tableData)
       //console.log(data);
     } catch (error) {
-      console.log("No se pudo obtener la lista de las citas");
+      console.log("No se pudo obtener la lista de las citas")
     }
-  };
+  }
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const elements = e.target.elements;
-    const filtro = elements.namedItem("filtro").value;
+    e.preventDefault()
+    const elements = e.target.elements
+    const filtro = elements.namedItem("filtro").value
     try {
-      const data = await appointmentService.buscar(filtro);
-      const tableData = parseAppointmentTable(data);
-      setAppointmentTable(tableData);
+      const data = await appointmentService.buscar(filtro)
+      const tableData = parseAppointmentTable(data)
+      setAppointmentTable(tableData)
     } catch (error) {
-      console.log("Error al buscar las citas:", error);
+      console.log("Error al buscar las citas:", error)
     }
-  };
+  }
 
   return (
     <section className="p-10">
@@ -46,9 +47,12 @@ const AppointmentPage = () => {
         onSubmit={handleSubmit}
         permitirGenerarNuevaCita={true}
       />
+      {/* <Link href="/appointments/createAppointment">
+        Crear nueva cita
+      </Link> */}
       <AppointmentTable data={appointmentTable}></AppointmentTable>
     </section>
-  );
-};
+  )
+}
 
-export default AppointmentPage;
+export default AppointmentPage

@@ -408,16 +408,13 @@ const PatientForm = ({ setFormComplete, setPatientId, patientForm, fechaNacimien
             </fieldset>
 
             <div className="flex flex-row-reverse">
-                <button
-                    type="button"
-                    className=" m-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 
+                <button type="button" className=" m-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 
           font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center"
                     onClick={isNextPart ? handleClearForm : validateForm} // Cambia el comportamiento del botón en la segunda parte
                 >
                     {isNextPart ? 'Limpiar campos' : 'Siguiente'}
                 </button>
             </div>
-            {errorMessage && <pre className="text-red-500">{errorMessage}</pre>}
         </section >
     )
 }

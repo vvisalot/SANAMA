@@ -13,7 +13,7 @@ import { formatHour, validateNumberInput, validateTextInput } from "@/util/formV
 
 
 const AppointementForm = ({ setFormComplete, legalResponsibilityForm, setLegalResponsibilityForm, setDoctorId,
-    schedule, setSchedule, triageRequirement, setTriageRequirement, formComplete, allFormComplete, setAllFormComplete }) => {
+    schedule, setSchedule, triageRequirement, setTriageRequirement, formComplete, allFormComplete, setAllFormComplete, handleSubmit }) => {
     //Seccion 2
     const [relationships, setRelationships] = useState([])
 
@@ -24,18 +24,15 @@ const AppointementForm = ({ setFormComplete, legalResponsibilityForm, setLegalRe
     const [availableHours, setAvailableHours] = useState([])
     const [selectedHour, setSelectedHour] = useState(null)
     const [disabled, setDisabled] = useState(true)
-    const [errorMessage, setErrorMessage] = useState("")
 
     useEffect(() => {
         fetchSpecialty()
         fetchRelationships()
     }, [])
 
-    // Llamando a los servicios
     const fetchSpecialty = async () => {
         try {
             const data = await doctorService.listarEspecialidades()
-            //console.log(data)
             setSpecialties(data)
         } catch (error) {
             console.log("No se pudo obtener el listado de especialidades")
@@ -47,7 +44,6 @@ const AppointementForm = ({ setFormComplete, legalResponsibilityForm, setLegalRe
             const data = await doctorService.buscarPorMedicoEspecialidad(filtro, especialidad)
             const drop = parseDoctorsDropdown(data)
             setDoctors(drop)
-            //console.log(drop)
         } catch (error) {
             console.log("No se pudo obtener el listado de medicos para esta especialidad")
         }
@@ -56,7 +52,6 @@ const AppointementForm = ({ setFormComplete, legalResponsibilityForm, setLegalRe
     const fetchAvailableHours = async (date, doctorId) => {
         try {
             const data = await doctorService.buscarHorariosMedicoFecha(date, doctorId)
-            //console.log(data)
             setAvailableHours(data)
         } catch (error) {
             console.log("No se pudo obtener el listado de medicos para esta especialidad")
@@ -128,50 +123,7 @@ const AppointementForm = ({ setFormComplete, legalResponsibilityForm, setLegalRe
         setSchedule({ ...schedule, hora: hour })
     }
 
-    const validateForm = () => {
-        const triageFormValues = Object.values(triageRequirement)
-        const scheduleFormValues = Object.values(schedule)
-        let errorMessages = []
-        let isValid = true
 
-        if (scheduleFormValues.includes("")) {
-            errorMessages.push("Por favor, elige un horario de cita")
-            isValid = false // Marcar el formulario como no válido si alguna validación falla
-        }
-
-        if (triageFormValues.includes("")) {
-            errorMessages.push("Por favor, completa la solicitud de triaje")
-            isValid = false // Marcar el formulario como no válido si alguna validación falla
-        }
-
-        if (legalResponsibilityForm.tieneAcompañante === "Si") {
-            const legalResponsibilityFormValues = Object.values(legalResponsibilityForm)
-            if (legalResponsibilityFormValues.includes("")) {
-                errorMessages.push("Por favor, completa todos los campos de responsabilidad legal.")
-                isValid = false // Marcar el formulario como no válido si alguna validación falla
-            }
-        }
-
-        // Unimos los mensajes de error en una cadena separada por saltos de línea
-        const errorMessage = errorMessages.join("\n")
-
-        setErrorMessage(errorMessage) // Establecemos el mensaje de error concatenado
-        setFormComplete(isValid) // Establecemos el estado de validez del formulario
-
-        return isValid // Devolvemos el estado de validez del formulario
-    }
-
-
-    const handleSubmit = () => {
-        const isValid = validateForm()
-        if (isValid) {
-            console.log("El formulario es válido. Enviar datos.")
-            setAllFormComplete(true)
-        } else {
-            console.log("Por favor, completa todos los campos obligatorios.")
-            setAllFormComplete(false)
-        }
-    }
     return (
         <fieldset>
             <section id="section2">
@@ -381,6 +333,7 @@ const AppointementForm = ({ setFormComplete, legalResponsibilityForm, setLegalRe
                 </Picker>
             </section>
 
+
             <div className="flex flex-row-reverse">
                 <button type="submit" onClick={handleSubmit}
                     className=" m-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 
@@ -389,11 +342,6 @@ const AppointementForm = ({ setFormComplete, legalResponsibilityForm, setLegalRe
                 </button>
             </div>
 
-            {errorMessage && (
-                <pre className="text-red-500 mt-2">
-                    {errorMessage}
-                </pre>
-            )}
 
         </fieldset>
     )
