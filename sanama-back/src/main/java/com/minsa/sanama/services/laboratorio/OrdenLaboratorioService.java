@@ -31,12 +31,15 @@ public class OrdenLaboratorioService {
     }
 
     public OrdenLaboratorio buscarOrdenLaboratorio(String pn_id_orden_laboratorio) {
-        OrdenLaboratorio ordenLaboratorio;
+        OrdenLaboratorio ordenLaboratorio=null;
         List<ExamenMedico> lexamenes;
-        ordenLaboratorio = ordenLaboratorioRepository.buscarOrdenLaboratorio(pn_id_orden_laboratorio).get(0);
-        lexamenes = examenMedicoRepository.buscarExamenMedico(pn_id_orden_laboratorio);
-        ordenLaboratorio.setExamenMedico(lexamenes);
-
+        List<OrdenLaboratorio> lordenes;
+        lordenes = ordenLaboratorioRepository.buscarOrdenLaboratorio(pn_id_orden_laboratorio);
+        if(!lordenes.isEmpty()){
+            ordenLaboratorio = lordenes.get(0);
+            lexamenes = examenMedicoRepository.buscarExamenMedico(pn_id_orden_laboratorio);
+            ordenLaboratorio.setExamenMedico(lexamenes);
+        }
         return ordenLaboratorio;
     }
 

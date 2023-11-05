@@ -110,7 +110,6 @@ public class MedicoController {
             System.out.println(pv_filtro);
             JSONObject job = (JSONObject) new JSONParser().parse(pv_filtro);
             String cadena = job.get("pv_filtro").toString();
-            System.out.println(cadena);
             medicos = medicoService.buscarMedicoFiltro(cadena);
 
         } catch (Exception ex) {
