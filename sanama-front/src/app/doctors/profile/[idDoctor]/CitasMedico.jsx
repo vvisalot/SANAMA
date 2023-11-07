@@ -53,7 +53,7 @@ function CitasMedico({ doctor }) {
   }, [appointmentTable]);
 
   const columns = [
-    { name: "idCita" },
+    { name: "idCita", visible: false},
     { name: "Código cita", sortable: true, sortKey: "string", visible: true },
     { name: "Nombre del paciente", sortable: true, sortKey: "patientName" },
     { name: "Fecha", sortable: true, sortKey: "date" },

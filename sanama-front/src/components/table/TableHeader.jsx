@@ -1,4 +1,5 @@
 const TableHeader = ({ columns, requestSort, sortConfig }) => {
+  console.log("headers",columns)
   return (
     <thead className="border-gray-200 border-2 text-left text-[16px] text-gray-700 uppercase bg-gray-50">
       <tr>
