@@ -18,10 +18,11 @@ public class EspecialidadService {
         return lEspecialidades;
     }
 
+/*
     public List<Especialidad> listarEspecialidadesporNombre(String pv_filtro){
         List<Especialidad> lEspecialidades;
         lEspecialidades = especialidadRepository.listarEspecialidadesporNombre(pv_filtro);
         return lEspecialidades;
     }
-
+*/
 }

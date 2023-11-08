@@ -1,7 +1,6 @@
 package com.minsa.sanama.repository.atencionmedica;
 
 import com.minsa.sanama.model.atencionmedica.HojaMedica;
-import com.minsa.sanama.model.laboratorio.OrdenLaboratorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.SqlOutParameter;
@@ -17,7 +16,7 @@ import java.util.Map;
 public class HojaMedicaRepository {
     @Autowired
     JdbcTemplate jdbcTemplate;
-
+/*
     public int registrarHojaMedica(HojaMedica hojaMedica) {
         SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate)
                 .withSchemaName("dbSanama")
@@ -47,5 +46,5 @@ public class HojaMedicaRepository {
             return idHojaMedica;
         }
     }
-
+*/
 }

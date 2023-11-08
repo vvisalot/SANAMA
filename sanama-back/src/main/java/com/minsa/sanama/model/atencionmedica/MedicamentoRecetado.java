@@ -4,28 +4,24 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MedicamentoRecetado {
-    private int idMedicamento;
-    private String nombre;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    private int idMedicamentoRecetado=0;
     private String indicacion;
-    private int estado;
+    private boolean otroMedicamento;
+    private String otroNombreMedicamento;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    private int estado=0;
+    private Medicamento medicamento;
 
     public MedicamentoRecetado() {
     }
-    
-    public int getIdMedicamento() {
-        return idMedicamento;
+
+    public int getIdMedicamentoRecetado() {
+        return idMedicamentoRecetado;
     }
 
-    public void setIdMedicamento(int idMedicamento) {
-        this.idMedicamento = idMedicamento;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setIdMedicamentoRecetado(int idMedicamentoRecetado) {
+        this.idMedicamentoRecetado = idMedicamentoRecetado;
     }
 
     public String getIndicacion() {
@@ -36,6 +32,22 @@ public class MedicamentoRecetado {
         this.indicacion = indicacion;
     }
 
+    public boolean isOtroMedicamento() {
+        return otroMedicamento;
+    }
+
+    public void setOtroMedicamento(boolean otroMedicamento) {
+        this.otroMedicamento = otroMedicamento;
+    }
+
+    public String getOtroNombreMedicamento() {
+        return otroNombreMedicamento;
+    }
+
+    public void setOtroNombreMedicamento(String otroNombreMedicamento) {
+        this.otroNombreMedicamento = otroNombreMedicamento;
+    }
+
     public int getEstado() {
         return estado;
     }
@@ -43,7 +55,12 @@ public class MedicamentoRecetado {
     public void setEstado(int estado) {
         this.estado = estado;
     }
-    
-    
-    
+
+    public Medicamento getMedicamento() {
+        return medicamento;
+    }
+
+    public void setMedicamento(Medicamento medicamento) {
+        this.medicamento = medicamento;
+    }
 }

@@ -24,12 +24,12 @@ public class EspecialidadRepository {
         return jdbcTemplate.query(procedureCall, especialidadMapper);
 
     }
-
+/*
     public List<Especialidad> listarEspecialidadesporNombre(String pv_filtro) {
         String procedureCall = "{call dbSanama.ssm_adm_ListarEspecialidadesPorNombre('" + pv_filtro + "')};";
         return jdbcTemplate.query(procedureCall, especialidadMapper);
     }
-
+*/
     private static class EspecialidadMapper implements RowMapper<Especialidad> {
         @Override
         public Especialidad mapRow(ResultSet rs, int rowNum) throws SQLException {

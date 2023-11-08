@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class HojaMedicaController {
     @Autowired
     HojaMedicaService hojaMedicaService;
-
+/*
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE},
             value = "/post/registrarHojaMedica")
@@ -25,6 +25,6 @@ public class HojaMedicaController {
         return n;
     }
 
-
+*/
 
 }
