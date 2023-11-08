@@ -3,15 +3,18 @@ package com.minsa.sanama.model.atencionmedica;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.List;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RecetaMedica {
-    private int idReceta;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    private int idReceta=0;
     private String codigo;
     private LocalDate fechaEmision;
     private LocalDate fechaCaducidad;
-    private int estado;
-    private ArrayList<MedicamentoRecetado> medicamentosRecetados;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    private int estado=0;
+    private List<MedicamentoRecetado> medicamentosRecetados;
 
     public RecetaMedica() {
     }
@@ -56,11 +59,11 @@ public class RecetaMedica {
         this.estado = estado;
     }
 
-    public ArrayList<MedicamentoRecetado> getMedicamentosRecetados() {
+    public List<MedicamentoRecetado> getMedicamentosRecetados() {
         return medicamentosRecetados;
     }
 
-    public void setMedicamentosRecetados(ArrayList<MedicamentoRecetado> medicamentosRecetados) {
+    public void setMedicamentosRecetados(List<MedicamentoRecetado> medicamentosRecetados) {
         this.medicamentosRecetados = medicamentosRecetados;
     }
 
