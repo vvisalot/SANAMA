@@ -1,7 +1,9 @@
 package com.minsa.sanama.controller.admision;
 
 import com.minsa.sanama.model.atencionmedica.CitaMedica;
+import com.minsa.sanama.model.rrhh.TurnoAtencion;
 import com.minsa.sanama.services.admision.CitaService;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -46,7 +49,7 @@ public class CitaController {
             String pv_filtro = job.get("pv_filtro").toString();
             String pd_fecha_inicio;
             String pd_fecha_fin;
-            String pn_estado;
+            //String pn_estado;
 
             if(job.get("pd_fecha_inicio") == null) pd_fecha_inicio=null;
             else pd_fecha_inicio = job.get("pd_fecha_inicio").toString();
@@ -54,12 +57,22 @@ public class CitaController {
             if(job.get("pd_fecha_fin") == null) pd_fecha_fin=null;
             else pd_fecha_fin = job.get("pd_fecha_fin").toString();
 
-            if(job.get("pn_estado") == null) pn_estado=null;
-            else pn_estado = job.get("pn_estado").toString();
+            /*if(job.get("pn_estado") == null) pn_estado=null;
+            else pn_estado = job.get("pn_estado").toString();*/
+
+            List<String> estados = new ArrayList<>();
+            JSONArray arregloEstados = (JSONArray) job.get("arregloEstados");
+
+            for (Object estadoObjetc : arregloEstados) {
+                JSONObject pn_estado = (JSONObject) estadoObjetc;
+                String estado = pn_estado.get("estado").toString();
+
+                estados.add(estado);
+            }
 
 
             // Llama al servicio para listar citas por filtros
-            Lcita = citaService.listarCitasxFiltro(null, pv_filtro, pd_fecha_inicio, pd_fecha_fin, pn_estado);
+            Lcita = citaService.listarCitasxFiltro(null, pv_filtro, pd_fecha_inicio, pd_fecha_fin, estados);
         } catch (Exception ex) {
             // Manejo de excepciones aquí
             ex.printStackTrace();

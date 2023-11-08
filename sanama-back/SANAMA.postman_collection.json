@@ -45,7 +45,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"pn_id_especialidad\": null,\r\n    \"pv_filtro\":\"\",\r\n    \"pd_fecha_inicio\":null,\r\n    \"pd_fecha_fin\":null,\r\n    \"pn_estado\":null\r\n}",
+							"raw": "{\r\n    \"pn_id_especialidad\": null,\r\n    \"pv_filtro\":\"\",\r\n    \"pd_fecha_inicio\":null,\r\n    \"pd_fecha_fin\":null,\r\n    \"arregloEstados\":\r\n    [\r\n        {\r\n            \"estado\": \"3\"\r\n        },\r\n        {\r\n            \"estado\": \"2\"\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

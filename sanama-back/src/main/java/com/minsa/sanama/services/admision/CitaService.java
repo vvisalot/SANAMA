@@ -36,9 +36,9 @@ public class CitaService {
         return null;
     }
 
-    public List<CitaMedica> listarCitasxFiltro(String pn_id_especialidad, String pv_filtro, String pd_fecha_inicio, String pd_fecha_fin, String pn_estado) {
+    public List<CitaMedica> listarCitasxFiltro(String pn_id_especialidad, String pv_filtro, String pd_fecha_inicio, String pd_fecha_fin, List<String> estados) {
         List<CitaMedica> lCitas;
-        lCitas = citaRepository.listarCitasxFiltro(pn_id_especialidad, pv_filtro, pd_fecha_inicio, pd_fecha_fin, pn_estado);
+        lCitas = citaRepository.listarCitasxFiltro(pn_id_especialidad, pv_filtro, pd_fecha_inicio, pd_fecha_fin, estados);
         return lCitas;
     }
 
