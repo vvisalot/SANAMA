@@ -1,8 +1,7 @@
 package com.minsa.sanama.controller.atencion;
 
+import com.minsa.sanama.model.atencionmedica.HistorialClinico;
 import com.minsa.sanama.model.atencionmedica.HojaMedica;
-import com.minsa.sanama.model.laboratorio.OrdenLaboratorio;
-import com.minsa.sanama.services.atencion.HistorialClinicoService;
 import com.minsa.sanama.services.atencion.HojaMedicaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -19,12 +18,11 @@ public class HojaMedicaController {
             produces = {MediaType.APPLICATION_JSON_VALUE},
             value = "/post/registrarHojaMedica")
     @ResponseBody
-    public int registrarHojaMedica(@RequestBody HojaMedica hojaMedica){
+    public int registrarHojaMedica(@RequestBody HistorialClinico historialClinico){
+        HojaMedica hojaMedica=null;
         int n;
-        n = hojaMedicaService.registrarHojaMedica(hojaMedica);
+        hojaMedica = historialClinico.getHojasMedicas().get(0);
+        n = hojaMedicaService.registrarHojaMedica(hojaMedica,historialClinico.getIdHistorialClinico());
         return n;
     }
-
-
-
 }

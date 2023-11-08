@@ -172,7 +172,16 @@ const LaboratoryProfile = ({ params }) => {
         }
     }
 
-    function calcularEdad(fechaNacimiento) {
+    function getSexoLabel(sexo) {
+        if (sexo === 'M') {
+          return 'Masculino';
+        } else if (sexo === 'F') {
+          return 'Femenino';
+        }
+        return ''; // o puedes retornar null o un mensaje como 'No especificado'
+      }
+
+      function calcularEdad(fechaNacimiento) {
         const hoy = new Date()
         const cumpleanos = new Date(fechaNacimiento)
         let edad = hoy.getFullYear() - cumpleanos.getFullYear()
@@ -412,7 +421,7 @@ const LaboratoryProfile = ({ params }) => {
             name="sexo"
             className="text-xl border rounded p-4 w-full bg-gray-200 cursor-not-allowed"
             type="text"
-            value={dataLaboratory?.citaMedica?.paciente?.sexo}
+            value={getSexoLabel(dataLaboratory?.citaMedica?.paciente?.sexo)}
             onChange={handleChange}
             disabled
         />
