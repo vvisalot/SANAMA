@@ -194,7 +194,7 @@ const TriajeProfile = ({ params }) => {
             pn_saturacionOxigeno: "0",
             pn_frecuenciaCardiaca: "0",
             pn_frecuenciaRespiratoria: "0",
-            pv_nivelConciencia: "Inconsciente",
+            pv_nivelConciencia: "-",
             pv_nivelDolor: "4",
             pv_condicionesPrexistentes: "-"
         };
@@ -334,12 +334,12 @@ const TriajeProfile = ({ params }) => {
                                     disabled
                                     className="border rounded p-4 w-full bg-gray-200 cursor-not-allowed"
                                     type="text"
-                                    value={edad}
+                                    value={edad}    
                                     onChange={handleChange}
                                 />
                             </div>
 
-                            <div className="flex-1">
+                            <div className="flex-1 max-w-xs min-w-0">
                             <label className="text-black block mb-2">Talla (cm)</label>
                             <input 
                                 className="border rounded p-4 w-full" 
@@ -354,7 +354,7 @@ const TriajeProfile = ({ params }) => {
                             />
                         </div>
 
-                        <div className="flex-1">
+                        <div className="flex-1 max-w-xs min-w-0">
                             <label className="text-black block mb-2">Peso (kg)</label>
                             <input 
                                 className="border rounded p-4 w-full" 

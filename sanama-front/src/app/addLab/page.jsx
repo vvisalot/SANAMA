@@ -21,6 +21,32 @@ const AddLabPage = () => {
 
   const toggleModal = () => setIsModalOpen(!isModalOpen);
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    const [key, subkey] = name.split('.');
+  
+    if (subkey) {
+      setDataLaboratorio(prevState => ({
+        ...prevState,
+        [key]: {
+          ...prevState[key],
+          [subkey]: value
+        }
+      }));
+    } else {
+      setDataLaboratorio(prevState => ({
+        ...prevState,
+        [name]: value
+      }));
+    }
+
+    const charCountElementId = `charCount${name.charAt(0).toUpperCase() + name.slice(1)}`;
+    const countElement = document.getElementById(charCountElementId);
+    if (countElement) {
+      countElement.textContent = `${value.length}/1000`;
+    }
+  };
+
   return (
     <section className="p-10 flex justify-center items-center h-screen">
       <button
@@ -36,7 +62,8 @@ const AddLabPage = () => {
           onClick={toggleModal}
         >
           <div
-            className="modal-container bg-white p-5 rounded shadow-lg"
+            className="modal-container bg-white p-5 rounded shadow-lg overflow-y-auto"
+            style={{ maxHeight: '90vh' }}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="modal-header flex flex-col items-start">
@@ -177,7 +204,9 @@ const AddLabPage = () => {
                   <select
                     className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     id="tipoMuestra"
+                    onChange={handleChange}
                   >
+                    <option value="">Seleccionar tipo</option>
                     <option>Sangre</option>
                     <option>Orina</option>
                     <option>Heces</option>
@@ -194,7 +223,12 @@ const AddLabPage = () => {
                     rows="4"
                     placeholder="Escriba los exámenes médicos solicitados aquí"
                     style={{ overflow: "auto" }} 
+                    value={dataLaboratorio.examenesMedicos}
+                    name="examenesMedicos"
+                    onChange={handleChange}
+                    maxLength={1000}
                   ></textarea>
+                  <span className="text-right block mt-2" id="charCountExamenesMedicos">{(dataLaboratorio?.examenesMedicos || '').length}/1000</span>
                 </div>
                 <div className="flex justify-end space-x-4 mt-4">
                   <button
