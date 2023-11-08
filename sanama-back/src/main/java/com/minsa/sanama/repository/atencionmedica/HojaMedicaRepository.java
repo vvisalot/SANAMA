@@ -34,7 +34,7 @@ public class HojaMedicaRepository {
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
         mapSqlParameterSource
                 .addValue("pn_id_historial_clinico", pn_id_historial)
-                .addValue("pn_id_hoja_referenciadad", hojaMedica.getHojaReferenciada())
+                .addValue("pn_id_hoja_referenciadad", hojaMedica.getHojaRefencia().getIdHojaReferenciada())
                 .addValue("pv_codigo", hojaMedica.getCodigo())
                 .addValue("pv_fecha_atencion", hojaMedica.getFechaAtencion())
                 .addValue("pt_hora_atencion", hojaMedica.getHoraAtencion())

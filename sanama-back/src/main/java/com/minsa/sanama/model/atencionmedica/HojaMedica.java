@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class HojaMedica {
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private int idHojaMedica=0;
-    private HojaMedica hojaMedica;
+    private HojaRefencia hojaRefencia;
     private String codigo;
     private LocalTime horaAtencion;
     private LocalDate fechaAtencion;
@@ -32,12 +32,12 @@ public class HojaMedica {
         this.idHojaMedica = idHojaMedica;
     }
 
-    public HojaMedica getHojaReferenciada() {
-        return hojaMedica;
+    public HojaRefencia getHojaRefencia() {
+        return hojaRefencia;
     }
 
-    public void setHojaReferenciada(HojaMedica hojaMedica) {
-        this.hojaMedica = hojaMedica;
+    public void setHojaRefencia(HojaRefencia hojaRefencia) {
+        this.hojaRefencia = hojaRefencia;
     }
 
     public String getCodigo() {
