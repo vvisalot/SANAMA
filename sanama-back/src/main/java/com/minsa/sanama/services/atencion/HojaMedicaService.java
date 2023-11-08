@@ -14,13 +14,11 @@ import java.util.List;
 public class HojaMedicaService {
     @Autowired
     HojaMedicaRepository hojaMedicaRepository;
-/*
-    public int registrarHojaMedica(HojaMedica hojaMedica){
+
+    public int registrarHojaMedica(HojaMedica hojaMedica,int pn_id_historial_clinico) {
         int valido;
-        valido = hojaMedicaRepository.registrarHojaMedica(hojaMedica);
+        valido = hojaMedicaRepository.registrarHojaMedica(hojaMedica,pn_id_historial_clinico);
 
         return valido;
     }
-
- */
 }

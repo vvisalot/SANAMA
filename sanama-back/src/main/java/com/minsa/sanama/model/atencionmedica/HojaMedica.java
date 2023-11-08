@@ -32,11 +32,11 @@ public class HojaMedica {
         this.idHojaMedica = idHojaMedica;
     }
 
-    public HojaMedica getHoja() {
+    public HojaMedica getHojaReferenciada() {
         return hojaMedica;
     }
 
-    public void setHoja(HojaMedica hojaMedica) {
+    public void setHojaReferenciada(HojaMedica hojaMedica) {
         this.hojaMedica = hojaMedica;
     }
 

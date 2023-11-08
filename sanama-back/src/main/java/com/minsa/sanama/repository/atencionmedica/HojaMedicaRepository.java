@@ -16,26 +16,30 @@ import java.util.Map;
 public class HojaMedicaRepository {
     @Autowired
     JdbcTemplate jdbcTemplate;
-/*
-    public int registrarHojaMedica(HojaMedica hojaMedica) {
+
+    public int registrarHojaMedica(HojaMedica hojaMedica,int pn_id_historial) {
         SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate)
                 .withSchemaName("dbSanama")
                 .withProcedureName("ssm_ate_registrar_hoja_medica")
                 .declareParameters(new SqlParameter[] {
                         new SqlOutParameter("pn_id_hoja_medica", Types.INTEGER),
                         new SqlParameter("pn_id_historial_clinico", Types.INTEGER),
-                        new SqlParameter("pn_id_especialidad_derivada", Types.INTEGER),
-                        new SqlParameter("pn_id_medico_atendiente", Types.INTEGER),
-                        new SqlParameter("pb_sello_firma", Types.BLOB),
-                        new SqlParameter("pd_fecha_proxima_cita", Types.DATE)
+                        new SqlParameter("pn_id_hoja_referenciadad", Types.INTEGER),
+                        new SqlParameter("pv_codigo", Types.VARCHAR),
+                        new SqlParameter("pv_fecha_atencion", Types.DATE),
+                        new SqlParameter("pt_hora_atencion", Types.TIME),
+                        new SqlParameter("pb_firma", Types.BLOB),
+                        new SqlParameter("pn_estado", Types.INTEGER)
                 });
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
         mapSqlParameterSource
-                .addValue("pn_id_historial_clinico", hojaMedica.getIdHistorialClinico())
-                .addValue("pn_id_especialidad_derivada", hojaMedica.getEspecialidadDerivada().getIdEspecialidad())
-                .addValue("pn_id_medico_atendiente", hojaMedica.getMedicoAtendiente().getIdPersona())
-                .addValue("pb_sello_firma", hojaMedica.getSelloFirma())
-                .addValue("pd_fecha_proxima_cita", hojaMedica.getFechaProximaCita());
+                .addValue("pn_id_historial_clinico", pn_id_historial)
+                .addValue("pn_id_hoja_referenciadad", hojaMedica.getHojaReferenciada())
+                .addValue("pv_codigo", hojaMedica.getCodigo())
+                .addValue("pv_fecha_atencion", hojaMedica.getFechaAtencion())
+                .addValue("pt_hora_atencion", hojaMedica.getHoraAtencion())
+                .addValue("pb_firma", hojaMedica.getFirma())
+                .addValue("pn_estado", hojaMedica.getEstado());
 
         Map<String, Object> result = simpleJdbcCall.execute(mapSqlParameterSource);
         if(result.containsKey("ERROR_CODE") || result.containsKey("ERROR_MESSAGE")){
@@ -46,5 +50,5 @@ public class HojaMedicaRepository {
             return idHojaMedica;
         }
     }
-*/
+
 }
