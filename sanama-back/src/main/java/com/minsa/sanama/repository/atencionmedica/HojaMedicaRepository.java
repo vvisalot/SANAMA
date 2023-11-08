@@ -32,15 +32,28 @@ public class HojaMedicaRepository {
                         new SqlParameter("pn_estado", Types.INTEGER)
                 });
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
-        mapSqlParameterSource
-                .addValue("pn_id_historial_clinico", pn_id_historial)
-                .addValue("pn_id_hoja_referenciadad", hojaMedica.getHojaRefencia().getIdHojaReferenciada())
-                .addValue("pv_codigo", hojaMedica.getCodigo())
-                .addValue("pv_fecha_atencion", hojaMedica.getFechaAtencion())
-                .addValue("pt_hora_atencion", hojaMedica.getHoraAtencion())
-                .addValue("pb_firma", hojaMedica.getFirma())
-                .addValue("pn_estado", hojaMedica.getEstado());
 
+        if(hojaMedica.getHojaRefencia() != null){
+            mapSqlParameterSource
+                    .addValue("pn_id_historial_clinico", pn_id_historial)
+                    .addValue("pn_id_hoja_referenciadad", hojaMedica.getHojaRefencia().getIdHojaReferenciada())
+                    .addValue("pv_codigo", hojaMedica.getCodigo())
+                    .addValue("pv_fecha_atencion", hojaMedica.getFechaAtencion())
+                    .addValue("pt_hora_atencion", hojaMedica.getHoraAtencion())
+                    .addValue("pb_firma", hojaMedica.getFirma())
+                    .addValue("pn_estado", hojaMedica.getEstado());
+        }
+        else{
+
+            mapSqlParameterSource
+                    .addValue("pn_id_historial_clinico", pn_id_historial)
+                    .addValue("pn_id_hoja_referenciadad", hojaMedica.getHojaRefencia())
+                    .addValue("pv_codigo", hojaMedica.getCodigo())
+                    .addValue("pv_fecha_atencion", hojaMedica.getFechaAtencion())
+                    .addValue("pt_hora_atencion", hojaMedica.getHoraAtencion())
+                    .addValue("pb_firma", hojaMedica.getFirma())
+                    .addValue("pn_estado", hojaMedica.getEstado());
+        }
         Map<String, Object> result = simpleJdbcCall.execute(mapSqlParameterSource);
         if(result.containsKey("ERROR_CODE") || result.containsKey("ERROR_MESSAGE")){
             return -1;
