@@ -3,7 +3,7 @@ import Link from "next/link"
 const ActionButton = ({ url, name, color, shadow }) => {
 
     return (
-        <Link href={url} className="p-14 h-full flex flex-row items-center hover:bg-slate-100 rounded-2xl cursor-pointer">
+        <Link href={url} className="p-[45px] h-full flex flex-row items-center hover:bg-slate-100 rounded-2xl cursor-pointer">
             <span className={`p-5 rounded-full ${color} text-white shadow-lg ${shadow}`} />
             <p className="pl-5 text-lg font-medium text-slate-700 mt-3">{name}</p>
         </Link>

@@ -58,7 +58,6 @@ const PatientProfile = ({ params }) => {
                     insuranceType={dataPatient.tipoSeguro}
                 />
                 <div className="flex">
-                    <LatestLabResults id={params.idPatient} />
                     <LatestAppointments id={params.idPatient} />
 
                 </div>
