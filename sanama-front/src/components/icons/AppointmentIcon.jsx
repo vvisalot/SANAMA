@@ -3,11 +3,12 @@ const AppointmentIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     xmlSpace="preserve"
-    width={97}
-    height={97}
+    width={45}
+    height={45}
     style={{
       enableBackground: "new 0 0 97 97",
     }}
+    viewBox="0 0 97 97"
   >
     <path
       d="M42.532 6.558h12.322c4.579 0 8.325 3.747 8.325 8.325v28.35c0 4.579-3.746 8.325-8.325 8.325H42.532c-4.579 0-8.326-3.746-8.326-8.325v-28.35c0-4.578 3.747-8.325 8.326-8.325z"

@@ -8,6 +8,7 @@ import LabIcon from "@/components/icons/LabIcon.jsx";
 import MenuIcon from "@/components/icons/MenuIcon.jsx";
 import AppointmentIcon from "@/components/icons/AppointmentIcon.jsx";
 import TriageIcon from "@/components/icons/TriageIcon";
+import helpIcon from "@/components/icons/HelpIcon";
 
 const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
   return (
@@ -66,7 +67,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
           name={"ModalLaboratorio"}
           route={"/addLab"}
           isOpen={isSidebarOpen}
-          Icon={DoctorIcon}
+          Icon={helpIcon}
         ></SidebarItem>
       </ul>
     </nav>

@@ -1,16 +1,15 @@
 import * as React from "react";
-const TriageIcon = (props) => (
+const TriageIcon = () => (
   <svg
     id="Capa_1"
     xmlns="http://www.w3.org/2000/svg"
     xmlnsXlink="http://www.w3.org/1999/xlink"
-    width={97}
-    height={97}
+    width={45}
+    height={45}
     style={{
       enableBackground: "new 0 0 97 97",
     }}
-    xmlSpace="preserve"
-    {...props}
+    viewBox="0 0 97 97"
   >
     <g>
       <linearGradient
