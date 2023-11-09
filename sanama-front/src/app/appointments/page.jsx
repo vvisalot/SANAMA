@@ -1,7 +1,6 @@
 //Listado de citas
 "use client"
 
-import SearchAndAddBar from "@/components/bars/SearchAndAddBar"
 import { useEffect, useState } from "react"
 import AppointmentTable from "./AppointmentTable"
 import { appointmentService } from "@/services/appointmentService"
@@ -10,14 +9,50 @@ import Link from "next/link"
 import SearchBar from "@/components/bars/SearchBar"
 import DateRangePicker from "@/components/Date/DateRangePicker"
 import DropdownCheckbox from "@/components/Dropdowns/DropdownCheckbox"
+import { format } from "date-fns"
+
+
+const initialRequest = {
+  "pn_id_especialidad": null,
+  "pv_filtro": "",
+  "pd_fecha_inicio": null,
+  "pd_fecha_fin": null,
+  "arregloEstados":
+    [
+      {
+        "estado": null
+      }
+    ]
+}
 
 const AppointmentPage = () => {
   const [appointmentTable, setAppointmentTable] = useState([])
-  const [stateList, setStateList] = useState([])
 
-  const fetchData = async () => {
+  const [statusList, setStatusList] = useState([])
+  const [statusState, setStatusState] = useState({})
+
+  const [dateInitial, setDateInitial] = useState(new Date())
+  const [dateFinal, setDateFinal] = useState(new Date())
+
+  const fetchStateList = async () => {
     try {
-      const data = await appointmentService.listar()
+      const data = await appointmentService.listarEstados()
+      setStatusList(data)
+      let initialValues = {}
+      data.forEach((status) => {
+        initialValues[status.idValue] = false
+      })
+      console.log(initialValues)
+      setStatusState(initialValues)
+      //console.log(data)
+    } catch (error) {
+      console.log("No se pudo obtener la lista de estados")
+    }
+  }
+
+  const fetchData = async (request) => {
+    try {
+      const data = await appointmentService.listarCitasFiltro(request)
       const tableData = parseAppointmentTable(data)
       setAppointmentTable(tableData)
       //console.log(data);
@@ -26,24 +61,30 @@ const AppointmentPage = () => {
     }
   }
 
-  const fetchStateList = async () => {
-    try {
-      const data = await appointmentService.listarEstados()
-      console.log(data)
-      setStateList(data)
-    } catch (error) {
-      console.log("No se pudo obtener la lista de estados")
-    }
-  }
-
   useEffect(() => {
-    fetchData()
+    fetchStateList()
+    fetchData(initialRequest)
   }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    const elements = e.target.elements
+    const filtro = elements.namedItem("search-bar-appointments").value
 
-
+    const stateArray = Object.entries(statusState).filter(([key, value]) => value).map(([key, value]) => {
+      return {
+        "estado": key
+      }
+    })
+    //console.log(stateArray)
+    const request = {
+      "pn_id_especialidad": null,
+      "pv_filtro": filtro,
+      "pd_fecha_inicio": format(dateInitial, 'yyyy-MM-dd'),
+      "pd_fecha_fin": format(dateFinal, 'yyyy-MM-dd'),
+      "arregloEstados": stateArray
+    }
+    fetchData(request)
   }
 
   return (
@@ -58,12 +99,20 @@ const AppointmentPage = () => {
       </div>
 
 
-      <form className="items-center pb-4" onSubmit={handleSubmit}>
-        <div className="flex p-4">
-          <DateRangePicker></DateRangePicker>
-          <DropdownCheckbox></DropdownCheckbox>
-          <SearchBar name={"search-bar-appointments"} width={"w-[900px]"} placeholderText={"Buscar por nombre o dni"} />
-        </div>
+      <form className="flex items-center p-4 justify-between" onSubmit={handleSubmit}>
+        <DateRangePicker
+          dateInitial={dateInitial}
+          setDateInitial={setDateInitial}
+          dateFinal={dateFinal}
+          setDateFinal={setDateFinal} />
+        <DropdownCheckbox
+          text={"Estado"}
+          // stateOptions={stateOptions}
+          statusList={statusList}
+          statusState={statusState}
+          setStatusState={setStatusState}
+        />
+        <SearchBar name={"search-bar-appointments"} width={"w-[950px]"} placeholderText={"Buscar por nombre del paciente"} />
       </form>
 
       <section className="p-4">

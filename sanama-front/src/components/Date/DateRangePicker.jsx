@@ -4,18 +4,17 @@ import { set } from "date-fns"
 
 
 const defaultOptions = {
-    autoHide: true,
+    autoHide: false,
     todayBtn: true,
     todayBtnText: "Hoy",
-    clearBtn: true,
-    clearBtnText: "Limpiar",
+    clearBtn: false,
     datepickerClassNames: "top-17",
     language: "es",
     disabledDates: [],
     theme: {
         input: "py-4",
-
     },
+
     weekDays: ["Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"],
     inputDateFormatProp: {
         day: "numeric",
@@ -26,31 +25,28 @@ const defaultOptions = {
 
 
 
-const DateRangePicker = () => {
+const DateRangePicker = ({ dateInitial, setDateInitial, dateFinal, setDateFinal }) => {
     const [showInitial, setShowInitial] = useState(false)
     const [showFinal, setShowFinal] = useState(false)
-
-    const [dateInitial, setDateInitial] = useState(new Date())
-    const [dateFinal, setDateFinal] = useState(new Date())
 
 
     const [optionsInitial, setOptionsInitial] = useState({
         ...defaultOptions,
         minDate: new Date("1940-01-01"),
         defaultDate: new Date()
-    });
+    })
     const [optionsFinal, setOptionsFinal] = useState({
         ...defaultOptions,
         minDate: new Date(),
         defaultDate: new Date()
-    });
+    })
 
     useEffect(() => {
         setOptionsFinal((prevOptions) => ({
             ...prevOptions,
             minDate: new Date(dateInitial)
-        }));
-    }, [dateInitial]);
+        }))
+    }, [dateInitial])
 
 
     const handleChangeInitial = (selectedDate) => {
@@ -72,9 +68,9 @@ const DateRangePicker = () => {
 
 
     return (
-        <section className="flex items-center pr-8">
+        <section className="flex items-center">
             <Datepicker classNames="pr-2" options={optionsInitial} onChange={handleChangeInitial} show={showInitial} setShow={handleCloseInitial} />
-            <Datepicker options={optionsFinal} onChange={handleChangeFinal} show={showFinal} setShow={handleCloseFinal} />
+            <Datepicker classNames="pr-2" options={optionsFinal} onChange={handleChangeFinal} show={showFinal} setShow={handleCloseFinal} />
         </section>
 
 
