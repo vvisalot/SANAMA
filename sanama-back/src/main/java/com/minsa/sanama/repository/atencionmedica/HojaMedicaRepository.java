@@ -64,4 +64,24 @@ public class HojaMedicaRepository {
         }
     }
 
+    public int eliminarHojaMedica(String pn_id_hoja_medica) {
+        SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                .withSchemaName("dbSanama")
+                .withProcedureName("ssm_ate_eliminar_hoja_medica")
+                .declareParameters(new SqlParameter[] {
+                        new SqlParameter("pn_id_hoja_medica", Types.INTEGER)
+                });
+        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
+        mapSqlParameterSource
+                .addValue("pn_id_hoja_medica", pn_id_hoja_medica);
+
+        Map<String, Object> result = simpleJdbcCall.execute(mapSqlParameterSource);
+        if(result.containsKey("ERROR_CODE") || result.containsKey("ERROR_MESSAGE")){
+            return -1;
+        }
+        else{
+            return 1;
+        }
+    }
+
 }

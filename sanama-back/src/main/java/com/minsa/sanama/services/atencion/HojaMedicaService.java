@@ -21,4 +21,11 @@ public class HojaMedicaService {
 
         return valido;
     }
+
+    public int eliminarHojaMedica(String pn_id_hoja_medica) {
+        int valido;
+        valido = hojaMedicaRepository.eliminarHojaMedica(pn_id_hoja_medica);
+
+        return valido;
+    }
 }
