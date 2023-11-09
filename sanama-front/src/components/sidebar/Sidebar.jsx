@@ -56,12 +56,17 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
           isOpen={isSidebarOpen}
           Icon={TriageIcon}
         ></SidebarItem>
-
         <SidebarItem
           name={"Laboratorio"}
           route={"/laboratories"}
           isOpen={isSidebarOpen}
           Icon={LabIcon}
+        ></SidebarItem>
+        <SidebarItem
+          name={"ModalLaboratorio"}
+          route={"/addLab"}
+          isOpen={isSidebarOpen}
+          Icon={DoctorIcon}
         ></SidebarItem>
       </ul>
     </nav>

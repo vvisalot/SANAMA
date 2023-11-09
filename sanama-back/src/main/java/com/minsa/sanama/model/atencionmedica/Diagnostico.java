@@ -2,19 +2,20 @@ package com.minsa.sanama.model.atencionmedica;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import java.util.ArrayList;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Diagnostico {
-    private int idDiagnostico;
-    private String descripcion;
-    private Boolean presuntivo;
-    private int estado;
-    private String tratamiento;
-    private ArrayList<EnfermedadEstandar> enfermedadesEstandar;
-
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    private int idDiagnostico=0;
+    private String idCiex;
+    private String ciex;
+    private String descripcionCiex;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    private int estado=0;
+    private CategoriaDiagnostico categoria;
     public Diagnostico() {
     }
-    
+
     public int getIdDiagnostico() {
         return idDiagnostico;
     }
@@ -23,20 +24,28 @@ public class Diagnostico {
         this.idDiagnostico = idDiagnostico;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getIdCiex() {
+        return idCiex;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setIdCiex(String idCiex) {
+        this.idCiex = idCiex;
     }
 
-    public Boolean getPresuntivo() {
-        return presuntivo;
+    public String getCiex() {
+        return ciex;
     }
 
-    public void setPresuntivo(Boolean presuntivo) {
-        this.presuntivo = presuntivo;
+    public void setCiex(String ciex) {
+        this.ciex = ciex;
+    }
+
+    public String getDescripcionCiex() {
+        return descripcionCiex;
+    }
+
+    public void setDescripcionCiex(String descripcionCiex) {
+        this.descripcionCiex = descripcionCiex;
     }
 
     public int getEstado() {
@@ -47,22 +56,11 @@ public class Diagnostico {
         this.estado = estado;
     }
 
-    public String getTratamiento() {
-        return tratamiento;
+    public CategoriaDiagnostico getCategoria() {
+        return categoria;
     }
 
-    public void setTratamiento(String tratamiento) {
-        this.tratamiento = tratamiento;
+    public void setCategoria(CategoriaDiagnostico categoria) {
+        this.categoria = categoria;
     }
-
-    public ArrayList<EnfermedadEstandar> getEnfermedadesEstandar() {
-        return enfermedadesEstandar;
-    }
-
-    public void setEnfermedadesEstandar(ArrayList<EnfermedadEstandar> enfermedadesEstandar) {
-        this.enfermedadesEstandar = enfermedadesEstandar;
-    }
-    
-    
-    
 }

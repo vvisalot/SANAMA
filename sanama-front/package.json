@@ -16,6 +16,7 @@
     "dayjs": "^1.11.10",
     "debug": "^4.3.4",
     "flowbite": "^2.0.0",
+    "flowbite-datepicker": "^1.2.4",
     "flowbite-react": "^0.6.4",
     "font-awesome": "^4.7.0",
     "moment": "^2.29.4",
@@ -25,7 +26,8 @@
     "react-dom": "^18",
     "react-icons": "^4.11.0",
     "react-router-dom": "^6.17.0",
-    "sweetalert": "^2.1.2"
+    "sweetalert": "^2.1.2",
+    "tailwind-datepicker-react": "^1.4.3"
   },
   "devDependencies": {
     "autoprefixer": "^10",

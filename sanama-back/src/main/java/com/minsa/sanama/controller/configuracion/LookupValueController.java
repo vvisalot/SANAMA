@@ -37,4 +37,12 @@ public class LookupValueController {
         lmedicos = valueService.listarMedicosLab();
         return lmedicos;
     }
+
+    @GetMapping(value = "/get/listarEstadosCitas")
+    @ResponseBody
+    public List<LookupValue> listarEstadosCitas() {
+        List<LookupValue> lcitas;
+        lcitas = valueService.listarEstadosCitas();
+        return lcitas;
+    }
 }

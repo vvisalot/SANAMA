@@ -32,31 +32,6 @@ public class HistorialClinicoRepository {
     private final HistorialMapper historialMapper = new HistorialMapper();
     private final HojaMedicaMapper hojaMedicaMapper = new HojaMedicaMapper();
 
-    public int registrarHistorialClinico(Paciente paciente){
-        SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate)
-                .withSchemaName("dbSanama")
-                .withProcedureName("ssm_ate_registrar_historial_clinico")
-                .declareParameters(new SqlParameter[]{
-                        new SqlOutParameter("pn_id_historial_clinico ", Types.INTEGER),
-                        new SqlParameter("pn_id_paciente ", Types.INTEGER),
-                        new SqlParameter("pv_codigo", Types.VARCHAR),
-                        new SqlParameter("pn_estado", Types.INTEGER)
-                });
-        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
-        mapSqlParameterSource
-                .addValue("pn_id_paciente", paciente.getIdPersona())
-                .addValue("pv_codigo", paciente.getHistorialClinico().getCodigo())
-                .addValue("pn_estado", 1);
-        Map<String, Object> result = simpleJdbcCall.execute(mapSqlParameterSource);
-        if(result.containsKey("ERROR_CODE") || result.containsKey("ERROR_MESSAGE")){
-            return -1;
-        }
-        else{
-            int idHistorialClinico = (int)result.get("pn_id_historial_clinico");
-            return idHistorialClinico;
-        }
-    }
-
     public HistorialClinico buscarHistorialClinico(String pn_id_paciente) {
 
         HistorialClinico historialClinico=null;
@@ -90,7 +65,7 @@ public class HistorialClinicoRepository {
             HojaMedica hojaMedica = new HojaMedica();
 
             hojaMedica.setIdHojaMedica(rs.getInt("id_hoja_medica"));
-            hojaMedica.setCodigo(rs.getString("codigo_hm"));
+            hojaMedica.setCodigo(rs.getString("codigo"));
             return hojaMedica;
         }
     }

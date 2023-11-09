@@ -5,6 +5,7 @@ import com.minsa.sanama.model.atencionmedica.CitaMedica;
 import com.minsa.sanama.model.atencionmedica.HojaMedica;
 import com.minsa.sanama.model.rrhh.Especialidad;
 import com.minsa.sanama.model.rrhh.Medico;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -19,6 +20,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -50,12 +52,19 @@ public class CitaRepository {
         return jdbcTemplate.query(procedureCall, citaMedicaPacienteMapper);
     }
 
-    public List<CitaMedica> listarCitasxFiltro(String pn_id_especialidad, String pv_filtro, String pd_fecha_inicio, String pd_fecha_fin, String pn_estado) {
+    public List<CitaMedica> listarCitasxFiltro(String pn_id_especialidad, String pv_filtro, String pd_fecha_inicio, String pd_fecha_fin, List<String> estados) {
         if (pd_fecha_inicio != null)pd_fecha_inicio = "'"+pd_fecha_inicio+"'";
         if (pd_fecha_fin != null)pd_fecha_fin = "'"+pd_fecha_fin+"'";
-        if (pn_estado != null)pn_estado = "'"+pn_estado+"'";
-        String procedureCall = "{call dbSanama.ssm_adm_listar_citas_medicas_filtro("+pn_id_especialidad+",'"+pv_filtro+"',"+pd_fecha_inicio+","+pd_fecha_fin+","+pn_estado+")};";
-        return jdbcTemplate.query(procedureCall, citaMedicaMapper);
+        String procedureCall;
+        List<CitaMedica> citaMedica= new ArrayList<>();
+        List<CitaMedica> aux=null;
+        for (String pn_estado : estados) {
+            if (pn_estado != null)pn_estado = "'"+pn_estado+"'";
+            procedureCall = "{call dbSanama.ssm_adm_listar_citas_medicas_filtro("+pn_id_especialidad+",'"+pv_filtro+"',"+pd_fecha_inicio+","+pd_fecha_fin+","+pn_estado+")};";
+            aux = jdbcTemplate.query(procedureCall, citaMedicaMapper);
+            citaMedica.addAll(aux);
+        }
+        return citaMedica;
     }
 
     public List<CitaMedica> listarCitasxMedico(String pn_id_medico, String pn_estado) {

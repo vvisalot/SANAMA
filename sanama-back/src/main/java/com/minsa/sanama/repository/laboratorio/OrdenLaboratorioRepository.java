@@ -132,4 +132,38 @@ public class OrdenLaboratorioRepository {
         }
         else return 1;
     }
+
+    public int registrarOrdenLaboratorio(OrdenLaboratorio orden) {
+        SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                .withSchemaName("dbSanama")
+                .withProcedureName("ssm_lab_registrar_orden_laboratorio")
+                .declareParameters(new SqlParameter[] {
+                        new SqlOutParameter("pn_id_orden_laboratorio", Types.INTEGER),
+                        new SqlParameter("pn_id_cita", Types.INTEGER),
+                        new SqlParameter("pv_codigo_orden", Types.VARCHAR),
+                        new SqlParameter("pv_tipo_muestra", Types.VARCHAR),
+                        new SqlParameter("pv_instrucciones", Types.VARCHAR),
+                        new SqlParameter("pd_fecha_orden", Types.DATE),
+                        new SqlParameter("pt_hora_orden", Types.TIME)
+                });
+        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
+        mapSqlParameterSource
+                .addValue("pn_id_cita", orden.getCitaMedica().getIdCita())
+                .addValue("pv_codigo_orden", orden.getCodigoOrden())
+                .addValue("pv_tipo_muestra", orden.getTipoMuestra())
+                .addValue("pv_instrucciones", orden.getInstrucciones())
+                .addValue("pd_fecha_orden", orden.getFechaOrden())
+                .addValue("pt_hora_orden", orden.getHoraOrden());
+
+
+        Map<String, Object> result = simpleJdbcCall.execute(mapSqlParameterSource);
+        if (result.containsKey("ERROR_CODE") || result.containsKey("ERROR_MESSAGE")) {
+            return -1;
+        } else {
+            int idOrden = (int) result.get("pn_id_orden_laboratorio");
+            return idOrden;
+        }
+    }
+
+
 }

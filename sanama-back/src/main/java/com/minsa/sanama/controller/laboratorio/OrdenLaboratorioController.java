@@ -73,4 +73,16 @@ public class OrdenLaboratorioController {
         else
             return 0;
     }
+
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE},
+            value = "/post/registrarOrdenLaboratorio")
+    @ResponseBody
+    public int registrarOrdenLaboratorio(@RequestBody OrdenLaboratorio orden){
+        int n;
+        n = ordenLaboratorioService.registrarOrdenLaboratorio(orden);
+        return n;
+    }
+
+
 }

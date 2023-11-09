@@ -15,9 +15,16 @@ public class HojaMedicaService {
     @Autowired
     HojaMedicaRepository hojaMedicaRepository;
 
-    public int registrarHojaMedica(HojaMedica hojaMedica){
+    public int registrarHojaMedica(HojaMedica hojaMedica,int pn_id_historial_clinico) {
         int valido;
-        valido = hojaMedicaRepository.registrarHojaMedica(hojaMedica);
+        valido = hojaMedicaRepository.registrarHojaMedica(hojaMedica,pn_id_historial_clinico);
+
+        return valido;
+    }
+
+    public int eliminarHojaMedica(String pn_id_hoja_medica) {
+        int valido;
+        valido = hojaMedicaRepository.eliminarHojaMedica(pn_id_hoja_medica);
 
         return valido;
     }

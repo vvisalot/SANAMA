@@ -45,7 +45,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"pn_id_especialidad\": null,\r\n    \"pv_filtro\":\"\",\r\n    \"pd_fecha_inicio\":null,\r\n    \"pd_fecha_fin\":null,\r\n    \"pn_estado\":null\r\n}",
+							"raw": "{\r\n    \"pn_id_especialidad\": null,\r\n    \"pv_filtro\":\"\",\r\n    \"pd_fecha_inicio\":null,\r\n    \"pd_fecha_fin\":null,\r\n    \"arregloEstados\":\r\n    [\r\n        {\r\n            \"estado\": null\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -602,6 +602,35 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "EliminarHojaMedica",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pn_id_hoja_medica\": -1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/atencion/post/eliminarHojaMedica",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"atencion",
+								"post",
+								"eliminarHojaMedica"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -703,6 +732,38 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "ListarEstadosCitas",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/configuracion/get/listarEstadosCitas",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"configuracion",
+								"get",
+								"listarEstadosCitas"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -795,6 +856,35 @@
 								"laboratorio",
 								"post",
 								"atenderOrdenLaboratorioV1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RegistrarOrdenLaboratorio",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"codigoOrden\": \"O-005\",\r\n    \"tipoMuestra\": \"Sangre\",\r\n    \"instrucciones\": \"Realizarse un analisis de sangre\",\r\n    \"fechaOrden\": \"2023-11-17\",\r\n    \"horaOrden\": \"09:00\",\r\n    \"citaMedica\": {\r\n        \"idCita\": 22\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/laboratorio/post/registrarOrdenLaboratorio",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"laboratorio",
+								"post",
+								"registrarOrdenLaboratorio"
 							]
 						}
 					},

@@ -6,6 +6,7 @@ module.exports = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
     './node_modules/flowbite/**/*.js',
     './node_modules/flowbite-react/**/*.js',
+    './node_modules/tailwind-datepicker-react/dist/**/*.js'
   ],
   theme: {
     extend: {
@@ -15,7 +16,7 @@ module.exports = {
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
       backgroundColor: {
-        'estado-atendida': '#34D399',   
+        'estado-atendida': '#34D399',
         'estado-pendiente': '#FBBF24',
       }
     },

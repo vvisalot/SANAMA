@@ -50,17 +50,10 @@ export const appointmentService = {
     }
   },
 
-  listarCitasFiltro: async (params) => {
-    const { pn_id_especialidad, pv_filtro, pd_fecha_inicio, pd_fecha_fin } =
-      params
+  listarCitasFiltro: async (request) => {
 
     try {
-      const response = await axiosInstance.post(ENDPOINTS.LISTAR_CITAS_FILTRO, {
-        pn_id_especialidad,
-        pv_filtro,
-        pd_fecha_inicio,
-        pd_fecha_fin,
-      })
+      const response = await axiosInstance.post(ENDPOINTS.LISTAR_CITAS_FILTRO, request)
       return response.data
     } catch (error) {
       console.error("Error al listar las citas con filtro:", error.message)
@@ -174,5 +167,15 @@ export const appointmentService = {
     }
   },
 
+  listarEstados: async () => {
+    try {
+      const response = await axiosInstance.get("/configuracion/get/listarEstadosCitas")
+      //console.log(response)
+      return response.data
+    } catch (error) {
+      console.error("Error al listar los estados de las citas", error)
+      throw error
+    }
+  },
 
 }

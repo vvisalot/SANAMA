@@ -28,4 +28,10 @@ public class LookupValueService {
         lmedicos = valueRepository.listarMedicosLab();
         return lmedicos;
     }
+
+        public List<LookupValue> listarEstadosCitas() {
+        List<LookupValue> lcitas;
+        lcitas = valueRepository.listarEstadosCitas();
+        return lcitas;
+    }
 }

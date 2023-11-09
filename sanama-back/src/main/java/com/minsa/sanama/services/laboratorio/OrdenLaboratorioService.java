@@ -56,4 +56,12 @@ public class OrdenLaboratorioService {
         }
         return 0;
     }
+
+    public int registrarOrdenLaboratorio(OrdenLaboratorio orden){
+        int n;
+        n = ordenLaboratorioRepository.registrarOrdenLaboratorio(orden);
+        return n;
+    }
+
+
 }

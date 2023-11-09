@@ -1,7 +1,6 @@
 import Table from "@/components/table/Table"
 
 const columns = [
-    { name: "ID" },
     { name: "Nombre del doctor" },
     { name: "Especialidad" },
     { name: "Fecha" },
