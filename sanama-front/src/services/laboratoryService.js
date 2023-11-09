@@ -5,11 +5,20 @@ const axiosInstance = axios.create({
   baseURL: connection.backend,
 });
 
+const ENDPOINTS = {
+  LISTAR_ORDEN_LABORATORIO_POR_FILTRO:
+    "laboratorio/post/listarOrdenLaboratorioFiltro",
+  LISTAR_MEDICOS_LABORATORIO_VALIDADO: "configuracion/get/listarMedicosLab",
+  BUSCAR_EXAMEN_MEDICO: "laboratorio/post/buscarExamenMedico",
+  BUSCAR_ORDEN_LABORATORIO_POR_ID: "laboratorio/post/buscarOrdenLaboratorio",
+  ATENDER_ORDEN_LABORATORIO: "laboratorio/post/atenderOrdenLaboratorioV1",
+};
+
 export const laboratoryService = {
   listarOrdenLaboratorioPorFiltro: async (filtro, fechaDesde, fechaHasta) => {
     try {
       const response = await axiosInstance.post(
-        "laboratorio/post/listarOrdenLaboratorioFiltro",
+        ENDPOINTS.LISTAR_ORDEN_LABORATORIO_POR_FILTRO,
         {
           pv_filtro: filtro,
           pd_fecha_inicio: fechaDesde,
@@ -26,7 +35,7 @@ export const laboratoryService = {
   listarMedicosLaboratorioValidado: async () => {
     try {
       const response = await axiosInstance.get(
-        "configuracion/get/listarMedicosLab"
+        ENDPOINTS.LISTAR_MEDICOS_LABORATORIO_VALIDADO
       );
       return response.data;
     } catch (error) {
@@ -38,7 +47,7 @@ export const laboratoryService = {
   buscarExamenMedico: async (idOrdenLaboratorio) => {
     try {
       const response = await axiosInstance.post(
-        "laboratorio/post/buscarExamenMedico",
+        ENDPOINTS.BUSCAR_EXAMEN_MEDICO,
         {
           pv_filtro: idOrdenLaboratorio,
         }
@@ -53,7 +62,7 @@ export const laboratoryService = {
   buscarOrdenLaboratorioPorId: async (idOrdenLaboratorio) => {
     try {
       const response = await axiosInstance.post(
-        "laboratorio/post/buscarOrdenLaboratorio",
+        ENDPOINTS.BUSCAR_ORDEN_LABORATORIO_POR_ID,
         {
           pn_id_orden_laboratorio: idOrdenLaboratorio,
         }
@@ -68,7 +77,7 @@ export const laboratoryService = {
   atenderOrdenLaboratorio: async (data) => {
     try {
       const response = await axiosInstance.post(
-        "laboratorio/post/atenderOrdenLaboratorioV1",
+        ENDPOINTS.ATENDER_ORDEN_LABORATORIO,
         data
       );
       return 1;

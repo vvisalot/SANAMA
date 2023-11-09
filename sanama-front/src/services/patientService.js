@@ -5,11 +5,23 @@ const axiosInstance = axios.create({
   baseURL: connection.backend,
 });
 
+const ENDPOINTS = {
+  REGISTRAR_PACIENTE: "/admision/put/paciente",
+  BUSCAR_PACIENTE_POR_FILTRO: "/admision/post/buscarPaciente",
+  LISTAR_CITAS_POR_PACIENTE: "/admision/post/listarCitasPorPaciente",
+  MOSTRAR_PACIENTE_REGISTRADO: "/admision/post/mostrarPacienteRegistrado",
+  BUSCAR_PACIENTE_MODAL: "/admision/post/buscarPacienteModal",
+  LISTAR_PARENTESCOS: "/configuracion/get/listarParentezcos",
+  LISTAR_SEGUROS: "/configuracion/get/listarSeguros",
+  BUSCAR_HISTORIAL_CLINICO: "/atencion/post/buscarHistorialClinico",
+  REGISTRAR_HOJA_MEDICA: "/atencion/post/registrarHojaMedica",
+};
+
 export const patientService = {
   registrarPaciente: async (patientForm) => {
     try {
       const response = await axiosInstance.put(
-        "/admision/put/paciente",
+        ENDPOINTS.REGISTRAR_PACIENTE,
         patientForm
       );
       return response.data;
@@ -19,12 +31,10 @@ export const patientService = {
     }
   },
 
-  //Si no hay filtro, es un listar.
-  //Si hay filtro, es decir, para la busqueda, se usa el filtro.
   buscarPorFiltro: async (filtro) => {
     try {
       const response = await axiosInstance.post(
-        "/admision/post/buscarPaciente",
+        ENDPOINTS.BUSCAR_PACIENTE_POR_FILTRO,
         {
           pv_filtro: filtro,
         }
@@ -39,7 +49,7 @@ export const patientService = {
   listarCitasPorPaciente: async (idPaciente) => {
     try {
       const response = await axiosInstance.post(
-        "/admision/post/listarCitasPorPaciente",
+        ENDPOINTS.LISTAR_CITAS_POR_PACIENTE,
         {
           pn_paciente: idPaciente,
         }
@@ -51,11 +61,10 @@ export const patientService = {
     }
   },
 
-  //CUANDO SE BUSCA DESDE EL MODAL SE DEVUELVE UN ID Y ESTO ME DEJA LLENAR LOS CAMPOS DEL FORM
   mostrarPacienteRegistrado: async (idPaciente) => {
     try {
       const response = await axiosInstance.post(
-        "/admision/post/mostrarPacienteRegistrado",
+        ENDPOINTS.MOSTRAR_PACIENTE_REGISTRADO,
         {
           pn_id_paciente: idPaciente,
         }
@@ -67,11 +76,10 @@ export const patientService = {
     }
   },
 
-  //Dentro del modal, busco por nombre o dni el paciente.
   buscarPacienteModal: async (filtro) => {
     try {
       const response = await axiosInstance.post(
-        "/admision/post/buscarPacienteModal",
+        ENDPOINTS.BUSCAR_PACIENTE_MODAL,
         {
           pv_nombre_dni: filtro,
         }
@@ -85,9 +93,7 @@ export const patientService = {
 
   listarParentescos: async () => {
     try {
-      const response = await axiosInstance.get(
-        "/configuracion/get/listarParentezcos"
-      );
+      const response = await axiosInstance.get(ENDPOINTS.LISTAR_PARENTESCOS);
       return response.data;
     } catch (error) {
       console.error("Error al listar los parentescos", error);
@@ -97,9 +103,7 @@ export const patientService = {
 
   listarSeguros: async () => {
     try {
-      const response = await axiosInstance.get(
-        "/configuracion/get/listarSeguros"
-      );
+      const response = await axiosInstance.get(ENDPOINTS.LISTAR_SEGUROS);
       return response.data;
     } catch (error) {
       console.error("Error al listar los seguros", error);
@@ -110,7 +114,7 @@ export const patientService = {
   buscarHistorialClinico: async (idPaciente) => {
     try {
       const response = await axiosInstance.post(
-        "/atencion/post/buscarHistorialClinico",
+        ENDPOINTS.BUSCAR_HISTORIAL_CLINICO,
         {
           pn_id_paciente: idPaciente,
         }
@@ -125,7 +129,7 @@ export const patientService = {
   registrarHojaMedica: async (params) => {
     try {
       const response = await axiosInstance.post(
-        "/atencion/post/registrarHojaMedica",
+        ENDPOINTS.REGISTRAR_HOJA_MEDICA,
         params
       );
       return response.data;

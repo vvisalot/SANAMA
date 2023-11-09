@@ -145,20 +145,27 @@ export const appointmentService = {
 
   actualizarHoraFecha: async (pn_id_cita, pt_hora_cita, pd_fecha_cita) => {
     try {
-      const response = await axiosInstance.post(ENDPOINTS.CAMBIAR_HORA_FECHA, {
-        pn_id_cita,
-        pt_hora_cita,
-        pd_fecha_cita,
-      });
+      const response = await axiosInstance.post(
+        ENDPOINTS.CAMBIAR_HORA_FECHA,
+        {
+          pn_id_cita,
+          pt_hora_cita,
+          pd_fecha_cita,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       return response.data;
     } catch (error) {
-      console.error("Error al buscar cita", error.message);
-      throw new Error("Failed to list filtered appointments");
+      console.error("Error al cambiar hora y fecha de la cita", error.message);
+      throw new Error("Failed to update appointment date and time");
     }
   },
+
   citasMedicoPorID: async (pn_id_medico, pn_estado) => {
-    // console.log(pn_id_medico)
-    // console.log(pn_estado)
     try {
       const response = await axiosInstance.post(ENDPOINTS.LISTAR_CITAS_MEDICO, {
         pn_id_medico,

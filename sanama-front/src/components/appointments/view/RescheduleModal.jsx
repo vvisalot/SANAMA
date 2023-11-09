@@ -53,46 +53,26 @@ const RescheduleModal = ({ isOpen, onClose, medicId, appointmentId }) => {
     setSelectedDate(dayjs(newDate).format("YYYY-MM-DD"));
   const handleHourChange = (newHour) => setSelectedHour(newHour);
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     if (selectedDate && selectedHour) {
       setLoading(true);
-      const handleAsync = async () => {
-        try {
-          const selectedHourNewFormat = selectedHour.substr(0, 5);
-          const response = await fetch(
-            "http://localhost:8080/admision/post/cambiarHorarioCita",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                pn_id_cita: appointmentId,
-                pt_hora_cita: selectedHourNewFormat,
-                pd_fecha_cita: selectedDate,
-              }),
-            }
-          );
-          if (response.ok) {
-            const rpta = await response.json();
-            console.log(rpta);
-            setIsStatusUpdated(true);
-            setConfirmationMessage(
-              "El horario de la cita se ha actualizado exitosamente."
-            );
-          } else {
-            console.error(
-              "Error al confirmar reprogramación. Código de estado HTTP:",
-              response.status
-            );
-          }
-        } catch (error) {
-          console.error("Error al confirmar reprogramación:", error);
-        } finally {
-          setLoading(false);
-        }
-      };
-      handleAsync();
+      try {
+        const selectedHourNewFormat = selectedHour.substr(0, 5);
+        const response = await appointmentService.actualizarHoraFecha(
+          appointmentId,
+          selectedHourNewFormat,
+          selectedDate
+        );
+        console.log(response);
+        setIsStatusUpdated(true);
+        setConfirmationMessage(
+          "El horario de la cita se ha actualizado exitosamente."
+        );
+      } catch (error) {
+        console.error("Error al confirmar reprogramación:", error);
+      } finally {
+        setLoading(false);
+      }
     } else {
       console.error("Fecha y hora no seleccionadas");
     }

@@ -5,10 +5,23 @@ const axiosInstance = axios.create({
   baseURL: connection.backend,
 });
 
+const ENDPOINTS = {
+  INSERTAR_DOCTOR: "/rrhh/put/doctor",
+  BUSCAR_POR_NOMBRE: "/rrhh/post/buscarMedico",
+  LISTAR_ESPECIALIDADES: "/rrhh/get/especialidad",
+  BUSCAR_POR_MEDICO_ESPECIALIDAD:
+    "/rrhh/post/listarMedicosPorEspecialidadNombreCmp",
+  BUSCAR_HORARIOS_MEDICO_FECHA: "/rrhh/post/horarios_por_medico_y_fecha",
+  DIAS_DISPONIBLES_POR_ID: "/rrhh/post/dias_disponibles_por_medico",
+};
+
 export const doctorService = {
   insertar: async (doctorForm) => {
     try {
-      const response = await axiosInstance.put("/rrhh/put/doctor", doctorForm);
+      const response = await axiosInstance.put(
+        ENDPOINTS.INSERTAR_DOCTOR,
+        doctorForm
+      );
       return response.data;
     } catch (error) {
       console.error("Error al insertar los datos del doctor", error);
@@ -18,7 +31,7 @@ export const doctorService = {
 
   buscarPorNombre: async (name) => {
     try {
-      const response = await axiosInstance.post("/rrhh/post/buscarMedico", {
+      const response = await axiosInstance.post(ENDPOINTS.BUSCAR_POR_NOMBRE, {
         pv_filtro: name,
       });
       return response.data;
@@ -30,8 +43,7 @@ export const doctorService = {
 
   listarEspecialidades: async () => {
     try {
-      const response = await axiosInstance.get("/rrhh/get/especialidad");
-      //console.log(response)
+      const response = await axiosInstance.get(ENDPOINTS.LISTAR_ESPECIALIDADES);
       return response.data;
     } catch (error) {
       console.error("Error al listar las especialidades", error);
@@ -42,13 +54,12 @@ export const doctorService = {
   buscarPorMedicoEspecialidad: async (filtro, especialidad) => {
     try {
       const response = await axiosInstance.post(
-        "/rrhh/post/listarMedicosPorEspecialidadNombreCmp",
+        ENDPOINTS.BUSCAR_POR_MEDICO_ESPECIALIDAD,
         {
           pv_medico: filtro,
           pv_especialidad: especialidad,
         }
       );
-      //console.log(response)
       return response.data;
     } catch (error) {
       console.error("Error al buscar doctores por especialidad", error);
@@ -59,7 +70,7 @@ export const doctorService = {
   buscarHorariosMedicoFecha: async (fecha, medicId) => {
     try {
       const response = await axiosInstance.post(
-        "/rrhh/post/horarios_por_medico_y_fecha",
+        ENDPOINTS.BUSCAR_HORARIOS_MEDICO_FECHA,
         {
           pn_id_medico: medicId,
           pd_fecha: fecha,
@@ -75,7 +86,7 @@ export const doctorService = {
   DiasDisponiblesByID: async (medicId) => {
     try {
       const response = await axiosInstance.post(
-        "/rrhh/post/dias_disponibles_por_medico",
+        ENDPOINTS.DIAS_DISPONIBLES_POR_ID,
         {
           pn_id_medico: medicId,
         }
