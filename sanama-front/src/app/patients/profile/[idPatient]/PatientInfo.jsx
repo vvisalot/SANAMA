@@ -11,26 +11,23 @@ const PatientInfo = ({ gender, dni, dateofbirth, patientState, insuranceCode, in
             <section className="flex text-large pt-4 text-gray-700">
                 <dl className="basis-1/3">
                     <dt className="text-sm px-5">Género</dt>
-                    <dd className="text-l font-bold px-5 pb-10">{gender == "M" ? "Masculino" : "Femenino"}</dd>
+                    <dd className="text-lg font-bold px-5 pb-10">{gender == "M" ? "Masculino" : "Femenino"}</dd>
 
                     <dt className="text-sm px-5 ">DNI</dt>
-                    <dd className="text-l font-bold px-5 ">{dni}</dd>
+                    <dd className="text-lg font-bold px-5 ">{dni}</dd>
                 </dl>
 
                 <dl className="basis-1/3">
                     <dt className="text-sm px-5 ">Código de seguro</dt>
-                    <dd className="font-bold px-5 pb-10">{insuranceCode}</dd>
+                    <dd className="text-lg font-bold px-5 pb-10">{insuranceCode}</dd>
 
                     <dt className="text-sm px-5 ">Tipo de seguro</dt>
-                    <dd className="font-bold px-5 ">{insuranceType}</dd>
+                    <dd className="text-lg font-bold px-5 ">{insuranceType}</dd>
                 </dl>
 
                 <dl className="basis-1/3">
-                    <dt className="text-sm px-5">Estado</dt>
-                    <dd className="font-bold px-5 pb-10">{patientState == 1 ? "Activo" : "Inactivo"}</dd>
-
                     <dt className="text-sm px-5">Fecha de nacimiento</dt>
-                    <dd className="font-bold px-5">{dateofbirth}</dd>
+                    <dd className="text-lg font-bold px-5">{dateofbirth}</dd>
                 </dl>
             </section>
         </section >
