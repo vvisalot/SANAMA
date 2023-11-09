@@ -1,27 +1,145 @@
-
+import * as React from "react";
 const DoctorIcon = (props) => (
-    <svg
-        width={48}
-        height={48}
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        {...props}
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    xmlSpace="preserve"
+    width={97}
+    height={97}
+    style={{
+      enableBackground: "new 0 0 97 97",
+    }}
+    {...props}
+  >
+    <linearGradient
+      id="a"
+      x1={26.143}
+      x2={73.864}
+      y1={86.051}
+      y2={38.329}
+      gradientUnits="userSpaceOnUse"
     >
-        <path
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d="M33.834 13.81c0 3.461-.86 7.975-2.183 7.29a8.001 8.001 0 0 1-15.611-1.54c-1.313-2.297-3.035-6.9 1.392-10.488.08-.026.128-.242.2-.56.274-1.203.881-3.877 4.71-3.366 2.953.393 11.492 1.918 11.492 8.665Zm-3.806 2.182s-.452 1.322-.028 2.795a6 6 0 0 1-11.996.197c.145-.55.145-1.481.144-2.516-.001-1.867-.003-4.07.852-4.968 5.989 3.989 11.028 4.492 11.028 4.492Z"
-            fill="currentColor"
-        />
-        <path
-            d="M13 36c0-1.082.573-2.03 1.433-2.558a11.58 11.58 0 0 1-.092-.375 21.61 21.61 0 0 1-.355-2.068 19.63 19.63 0 0 1-.155-2.006C9.61 30.65 6 33.538 6 36.57V42h36v-5.43c0-2.904-3.31-5.675-7.298-7.36v.028c.018.61-.016 1.31-.082 1.983-.06.624-.149 1.246-.256 1.779H35a1 1 0 0 1 .894.553l1 2c.07.139.106.292.106.447v2a1 1 0 0 1-1 1h-2v-2h1v-.764L34.382 35h-2.764L31 36.236V37h1v2h-2a1 1 0 0 1-1-1v-2c0-.155.036-.308.106-.447l1-2A1 1 0 0 1 31 33h1.315c.022-.086.044-.181.066-.286.1-.471.189-1.068.249-1.685.06-.618.088-1.231.073-1.735a5.18 5.18 0 0 0-.049-.624c-.022-.142-.044-.207-.048-.221-.001-.003-.002-.004 0-.002l.003-.001A21.732 21.732 0 0 0 31 28.013c-.503-.115-1.023.577-1.25 1.01H18a9.88 9.88 0 0 1-.086-.168c-.212-.422-.473-.943-.914-.842-.385.087-.77.187-1.155.297a6.55 6.55 0 0 0-.016.527c.004.553.057 1.23.142 1.914.085.682.2 1.346.32 1.87.034.151.068.287.1.404A3 3 0 1 1 13 36Z"
-            fill="currentColor"
-        />
-        <path
-            d="M17 36c0 .574-.462 1.015-1 1.015s-1-.44-1-1.015c0-.574.462-1.015 1-1.015s1 .44 1 1.015Z"
-            fill="currentColor"
-        />
-    </svg>
-)
-
-export default DoctorIcon
+      <stop
+        offset={0}
+        style={{
+          stopColor: "#046973",
+        }}
+      />
+      <stop
+        offset={1}
+        style={{
+          stopColor: "#34a6ae",
+        }}
+      />
+    </linearGradient>
+    <path
+      d="M35.022 31.452h26.887c8.849 0 16.09 7.24 16.09 16.088v32.373C77.999 88.76 70.758 96 61.909 96H35.022c-8.848 0-16.088-7.239-16.088-16.088V47.54c0-8.848 7.239-16.088 16.088-16.088z"
+      style={{
+        fillRule: "evenodd",
+        clipRule: "evenodd",
+        fill: "url(#a)",
+        stroke: "#08828b",
+        strokeWidth: 2.0001,
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeMiterlimit: 22.9256,
+      }}
+    />
+    <path
+      d="M33.208 34.616h30.566L48.49 70.565z"
+      style={{
+        fillRule: "evenodd",
+        clipRule: "evenodd",
+        fill: "#fff",
+        stroke: "#fff",
+        strokeWidth: 0.5669,
+        strokeMiterlimit: 22.9256,
+      }}
+    />
+    <circle
+      cx={48.466}
+      cy={22.729}
+      r={19.138}
+      style={{
+        fillRule: "evenodd",
+        clipRule: "evenodd",
+        fill: "#f9b97a",
+        stroke: "#08828b",
+        strokeWidth: 2.0001,
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeMiterlimit: 22.9256,
+      }}
+    />
+    <linearGradient
+      id="b"
+      x1={39.438}
+      x2={57.494}
+      y1={32.241}
+      y2={12.878}
+      gradientUnits="userSpaceOnUse"
+    >
+      <stop
+        offset={0}
+        style={{
+          stopColor: "#fabf73",
+        }}
+      />
+      <stop
+        offset={1}
+        style={{
+          stopColor: "#fff",
+        }}
+      />
+    </linearGradient>
+    <circle
+      cx={48.466}
+      cy={22.559}
+      r={13.775}
+      style={{
+        fillRule: "evenodd",
+        clipRule: "evenodd",
+        fill: "url(#b)",
+      }}
+    />
+    <path
+      d="M66.843 18.799H30.09"
+      style={{
+        fillRule: "evenodd",
+        clipRule: "evenodd",
+        fill: "none",
+        stroke: "#08828b",
+        strokeWidth: 5,
+        strokeMiterlimit: 22.9256,
+      }}
+    />
+    <path
+      d="M48.342 29.472c7.804 0 14.172-6.366 14.172-14.172S56.146 1.126 48.342 1.126c-7.807 0-14.174 6.367-14.174 14.173s6.367 14.173 14.174 14.173z"
+      style={{
+        fillRule: "evenodd",
+        clipRule: "evenodd",
+        fill: "#fff",
+        stroke: "#08828b",
+        strokeWidth: 2.0001,
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeMiterlimit: 22.9256,
+      }}
+    />
+    <circle
+      cx={48.341}
+      cy={14.917}
+      r={3.259}
+      style={{
+        fillRule: "evenodd",
+        clipRule: "evenodd",
+        fill: "#08828b",
+        stroke: "#08828b",
+        strokeWidth: 2.0001,
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        strokeMiterlimit: 22.9256,
+      }}
+    />
+  </svg>
+);
+export default DoctorIcon;

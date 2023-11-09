@@ -3,8 +3,11 @@ import SidebarItem from "@/components/sidebar/SidebarItem";
 import SidebarToggleButton from "@/components/sidebar/SidebarToggleButton";
 
 import DoctorIcon from "@/components/icons/DoctorIcon.jsx";
-import PatientIcon from "@/components/icons/PatientIcon.jsx";
+import PatientIcon from "@/components/icons/PatientIcon";
+import LabIcon from "@/components/icons/LabIcon.jsx";
 import MenuIcon from "@/components/icons/MenuIcon.jsx";
+import AppointmentIcon from "@/components/icons/AppointmentIcon.jsx";
+import TriageIcon from "@/components/icons/TriageIcon";
 
 const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
   return (
@@ -41,26 +44,24 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
           isOpen={isSidebarOpen}
           Icon={DoctorIcon}
         ></SidebarItem>
-        {/* TODO: CAMBIAR LOS DEMAS ICONOS DE LA SIDEBAR */}
         <SidebarItem
           name={"Citas"}
           route={"/appointments"}
           isOpen={isSidebarOpen}
-          Icon={DoctorIcon}
+          Icon={AppointmentIcon}
         ></SidebarItem>
         <SidebarItem
           name={"Triajes"}
           route={"/triajes"}
           isOpen={isSidebarOpen}
-          Icon={DoctorIcon}
+          Icon={TriageIcon}
         ></SidebarItem>
-        {/* TODO: ESTO ESTA POR PROBAR, NO DEBERIA ESTAR EN SIDEBAR */}
 
         <SidebarItem
           name={"Laboratorio"}
           route={"/laboratories"}
           isOpen={isSidebarOpen}
-          Icon={DoctorIcon}
+          Icon={LabIcon}
         ></SidebarItem>
       </ul>
     </nav>
