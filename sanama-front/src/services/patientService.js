@@ -1,8 +1,5 @@
 import axios from "axios";
-
-const connection = {
-  backend: "http://localhost:8080",
-};
+import connection from "@/config/connection";
 
 const axiosInstance = axios.create({
   baseURL: connection.backend,
