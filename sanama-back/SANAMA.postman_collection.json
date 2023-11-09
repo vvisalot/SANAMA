@@ -831,6 +831,35 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "RegistrarOrdenLaboratorio",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"codigoOrden\": \"O-005\",\r\n    \"tipoMuestra\": \"Sangre\",\r\n    \"instrucciones\": \"Realizarse un analisis de sangre\",\r\n    \"fechaOrden\": \"2023-11-17\",\r\n    \"horaOrden\": \"09:00\",\r\n    \"citaMedica\": {\r\n        \"idCita\": 22\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/laboratorio/post/registrarOrdenLaboratorio",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"laboratorio",
+								"post",
+								"registrarOrdenLaboratorio"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
