@@ -1,18 +1,15 @@
 import Datepicker from "tailwind-datepicker-react"
 import React, { useEffect, useState } from "react"
+import { set } from "date-fns"
 
 
-const options = {
-    // title: "Demo Title",
+const defaultOptions = {
     autoHide: true,
     todayBtn: true,
     todayBtnText: "Hoy",
     clearBtn: true,
     clearBtnText: "Limpiar",
-    maxDate: new Date("2030-01-01"),
-    minDate: new Date("1950-01-01"),
     datepickerClassNames: "top-17",
-    defaultDate: new Date("2022-01-01"),
     language: "es",
     disabledDates: [],
     theme: {
@@ -22,10 +19,12 @@ const options = {
     weekDays: ["Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"],
     inputDateFormatProp: {
         day: "numeric",
-        month: "numeric",
+        month: "long",
         year: "numeric"
     }
 }
+
+
 
 const DateRangePicker = () => {
     const [showInitial, setShowInitial] = useState(false)
@@ -35,11 +34,31 @@ const DateRangePicker = () => {
     const [dateFinal, setDateFinal] = useState(new Date())
 
 
+    const [optionsInitial, setOptionsInitial] = useState({
+        ...defaultOptions,
+        minDate: new Date("1940-01-01"),
+        defaultDate: new Date()
+    });
+    const [optionsFinal, setOptionsFinal] = useState({
+        ...defaultOptions,
+        minDate: new Date(),
+        defaultDate: new Date()
+    });
+
+    useEffect(() => {
+        setOptionsFinal((prevOptions) => ({
+            ...prevOptions,
+            minDate: new Date(dateInitial)
+        }));
+    }, [dateInitial]);
+
 
     const handleChangeInitial = (selectedDate) => {
+        setDateInitial(selectedDate)
         console.log(selectedDate)
     }
     const handleChangeFinal = (selectedDate) => {
+        setDateFinal(selectedDate)
         console.log(selectedDate)
     }
 
@@ -53,9 +72,9 @@ const DateRangePicker = () => {
 
 
     return (
-        <section className="flex items-center">
-            <Datepicker classNames="pr-2" options={options} onChange={handleChangeInitial} show={showInitial} setShow={handleCloseInitial} />
-            <Datepicker options={options} onChange={handleChangeFinal} show={showFinal} setShow={handleCloseFinal} />
+        <section className="flex items-center pr-8">
+            <Datepicker classNames="pr-2" options={optionsInitial} onChange={handleChangeInitial} show={showInitial} setShow={handleCloseInitial} />
+            <Datepicker options={optionsFinal} onChange={handleChangeFinal} show={showFinal} setShow={handleCloseFinal} />
         </section>
 
 

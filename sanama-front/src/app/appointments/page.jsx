@@ -9,10 +9,11 @@ import { parseAppointmentTable } from "@/util/appointmentParser"
 import Link from "next/link"
 import SearchBar from "@/components/bars/SearchBar"
 import DateRangePicker from "@/components/Date/DateRangePicker"
+import DropdownCheckbox from "@/components/Dropdowns/DropdownCheckbox"
 
 const AppointmentPage = () => {
   const [appointmentTable, setAppointmentTable] = useState([])
-
+  const [stateList, setStateList] = useState([])
 
   const fetchData = async () => {
     try {
@@ -25,6 +26,16 @@ const AppointmentPage = () => {
     }
   }
 
+  const fetchStateList = async () => {
+    try {
+      const data = await appointmentService.listarEstados()
+      console.log(data)
+      setStateList(data)
+    } catch (error) {
+      console.log("No se pudo obtener la lista de estados")
+    }
+  }
+
   useEffect(() => {
     fetchData()
   }, [])
@@ -32,15 +43,7 @@ const AppointmentPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    const elements = e.target.elements
-    const filtro = elements.namedItem("filtro").value
-    try {
-      const data = await appointmentService.buscar(filtro)
-      const tableData = parseAppointmentTable(data)
-      setAppointmentTable(tableData)
-    } catch (error) {
-      console.log("Error al buscar las citas:", error)
-    }
+
   }
 
   return (
@@ -55,17 +58,17 @@ const AppointmentPage = () => {
       </div>
 
 
-      <form className="flex items-center pb-4" onSubmit={handleSubmit}>
-        <DateRangePicker></DateRangePicker>
-        <SearchBar name={"search-bar-appointments"} width={"w-full"} placeholderText={"Buscar por nombre o dni"} />
+      <form className="items-center pb-4" onSubmit={handleSubmit}>
+        <div className="flex p-4">
+          <DateRangePicker></DateRangePicker>
+          <DropdownCheckbox></DropdownCheckbox>
+          <SearchBar name={"search-bar-appointments"} width={"w-[900px]"} placeholderText={"Buscar por nombre o dni"} />
+        </div>
       </form>
 
-      {/* <SearchAndAddBar
-        linkHref="appointments/createAppointment"
-        onSubmit={handleSubmit}
-        permitirGenerarNuevaCita={true}
-      /> */}
-      <AppointmentTable data={appointmentTable}></AppointmentTable>
+      <section className="p-4">
+        <AppointmentTable data={appointmentTable}></AppointmentTable>
+      </section>
     </section>
   )
 }
