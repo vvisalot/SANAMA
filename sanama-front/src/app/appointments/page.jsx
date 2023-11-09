@@ -88,7 +88,7 @@ const AppointmentPage = () => {
   }
 
   return (
-    <section className="p-10">
+    <section className="p-14">
       <div className="flex justify-between items-center">
         <h1 className="font-bold text-blue-500 text-6xl pb-8">Citas</h1>
         <Link
@@ -99,7 +99,7 @@ const AppointmentPage = () => {
       </div>
 
 
-      <form className="flex items-center p-4 justify-between" onSubmit={handleSubmit}>
+      <form className="flex items-center justify-between w-fit" onSubmit={handleSubmit}>
         <DateRangePicker
           dateInitial={dateInitial}
           setDateInitial={setDateInitial}
@@ -115,7 +115,7 @@ const AppointmentPage = () => {
         <SearchBar name={"search-bar-appointments"} width={"w-[950px]"} placeholderText={"Buscar por nombre del paciente"} />
       </form>
 
-      <section className="p-4">
+      <section className="w-fit">
         <AppointmentTable data={appointmentTable}></AppointmentTable>
       </section>
     </section>

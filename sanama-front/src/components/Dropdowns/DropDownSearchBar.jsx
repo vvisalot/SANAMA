@@ -1,7 +1,7 @@
 "use client"
 import { useState } from "react"
 import Dropdown from "./Dropdown"
-import SearchBar from "./SearchBar"
+import SearchBar from "../bars/SearchBar"
 
 const DropDownSearchBar = ({ filtro, setFiltro, fetchData, data, defaultText, text, defaultValue, value }) => {
     const [dropdownValue, setDropdownValue] = useState("")

@@ -3,7 +3,7 @@ import DoctorTable from "./DoctorsTable"
 import { doctorService } from "@/services/doctorService"
 import { useEffect, useState } from "react"
 import { parseDoctorsTable } from "@/util/doctorParser"
-import Dropdown from "@/components/bars/Dropdown"
+import Dropdown from "@/components/Dropdowns/Dropdown"
 import SearchBar from "@/components/bars/SearchBar"
 
 const DoctorsPage = () => {
@@ -66,7 +66,7 @@ const DoctorsPage = () => {
                 ></Dropdown>
                 <SearchBar
                     name={"doctor-search"}
-                    width={"w-full"} 
+                    width={"w-full"}
                     placeholderText={"Buscar por nombre o CMP"}>
                 </SearchBar>
             </form>
