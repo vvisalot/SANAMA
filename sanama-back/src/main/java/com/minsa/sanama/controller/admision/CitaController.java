@@ -49,6 +49,7 @@ public class CitaController {
             String pv_filtro = job.get("pv_filtro").toString();
             String pd_fecha_inicio;
             String pd_fecha_fin;
+            String estado;
             //String pn_estado;
 
             if(job.get("pd_fecha_inicio") == null) pd_fecha_inicio=null;
@@ -59,17 +60,19 @@ public class CitaController {
 
             /*if(job.get("pn_estado") == null) pn_estado=null;
             else pn_estado = job.get("pn_estado").toString();*/
-
+            boolean flag=true;
             List<String> estados = new ArrayList<>();
             JSONArray arregloEstados = (JSONArray) job.get("arregloEstados");
-
-            for (Object estadoObjetc : arregloEstados) {
-                JSONObject pn_estado = (JSONObject) estadoObjetc;
-                String estado = pn_estado.get("estado").toString();
-
-                estados.add(estado);
+            if (arregloEstados != null){
+                for (Object estadoObjetc : arregloEstados) {
+                    JSONObject pn_estado = (JSONObject) estadoObjetc;
+                    if(pn_estado.get("estado") == null) estado=null;
+                    else estado = pn_estado.get("estado").toString();
+                    flag=false;
+                    estados.add(estado);
+                }
             }
-
+            if(flag)estados.add(null);
 
             // Llama al servicio para listar citas por filtros
             Lcita = citaService.listarCitasxFiltro(null, pv_filtro, pd_fecha_inicio, pd_fecha_fin, estados);
