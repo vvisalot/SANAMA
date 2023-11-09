@@ -602,6 +602,35 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "EliminarHojaMedica",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pn_id_hoja_medica\": -1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/atencion/post/eliminarHojaMedica",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"atencion",
+								"post",
+								"eliminarHojaMedica"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
