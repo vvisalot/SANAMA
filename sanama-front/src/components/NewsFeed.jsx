@@ -9,7 +9,7 @@ const NewsFeed = () => {
     const fetchNews = async () => {
       try {
         const response = await fetch(
-          `https://newsapi.org/v2/top-headlines?category=technology&language=en&apiKey=0b60f29bfedd406996d2930eeeb7411f`
+          `https://newsapi.org/v2/top-headlines?category=health&language=en&apiKey=0b60f29bfedd406996d2930eeeb7411f`
         );
         const data = await response.json();
         setNewsList(data.articles);
