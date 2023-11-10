@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 
 function FeedbackForm() {
@@ -16,7 +17,6 @@ function FeedbackForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Formulario enviado", form);
-    // Aquí puedes enviar los datos a una API o manejarlos como prefieras
   };
 
   return (
