@@ -1,15 +1,12 @@
 import React from "react";
 
 const NewsItem = ({ news }) => {
-  // Función para formatear la fecha
   const formatDate = (dateString) => {
     const options = { year: "numeric", month: "long", day: "numeric" };
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
-  // Imagen predeterminada en caso de que news.urlToImage sea nulo
-  const defaultImage = "default-image.jpg"; // Reemplaza con tu imagen predeterminada
-
+  const defaultImage = "default-image.jpg";
   return (
     <div className="bg-white rounded-lg shadow-lg overflow-hidden my-4">
       <img
