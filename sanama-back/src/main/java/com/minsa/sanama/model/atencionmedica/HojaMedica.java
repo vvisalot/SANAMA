@@ -16,7 +16,8 @@ public class HojaMedica {
     private byte[] firma;
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private int estado=0;
-    private CitaMedica citaMedica;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    private int idCitaMedica=0;
     private ArrayList<Resultado> resultados;
     private RecetaMedica recetaMedica;
     private EvaluacionMedica evaluacionMedica;
@@ -38,6 +39,14 @@ public class HojaMedica {
 
     public void setHojaRefencia(HojaRefencia hojaRefencia) {
         this.hojaRefencia = hojaRefencia;
+    }
+
+    public int getIdCitaMedica() {
+        return idCitaMedica;
+    }
+
+    public void setIdCitaMedica(int idCitaMedica) {
+        this.idCitaMedica = idCitaMedica;
     }
 
     public String getCodigo() {
@@ -78,14 +87,6 @@ public class HojaMedica {
 
     public void setEstado(int estado) {
         this.estado = estado;
-    }
-
-    public CitaMedica getCitaMedica() {
-        return citaMedica;
-    }
-
-    public void setCitaMedica(CitaMedica citaMedica) {
-        this.citaMedica = citaMedica;
     }
 
     public ArrayList<Resultado> getResultados() {
