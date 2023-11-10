@@ -140,14 +140,12 @@ public class OrdenLaboratorioRepository {
                 .declareParameters(new SqlParameter[] {
                         new SqlOutParameter("pn_id_orden_laboratorio", Types.INTEGER),
                         new SqlParameter("pn_id_cita", Types.INTEGER),
-                        new SqlParameter("pv_codigo_orden", Types.VARCHAR),
                         new SqlParameter("pv_tipo_muestra", Types.VARCHAR),
                         new SqlParameter("pv_instrucciones", Types.VARCHAR)
                 });
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
         mapSqlParameterSource
                 .addValue("pn_id_cita", orden.getCitaMedica().getIdCita())
-                .addValue("pv_codigo_orden", orden.getCodigoOrden())
                 .addValue("pv_tipo_muestra", orden.getTipoMuestra())
                 .addValue("pv_instrucciones", orden.getInstrucciones());
 

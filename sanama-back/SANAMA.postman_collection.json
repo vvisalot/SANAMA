@@ -897,7 +897,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"codigoOrden\": \"O-011\",\r\n    \"tipoMuestra\": \"Heces\",\r\n    \"instrucciones\": \"Realizar analisis de heces para deteccion de parasitos\",\r\n    \"citaMedica\": {\r\n        \"idCita\": 81\r\n    }\r\n}",
+							"raw": "{\r\n    \"tipoMuestra\": \"Sangre\",\r\n    \"instrucciones\": \"Realizar analisis de sangre para detectar el nivel de globulos blancos\",\r\n    \"citaMedica\": {\r\n        \"idCita\": 2\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
