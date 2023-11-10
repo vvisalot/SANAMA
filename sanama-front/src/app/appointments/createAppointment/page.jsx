@@ -8,8 +8,6 @@ const CreateAppointmentForm = () => {
                 <FormContainer />
             </section>
         </>
-
-
     )
 }
 
