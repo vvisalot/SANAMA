@@ -9,6 +9,8 @@ import useUpdateAppointmentStatus from "@/hooks/useUpdateAppointmentStatus";
 import useAppointmentReschedule from "@/hooks/useAppointmentReschedule";
 import { useRouter } from "next/navigation";
 import { MdAdd, MdDelete, MdEdit } from "react-icons/md";
+import viewAppointmentIcon from "@/components/icons/viewAppointmentIcon";
+import TitleWithIcon from "@/components/TitleWithIcon";
 
 const ReviewAppointment = ({ params }) => {
   const [appointmentData, setAppointmentData] = useState(null);
@@ -81,8 +83,9 @@ const ReviewAppointment = ({ params }) => {
     handleActionClick(3).then(() => setHasBeenCanceled(true));
 
   return (
-    <>
-      <h1 className="font-bold text-blue-500 text-6xl p-12">Ver Citas</h1>
+    <section className="p-14">
+      <TitleWithIcon name={"Ver Citas"} Icon={viewAppointmentIcon} />
+
       <div className="container mx-auto p-4">
         <div className="flex justify-end mb-6 w-full">
           <ActionButtons
@@ -112,7 +115,7 @@ const ReviewAppointment = ({ params }) => {
           appointmentId={appointmentData.idCita}
         />
       </div>
-    </>
+    </section>
   );
 };
 

@@ -5,6 +5,7 @@ import { doctorService } from "@/services/doctorService";
 import { appointmentService } from "@/services/appointmentService";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider, DateCalendar } from "@mui/x-date-pickers";
+import Calendar from "react-calendar";
 import { Modal } from "flowbite-react";
 import PropTypes from "prop-types";
 
@@ -13,9 +14,9 @@ const RescheduleModal = ({ isOpen, onClose, medicId, appointmentId }) => {
   const [selectedHour, setSelectedHour] = useState(null);
   const [highlightedDays, setHighlightedDays] = useState([]);
   const [availableHours, setAvailableHours] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [isStatusUpdated, setIsStatusUpdated] = useState(false);
   const [confirmationMessage, setConfirmationMessage] = useState("");
+  const [isConfirming, setIsConfirming] = useState(false);
 
   const fetchAvailableDays = useCallback(async () => {
     try {
@@ -49,91 +50,95 @@ const RescheduleModal = ({ isOpen, onClose, medicId, appointmentId }) => {
     if (selectedDate) fetchAvailableHours(selectedDate);
   }, [selectedDate, fetchAvailableHours]);
 
+  useEffect(() => {
+    if (isOpen) {
+      setIsStatusUpdated(false);
+    }
+  }, [isOpen]);
+
   const handleDateChange = (newDate) =>
     setSelectedDate(dayjs(newDate).format("YYYY-MM-DD"));
   const handleHourChange = (newHour) => setSelectedHour(newHour);
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     if (selectedDate && selectedHour) {
-      setLoading(true);
-      const handleAsync = async () => {
-        try {
-          const selectedHourNewFormat = selectedHour.substr(0, 5);
-          const response = await fetch(
-            "http://localhost:8080/admision/post/cambiarHorarioCita",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                pn_id_cita: appointmentId,
-                pt_hora_cita: selectedHourNewFormat,
-                pd_fecha_cita: selectedDate,
-              }),
-            }
-          );
-          if (response.ok) {
-            const rpta = await response.json();
-            console.log(rpta);
-            setIsStatusUpdated(true);
-            setConfirmationMessage(
-              "El horario de la cita se ha actualizado exitosamente."
-            );
-          } else {
-            console.error(
-              "Error al confirmar reprogramación. Código de estado HTTP:",
-              response.status
-            );
-          }
-        } catch (error) {
-          console.error("Error al confirmar reprogramación:", error);
-        } finally {
-          setLoading(false);
-        }
-      };
-      handleAsync();
+      setIsConfirming(true);
+      try {
+        const selectedHourNewFormat = selectedHour.substr(0, 5);
+        const response = await appointmentService.actualizarHoraFecha(
+          appointmentId,
+          selectedHourNewFormat,
+          selectedDate
+        );
+        console.log(response);
+        setIsStatusUpdated(true);
+        setConfirmationMessage(
+          "El horario de la cita se ha actualizado exitosamente."
+        );
+      } catch (error) {
+        console.error("Error al confirmar reprogramación:", error);
+      } finally {
+        setIsConfirming(false);
+      }
     } else {
       console.error("Fecha y hora no seleccionadas");
     }
   };
 
+  const handleAccept = () => {
+    onClose();
+  };
+
   return (
     <Modal show={isOpen} size="lg" onClose={onClose}>
       <Modal.Header>Selecciona una Fecha y hora disponible:</Modal.Header>
-      <Modal.Body>
-        {isStatusUpdated ? (
-          <p>{confirmationMessage}</p>
-        ) : (
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <div className="flex">
-              <DateCalendar
-                onChange={handleDateChange}
-                value={selectedDate ? dayjs(selectedDate) : null}
-              />
-              <div className="ml-4">
-                <p className="mb-4">
-                  {selectedDate && selectedHour
-                    ? `Fecha y Hora: ${selectedDate} ${selectedHour}`
-                    : "No hay fecha ni hora reservada"}
-                </p>
-                <AvailableHoursBlock
-                  availableHours={availableHours}
-                  onHourClick={handleHourChange}
-                  selectedHour={selectedHour}
-                  isLoading={loading}
+      {isStatusUpdated ? (
+        <>
+          <Modal.Body>
+            <p>{confirmationMessage}</p>
+          </Modal.Body>
+          <Modal.Footer>
+            <button onClick={handleAccept}>Aceptar</button>
+          </Modal.Footer>
+        </>
+      ) : (
+        <>
+          <Modal.Body>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <div className="flex">
+                <DateCalendar
+                  onChange={handleDateChange}
+                  value={selectedDate ? dayjs(selectedDate) : null}
+                  highlightDates={highlightedDays}
                 />
+                <div className="ml-4">
+                  <p className="mb-4">
+                    {selectedDate && selectedHour
+                      ? `Fecha y Hora: ${selectedDate} ${selectedHour}`
+                      : "No hay fecha ni hora reservada"}
+                  </p>
+                  <AvailableHoursBlock
+                    availableHours={availableHours}
+                    onHourClick={handleHourChange}
+                    selectedHour={selectedHour}
+                  />
+                </div>
               </div>
-            </div>
-          </LocalizationProvider>
-        )}
-      </Modal.Body>
-      <Modal.Footer>
-        <button onClick={handleConfirm} disabled={loading || isStatusUpdated}>
-          Confirmar
-        </button>
-        <button onClick={onClose}>Cancelar</button>
-      </Modal.Footer>
+            </LocalizationProvider>
+          </Modal.Body>
+          <Modal.Footer>
+            <button
+              onClick={handleConfirm}
+              disabled={isConfirming || isStatusUpdated}
+            >
+              {isConfirming ? "Confirmando..." : "Confirmar"}
+            </button>
+            <button onClick={onClose} disabled={isConfirming}>
+              Cancelar
+            </button>
+          </Modal.Footer>
+        </>
+      )}
     </Modal>
   );
 };
