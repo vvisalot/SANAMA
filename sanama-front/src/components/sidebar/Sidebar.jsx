@@ -10,7 +10,15 @@ import AppointmentIcon from "@/components/icons/AppointmentIcon.jsx";
 import TriageIcon from "@/components/icons/TriageIcon";
 import helpIcon from "@/components/icons/HelpIcon";
 
+import { usePathname } from "next/navigation";
+
 const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
+  const pathname = usePathname();
+
+  const isActive = (route) => {
+    return pathname.startsWith(route);
+  };
+
   return (
     <nav
       className={`top-0 left-0 min-h-screen transition-all duration-500 rounded-r-lg transform 
@@ -38,36 +46,42 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
           route={"/patients"}
           isOpen={isSidebarOpen}
           Icon={PatientIcon}
+          isActive={isActive("/patients")}
         ></SidebarItem>
         <SidebarItem
           name={"Medicos"}
           route={"/doctors"}
           isOpen={isSidebarOpen}
           Icon={DoctorIcon}
+          isActive={isActive("/doctors")}
         ></SidebarItem>
         <SidebarItem
           name={"Citas"}
           route={"/appointments"}
           isOpen={isSidebarOpen}
           Icon={AppointmentIcon}
+          isActive={isActive("/appointments")}
         ></SidebarItem>
         <SidebarItem
           name={"Triajes"}
           route={"/triajes"}
           isOpen={isSidebarOpen}
           Icon={TriageIcon}
+          isActive={isActive("/triajes")}
         ></SidebarItem>
         <SidebarItem
           name={"Laboratorio"}
           route={"/laboratories"}
           isOpen={isSidebarOpen}
           Icon={LabIcon}
+          isActive={isActive("/laboratories")}
         ></SidebarItem>
         <SidebarItem
           name={"ModalLaboratorio"}
           route={"/addLab"}
           isOpen={isSidebarOpen}
           Icon={helpIcon}
+          isActive={isActive("/addLab")}
         ></SidebarItem>
       </ul>
     </nav>
