@@ -84,5 +84,20 @@ public class OrdenLaboratorioController {
         return n;
     }
 
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE},
+            value = "/post/actualizarOrdenLaboratorio")
+    @ResponseBody
+    public int actualizarOrdenLaboratorio(@RequestBody OrdenLaboratorio orden){
+        try{
+            int n;
+            n = ordenLaboratorioService.actualizarOrdenLaboratorio(orden);
+            return n;
+        }catch(Exception ex){
+            // Manejo de excepciones aquí
+            ex.printStackTrace();
+        }
+        return -1;
+    }
 
 }
