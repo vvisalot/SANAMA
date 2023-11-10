@@ -29,4 +29,20 @@ public class EvaluacionMedicaController {
         return -1;
     }
 
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE},
+            value = "/post/actualizarEvaluacionMedica")
+    @ResponseBody
+    public int actualizarEvaluacionMedica(@RequestBody EvaluacionMedica evaluacionMedica){
+        try{
+            int n=0;
+            n = evaluacionMedicaService.actualizarEvaluacionMedica(evaluacionMedica);
+            return n;
+        }catch(Exception ex){
+            // Manejo de excepciones aquí
+            ex.printStackTrace();
+        }
+        return -1;
+    }
+
 }

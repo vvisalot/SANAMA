@@ -16,4 +16,11 @@ public class EvaluacionMedicaService {
 
         return valido;
     }
+
+    public int actualizarEvaluacionMedica(EvaluacionMedica evaluacionMedica) {
+        int valido;
+        valido = evaluacionMedicaRepository.actualizarEvaluacionMedica(evaluacionMedica);
+        return valido;
+    }
+
 }

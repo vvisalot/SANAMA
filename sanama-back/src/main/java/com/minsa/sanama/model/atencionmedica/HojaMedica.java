@@ -18,6 +18,7 @@ public class HojaMedica {
     private int estado=0;
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private int idCitaMedica=0;
+    private CitaMedica citaMedica;
     private ArrayList<Resultado> resultados;
     private RecetaMedica recetaMedica;
     private EvaluacionMedica evaluacionMedica;
@@ -31,6 +32,14 @@ public class HojaMedica {
 
     public void setIdHojaMedica(int idHojaMedica) {
         this.idHojaMedica = idHojaMedica;
+    }
+
+    public CitaMedica getCitaMedica() {
+        return citaMedica;
+    }
+
+    public void setCitaMedica(CitaMedica citaMedica) {
+        this.citaMedica = citaMedica;
     }
 
     public HojaRefencia getHojaRefencia() {
