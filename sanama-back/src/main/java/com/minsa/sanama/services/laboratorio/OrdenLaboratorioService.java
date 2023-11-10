@@ -39,7 +39,6 @@ public class OrdenLaboratorioService {
             ordenLaboratorio = lordenes.get(0);
             lexamenes = examenMedicoRepository.buscarExamenMedico(pn_id_orden_laboratorio);
             ordenLaboratorio.setExamenMedico(lexamenes);
-            ordenLaboratorio.setIdOrdenLaboratorio(Integer.parseInt(pn_id_orden_laboratorio));
         }
         return ordenLaboratorio;
     }
@@ -62,20 +61,6 @@ public class OrdenLaboratorioService {
         int n;
         n = ordenLaboratorioRepository.registrarOrdenLaboratorio(orden);
         return n;
-    }
-
-    public int actualizarOrdenLaboratorio(OrdenLaboratorio orden){
-        List<ExamenMedico> lexamenes=null;
-        int valido=0;
-        valido = ordenLaboratorioRepository.actualizarOrdenLaboratorio(orden);
-        lexamenes = orden.getExamenMedico();
-        if(valido==1){
-            for (ExamenMedico examen : lexamenes) {
-                examenMedicoRepository.registrarExamenMedico(examen,orden.getIdOrdenLaboratorio());
-            }
-            return 1;
-        }
-        return 0;
     }
 
 
