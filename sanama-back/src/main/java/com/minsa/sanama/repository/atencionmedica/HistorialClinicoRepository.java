@@ -1,6 +1,7 @@
 package com.minsa.sanama.repository.atencionmedica;
 
 import com.minsa.sanama.model.admision.Paciente;
+import com.minsa.sanama.model.atencionmedica.CitaMedica;
 import com.minsa.sanama.model.atencionmedica.HistorialClinico;
 import com.minsa.sanama.model.atencionmedica.HojaMedica;
 import com.minsa.sanama.model.rrhh.Especialidad;
@@ -66,8 +67,17 @@ public class HistorialClinicoRepository {
 
             hojaMedica.setIdHojaMedica(rs.getInt("id_hoja_medica"));
             hojaMedica.setCodigo(rs.getString("codigo"));
+            hojaMedica.setFechaAtencion(rs.getDate("fecha_atencion").toLocalDate());
+            hojaMedica.setHoraAtencion(rs.getTime("hora_atencion").toLocalTime());
+            hojaMedica.setCitaMedica(new CitaMedica());
+            hojaMedica.getCitaMedica().setMedico(new Medico());
+            hojaMedica.getCitaMedica().getMedico().setNombres(rs.getString("nombres"));
+            hojaMedica.getCitaMedica().getMedico().setApellidoPaterno(rs.getString("apellido_paterno"));
+            hojaMedica.getCitaMedica().getMedico().setApellidoMaterno(rs.getString("apellido_materno"));
+            hojaMedica.getCitaMedica().getMedico().setEspecialidad(new Especialidad());
+            hojaMedica.getCitaMedica().getMedico().getEspecialidad().setNombre(rs.getString("nombre_especialidad"));
+
             return hojaMedica;
         }
     }
-
 }
