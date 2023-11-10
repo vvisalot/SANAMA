@@ -1,9 +1,7 @@
 package com.minsa.sanama.controller.atencion;
 
 import com.minsa.sanama.model.atencionmedica.HistorialClinico;
-import com.minsa.sanama.model.laboratorio.ExamenMedico;
 import com.minsa.sanama.services.atencion.HistorialClinicoService;
-import com.minsa.sanama.services.laboratorio.ExamenMedicoService;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
