@@ -16,6 +16,15 @@ const DropdownCheckbox = ({ statusList, statusState, setStatusState, text }) => 
         ))
     }
 
+    const getStatusText = () => {
+        const selectedItems = statusList.filter(item => statusState[item.idValue])
+        if (selectedItems.length === 0) {
+            return text // Retorna "Estado" si no hay nada seleccionado
+        }
+        return selectedItems.map(item => item.descripcion).join(", ")
+    }
+
+
     //Close dropdown when clicking outside
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -36,12 +45,12 @@ const DropdownCheckbox = ({ statusList, statusState, setStatusState, text }) => 
                 onClick={toggleDropdown}
                 id="dropdownBgHoverButton"
                 data-dropdown-toggle="dropdownBgHover"
-                className="text-slate-900 bg-slate-50 hover:bg-slate-400 w-[200px] justify-between
+                className="text-slate-900 bg-slate-50 hover:bg-slate-400 w-[400px] justify-between bg-white
                             border border-gray-300 focus:ring-4 focus:outline-none focus:ring-blue-300 
                             font-normal rounded-lg text-sm px-5 py-4 text-center inline-flex items-center 
                             dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 type="button">
-                {text}
+                {getStatusText()}
                 <svg className="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
                 </svg>
