@@ -46,6 +46,30 @@ public class PacienteRepository {
         return jdbcTemplate.query(procedureCall, pacienteMapperSolo);
     }
 
+    public int actualizarPacienteShort(Paciente paciente){
+        SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                .withSchemaName("dbSanama")
+                .withProcedureName("ssm_adm_actualizar_paciente")
+                .declareParameters(new SqlParameter[]{
+                        new SqlParameter("pn_id_paciente ", Types.INTEGER),
+                        new SqlParameter("pv_telefono", Types.VARCHAR),
+                        new SqlParameter("pv_correo", Types.VARCHAR),
+                        new SqlParameter("pv_direccion", Types.VARCHAR)
+                });
+        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
+        mapSqlParameterSource
+                .addValue("pn_id_paciente", paciente.getIdPersona())
+                .addValue("pv_telefono", paciente.getTelefono())
+                .addValue("pv_correo", paciente.getCorreo())
+                .addValue("pv_direccion", paciente.getDireccion());
+
+        Map<String, Object> result = simpleJdbcCall.execute(mapSqlParameterSource);
+        if(result.containsKey("ERROR_CODE") || result.containsKey("ERROR_MESSAGE")){
+            return 0;
+        }
+        else return 1;
+    }
+
     private static class PacienteMapperSolo implements RowMapper<Paciente> {
         @Override
         public Paciente mapRow(ResultSet rs, int rowNum) throws SQLException {

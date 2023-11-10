@@ -27,6 +27,12 @@ public class CitaService {
         return lCitas;
     }
 
+    public List<CitaMedica> listarCitasUltimas() {
+        List<CitaMedica> lCitas;
+        lCitas = citaRepository.listarCitasUltimas();
+        return lCitas;
+    }
+
     public CitaMedica buscarCitaMedica(int pn_id_cita) {
         List<CitaMedica> lCitas;
         lCitas = citaRepository.buscarCitaMedica(pn_id_cita);

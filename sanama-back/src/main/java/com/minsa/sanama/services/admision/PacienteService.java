@@ -52,6 +52,13 @@ public class PacienteService {
         n = pacienteRepository.actualizarPaciente(paciente);
         return n;
     }
+
+    public int actualizarPacienteShort(Paciente paciente){
+        int n;
+        n = pacienteRepository.actualizarPacienteShort(paciente);
+        return n;
+    }
+
     public int eliminarPaciente(Paciente paciente){
         int n;
         n = pacienteRepository.eliminarPaciente(paciente);
