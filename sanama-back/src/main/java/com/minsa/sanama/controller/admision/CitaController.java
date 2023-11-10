@@ -134,6 +134,9 @@ public class CitaController {
     public int registrarCitaMedicaPaciente(@RequestBody CitaMedica citaMedica) {
         try {
             int idCitaMedica=0;
+            System.out.println("Fecha: " + citaMedica.getFechaCita());
+            System.out.println("Hora: "+ citaMedica.getHoraCita());
+
             idCitaMedica = citaService.registrarCitaMedicaPaciente(citaMedica);
             return idCitaMedica;
         } catch (Exception ex) {

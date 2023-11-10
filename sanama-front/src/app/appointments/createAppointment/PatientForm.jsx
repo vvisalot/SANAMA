@@ -180,7 +180,7 @@ const PatientForm = ({ setFormComplete, setPatientId, patientForm, fechaNacimien
                             minLength={3}
                             maxLength={255}
                             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent"
-                            placeholder=" "
+                            placeholder=""
                             value={patientForm.apellidoPaterno}
                             onChange={(event) => {
                                 validateTextInput(event.target)

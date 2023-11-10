@@ -10,7 +10,7 @@ import { sexParser } from "@/util/patientParser";
 
 const HistorialClinico = () => {
   const params = useParams();
-  const idPaciente = params.idmedicalHistory;
+  const idPaciente = params.idPatient;
 
   const { patientForm, setPatientForm } = usePatientForm();
 
