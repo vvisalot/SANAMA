@@ -810,7 +810,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"pn_id_orden_laboratorio\":\"3\"\r\n}\r\n",
+							"raw": "{\r\n    \"pn_id_orden_laboratorio\":\"4\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1415,7 +1415,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"hojaMedica\":{\r\n        \"idHojaMedica\":9\r\n    },\r\n    \"motivoConsulta\": \"cqcqc\",\r\n    \"antecedentes\": \"cqcqc\",\r\n    \"examenGeneral\": \"cqcqc\",\r\n    \"pielYFaneras\": \"cqcqc\",\r\n    \"cabezaYCuello\": \"cqcqc\",\r\n    \"toraxYPulmones\": \"cqcqc\",\r\n    \"cardiovascular\": \"cqcqc\",\r\n    \"abdomen\": \"cqcqc\",\r\n    \"urogenital\": \"cqcqc\",\r\n    \"extremidades\": \"cqcqc\",\r\n    \"snc\": \"cqcqc\",\r\n    \"glasgow\": 5,\r\n    \"eyesOpen\": 5,\r\n    \"talkingCorrectly\": false,\r\n    \"ableToMoveBody\": false,\r\n    \"observaciones\": \"cqcqc\",\r\n    \"indicacionesFinales\": \"cqcqc\",\r\n    \"requiereSignosVitales\": false\r\n}",
+							"raw": "{\r\n    \"hojaMedica\":{\r\n        \"idHojaMedica\":1\r\n    },\r\n    \"motivoConsulta\": \"motivoConsulta\",\r\n    \"antecedentes\": \"cqcqc\",\r\n    \"examenGeneral\": \"cqcqc\",\r\n    \"pielYFaneras\": \"cqcqc\",\r\n    \"cabezaYCuello\": \"cqcqc\",\r\n    \"toraxYPulmones\": \"cqcqc\",\r\n    \"cardiovascular\": \"cardiovascular\",\r\n    \"abdomen\": \"cqcqc\",\r\n    \"urogenital\": \"cqcqc\",\r\n    \"extremidades\": \"cqcqc\",\r\n    \"snc\": \"cqcqc\",\r\n    \"glasgow\": 5,\r\n    \"eyesOpen\": 5,\r\n    \"talkingCorrectly\": false,\r\n    \"ableToMoveBody\": false,\r\n    \"observaciones\": \"cqcqc\",\r\n    \"indicacionesFinales\": \"cqcqc\",\r\n    \"requiereSignosVitales\": false\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1432,6 +1432,35 @@
 								"atencion",
 								"post",
 								"registrarEvaluacionMedica"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "actualizarEvaluacionMedica",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idEvaluacion\": 1,\r\n    \"motivoConsulta\": \"motivoConsulta\",\r\n    \"antecedentes\": \"antecedentes\",\r\n    \"examenGeneral\": \"examenGeneral\",\r\n    \"pielYFaneras\": \"pielYFaneras\",\r\n    \"cabezaYCuello\": \"cabezaYCuello\",\r\n    \"toraxYPulmones\": \"toraxYPulmones\",\r\n    \"cardiovascular\": \"cardiovascular\",\r\n    \"abdomen\": \"cqcqc\",\r\n    \"urogenital\": \"cqcqc\",\r\n    \"extremidades\": \"cqcqc\",\r\n    \"snc\": \"cqcqc\",\r\n    \"glasgow\": 5,\r\n    \"eyesOpen\": 5,\r\n    \"talkingCorrectly\": false,\r\n    \"ableToMoveBody\": false,\r\n    \"observaciones\": \"cqcqc\",\r\n    \"indicacionesFinales\": \"cqcqc\",\r\n    \"requiereSignosVitales\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/atencion/post/actualizarEvaluacionMedica",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"atencion",
+								"post",
+								"actualizarEvaluacionMedica"
 							]
 						}
 					},
