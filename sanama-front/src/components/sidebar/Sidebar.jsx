@@ -12,27 +12,36 @@ import helpIcon from "@/components/icons/HelpIcon";
 
 import { usePathname } from "next/navigation";
 
+const sidebarItems = [
+  { name: "Pacientes", route: "/patients", Icon: PatientIcon },
+  { name: "Medicos", route: "/doctors", Icon: DoctorIcon },
+  { name: "Citas", route: "/appointments", Icon: AppointmentIcon },
+  { name: "Triajes", route: "/triajes", Icon: TriageIcon },
+  { name: "Laboratorio", route: "/laboratories", Icon: LabIcon },
+  { name: "ModalLaboratorio", route: "/addLab", Icon: helpIcon },
+];
+
 const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
   const pathname = usePathname();
 
-  const isActive = (route) => {
-    return pathname.startsWith(route);
-  };
+  const isActive = (route) => pathname.startsWith(route);
+
+  const baseNavClass =
+    "top-0 left-0 min-h-screen transition-all duration-500 rounded-r-lg transform";
+  const openNavClass = "w-80 bg-primary-periwinkle text-white";
+  const closedNavClass = "w-22 bg-primary-dusk-blue text-white";
 
   return (
     <nav
-      className={`top-0 left-0 min-h-screen transition-all duration-500 rounded-r-lg transform 
-        ${
-          isSidebarOpen
-            ? "w-80 bg-primary-periwinkle text-white"
-            : "w-22 bg-primary-dusk-blue text-white"
-        }`}
+      className={`${baseNavClass} ${
+        isSidebarOpen ? openNavClass : closedNavClass
+      }`}
       aria-label="Sidebar"
     >
       <div
         className={`pt-8 pl-4 pb-8 pr-4 w-full ${
-          isSidebarOpen ? "justify-between flex" : "justify-around"
-        }`}
+          isSidebarOpen ? "justify-between" : "justify-around"
+        } flex`}
       >
         <SidebarHeader className="w-full" isOpen={isSidebarOpen} />
         <SidebarToggleButton toggleSidebar={toggleSidebar}>
@@ -40,51 +49,20 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
         </SidebarToggleButton>
       </div>
 
-      <ul className={`w-full font-medium text-lg`}>
-        <SidebarItem
-          name={"Pacientes"}
-          route={"/patients"}
-          isOpen={isSidebarOpen}
-          Icon={PatientIcon}
-          isActive={isActive("/patients")}
-        ></SidebarItem>
-        <SidebarItem
-          name={"Medicos"}
-          route={"/doctors"}
-          isOpen={isSidebarOpen}
-          Icon={DoctorIcon}
-          isActive={isActive("/doctors")}
-        ></SidebarItem>
-        <SidebarItem
-          name={"Citas"}
-          route={"/appointments"}
-          isOpen={isSidebarOpen}
-          Icon={AppointmentIcon}
-          isActive={isActive("/appointments")}
-        ></SidebarItem>
-        <SidebarItem
-          name={"Triajes"}
-          route={"/triajes"}
-          isOpen={isSidebarOpen}
-          Icon={TriageIcon}
-          isActive={isActive("/triajes")}
-        ></SidebarItem>
-        <SidebarItem
-          name={"Laboratorio"}
-          route={"/laboratories"}
-          isOpen={isSidebarOpen}
-          Icon={LabIcon}
-          isActive={isActive("/laboratories")}
-        ></SidebarItem>
-        <SidebarItem
-          name={"ModalLaboratorio"}
-          route={"/addLab"}
-          isOpen={isSidebarOpen}
-          Icon={helpIcon}
-          isActive={isActive("/addLab")}
-        ></SidebarItem>
+      <ul className="w-full font-medium text-lg">
+        {sidebarItems.map((item) => (
+          <SidebarItem
+            key={item.route}
+            name={item.name}
+            route={item.route}
+            isOpen={isSidebarOpen}
+            Icon={item.Icon}
+            isActive={isActive(item.route)}
+          />
+        ))}
       </ul>
     </nav>
   );
 };
+
 export default Sidebar;
