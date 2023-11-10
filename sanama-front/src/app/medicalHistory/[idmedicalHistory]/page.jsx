@@ -12,7 +12,7 @@ import iconoHistorial from "@/components/icons/iconoHistorial";
 
 const HistorialClinico = () => {
   const params = useParams();
-  const idPaciente = params.idPatient;
+  const idPaciente = params.idmedicalHistory;
 
   const { patientForm, setPatientForm } = usePatientForm();
 
@@ -74,6 +74,7 @@ const HistorialClinico = () => {
       fetchData();
     }
   }, [idPaciente]);
+
   const handleCreateMedicalRecord = async () => {
     const newMedicalRecord = {
       idHistorialClinico: historialClinico.idHistorialClinico, // Use the existing idHistorialClinico from the state
