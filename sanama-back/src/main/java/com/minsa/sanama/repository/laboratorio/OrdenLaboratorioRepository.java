@@ -142,19 +142,14 @@ public class OrdenLaboratorioRepository {
                         new SqlParameter("pn_id_cita", Types.INTEGER),
                         new SqlParameter("pv_codigo_orden", Types.VARCHAR),
                         new SqlParameter("pv_tipo_muestra", Types.VARCHAR),
-                        new SqlParameter("pv_instrucciones", Types.VARCHAR),
-                        new SqlParameter("pd_fecha_orden", Types.DATE),
-                        new SqlParameter("pt_hora_orden", Types.TIME)
+                        new SqlParameter("pv_instrucciones", Types.VARCHAR)
                 });
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
         mapSqlParameterSource
                 .addValue("pn_id_cita", orden.getCitaMedica().getIdCita())
                 .addValue("pv_codigo_orden", orden.getCodigoOrden())
                 .addValue("pv_tipo_muestra", orden.getTipoMuestra())
-                .addValue("pv_instrucciones", orden.getInstrucciones())
-                .addValue("pd_fecha_orden", orden.getFechaOrden())
-                .addValue("pt_hora_orden", orden.getHoraOrden());
-
+                .addValue("pv_instrucciones", orden.getInstrucciones());
 
         Map<String, Object> result = simpleJdbcCall.execute(mapSqlParameterSource);
         if (result.containsKey("ERROR_CODE") || result.containsKey("ERROR_MESSAGE")) {

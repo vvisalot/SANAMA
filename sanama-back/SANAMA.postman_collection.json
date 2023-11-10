@@ -868,7 +868,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"codigoOrden\": \"O-005\",\r\n    \"tipoMuestra\": \"Sangre\",\r\n    \"instrucciones\": \"Realizarse un analisis de sangre\",\r\n    \"fechaOrden\": \"2023-11-17\",\r\n    \"horaOrden\": \"09:00\",\r\n    \"citaMedica\": {\r\n        \"idCita\": 22\r\n    }\r\n}",
+							"raw": "{\r\n    \"codigoOrden\": \"O-011\",\r\n    \"tipoMuestra\": \"Heces\",\r\n    \"instrucciones\": \"Realizar analisis de heces para deteccion de parasitos\",\r\n    \"citaMedica\": {\r\n        \"idCita\": 81\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -897,7 +897,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"idOrdenLaboratorio\": 4,\r\n    \"codigoOrden\": \"O-004\",\r\n    \"tipoMuestra\": \"Orina\",\r\n    \"instrucciones\": \"Realizarse un analisis de orina\",\r\n    \"doctorFirmante\": \"Ricardo Gómez Hurtado\",\r\n    \"observaciones\": \"Observaciones\",\r\n    \"citaMedica\": {\r\n        \"paciente\": {\r\n            \"nombres\": \"Javier\",\r\n            \"apellidoPaterno\": \"Mendes\",\r\n            \"apellidoMaterno\": \"Molinas\",\r\n            \"dni\": \"74032409\",\r\n            \"fechaNacimiento\": \"1990-09-27\",\r\n            \"sexo\": \"M\"\r\n        },\r\n        \"medico\": {\r\n            \"nombres\": \"Fernanda\",\r\n            \"apellidoPaterno\": \"Medina\",\r\n            \"apellidoMaterno\": \"de las Casas\"\r\n        },\r\n        \"requiereTriaje\": 0,\r\n        \"tieneAcompanhante\": false\r\n    },\r\n    \"examenMedico\": [ ]\r\n}",
+							"raw": "{\r\n    \"idOrdenLaboratorio\": 4,\r\n    \"codigoOrden\": \"O-004\",\r\n    \"tipoMuestra\": \"Orina\",\r\n    \"instrucciones\": \"Realizarse un analisis de orina\",\r\n    \"doctorFirmante\": \"Ricardo Gómez de la Huerta\",\r\n    \"observaciones\": \"Observaciones\",\r\n    \"citaMedica\": {\r\n        \"paciente\": {\r\n            \"nombres\": \"Javier\",\r\n            \"apellidoPaterno\": \"Mendes\",\r\n            \"apellidoMaterno\": \"Molinas\",\r\n            \"dni\": \"74032409\",\r\n            \"fechaNacimiento\": \"1990-09-27\",\r\n            \"sexo\": \"M\"\r\n        },\r\n        \"medico\": {\r\n            \"nombres\": \"Fernanda\",\r\n            \"apellidoPaterno\": \"Medina\",\r\n            \"apellidoMaterno\": \"de las Casas\"\r\n        },\r\n        \"requiereTriaje\": 0,\r\n        \"tieneAcompanhante\": false\r\n    },\r\n    \"examenMedico\": [ ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
