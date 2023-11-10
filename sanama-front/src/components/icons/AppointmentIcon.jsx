@@ -15,7 +15,7 @@ const AppointmentIcon = () => (
       style={{
         fillRule: "evenodd",
         clipRule: "evenodd",
-        fill: "#fff",
+        fill: "none",
         stroke: "#08828b",
         strokeWidth: 7.9999,
         strokeMiterlimit: 22.9256,

@@ -28,7 +28,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
 
   const baseNavClass =
     "top-0 left-0 min-h-screen transition-all duration-500 rounded-r-lg transform";
-  const openNavClass = "w-80 bg-primary-periwinkle text-white";
+  const openNavClass = "w-80 bg-primary-dusk-blue text-white";
   const closedNavClass = "w-22 bg-primary-dusk-blue text-white";
 
   return (

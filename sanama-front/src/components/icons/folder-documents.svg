@@ -1,7 +1,10 @@
-<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="97px" height="97px" viewBox="0 0 97 97" style="enable-background:new 0 0 97 97;" xml:space="preserve">
-<path style="fill-rule:evenodd;clip-rule:evenodd;fill:#FFFFFF;stroke:#08828B;stroke-width:7.9999;stroke-miterlimit:22.9256;" d="
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	width="97px" height="97px" viewBox="0 0 97 97" style="enable-background:new 0 0 97 97;"
+	xml:space="preserve">
+<path style="fill-rule:evenodd;clip-rule:evenodd;fill:none;stroke:#08828B;stroke-width:7.9999;stroke-miterlimit:22.9256;" d="
 	M42.532,6.558h12.322c4.579,0,8.325,3.747,8.325,8.325v28.35c0,4.579-3.746,8.325-8.325,8.325H42.532
 	c-4.579,0-8.326-3.746-8.326-8.325v-28.35C34.206,10.305,37.953,6.558,42.532,6.558z"/>
 <linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="25.2759" y1="80.6191" x2="71.5742" y2="35.9094">

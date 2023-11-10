@@ -2,10 +2,10 @@ import Link from "next/link";
 
 const SidebarItem = ({ name, route, isOpen, Icon, isActive }) => {
   const baseItemClasses =
-    "rounded-lg p-2 flex items-center transition duration-300 ease-in-out";
+    "rounded-r-lg p-2 flex items-center transition duration-300 ease-in-out";
 
   const activeClasses = isActive
-    ? "bg-blue-600 text-white"
+    ? "bg-primary-navy-blue text-white"
     : "text-gray-300 hover:bg-blue-200 hover:text-blue-800";
 
   const itemClasses = `${baseItemClasses} ${activeClasses}`;
@@ -17,7 +17,7 @@ const SidebarItem = ({ name, route, isOpen, Icon, isActive }) => {
           <div className="flex items-center justify-center">
             <Icon />
           </div>
-          {isOpen && <span className="ml-2">{name}</span>}
+          {isOpen && <span className="ml-7">{name}</span>}
         </href>
       </Link>
     </li>
