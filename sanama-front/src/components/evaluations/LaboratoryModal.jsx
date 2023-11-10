@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 
-const AddLabPage = () => {
+const LaboratoryModal = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [dataLaboratorio, setDataLaboratorio] = useState({
     paciente: {
@@ -23,24 +23,26 @@ const AddLabPage = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const [key, subkey] = name.split('.');
-  
+    const [key, subkey] = name.split(".");
+
     if (subkey) {
-      setDataLaboratorio(prevState => ({
+      setDataLaboratorio((prevState) => ({
         ...prevState,
         [key]: {
           ...prevState[key],
-          [subkey]: value
-        }
+          [subkey]: value,
+        },
       }));
     } else {
-      setDataLaboratorio(prevState => ({
+      setDataLaboratorio((prevState) => ({
         ...prevState,
-        [name]: value
+        [name]: value,
       }));
     }
 
-    const charCountElementId = `charCount${name.charAt(0).toUpperCase() + name.slice(1)}`;
+    const charCountElementId = `charCount${
+      name.charAt(0).toUpperCase() + name.slice(1)
+    }`;
     const countElement = document.getElementById(charCountElementId);
     if (countElement) {
       countElement.textContent = `${value.length}/1000`;
@@ -63,7 +65,7 @@ const AddLabPage = () => {
         >
           <div
             className="modal-container bg-white p-5 rounded shadow-lg overflow-y-auto"
-            style={{ maxHeight: '90vh' }}
+            style={{ maxHeight: "90vh" }}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="modal-header flex flex-col items-start">
@@ -222,13 +224,18 @@ const AddLabPage = () => {
                     id="examenesMedicos"
                     rows="4"
                     placeholder="Escriba los exámenes médicos solicitados aquí"
-                    style={{ overflow: "auto" }} 
+                    style={{ overflow: "auto" }}
                     value={dataLaboratorio.examenesMedicos}
                     name="examenesMedicos"
                     onChange={handleChange}
                     maxLength={1000}
                   ></textarea>
-                  <span className="text-right block mt-2" id="charCountExamenesMedicos">{(dataLaboratorio?.examenesMedicos || '').length}/1000</span>
+                  <span
+                    className="text-right block mt-2"
+                    id="charCountExamenesMedicos"
+                  >
+                    {(dataLaboratorio?.examenesMedicos || "").length}/1000
+                  </span>
                 </div>
                 <div className="flex justify-end space-x-4 mt-4">
                   <button
@@ -255,4 +262,4 @@ const AddLabPage = () => {
   );
 };
 
-export default AddLabPage;
+export default LaboratoryModal;

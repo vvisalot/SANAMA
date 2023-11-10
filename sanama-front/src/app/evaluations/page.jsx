@@ -1,11 +1,11 @@
 "use client";
 import React, { useState } from "react";
-import MainInfoComponent from "./MainInfoTab";
-import ClinicalTab from "./ClinicalTab";
-import DiagnosticoMedico from "./DiagnosisTab";
-import GlasgowComaScale from "./MentalStatusTab";
-import TratamientoYDecisionCita from "./TreatmentTab";
-import LaboratoryModal from "./LaboratoryModal";
+import MainInfoComponent from "@/components/evaluations/MainInfoTab";
+import ClinicalTab from "@/components/evaluations/ClinicalTab";
+import DiagnosticoMedico from "@/components/evaluations/DiagnosisTab";
+import GlasgowComaScale from "@/components/evaluations/MentalStatusTab";
+import TratamientoYDecisionCita from "@/components/evaluations/TreatmentTab";
+import LaboratoryModal from "@/components/evaluations/LaboratoryModal";
 
 const FormularioMedico = () => {
   const initialFormData = {
@@ -74,7 +74,6 @@ const FormularioMedico = () => {
   };
 
   const [formData, setFormData] = useState(initialFormData);
-
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

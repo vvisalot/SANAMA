@@ -111,6 +111,8 @@ const HistorialClinico = () => {
   if (error) return <p>Error al cargar el historial clínico</p>;
   if (!historialClinico) return <p>No se encontró el historial clínico</p>;
 
+  console.log(hojasMedicas);
+
   const PatientDataDisplay = ({ patient }) => (
     <div className="flex flex-wrap mb-2 space-x-32 px-4">
       <div className="flex-1 min-w-1/2">
