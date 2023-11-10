@@ -5,6 +5,7 @@ import ClinicalTab from "./ClinicalTab";
 import DiagnosticoMedico from "./DiagnosisTab";
 import GlasgowComaScale from "./MentalStatusTab";
 import TratamientoYDecisionCita from "./TreatmentTab";
+import LaboratoryModal from "./LaboratoryModal";
 
 const FormularioMedico = () => {
   const initialFormData = {
@@ -74,6 +75,7 @@ const FormularioMedico = () => {
 
   const [formData, setFormData] = useState(initialFormData);
 
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
@@ -106,6 +108,7 @@ const FormularioMedico = () => {
         </div>
         <DiagnosticoMedico></DiagnosticoMedico>
         <GlasgowComaScale></GlasgowComaScale>
+        <LaboratoryModal></LaboratoryModal>
         <TratamientoYDecisionCita></TratamientoYDecisionCita>
       </form>
     </div>

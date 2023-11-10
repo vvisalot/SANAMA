@@ -7,6 +7,8 @@ import MedicalRecordsTable from "@/components/MedicalRecordsTable";
 import { parseHojaMedicaTable } from "@/util/medicalRecordParser";
 import usePatientForm from "@/hooks/usePatientForm";
 import { sexParser } from "@/util/patientParser";
+import TitleWithIcon from "@/components/TitleWithIcon";
+import iconoHistorial from "@/components/icons/iconoHistorial";
 
 const HistorialClinico = () => {
   const params = useParams();
@@ -72,7 +74,40 @@ const HistorialClinico = () => {
       fetchData();
     }
   }, [idPaciente]);
+
   const handleCreateMedicalRecord = async () => {
+    const newMedicalRecord = {
+      idHistorialClinico: historialClinico.idHistorialClinico,
+      hojasMedicas: [
+        {
+          idCitaMedica: 4,
+          hojaRefencia: null,
+          horaAtencion: "18:00",
+          fechaAtencion: "2023-11-09",
+        },
+      ],
+    };
+
+    try {
+      const response = await patientService.registrarHojaMedica(
+        newMedicalRecord
+      );
+      if (response && response !== -1) {
+        alert("¡Nueva Hoja Médica creada con éxito!");
+        console.log("New Medical Record created successfully:", response);
+      } else {
+        alert("Error al crear la Hoja Médica. Respuesta no exitosa.");
+        console.error(
+          "Failed to create the new medical record: Response was not successful."
+        );
+      }
+    } catch (error) {
+      alert("Error al crear la Hoja Médica. Por favor, intente de nuevo."); // Alerta en caso de un error inesperado
+      console.error("Error:", error);
+    }
+  };
+
+  const handleCreateMedicalRecordWithReference = async () => {
     const newMedicalRecord = {
       idHistorialClinico: historialClinico.idHistorialClinico, // Use the existing idHistorialClinico from the state
       selloFirma: null,
@@ -107,55 +142,60 @@ const HistorialClinico = () => {
   if (!historialClinico) return <p>No se encontró el historial clínico</p>;
 
   const PatientDataDisplay = ({ patient }) => (
-    <div className="mb-6">
-      <h2 className="text-2xl font-bold mb-4">Datos del Paciente:</h2>
-      <div className="flex flex-wrap mb-6">
-        <div className="flex-1 min-w-1/2">
-          <p>
-            <strong>Nombre:</strong>{" "}
-            {`${patient.nombres} ${patient.apellidoPaterno} ${patient.apellidoMaterno}`}
-          </p>
-          <p>
-            <strong>DNI:</strong> {patient.dni}
-          </p>
-          <p>
-            <strong>Fecha de Nacimiento:</strong> {patient.fechaNacimiento}
-          </p>{" "}
-          <p>
-            <strong>Sexo:</strong> {patient.sexo}
-          </p>{" "}
-        </div>
+    <div className="flex flex-wrap mb-2 space-x-32 px-4">
+      <div className="flex-1 min-w-1/2">
+        <p className="flex justify-between">
+          <strong className="mr-2">Nombre:</strong>
+          <span>{`${patient.nombres} ${patient.apellidoPaterno} ${patient.apellidoMaterno}`}</span>
+        </p>
+        <p className="flex justify-between">
+          <strong className="mr-2">DNI:</strong>
+          <span>{patient.dni}</span>
+        </p>
+        <p className="flex justify-between">
+          <strong className="mr-2">Fecha de Nacimiento:</strong>
+          <span>{patient.fechaNacimiento}</span>
+        </p>
+        <p className="flex justify-between">
+          <strong className="mr-2">Sexo:</strong>
+          <span>{patient.sexo}</span>
+        </p>
+        <p className="flex justify-between">
+          <strong className="mr-2">Código de Seguro:</strong>
+          <span>{patient.codigoSeguro}</span>
+        </p>
+      </div>
 
-        {/* Columna 2 */}
-        <div className="flex-1 min-w-1/2">
-          <p>
-            <strong>Dirección:</strong> {patient.direccion}
-          </p>
-          <p>
-            <strong>Teléfono:</strong> {patient.telefono}
-          </p>
-          <p>
-            <strong>Correo Electrónico:</strong> {patient.correo}
-          </p>
-          <p>
-            <strong>Tipo de Seguro:</strong> {patient.tipoSeguro}
-          </p>
-          <p>
-            <strong>Código de Seguro:</strong> {patient.codigoSeguro}
-          </p>
-        </div>
+      <div className="flex-1 min-w-1/2">
+        <p className="flex justify-between">
+          <strong className="mr-2">Dirección:</strong>
+          <span>{patient.direccion}</span>
+        </p>
+        <p className="flex justify-between">
+          <strong className="mr-2">Teléfono:</strong>
+          <span>{patient.telefono}</span>
+        </p>
+        <p className="flex justify-between">
+          <strong className="mr-2">Correo Electrónico:</strong>
+          <span>{patient.correo}</span>
+        </p>
+        <p className="flex justify-between">
+          <strong className="mr-2">Tipo de Seguro:</strong>
+          <span>{patient.tipoSeguro}</span>
+        </p>
       </div>
     </div>
   );
+
   return (
-    <div>
-      <h1 className="font-bold text-blue-500 text-6xl p-12">Ver Historial</h1>
+    <section className="p-4 md:p-14">
+      <TitleWithIcon name={"Ver Historial"} Icon={iconoHistorial} />
       <div className="container mx-auto p-4">
         <div className="bg-gray-100 min-h-screen p-4 md:p-8">
           <div className="bg-white p-4 rounded shadow-md mb-6">
             <h1 className="text-3xl font-bold mb-4">
               Historial Clínico: {historialClinico.codigo}
-            </h1>{" "}
+            </h1>
             <PatientDataDisplay patient={patientForm} />
           </div>
 
@@ -186,7 +226,7 @@ const HistorialClinico = () => {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

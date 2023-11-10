@@ -1,5 +1,5 @@
-import axios from "axios";
-import connection from "@/config/connection";
+import axios from "axios"
+import connection from "@/config/connection"
 
 const axiosInstance = axios.create({
   baseURL: connection.backend,
@@ -15,18 +15,26 @@ const ENDPOINTS = {
   LISTAR_SEGUROS: "/configuracion/get/listarSeguros",
   BUSCAR_HISTORIAL_CLINICO: "/atencion/post/buscarHistorialClinico",
   REGISTRAR_HOJA_MEDICA: "/atencion/post/registrarHojaMedica",
-};
+}
 
 export const patientService = {
   registrarPaciente: async (patientForm) => {
     try {
-      const response = await axiosInstance.put(
-        ENDPOINTS.REGISTRAR_PACIENTE,
-        patientForm
-      )
+      const response = await axiosInstance.put(ENDPOINTS.REGISTRAR_PACIENTE, patientForm)
       return response.data
     } catch (error) {
       console.error("Error al registrar los datos del paciente", error)
+      throw error
+    }
+  },
+
+  //Modificar los datos del paciente
+  modificarPaciente: async (params) => {
+    try {
+      const response = await axiosInstance.put("/admision/put/actualizarPacienteShort", params)
+      return response.data
+    } catch (error) {
+      console.error("Error al modificar los datos del paciente", error)
       throw error
     }
   },
@@ -93,8 +101,8 @@ export const patientService = {
 
   listarParentescos: async () => {
     try {
-      const response = await axiosInstance.get(ENDPOINTS.LISTAR_PARENTESCOS);
-      return response.data;
+      const response = await axiosInstance.get(ENDPOINTS.LISTAR_PARENTESCOS)
+      return response.data
     } catch (error) {
       console.error("Error al listar los parentescos", error)
       throw error
@@ -103,8 +111,8 @@ export const patientService = {
 
   listarSeguros: async () => {
     try {
-      const response = await axiosInstance.get(ENDPOINTS.LISTAR_SEGUROS);
-      return response.data;
+      const response = await axiosInstance.get(ENDPOINTS.LISTAR_SEGUROS)
+      return response.data
     } catch (error) {
       console.error("Error al listar los seguros", error)
       throw error
@@ -139,14 +147,5 @@ export const patientService = {
     }
   },
 
-  //Modificar los datos del paciente
-  modificarPaciente: async (params) => {
-    try {
-      const response = await axiosInstance.post("/admision/post/modificarPaciente", params)
-      return response.data
-    } catch (error) {
-      console.error("Error al modificar los datos del paciente", error)
-      throw error
-    }
-  },
+
 }
