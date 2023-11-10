@@ -1,6 +1,6 @@
 export function parseLaboratoryTable(data) {
     return data.map(row => {
-        const paciente = row.citaMedica.paciente;
+        const medico = row.citaMedica.medico;
 
         let estadoTexto;
         let estadoClase; 
@@ -26,23 +26,14 @@ export function parseLaboratoryTable(data) {
 
         }
 
-        // let resultados;
-        // if (row.examenMedico && row.examenMedico.urlDescarga) {
-        //     resultados = `<a href="${row.examenMedico.urlDescarga}" download class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 inline-block">Descargar</a>`;
-        // } else {
-        //     resultados = "No disponible";
-        // }
-
         const fechaOrden = row.fechaOrden.split('-').reverse().join('-'); 
 
         return [
             { "data": row.idOrdenLaboratorio }, // ID
-            { "data": `${fechaOrden}     ${row.horaOrden}`}, // FECHA Y HORA
-            { "data": `${paciente.nombres} ${paciente.apellidoPaterno} ${paciente.apellidoMaterno}` }, // NOMBRE COMPLETO
-            { "data": paciente.dni }, // DNI
+            { "data": `${fechaOrden}     ${row.horaOrden}`},
+            { "data": `${medico.nombres} ${medico.apellidoPaterno} ${medico.apellidoMaterno}` },
             { "data": row.tipoMuestra }, // TIPO DE ORDEN/EXAMEN
             { "data": estadoTexto, "className": estadoClase },  // ESTADO con su clase
-            // { "data": resultados, "className": "text-center" }, // RESULTADOS
         ];
     });
 }

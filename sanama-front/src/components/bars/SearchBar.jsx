@@ -29,4 +29,4 @@ const SearchBar = ({ name, width, placeholderText, hrefBtnNuevo }) => {
   )
 }
 
-export default SearchBar
+export default SearchBar;

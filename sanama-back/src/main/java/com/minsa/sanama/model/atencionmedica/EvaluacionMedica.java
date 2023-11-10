@@ -9,6 +9,7 @@ import java.util.List;
 public class EvaluacionMedica {
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private int idEvaluacion=0;
+    private HojaMedica hojaMedica;
     private String motivoConsulta;
     private String antecedentes;
     private String examenGeneral;
@@ -26,12 +27,21 @@ public class EvaluacionMedica {
     private boolean ableToMoveBody;
     private String observaciones;
     private String indicacionesFinales;
+    private boolean requiereSignosVitales;
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private int estado=0;
     private List<Diagnostico> ldiagnosticos;
 
     public EvaluacionMedica(){
 
+    }
+
+    public HojaMedica getHojaMedica() {
+        return hojaMedica;
+    }
+
+    public void setHojaMedica(HojaMedica hojaMedica) {
+        this.hojaMedica = hojaMedica;
     }
 
     public int getIdEvaluacion() {
@@ -176,6 +186,14 @@ public class EvaluacionMedica {
 
     public void setIndicacionesFinales(String indicacionesFinales) {
         this.indicacionesFinales = indicacionesFinales;
+    }
+
+    public boolean isRequiereSignosVitales() {
+        return requiereSignosVitales;
+    }
+
+    public void setRequiereSignosVitales(boolean requiereSignosVitales) {
+        this.requiereSignosVitales = requiereSignosVitales;
     }
 
     public int getEstado() {

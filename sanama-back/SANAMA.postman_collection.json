@@ -889,6 +889,35 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "ActualizarOrdenLaboratorio",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idOrdenLaboratorio\": 4,\r\n    \"codigoOrden\": \"O-004\",\r\n    \"tipoMuestra\": \"Orina\",\r\n    \"instrucciones\": \"Realizarse un analisis de orina\",\r\n    \"doctorFirmante\": \"Ricardo Gómez Hurtado\",\r\n    \"observaciones\": \"Observaciones\",\r\n    \"citaMedica\": {\r\n        \"paciente\": {\r\n            \"nombres\": \"Javier\",\r\n            \"apellidoPaterno\": \"Mendes\",\r\n            \"apellidoMaterno\": \"Molinas\",\r\n            \"dni\": \"74032409\",\r\n            \"fechaNacimiento\": \"1990-09-27\",\r\n            \"sexo\": \"M\"\r\n        },\r\n        \"medico\": {\r\n            \"nombres\": \"Fernanda\",\r\n            \"apellidoPaterno\": \"Medina\",\r\n            \"apellidoMaterno\": \"de las Casas\"\r\n        },\r\n        \"requiereTriaje\": 0,\r\n        \"tieneAcompanhante\": false\r\n    },\r\n    \"examenMedico\": [ ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/laboratorio/post/actualizarOrdenLaboratorio",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"laboratorio",
+								"post",
+								"actualizarOrdenLaboratorio"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -1369,6 +1398,40 @@
 								"rrhh",
 								"delete",
 								"eliminarMedico"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "EvaluacionMedica",
+			"item": [
+				{
+					"name": "registrarEvaluacionMedica",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"hojaMedica\":{\r\n        \"idHojaMedica\":9\r\n    },\r\n    \"motivoConsulta\": \"cqcqc\",\r\n    \"antecedentes\": \"cqcqc\",\r\n    \"examenGeneral\": \"cqcqc\",\r\n    \"pielYFaneras\": \"cqcqc\",\r\n    \"cabezaYCuello\": \"cqcqc\",\r\n    \"toraxYPulmones\": \"cqcqc\",\r\n    \"cardiovascular\": \"cqcqc\",\r\n    \"abdomen\": \"cqcqc\",\r\n    \"urogenital\": \"cqcqc\",\r\n    \"extremidades\": \"cqcqc\",\r\n    \"snc\": \"cqcqc\",\r\n    \"glasgow\": 5,\r\n    \"eyesOpen\": 5,\r\n    \"talkingCorrectly\": false,\r\n    \"ableToMoveBody\": false,\r\n    \"observaciones\": \"cqcqc\",\r\n    \"indicacionesFinales\": \"cqcqc\",\r\n    \"requiereSignosVitales\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/atencion/post/registrarEvaluacionMedica",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"atencion",
+								"post",
+								"registrarEvaluacionMedica"
 							]
 						}
 					},

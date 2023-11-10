@@ -63,5 +63,18 @@ public class OrdenLaboratorioService {
         return n;
     }
 
+    public int actualizarOrdenLaboratorio(OrdenLaboratorio orden){
+        List<ExamenMedico> lexamenes=null;
+        int valido=0;
+        valido = ordenLaboratorioRepository.actualizarOrdenLaboratorio(orden);
+        lexamenes = orden.getExamenMedico();
+        if(valido==1){
+            for (ExamenMedico examen : lexamenes) {
+                examenMedicoRepository.registrarExamenMedico(examen,orden.getIdOrdenLaboratorio());
+            }
+            return 1;
+        }
+        return 0;
+    }
 
 }
