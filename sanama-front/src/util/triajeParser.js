@@ -47,9 +47,11 @@ export function parseTriajeTable(data) {
                 estadoTexto = "Desconocido";
         }
 
+        const fechaOrden = row.fechaTriaje.split('-').reverse().join('-'); 
+
         return [
             { "data": row.idTriaje },
-            { "data": `${row.fechaTriaje}     ${row.horaTriaje}`},
+            { "data": `${fechaOrden}     ${row.horaTriaje}`},
             { "data": paciente.dni },
             { "data": `${paciente.nombres} ${paciente.apellidoPaterno} ${paciente.apellidoMaterno}` },
             { "data": estadoTexto, "className": estadoClase },

@@ -33,9 +33,11 @@ export function parseLaboratoryTable(data) {
         //     resultados = "No disponible";
         // }
 
+        const fechaOrden = row.fechaOrden.split('-').reverse().join('-'); 
+
         return [
             { "data": row.idOrdenLaboratorio }, // ID
-            { "data": `${row.fechaOrden}     ${row.horaOrden}`}, // FECHA Y HORA
+            { "data": `${fechaOrden}     ${row.horaOrden}`}, // FECHA Y HORA
             { "data": `${paciente.nombres} ${paciente.apellidoPaterno} ${paciente.apellidoMaterno}` }, // NOMBRE COMPLETO
             { "data": paciente.dni }, // DNI
             { "data": row.tipoMuestra }, // TIPO DE ORDEN/EXAMEN

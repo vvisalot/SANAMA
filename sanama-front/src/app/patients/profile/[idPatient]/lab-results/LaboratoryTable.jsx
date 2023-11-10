@@ -1,9 +1,10 @@
 import Table from "@/components/table/Table"
+import LaboratoryProfile from './../../../../laboratories/profile/[idLaboratory]/page';
 
 // Columns for the Laboratory table
 const columns = [
     { name: "Fecha actualización" },
-    { name: "Hora actualización" },
+    { name: "Médico prescriptor" },
     { name: "Muestra" },
     { name: "Estado" },
     { name: "Opciones" }
@@ -11,7 +12,7 @@ const columns = [
 
 const LaboratoryTable = ({ data }) => {
     return (
-        <Table columns={columns} data={data} url="/laboratories/profile" iconName="fa fa-file" />
+        <Table columns={columns} data={data} url="/patients/profile/${id}" iconName="fa fa-file" />
     )
 }
 
