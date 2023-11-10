@@ -3,8 +3,7 @@ import Table from "@/components/table/Table"
 const columns = [
     { name: "Nombre del doctor" },
     { name: "Especialidad" },
-    { name: "Fecha" },
-    { name: "Hora" },
+    { name: "Fecha y hora" },
     { name: "Estado" },
 ]
 

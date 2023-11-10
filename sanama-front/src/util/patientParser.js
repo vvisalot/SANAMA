@@ -1,6 +1,8 @@
 
 // http://localhost:8080/admision/post/buscarPaciente
 
+import { format } from "date-fns"
+
 
 // [
 //     {
@@ -27,6 +29,10 @@ export function parsePatientTable(data) {
             if (column === "nombres") {
                 return {
                     "data": `${row["nombres"]} ${row["apellidoPaterno"]} ${row["apellidoMaterno"]}`
+                }
+            } else if (column === "fechaNacimiento") {
+                return {
+                    "data": format(new Date(row["fechaNacimiento"]), "dd/MM/yyyy")
                 }
             } else {
                 return { "data": row[column] }

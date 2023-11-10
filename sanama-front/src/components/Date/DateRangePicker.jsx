@@ -20,7 +20,7 @@ const defaultOptions = {
   inputPlaceholderProp: "Selecciona una fecha",
   inputDateFormatProp: {
     day: "numeric",
-    month: "long",
+    month: "numeric",
     year: "numeric",
   },
 }

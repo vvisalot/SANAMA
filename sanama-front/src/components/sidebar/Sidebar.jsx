@@ -8,7 +8,6 @@ import LabIcon from "@/components/icons/LabIcon.jsx";
 import MenuIcon from "@/components/icons/MenuIcon.jsx";
 import AppointmentIcon from "@/components/icons/AppointmentIcon.jsx";
 import TriageIcon from "@/components/icons/TriageIcon";
-import helpIcon from "@/components/icons/HelpIcon";
 
 import { usePathname } from "next/navigation";
 
@@ -18,7 +17,6 @@ const sidebarItems = [
   { name: "Citas", route: "/appointments", Icon: AppointmentIcon },
   { name: "Triajes", route: "/triajes", Icon: TriageIcon },
   { name: "Laboratorio", route: "/laboratories", Icon: LabIcon },
-  { name: "ModalLaboratorio", route: "/addLab", Icon: helpIcon },
 ];
 
 const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
