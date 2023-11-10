@@ -21,6 +21,9 @@ const DropdownCheckbox = ({ statusList, statusState, setStatusState, text }) => 
         if (selectedItems.length === 0) {
             return text // Retorna "Estado" si no hay nada seleccionado
         }
+        if (selectedItems.length === statusList.length) {
+            return "Todos los estados seleccionados"
+        }
         return selectedItems.map(item => item.descripcion).join(", ")
     }
 

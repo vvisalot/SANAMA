@@ -102,11 +102,6 @@ const AppointmentPage = () => {
         className="w-full flex flex-col items-center md:flex-row md:justify-start md:gap-4 md:grid-cols-4"
         onSubmit={handleSubmit}
       >
-        <SearchBar
-          name={"search-bar-appointments"}
-          width={"w-[600px]"}
-          placeholderText={"Buscar por nombre del paciente"}
-        />
         <DateRangePicker
           dateInitial={dateInitial}
           setDateInitial={setDateInitial}
@@ -119,7 +114,15 @@ const AppointmentPage = () => {
           statusState={statusState}
           setStatusState={setStatusState}
         />
+        <SearchBar
+          name={"search-bar-appointments"}
+          width={"w-[600px]"}
+          placeholderText={"Buscar por nombre del paciente"}
+        />
       </form>
+      <div className="px-2 py-4">
+        Número de resultados: {appointmentTable.length}
+      </div>
       <AppointmentTable data={appointmentTable}></AppointmentTable>
     </section>
   )
