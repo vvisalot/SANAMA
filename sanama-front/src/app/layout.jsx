@@ -14,6 +14,8 @@ export default function RootLayout({ children }) {
     setIsSidebarOpen((prevIsSidebarOpen) => !prevIsSidebarOpen);
   };
 
+  const mainContentClass = isSidebarOpen ? "ml-64" : "ml-10";
+
   return (
     <html lang="en">
       <head>
@@ -24,7 +26,9 @@ export default function RootLayout({ children }) {
       >
         <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
-        <main className="min-h-screen box-border w-full border-[40px] border-slate-300 bg-slate-200 rounded-t-lg">
+        <main
+          className={`min-h-screen box-border w-full border-[36px] border-slate-300 bg-slate-200 rounded-t-lg ${mainContentClass}`}
+        >
           <NextBreadcrumb
             homeElement={"Home"}
             separator={<span> | </span>}

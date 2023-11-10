@@ -27,11 +27,11 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
   const isActive = (route) => pathname.startsWith(route);
 
   const baseNavClass =
-    "fixed top-0 left-0 min-h-screen transition-all duration-500 rounded-r-lg transform";
+    "fixed overflow-x-hidden top-0 left-0 h-screen z-10 transition-all duration-500 transform";
   const openNavClass =
-    "w-80 bg-gradient-to-b from-primary-dusk-blue from-10% via-primary-periwinkle via-80% to-primary-light-periwinkle to-100% text-white";
+    "translate-x-0 bg-gradient-to-b from-primary-dusk-blue from-10% via-primary-periwinkle via-80% to-primary-light-periwinkle to-100% text-white";
   const closedNavClass =
-    "w-22 bg-gradient-to-b from-primary-dusk-blue from-10% via-primary-periwinkle via-80% to-primary-light-periwinkle to-100% text-white";
+    "bg-gradient-to-b from-primary-dusk-blue from-10% via-primary-periwinkle via-80% to-primary-light-periwinkle to-100% text-white";
 
   return (
     <nav
