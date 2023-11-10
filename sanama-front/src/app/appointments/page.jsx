@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import AppointmentTable from "./AppointmentTable";
+import AppointmentTable from "@/components/appointments/AppointmentTable";
 import { appointmentService } from "@/services/appointmentService";
 import { parseAppointmentTable } from "@/util/appointmentParser";
 import SearchBar from "@/components/bars/SearchBar";

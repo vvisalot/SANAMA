@@ -1,7 +1,7 @@
 import { appointmentService } from "@/services/appointmentService";
 import { useState, useEffect } from "react";
 import { parseAppointmentTable } from "@/util/appointmentParser";
-import AppointmentTable from "@/app/appointments/AppointmentTable";
+import AppointmentTable from "@/components/appointments/AppointmentTable";
 import SearchAndAddBar from "@/components/bars/SearchAndAddBar";
 function CitasMedico({ doctor }) {
   const [appointmentTable, setAppointmentTable] = useState([]);
@@ -13,8 +13,6 @@ function CitasMedico({ doctor }) {
           4
         );
         console.log("citas pendientes", data);
-        //const tableData = parseAppointmentTable(data);
-        //setAppointmentTable(tableData);
         const citasMapeadas = data.map((cita) => ({
           ...cita,
           idCita: cita.idCita,
