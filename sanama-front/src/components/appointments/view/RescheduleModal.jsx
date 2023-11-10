@@ -5,7 +5,7 @@ import { doctorService } from "@/services/doctorService";
 import { appointmentService } from "@/services/appointmentService";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider, DateCalendar } from "@mui/x-date-pickers";
-import Calendar from "react-calendar";
+
 import { Modal } from "flowbite-react";
 import PropTypes from "prop-types";
 
