@@ -68,13 +68,42 @@
 					"response": []
 				},
 				{
+					"name": "ListarCitasDeMedicoPorFiltro",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pn_id_medico\": 1,\r\n    \"pv_filtro\":\"\",\r\n    \"pd_fecha_inicio\":null,\r\n    \"pd_fecha_fin\":null,\r\n    \"arregloEstados\":\r\n    [\r\n        {\r\n            \"estado\": null\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/admision/post/listarCitasDeMedicoPorFiltro",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admision",
+								"post",
+								"listarCitasDeMedicoPorFiltro"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "ListarCitasPorMedico",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"pn_id_medico\":\"2\",\r\n    \"pn_estado\": null\r\n}",
+							"raw": "{\r\n    \"pn_id_medico\":\"2\",\r\n    \"pn_estado\": null\r\n}\r\n\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
