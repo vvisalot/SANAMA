@@ -173,7 +173,9 @@ const HistorialClinico = () => {
             <button
               type="submit"
               className="text-white  bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-4"
-              onClick={() => router.push("/evaluations/newEvaluation")}
+              onClick={() =>
+                router.push(`/evaluations/newEvaluation/${idPaciente}`)
+              }
             >
               Generar Nueva Evaluacion Medica
             </button>

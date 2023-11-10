@@ -8,9 +8,10 @@ import RescheduleModal from "@/components/appointments/view/RescheduleModal";
 import useUpdateAppointmentStatus from "@/hooks/useUpdateAppointmentStatus";
 import useAppointmentReschedule from "@/hooks/useAppointmentReschedule";
 import { useRouter } from "next/navigation";
-import { MdAdd, MdDelete, MdEdit } from "react-icons/md";
+import { MdDelete, MdEdit } from "react-icons/md";
 import viewAppointmentIcon from "@/components/icons/viewAppointmentIcon";
 import TitleWithIcon from "@/components/TitleWithIcon";
+import { usePathname } from "next/navigation";
 
 const ReviewAppointment = ({ params }) => {
   const [appointmentData, setAppointmentData] = useState(null);
@@ -21,6 +22,7 @@ const ReviewAppointment = ({ params }) => {
   const router = useRouter();
   const openRescheduleModal = () => setIsRescheduleModalOpen(true);
   const closeRescheduleModal = () => setIsRescheduleModalOpen(false);
+  const pathname = usePathname();
 
   const {
     updateAppointmentStatus,
@@ -74,8 +76,11 @@ const ReviewAppointment = ({ params }) => {
   };
 
   const handleAttendClick = () => {
+    router;
     handleActionClick(2).then(() =>
-      router.push(`/medicalHistory/${appointmentData.paciente.idPersona}`)
+      router.push(
+        `${pathname}/medicalHistory/${appointmentData.paciente.idPersona}`
+      )
     );
   };
 
