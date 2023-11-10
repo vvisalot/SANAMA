@@ -50,6 +50,9 @@ module.exports = {
       "secondary-dark-orange": "#814000",
       "secondary-light-orange": "#FCA147",
       "secondary-pale-orange": "#FCBE80",
+
+      // Grays
+      "gray-one": "#C3D0D4",
     },
   },
   plugins: [require("flowbite/plugin")],
