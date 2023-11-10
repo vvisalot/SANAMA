@@ -77,6 +77,38 @@ const HistorialClinico = () => {
 
   const handleCreateMedicalRecord = async () => {
     const newMedicalRecord = {
+      idHistorialClinico: historialClinico.idHistorialClinico,
+      hojasMedicas: [
+        {
+          idCitaMedica: 4,
+          hojaRefencia: null,
+          horaAtencion: "18:00",
+          fechaAtencion: "2023-11-09",
+        },
+      ],
+    };
+
+    try {
+      const response = await patientService.registrarHojaMedica(
+        newMedicalRecord
+      );
+      if (response && response !== -1) {
+        alert("¡Nueva Hoja Médica creada con éxito!");
+        console.log("New Medical Record created successfully:", response);
+      } else {
+        alert("Error al crear la Hoja Médica. Respuesta no exitosa.");
+        console.error(
+          "Failed to create the new medical record: Response was not successful."
+        );
+      }
+    } catch (error) {
+      alert("Error al crear la Hoja Médica. Por favor, intente de nuevo."); // Alerta en caso de un error inesperado
+      console.error("Error:", error);
+    }
+  };
+
+  const handleCreateMedicalRecordWithReference = async () => {
+    const newMedicalRecord = {
       idHistorialClinico: historialClinico.idHistorialClinico, // Use the existing idHistorialClinico from the state
       selloFirma: null,
       fechaProximaCita: "2023-12-15",
