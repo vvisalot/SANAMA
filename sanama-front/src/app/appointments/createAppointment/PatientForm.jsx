@@ -7,7 +7,7 @@ import SearchPatientModal from "./SearchPatientModal"
 import { TextInput } from "flowbite-react"
 import { patientService } from "@/services/patientService"
 import { sexParser } from "@/util/patientParser"
-import Dropdown from "@/components/bars/Dropdown"
+import Dropdown from "@/components/Dropdowns/Dropdown"
 const PatientForm = ({ setFormComplete, setPatientId, patientForm, fechaNacimiento, setFechaNacimiento, sexo, setSexo, setPatientForm }) => {
     //Flujo insano
     const [errorMessage, setErrorMessage] = useState("")

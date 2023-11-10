@@ -13,7 +13,7 @@ import helpIcon from "@/components/icons/HelpIcon";
 const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
   return (
     <nav
-      className={`top-0 left-0 min-h-screen transition-all duration-500 transform 
+      className={`top-0 left-0 min-h-screen transition-all duration-500 rounded-r-lg transform 
         ${
           isSidebarOpen
             ? "w-80 bg-gray-900 text-white"

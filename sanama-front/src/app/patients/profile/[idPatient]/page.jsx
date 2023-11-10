@@ -4,8 +4,9 @@ import PatientInfo from "@/app/patients/profile/[idPatient]/PatientInfo"
 import ProfileCard from "@/components/cards/ProfileCard"
 import { patientService } from "@/services/patientService"
 import { useEffect, useState } from "react"
-import LatestLabResults from "./LatestLabResults"
 import PatientActions from "./PatientActions"
+import LatestAppointments from "./LatestAppointments"
+import LatestLabResults from "./LatestLabResults"
 
 const PatientProfile = ({ params }) => {
     const [dataPatient, setDataPatient] = useState({
@@ -36,21 +37,18 @@ const PatientProfile = ({ params }) => {
     }, [params.idPatient])
 
     return (
-        <article className="flex flex-row justify-between items-start p-10 box-border"
-            style={{ display: 'flex', }}>
-            <section className="box-border overflow-hidden p-10 w-1/3 -m-2.5"
-                style={{ flex: 1, }}>
+        <article className="flex flex-row justify-between items-start p-10 box-border">
+            <section className="box-border overflow-hidden p-4 w-1/3 -m-2.5">
                 <ProfileCard
                     name={`${dataPatient.nombres} ${dataPatient.apellidoPaterno} ${dataPatient.apellidoMaterno}`}
                     email={dataPatient.correo}
                     phone={dataPatient.telefono}
                     address={dataPatient.direccion}
                 />
-
+                <PatientActions id={params.idPatient} />
             </section>
 
-            <section className="box-border overflow-hidden p-10 w-2/3 -m-2.5"
-                style={{ flex: 2, }}>
+            <section className="box-border overflow-hidden p-4 w-2/3 -m-2.5">
                 <PatientInfo
                     gender={dataPatient.sexo}
                     dni={dataPatient.dni}
@@ -59,9 +57,16 @@ const PatientProfile = ({ params }) => {
                     insuranceCode={dataPatient.codigoSeguro}
                     insuranceType={dataPatient.tipoSeguro}
                 />
-                <PatientActions id={params.idPatient} />
+                <div className="flex">
+                    <LatestAppointments id={params.idPatient} />
+
+                </div>
+
             </section>
+
+
         </article>
+
     )
 }
 
