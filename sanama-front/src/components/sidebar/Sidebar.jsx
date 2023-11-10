@@ -27,9 +27,11 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
   const isActive = (route) => pathname.startsWith(route);
 
   const baseNavClass =
-    "top-0 left-0 min-h-screen transition-all duration-500 rounded-r-lg transform";
-  const openNavClass = "w-80 bg-primary-dusk-blue text-white";
-  const closedNavClass = "w-22 bg-primary-dusk-blue text-white";
+    "fixed top-0 left-0 min-h-screen transition-all duration-500 rounded-r-lg transform";
+  const openNavClass =
+    "w-80 bg-gradient-to-b from-primary-dusk-blue from-10% via-primary-periwinkle via-80% to-primary-light-periwinkle to-100% text-white";
+  const closedNavClass =
+    "w-22 bg-gradient-to-b from-primary-dusk-blue from-10% via-primary-periwinkle via-80% to-primary-light-periwinkle to-100% text-white";
 
   return (
     <nav
@@ -45,7 +47,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
       >
         <SidebarHeader className="w-full" isOpen={isSidebarOpen} />
         <SidebarToggleButton toggleSidebar={toggleSidebar}>
-          <MenuIcon />
+          <MenuIcon className="h-7 w-7" />
         </SidebarToggleButton>
       </div>
 
