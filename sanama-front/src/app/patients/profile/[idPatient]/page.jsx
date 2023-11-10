@@ -7,6 +7,7 @@ import { useEffect, useState } from "react"
 import PatientActions from "./PatientActions"
 import LatestAppointments from "./LatestAppointments"
 import LatestLabResults from "./LatestLabResults"
+import Link from "next/link"
 
 const PatientProfile = ({ params }) => {
     const [dataPatient, setDataPatient] = useState({
@@ -44,8 +45,10 @@ const PatientProfile = ({ params }) => {
                     email={dataPatient.correo}
                     phone={dataPatient.telefono}
                     address={dataPatient.direccion}
+                    id={params.idPatient}
                 />
                 <PatientActions id={params.idPatient} />
+
             </section>
 
             <section className="box-border overflow-hidden p-4 w-2/3 -m-2.5">
@@ -61,7 +64,6 @@ const PatientProfile = ({ params }) => {
                     <LatestAppointments id={params.idPatient} />
 
                 </div>
-
             </section>
 
 
