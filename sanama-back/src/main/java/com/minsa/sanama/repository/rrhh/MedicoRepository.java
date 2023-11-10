@@ -227,18 +227,16 @@ public class MedicoRepository {
                 .withProcedureName("ssm_rrhh_actualizar_medico_short")
                 .declareParameters(new SqlParameter[] {
                         new SqlParameter("pn_id_medico", Types.INTEGER),
-                        new SqlParameter("pv_telefono", Types.VARCHAR),
                         new SqlParameter("pb_foto", Types.BLOB),
+                        new SqlParameter("pv_telefono", Types.VARCHAR),
                         new SqlParameter("pv_correo", Types.VARCHAR),
-                        new SqlParameter("pn_estado", Types.INTEGER)
                 });
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
         mapSqlParameterSource
                 .addValue("pn_id_medico", medico.getIdPersona())
                 .addValue("pv_telefono", medico.getTelefono())
                 .addValue("pv_foto", medico.getFoto())
-                .addValue("pv_correo", medico.getcorreoElectronico())
-                .addValue("pn_estado", 1);
+                .addValue("pv_correo", medico.getcorreoElectronico());
 
         Map<String, Object> result = simpleJdbcCall.execute(mapSqlParameterSource);
         if (result.containsKey("ERROR_CODE") || result.containsKey("ERROR_MESSAGE")) {
