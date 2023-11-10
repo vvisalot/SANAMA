@@ -1,7 +1,6 @@
 package com.minsa.sanama.repository.atencionmedica;
 
 import com.minsa.sanama.model.atencionmedica.EvaluacionMedica;
-import com.minsa.sanama.model.atencionmedica.HojaMedica;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.SqlOutParameter;
