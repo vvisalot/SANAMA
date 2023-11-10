@@ -1,5 +1,4 @@
 import Table from "@/components/table/Table"
-import LaboratoryProfile from './../../../../laboratories/profile/[idLaboratory]/page';
 
 // Columns for the Laboratory table
 const columns = [
@@ -10,9 +9,10 @@ const columns = [
     { name: "Opciones" }
 ]
 
-const LaboratoryTable = ({ data }) => {
+const LaboratoryTable = ({ data, id }) => {
+    
     return (
-        <Table columns={columns} data={data} url="/patients/profile/${id}" iconName="fa fa-file" />
+        <Table columns={columns} data={data} url={`/patients/profile/${id}/lab-results`} iconName="fa fa-file" />
     )
 }
 

@@ -10,67 +10,61 @@ import AppointmentIcon from "@/components/icons/AppointmentIcon.jsx";
 import TriageIcon from "@/components/icons/TriageIcon";
 import helpIcon from "@/components/icons/HelpIcon";
 
+import { usePathname } from "next/navigation";
+
+const sidebarItems = [
+  { name: "Pacientes", route: "/patients", Icon: PatientIcon },
+  { name: "Medicos", route: "/doctors", Icon: DoctorIcon },
+  { name: "Citas", route: "/appointments", Icon: AppointmentIcon },
+  { name: "Triajes", route: "/triajes", Icon: TriageIcon },
+  { name: "Laboratorio", route: "/laboratories", Icon: LabIcon },
+  { name: "ModalLaboratorio", route: "/addLab", Icon: helpIcon },
+];
+
 const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
+  const pathname = usePathname();
+
+  const isActive = (route) => pathname.startsWith(route);
+
+  const baseNavClass =
+    "fixed overflow-x-hidden top-0 left-0 h-screen z-10 transition-all duration-500 transform";
+  const openNavClass =
+    "translate-x-0 bg-gradient-to-b from-primary-dusk-blue from-10% via-primary-periwinkle via-80% to-primary-light-periwinkle to-100% text-white";
+  const closedNavClass =
+    "bg-gradient-to-b from-primary-dusk-blue from-10% via-primary-periwinkle via-80% to-primary-light-periwinkle to-100% text-white";
+
   return (
     <nav
-      className={`top-0 left-0 min-h-screen transition-all duration-500 rounded-r-lg transform 
-        ${
-          isSidebarOpen
-            ? "w-80 bg-gray-900 text-white"
-            : "w-22 bg-gray-800 text-white"
-        }`}
+      className={`${baseNavClass} ${
+        isSidebarOpen ? openNavClass : closedNavClass
+      }`}
       aria-label="Sidebar"
     >
       <div
         className={`pt-8 pl-4 pb-8 pr-4 w-full ${
-          isSidebarOpen ? "justify-between flex" : "justify-around"
-        }`}
+          isSidebarOpen ? "justify-between" : "justify-around"
+        } flex`}
       >
         <SidebarHeader className="w-full" isOpen={isSidebarOpen} />
         <SidebarToggleButton toggleSidebar={toggleSidebar}>
-          <MenuIcon />
+          <MenuIcon className="h-7 w-7" />
         </SidebarToggleButton>
       </div>
 
-      <ul className={`w-full font-medium text-lg`}>
-        <SidebarItem
-          name={"Pacientes"}
-          route={"/patients"}
-          isOpen={isSidebarOpen}
-          Icon={PatientIcon}
-        ></SidebarItem>
-        <SidebarItem
-          name={"Medicos"}
-          route={"/doctors"}
-          isOpen={isSidebarOpen}
-          Icon={DoctorIcon}
-        ></SidebarItem>
-        <SidebarItem
-          name={"Citas"}
-          route={"/appointments"}
-          isOpen={isSidebarOpen}
-          Icon={AppointmentIcon}
-        ></SidebarItem>
-        <SidebarItem
-          name={"Triajes"}
-          route={"/triajes"}
-          isOpen={isSidebarOpen}
-          Icon={TriageIcon}
-        ></SidebarItem>
-        <SidebarItem
-          name={"Laboratorio"}
-          route={"/laboratories"}
-          isOpen={isSidebarOpen}
-          Icon={LabIcon}
-        ></SidebarItem>
-        <SidebarItem
-          name={"ModalLaboratorio"}
-          route={"/addLab"}
-          isOpen={isSidebarOpen}
-          Icon={helpIcon}
-        ></SidebarItem>
+      <ul className="w-full font-medium text-lg">
+        {sidebarItems.map((item) => (
+          <SidebarItem
+            key={item.route}
+            name={item.name}
+            route={item.route}
+            isOpen={isSidebarOpen}
+            Icon={item.Icon}
+            isActive={isActive(item.route)}
+          />
+        ))}
       </ul>
     </nav>
   );
 };
+
 export default Sidebar;

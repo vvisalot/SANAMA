@@ -4,6 +4,8 @@ import LaboratoryTable from "./LaboratoryTable";
 import { parseLaboratoryTable } from "@/util/laboratoryParser";
 import SearchBar from "@/components/bars/SearchBar";
 import { laboratoryService } from "@/services/laboratoryService";
+import TitleWithIcon from "@/components/TitleWithIcon";
+import LabIcon from "@/components/icons/LabIcon";
 
 const LaboratoryPage = () => {
   const [laboratoryTable, setLaboratoryTable] = useState([]);
@@ -14,21 +16,25 @@ const LaboratoryPage = () => {
       const addHours = (dateStr, hoursToAdd) => {
         let date = new Date(dateStr);
         date.setHours(date.getHours() + hoursToAdd);
-        
-        let dd = String(date.getDate()).padStart(2, '0');
-        let mm = String(date.getMonth() + 1).padStart(2, '0');
+
+        let dd = String(date.getDate()).padStart(2, "0");
+        let mm = String(date.getMonth() + 1).padStart(2, "0");
         let yyyy = date.getFullYear();
-        let hh = String(date.getHours()).padStart(2, '0');
-        let min = String(date.getMinutes()).padStart(2, '0');
-        let ss = String(date.getSeconds()).padStart(2, '0');
-    
+        let hh = String(date.getHours()).padStart(2, "0");
+        let min = String(date.getMinutes()).padStart(2, "0");
+        let ss = String(date.getSeconds()).padStart(2, "0");
+
         return `${yyyy}-${mm}-${dd} ${hh}:${min}:${ss}`;
       };
-    
+
       const fechaDesdeToSend = fechaDesde ? addHours(fechaDesde, 15) : null;
       const fechaHastaToSend = fechaHasta ? addHours(fechaHasta, 15) : null;
 
-      const data = await laboratoryService.listarOrdenLaboratorioPorFiltro(filtro, fechaDesdeToSend, fechaHastaToSend);
+      const data = await laboratoryService.listarOrdenLaboratorioPorFiltro(
+        filtro,
+        fechaDesdeToSend,
+        fechaHastaToSend
+      );
       const tableData = parseLaboratoryTable(data);
       setLaboratoryTable(tableData);
     } catch (error) {
@@ -50,10 +56,9 @@ const LaboratoryPage = () => {
   };
 
   return (
-    <section className="p-10">
-      <h1 className="font-bold text-blue-500 text-6xl pb-8">
-        Laboratorios
-      </h1>
+    <section className="p-4 md:p-14">
+      <TitleWithIcon name={"Laboratorio"} Icon={LabIcon} />
+
       <form className="w-full" onSubmit={handleSubmit}>
         <div className="flex justify-start items-center">
           <div className="ml-4">
@@ -75,7 +80,10 @@ const LaboratoryPage = () => {
           />
         </div>
       </form>
-      <div style={{ marginBottom: "1rem", color: "black" }} className="pl-12 pr-14">
+      <div
+        style={{ marginBottom: "1rem", color: "black" }}
+        className="pl-12 pr-14"
+      >
         Número de resultados: {laboratoryTable.length}
       </div>
       <section className="pl-4 pr-2">

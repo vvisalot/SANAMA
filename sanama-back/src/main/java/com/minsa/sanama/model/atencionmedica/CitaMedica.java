@@ -2,7 +2,6 @@ package com.minsa.sanama.model.atencionmedica;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.minsa.sanama.model.admision.ProgramacionCita;
-import com.minsa.sanama.model.configuracion.LookupValue;
 import com.minsa.sanama.model.laboratorio.OrdenLaboratorio;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)

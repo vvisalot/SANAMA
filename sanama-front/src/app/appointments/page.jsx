@@ -44,7 +44,6 @@ const AppointmentPage = () => {
       });
       console.log(initialValues);
       setStatusState(initialValues);
-      //console.log(data)
     } catch (error) {
       console.log("No se pudo obtener la lista de estados");
     }
@@ -55,7 +54,6 @@ const AppointmentPage = () => {
       const data = await appointmentService.listarCitasFiltro(request);
       const tableData = parseAppointmentTable(data);
       setAppointmentTable(tableData);
-      //console.log(data);
     } catch (error) {
       console.log("No se pudo obtener la lista de las citas");
     }
@@ -101,7 +99,7 @@ const AppointmentPage = () => {
         </button>
       </div>
       <form
-        className="w-full flex flex-col items-center justify-center md:flex-row md:justify-start md:gap-4 md:grid-cols-4"
+        className="w-full flex flex-col items-center md:flex-row md:justify-start md:gap-4 md:grid-cols-4"
         onSubmit={handleSubmit}
       >
         <SearchBar

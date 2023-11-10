@@ -1,5 +1,6 @@
 "use client";
-const SearchBar = ({ name, width, placeholderText }) => {
+import Link from "next/link";
+const SearchBar = ({ name, width, placeholderText, hrefBtnNuevo }) => {
   return (
     <div className={`py-2 ${width} flex items-center`}>
       <div className="relative w-full mr-2">
@@ -24,16 +25,23 @@ const SearchBar = ({ name, width, placeholderText }) => {
           name={name}
           id={name}
           type="search"
-          className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+          className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-periwinkle focus:border-primary-periwinkle"
           placeholder={placeholderText}
         />
       </div>
       <button
         type="submit"
-        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-4"
+        className="text-white bg-primary-dark-blue hover:bg-primary-dusk-blue focus:ring-4 focus:outline-none focus:ring-primary-light-periwinkle font-medium rounded-lg text-sm px-4 py-4"
       >
         Buscar
       </button>
+      {hrefBtnNuevo && (
+        <Link href={hrefBtnNuevo}>
+          <button className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm ml-2 px-4 py-4">
+            Nuevo
+          </button>
+        </Link>
+      )}
     </div>
   );
 };

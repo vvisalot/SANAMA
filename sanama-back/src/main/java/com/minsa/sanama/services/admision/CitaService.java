@@ -27,6 +27,12 @@ public class CitaService {
         return lCitas;
     }
 
+    public List<CitaMedica> listarCitasUltimas() {
+        List<CitaMedica> lCitas;
+        lCitas = citaRepository.listarCitasUltimas();
+        return lCitas;
+    }
+
     public CitaMedica buscarCitaMedica(int pn_id_cita) {
         List<CitaMedica> lCitas;
         lCitas = citaRepository.buscarCitaMedica(pn_id_cita);
@@ -39,6 +45,12 @@ public class CitaService {
     public List<CitaMedica> listarCitasxFiltro(String pn_id_especialidad, String pv_filtro, String pd_fecha_inicio, String pd_fecha_fin, List<String> estados) {
         List<CitaMedica> lCitas;
         lCitas = citaRepository.listarCitasxFiltro(pn_id_especialidad, pv_filtro, pd_fecha_inicio, pd_fecha_fin, estados);
+        return lCitas;
+    }
+
+    public List<CitaMedica> listarCitasDeMedicoxFiltro(String pn_id_medico, String pv_filtro, String pd_fecha_inicio, String pd_fecha_fin, List<String> estados) {
+        List<CitaMedica> lCitas;
+        lCitas = citaRepository.listarCitasDeMedicoxFiltro(pn_id_medico, pv_filtro, pd_fecha_inicio, pd_fecha_fin, estados);
         return lCitas;
     }
 

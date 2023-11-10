@@ -1,5 +1,5 @@
 import * as React from "react";
-const TriageIcon = () => (
+const TriageIcon = (props) => (
   <svg
     id="Capa_1"
     xmlns="http://www.w3.org/2000/svg"
@@ -9,6 +9,7 @@ const TriageIcon = () => (
     style={{
       enableBackground: "new 0 0 97 97",
     }}
+    {...props}
     viewBox="0 0 97 97"
   >
     <g>

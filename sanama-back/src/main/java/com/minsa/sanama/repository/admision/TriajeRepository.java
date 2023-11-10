@@ -37,7 +37,7 @@ public class TriajeRepository {
     }
 
     public List<Triaje> buscarTriaje(String pv_filtro) {
-        String procedureCall = "{call dbSanama.ssm_adm_buscar_triaje('"+pv_filtro+"')};";
+        String procedureCall = "{call dbSanama.ssm_adm_buscar_triaje('" + pv_filtro + "')};";
         return jdbcTemplate.query(procedureCall, triajeMapper);
     }
 

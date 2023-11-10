@@ -1,36 +1,36 @@
 package com.minsa.sanama.controller.atencion;
 
-import com.minsa.sanama.model.atencionmedica.HistorialClinico;
-import com.minsa.sanama.services.atencion.HistorialClinicoService;
+import com.minsa.sanama.model.atencionmedica.Diagnostico;
+import com.minsa.sanama.services.atencion.DiagnosticoService;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/atencion")
 @CrossOrigin
-public class HistorialClinicoController {
+public class DiagnosticoController {
     @Autowired
-    HistorialClinicoService historialClinicoService;
+    DiagnosticoService diagnosticoService;
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE},
-            value = "/post/buscarHistorialClinico")
+            value = "/post/listarDiagnosticosFiltro")
     @ResponseBody
-    public HistorialClinico buscarHistorialClinico(@RequestBody String pv_datos){
-        HistorialClinico historialClinico = null;
-        try {
+    public List<Diagnostico> listarDiagnosticos(@RequestBody String pv_datos) {
+        List<Diagnostico> ldiagnosticos=null;
+        try{
             JSONObject job = (JSONObject) new JSONParser().parse(pv_datos);
-            String pn_id_paciente = job.get("pn_id_paciente").toString();
-            historialClinico = historialClinicoService.buscarHistorialClinico(pn_id_paciente);
-        } catch (Exception ex) {
+            String pv_diagnostico = job.get("pv_diagnostico").toString();
+            ldiagnosticos = diagnosticoService.listarDiagnosticos(pv_diagnostico);
+        }catch (Exception ex){
             // Manejo de excepciones aquí
             ex.printStackTrace();
         }
-
-        return historialClinico;
+        return ldiagnosticos;
     }
-
 }

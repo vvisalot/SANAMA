@@ -30,6 +30,29 @@ module.exports = {
       tahiti: "#3ab7bf",
       silver: "#ecebff",
       bermuda: "#78dcca",
+
+      "primary-dark-blue": "#002DA8",
+      "primary-dusk-blue": "#26396E",
+      "primary-navy-blue": "#001757",
+      "primary-periwinkle": "#3D67D9",
+      "primary-light-periwinkle": "#6E8BD9",
+
+      // Secondary Color A
+      "secondary-gold": "#F9CD00",
+      "secondary-mustard": "#A49138",
+      "secondary-bronze": "#816B00",
+      "secondary-sunflower": "#FCDC47",
+      "secondary-pale-gold": "#FCE680",
+
+      // Secondary Color B
+      "secondary-orange": "#F97C00",
+      "secondary-burnt-orange": "#A46D38",
+      "secondary-dark-orange": "#814000",
+      "secondary-light-orange": "#FCA147",
+      "secondary-pale-orange": "#FCBE80",
+
+      // Grays
+      "gray-one": "#C3D0D4",
     },
   },
   plugins: [require("flowbite/plugin")],

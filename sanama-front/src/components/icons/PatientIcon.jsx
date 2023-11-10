@@ -1,5 +1,5 @@
 import * as React from "react";
-const PatientIcon = () => (
+const PatientIcon = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     xmlSpace="preserve"
@@ -8,6 +8,7 @@ const PatientIcon = () => (
     style={{
       enableBackground: "new 0 0 97 97",
     }}
+    {...props}
     viewBox="0 0 97 97"
   >
     <linearGradient

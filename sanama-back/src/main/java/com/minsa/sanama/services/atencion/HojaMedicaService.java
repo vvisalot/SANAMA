@@ -1,10 +1,8 @@
 package com.minsa.sanama.services.atencion;
 
+import com.minsa.sanama.model.admision.Triaje;
 import com.minsa.sanama.model.atencionmedica.HojaMedica;
-import com.minsa.sanama.model.laboratorio.ExamenMedico;
-import com.minsa.sanama.model.laboratorio.OrdenLaboratorio;
 import com.minsa.sanama.repository.atencionmedica.HojaMedicaRepository;
-import com.minsa.sanama.repository.laboratorio.OrdenLaboratorioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,5 +25,11 @@ public class HojaMedicaService {
         valido = hojaMedicaRepository.eliminarHojaMedica(pn_id_hoja_medica);
 
         return valido;
+    }
+
+    public Triaje buscarTriajeCitaMedica(int pn_id_hoja_medica) {
+        Triaje triaje;
+        triaje = hojaMedicaRepository.buscarTriajeCitaMedica(pn_id_hoja_medica).get(0);
+        return triaje;
     }
 }
