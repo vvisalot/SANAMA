@@ -78,7 +78,6 @@ const AppointmentPage = () => {
           estado: key,
         };
       });
-    //console.log(stateArray)
     const request = {
       pn_id_especialidad: null,
       pv_filtro: filtro,
@@ -92,20 +91,22 @@ const AppointmentPage = () => {
   return (
     <section className="p-4 md:p-14">
       <TitleWithIcon name={"Citas"} Icon={AppointmentIcon} />
-      <button
-        type="submit"
-        className="text-white  bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-4"
-        onClick={() => router.push("/appointments/createAppointment")}
-      >
-        Buscar
-      </button>
+      <div className="flex  w-full justify-end">
+        <button
+          type="submit"
+          className="text-white  bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-4"
+          onClick={() => router.push("/appointments/createAppointment")}
+        >
+          Crear Nueva Cita
+        </button>
+      </div>
       <form
-        className="flex flex-col items-center justify-center md:flex-row md:justify-start md:gap-4 md:grid-cols-4"
+        className="w-full flex flex-col items-center justify-center md:flex-row md:justify-start md:gap-4 md:grid-cols-4"
         onSubmit={handleSubmit}
       >
         <SearchBar
           name={"search-bar-appointments"}
-          width={"w-[800px]"}
+          width={"w-full"}
           placeholderText={"Buscar por nombre del paciente"}
         />
         <DateRangePicker
@@ -121,9 +122,7 @@ const AppointmentPage = () => {
           setStatusState={setStatusState}
         />
       </form>
-      <section className="w-full md:w-fit">
-        <AppointmentTable data={appointmentTable}></AppointmentTable>
-      </section>
+      <AppointmentTable data={appointmentTable}></AppointmentTable>
     </section>
   );
 };
