@@ -1,18 +1,6 @@
-"use client";
-
-import React, { ReactNode } from "react";
-
+import React from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-
-type TBreadCrumbProps = {
-  homeElement: ReactNode;
-  separator: ReactNode;
-  containerClasses?: string;
-  listClasses?: string;
-  activeClasses?: string;
-  capitalizeLinks?: boolean;
-};
 
 const NextBreadcrumb = ({
   homeElement,
@@ -21,7 +9,7 @@ const NextBreadcrumb = ({
   listClasses,
   activeClasses,
   capitalizeLinks,
-}: TBreadCrumbProps) => {
+}) => {
   const paths = usePathname();
   const pathNames = paths.split("/").filter((path) => path);
 

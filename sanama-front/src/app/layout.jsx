@@ -24,12 +24,12 @@ export default function RootLayout({ children }) {
       >
         <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
-        <main className="min-h-screen box-border w-full border-[40px] border-slate-300 bg-slate-200">
+        <main className="min-h-screen box-border w-full border-[40px] border-slate-300 bg-slate-200 rounded-t-lg">
           <NextBreadcrumb
             homeElement={"Home"}
             separator={<span> | </span>}
-            activeClasses="text-gray-900 font-bold"
-            containerClasses="flex py-5 bg-gradient-to-r from-purple-600 to-blue-600"
+            activeClasses="text-metal font-bold"
+            containerClasses="flex py-5 bg-gradient-to-r from-verdeazulado to-blue-600 rounded-t-lg"
             listClasses="text-blue-500 hover:text-blue-700"
             capitalizeLinks
           />
