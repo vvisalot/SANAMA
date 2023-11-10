@@ -1,7 +1,6 @@
 package com.minsa.sanama.repository.atencionmedica;
 
 import com.minsa.sanama.model.atencionmedica.Diagnostico;
-import com.minsa.sanama.model.atencionmedica.HistorialClinico;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -22,7 +21,7 @@ public class DiagnosticoRepository {
     private final DiagnosticoMapper diagnosticoMapper = new DiagnosticoMapper();
 
     public List<Diagnostico> listarDiagnosticoFiltro(String pv_filtro) {
-        String procedureCall ="{call dbSanama.ssm_ate_buscar_historial_clinico_x_paciente('"+pv_filtro+"')}";
+        String procedureCall ="{call dbSanama.ssm_ate_listar_diagnostico_filtro('"+pv_filtro+"')}";
         return jdbcTemplate.query(procedureCall, diagnosticoMapper);
     }
 

@@ -44,6 +44,30 @@ public class PacienteController {
         return pacientes;
     }
 
+    @PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = {
+            MediaType.APPLICATION_JSON_VALUE }, value = "/post/actualizarPacienteShort")
+    @ResponseBody
+    public int actualizarPacienteShort(@RequestBody String pv_datos){
+        int n=0;
+        Paciente paciente= new Paciente();
+        try {
+            JSONObject job = (JSONObject) new JSONParser().parse(pv_datos);
+            int pn_id_paciente = Integer.parseInt(job.get("pn_id_paciente").toString());
+            String pv_telefono = job.get("pv_telefono").toString();
+            String pv_correo = job.get("pv_correo").toString();
+            String pv_direccion = job.get("pv_direccion").toString();
+            System.out.println(pn_id_paciente);
+            paciente.setIdPersona(pn_id_paciente);
+            paciente.setTelefono(pv_telefono);
+            paciente.setCorreo(pv_correo);
+            paciente.setDireccion(pv_direccion);
+            n = pacienteService.actualizarPacienteShort(paciente);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return n;
+    }
+
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE},
             value = "/post/mostrarPacienteRegistrado")

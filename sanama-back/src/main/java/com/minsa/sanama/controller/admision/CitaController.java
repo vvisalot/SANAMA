@@ -180,5 +180,12 @@ public class CitaController {
         return -1;
     }
 
+    @GetMapping(value = "/get/citaUltimas")
+    @ResponseBody
+    public List<CitaMedica> listarCitasUltimas() {
+        List<CitaMedica> citas;
+        citas = citaService.listarCitasUltimas();
+        return citas;
+    }
 
 }

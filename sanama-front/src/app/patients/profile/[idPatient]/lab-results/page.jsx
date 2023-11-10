@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import LaboratoryTable from "./LaboratoryTable";
+import LaboratoryTable from "./PatientLaboratoryTable";
 import { parseLaboratoryTable } from "@/util/patientLaboratoryParser";
 import { laboratoryService } from "@/services/laboratoryService";
 
@@ -73,7 +73,7 @@ const PatientLaboratoryResults = ({ params }) => {
         Número de resultados: {laboratoryTable.length}
       </div>
       <section className="pl-4 pr-2">
-        <LaboratoryTable data={laboratoryTable}></LaboratoryTable>
+        <LaboratoryTable data={laboratoryTable} id={params.idPatient}></LaboratoryTable>
       </section>
     </section>
   );

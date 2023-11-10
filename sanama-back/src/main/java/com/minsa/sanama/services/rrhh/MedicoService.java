@@ -62,6 +62,11 @@ public class MedicoService {
         n = medicoRepository.actualizarMedico(medico);
         return n;
     }
+    public int actualizarMedicoShort(Medico medico) {
+        int n;
+        n = medicoRepository.actualizarMedicoShort(medico);
+        return n;
+    }
 
     public int eliminarMedico(Medico medico) {
         int n;

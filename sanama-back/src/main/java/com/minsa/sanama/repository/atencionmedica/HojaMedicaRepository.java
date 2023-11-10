@@ -24,6 +24,7 @@ public class HojaMedicaRepository {
                 .declareParameters(new SqlParameter[] {
                         new SqlOutParameter("pn_id_hoja_medica", Types.INTEGER),
                         new SqlParameter("pn_id_historial_clinico", Types.INTEGER),
+                        new SqlParameter("pn_id_cita_medica", Types.INTEGER),
                         new SqlParameter("pn_id_hoja_referenciadad", Types.INTEGER),
                         new SqlParameter("pv_codigo", Types.VARCHAR),
                         new SqlParameter("pv_fecha_atencion", Types.DATE),
@@ -36,6 +37,7 @@ public class HojaMedicaRepository {
         if(hojaMedica.getHojaRefencia() != null){
             mapSqlParameterSource
                     .addValue("pn_id_historial_clinico", pn_id_historial)
+                    .addValue("pn_id_cita_medica", hojaMedica.getIdCitaMedica())
                     .addValue("pn_id_hoja_referenciadad", hojaMedica.getHojaRefencia().getIdHojaReferenciada())
                     .addValue("pv_codigo", hojaMedica.getCodigo())
                     .addValue("pv_fecha_atencion", hojaMedica.getFechaAtencion())
@@ -47,6 +49,7 @@ public class HojaMedicaRepository {
 
             mapSqlParameterSource
                     .addValue("pn_id_historial_clinico", pn_id_historial)
+                    .addValue("pn_id_cita_medica", hojaMedica.getIdCitaMedica())
                     .addValue("pn_id_hoja_referenciadad", hojaMedica.getHojaRefencia())
                     .addValue("pv_codigo", hojaMedica.getCodigo())
                     .addValue("pv_fecha_atencion", hojaMedica.getFechaAtencion())
