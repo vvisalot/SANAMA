@@ -6,37 +6,21 @@ import SearchBar from "@/components/bars/SearchBar";
 import { triajeService } from "@/services/triajeService";
 import TitleWithIcon from "@/components/TitleWithIcon";
 import TriageIcon from "@/components/icons/TriageIcon";
+import DateRangePicker from "@/components/Date/DateRangePicker"
+import { format } from "date-fns"
 
 const TriajePage = () => {
   const [triajeTable, setTriajeTable] = useState([]);
-  const [filtro, setFiltro] = useState("");
+  const [dateInitial, setDateInitial] = useState(null);
+  const [dateFinal, setDateFinal] = useState(null);
 
   const fetchData = async (filtro, fechaDesde, fechaHasta) => {
     try {
-      const addHours = (dateStr, hoursToAdd) => {
-        let date = new Date(dateStr);
-        date.setHours(date.getHours() + hoursToAdd);
-
-        // Formatear de vuelta al formato original
-        let dd = String(date.getDate()).padStart(2, "0");
-        let mm = String(date.getMonth() + 1).padStart(2, "0"); // Enero es 0!
-        let yyyy = date.getFullYear();
-        let hh = String(date.getHours()).padStart(2, "0");
-        let min = String(date.getMinutes()).padStart(2, "0");
-        let ss = String(date.getSeconds()).padStart(2, "0");
-
-        return `${yyyy}-${mm}-${dd} ${hh}:${min}:${ss}`; // Esto asume que tu formato es "YYYY-MM-DD HH:mm:ss"
-      };
-
-      const fechaDesdeToSend = fechaDesde ? addHours(fechaDesde, 15) : null;
-      const fechaHastaToSend = fechaHasta ? addHours(fechaHasta, 15) : null;
-
       const data = await triajeService.listarTriajePorFiltro(
         filtro,
-        fechaDesdeToSend,
-        fechaHastaToSend
+        fechaDesde,
+        fechaHasta
       );
-      console.log(data);
       const tableData = parseTriajeTable(data);
       setTriajeTable(tableData);
     } catch (error) {
@@ -52,8 +36,8 @@ const TriajePage = () => {
     e.preventDefault();
     const elements = e.target.elements;
     const filtro = elements.namedItem("patients-search").value;
-    const fechaDesde = elements.namedItem("fechaDesde").value;
-    const fechaHasta = elements.namedItem("fechaHasta").value;
+    const fechaDesde = dateInitial ? format(dateInitial, "yyyy-MM-dd") : null;
+    const fechaHasta = dateFinal ? format(dateFinal, "yyyy-MM-dd") : null;
     fetchData(filtro, fechaDesde, fechaHasta);
   };
 
@@ -63,18 +47,13 @@ const TriajePage = () => {
 
       <form className="w-full" onSubmit={handleSubmit}>
         <div className="flex justify-start items-center">
-          <div className="ml-4">
-            <label htmlFor="fechaDesde" className="mr-2">
-              Desde:
-            </label>
-            <input type="date" name="fechaDesde" id="fechaDesde" />
-          </div>
-          <div className="ml-4">
-            <label htmlFor="fechaHasta" className="mr-2">
-              Hasta:
-            </label>
-            <input type="date" name="fechaHasta" id="fechaHasta" />
-          </div>
+          
+          <DateRangePicker
+            dateInitial={dateInitial}
+            setDateInitial={setDateInitial}
+            dateFinal={dateFinal}
+            setDateFinal={setDateFinal}
+          />
 
           <SearchBar
             name={"patients-search"}
