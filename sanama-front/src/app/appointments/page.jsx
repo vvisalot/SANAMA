@@ -1,4 +1,3 @@
-//Listado de citas
 "use client";
 
 import { useEffect, useState } from "react";
@@ -11,6 +10,8 @@ import DateRangePicker from "@/components/Date/DateRangePicker";
 import DropdownCheckbox from "@/components/Dropdowns/DropdownCheckbox";
 import { format } from "date-fns";
 import AppointmentIcon from "@/components/icons/AppointmentIcon";
+import TitleWithIcon from "@/components/TitleWithIcon";
+import { useRouter } from "next/navigation";
 
 const initialRequest = {
   pn_id_especialidad: null,
@@ -26,7 +27,7 @@ const initialRequest = {
 
 const AppointmentPage = () => {
   const [appointmentTable, setAppointmentTable] = useState([]);
-
+  const router = useRouter();
   const [statusList, setStatusList] = useState([]);
   const [statusState, setStatusState] = useState({});
 
@@ -89,16 +90,24 @@ const AppointmentPage = () => {
   };
 
   return (
-    <section className="p-14">
-      <div className="flex items-center justify-between w-fit h-32">
-        <AppointmentIcon />
-        <h1 className="font-bold text-blue-500 ml-2 text-6xl">Citas</h1>
-      </div>
-
+    <section className="p-4 md:p-14">
+      <TitleWithIcon name={"Citas"} Icon={AppointmentIcon} />
+      <button
+        type="submit"
+        className="text-white  bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-4"
+        onClick={() => router.push("/appointments/createAppointment")}
+      >
+        Buscar
+      </button>
       <form
-        className="flex items-center justify-between w-fit"
+        className="flex flex-col items-center justify-center md:flex-row md:justify-start md:gap-4 md:grid-cols-4"
         onSubmit={handleSubmit}
       >
+        <SearchBar
+          name={"search-bar-appointments"}
+          width={"w-[800px]"}
+          placeholderText={"Buscar por nombre del paciente"}
+        />
         <DateRangePicker
           dateInitial={dateInitial}
           setDateInitial={setDateInitial}
@@ -107,26 +116,12 @@ const AppointmentPage = () => {
         />
         <DropdownCheckbox
           text={"Estado"}
-          // stateOptions={stateOptions}
           statusList={statusList}
           statusState={statusState}
           setStatusState={setStatusState}
         />
-        <SearchBar
-          name={"search-bar-appointments"}
-          width={"w-[950px]"}
-          placeholderText={"Buscar por nombre del paciente"}
-        />
-
-        <Link
-          className="text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
-          href="/appointments/createAppointment"
-        >
-          Crear nueva cita
-        </Link>
       </form>
-
-      <section className="w-fit">
+      <section className="w-full md:w-fit">
         <AppointmentTable data={appointmentTable}></AppointmentTable>
       </section>
     </section>
