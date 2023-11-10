@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import LaboratoryTable from "./LaboratoryTable";
-import { parseLaboratoryTable } from "@/util/laboratoryParser";
+import { parseLaboratoryTable } from "@/util/patientLaboratoryParser";
 import { laboratoryService } from "@/services/laboratoryService";
 
 const PatientLaboratoryResults = ({ params }) => {
@@ -22,7 +22,7 @@ const PatientLaboratoryResults = ({ params }) => {
         let min = String(date.getMinutes()).padStart(2, '0');
         let ss = String(date.getSeconds()).padStart(2, '0');
     
-        return `${yyyy}-${mm}-${dd} ${hh}:${min}:${ss}`;
+        return `${dd}-${mm}-${yyyy} ${hh}:${min}:${ss}`;
       };
     
       const fechaDesdeToSend = fechaDesde ? addHours(fechaDesde, 15) : null;

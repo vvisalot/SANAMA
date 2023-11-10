@@ -3,8 +3,7 @@ import Table from "@/components/table/Table"
 // Columns for the Laboratory table
 const columns = [
     { name: "Fecha actualización" },
-    { name: "Nombre completo" },
-    { name: "DNI" },
+    { name: "Hora actualización" },
     { name: "Muestra" },
     { name: "Estado" },
     { name: "Opciones" }
