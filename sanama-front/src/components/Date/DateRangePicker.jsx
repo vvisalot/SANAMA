@@ -33,7 +33,7 @@ const DateRangePicker = ({
 
   const [optionsInitial, setOptionsInitial] = useState({
     ...defaultOptions,
-    minDate: new Date("1940-01-01"),
+    minDate: new Date("2022-01-01"),
     defaultDate: new Date(),
   });
   const [optionsFinal, setOptionsFinal] = useState({

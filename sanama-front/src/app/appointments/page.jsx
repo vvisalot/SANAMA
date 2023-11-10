@@ -44,7 +44,6 @@ const AppointmentPage = () => {
       });
       console.log(initialValues);
       setStatusState(initialValues);
-      //console.log(data)
     } catch (error) {
       console.log("No se pudo obtener la lista de estados");
     }
