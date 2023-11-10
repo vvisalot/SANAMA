@@ -16,6 +16,7 @@ public abstract class Persona {
     private String telefono;
 
     private String correoElectronico;
+    @JsonInclude(JsonInclude.Include.ALWAYS)
     private byte[] foto;
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private int estado=0;
