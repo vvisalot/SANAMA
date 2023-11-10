@@ -29,7 +29,7 @@ export default function RootLayout({ children }) {
             homeElement={"Home"}
             separator={<span> | </span>}
             activeClasses="text-gray-900 font-bold"
-            containerClasses="flex py-5 bg-gradient-to-r from-black-600 to-blue-600"
+            containerClasses="flex py-5 bg-gradient-to-r from-purple-600 to-blue-600"
             listClasses="text-blue-500 hover:text-blue-700"
             capitalizeLinks
           />
