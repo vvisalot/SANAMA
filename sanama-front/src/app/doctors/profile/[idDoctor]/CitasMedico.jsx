@@ -12,6 +12,7 @@ function CitasMedico({ doctor }) {
           doctor.idPersona,
           4
         );
+        console.log("citas pendientes", data);
         //const tableData = parseAppointmentTable(data);
         //setAppointmentTable(tableData);
         const citasMapeadas = data.map((cita) => ({
@@ -53,7 +54,7 @@ function CitasMedico({ doctor }) {
   }, [appointmentTable]);
 
   const columns = [
-    { name: "idCita", visible: false},
+    { name: "idCita", visible: false },
     { name: "Código cita", sortable: true, sortKey: "string", visible: true },
     { name: "Nombre del paciente", sortable: true, sortKey: "patientName" },
     { name: "Fecha", sortable: true, sortKey: "date" },
@@ -65,13 +66,16 @@ function CitasMedico({ doctor }) {
   return (
     <>
       <header className="p-5  text-2xl font-bold tracking-wider text-gray-900">
-        Citas pendientes:
+        Citas pendientes
       </header>
       <SearchAndAddBar
         linkHref="appointments/createAppointment"
         onSubmit={handleSubmit}
         permitirGenerarNuevaCita={false}
       />
+      <p className="pl-5 pr-5 pt-2 pb-2 tracking-wider text-gray-900">
+        Número de resultados: {appointmentTable.length}
+      </p>
       <AppointmentTable
         data={appointmentTable}
         columns={columns}
