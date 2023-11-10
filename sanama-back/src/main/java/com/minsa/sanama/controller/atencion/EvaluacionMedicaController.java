@@ -1,11 +1,7 @@
 package com.minsa.sanama.controller.atencion;
 
 import com.minsa.sanama.model.atencionmedica.EvaluacionMedica;
-import com.minsa.sanama.model.atencionmedica.HistorialClinico;
-import com.minsa.sanama.model.atencionmedica.HojaMedica;
 import com.minsa.sanama.services.atencion.EvaluacionMedicaService;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;

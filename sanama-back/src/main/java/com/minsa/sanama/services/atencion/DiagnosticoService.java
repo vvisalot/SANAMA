@@ -12,7 +12,7 @@ public class DiagnosticoService {
     @Autowired
     DiagnosticoRepository diagnosticoRepository;
 
-    public List<Diagnostico> registrarEvaluacionMedica(String diagnostico) {
+    public List<Diagnostico> listarDiagnosticos(String diagnostico) {
         List<Diagnostico> ldiagnosticos;
         ldiagnosticos = diagnosticoRepository.listarDiagnosticoFiltro(diagnostico);
 

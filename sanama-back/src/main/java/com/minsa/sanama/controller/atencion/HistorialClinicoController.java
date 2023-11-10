@@ -24,7 +24,6 @@ public class HistorialClinicoController {
     public HistorialClinico buscarHistorialClinico(@RequestBody String pv_datos){
         HistorialClinico historialClinico = null;
         try {
-            System.out.println(pv_datos);
             JSONObject job = (JSONObject) new JSONParser().parse(pv_datos);
             String pn_id_paciente = job.get("pn_id_paciente").toString();
             historialClinico = historialClinicoService.buscarHistorialClinico(pn_id_paciente);

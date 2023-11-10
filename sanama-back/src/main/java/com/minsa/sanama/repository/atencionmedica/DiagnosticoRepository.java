@@ -22,7 +22,7 @@ public class DiagnosticoRepository {
     private final DiagnosticoMapper diagnosticoMapper = new DiagnosticoMapper();
 
     public List<Diagnostico> listarDiagnosticoFiltro(String pv_filtro) {
-        String procedureCall ="{call dbSanama.ssm_ate_buscar_historial_clinico_x_paciente('"+pv_filtro+"')}";
+        String procedureCall ="{call dbSanama.ssm_ate_listar_diagnostico_filtro('"+pv_filtro+"')}";
         return jdbcTemplate.query(procedureCall, diagnosticoMapper);
     }
 
