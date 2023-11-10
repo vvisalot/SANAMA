@@ -8,7 +8,7 @@ const NewsItem = ({ news }) => {
   };
 
   // Imagen predeterminada en caso de que news.urlToImage sea nulo
-  const defaultImage = "path_to_your_default_image.jpg"; // Reemplaza con tu imagen predeterminada
+  const defaultImage = "default-image.jpg"; // Reemplaza con tu imagen predeterminada
 
   return (
     <div className="bg-white rounded-lg shadow-lg overflow-hidden my-4">
