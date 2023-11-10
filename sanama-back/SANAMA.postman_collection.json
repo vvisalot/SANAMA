@@ -889,6 +889,35 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "ActualizarOrdenLaboratorio",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idOrdenLaboratorio\": 4,\r\n    \"codigoOrden\": \"O-004\",\r\n    \"tipoMuestra\": \"Orina\",\r\n    \"instrucciones\": \"Realizarse un analisis de orina\",\r\n    \"doctorFirmante\": \"Ricardo Gómez Hurtado\",\r\n    \"observaciones\": \"Observaciones\",\r\n    \"citaMedica\": {\r\n        \"paciente\": {\r\n            \"nombres\": \"Javier\",\r\n            \"apellidoPaterno\": \"Mendes\",\r\n            \"apellidoMaterno\": \"Molinas\",\r\n            \"dni\": \"74032409\",\r\n            \"fechaNacimiento\": \"1990-09-27\",\r\n            \"sexo\": \"M\"\r\n        },\r\n        \"medico\": {\r\n            \"nombres\": \"Fernanda\",\r\n            \"apellidoPaterno\": \"Medina\",\r\n            \"apellidoMaterno\": \"de las Casas\"\r\n        },\r\n        \"requiereTriaje\": 0,\r\n        \"tieneAcompanhante\": false\r\n    },\r\n    \"examenMedico\": [ ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/laboratorio/post/actualizarOrdenLaboratorio",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"laboratorio",
+								"post",
+								"actualizarOrdenLaboratorio"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
