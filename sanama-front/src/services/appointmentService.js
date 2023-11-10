@@ -171,6 +171,8 @@ export const appointmentService = {
         pn_id_medico,
         pn_estado,
       });
+
+      console.log("response",response);
       return response.data;
     } catch (error) {
       console.error("Error al buscar cita", error.message);
