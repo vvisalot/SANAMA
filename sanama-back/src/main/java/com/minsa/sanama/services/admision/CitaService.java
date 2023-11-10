@@ -61,19 +61,8 @@ public class CitaService {
     }
 
     public int registrarCitaMedicaPaciente(CitaMedica citaMedica) {
-        int idCita = 0;
-        int dd, mm, aa, hora, min, seg;
-        int idMedico = citaMedica.getMedico().getIdPersona();
-        aa = citaMedica.getFechaCita().getYear();
-        mm = citaMedica.getFechaCita().getMonthValue();
-        dd = citaMedica.getFechaCita().getDayOfMonth();
-        hora = citaMedica.getHoraCita().getHour();
-        min = citaMedica.getHoraCita().getMinute();
-        seg = citaMedica.getHoraCita().getSecond();
-        citaMedica.setCodigoCitaMedica("CM-" + aa + mm + dd + "-" +
-                hora + min + seg + "-" + idMedico);
-        citaMedica.setTipoCita("MEDICA");
-        citaMedica.setEstado(4);
+        int idCita;
+
         idCita = citaRepository.registrarCita(citaMedica);
         if (idCita != -1)
             return idCita;
