@@ -229,31 +229,25 @@ public class CitaRepository {
                         new SqlOutParameter("pn_id_cita", Types.INTEGER),
                         new SqlParameter("pn_id_paciente", Types.INTEGER),
                         new SqlParameter("pn_id_medico", Types.INTEGER),
-                        new SqlParameter("pv_codigo_cita_medica", Types.VARCHAR),
-                        new SqlParameter("pv_tipo_cita", Types.VARCHAR),
                         new SqlParameter("pt_hora_cita", Types.TIME),
                         new SqlParameter("pd_fecha_cita", Types.DATE),
                         new SqlParameter("pn_requiere_triaje", Types.INTEGER),
                         new SqlParameter("pb_tiene_acompanhante", Types.BOOLEAN),
                         new SqlParameter("pv_nombre_acompanhante", Types.VARCHAR),
                         new SqlParameter("pv_dni_acompanhante", Types.VARCHAR),
-                        new SqlParameter("pv_parentezco", Types.VARCHAR),
-                        new SqlParameter("pn_estado", Types.INTEGER)
+                        new SqlParameter("pv_parentezco", Types.VARCHAR)
                 });
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
         mapSqlParameterSource
                 .addValue("pn_id_paciente", citaMedica.getPaciente().getIdPersona())
                 .addValue("pn_id_medico", citaMedica.getMedico().getIdPersona())
-                .addValue("pv_codigo_cita_medica", citaMedica.getCodigoCitaMedica())
-                .addValue("pv_tipo_cita", citaMedica.getTipoCita())
                 .addValue("pt_hora_cita", citaMedica.getHoraCita())
                 .addValue("pd_fecha_cita", citaMedica.getFechaCita())
                 .addValue("pn_requiere_triaje", citaMedica.getRequiereTriaje())
                 .addValue("pb_tiene_acompanhante", citaMedica.isTieneAcompanhante())
                 .addValue("pv_nombre_acompanhante", citaMedica.getNombreAcompanhante())
                 .addValue("pv_dni_acompanhante", citaMedica.getDniAcompanhante())
-                .addValue("pv_parentezco", citaMedica.getParentezco())
-                .addValue("pn_estado", 1);
+                .addValue("pv_parentezco", citaMedica.getParentezco());
 
         Map<String, Object> result = simpleJdbcCall.execute(mapSqlParameterSource);
         if (result.containsKey("ERROR_CODE") || result.containsKey("ERROR_MESSAGE")) {
