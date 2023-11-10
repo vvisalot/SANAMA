@@ -74,35 +74,6 @@ const HistorialClinico = () => {
       fetchData();
     }
   }, [idPaciente]);
-  const handleCreateMedicalRecord = async () => {
-    const newMedicalRecord = {
-      idHistorialClinico: historialClinico.idHistorialClinico, // Use the existing idHistorialClinico from the state
-      selloFirma: null,
-      fechaProximaCita: "2023-12-15",
-      medicoAtendiente: {
-        idPersona: 1,
-      },
-      especialidadDerivada: {
-        idEspecialidad: 1,
-      },
-    };
-
-    try {
-      const response = await patientService.registrarHojaMedica(
-        newMedicalRecord
-      );
-      if (response !== -1) {
-        alert("¡Nueva Hoja Médica creada con éxito!"); // Esta es la alerta
-        console.log("New Medical Record created successfully!");
-      } else {
-        alert("Error al crear la Hoja Médica."); // Puedes añadir una alerta en caso de fallo
-        console.error("Failed to create the new medical record.");
-      }
-    } catch (error) {
-      alert("Error al crear la Hoja Médica. Por favor, intente de nuevo."); // Alerta en caso de un error inesperado
-      console.error("Error:", error);
-    }
-  };
 
   if (loading) return <p>Cargando...</p>;
   if (error) return <p>Error al cargar el historial clínico</p>;
@@ -166,17 +137,6 @@ const HistorialClinico = () => {
             <PatientDataDisplay patient={patientForm} />
           </div>
 
-          {/* Botones de acciones */}
-          <div className="mb-6 space-x-4">
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg shadow-md"
-              onClick={handleCreateMedicalRecord}
-            >
-              Crear Nueva Hoja médica
-            </button>
-          </div>
-
-          {/* Sección de Hojas Médicas Existentes */}
           <div className="bg-white p-4 rounded shadow-md">
             <h2 className="text-xl font-bold mb-4 border-b pb-2">
               Hojas Medicas Existentes:
