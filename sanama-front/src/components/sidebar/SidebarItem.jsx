@@ -1,25 +1,27 @@
 import Link from "next/link";
 
 const SidebarItem = ({ name, route, isOpen, Icon, isActive }) => {
-  const itemClasses = isActive
-    ? "text-blue-500 bg-blue-100" // active classes
-    : "text-white hover:bg-blue-50"; // default classes
+  const baseItemClasses =
+    "rounded-lg p-2 flex items-center transition duration-300 ease-in-out";
+
+  const activeClasses = isActive
+    ? "bg-blue-600 text-white"
+    : "text-gray-300 hover:bg-blue-200 hover:text-blue-800";
+
+  const itemClasses = `${baseItemClasses} ${activeClasses}`;
 
   return (
-    <li className={`rounded-lg p-2 ${itemClasses}`}>
-      <Link
-        href={route}
-        className="flex items-center p-2 fill-current text-white-900 rounded-2xl dark:text-white
-                            hover:bg-sky-100 hover:text-blue-700 hover:font-extrabold  "
-      >
-        <div className="flex items-center justify-center">
-          {" "}
-          {/* Contenedor para el ícono */}
-          <Icon />
-        </div>
-        {isOpen && <span className="ml-2">{name}</span>}
+    <li className={itemClasses}>
+      <Link href={route}>
+        <href className="flex items-center p-2 rounded-2xl fill-current dark:text-white hover:font-extrabold">
+          <div className="flex items-center justify-center">
+            <Icon />
+          </div>
+          {isOpen && <span className="ml-2">{name}</span>}
+        </href>
       </Link>
     </li>
   );
 };
+
 export default SidebarItem;
