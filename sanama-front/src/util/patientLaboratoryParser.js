@@ -1,6 +1,6 @@
 export function parseLaboratoryTable(data) {
     return data.map(row => {
-        const paciente = row.citaMedica.paciente;
+        const medico = row.citaMedica.medico;
 
         let estadoTexto;
         let estadoClase; 
@@ -30,8 +30,8 @@ export function parseLaboratoryTable(data) {
 
         return [
             { "data": row.idOrdenLaboratorio }, // ID
-            { "data": fechaOrden},
-            { "data": row.horaOrden},
+            { "data": `${fechaOrden}     ${row.horaOrden}`},
+            { "data": `${medico.nombres} ${medico.apellidoPaterno} ${medico.apellidoMaterno}` },
             { "data": row.tipoMuestra }, // TIPO DE ORDEN/EXAMEN
             { "data": estadoTexto, "className": estadoClase },  // ESTADO con su clase
         ];
