@@ -16,8 +16,8 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
       className={`top-0 left-0 min-h-screen transition-all duration-500 rounded-r-lg transform 
         ${
           isSidebarOpen
-            ? "w-80 bg-gray-900 text-white"
-            : "w-22 bg-gray-800 text-white"
+            ? "w-80 bg-primary-periwinkle text-white"
+            : "w-22 bg-primary-dusk-blue text-white"
         }`}
       aria-label="Sidebar"
     >

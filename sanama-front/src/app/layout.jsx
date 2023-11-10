@@ -28,9 +28,9 @@ export default function RootLayout({ children }) {
           <NextBreadcrumb
             homeElement={"Home"}
             separator={<span> | </span>}
-            activeClasses="text-metal font-bold"
-            containerClasses="flex py-5 bg-gradient-to-r from-verdeazulado to-blue-600 rounded-t-lg"
-            listClasses="text-blue-500 hover:text-blue-700"
+            activeClasses="text-white font-bold"
+            containerClasses="flex py-5 bg-gradient-to-r from-primary-light-periwinkle to-primary-dusk-blue rounded-t-lg"
+            listClasses="px-10 text-white hover:text-blue-700"
             capitalizeLinks
           />
           {children}
