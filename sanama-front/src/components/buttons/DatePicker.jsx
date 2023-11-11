@@ -1,5 +1,5 @@
 "use client"
-const DatePicker = ({ name, value, setValue }) => {
+const DatePicker = ({ name, value, setValue, disabled}) => {
     const minDate = "1920-01-01"
     const today = new Date()
     const formattedDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`
@@ -22,7 +22,8 @@ const DatePicker = ({ name, value, setValue }) => {
                 placeholder="Fecha de nacimiento"
                 max={formattedDate}
                 min={minDate}
-                onChange={handleDateChange} />
+                onChange={handleDateChange} 
+                disabled={disabled}/>
         </div>
     )
 }

@@ -52,6 +52,9 @@ const DoctorProfile = ({ params }) => {
             email={dataDoctor?.correoElectronico ?? ''}
             phone={dataDoctor?.telefono ?? ''}
             address={dataDoctor?.direccion ?? 'No especifica'}
+            module={"doctors"}
+            urlEdit={"editDoctorData"}
+            id={params.idDoctor}
           />
         </div>
 

@@ -46,6 +46,8 @@ const PatientProfile = ({ params }) => {
           phone={dataPatient.telefono}
           address={dataPatient.direccion}
           id={params.idPatient}
+          module={"patients"}
+          urlEdit={"editPatientData"}
         />
         <PatientActions id={params.idPatient} />
       </section>

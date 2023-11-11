@@ -1,6 +1,5 @@
 import Link from "next/link"
-
-const ProfileCard = ({ name, phone, email, address, id }) => {
+const ProfileCard = ({ name, phone, email, address, id, module, urlEdit }) => {
     return (
         <section className="w-full h-[300px] bg-white border border-gray-200 rounded-xl shadow flex flex-col">
 
@@ -20,9 +19,26 @@ const ProfileCard = ({ name, phone, email, address, id }) => {
                     <dd className="text-sm text-gray-500">Telefono: {phone}</dd>
                     <dd className="text-sm text-gray-500">Direccion: {address}</dd>
                 </dl>
-
-                <Link className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500" href={`/patients/profile/${id}/editPatientData`} >
-                    Modificar datos
+                {/* {doctor ? (
+                    // Renderizar el enlace solo si dataDoctor no es null
+                    <Link href={`/${module}/profile/${id}/${urlEdit}`} state ={doctor }>
+                        <href className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
+                            Modificar datos
+                        </href>
+                    </Link>
+                    
+                ) : (
+                    // Renderizar algo diferente si dataDoctor es null
+                    <Link href={`/${module}/profile/${id}/${urlEdit}`}>
+                        <href className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
+                            Modificar datos
+                        </href>
+                    </Link>
+                )} */}
+                <Link className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500" href={`/${module}/profile/${id}/${urlEdit}`}>
+                    
+                        Modificar datos
+                    
                 </Link>
             </address>
 

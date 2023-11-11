@@ -1,7 +1,8 @@
 
-const Dropdown = ({ selectedValue, data, defaultText, text, defaultValue, value, name, width, handleChange }) => {
+const Dropdown = ({ selectedValue, data, defaultText, text, defaultValue, value, name, width, handleChange, disabled }) => {
     return (
         <select
+            disabled={disabled}
             id={name}
             name={name}
             onChange={handleChange}
