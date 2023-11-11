@@ -136,6 +136,7 @@ public class MedicoController {
         Medico medico=new Medico();
         Especialidad especialidad=new Especialidad();
         try {
+
             JSONObject job = (JSONObject) new JSONParser().parse(pv_filtro);
             int pn_id_medico = Integer.parseInt(job.get("pn_id_medico").toString());
             String pv_telefono = job.get("pv_telefono").toString();
@@ -147,7 +148,7 @@ public class MedicoController {
             medico.setcorreoElectronico(pv_correo);
             idMedico = medicoService.actualizarMedicoShort(medico);
         } catch (Exception ex) {
-
+            return -1;
         }
         return idMedico;
     }

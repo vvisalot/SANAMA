@@ -133,6 +133,7 @@ const EditDoctorProfile = () => {
         });
         let base64Data;
         if (imagenPerfil) {
+          console.log("da", imagenPerfil)
           const partes = imagenPerfil.split("data:image/")[1].split(";base64,");
           const extension = partes[0]; // Aquí obtendrás la extensión de la imagen (por ejemplo, 'jpeg', 'png', etc.)
           base64Data = partes[1]; // Aquí obtendrás los datos en formato base64
@@ -143,10 +144,10 @@ const EditDoctorProfile = () => {
         const url = 'http://localhost:8080/rrhh/put/actualizarMedicoShort';
 
         const data = {
-          "pn_id_medico": idDoctor,
-          "pv_telefono": telefono,
-          "pb_foto": base64Data,
-          "pv_correo": correo
+          pn_id_medico: idDoctor,
+          pv_telefono: telefono,
+          pb_foto: base64Data,
+          pv_correo: correo
         };
         
         console.log("e", data)
