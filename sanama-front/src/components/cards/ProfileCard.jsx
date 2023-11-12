@@ -13,11 +13,11 @@ const ProfileCard = ({ name, phone, email, address, id, module, urlEdit, imagenP
             ) : (
               <>
                 {imagenPerfil ? ( //se pasó el prop != null (no tiene imagen)
-                  <div className="mt-2" style={{ width: '14rem', position: 'relative' }}>
+                  <div className="mt-2" style={{ width: '14rem', height: '14rem', position: 'relative' }}>
                     <img
                       src={imagenPerfil}
                       alt="Vista previa de la imagen"
-                      className="object-cover w-full h-full rounded-full"
+                      className="object-cover w-full h-full rounded-full aspect-w-1"
                       style={{ objectFit: 'cover', margin: 'auto' }}
                     />
                   </div>
