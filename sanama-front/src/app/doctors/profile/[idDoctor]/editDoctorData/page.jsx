@@ -198,7 +198,7 @@ const EditDoctorProfile = () => {
 
           <section className="rounded-lg p-8 w-full flex flex-col space-y-6">
 
-            <h2 className="font-sans font-bold break-normal text-gray-700 text-2xl">Crear perfil de doctor</h2>
+            <h2 className="font-sans font-bold break-normal text-gray-700 text-2xl">Editar perfil de doctor</h2>
             <br />
 
             <div className='text-sm'>
