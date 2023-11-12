@@ -20,7 +20,7 @@ function formatearFechaNacimiento(fechaNacimiento) {
 const DoctorProfile = ({ params }) => {
   const [dataDoctor, setDataDoctor] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const [imagenPerfil, setImagenPerfil] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -28,6 +28,9 @@ const DoctorProfile = ({ params }) => {
         if (data && data.length > 0) {
           console.log("data", data[0]);
           setDataDoctor(data[0]);
+          if(data[0].foto){
+            setImagenPerfil(`data:image/png;base64,${data[0].foto}`)
+          }
         }
       } catch (error) {
         console.log(error);
@@ -55,6 +58,7 @@ const DoctorProfile = ({ params }) => {
             module={"doctors"}
             urlEdit={"editDoctorData"}
             id={params.idDoctor}
+            imagenPerfil = {imagenPerfil}
           />
         </div>
 
