@@ -131,26 +131,14 @@ public class MedicoController {
 
     @PutMapping(value = "/put/actualizarMedicoShort")
     @ResponseBody
-    public int actualizarMedicoShort(@RequestBody String pv_filtro) {
-        int idMedico=0;
-        Medico medico=new Medico();
-        Especialidad especialidad=new Especialidad();
+    public int actualizarMedicoShort(@RequestBody Medico medico) {
+        int valido;
         try {
-
-            JSONObject job = (JSONObject) new JSONParser().parse(pv_filtro);
-            int pn_id_medico = Integer.parseInt(job.get("pn_id_medico").toString());
-            String pv_telefono = job.get("pv_telefono").toString();
-            byte [] pb_foto = (byte[]) job.get("pb_foto");
-            String pv_correo = job.get("pv_correo").toString();
-            medico.setIdPersona(pn_id_medico);
-            medico.setTelefono(pv_telefono);
-            medico.setFoto(pb_foto);
-            medico.setcorreoElectronico(pv_correo);
-            idMedico = medicoService.actualizarMedicoShort(medico);
+            valido = medicoService.actualizarMedicoShort(medico);
         } catch (Exception ex) {
             return -1;
         }
-        return idMedico;
+        return valido;
     }
 
     /* Cambios en el actualizar y en el eliminar Medico */

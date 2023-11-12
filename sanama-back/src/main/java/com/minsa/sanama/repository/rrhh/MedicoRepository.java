@@ -262,5 +262,4 @@ public class MedicoRepository {
         } else
             return 1;
     }
-
 }
