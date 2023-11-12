@@ -49,6 +49,7 @@ const EditDoctorProfile = () => {
     const fetchData = async () => {
       try {
         const data = await doctorService.buscarPorNombre(idDoctor);
+        console.log("doc",data);
         if (data && data.length > 0) {
           setDataDoctor(data[0]);
           setNombreMedico(data[0].nombres);
@@ -67,6 +68,9 @@ const EditDoctorProfile = () => {
             setSexo("Femenino")
 
           }
+          setImagenPerfil(`data:image/png;base64,${data[0].foto}`) //hardcodeado. Falta guarda su extensión en la bbdd para que sea exacto.
+                                                            //por ahora el navegador sabe qué hacer para que se muestre la imagen, lo corrige
+          //setImagenPerfil(data[0].foto)
         }
       } catch (error) {
         console.log(error);
@@ -86,6 +90,7 @@ const EditDoctorProfile = () => {
       };
       reader.readAsDataURL(file);
     }
+    //console.log("foto", imagenPerfil)
   };
 
   const handleRegister = () => {
@@ -144,13 +149,12 @@ const EditDoctorProfile = () => {
         const url = 'http://localhost:8080/rrhh/put/actualizarMedicoShort';
 
         const data = {
-          pn_id_medico: idDoctor,
-          pv_telefono: telefono,
-          pb_foto: base64Data,
-          pv_correo: correo
+          idPersona: idDoctor,
+          telefono: telefono,
+          foto: base64Data,
+          correoElectronico: correo
         };
-        
-        console.log("e", data)
+        console.log("data",data);
         fetch(url, {
           method: 'PUT',
           headers: {
