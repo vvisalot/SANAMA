@@ -3,12 +3,14 @@ package com.minsa.sanama.controller.admision;
 
 import com.minsa.sanama.model.admision.Triaje;
 import com.minsa.sanama.services.admision.TriajeService;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -24,11 +26,15 @@ public class TriajeController {
     @ResponseBody
     public List<Triaje> listarTriajeporFiltro(@RequestBody String pv_datos){
         List<Triaje> triajes = null;
-        try{
+        try {
             JSONObject job = (JSONObject) new JSONParser().parse(pv_datos);
             String pv_filtro = job.get("pv_filtro").toString();
             String pd_fecha_inicio;
             String pd_fecha_fin;
+            String estado;
+
+            boolean flag=true;
+            List<String> estados = new ArrayList<>();
 
             if(job.get("pd_fecha_inicio") == null) pd_fecha_inicio=null;
             else pd_fecha_inicio = job.get("pd_fecha_inicio").toString();
@@ -36,10 +42,23 @@ public class TriajeController {
             if(job.get("pd_fecha_fin") == null) pd_fecha_fin=null;
             else pd_fecha_fin = job.get("pd_fecha_fin").toString();
 
+            JSONArray arregloEstados = (JSONArray) job.get("arregloEstados");
+            if (arregloEstados != null){
+                for (Object estadoObjetc : arregloEstados) {
+                    JSONObject pn_estado = (JSONObject) estadoObjetc;
+                    if(pn_estado.get("estado") == null) estado=null;
+                    else estado = pn_estado.get("estado").toString();
+                    flag=false;
+                    estados.add(estado);
+                }
+            }
+            if(flag)estados.add(null);
 
-            triajes = triajeService.listarTriajePorFiltro(pv_filtro,pd_fecha_inicio,pd_fecha_fin);
-        }catch(Exception ex){
-            System.out.println(ex);
+            // Llama al servicio para listar citas por filtros
+            triajes = triajeService.listarTriajePorFiltro(pv_filtro,pd_fecha_inicio,pd_fecha_fin, estados);
+        } catch (Exception ex) {
+            // Manejo de excepciones aquí
+            ex.printStackTrace();
         }
         return triajes;
     }

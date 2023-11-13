@@ -15,9 +15,9 @@ public class TriajeService {
     @Autowired
     TriajeRepository triajeRepository;
 
-    public List<Triaje> listarTriajePorFiltro(String pv_filtro,String pd_fecha_inicio,String pd_fecha_fin) {
+    public List<Triaje> listarTriajePorFiltro(String pv_filtro,String pd_fecha_inicio,String pd_fecha_fin, List<String> estados) {
         List<Triaje> triajes;
-        triajes = triajeRepository.listarTriajePorFiltro(pv_filtro,pd_fecha_inicio,pd_fecha_fin,null);
+        triajes = triajeRepository.listarTriajePorFiltro(pv_filtro,pd_fecha_inicio,pd_fecha_fin,estados);
         return triajes;
     }
 

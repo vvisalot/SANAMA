@@ -74,7 +74,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"pn_id_medico\": 1,\r\n    \"pv_filtro\":\"\",\r\n    \"pd_fecha_inicio\":null,\r\n    \"pd_fecha_fin\":null,\r\n    \"arregloEstados\":\r\n    [\r\n        {\r\n            \"estado\": null\r\n        }\r\n    ]\r\n}",
+							"raw": "{\r\n    \"pn_id_medico\": 3,\r\n    \"pv_filtro\":\"Sofia\",\r\n    \"pd_fecha_inicio\":null,\r\n    \"pd_fecha_fin\":null,\r\n    \"arregloEstados\":\r\n    [\r\n        {\r\n            \"estado\": null\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -484,7 +484,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"pv_filtro\":\"\"\r\n}",
+							"raw": "{\r\n    \"pv_filtro\":\"Echevarria\",\r\n    \"pd_fecha_inicio\":null,\r\n    \"pd_fecha_fin\":null,\r\n    \"arregloEstados\":\r\n    [\r\n        {\r\n            \"estado\": 4\r\n        },\r\n        {\r\n            \"estado\": 1\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -610,7 +610,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n        \"idHistorialClinico\": 4,\r\n        \"selloFirma\": null,\r\n        \"fechaProximaCita\": \"2023-12-15\",\r\n        \"medicoAtendiente\":{\r\n            \"idPersona\":1\r\n        },\r\n        \"especialidadDerivada\": {\r\n            \"idEspecialidad\": 1\r\n        }\r\n}",
+							"raw": "{\r\n    \"idHistorialClinico\": 10,\r\n    \"hojasMedicas\":\r\n    [   \r\n        {\r\n           \"idCitaMedica\": 112,\r\n            \"hojaRefencia\": {\r\n                \"idHojaReferenciada\": 17\r\n            },\r\n            \"horaAtencion\":  \"18:20\",\r\n            \"fechaAtencion\": \"2023-11-10\"\r\n        }\r\n    ]\r\n}\r\n//borrar eventualmente el atributo de la fechaAtencion y horaAtencion\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -639,7 +639,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"pn_id_hoja_medica\": -1\r\n}",
+							"raw": "{\r\n    \"pn_id_hoja_medica\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -897,7 +897,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"tipoMuestra\": \"Sangre\",\r\n    \"instrucciones\": \"Realizar analisis de sangre para detectar el nivel de globulos blancos\",\r\n    \"citaMedica\": {\r\n        \"idCita\": 2\r\n    }\r\n}",
+							"raw": "{\r\n    \"tipoMuestra\": \"Sangre\",\r\n    \"instrucciones\": \"Por favor, realiza un análisis de sangre para evaluar los niveles de hierro y detectar posibles problemas de deficiencia\",\r\n    \"citaMedica\": {\r\n        \"idCita\": 112\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1320,7 +1320,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "//Filtros obligatorio: id del medico\r\n{    \r\n  \"pv_filtro\":\"1\"\r\n}\r\n",
+							"raw": "//Filtros obligatorio: id del medico\r\n{    \r\n  \"pv_filtro\":\"17\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
