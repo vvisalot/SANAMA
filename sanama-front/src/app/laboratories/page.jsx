@@ -6,34 +6,21 @@ import SearchBar from "@/components/bars/SearchBar";
 import { laboratoryService } from "@/services/laboratoryService";
 import TitleWithIcon from "@/components/TitleWithIcon";
 import LabIcon from "@/components/icons/LabIcon";
+import DateRangePicker from "@/components/Date/DateRangePicker"
+import { format } from "date-fns"
 
 const LaboratoryPage = () => {
   const [laboratoryTable, setLaboratoryTable] = useState([]);
   const [filtro, setFiltro] = useState("");
+  const [dateInitial, setDateInitial] = useState(null);
+  const [dateFinal, setDateFinal] = useState(null);
 
   const fetchData = async (filtro, fechaDesde, fechaHasta) => {
     try {
-      const addHours = (dateStr, hoursToAdd) => {
-        let date = new Date(dateStr);
-        date.setHours(date.getHours() + hoursToAdd);
-
-        let dd = String(date.getDate()).padStart(2, "0");
-        let mm = String(date.getMonth() + 1).padStart(2, "0");
-        let yyyy = date.getFullYear();
-        let hh = String(date.getHours()).padStart(2, "0");
-        let min = String(date.getMinutes()).padStart(2, "0");
-        let ss = String(date.getSeconds()).padStart(2, "0");
-
-        return `${yyyy}-${mm}-${dd} ${hh}:${min}:${ss}`;
-      };
-
-      const fechaDesdeToSend = fechaDesde ? addHours(fechaDesde, 15) : null;
-      const fechaHastaToSend = fechaHasta ? addHours(fechaHasta, 15) : null;
-
       const data = await laboratoryService.listarOrdenLaboratorioPorFiltro(
         filtro,
-        fechaDesdeToSend,
-        fechaHastaToSend
+        fechaDesde,
+        fechaHasta
       );
       const tableData = parseLaboratoryTable(data);
       setLaboratoryTable(tableData);
@@ -50,8 +37,8 @@ const LaboratoryPage = () => {
     e.preventDefault();
     const elements = e.target.elements;
     setFiltro(elements.namedItem("patients-search").value);
-    const fechaDesde = elements.namedItem("fechaDesde").value;
-    const fechaHasta = elements.namedItem("fechaHasta").value;
+    const fechaDesde = dateInitial ? format(dateInitial, "yyyy-MM-dd") : null;
+    const fechaHasta = dateFinal ? format(dateFinal, "yyyy-MM-dd") : null;
     fetchData(filtro, fechaDesde, fechaHasta);
   };
 
@@ -61,18 +48,15 @@ const LaboratoryPage = () => {
 
       <form className="w-full" onSubmit={handleSubmit}>
         <div className="flex justify-start items-center">
-          <div className="ml-4">
-            <label htmlFor="fechaDesde" className="mr-2">
-              Desde:
-            </label>
-            <input type="date" name="fechaDesde" id="fechaDesde" />
-          </div>
-          <div className="ml-4">
-            <label htmlFor="fechaHasta" className="mr-2">
-              Hasta:
-            </label>
-            <input type="date" name="fechaHasta" id="fechaHasta" />
-          </div>
+          
+
+          <DateRangePicker
+            dateInitial={dateInitial}
+            setDateInitial={setDateInitial}
+            dateFinal={dateFinal}
+            setDateFinal={setDateFinal}
+          />
+
           <SearchBar
             name={"patients-search"}
             width={"flex-grow"}

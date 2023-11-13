@@ -6,21 +6,26 @@ import SearchBar from "@/components/bars/SearchBar";
 import { triajeService } from "@/services/triajeService";
 import TitleWithIcon from "@/components/TitleWithIcon";
 import TriageIcon from "@/components/icons/TriageIcon";
-import DateRangePicker from "@/components/Date/DateRangePicker"
+import DateRangePicker from "@/components/Date/DateRangePicker";
+import DropdownCheckbox from "@/components/Dropdowns/DropdownCheckbox";
+import { appointmentService } from "@/services/appointmentService";
 import { format } from "date-fns"
 
 const TriajePage = () => {
   const [triajeTable, setTriajeTable] = useState([]);
   const [dateInitial, setDateInitial] = useState(null);
   const [dateFinal, setDateFinal] = useState(null);
+  const [statusList, setStatusList] = useState([]);
+  const [statusState, setStatusState] = useState({});
+  const initialRequest = {
+    pv_filtro: "", 
+    pd_fecha_inicio: null,
+    pd_fecha_fin: null, 
+  };
 
-  const fetchData = async (filtro, fechaDesde, fechaHasta) => {
+  const fetchData = async (request) => {
     try {
-      const data = await triajeService.listarTriajePorFiltro(
-        filtro,
-        fechaDesde,
-        fechaHasta
-      );
+      const data = await triajeService.listarTriajePorFiltro(request);
       const tableData = parseTriajeTable(data);
       setTriajeTable(tableData);
     } catch (error) {
@@ -28,17 +33,45 @@ const TriajePage = () => {
     }
   };
 
+  const fetchStateList = async () => {
+    try {
+      const data = await appointmentService.listarEstados();
+      setStatusList(data);
+      let initialValues = {};
+      data.forEach((status) => {
+        initialValues[status.idValue] = false;
+      });
+      console.log(initialValues);
+      setStatusState(initialValues);
+    } catch (error) {
+      console.log("No se pudo obtener la lista de estados");
+    }
+  };
+
   useEffect(() => {
-    fetchData("");
+    fetchStateList();
+    fetchData(initialRequest);
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+    const stateArray = Object.entries(statusState)
+    .filter(([key, value]) => value)
+    .map(([key, value]) => {
+      return {
+        estado: key,
+      };
+    });
     e.preventDefault();
-    const elements = e.target.elements;
+    const elements = e.target.elements;    
     const filtro = elements.namedItem("patients-search").value;
     const fechaDesde = dateInitial ? format(dateInitial, "yyyy-MM-dd") : null;
     const fechaHasta = dateFinal ? format(dateFinal, "yyyy-MM-dd") : null;
-    fetchData(filtro, fechaDesde, fechaHasta);
+    const request = {
+      pv_filtro: filtro, 
+      pd_fecha_inicio: fechaDesde,
+      pd_fecha_fin: fechaHasta, 
+    };
+    fetchData(request);
   };
 
   return (
@@ -47,7 +80,21 @@ const TriajePage = () => {
 
       <form className="w-full" onSubmit={handleSubmit}>
         <div className="flex justify-start items-center">
-          
+
+          <SearchBar
+            name={"patients-search"}
+            width={"flex-grow"}
+            placeholderText="Buscar por Nombre o DNI"
+          />
+
+          <DropdownCheckbox
+            text={"Selecciona el estado de la cita"}
+            statusList={statusList}
+            statusState={statusState}
+            setStatusState={setStatusState}
+          />
+
+                    
           <DateRangePicker
             dateInitial={dateInitial}
             setDateInitial={setDateInitial}
@@ -55,11 +102,6 @@ const TriajePage = () => {
             setDateFinal={setDateFinal}
           />
 
-          <SearchBar
-            name={"patients-search"}
-            width={"flex-grow"}
-            placeholderText="Buscar por Nombre o DNI"
-          />
         </div>
       </form>
       <div
