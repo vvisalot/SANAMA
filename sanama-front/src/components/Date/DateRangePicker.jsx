@@ -37,9 +37,12 @@ const DateRangePicker = ({
   const [optionsInitial, setOptionsInitial] = useState({
     ...defaultOptions,
     minDate: new Date("2022-01-01"),
+    inputPlaceholderProp: "Fecha Inicial",
   })
+  
   const [optionsFinal, setOptionsFinal] = useState({
     ...defaultOptions,
+    inputPlaceholderProp: "Fecha Final",
   })
 
   useEffect(() => {
@@ -49,8 +52,13 @@ const DateRangePicker = ({
   }, [dateInitial])
 
   const handleChangeInitial = (selectedDate) => {
-    setDateInitial(selectedDate)
-    console.log(selectedDate)
+    const dateObject = new Date(selectedDate);
+    setDateInitial(dateObject)
+    console.log(dateObject)
+    setOptionsFinal(prevOptions => ({
+      ...prevOptions,
+      minDate: dateObject,
+    }));
   }
   const handleChangeFinal = (selectedDate) => {
     setDateFinal(selectedDate)
@@ -67,12 +75,13 @@ const DateRangePicker = ({
 
   return (
     <section className="flex items-center">
-      <Datepicker
+      <Datepicker      
         classNames="pr-2"
         options={optionsInitial}
         onChange={handleChangeInitial}
         show={showInitial}
-        setShow={handleCloseInitial}>
+        setShow={handleCloseInitial}          
+      >
       </Datepicker >
       <Datepicker
         classNames="pr-2"

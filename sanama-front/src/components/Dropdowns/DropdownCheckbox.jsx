@@ -43,12 +43,12 @@ const DropdownCheckbox = ({ statusList, statusState, setStatusState, text }) => 
 
 
     return (
-        <div ref={dropdownRef}>
+        <div ref={dropdownRef} className="ml-14 mr-2">
             <button
                 onClick={toggleDropdown}
                 id="dropdownBgHoverButton"
                 data-dropdown-toggle="dropdownBgHover"
-                className="text-slate-900 bg-slate-50 hover:bg-slate-400 w-[400px] justify-between bg-white
+                className="text-slate-900 bg-slate-50 hover:bg-slate-400 w-[350px] justify-between bg-white
                             border border-gray-300 focus:ring-4 focus:outline-none focus:ring-blue-300 
                             font-normal rounded-lg text-sm px-5 py-4 text-center inline-flex items-center 
                             dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"

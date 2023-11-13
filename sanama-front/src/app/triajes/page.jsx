@@ -18,9 +18,15 @@ const TriajePage = () => {
   const [statusList, setStatusList] = useState([]);
   const [statusState, setStatusState] = useState({});
   const initialRequest = {
+    pn_id_triaje: null,
     pv_filtro: "", 
     pd_fecha_inicio: null,
     pd_fecha_fin: null, 
+    arregloEstados: [
+      {
+        estado: null,
+      },
+    ],
   };
 
   const fetchData = async (request) => {
@@ -67,9 +73,11 @@ const TriajePage = () => {
     const fechaDesde = dateInitial ? format(dateInitial, "yyyy-MM-dd") : null;
     const fechaHasta = dateFinal ? format(dateFinal, "yyyy-MM-dd") : null;
     const request = {
+      pn_id_triaje: null,
       pv_filtro: filtro, 
       pd_fecha_inicio: fechaDesde,
-      pd_fecha_fin: fechaHasta, 
+      pd_fecha_fin: fechaHasta,
+      arregloEstados: stateArray, 
     };
     fetchData(request);
   };
@@ -88,7 +96,7 @@ const TriajePage = () => {
           />
 
           <DropdownCheckbox
-            text={"Selecciona el estado de la cita"}
+            text={"Estado"}
             statusList={statusList}
             statusState={statusState}
             setStatusState={setStatusState}
@@ -110,7 +118,7 @@ const TriajePage = () => {
       >
         Número de resultados: {triajeTable.length}
       </div>
-      <section className="pl-4 pr-2">
+      <section>
         <TriajeTable data={triajeTable}></TriajeTable>
       </section>
     </section>

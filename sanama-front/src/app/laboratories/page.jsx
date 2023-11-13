@@ -70,7 +70,7 @@ const LaboratoryPage = () => {
       >
         Número de resultados: {laboratoryTable.length}
       </div>
-      <section className="pl-4 pr-2">
+      <section>
         <LaboratoryTable data={laboratoryTable}></LaboratoryTable>
       </section>
     </section>

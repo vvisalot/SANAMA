@@ -12,15 +12,11 @@ const ENDPOINTS = {
 };
 
 export const triajeService = {
-  listarTriajePorFiltro: async (filtro, fechaDesde, fechaHasta) => {
+  listarTriajePorFiltro: async (request) => {
     try {
       const response = await axiosInstance.post(
-        ENDPOINTS.LISTAR_TRIAJE_POR_FILTRO,
-        {
-          pv_filtro: filtro,
-          pd_fecha_inicio: fechaDesde,
-          pd_fecha_fin: fechaHasta,
-        }
+        ENDPOINTS.LISTAR_TRIAJE_POR_FILTRO, 
+        request        
       );
       return response.data;
     } catch (error) {
