@@ -8,7 +8,7 @@ import Sidebar from "@/components/sidebar/Sidebar";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({ children }) {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
     setIsSidebarOpen((prevIsSidebarOpen) => !prevIsSidebarOpen);

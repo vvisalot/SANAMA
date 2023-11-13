@@ -14,13 +14,14 @@ const FormularioMedico = () => {
   const params = useParams();
   const idCita = params.idCita;
   const idHistorialClinico = 10;
+  const [currentDateTime, setCurrentDateTime] = useState(new Date());
   const [appointmentData, setAppointmentData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!idCita) return; // Guard clause to ensure `idCita` is present.
-    setLoading(true); // Ensure loading state is set when starting a new fetch.
+    if (!idCita) return;
+    setLoading(true);
     appointmentService
       .buscarCita(idCita)
       .then((data) => {
