@@ -810,7 +810,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"pv_filtro\":\"\",\r\n    \"pd_fecha_inicio\":null,\r\n    \"pd_fecha_fin\": null\r\n}\r\n",
+							"raw": "{\r\n    \"pv_filtro\":\"\",\r\n    \"pd_fecha_inicio\":null,\r\n    \"pd_fecha_fin\":null,\r\n    \"arregloEstados\":\r\n    [\r\n        {\r\n            \"estado\": 1\r\n        },\r\n        {\r\n            \"estado\": 3\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

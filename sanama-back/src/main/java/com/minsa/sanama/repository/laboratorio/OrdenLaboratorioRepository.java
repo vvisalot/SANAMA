@@ -17,6 +17,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -29,11 +30,19 @@ public class OrdenLaboratorioRepository {
     private final OrdenLaboratorioMapper ordenLaboratorioMapper = new OrdenLaboratorioMapper();
     private final OrdenLaboratorioUnicaMapper ordenLaboratorioUnicaMapper = new OrdenLaboratorioUnicaMapper();
 
-    public List<OrdenLaboratorio> listarOrdenLaboratorioFiltro(String pv_filtro,String pd_fecha_inicio, String pd_fecha_fin) {
+    public List<OrdenLaboratorio> listarOrdenLaboratorioFiltro(String pv_filtro,String pd_fecha_inicio, String pd_fecha_fin, List<String> estados) {
         if (pd_fecha_inicio != null)pd_fecha_inicio = "'"+pd_fecha_inicio+"'";
         if (pd_fecha_fin != null)pd_fecha_fin = "'"+pd_fecha_fin+"'";
-        String procedureCall = "{call dbSanama.ssm_lab_listar_orden_laboratorio_filtro('"+pv_filtro+"',"+pd_fecha_inicio+","+pd_fecha_fin+")};";
-        return jdbcTemplate.query(procedureCall, ordenLaboratorioMapper);
+        String procedureCall;
+        List<OrdenLaboratorio> ordenLaboratorio= new ArrayList<>();
+        List<OrdenLaboratorio> aux=null;
+        for (String pn_estado : estados) {
+            if (pn_estado != null)pn_estado = "'"+pn_estado+"'";
+            procedureCall = "{call dbSanama.ssm_lab_listar_orden_laboratorio_filtro('"+pv_filtro+"',"+pd_fecha_inicio+","+pd_fecha_fin+","+pn_estado+")};";
+            aux = jdbcTemplate.query(procedureCall, ordenLaboratorioMapper);
+            ordenLaboratorio.addAll(aux);
+        }
+        return ordenLaboratorio;
     }
 
     public List<OrdenLaboratorio> buscarOrdenLaboratorio(String pn_id_orden_laboratorio) {

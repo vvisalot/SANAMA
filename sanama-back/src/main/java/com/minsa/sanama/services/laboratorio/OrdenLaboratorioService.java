@@ -17,10 +17,10 @@ public class OrdenLaboratorioService {
     @Autowired
     ExamenMedicoRepository examenMedicoRepository;
 
-    public List<OrdenLaboratorio> listarOrdenLaboratorioFiltro(String pv_filtro, String pd_fecha_inicio, String pd_fecha_fin) {
+    public List<OrdenLaboratorio> listarOrdenLaboratorioFiltro(String pv_filtro, String pd_fecha_inicio, String pd_fecha_fin, List<String> estados) {
         List<OrdenLaboratorio> lordenes;
         //List<ExamenMedico> lexamenes;
-        lordenes = ordenLaboratorioRepository.listarOrdenLaboratorioFiltro(pv_filtro, pd_fecha_inicio, pd_fecha_fin);
+        lordenes = ordenLaboratorioRepository.listarOrdenLaboratorioFiltro(pv_filtro, pd_fecha_inicio, pd_fecha_fin, estados);
         /*
         for(OrdenLaboratorio orden : lordenes){
             lexamenes = examenMedicoRepository.buscarExamenMedico(String.valueOf(orden.getIdOrdenLaboratorio()));

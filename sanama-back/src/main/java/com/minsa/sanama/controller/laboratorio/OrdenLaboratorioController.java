@@ -3,12 +3,14 @@ package com.minsa.sanama.controller.laboratorio;
 import com.minsa.sanama.model.laboratorio.OrdenLaboratorio;
 import com.minsa.sanama.services.laboratorio.OrdenLaboratorioService;
 import org.aspectj.weaver.ast.Or;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -26,21 +28,36 @@ public class OrdenLaboratorioController {
         List<OrdenLaboratorio> lordenes = null;
         try {
             JSONObject job = (JSONObject) new JSONParser().parse(pv_datos);
-            System.out.println(pv_datos);
             String pv_filtro = job.get("pv_filtro").toString();
-            String pd_fecha_inicio=null;
-            String pd_fecha_fin=null;
+            String pd_fecha_inicio;
+            String pd_fecha_fin;
+            String estado;
+            boolean flag=true;
+            List<String> estados = new ArrayList<>();
 
-            if(job.get("pd_fecha_inicio") != null) pd_fecha_inicio = job.get("pd_fecha_inicio").toString();
-            if(job.get("pd_fecha_fin") != null) pd_fecha_fin = job.get("pd_fecha_fin").toString();
+            if(job.get("pd_fecha_inicio") == null) pd_fecha_inicio=null;
+            else pd_fecha_inicio = job.get("pd_fecha_inicio").toString();
 
-            lordenes = ordenLaboratorioService.listarOrdenLaboratorioFiltro(pv_filtro,pd_fecha_inicio,pd_fecha_fin);
+            if(job.get("pd_fecha_fin") == null) pd_fecha_fin=null;
+            else pd_fecha_fin = job.get("pd_fecha_fin").toString();
 
+            JSONArray arregloEstados = (JSONArray) job.get("arregloEstados");
+            if (arregloEstados != null){
+                for (Object estadoObjetc : arregloEstados) {
+                    JSONObject pn_estado = (JSONObject) estadoObjetc;
+                    if(pn_estado.get("estado") == null) estado=null;
+                    else estado = pn_estado.get("estado").toString();
+                    flag=false;
+                    estados.add(estado);
+                }
+            }
+            if(flag)estados.add(null);
+            // Llama al servicio para listar citas por filtros
+            lordenes = ordenLaboratorioService.listarOrdenLaboratorioFiltro(pv_filtro,pd_fecha_inicio,pd_fecha_fin,estados);
         } catch (Exception ex) {
             // Manejo de excepciones aquí
             ex.printStackTrace();
         }
-
         return lordenes;
     }
 
