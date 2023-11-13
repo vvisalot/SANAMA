@@ -48,7 +48,12 @@ const LaboratoryPage = () => {
 
       <form className="w-full" onSubmit={handleSubmit}>
         <div className="flex justify-start items-center">
-          
+
+        <SearchBar
+            name={"patients-search"}
+            width={"flex-grow"}
+            placeholderText="Buscar por Nombre o DNI"
+          />
 
           <DateRangePicker
             dateInitial={dateInitial}
@@ -56,17 +61,11 @@ const LaboratoryPage = () => {
             dateFinal={dateFinal}
             setDateFinal={setDateFinal}
           />
-
-          <SearchBar
-            name={"patients-search"}
-            width={"flex-grow"}
-            placeholderText="Buscar por Nombre o DNI"
-          />
         </div>
       </form>
       <div
         style={{ marginBottom: "1rem", color: "black" }}
-        className="pl-12 pr-14"
+        className="pl-12 pr-14 mt-2"
       >
         Número de resultados: {laboratoryTable.length}
       </div>

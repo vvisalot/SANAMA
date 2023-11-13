@@ -25,19 +25,19 @@ const SearchBar = ({ name, width, placeholderText, hrefBtnNuevo }) => {
           name={name}
           id={name}
           type="search"
-          className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-periwinkle focus:border-primary-periwinkle"
+          className="block w-full p-2.5 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-periwinkle focus:border-primary-periwinkle"
           placeholder={placeholderText}
         />
       </div>
       <button
         type="submit"
-        className="text-white bg-primary-dark-blue hover:bg-primary-dusk-blue focus:ring-4 focus:outline-none focus:ring-primary-light-periwinkle font-medium rounded-lg text-sm px-4 py-4"
+        className="text-white bg-primary-dark-blue hover:bg-primary-dusk-blue focus:ring-4 focus:outline-none focus:ring-primary-light-periwinkle font-medium rounded-lg text-sm px-4 py-2.5"
       >
         Buscar
       </button>
       {hrefBtnNuevo && (
         <Link href={hrefBtnNuevo}>
-          <button className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm ml-2 px-4 py-4">
+          <button className="p-2.5 text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm ml-2 px-4 py-4">
             Nuevo
           </button>
         </Link>

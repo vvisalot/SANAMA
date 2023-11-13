@@ -102,19 +102,20 @@ const TriajePage = () => {
             setStatusState={setStatusState}
           />
 
-                    
-          <DateRangePicker
-            dateInitial={dateInitial}
-            setDateInitial={setDateInitial}
-            dateFinal={dateFinal}
-            setDateFinal={setDateFinal}
-          />
+          <section>                      
+            <DateRangePicker
+              dateInitial={dateInitial}
+              setDateInitial={setDateInitial}
+              dateFinal={dateFinal}
+              setDateFinal={setDateFinal}
+            />
+          </section>
 
         </div>
       </form>
       <div
         style={{ marginBottom: "1rem", color: "black" }}
-        className="pl-12 pr-14"
+        className="pl-12 pr-14 mt-2 mb-8"
       >
         Número de resultados: {triajeTable.length}
       </div>

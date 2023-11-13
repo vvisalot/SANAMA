@@ -11,9 +11,8 @@ const defaultOptions = {
   language: "es",
   disabledDates: [],
   theme: {
-    input: "py-4",
+    input: "py-12",
   },
-
   weekDays: ["Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"],
   inputNameProp: "fecha",
   inputIdProp: "fecha",
@@ -22,6 +21,9 @@ const defaultOptions = {
     day: "numeric",
     month: "numeric",
     year: "numeric",
+  },
+  theme: {
+    disabled: "bg-gray-800 text-gray-600", 
   },
 }
 
@@ -74,7 +76,7 @@ const DateRangePicker = ({
   }
 
   return (
-    <section className="flex items-center">
+    <section className="flex h-16 items-center">
       <Datepicker      
         classNames="pr-2"
         options={optionsInitial}
@@ -84,14 +86,15 @@ const DateRangePicker = ({
       >
       </Datepicker >
       <Datepicker
-        classNames="pr-2"
+        classNames="spr-2"
         options={optionsFinal}
         onChange={handleChangeFinal}
         show={showFinal}
         setShow={handleCloseFinal}
       />
-    </section>
+    </section>    
   )
+  
 }
 
 export default DateRangePicker
