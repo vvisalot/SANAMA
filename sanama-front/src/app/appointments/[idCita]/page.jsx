@@ -7,11 +7,10 @@ import AppointmentInfo from "@/components/appointments/view/AppointmentInfo";
 import RescheduleModal from "@/components/appointments/view/RescheduleModal";
 import useUpdateAppointmentStatus from "@/hooks/useUpdateAppointmentStatus";
 import useAppointmentReschedule from "@/hooks/useAppointmentReschedule";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { MdDelete, MdEdit } from "react-icons/md";
 import viewAppointmentIcon from "@/components/icons/viewAppointmentIcon";
 import TitleWithIcon from "@/components/TitleWithIcon";
-import { usePathname } from "next/navigation";
 
 const ReviewAppointment = ({ params }) => {
   const [appointmentData, setAppointmentData] = useState(null);

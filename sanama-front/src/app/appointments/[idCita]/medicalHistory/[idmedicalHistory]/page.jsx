@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { patientService, createMedicalRecord } from "@/services/patientService";
-import { useRouter, useParams } from "next/navigation";
+import { patientService } from "@/services/patientService";
+import { useRouter, useParams, usePathname } from "next/navigation";
 import MedicalRecordsTable from "@/components/MedicalRecordsTable";
 import { parseHojaMedicaTable } from "@/util/medicalRecordParser";
 import usePatientForm from "@/hooks/usePatientForm";
@@ -11,7 +11,9 @@ import iconoHistorial from "@/components/icons/iconoHistorial";
 
 const HistorialClinico = () => {
   const params = useParams();
+  const pathname = usePathname();
   const idPaciente = params.idmedicalHistory;
+  const idCita = params.idCita;
   const router = useRouter();
 
   const { patientForm, setPatientForm } = usePatientForm();
@@ -74,38 +76,6 @@ const HistorialClinico = () => {
       fetchData();
     }
   }, [idPaciente]);
-
-  const handleCreateMedicalRecord = async () => {
-    const newMedicalRecord = {
-      idHistorialClinico: historialClinico.idHistorialClinico,
-      hojasMedicas: [
-        {
-          idCitaMedica: 4,
-          hojaRefencia: null,
-          horaAtencion: "18:00",
-          fechaAtencion: "2023-11-09",
-        },
-      ],
-    };
-
-    try {
-      const response = await patientService.registrarHojaMedica(
-        newMedicalRecord
-      );
-      if (response && response !== -1) {
-        alert("¡Nueva Hoja Médica creada con éxito!");
-        console.log("New Medical Record created successfully:", response);
-      } else {
-        alert("Error al crear la Hoja Médica. Respuesta no exitosa.");
-        console.error(
-          "Failed to create the new medical record: Response was not successful."
-        );
-      }
-    } catch (error) {
-      alert("Error al crear la Hoja Médica. Por favor, intente de nuevo."); // Alerta en caso de un error inesperado
-      console.error("Error:", error);
-    }
-  };
 
   if (loading) return <p>Cargando...</p>;
   if (error) return <p>Error al cargar el historial clínico</p>;
@@ -176,7 +146,7 @@ const HistorialClinico = () => {
               type="submit"
               className="text-white  bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-4"
               onClick={() =>
-                router.push(`/evaluations/newEvaluation/${idPaciente}`)
+                router.push(`/evaluations/newEvaluation/${idCita}`)
               }
             >
               Generar Nueva Evaluacion Medica

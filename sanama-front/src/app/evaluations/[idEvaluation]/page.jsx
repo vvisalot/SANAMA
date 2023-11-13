@@ -7,6 +7,7 @@ import GlasgowComaScale from "@/components/evaluations/MentalStatusTab";
 import TratamientoYDecisionCita from "@/components/evaluations/TreatmentTab";
 import LaboratoryModal from "@/components/evaluations/LaboratoryModal";
 
+// evauliacion existente
 const FormularioMedico = () => {
   const initialFormData = {
     MainInfo: {
@@ -26,7 +27,7 @@ const FormularioMedico = () => {
     ClinicalTab: {
       signosVitales: {
         temperatura: "",
-        fc: "", // Frecuencia Cardiaca
+        fc: "",
         fr: "", // Frecuencia Respiratoria
         pa: "", // Presión Arterial
         sat: "", // Saturación de Oxígeno

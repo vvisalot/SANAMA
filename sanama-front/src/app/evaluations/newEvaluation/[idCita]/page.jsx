@@ -1,13 +1,44 @@
 "use client";
-import React, { useState } from "react";
-import MainInfoComponent from "@/components/evaluations/MainInfoTab";
+import React, { useState, useEffect } from "react";
+import { appointmentService } from "@/services/appointmentService";
+import { patientService } from "@/services/patientService";
+import { useParams } from "next/navigation";
 import ClinicalTab from "@/components/evaluations/ClinicalTab";
 import DiagnosticoMedico from "@/components/evaluations/DiagnosisTab";
 import GlasgowComaScale from "@/components/evaluations/MentalStatusTab";
 import TratamientoYDecisionCita from "@/components/evaluations/TreatmentTab";
 import LaboratoryModal from "@/components/evaluations/LaboratoryModal";
+import PatientInfo from "@/components/appointments/view/PatientInfo";
 
 const FormularioMedico = () => {
+  const params = useParams();
+  const idCita = params.idCita;
+  const idHistorialClinico = 10;
+  const [appointmentData, setAppointmentData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (!idCita) return; // Guard clause to ensure `idCita` is present.
+    setLoading(true); // Ensure loading state is set when starting a new fetch.
+    appointmentService
+      .buscarCita(idCita)
+      .then((data) => {
+        if (data) {
+          setAppointmentData(data);
+        } else {
+          setError(`No se encontraron datos de la cita con el ID ${idCita}`);
+        }
+      })
+      .catch((error) => {
+        setError("Ocurrió un error al cargar los datos de la cita");
+        console.error(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [idCita]);
+
   const initialFormData = {
     MainInfo: {
       nombre: "",
@@ -75,6 +106,38 @@ const FormularioMedico = () => {
 
   const [formData, setFormData] = useState(initialFormData);
 
+  const handleCreateMedicalRecord = async () => {
+    const newMedicalRecord = {
+      idHistorialClinico: idHistorialClinico,
+      hojasMedicas: [
+        {
+          idCitaMedica: 4,
+          hojaRefencia: null,
+          horaAtencion: "18:00",
+          fechaAtencion: "2023-11-09",
+        },
+      ],
+    };
+
+    try {
+      const response = await patientService.registrarHojaMedica(
+        newMedicalRecord
+      );
+      if (response && response !== -1) {
+        alert("¡Nueva Hoja Médica creada con éxito!");
+        console.log("New Medical Record created successfully:", response);
+      } else {
+        alert("Error al crear la Hoja Médica. Respuesta no exitosa.");
+        console.error(
+          "Failed to create the new medical record: Response was not successful."
+        );
+      }
+    } catch (error) {
+      alert("Error al crear la Hoja Médica. Por favor, intente de nuevo."); // Alerta en caso de un error inesperado
+      console.error("Error:", error);
+    }
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
@@ -93,13 +156,10 @@ const FormularioMedico = () => {
       <h1 className="font-bold text-blue-500 text-6xl p-12">
         Nueva Evaluacion
       </h1>
+      <PatientInfo pacienteData={appointmentData.paciente} />
+
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <MainInfoComponent
-            formData={formData.MainInfo}
-            handleInputChange={handleInputChange}
-          ></MainInfoComponent>
-
           <ClinicalTab
             formData={formData.ClinicalTab}
             handleInputChange={handleInputChange}
@@ -110,6 +170,14 @@ const FormularioMedico = () => {
         <LaboratoryModal></LaboratoryModal>
         <TratamientoYDecisionCita></TratamientoYDecisionCita>
       </form>
+      <div className="mb-6 space-x-4">
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg shadow-md"
+          onClick={handleCreateMedicalRecord}
+        >
+          Guardar Hoja médica
+        </button>
+      </div>
     </div>
   );
 };
