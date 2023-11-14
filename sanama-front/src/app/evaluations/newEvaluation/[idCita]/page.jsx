@@ -157,8 +157,9 @@ const FormularioMedico = () => {
       <h1 className="font-bold text-blue-500 text-6xl p-12">
         Nueva Evaluacion
       </h1>
-      <PatientInfo pacienteData={appointmentData.paciente} />
-
+      <PatientInfo
+        pacienteData={appointmentData ? appointmentData.paciente : null}
+      />
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <ClinicalTab
