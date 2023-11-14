@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ["latin"] })
 
 
 export default function RootLayout({ children }) {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
   const toggleSidebar = () => {
     setIsSidebarOpen((prevIsSidebarOpen) => !prevIsSidebarOpen)
@@ -22,14 +22,9 @@ export default function RootLayout({ children }) {
       <head>
         <title>SANAMA</title>
       </head>
-      <body
-        className={`${inter.className}  transition-all ease-linear duration-300`}
-      >
+      <body className={`${inter.className} min-w-screen min-h-screen transition-all ease-linear duration-300`}>
         <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-
-        <main
-          className={`min-h-screen h-full w-full  min-w-screen ${mainContentClass}`}
-        >
+        <main className={` ${mainContentClass}`}>
           <NextBreadcrumb
             homeElement={"Inicio"}
             separator={<span>/</span>}

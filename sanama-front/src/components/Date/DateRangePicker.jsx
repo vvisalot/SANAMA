@@ -14,8 +14,7 @@ const defaultOptions = {
     input: "py-12",
   },
   weekDays: ["Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"],
-  inputNameProp: "fecha",
-  inputIdProp: "fecha",
+
   inputPlaceholderProp: "Selecciona una fecha",
   inputDateFormatProp: {
     day: "numeric",
@@ -23,7 +22,7 @@ const defaultOptions = {
     year: "numeric",
   },
   theme: {
-    disabled: "bg-gray-800 text-gray-600", 
+    disabled: "bg-gray-800 text-gray-600",
   },
 }
 
@@ -40,11 +39,15 @@ const DateRangePicker = ({
     ...defaultOptions,
     minDate: new Date("2022-01-01"),
     inputPlaceholderProp: "Fecha Inicial",
+    inputNameProp: "fecha_inicial",
+    inputIdProp: "fecha_inicial",
   })
-  
+
   const [optionsFinal, setOptionsFinal] = useState({
     ...defaultOptions,
     inputPlaceholderProp: "Fecha Final",
+    inputNameProp: "fecha_final",
+    inputIdProp: "fecha_final",
   })
 
   useEffect(() => {
@@ -54,13 +57,13 @@ const DateRangePicker = ({
   }, [dateInitial])
 
   const handleChangeInitial = (selectedDate) => {
-    const dateObject = new Date(selectedDate);
+    const dateObject = new Date(selectedDate)
     setDateInitial(dateObject)
     console.log(dateObject)
     setOptionsFinal(prevOptions => ({
       ...prevOptions,
       minDate: dateObject,
-    }));
+    }))
   }
   const handleChangeFinal = (selectedDate) => {
     setDateFinal(selectedDate)
@@ -77,12 +80,12 @@ const DateRangePicker = ({
 
   return (
     <section className="flex h-16 items-center">
-      <Datepicker      
+      <Datepicker
         classNames="pr-2"
         options={optionsInitial}
         onChange={handleChangeInitial}
         show={showInitial}
-        setShow={handleCloseInitial}          
+        setShow={handleCloseInitial}
       >
       </Datepicker >
       <Datepicker
@@ -92,9 +95,9 @@ const DateRangePicker = ({
         show={showFinal}
         setShow={handleCloseFinal}
       />
-    </section>    
+    </section>
   )
-  
+
 }
 
 export default DateRangePicker

@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import AppointmentTable from "./AppointmentTable"
+
 import { appointmentService } from "@/services/appointmentService"
 import { parseAppointmentTable } from "@/util/appointmentParser"
 import SearchBar from "@/components/bars/SearchBar"
@@ -11,6 +11,7 @@ import { format } from "date-fns"
 import AppointmentIcon from "@/components/icons/AppointmentIcon"
 import TitleWithIcon from "@/components/TitleWithIcon"
 import { useRouter } from "next/navigation"
+import AppointmentTable from "@/components/appointments/AppointmentTable"
 
 const initialRequest = {
   pn_id_especialidad: null,
@@ -53,6 +54,7 @@ const AppointmentPage = () => {
       const data = await appointmentService.listarCitasFiltro(request)
       const tableData = parseAppointmentTable(data)
       setAppointmentTable(tableData)
+      console.log(tableData)
     } catch (error) {
       console.log("No se pudo obtener la lista de las citas")
     }
