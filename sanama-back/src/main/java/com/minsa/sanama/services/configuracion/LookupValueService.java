@@ -29,9 +29,21 @@ public class LookupValueService {
         return lmedicos;
     }
 
-        public List<LookupValue> listarEstadosCitas() {
+    public List<LookupValue> listarEstadosCitas() {
         List<LookupValue> lcitas;
         lcitas = valueRepository.listarEstadosCitas();
+        return lcitas;
+    }
+
+    public List<LookupValue> listarEstadosOrdenesLaboratorio() {
+        List<LookupValue> lcitas;
+        lcitas = valueRepository.listarEstadosOrdenesLaboratorio();
+        return lcitas;
+    }
+
+    public List<LookupValue> listarEstadosTriajes() {
+        List<LookupValue> lcitas;
+        lcitas = valueRepository.listarEstadosTriajes();
         return lcitas;
     }
 }

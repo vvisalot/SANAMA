@@ -793,6 +793,70 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "ListarEstadosOrdenesLaboratorio",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/configuracion/get/listarEstadosOrdenesLaboratorio",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"configuracion",
+								"get",
+								"listarEstadosOrdenesLaboratorio"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ListarEstadosTriajes",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/configuracion/get/listarEstadosTriajes",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"configuracion",
+								"get",
+								"listarEstadosTriajes"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
