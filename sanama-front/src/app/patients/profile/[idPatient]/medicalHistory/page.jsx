@@ -149,10 +149,7 @@ const HistorialClinico = () => {
                 <input className="border rounded p-2 w-full" type="date" />
               </div>
             </div>
-            <MedicalRecordsTable
-              data={hojasMedicas}
-              extrapath={"view"}
-            ></MedicalRecordsTable>
+            <MedicalRecordsTable data={hojasMedicas}></MedicalRecordsTable>
           </div>
         </div>
       </div>

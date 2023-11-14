@@ -10,13 +10,13 @@ const columns = [
   { name: "Fecha de Atención" },
 ];
 
-const MedicalRecordsTable = ({ data, extrapath }) => {
+const MedicalRecordsTable = ({ data }) => {
   const pathname = usePathname();
   return (
     <Table
       columns={columns}
       data={data}
-      url={`${pathname}/${extrapath}/`}
+      url={`${pathname}`}
       optionsText="Ver"
     />
   );

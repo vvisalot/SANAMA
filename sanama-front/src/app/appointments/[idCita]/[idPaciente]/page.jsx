@@ -21,29 +21,6 @@ const HistorialClinico = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchHistorial = async () => {
-      try {
-        const data = await patientService.buscarHistorialClinico(idPaciente);
-        const tableData = parseHojaMedicaTable(data.hojasMedicas);
-        setHistorialClinico({
-          idHistorialClinico: data.idHistorialClinico,
-          codigo: data.codigo,
-          estadoHojaMedica: true,
-        });
-        setHojasMedicas(tableData);
-      } catch (error) {
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (idPaciente) {
-      fetchHistorial();
-    }
-  }, [idPaciente]);
-
-  useEffect(() => {
     const fetchData = async () => {
       try {
         const data = await patientService.mostrarPacienteRegistrado(idPaciente);
@@ -68,6 +45,29 @@ const HistorialClinico = () => {
     };
     if (idPaciente) {
       fetchData();
+    }
+  }, [idPaciente]);
+
+  useEffect(() => {
+    const fetchHistorial = async () => {
+      try {
+        const data = await patientService.buscarHistorialClinico(idPaciente);
+        const tableData = parseHojaMedicaTable(data.hojasMedicas);
+        setHistorialClinico({
+          idHistorialClinico: data.idHistorialClinico,
+          codigo: data.codigo,
+          estadoHojaMedica: true,
+        });
+        setHojasMedicas(tableData);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (idPaciente) {
+      fetchHistorial();
     }
   }, [idPaciente]);
 
