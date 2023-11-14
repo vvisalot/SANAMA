@@ -39,7 +39,7 @@ const AppointmentTable = ({ data, columns }) => {
   const { sortedData, requestSort, sortConfig } = useSort(arrayDeArraysVacios);
   return (
     <Table
-      url={"/appointments/"}
+      url={"/appointments/view"}
       columns={displayColumns}
       data={sortedData}
       requestSort={requestSort}

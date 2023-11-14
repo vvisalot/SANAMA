@@ -1,4 +1,5 @@
 import Table from "@/components/table/Table";
+import { usePathname } from "next/navigation";
 
 const columns = [
   { name: "ID" },
@@ -9,12 +10,13 @@ const columns = [
   { name: "Fecha de Atención" },
 ];
 
-const MedicalRecordsTable = ({ data }) => {
+const MedicalRecordsTable = ({ data, extrapath }) => {
+  const pathname = usePathname();
   return (
     <Table
       columns={columns}
       data={data}
-      url="/evaluations/"
+      url={`${pathname}/${extrapath}/`}
       optionsText="Ver"
     />
   );

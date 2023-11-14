@@ -1,7 +1,8 @@
 "use client";
+
 import React, { useState, useEffect } from "react";
-import { patientService } from "@/services/patientService";
-import { useRouter, useParams } from "next/navigation";
+import { patientService, createMedicalRecord } from "@/services/patientService";
+import { useParams } from "next/navigation";
 import MedicalRecordsTable from "@/components/MedicalRecordsTable";
 import { parseHojaMedicaTable } from "@/util/medicalRecordParser";
 import usePatientForm from "@/hooks/usePatientForm";
@@ -11,12 +12,13 @@ import iconoHistorial from "@/components/icons/iconoHistorial";
 
 const HistorialClinico = () => {
   const params = useParams();
-  const idPaciente = params.idmedicalHistory;
-  const idCita = params.idCita;
-  const router = useRouter();
+  const idPaciente = params.idPatient;
+
   const { patientForm, setPatientForm } = usePatientForm();
+
   const [historialClinico, setHistorialClinico] = useState(null);
   const [hojasMedicas, setHojasMedicas] = useState([]);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -43,29 +45,31 @@ const HistorialClinico = () => {
     }
   }, [idPaciente]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await patientService.mostrarPacienteRegistrado(idPaciente);
+  const fetchData = async () => {
+    try {
+      const data = await patientService.mostrarPacienteRegistrado(idPaciente);
+      console.log(data.idPersona);
 
-        setPatientForm({
-          ...patientForm,
-          apellidoPaterno: data.apellidoPaterno,
-          apellidoMaterno: data.apellidoMaterno,
-          nombres: data.nombres,
-          tipoSeguro: data.tipoSeguro,
-          codigoSeguro: data.codigoSeguro,
-          dni: data.dni,
-          direccion: data.direccion,
-          telefono: data.telefono,
-          correo: data.correo,
-          sexo: sexParser(data.sexo),
-          fechaNacimiento: data.fechaNacimiento,
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    };
+      setPatientForm({
+        ...patientForm,
+        apellidoPaterno: data.apellidoPaterno,
+        apellidoMaterno: data.apellidoMaterno,
+        nombres: data.nombres,
+        tipoSeguro: data.tipoSeguro,
+        codigoSeguro: data.codigoSeguro,
+        dni: data.dni,
+        direccion: data.direccion,
+        telefono: data.telefono,
+        correo: data.correo,
+        sexo: sexParser(data.sexo),
+        fechaNacimiento: data.fechaNacimiento,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
     if (idPaciente) {
       fetchData();
     }
@@ -133,19 +137,6 @@ const HistorialClinico = () => {
             <PatientDataDisplay patient={patientForm} />
           </div>
 
-          <div className="mb-6 space-x-4">
-            <button
-              type="submit"
-              className="text-white  bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-4"
-              onClick={() =>
-                router.push(`/evaluations/newEvaluation/${idCita}`)
-              }
-            >
-              Generar Nueva Evaluacion Medica
-            </button>
-          </div>
-
-          {/* Sección de Hojas Médicas Existentes */}
           <div className="bg-white p-4 rounded shadow-md">
             <h2 className="text-xl font-bold mb-4 border-b pb-2">
               Hojas Medicas Existentes:
@@ -158,7 +149,10 @@ const HistorialClinico = () => {
                 <input className="border rounded p-2 w-full" type="date" />
               </div>
             </div>
-            <MedicalRecordsTable data={hojasMedicas}></MedicalRecordsTable>
+            <MedicalRecordsTable
+              data={hojasMedicas}
+              extrapath={"view"}
+            ></MedicalRecordsTable>
           </div>
         </div>
       </div>
