@@ -18,7 +18,6 @@ const sidebarItems = [
   { name: "Citas", route: "/appointments", Icon: AppointmentIcon },
   { name: "Triajes", route: "/triajes", Icon: TriageIcon },
   { name: "Laboratorio", route: "/laboratories", Icon: LabIcon },
-  { name: "ModalLaboratorio", route: "/addLab", Icon: helpIcon },
 ]
 
 const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
