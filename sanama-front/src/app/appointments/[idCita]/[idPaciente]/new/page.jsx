@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { appointmentService } from "@/services/appointmentService";
 import { patientService } from "@/services/patientService";
 import { useParams } from "next/navigation";
+import MainInfoComponent from "@/components/evaluations/MainInfoTab";
 import ClinicalTab from "@/components/evaluations/ClinicalTab";
 import DiagnosticoMedico from "@/components/evaluations/DiagnosisTab";
 import GlasgowComaScale from "@/components/evaluations/MentalStatusTab";
@@ -157,9 +158,7 @@ const FormularioMedico = () => {
       <h1 className="font-bold text-blue-500 text-6xl p-12">
         Nueva Evaluacion
       </h1>
-      <PatientInfo
-        pacienteData={appointmentData ? appointmentData.paciente : null}
-      />
+      <MainInfoComponent appointmentData={appointmentData} />
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <ClinicalTab
