@@ -13,7 +13,7 @@ import { formatHour, validateNumberInput, validateTextInput } from "@/util/formV
 
 
 const AppointementForm = ({ setFormComplete, legalResponsibilityForm, setLegalResponsibilityForm, setDoctorId,
-    schedule, setSchedule, triageRequirement, setTriageRequirement, formComplete, allFormComplete, setAllFormComplete, handleSubmit }) => {
+    schedule, setSchedule, triageRequirement, setTriageRequirement, formComplete, allFormComplete, setAllFormComplete }) => {
     //Seccion 2
     const [relationships, setRelationships] = useState([])
 
@@ -129,7 +129,7 @@ const AppointementForm = ({ setFormComplete, legalResponsibilityForm, setLegalRe
             <section id="section2">
                 <h2 className="w-full font-bold break-normal text-gray-700  pb-8 text-2xl">Revision de responsabilidad legal</h2>
                 <PickerHider
-                    text={"¿El paciente trae a algun responsable legal?"}
+                    text={"¿El paciente tiene algún responsable legal?"}
                     option1={"Si"} option2={"No"}
                     onOptionSelected={handleResponsibilityChange}
                     optionSelected={legalResponsibilityForm.tieneAcompañante} />
@@ -250,9 +250,8 @@ const AppointementForm = ({ setFormComplete, legalResponsibilityForm, setLegalRe
 
             </section>
 
-            <hr className="bg-gray-600 mt-10" />
 
-            <section id='section3' className="mt-6 bg-transparent">
+            <section id='section3' className="pt-10">
                 <h2 className="font-sans font-bold break-normal text-gray-700 mb-4 text-2xl">
                     Medicos y horarios disponibles
                 </h2>
@@ -317,9 +316,8 @@ const AppointementForm = ({ setFormComplete, legalResponsibilityForm, setLegalRe
                 </div>
             </section>
 
-            <hr className="bg-gray-600 mt-20" />
 
-            <section id='section-4'>
+            <section id='section-4' className="pt-20">
                 <h2 className="w-full font-bold break-normal text-gray-700  pb-8 text-2xl">Solicitud de triaje  </h2>
                 <Picker
                     name1={"sitriaje"}
@@ -332,15 +330,6 @@ const AppointementForm = ({ setFormComplete, legalResponsibilityForm, setLegalRe
                 >
                 </Picker>
             </section>
-
-
-            <div className="flex flex-row-reverse">
-                <button type="submit" onClick={handleSubmit}
-                    className=" m-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 
-                            font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center">
-                    Registrar cita
-                </button>
-            </div>
 
 
         </fieldset>

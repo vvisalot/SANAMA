@@ -12,10 +12,13 @@ import { useRouter } from "next/navigation"
 
 const FormContainer = () => {
     const router = useRouter()
-    const [patientFormComplete, setPatientFormComplete] = useState(false)
     const [allFormComplete, setAllFormComplete] = useState(false)
 
     const {
+        validatePatientForm,
+        patientFormComplete,
+        setPatientFormComplete,
+        errorMessagePatientForm,
         patientForm,
         setPatientForm,
         fechaNacimiento,
@@ -35,30 +38,34 @@ const FormContainer = () => {
         setSchedule,
         triageRequirement,
         setTriageRequirement,
-        errorMessage,
-        validateForm,
+        errorMessageAppointmentForm,
+        validateAppointmentForm,
         setAppointmentFormComplete,
     } = useAppointmentForm()
 
-    useEffect(() => {
-        // console.log(patientForm)
-        // console.log(fechaNacimiento)
-        // console.log(sexo)
-        // console.log(legalResponsibilityForm)
-        console.log(triageRequirement)
-        // console.log(schedule)
+    // useEffect(() => {
+    //     // console.log(patientForm)
+    //     // console.log(fechaNacimiento)
+    //     // console.log(sexo)
+    //     // console.log(legalResponsibilityForm)
+    //     console.log(triageRequirement)
+    //     // console.log(schedule)
 
-    }, [patientForm, fechaNacimiento, sexo, legalResponsibilityForm, triageRequirement, schedule])
+    // }, [patientForm, fechaNacimiento, sexo, legalResponsibilityForm, triageRequirement, schedule])
 
 
     const handleSubmit = async (event) => {
         event.preventDefault()
-        const isValid = validateForm(fechaNacimiento)
+        const isValid = validateAppointmentForm(fechaNacimiento) && validatePatientForm()
+
+        console.log(validatePatientForm())
+        console.log(validateAppointmentForm(fechaNacimiento))
+
         if (isValid) {
             console.log("El formulario es válido. Enviar datos.")
             setAllFormComplete(true)
         } else {
-            console.log("Por favor, completa todos los campos obligatorios.")
+            console.log("No se han completado correctamente los campos.")
             setAllFormComplete(false)
             return
         }
@@ -80,9 +87,7 @@ const FormContainer = () => {
                     direccion: patientForm.direccion,
                     correo: patientForm.correo
                 }
-
                 const patientResponse = await patientService.registrarPaciente(patientData)
-
                 if (patientResponse !== null) {
                     const newPatientId = patientResponse
 
@@ -139,6 +144,7 @@ const FormContainer = () => {
     return (
         <form onSubmit={handleSubmit} className="p-10 w-full" >
             <PatientForm
+                formComplete={patientFormComplete}
                 setFormComplete={setPatientFormComplete}
                 setPatientId={setPatientId}
                 patientForm={patientForm}
@@ -150,29 +156,48 @@ const FormContainer = () => {
 
             <hr className="bg-gray-600 mt-20" />
 
-            {patientFormComplete &&
-                <>
-                    <AppointementForm
-                        setFormComplete={setAppointmentFormComplete}
-                        legalResponsibilityForm={legalResponsibilityForm}
-                        setLegalResponsibilityForm={setLegalResponsibilityForm}
-                        setDoctorId={setDoctorId}
-                        schedule={schedule}
-                        setSchedule={setSchedule}
-                        triageRequirement={triageRequirement}
-                        setTriageRequirement={setTriageRequirement}
-                        allFormComplete={allFormComplete}
-                        setAllFormComplete={setAllFormComplete}
-                        handleSubmit={handleSubmit}
-                    />
-                </>
-            }
 
-            {errorMessage && (
+
+            {/* {patientFormComplete && */}
+            <>
+                <AppointementForm
+                    setFormComplete={setAppointmentFormComplete}
+                    legalResponsibilityForm={legalResponsibilityForm}
+                    setLegalResponsibilityForm={setLegalResponsibilityForm}
+                    setDoctorId={setDoctorId}
+                    schedule={schedule}
+                    setSchedule={setSchedule}
+                    triageRequirement={triageRequirement}
+                    setTriageRequirement={setTriageRequirement}
+                    allFormComplete={allFormComplete}
+                    setAllFormComplete={setAllFormComplete}
+
+                />
+            </>
+            {/* } */}
+
+
+            {errorMessagePatientForm && (
                 <pre className="text-red-500 mt-2">
-                    {errorMessage}
+                    {errorMessagePatientForm}
                 </pre>
             )}
+
+            {errorMessageAppointmentForm && (
+                <pre className="text-red-500 mt-2">
+                    {errorMessageAppointmentForm}
+                </pre>
+            )}
+
+            {/* Aqui va el boton de submit que valida que ambos formularios esten completos */}
+
+            <div className="flex flex-row-reverse">
+                <button type="submit" onClick={handleSubmit}
+                    className=" m-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 
+                            font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center">
+                    Registrar cita
+                </button>
+            </div>
 
         </form >
     )

@@ -16,8 +16,26 @@ const usePatientForm = () => {
     const [fechaNacimiento, setFechaNacimiento] = useState('')
     const [sexo, setSexo] = useState('')
 
+    const [patientFormComplete, setPatientFormComplete] = useState(false)
+    const [errorMessagePatientForm, setErrorMessagePatientForm] = useState("")
+
+    const validatePatientForm = () => {
+        const patientFormValues = Object.values(patientForm)
+        if (patientFormValues.includes("") || !fechaNacimiento || !sexo) {
+            setErrorMessagePatientForm("Por favor, complete todos los campos del paciente")
+            return false
+        }
+        setErrorMessagePatientForm("")
+        setPatientFormComplete(true)
+        // setIsFormEnabled(false)
+        return true
+    }
 
     return {
+        validatePatientForm,
+        patientFormComplete,
+        setPatientFormComplete,
+        errorMessagePatientForm,
         patientForm,
         setPatientForm,
         fechaNacimiento,
