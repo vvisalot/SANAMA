@@ -9,12 +9,26 @@ export function parseHistorial(data) {
 }
 
 export function parseHojaMedicaTable(data) {
-  return data.map((item) => ({
-    idHojaMedica: item.idHojaMedica,
-    codigo: item.codigo,
-    medico: `${item.citaMedica.medico.nombres} ${item.citaMedica.medico.apellidoPaterno} ${item.citaMedica.medico.apellidoMaterno}`,
-    especialidad: item.citaMedica.medico.especialidad.nombre,
-    horaAtencion: item.horaAtencion,
-    fechaAtencion: item.fechaAtencion,
-  }));
+  const columns = [
+    "idHojaMedica",
+    "codigo",
+    "medico",
+    "especialidad",
+    "horaAtencion",
+    "fechaAtencion",
+  ];
+  const table = data.map((item) => {
+    return columns.map((column) => {
+      if (column === "medico") {
+        return {
+          data: `${item.citaMedica.medico.nombres} ${item.citaMedica.medico.apellidoPaterno} ${item.citaMedica.medico.apellidoMaterno}`,
+        };
+      } else if (column === "especialidad") {
+        return { data: item.citaMedica.medico.especialidad.nombre };
+      } else {
+        return { data: item[column] };
+      }
+    });
+  });
+  return table;
 }

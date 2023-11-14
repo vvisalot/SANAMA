@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { patientService } from "@/services/patientService";
-import { useRouter, useParams, usePathname } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import MedicalRecordsTable from "@/components/MedicalRecordsTable";
 import { parseHojaMedicaTable } from "@/util/medicalRecordParser";
 import usePatientForm from "@/hooks/usePatientForm";
@@ -11,7 +11,6 @@ import iconoHistorial from "@/components/icons/iconoHistorial";
 
 const HistorialClinico = () => {
   const params = useParams();
-  const pathname = usePathname();
   const idPaciente = params.idmedicalHistory;
   const idCita = params.idCita;
   const router = useRouter();
@@ -50,7 +49,6 @@ const HistorialClinico = () => {
   const fetchData = async () => {
     try {
       const data = await patientService.mostrarPacienteRegistrado(idPaciente);
-      console.log(data.idPersona);
 
       setPatientForm({
         ...patientForm,
