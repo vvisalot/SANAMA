@@ -27,28 +27,24 @@ const MainInfoComponent = ({ appointmentData }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <InputField label="Código de Cita" value={codigoCita} disabled />
 
-          <InputField label="Fecha de la Cita" value={fechaCita} disabled />
-
-          <InputField label="Hora de la Cita" value={horaCita} disabled />
-
-          {/* Patient's Information */}
           <InputField
-            label="Nombre del Paciente"
+            label="Fecha y Hora de la Cita"
+            value={`${fechaCita} ${horaCita}`}
+            disabled
+          />
+          <InputField
+            label="Paciente"
             value={`${paciente.nombres} ${paciente.apellidoPaterno} ${paciente.apellidoMaterno}`}
             disabled
           />
-
           <InputField label="DNI del Paciente" value={paciente.dni} disabled />
-
-          {/* Doctor's Information */}
           <InputField
-            label="Nombre del Médico"
+            label="Médico"
             value={`${medico.nombres} ${medico.apellidoPaterno} ${medico.apellidoMaterno}`}
             disabled
           />
-
           <InputField
-            label="Especialidad del Médico"
+            label="Especialidad"
             value={medico.especialidad.nombre}
             disabled
           />
