@@ -25,15 +25,12 @@ export default function RootLayout({ children }) {
         className={`${inter.className} flex  transition-all ease-linear duration-300`}
       >
         <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-
-        <main
-          className={`min-h-screen box-border w-full border-[36px] border-slate-300 bg-slate-200 rounded-t-lg ${mainContentClass}`}
-        >
+        <main className={`min-h-screen w-full ${mainContentClass}`}>
           <NextBreadcrumb
-            homeElement={"Home"}
+            homeElement={"Inicio"}
             separator={<span> | </span>}
             activeClasses="text-white font-bold"
-            containerClasses="flex py-5 bg-gradient-to-r from-primary-light-periwinkle to-primary-dusk-blue rounded-t-lg"
+            containerClasses="flex py-5 bg-gradient-to-r from-primary-light-periwinkle to-primary-dusk-blue"
             listClasses="px-10 text-white hover:text-blue-700"
             capitalizeLinks
           />
