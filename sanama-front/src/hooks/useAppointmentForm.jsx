@@ -26,27 +26,30 @@ const useAppointmentForm = () => {
 
     const [triageRequirement, setTriageRequirement] = useState('Si')
     const [appointmentFormComplete, setAppointmentFormComplete] = useState(false)
-    const [errorMessage, setErrorMessage] = useState("")
+    const [errorMessageAppointmentForm, setErrorMessageAppointmentForm] = useState("")
 
 
-    const validateForm = (fechaNacimiento) => {
+    const validateAppointmentForm = (fechaNacimiento) => {
         const scheduleFormValues = Object.values(schedule)
 
+
+
         if (scheduleFormValues.includes("")) {
-            setErrorMessage("Por favor, elige un horario de cita")
+            setErrorMessageAppointmentForm("Por favor, complete todos los campos para reservar la cita")
             setAppointmentFormComplete(false)
             return false
         }
 
+
         if (legalResponsibilityForm.tieneAcompañante === "Si") {
             const legalResponsibilityFormValues = Object.values(legalResponsibilityForm)
             if (legalResponsibilityFormValues.includes("")) {
-                setErrorMessage("Por favor, completa todos los campos de responsabilidad legal.")
+                setErrorMessageAppointmentForm("Por favor, completa todos los campos de responsabilidad legal.")
                 setAppointmentFormComplete(false)
                 return false
             }
         }
-        setErrorMessage("")
+        setErrorMessageAppointmentForm("")
         setAppointmentFormComplete(true)
         return true
     }
@@ -64,9 +67,8 @@ const useAppointmentForm = () => {
         setTriageRequirement,
         appointmentFormComplete,
         setAppointmentFormComplete,
-        errorMessage,
-        validateForm,
-
+        errorMessageAppointmentForm,
+        validateAppointmentForm,
     }
 }
 

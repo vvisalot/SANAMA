@@ -3,14 +3,12 @@ import React from "react";
 const MainInfoComponent = ({ formData, handleInputChange }) => {
   return (
     <>
-      {/* Main Info */}
       <div className="col-span-2">
         <h4 className="text-lg font-bold text-gray-700 mb-2">
           Información Principal
         </h4>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Nombre */}
           <InputField
             label="Nombre Completo"
             name="nombre"
@@ -18,7 +16,6 @@ const MainInfoComponent = ({ formData, handleInputChange }) => {
             onChange={handleInputChange}
           />
 
-          {/* DNI */}
           <InputField
             label="DNI"
             name="dni"
@@ -26,7 +23,6 @@ const MainInfoComponent = ({ formData, handleInputChange }) => {
             onChange={handleInputChange}
           />
 
-          {/* Género */}
           <InputField
             label="Género"
             name="genero"
@@ -34,7 +30,6 @@ const MainInfoComponent = ({ formData, handleInputChange }) => {
             onChange={handleInputChange}
           />
 
-          {/* Edad */}
           <InputField
             label="Edad"
             name="edad"
@@ -42,34 +37,14 @@ const MainInfoComponent = ({ formData, handleInputChange }) => {
             onChange={handleInputChange}
             type="number"
           />
-
-          {/* Altura */}
-          <InputField
-            label="Altura (cm)"
-            name="altura"
-            value={formData.altura}
-            onChange={handleInputChange}
-            type="number"
-          />
-
-          {/* Peso */}
-          <InputField
-            label="Peso (kg)"
-            name="peso"
-            value={formData.peso}
-            onChange={handleInputChange}
-            type="number"
-          />
         </div>
       </div>
 
-      {/* Persona Responsable */}
       <div className="col-span-2">
         <h4 className="text-lg font-bold text-gray-700 mb-2">
           Persona Responsable
         </h4>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Nombre del responsable */}
           <InputField
             label="Nombre del Responsable"
             name="personaResponsable.nombre"
@@ -77,7 +52,6 @@ const MainInfoComponent = ({ formData, handleInputChange }) => {
             onChange={handleInputChange}
           />
 
-          {/* DNI del responsable */}
           <InputField
             label="DNI del Responsable"
             name="personaResponsable.dni"

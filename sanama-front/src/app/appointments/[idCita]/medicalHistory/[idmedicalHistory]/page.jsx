@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { patientService } from "@/services/patientService";
-import { useRouter, useParams, usePathname } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import MedicalRecordsTable from "@/components/MedicalRecordsTable";
 import { parseHojaMedicaTable } from "@/util/medicalRecordParser";
 import usePatientForm from "@/hooks/usePatientForm";
@@ -11,16 +11,12 @@ import iconoHistorial from "@/components/icons/iconoHistorial";
 
 const HistorialClinico = () => {
   const params = useParams();
-  const pathname = usePathname();
   const idPaciente = params.idmedicalHistory;
   const idCita = params.idCita;
   const router = useRouter();
-
   const { patientForm, setPatientForm } = usePatientForm();
-
   const [historialClinico, setHistorialClinico] = useState(null);
   const [hojasMedicas, setHojasMedicas] = useState([]);
-
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -47,31 +43,29 @@ const HistorialClinico = () => {
     }
   }, [idPaciente]);
 
-  const fetchData = async () => {
-    try {
-      const data = await patientService.mostrarPacienteRegistrado(idPaciente);
-      console.log(data.idPersona);
-
-      setPatientForm({
-        ...patientForm,
-        apellidoPaterno: data.apellidoPaterno,
-        apellidoMaterno: data.apellidoMaterno,
-        nombres: data.nombres,
-        tipoSeguro: data.tipoSeguro,
-        codigoSeguro: data.codigoSeguro,
-        dni: data.dni,
-        direccion: data.direccion,
-        telefono: data.telefono,
-        correo: data.correo,
-        sexo: sexParser(data.sexo),
-        fechaNacimiento: data.fechaNacimiento,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await patientService.mostrarPacienteRegistrado(idPaciente);
+
+        setPatientForm({
+          ...patientForm,
+          apellidoPaterno: data.apellidoPaterno,
+          apellidoMaterno: data.apellidoMaterno,
+          nombres: data.nombres,
+          tipoSeguro: data.tipoSeguro,
+          codigoSeguro: data.codigoSeguro,
+          dni: data.dni,
+          direccion: data.direccion,
+          telefono: data.telefono,
+          correo: data.correo,
+          sexo: sexParser(data.sexo),
+          fechaNacimiento: data.fechaNacimiento,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
     if (idPaciente) {
       fetchData();
     }
@@ -80,8 +74,6 @@ const HistorialClinico = () => {
   if (loading) return <p>Cargando...</p>;
   if (error) return <p>Error al cargar el historial clínico</p>;
   if (!historialClinico) return <p>No se encontró el historial clínico</p>;
-
-  console.log(hojasMedicas);
 
   const PatientDataDisplay = ({ patient }) => (
     <div className="flex flex-wrap mb-2 space-x-32 px-4">
