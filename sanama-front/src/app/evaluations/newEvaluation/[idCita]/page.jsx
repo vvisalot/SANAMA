@@ -167,10 +167,6 @@ const FormularioMedico = () => {
             handleInputChange={handleInputChange}
           ></ClinicalTab>
         </div>
-        <DiagnosticoMedico></DiagnosticoMedico>
-        <GlasgowComaScale></GlasgowComaScale>
-        <LaboratoryModal></LaboratoryModal>
-        <TratamientoYDecisionCita></TratamientoYDecisionCita>
       </form>
       <div className="mb-6 space-x-4">
         <button
