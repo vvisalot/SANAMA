@@ -40,6 +40,16 @@ public class LookupValueRepository {
         return jdbcTemplate.query(procedureCall, listaValoresMapper);
     }
 
+    public List<LookupValue> listarEstadosOrdenesLaboratorio() {
+        String procedureCall = "{call dbSanama.ssm_conf_listar_estados_ordenes_laboratorio()};";
+        return jdbcTemplate.query(procedureCall, listaValoresMapper);
+    }
+
+    public List<LookupValue> listarEstadosTriajes() {
+        String procedureCall = "{call dbSanama.ssm_conf_listar_estados_triajes()};";
+        return jdbcTemplate.query(procedureCall, listaValoresMapper);
+    }
+
     private static class ListaValoresMapper implements RowMapper<LookupValue> {
         @Override
         public LookupValue mapRow(ResultSet rs, int rowNum) throws SQLException {

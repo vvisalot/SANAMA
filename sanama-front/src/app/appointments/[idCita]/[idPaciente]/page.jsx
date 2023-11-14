@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { patientService } from "@/services/patientService";
-import { useRouter, useParams } from "next/navigation";
+import { useRouter, useParams, usePathname } from "next/navigation";
 import MedicalRecordsTable from "@/components/MedicalRecordsTable";
 import { parseHojaMedicaTable } from "@/util/medicalRecordParser";
 import usePatientForm from "@/hooks/usePatientForm";
@@ -11,37 +11,14 @@ import iconoHistorial from "@/components/icons/iconoHistorial";
 
 const HistorialClinico = () => {
   const params = useParams();
-  const idPaciente = params.idmedicalHistory;
-  const idCita = params.idCita;
+  const pathname = usePathname();
+  const idPaciente = params.idPaciente;
   const router = useRouter();
   const { patientForm, setPatientForm } = usePatientForm();
   const [historialClinico, setHistorialClinico] = useState(null);
   const [hojasMedicas, setHojasMedicas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchHistorial = async () => {
-      try {
-        const data = await patientService.buscarHistorialClinico(idPaciente);
-        const tableData = parseHojaMedicaTable(data.hojasMedicas);
-        setHistorialClinico({
-          idHistorialClinico: data.idHistorialClinico,
-          codigo: data.codigo,
-          estadoHojaMedica: true,
-        });
-        setHojasMedicas(tableData);
-      } catch (error) {
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (idPaciente) {
-      fetchHistorial();
-    }
-  }, [idPaciente]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -68,6 +45,29 @@ const HistorialClinico = () => {
     };
     if (idPaciente) {
       fetchData();
+    }
+  }, [idPaciente]);
+
+  useEffect(() => {
+    const fetchHistorial = async () => {
+      try {
+        const data = await patientService.buscarHistorialClinico(idPaciente);
+        const tableData = parseHojaMedicaTable(data.hojasMedicas);
+        setHistorialClinico({
+          idHistorialClinico: data.idHistorialClinico,
+          codigo: data.codigo,
+          estadoHojaMedica: true,
+        });
+        setHojasMedicas(tableData);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (idPaciente) {
+      fetchHistorial();
     }
   }, [idPaciente]);
 
@@ -137,15 +137,12 @@ const HistorialClinico = () => {
             <button
               type="submit"
               className="text-white  bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-4"
-              onClick={() =>
-                router.push(`/evaluations/newEvaluation/${idCita}`)
-              }
+              onClick={() => router.push(`${pathname}/new/`)}
             >
               Generar Nueva Evaluacion Medica
             </button>
           </div>
 
-          {/* Sección de Hojas Médicas Existentes */}
           <div className="bg-white p-4 rounded shadow-md">
             <h2 className="text-xl font-bold mb-4 border-b pb-2">
               Hojas Medicas Existentes:
@@ -158,7 +155,10 @@ const HistorialClinico = () => {
                 <input className="border rounded p-2 w-full" type="date" />
               </div>
             </div>
-            <MedicalRecordsTable data={hojasMedicas}></MedicalRecordsTable>
+            <MedicalRecordsTable
+              data={hojasMedicas}
+              extrapath={"view"}
+            ></MedicalRecordsTable>
           </div>
         </div>
       </div>

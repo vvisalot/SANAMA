@@ -1,97 +1,95 @@
 import React from "react";
 
-const MainInfoComponent = ({ formData, handleInputChange }) => {
+const MainInfoComponent = ({ appointmentData }) => {
+  if (!appointmentData) {
+    return <p>Loading appointment data...</p>; // Or any other loading state representation
+  }
+
+  const {
+    paciente,
+    medico,
+    horaCita,
+    fechaCita,
+    codigoCita,
+    tieneAcompanhante,
+    nombreAcompanhante,
+    dniAcompanhante,
+    parentezco,
+  } = appointmentData;
+
   return (
     <>
       <div className="col-span-2">
         <h4 className="text-lg font-bold text-gray-700 mb-2">
-          Información Principal
+          Información de la Cita
         </h4>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <InputField
-            label="Nombre Completo"
-            name="nombre"
-            value={formData.nombre}
-            onChange={handleInputChange}
-          />
+          <InputField label="Código de Cita" value={codigoCita} disabled />
 
           <InputField
-            label="DNI"
-            name="dni"
-            value={formData.dni}
-            onChange={handleInputChange}
+            label="Fecha y Hora de la Cita"
+            value={`${fechaCita} ${horaCita}`}
+            disabled
           />
-
           <InputField
-            label="Género"
-            name="genero"
-            value={formData.genero}
-            onChange={handleInputChange}
+            label="Paciente"
+            value={`${paciente.nombres} ${paciente.apellidoPaterno} ${paciente.apellidoMaterno}`}
+            disabled
           />
-
+          <InputField label="DNI del Paciente" value={paciente.dni} disabled />
           <InputField
-            label="Edad"
-            name="edad"
-            value={formData.edad}
-            onChange={handleInputChange}
-            type="number"
+            label="Médico"
+            value={`${medico.nombres} ${medico.apellidoPaterno} ${medico.apellidoMaterno}`}
+            disabled
+          />
+          <InputField
+            label="Especialidad"
+            value={medico.especialidad.nombre}
+            disabled
           />
         </div>
       </div>
 
-      <div className="col-span-2">
-        <h4 className="text-lg font-bold text-gray-700 mb-2">
-          Persona Responsable
-        </h4>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <InputField
-            label="Nombre del Responsable"
-            name="personaResponsable.nombre"
-            value={formData.personaResponsable.nombre}
-            onChange={handleInputChange}
-          />
+      {tieneAcompanhante && (
+        <div className="col-span-2">
+          <h4 className="text-lg font-bold text-gray-700 mb-2">
+            Información del Acompañante
+          </h4>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <InputField
+              label="Nombre del Acompañante"
+              value={nombreAcompanhante}
+              disabled
+            />
 
-          <InputField
-            label="DNI del Responsable"
-            name="personaResponsable.dni"
-            value={formData.personaResponsable.dni}
-            onChange={handleInputChange}
-          />
+            <InputField
+              label="DNI del Acompañante"
+              value={dniAcompanhante}
+              disabled
+            />
+
+            {/* Assuming 'parentezco' is an ID that represents a relationship, you might want to map it to a human-readable form */}
+            <InputField
+              label="Parentesco"
+              value={`Parentesco ID: ${parentezco}`}
+              disabled
+            />
+          </div>
         </div>
-      </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700">
-          Fecha y Hora de Ultima Atención
-        </label>
-        <input
-          type="date"
-          name="fechaAtencion"
-          value={formData.fechaAtencion}
-          onChange={handleInputChange}
-          className="mt-1 p-2 w-full border-gray-300 rounded-md"
-        />
-        <input
-          type="time"
-          name="hora"
-          value={formData.hora}
-          onChange={handleInputChange}
-          className="mt-1 p-2 w-full border-gray-300 rounded-md"
-        />
-      </div>
+      )}
     </>
   );
 };
 
-const InputField = ({ label, name, value, onChange, type = "text" }) => {
+const InputField = ({ label, value, disabled, type = "text" }) => {
   return (
     <div>
       <label className="block text-sm font-medium text-gray-700">{label}</label>
       <input
         type={type}
-        name={name}
         value={value}
-        onChange={onChange}
+        disabled={disabled}
         className="mt-1 p-2 w-full border-gray-300 rounded-md"
       />
     </div>

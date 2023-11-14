@@ -106,10 +106,6 @@ const FormularioMedico = () => {
             handleInputChange={handleInputChange}
           ></ClinicalTab>
         </div>
-        <DiagnosticoMedico></DiagnosticoMedico>
-        <GlasgowComaScale></GlasgowComaScale>
-        <LaboratoryModal></LaboratoryModal>
-        <TratamientoYDecisionCita></TratamientoYDecisionCita>
       </form>
     </div>
   );

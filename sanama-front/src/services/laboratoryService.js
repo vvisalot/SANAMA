@@ -15,15 +15,11 @@ const ENDPOINTS = {
 };
 
 export const laboratoryService = {
-  listarOrdenLaboratorioPorFiltro: async (filtro, fechaDesde, fechaHasta) => {
+  listarOrdenLaboratorioPorFiltro: async (request) => {
     try {
       const response = await axiosInstance.post(
         ENDPOINTS.LISTAR_ORDEN_LABORATORIO_POR_FILTRO,
-        {
-          pv_filtro: filtro,
-          pd_fecha_inicio: fechaDesde,
-          pd_fecha_fin: fechaHasta,
-        }
+        request
       );
       return response.data;
     } catch (error) {

@@ -7,6 +7,8 @@ import { laboratoryService } from "@/services/laboratoryService";
 import TitleWithIcon from "@/components/TitleWithIcon";
 import LabIcon from "@/components/icons/LabIcon";
 import DateRangePicker from "@/components/Date/DateRangePicker"
+import { appointmentService } from "@/services/appointmentService";
+import DropdownCheckbox from "@/components/Dropdowns/DropdownCheckbox";
 import { format } from "date-fns"
 
 const LaboratoryPage = () => {
@@ -14,14 +16,23 @@ const LaboratoryPage = () => {
   const [filtro, setFiltro] = useState("");
   const [dateInitial, setDateInitial] = useState(null);
   const [dateFinal, setDateFinal] = useState(null);
+  const [statusList, setStatusList] = useState([]);
+  const [statusState, setStatusState] = useState({});
+  const initialRequest = {
+    pn_id_laboratory: null,
+    pv_filtro: "", 
+    pd_fecha_inicio: null,
+    pd_fecha_fin: null, 
+    arregloEstados: [
+      {
+        estado: null,
+      },
+    ],
+  };
 
-  const fetchData = async (filtro, fechaDesde, fechaHasta) => {
+  const fetchData = async (request) => {
     try {
-      const data = await laboratoryService.listarOrdenLaboratorioPorFiltro(
-        filtro,
-        fechaDesde,
-        fechaHasta
-      );
+      const data = await laboratoryService.listarOrdenLaboratorioPorFiltro(request);
       const tableData = parseLaboratoryTable(data);
       setLaboratoryTable(tableData);
     } catch (error) {
@@ -29,17 +40,47 @@ const LaboratoryPage = () => {
     }
   };
 
+  const fetchStateList = async () => {
+    try {
+      const data = await appointmentService.listarEstados();
+      setStatusList(data);
+      let initialValues = {};
+      data.forEach((status) => {
+        initialValues[status.idValue] = false;
+      });
+      console.log(initialValues);
+      setStatusState(initialValues);
+    } catch (error) {
+      console.log("No se pudo obtener la lista de estados");
+    }
+  };
+
   useEffect(() => {
-    fetchData(filtro, null, null);
-  }, [filtro]);
+    fetchStateList();
+    fetchData(initialRequest);
+  }, []);
 
   const handleSubmit = (e) => {
+    const stateArray = Object.entries(statusState)
+    .filter(([key, value]) => value)
+    .map(([key, value]) => {
+      return {
+        estado: key,
+      };
+    });
     e.preventDefault();
     const elements = e.target.elements;
-    setFiltro(elements.namedItem("patients-search").value);
+    const filtro = elements.namedItem("patients-search").value;
     const fechaDesde = dateInitial ? format(dateInitial, "yyyy-MM-dd") : null;
     const fechaHasta = dateFinal ? format(dateFinal, "yyyy-MM-dd") : null;
-    fetchData(filtro, fechaDesde, fechaHasta);
+    const request = {
+      pn_id_laboratory: null,
+      pv_filtro: filtro, 
+      pd_fecha_inicio: fechaDesde,
+      pd_fecha_fin: fechaHasta,
+      arregloEstados: stateArray, 
+    };
+    fetchData(request);
   };
 
   return (
@@ -49,10 +90,17 @@ const LaboratoryPage = () => {
       <form className="w-full" onSubmit={handleSubmit}>
         <div className="flex justify-start items-center">
 
-        <SearchBar
+          <SearchBar
             name={"patients-search"}
             width={"flex-grow"}
             placeholderText="Buscar por Nombre o DNI"
+          />
+
+          <DropdownCheckbox
+            text={"Estado"}
+            statusList={statusList}
+            statusState={statusState}
+            setStatusState={setStatusState}
           />
 
           <DateRangePicker
@@ -61,6 +109,7 @@ const LaboratoryPage = () => {
             dateFinal={dateFinal}
             setDateFinal={setDateFinal}
           />
+
         </div>
       </form>
       <div

@@ -76,11 +76,7 @@ const ReviewAppointment = ({ params }) => {
 
   const handleAttendClick = () => {
     router;
-    handleActionClick(2).then(() =>
-      router.push(
-        `${pathname}/medicalHistory/${appointmentData.paciente.idPersona}`
-      )
-    );
+    router.push(`${pathname}/${appointmentData.paciente.idPersona}`);
   };
 
   const handleCancelClick = () =>

@@ -1,4 +1,5 @@
 import Table from "@/components/table/Table";
+import { usePathname } from "next/navigation";
 
 const columns = [
   { name: "ID" },
@@ -10,11 +11,12 @@ const columns = [
 ];
 
 const MedicalRecordsTable = ({ data }) => {
+  const pathname = usePathname();
   return (
     <Table
       columns={columns}
       data={data}
-      url="/evaluations/"
+      url={`${pathname}`}
       optionsText="Ver"
     />
   );

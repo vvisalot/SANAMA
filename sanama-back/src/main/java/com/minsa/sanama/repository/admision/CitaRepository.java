@@ -2,6 +2,7 @@ package com.minsa.sanama.repository.admision;
 
 import com.minsa.sanama.model.admision.Paciente;
 import com.minsa.sanama.model.atencionmedica.CitaMedica;
+import com.minsa.sanama.model.atencionmedica.HistorialClinico;
 import com.minsa.sanama.model.atencionmedica.HojaMedica;
 import com.minsa.sanama.model.rrhh.Especialidad;
 import com.minsa.sanama.model.rrhh.Medico;
@@ -118,6 +119,10 @@ public class CitaRepository {
             paciente.setApellidoPaterno(rs.getString("apellido_paterno_paciente"));
             paciente.setApellidoMaterno(rs.getString("apellido_materno_paciente"));
             paciente.setDni(rs.getString("dni_paciente"));
+
+            HistorialClinico historialClinico = new HistorialClinico();
+            historialClinico.setIdHistorialClinico(rs.getInt("id_historial_clinico"));
+            paciente.setHistorialClinico(historialClinico);
 
             Medico medico = new Medico();
             medico.setIdPersona(rs.getInt("id_medico"));
