@@ -54,10 +54,9 @@ public class HojaMedicaController {
         Triaje triaje=null;
         try{
             JSONObject job = (JSONObject) new JSONParser().parse(pv_datos);
-            int pn_id_hoja_medica = Integer.parseInt(job.get("pn_id_hoja_medica").toString());
-            triaje = hojaMedicaService.buscarTriajeCitaMedica(pn_id_hoja_medica);
+            int pn_id_cita = Integer.parseInt(job.get("pn_id_cita").toString());
+            triaje = hojaMedicaService.buscarTriajeCitaMedica(pn_id_cita);
         }catch (Exception ex){
-            // Manejo de excepciones aquí
             ex.printStackTrace();
         }
         return triaje;

@@ -96,8 +96,8 @@ public class HojaMedicaRepository {
         }
     }
 
-    public List<Triaje> buscarTriajeCitaMedica(int pn_id_hoja_medica) {
-        String procedureCall = "{call dbSanama.ssm_ate_buscar_triaje_x_cita_medica("+pn_id_hoja_medica+")};";
+    public List<Triaje> buscarTriajeCitaMedica(int pn_id_cita) {
+        String procedureCall = "{call dbSanama.ssm_ate_buscar_triaje_x_cita_medica("+pn_id_cita+")};";
         return jdbcTemplate.query(procedureCall, triajeMap);
     }
 
