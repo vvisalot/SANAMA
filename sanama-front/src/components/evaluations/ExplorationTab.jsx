@@ -1,6 +1,6 @@
 import React from "react";
 
-const TriageTab = ({ clinicalData, handleInputChange }) => {
+const ExplorationTab = ({ clinicalData, handleInputChange }) => {
   const renderInputField = (label, name, value, type = "text") => {
     return (
       <div>
@@ -94,4 +94,4 @@ const TriageTab = ({ clinicalData, handleInputChange }) => {
   );
 };
 
-export default TriageTab;
+export default ExplorationTab;

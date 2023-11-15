@@ -8,9 +8,9 @@ import DiagnosticoMedico from "@/components/evaluations/DiagnosisTab";
 import GlasgowComaScale from "@/components/evaluations/MentalStatusTab";
 import TratamientoYDecisionCita from "@/components/evaluations/TreatmentTab";
 import LaboratoryModal from "@/components/evaluations/LaboratoryModal";
-import TriageTab from "@/components/evaluations/TriageTab";
+import ExplorationTab from "@/components/evaluations/ExplorationTab";
 import usePatientTriageData from "@/hooks/usePatientTriageData";
-
+import Accordion from "@/components/evaluations/acordeon";
 const FormularioMedico = () => {
   const params = useParams();
   const idCita = params.idCita;
@@ -142,18 +142,24 @@ const FormularioMedico = () => {
       <h1 className="font-bold text-blue-500 text-6xl p-12">
         Nueva Hoja Médica
       </h1>
+
       <MainInfoComponent patientTriageData={patientTriageData} />
       <form onSubmit={handleSubmit} className="space-y-4">
-        <ClinicalTab
-          triaje={patientTriageData ? patientTriageData.triaje : null}
-          handleInputChange={handleInputChange}
-        ></ClinicalTab>
-        <TriageTab
-          formData={formData.ClinicalTab}
-          handleInputChange={handleInputChange}
-        ></TriageTab>
-        <exploracionFisica></exploracionFisica>
-        <GlasgowComaScale></GlasgowComaScale>
+        <Accordion title="Clinical Tab" id="clinical">
+          <ClinicalTab
+            triaje={patientTriageData ? patientTriageData.triaje : null}
+            handleInputChange={handleInputChange}
+          />
+        </Accordion>
+        <Accordion title="Exploracion Fisica" id="triage">
+          <ExplorationTab
+            formData={formData.ClinicalTab}
+            handleInputChange={handleInputChange}
+          />
+        </Accordion>
+        <Accordion title="Nivel de Consciencia" id="triage">
+          <GlasgowComaScale></GlasgowComaScale>
+        </Accordion>
       </form>
       <div className="mb-6 space-x-4">
         <button
