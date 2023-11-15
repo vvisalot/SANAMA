@@ -25,26 +25,40 @@ public class EnfermeraController {
     @PutMapping(value = "/put/enfermera")
     @ResponseBody
     public int registrarEnfermera(@RequestBody Enfermera enfermera){
-        int idEnfermera;
-
-        idEnfermera = enfermeraService.registrarEnfermera(enfermera);
-        return idEnfermera;
+        try{
+            int idEnfermera;
+            idEnfermera = enfermeraService.registrarEnfermera(enfermera);
+            return idEnfermera;
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return -1;
     }
 
     @PatchMapping(value = "/patch/enfermera")
     @ResponseBody
     public int actualizarEnfermera(@RequestBody Enfermera enfermera){
-        int n;
-        n = enfermeraService.actualizarEnfermera(enfermera);
-        return n;
+        try{
+            int n;
+            n = enfermeraService.actualizarEnfermera(enfermera);
+            return n;
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return -1;
     }
 
     @PatchMapping(value = "/delete/enfermera")
     @ResponseBody
     public int eliminarEnfermera(@RequestBody Enfermera enfermera){
-        int n;
-        n = enfermeraService.eliminarEnfermera(enfermera);
-        return n;
+        try{
+            int n;
+            n = enfermeraService.eliminarEnfermera(enfermera);
+            return n;
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return -1;
     }
 
 }

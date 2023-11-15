@@ -89,21 +89,25 @@ export function parseAppointmentTable(data) {
   const table = data.map((row) => [
     { data: row["idCita"] },
 
+    { data: row["codigoCita"] },
+
+    {
+      data: format(parseISO(row["fechaCita"]), "dd/MM/yyyy") + " " + format(parse(row["horaCita"], 'HH:mm:ss', new Date()), 'hh:mm a')
+    },
+
+
     {
       data: `${row["paciente"]["nombres"]} ${row["paciente"]["apellidoPaterno"]} ${row["paciente"]["apellidoMaterno"]}`,
     },
 
-    {
-      data: `${row["medico"]["nombres"]} ${row["medico"]["apellidoPaterno"]} ${row["medico"]["apellidoMaterno"]}`,
-    },
+    // {
+    //   data: `${row["medico"]["nombres"]} ${row["medico"]["apellidoPaterno"]} ${row["medico"]["apellidoMaterno"]}`,
+    // },
 
     {
       data: row["medico"]["especialidad"]["nombre"]
     },
 
-    {
-      data: format(parseISO(row["fechaCita"]), "dd/MM/yyyy") + " " + format(parse(row["horaCita"], 'HH:mm:ss', new Date()), 'hh:mm a')
-    },
 
     {
       data: getStatus(row["estado"])

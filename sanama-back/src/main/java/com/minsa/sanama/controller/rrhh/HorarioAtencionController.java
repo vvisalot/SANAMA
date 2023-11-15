@@ -59,12 +59,12 @@ public class HorarioAtencionController {
             LocalDate pd_fecha = LocalDate.parse(job.get("pd_fecha").toString());*/
 
             idHorario = horarioAtencionService.registrarHorarioMedico(pn_id_medico, pd_fecha_inicio, pd_fecha_fin, turnosAtencion);
-
+            return idHorario;
         } catch (Exception ex) {
             // Manejo de excepciones aquí
             ex.printStackTrace();
         }
 
-        return idHorario;
+        return -1;
     }
 }

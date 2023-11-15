@@ -3,6 +3,7 @@ import Table from "@/components/table/Table"
 
 //Nombre de las columnas a secas
 const columns = [
+    { name: "Código" },
     { name: "Fecha Actualización" },
     { name: "DNI" },
     { name: "Nombre completo" },

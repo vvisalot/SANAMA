@@ -1,45 +1,37 @@
-import React, { useState } from "react";
-import Link from "next/link";
-import "font-awesome/css/font-awesome.min.css";
+import React, { useState } from "react"
+import Link from "next/link"
+import "font-awesome/css/font-awesome.min.css"
 
 const TableOptions = ({ url, id, text, iconName, estado }) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleClick = () => {
     setIsLoading(true);
-    // Aquí podrías agregar lógica adicional si es necesario
-    // Por ejemplo, redirigir a la URL después de un retraso
   };
 
   if (estado === "3" || estado === "Cancelada") {
     return (
       <td className="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white cursor-not-allowed opacity-50">
-        <span className="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">
-          <i className={`${iconName}`}></i>
+        <span className={`${iconName} text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800`}>
           {text}
         </span>
       </td>
-    );
+    )
   }
 
   return (
     <td className="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-      {isLoading ? (
-        <Spinner />
-      ) : (
-        <Link href={`${url}/${id}`}>
-          <href
-            className="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
-            onClick={handleClick}
-          >
-            <i className={`${iconName}`}></i>
-            {text}
-          </href>
+      {isLoading ? (<Spinner />) : (
+        <Link
+          href={`${url}/${id}`}
+          className={`${iconName} text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800`}
+          onClick={handleClick}>
+          {text}
         </Link>
       )}
     </td>
-  );
-};
+  )
+}
 
 const Spinner = () => (
   <div role="status">
@@ -61,6 +53,6 @@ const Spinner = () => (
     </svg>
     <span className="sr-only">Loading...</span>
   </div>
-);
+)
 
-export default TableOptions;
+export default TableOptions

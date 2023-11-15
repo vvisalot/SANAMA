@@ -51,6 +51,7 @@ export function parseTriajeTable(data) {
 
         return [
             { "data": row.idTriaje },
+            { "data": row.codigoTriaje },
             { "data": `${fechaOrden}     ${row.horaTriaje}`},
             { "data": paciente.dni },
             { "data": `${paciente.nombres} ${paciente.apellidoPaterno} ${paciente.apellidoMaterno}` },

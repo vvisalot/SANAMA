@@ -12,6 +12,7 @@ const ENDPOINTS = {
   BUSCAR_EXAMEN_MEDICO: "laboratorio/post/buscarExamenMedico",
   BUSCAR_ORDEN_LABORATORIO_POR_ID: "laboratorio/post/buscarOrdenLaboratorio",
   ATENDER_ORDEN_LABORATORIO: "laboratorio/post/atenderOrdenLaboratorioV1",
+  LISTAR_ESTADOS_ORDENES_LABORATORIO: "configuracion/get/listarEstadosOrdenesLaboratorio",
 };
 
 export const laboratoryService = {
@@ -36,6 +37,18 @@ export const laboratoryService = {
       return response.data;
     } catch (error) {
       console.error("Error al listar médicos de laboratorio validado", error);
+      throw error;
+    }
+  },
+
+  listarEstadosOrdenesLaboratorio: async () => {
+    try {
+      const response = await axiosInstance.get(
+        ENDPOINTS.LISTAR_ESTADOS_ORDENES_LABORATORIO
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error al listar estados de órdenes de laboratorio", error);
       throw error;
     }
   },

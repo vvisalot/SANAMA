@@ -88,7 +88,7 @@ public class TriajeRepository {
         Map<String, Object> result = simpleJdbcCall.execute(mapSqlParameterSource);
 
         if (result.containsKey("ERROR_CODE") || result.containsKey("ERROR_MESSAGE")) {
-            return 0;
+            return -1;
         } else {
             return 1;
         }

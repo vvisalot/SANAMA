@@ -83,12 +83,14 @@ public class OrdenLaboratorioController {
             value = "/post/atenderOrdenLaboratorioV1")
     @ResponseBody
     public int atenderOrdenLaboratorioV1(@RequestBody OrdenLaboratorio orden){
-        int n;
-        n = ordenLaboratorioService.atenderOrdenLaboratorioV1(orden);
-        if(n!=0)
-            return 1;
-        else
-            return 0;
+        try{
+            int n;
+            n = ordenLaboratorioService.atenderOrdenLaboratorioV1(orden);
+            return n;
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return -1;
     }
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE},
@@ -96,9 +98,14 @@ public class OrdenLaboratorioController {
             value = "/post/registrarOrdenLaboratorio")
     @ResponseBody
     public int registrarOrdenLaboratorio(@RequestBody OrdenLaboratorio orden){
-        int n;
-        n = ordenLaboratorioService.registrarOrdenLaboratorio(orden);
-        return n;
+        try{
+            int n;
+            n = ordenLaboratorioService.registrarOrdenLaboratorio(orden);
+            return n;
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return -1;
     }
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE},

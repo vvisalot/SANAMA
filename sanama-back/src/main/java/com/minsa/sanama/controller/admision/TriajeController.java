@@ -75,7 +75,7 @@ public class TriajeController {
             triaje = triajeService.buscarTriajeID(pn_id_triaje);
 
         }catch(Exception ex){
-
+            ex.printStackTrace();
         }
         return triaje;
     }
@@ -118,9 +118,10 @@ public class TriajeController {
             triaje.setNivelConciencia(pv_nivelConciencia);
             triaje.setNivelDolor(pv_nivelDolor);
             updatedTriaje = triajeService.actualizarTriaje(triaje);
+            return updatedTriaje;
         } catch (Exception ex) {
-
+            ex.printStackTrace();
         }
-        return updatedTriaje;
+        return -1;
     }
 }

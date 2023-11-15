@@ -2,10 +2,11 @@ import { useSort } from "@/hooks/useSort"
 import Table from "@/components/table/Table"
 
 const defaultColumns = [
+  { name: "Código cita", sortable: true, sortKey: "string", visible: true },
   { name: "Fecha y hora", sortable: true, sortKey: "date" },
   { name: "idCita", sortable: false, sortKey: "idCita", visible: false },
   { name: "Nombre del paciente", sortable: true, sortKey: "patientName" },
-  { name: "Nombre del doctor", sortable: true, sortKey: "doctorName" },
+  // { name: "Nombre del doctor", sortable: true, sortKey: "doctorName" },
   { name: "Especialidad", sortable: true, sortKey: "specialty" },
   { name: "Estado", sortable: true, sortKey: "status" },
   { name: "Opciones", sortable: false },

@@ -19,7 +19,6 @@ const FormContainer = () => {
         validatePatientForm,
         patientFormComplete,
         setPatientFormComplete,
-        errorMessagePatientForm,
         patientForm,
         setPatientForm,
         fechaNacimiento,
@@ -39,16 +38,19 @@ const FormContainer = () => {
         setSchedule,
         triageRequirement,
         setTriageRequirement,
-        errorMessageAppointmentForm,
         validateAppointmentForm,
         setAppointmentFormComplete,
     } = useAppointmentForm()
 
+    const loadingRegister = async (data) => {
+        console.log(data)
+        await appointmentService.registrarCita(data)
+        router.push("/appointments")
+    }
+
     const handleSubmit = async (event) => {
         event.preventDefault()
-
         if (validateAppointmentForm(fechaNacimiento, validatePatientForm)) {
-            toast.success("Enviando datos...")
             console.log("El formulario es válido. Enviar datos.")
             setAllFormComplete(true)
         } else {
@@ -74,7 +76,9 @@ const FormContainer = () => {
                     correo: patientForm.correo
                 }
                 const patientResponse = await patientService.registrarPaciente(patientData)
-                if (patientResponse !== null) {
+
+
+                if (patientResponse !== null || patientResponse !== -1) {
                     const newPatientId = patientResponse
 
                     setPatientId({
@@ -94,10 +98,15 @@ const FormContainer = () => {
                         parentezco: legalResponsibilityForm.tieneAcompañante === 'Si' ? legalResponsibilityForm.parentesco : null,
                         requiereTriaje: triageRequirement === 'Si' ? 1 : 0,
                     }
-                    let response = await appointmentService.registrarCita(appointmentFormData)
-                    router.back()
+                    // let response = await appointmentService.registrarCita(appointmentFormData)
+                    // const promise = () => new Promise((resolve) => setTimeout(resolve, 2000));
+
                     console.log('Paciente registrado y cita registrada')
-                    toast.success("Paciente registrado y cita registrada")
+                    toast.promise(() => loadingRegister(appointmentFormData), {
+                        loading: 'Registrando paciente y cita',
+                        success: 'Paciente y cita registrados',
+                        error: 'Error al registrar paciente y cita'
+                    })
                 } else {
                     console.log('Error al registrar paciente y cita')
                     toast.error("Error al registrar paciente y cita")
@@ -120,10 +129,15 @@ const FormContainer = () => {
                     requiereTriaje: triageRequirement === 'Si' ? 1 : 0,
                 }
 
-                let response = await appointmentService.registrarCita(appointmentFormData)
-                console.log(response)
-                router.back()
+                // let response = await appointmentService.registrarCita(appointmentFormData)
+
+                toast.promise(() => loadingRegister(appointmentFormData), {
+                    loading: 'Registrando cita',
+                    success: 'Cita registrada',
+                })
+
             } catch (error) {
+                toast.error("Error al registrar cita para un paciente existente")
                 console.log('Error al registrar cita para un paciente existente')
             }
         }
@@ -164,7 +178,6 @@ const FormContainer = () => {
                     Registrar cita
                 </button>
             </div>
-
         </form >
     )
 }

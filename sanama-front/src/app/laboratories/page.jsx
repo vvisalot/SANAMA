@@ -1,87 +1,86 @@
-"use client";
-import { useEffect, useState } from "react";
-import LaboratoryTable from "./LaboratoryTable";
-import { parseLaboratoryTable } from "@/util/laboratoryParser";
-import SearchBar from "@/components/bars/SearchBar";
-import { laboratoryService } from "@/services/laboratoryService";
-import TitleWithIcon from "@/components/TitleWithIcon";
-import LabIcon from "@/components/icons/LabIcon";
+"use client"
+import { useEffect, useState } from "react"
+import LaboratoryTable from "./LaboratoryTable"
+import { parseLaboratoryTable } from "@/util/laboratoryParser"
+import SearchBar from "@/components/bars/SearchBar"
+import { laboratoryService } from "@/services/laboratoryService"
+import TitleWithIcon from "@/components/TitleWithIcon"
+import LabIcon from "@/components/icons/LabIcon"
 import DateRangePicker from "@/components/Date/DateRangePicker"
-import { appointmentService } from "@/services/appointmentService";
-import DropdownCheckbox from "@/components/Dropdowns/DropdownCheckbox";
+import DropdownCheckbox from "@/components/Dropdowns/DropdownCheckbox"
 import { format } from "date-fns"
 
 const LaboratoryPage = () => {
-  const [laboratoryTable, setLaboratoryTable] = useState([]);
-  const [filtro, setFiltro] = useState("");
-  const [dateInitial, setDateInitial] = useState(null);
-  const [dateFinal, setDateFinal] = useState(null);
-  const [statusList, setStatusList] = useState([]);
-  const [statusState, setStatusState] = useState({});
+  const [laboratoryTable, setLaboratoryTable] = useState([])
+  const [filtro, setFiltro] = useState("")
+  const [dateInitial, setDateInitial] = useState(null)
+  const [dateFinal, setDateFinal] = useState(null)
+  const [statusList, setStatusList] = useState([])
+  const [statusState, setStatusState] = useState({})
   const initialRequest = {
     pn_id_laboratory: null,
-    pv_filtro: "", 
+    pv_filtro: "",
     pd_fecha_inicio: null,
-    pd_fecha_fin: null, 
+    pd_fecha_fin: null,
     arregloEstados: [
       {
         estado: null,
       },
     ],
-  };
+  }
 
   const fetchData = async (request) => {
     try {
-      const data = await laboratoryService.listarOrdenLaboratorioPorFiltro(request);
-      const tableData = parseLaboratoryTable(data);
-      setLaboratoryTable(tableData);
+      const data = await laboratoryService.listarOrdenLaboratorioPorFiltro(request)
+      const tableData = parseLaboratoryTable(data)
+      setLaboratoryTable(tableData)
     } catch (error) {
-      console.error("No se pudo obtener los datos de los laboratorios", error);
+      console.error("No se pudo obtener los datos de los laboratorios", error)
     }
-  };
+  }
 
   const fetchStateList = async () => {
     try {
-      const data = await appointmentService.listarEstados();
-      setStatusList(data);
-      let initialValues = {};
+      const data = await laboratoryService.listarEstadosOrdenesLaboratorio()
+      setStatusList(data)
+      let initialValues = {}
       data.forEach((status) => {
-        initialValues[status.idValue] = false;
-      });
-      console.log(initialValues);
-      setStatusState(initialValues);
+        initialValues[status.idValue] = false
+      })
+      console.log(initialValues)
+      setStatusState(initialValues)
     } catch (error) {
-      console.log("No se pudo obtener la lista de estados");
+      console.log("No se pudo obtener la lista de estados")
     }
-  };
+  }
 
   useEffect(() => {
-    fetchStateList();
-    fetchData(initialRequest);
-  }, []);
+    fetchStateList()
+    fetchData(initialRequest)
+  }, [])
 
   const handleSubmit = (e) => {
     const stateArray = Object.entries(statusState)
-    .filter(([key, value]) => value)
-    .map(([key, value]) => {
-      return {
-        estado: key,
-      };
-    });
-    e.preventDefault();
-    const elements = e.target.elements;
-    const filtro = elements.namedItem("patients-search").value;
-    const fechaDesde = dateInitial ? format(dateInitial, "yyyy-MM-dd") : null;
-    const fechaHasta = dateFinal ? format(dateFinal, "yyyy-MM-dd") : null;
+      .filter(([key, value]) => value)
+      .map(([key, value]) => {
+        return {
+          estado: key,
+        }
+      })
+    e.preventDefault()
+    const elements = e.target.elements
+    const filtro = elements.namedItem("patients-search").value
+    const fechaDesde = dateInitial ? format(dateInitial, "yyyy-MM-dd") : null
+    const fechaHasta = dateFinal ? format(dateFinal, "yyyy-MM-dd") : null
     const request = {
       pn_id_laboratory: null,
-      pv_filtro: filtro, 
+      pv_filtro: filtro,
       pd_fecha_inicio: fechaDesde,
       pd_fecha_fin: fechaHasta,
-      arregloEstados: stateArray, 
-    };
-    fetchData(request);
-  };
+      arregloEstados: stateArray,
+    }
+    fetchData(request)
+  }
 
   return (
     <section className="p-4 md:p-14">
@@ -109,7 +108,12 @@ const LaboratoryPage = () => {
             dateFinal={dateFinal}
             setDateFinal={setDateFinal}
           />
-
+          <button
+            type="submit"
+            className="text-white bg-primary-dark-blue hover:bg-primary-dusk-blue focus:ring-4 focus:outline-none focus:ring-primary-light-periwinkle font-medium rounded-lg text-sm px-4 py-2.5"
+          >
+            Buscar
+          </button>
         </div>
       </form>
       <div
@@ -122,7 +126,7 @@ const LaboratoryPage = () => {
         <LaboratoryTable data={laboratoryTable}></LaboratoryTable>
       </section>
     </section>
-  );
-};
+  )
+}
 
-export default LaboratoryPage;
+export default LaboratoryPage

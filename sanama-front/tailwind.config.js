@@ -32,8 +32,8 @@ module.exports = {
       bermuda: "#78dcca",
 
       "primary-dark-blue": "#002DA8",
-      "primary-dusk-blue": "#26396E",
-      "primary-navy-blue": "#001757",
+      "primary-dusk-blue": "#264F6E",
+      "primary-navy-blue": "#346D98",
       "primary-periwinkle": "#3D67D9",
       "primary-light-periwinkle": "#6E8BD9",
 
@@ -56,4 +56,4 @@ module.exports = {
     },
   },
   plugins: [require("flowbite/plugin")],
-};
+}
