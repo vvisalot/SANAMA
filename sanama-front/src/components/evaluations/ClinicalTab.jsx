@@ -42,49 +42,45 @@ const ClinicalTab = ({ clinicalData, handleInputChange }) => {
       <div className="col-span-2">
         <h4 className="text-lg font-bold text-gray-700 mb-2">Signos Vitales</h4>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {renderInputField("Temperatura (°C)", "signosVitales.temperatura")}
-          {renderInputField("Frecuencia Cardiaca", "signosVitales.fc")}
-          {renderInputField("Frecuencia Respiratoria", "signosVitales.fr")}
-          {renderInputField("Presión Arterial", "signosVitales.pa")}
-          {renderInputField("Saturación de Oxígeno (%)", "signosVitales.sat")}
-          {renderInputField("Peso (kg)", "signosVitales.peso", "number")}
-          {renderInputField("Talla (cm)", "signosVitales.talla", "number")}
-        </div>
-      </div>
-      <div className="col-span-2">
-        <h4 className="text-lg font-bold text-gray-700 mb-2">
-          Datos de la Consulta
-        </h4>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {renderTextArea("Antecedentes", "antecedentes")}
-          {renderTextArea("Motivo de Consulta", "motivoConsulta")}
-        </div>
-      </div>
-      {/* Exploración Física */}
-      <div className="col-span-2">
-        <h4 className="text-lg font-bold text-gray-700 mb-2">
-          Exploración Física
-        </h4>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {renderTextArea("Examen General", "exploracionFisica.exGeneral")}
-          {renderTextArea("Piel y Faneras", "exploracionFisica.pielYFaneras")}
-          {renderTextArea("Cabeza y Cuello", "exploracionFisica.cabezaYCuello")}
-          {renderTextArea(
-            "Torax y Pulmones",
-            "exploracionFisica.toraxYPulmones"
+          {renderInputField(
+            "Temperatura (°C)",
+            "ClinicalTab.signosVitales.temperatura",
+            clinicalData?.signosVitales?.temperatura
           )}
-          {renderTextArea("Cardiovascular", "exploracionFisica.cardiovascular")}
-          {renderTextArea("Abdomen", "exploracionFisica.abdomen")}
-          {renderTextArea("Urogenital", "exploracionFisica.urogenital")}
-          {renderTextArea("Extremidades", "exploracionFisica.extremidades")}
-          {renderTextArea(
-            "SNC (Sistema Nervioso Central)",
-            "exploracionFisica.snc"
+          {renderInputField(
+            "Frecuencia Cardiaca",
+            "ClinicalTab.signosVitales.fc",
+            clinicalData?.signosVitales?.fc
+          )}
+          {renderInputField(
+            "Frecuencia Respiratoria",
+            "ClinicalTab.signosVitales.fr",
+            clinicalData?.signosVitales?.fr
+          )}
+          {renderInputField(
+            "Presión Arterial",
+            "ClinicalTab.signosVitales.pa",
+            clinicalData?.signosVitales?.pa
+          )}
+          {renderInputField(
+            "Saturación de Oxígeno (%)",
+            "ClinicalTab.signosVitales.sat",
+            clinicalData?.signosVitales?.sat
+          )}
+          {renderInputField(
+            "Peso (kg)",
+            "ClinicalTab.signosVitales.peso",
+            clinicalData?.signosVitales?.peso,
+            "number"
+          )}
+          {renderInputField(
+            "Talla (cm)",
+            "ClinicalTab.signosVitales.talla",
+            clinicalData?.signosVitales?.talla,
+            "number"
           )}
         </div>
       </div>
-
-      {renderTextArea("Observaciones", "observaciones")}
     </>
   );
 };

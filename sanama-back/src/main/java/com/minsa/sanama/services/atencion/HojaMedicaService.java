@@ -27,9 +27,9 @@ public class HojaMedicaService {
         return valido;
     }
 
-    public Triaje buscarTriajeCitaMedica(int pn_id_hoja_medica) {
+    public Triaje buscarTriajeCitaMedica(int pn_id_cita) {
         Triaje triaje;
-        triaje = hojaMedicaRepository.buscarTriajeCitaMedica(pn_id_hoja_medica).get(0);
+        triaje = hojaMedicaRepository.buscarTriajeCitaMedica(pn_id_cita).get(0);
         return triaje;
     }
 }
