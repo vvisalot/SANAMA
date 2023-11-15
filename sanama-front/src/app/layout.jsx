@@ -16,16 +16,18 @@ export default function RootLayout({ children }) {
     setIsSidebarOpen((prevIsSidebarOpen) => !prevIsSidebarOpen)
   }
 
-  const mainContentClass = isSidebarOpen ? "ml-64" : "ml-10"
+  const mainContentClass = isSidebarOpen ? "ml-64" : "ml-16"
 
   return (
     <html lang="en">
       <head>
         <title>SANAMA</title>
       </head>
-      <body className={`${inter.className} min-w-screen min-h-screen transition-all ease-linear duration-300`}>
+
+      <body className={`${inter.className} w-auto h-auto `}>
         <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-        <main className={` ${mainContentClass}`}>
+
+        <main className={`${mainContentClass} bg-[#EFEFEF]`}>
           <NextBreadcrumb
             homeElement={"Inicio"}
             separator={<span>/</span>}
@@ -38,6 +40,7 @@ export default function RootLayout({ children }) {
           <Toaster position="top-right" richColors />
         </main>
       </body>
+
     </html>
   )
 }

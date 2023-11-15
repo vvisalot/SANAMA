@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react'
-import { Button, Checkbox, Label, Modal, TextInput } from 'flowbite-react'
-import SearchBar from '@/components/bars/SearchBar'
+import { Modal } from 'flowbite-react'
 import { patientService } from '@/services/patientService'
-import { parsePatientModal } from '@/util/patientParser'
 
 const SearchPatientModal = ({ show, onClose, onSelect }) => {
     const [searchText, setSearchText] = useState('')
