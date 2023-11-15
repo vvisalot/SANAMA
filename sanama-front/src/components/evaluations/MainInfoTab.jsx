@@ -5,18 +5,7 @@ const MainInfoComponent = ({ appointmentData }) => {
     return <p>Loading appointment data...</p>; // Or any other loading state representation
   }
 
-  const {
-    paciente,
-    medico,
-    horaCita,
-    fechaCita,
-    codigoCita,
-    tieneAcompanhante,
-    nombreAcompanhante,
-    dniAcompanhante,
-    parentezco,
-  } = appointmentData;
-
+  const { paciente, triaje } = appointmentData;
   return (
     <>
       <div className="col-span-2">
@@ -25,67 +14,28 @@ const MainInfoComponent = ({ appointmentData }) => {
         </h4>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <InputField label="Código de Cita" value={codigoCita} disabled />
-
-          <InputField
-            label="Fecha y Hora de la Cita"
-            value={`${fechaCita} ${horaCita}`}
-            disabled
-          />
           <InputField
             label="Paciente"
             value={`${paciente.nombres} ${paciente.apellidoPaterno} ${paciente.apellidoMaterno}`}
             disabled
           />
-          <InputField label="DNI del Paciente" value={paciente.dni} disabled />
           <InputField
-            label="Médico"
-            value={`${medico.nombres} ${medico.apellidoPaterno} ${medico.apellidoMaterno}`}
+            label="Fecha de Nacimiento"
+            value={`${paciente.fechaNacimiento}`}
             disabled
           />
-          <InputField
-            label="Especialidad"
-            value={medico.especialidad.nombre}
-            disabled
-          />
-          <InputField
-            label="Talla"
-            value={medico.especialidad.nombre}
-            disabled
-          />
-          <InputField
-            label="Peso"
-            value={medico.especialidad.nombre}
-            disabled
-          />
+          <InputField label="Paciente" value={`${paciente.sexo}`} disabled />
         </div>
       </div>
 
-      {tieneAcompanhante && (
+      {triaje && (
         <div className="col-span-2">
           <h4 className="text-lg font-bold text-gray-700 mb-2">
-            Información del Acompañante
+            Información del Medica
           </h4>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <InputField
-              label="Nombre del Acompañante"
-              value={nombreAcompanhante}
-              disabled
-            />
-
-            <InputField
-              label="DNI del Acompañante"
-              value={dniAcompanhante}
-              disabled
-            />
-
-            {/* Assuming 'parentezco' is an ID that represents a relationship, you might want to map it to a human-readable form */}
-            <InputField
-              label="Parentesco"
-              value={`Parentesco ID: ${parentezco}`}
-              disabled
-            />
-          </div>
+          <InputField label="Peso" value={triaje.peso} disabled />
+          <InputField label="Talla" value={triaje.talla} disabled />
+          <InputField label="Temperatura" value={triaje.temperatura} disabled />
         </div>
       )}
     </>
