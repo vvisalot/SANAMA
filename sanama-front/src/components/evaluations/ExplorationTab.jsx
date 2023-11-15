@@ -14,7 +14,7 @@ const ExplorationTab = ({ clinicalData, handleInputChange }) => {
   });
 
   const sectionNames = [
-    "exGeneral",
+    "examen general",
     "pielYFaneras",
     "cabezaYCuello",
     "toraxYPulmones",
@@ -22,7 +22,7 @@ const ExplorationTab = ({ clinicalData, handleInputChange }) => {
     "abdomen",
     "urogenital",
     "extremidades",
-    "snc",
+    "sistemaNerviosoCentral",
   ];
 
   const toggleSectionVisibility = (section) => {
@@ -67,22 +67,22 @@ const ExplorationTab = ({ clinicalData, handleInputChange }) => {
   return (
     <>
       <div className="col-span-2">
-        <h4 className="text-lg font-bold text-gray-700 mb-2">
-          Select Sections
-        </h4>
+        <h5 className="text-base font-medium text-gray-700 mb-2">
+          Añadir Exploración
+        </h5>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           {sectionNames.map((section) =>
             renderCheckbox(
               section
-                .replace(/([A-Z])/g, " $1") // Add space before capital letters
-                .replace(/^./, (str) => str.toUpperCase()), // Capitalize the first letter
+                .replace(/([A-Z])/g, " $1")
+                .replace(/^./, (str) => str.toUpperCase()),
               section
             )
           )}
         </div>
-        <h4 className="text-lg font-bold text-gray-700 mb-2">
-          Fill Selected Sections
-        </h4>
+        <h5 className="text-base font-medium text-gray-700 mb-2">
+          Exploraciones
+        </h5>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {sectionNames.map((section) =>
             renderTextArea(
