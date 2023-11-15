@@ -172,7 +172,7 @@ export const appointmentService = {
         pn_estado,
       });
 
-      console.log("response",response);
+      console.log("response", response);
       return response.data;
     } catch (error) {
       console.error("Error al buscar cita", error.message);
