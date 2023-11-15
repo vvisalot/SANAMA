@@ -6,10 +6,10 @@ import { useParams } from "next/navigation";
 import MainInfoComponent from "@/components/evaluations/MainInfoTab";
 import ClinicalTab from "@/components/evaluations/ClinicalTab";
 import DiagnosticoMedico from "@/components/evaluations/DiagnosisTab";
+import exploracionFisica from "@/components/evaluations/exploracionFisica";
 import GlasgowComaScale from "@/components/evaluations/MentalStatusTab";
 import TratamientoYDecisionCita from "@/components/evaluations/TreatmentTab";
 import LaboratoryModal from "@/components/evaluations/LaboratoryModal";
-import PatientInfo from "@/components/appointments/view/PatientInfo";
 
 const FormularioMedico = () => {
   const params = useParams();
@@ -59,10 +59,10 @@ const FormularioMedico = () => {
     ClinicalTab: {
       signosVitales: {
         temperatura: "",
-        fc: "", // Frecuencia Cardiaca
-        fr: "", // Frecuencia Respiratoria
-        pa: "", // Presión Arterial
-        sat: "", // Saturación de Oxígeno
+        fc: "",
+        fr: "",
+        pa: "",
+        sat: "",
       },
       antecedentes: "",
       motivoConsulta: "",
@@ -86,16 +86,16 @@ const FormularioMedico = () => {
       },
     },
     DiagnosticoYTratamientos: {
-      diagnosticos: [], // tabla CIE - 10
-      tratamientos: [], // tabla CIE - 10
+      diagnosticos: [],
+      tratamientos: [],
     },
     DatosHojaMedica: {
-      estadoHojaMedica: "", // Puede ser "Cerrar Hoja" o "Mantener Abierta"
-      derivacion: "", // especialidad a la que deberia ir
-      proximaCita: "", // fecha tentativa de proxima cita
-      atendidoPor: "", // id doctor atendido
-      selloYFirma: "", // sello o firma doctor
-      crearOrdenDeLaboratorio: "", // Modal que abre los datos para generar la orden
+      estadoHojaMedica: "",
+      derivacion: "",
+      proximaCita: "",
+      atendidoPor: "",
+      selloYFirma: "",
+      crearOrdenDeLaboratorio: "",
       tipoOrdenDeLaboratorio: "",
       instruccionesLaboratorio: "",
       resultado: "",
@@ -156,7 +156,7 @@ const FormularioMedico = () => {
   return (
     <div className="p-8">
       <h1 className="font-bold text-blue-500 text-6xl p-12">
-        Nueva Evaluacion
+        Nueva Hoja Médica
       </h1>
       <MainInfoComponent appointmentData={appointmentData} />
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -166,6 +166,11 @@ const FormularioMedico = () => {
             handleInputChange={handleInputChange}
           ></ClinicalTab>
         </div>
+        <exploracionFisica></exploracionFisica>
+        <GlasgowComaScale></GlasgowComaScale>
+
+        <DiagnosticoMedico></DiagnosticoMedico>
+        <TratamientoYDecisionCita></TratamientoYDecisionCita>
       </form>
       <div className="mb-6 space-x-4">
         <button
