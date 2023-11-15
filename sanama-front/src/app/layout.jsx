@@ -21,7 +21,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <title>SANAMA</title>
+        <title>Sanama</title>
       </head>
 
       <body className={`${inter.className} w-auto h-auto `}>

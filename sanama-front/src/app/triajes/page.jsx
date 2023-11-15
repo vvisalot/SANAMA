@@ -1,14 +1,14 @@
-"use client"
-import { useEffect, useState } from "react"
-import TriajeTable from "./TriajeTable"
-import { parseTriajeTable } from "@/util/triajeParser"
-import SearchBar from "@/components/bars/SearchBar"
-import { triajeService } from "@/services/triajeService"
-import TitleWithIcon from "@/components/TitleWithIcon"
-import TriageIcon from "@/components/icons/TriageIcon"
-import DateRangePicker from "@/components/Date/DateRangePicker"
-import DropdownCheckbox from "@/components/Dropdowns/DropdownCheckbox"
-import { appointmentService } from "@/services/appointmentService"
+"use client";
+import { useEffect, useState } from "react";
+import TriajeTable from "./TriajeTable";
+import { parseTriajeTable } from "@/util/triajeParser";
+import SearchBar from "@/components/bars/SearchBar";
+import { triajeService } from "@/services/triajeService";
+import TitleWithIcon from "@/components/TitleWithIcon";
+import TriageIcon from "@/components/icons/TriageIcon";
+import DateRangePicker from "@/components/Date/DateRangePicker";
+import DropdownCheckbox from "@/components/Dropdowns/DropdownCheckbox";
+import { laboratoryService } from "@/services/laboratoryService";
 import { format } from "date-fns"
 
 const TriajePage = () => {
@@ -41,9 +41,9 @@ const TriajePage = () => {
 
   const fetchStateList = async () => {
     try {
-      const data = await appointmentService.listarEstados()
-      setStatusList(data)
-      let initialValues = {}
+      const data = await laboratoryService.listarEstadosOrdenesLaboratorio();
+      setStatusList(data);
+      let initialValues = {};
       data.forEach((status) => {
         initialValues[status.idValue] = false
       })

@@ -6,10 +6,8 @@ const TableOptions = ({ url, id, text, iconName, estado }) => {
   const [isLoading, setIsLoading] = useState(false)
 
   const handleClick = () => {
-    setIsLoading(true)
-    // Aquí podrías agregar lógica adicional si es necesario
-    // Por ejemplo, redirigir a la URL después de un retraso
-  }
+    setIsLoading(true);
+  };
 
   if (estado === "3" || estado === "Cancelada") {
     return (

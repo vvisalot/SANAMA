@@ -8,7 +8,6 @@ import LabIcon from "@/components/icons/LabIcon.jsx"
 import MenuIcon from "@/components/icons/MenuIcon.jsx"
 import AppointmentIcon from "@/components/icons/AppointmentIcon.jsx"
 import TriageIcon from "@/components/icons/TriageIcon"
-import helpIcon from "@/components/icons/HelpIcon"
 
 import { usePathname } from "next/navigation"
 
@@ -37,18 +36,18 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
       <div className={`pt-8 pl-4 pb-8 pr-4 w-full ${isSidebarOpen ? "justify-between" : "justify-around"} flex`}>
         <SidebarHeader className="w-full" isOpen={isSidebarOpen} />
         <SidebarToggleButton toggleSidebar={toggleSidebar}>
-          <MenuIcon className="h-7 w-7" />
+          <MenuIcon className="h-7 w-7"/>
         </SidebarToggleButton>
       </div>
 
-      <ul className="w-full font-medium text-lg">
+      <ul className="w-full font-medium text-[1.275rem]">
         {sidebarItems.map((item) => (
           <SidebarItem
             key={item.route}
             name={item.name}
             route={item.route}
             isOpen={isSidebarOpen}
-            Icon={item.Icon}
+             Icon={() => <item.Icon className="h-9 w-9" />}
             isActive={isActive(item.route)}
           />
         ))}
