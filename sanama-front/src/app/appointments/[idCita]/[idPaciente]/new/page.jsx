@@ -142,10 +142,10 @@ const FormularioMedico = () => {
       <h1 className="font-bold text-blue-500 text-6xl p-12">
         Nueva Hoja Médica
       </h1>
-      <MainInfoComponent appointmentData={patientTriageData} />
+      <MainInfoComponent patientTriageData={patientTriageData} />
       <form onSubmit={handleSubmit} className="space-y-4">
         <ClinicalTab
-          formData={formData.ClinicalTab}
+          triaje={patientTriageData ? patientTriageData.triaje : null}
           handleInputChange={handleInputChange}
         ></ClinicalTab>
         <TriageTab

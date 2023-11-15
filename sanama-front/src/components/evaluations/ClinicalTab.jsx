@@ -1,6 +1,6 @@
 import React from "react";
 
-const ClinicalTab = ({ clinicalData, handleInputChange }) => {
+const ClinicalTab = ({ triaje, handleInputChange }) => {
   const renderInputField = (label, name, value, type = "text") => {
     return (
       <div>
@@ -18,7 +18,6 @@ const ClinicalTab = ({ clinicalData, handleInputChange }) => {
       </div>
     );
   };
-
   return (
     <>
       <div className="col-span-2">
@@ -26,28 +25,28 @@ const ClinicalTab = ({ clinicalData, handleInputChange }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {renderInputField(
             "Temperatura (°C)",
-            "ClinicalTab.signosVitales.temperatura",
-            clinicalData?.signosVitales?.temperatura
+            "triaje.temperatura",
+            triaje?.temperatura
           )}
           {renderInputField(
             "Frecuencia Cardiaca",
-            "ClinicalTab.signosVitales.fc",
-            clinicalData?.signosVitales?.fc
+            "triaje.frecuenciaCardiaca",
+            triaje?.frecuenciaCardiaca
           )}
           {renderInputField(
             "Frecuencia Respiratoria",
-            "ClinicalTab.signosVitales.fr",
-            clinicalData?.signosVitales?.fr
+            "triaje.frecuenciaRespiratoria",
+            triaje?.frecuenciaRespiratoria
           )}
           {renderInputField(
             "Presión Arterial",
-            "ClinicalTab.signosVitales.pa",
-            clinicalData?.signosVitales?.pa
+            "triaje.presionArterial",
+            triaje?.presionArterial
           )}
           {renderInputField(
             "Saturación de Oxígeno (%)",
-            "ClinicalTab.signosVitales.sat",
-            clinicalData?.signosVitales?.sat
+            "triaje.saturacionOxigeno",
+            triaje?.saturacionOxigeno
           )}
         </div>
       </div>

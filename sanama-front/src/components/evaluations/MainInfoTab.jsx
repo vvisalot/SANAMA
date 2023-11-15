@@ -1,11 +1,11 @@
 import React from "react";
 
-const MainInfoComponent = ({ appointmentData }) => {
-  if (!appointmentData) {
+const MainInfoComponent = ({ patientTriageData }) => {
+  if (!patientTriageData) {
     return <p>Loading appointment data...</p>; // Or any other loading state representation
   }
 
-  const { paciente, triaje } = appointmentData;
+  const { paciente, triaje } = patientTriageData;
   return (
     <>
       <div className="col-span-2">
@@ -35,7 +35,6 @@ const MainInfoComponent = ({ appointmentData }) => {
           </h4>
           <InputField label="Peso" value={triaje.peso} disabled />
           <InputField label="Talla" value={triaje.talla} disabled />
-          <InputField label="Temperatura" value={triaje.temperatura} disabled />
         </div>
       )}
     </>
