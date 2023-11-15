@@ -1,9 +1,9 @@
-"use client";
-import Link from "next/link";
-const SearchBar = ({ name, width, placeholderText, hrefBtnNuevo }) => {
+"use client"
+import Link from "next/link"
+const SearchBar = ({ name, width, height, placeholderText }) => {
   return (
     <div className={`py-2 ${width} flex items-center`}>
-      <div className="relative w-full mr-2">
+      <div className={`relative w-full mr-2`}>
         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
           <svg
             className="w-4 h-4 text-gray-500 dark:text-gray-400"
@@ -21,29 +21,18 @@ const SearchBar = ({ name, width, placeholderText, hrefBtnNuevo }) => {
             />
           </svg>
         </div>
+
         <input
           name={name}
           id={name}
           type="search"
-          className="block w-full p-2.5 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-periwinkle focus:border-primary-periwinkle"
           placeholder={placeholderText}
+          className={`${height} block w-full p-2.5 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-periwinkle focus:border-primary-periwinkle`}
         />
       </div>
-      <button
-        type="submit"
-        className="text-white bg-primary-dark-blue hover:bg-primary-dusk-blue focus:ring-4 focus:outline-none focus:ring-primary-light-periwinkle font-medium rounded-lg text-sm px-4 py-2.5"
-      >
-        Buscar
-      </button>
-      {hrefBtnNuevo && (
-        <Link href={hrefBtnNuevo}>
-          <button className="p-2.5 text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm ml-2 px-4 py-4">
-            Nuevo
-          </button>
-        </Link>
-      )}
-    </div>
-  );
-};
 
-export default SearchBar;
+    </div>
+  )
+}
+
+export default SearchBar

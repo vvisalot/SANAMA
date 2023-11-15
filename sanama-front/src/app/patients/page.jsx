@@ -4,7 +4,6 @@ import PatientTable from "./PatientTable"
 import { patientService } from "@/services/patientService"
 import { parsePatientTable } from "@/util/patientParser"
 import SearchBar from "@/components/bars/SearchBar"
-import TitleWithIcon from "@/components/TitleWithIcon"
 import PatientIcon from "@/components/icons/PatientIcon"
 
 const PatientPage = () => {
@@ -33,20 +32,36 @@ const PatientPage = () => {
   }
 
   return (
-    <section className="p-4 md:p-14">
-      <TitleWithIcon name={"Pacientes"} Icon={PatientIcon} />
-      <form className="flex pl-8 pr-10 pb-4" onSubmit={handleSubmit}>
+    <section className="w-full px-14 py-6">
+      {/* <TitleWithIcon name={"Pacientes"} Icon={PatientIcon} /> */}
+      <section className="flex items-center mb-8 ">
+        <PatientIcon />
+        <h1 className="ml-6 text-[#264F6E] text-6xl tracking-wide font-extrabold"> Pacientes </h1>
+      </section>
+
+      <form className="flex pb-4 items-center" onSubmit={handleSubmit}>
         <SearchBar
           name={"patients-search"}
           width={"w-full"}
+          height={"h-12"}
           placeholderText={"Buscar por nombre o DNI"}
-        />{" "}
-        {/*ph: placeholder */}
+        />
+
+        <button
+          type="submit"
+          className="h-[50px] text-white bg-primary-dark-blue hover:bg-primary-dusk-blue 
+          focus:ring-4 focus:outline-none focus:ring-primary-light-periwinkle font-medium rounded-lg text-sm px-4 py-2.5"
+        >
+          Buscar
+        </button>
+
       </form>
-      <div className="px-4 py-4">
+
+      <div className="py-4">
         Número de resultados: {patientTable.length}
       </div>
-      <section className="pl-12 pr-14">
+
+      <section className="w-full">
         <PatientTable data={patientTable}></PatientTable>
       </section>
     </section>

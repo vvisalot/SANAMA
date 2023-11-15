@@ -12,7 +12,7 @@ const useAppointmentForm = () => {
     })
 
     const [legalResponsibilityForm, setLegalResponsibilityForm] = useState({
-        tieneAcompañante: 'No',
+        tieneAcompañante: '',
         nombres: '',
         apellidoPaterno: '',
         apellidoMaterno: '',
@@ -49,6 +49,14 @@ const useAppointmentForm = () => {
                 return false
             }
         }
+
+        if (triageRequirement === "") {
+            toast.error("Por favor, selecciona un nivel de triaje.")
+            setErrorMessageAppointmentForm("Por favor, selecciona un nivel de triaje.")
+            setAppointmentFormComplete(false)
+            return false
+        }
+
         setErrorMessageAppointmentForm("")
         setAppointmentFormComplete(true)
         return true
