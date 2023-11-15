@@ -22,11 +22,16 @@ public class HojaMedicaController {
             value = "/post/registrarHojaMedica")
     @ResponseBody
     public int registrarHojaMedica(@RequestBody HistorialClinico historialClinico){
-        HojaMedica hojaMedica=null;
-        int n;
-        hojaMedica = historialClinico.getHojasMedicas().get(0);
-        n = hojaMedicaService.registrarHojaMedica(hojaMedica,historialClinico.getIdHistorialClinico());
-        return n;
+        try{
+            HojaMedica hojaMedica=null;
+            int n;
+            hojaMedica = historialClinico.getHojasMedicas().get(0);
+            n = hojaMedicaService.registrarHojaMedica(hojaMedica,historialClinico.getIdHistorialClinico());
+            return n;
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return -1;
     }
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE},
@@ -39,11 +44,12 @@ public class HojaMedicaController {
             JSONObject job = (JSONObject) new JSONParser().parse(pv_datos);
             String pn_id_hoja_medica = job.get("pn_id_hoja_medica").toString();
             n = hojaMedicaService.eliminarHojaMedica(pn_id_hoja_medica);
+            return n;
         }catch(Exception ex){
             // Manejo de excepciones aquí
             ex.printStackTrace();
         }
-        return n;
+        return -1;
     }
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE},

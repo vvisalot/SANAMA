@@ -62,10 +62,11 @@ public class PacienteController {
             paciente.setCorreo(pv_correo);
             paciente.setDireccion(pv_direccion);
             n = pacienteService.actualizarPacienteShort(paciente);
+            return n;
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return n;
+        return -1;
     }
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE},
@@ -81,7 +82,7 @@ public class PacienteController {
             paciente.setHistorialClinico(null);
 
         }catch(Exception ex){
-
+            ex.printStackTrace();
         }
         return paciente;
     }
@@ -97,6 +98,7 @@ public class PacienteController {
             String nombreDni = job.get("pv_nombre_dni").toString();
             pacientes = pacienteService.buscarPaciente(nombreDni);
         }catch(Exception ex){
+            ex.printStackTrace();
         }
         return pacientes;
     }
@@ -104,25 +106,39 @@ public class PacienteController {
     @PutMapping(value = "/put/paciente")
     @ResponseBody
     public int registrarPaciente(@RequestBody Paciente paciente){
-        int idPaciente;
-
-        idPaciente = pacienteService.registrarPaciente(paciente);
-        return idPaciente;
+        try{
+            int idPaciente;
+            idPaciente = pacienteService.registrarPaciente(paciente);
+            return idPaciente;
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return -1;
     }
 
     @PutMapping(value = "/put/actualizarPaciente")
     @ResponseBody
     public int actualizarPaciente(@RequestBody Paciente paciente){
-        int n;
-        n = pacienteService.actualizarPaciente(paciente);
-        return n;
+        try{
+            int n;
+            n = pacienteService.actualizarPaciente(paciente);
+            return n;
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return -1;
     }
 
     @DeleteMapping(value = "/delete/eliminarPaciente")
     @ResponseBody
     public int eliminarPaciente(@RequestBody Paciente paciente){
-        int n;
-        n = pacienteService.eliminarPaciente(paciente);
-        return n;
+        try{
+            int n;
+            n = pacienteService.eliminarPaciente(paciente);
+            return n;
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return -1;
     }
 }

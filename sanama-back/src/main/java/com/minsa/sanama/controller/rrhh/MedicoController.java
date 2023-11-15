@@ -124,38 +124,54 @@ public class MedicoController {
     @PostMapping(value = "/post/registrarMedico")
     @ResponseBody
     public int registrarMedicos(@RequestBody Medico medico) {
-        int idMedico;
-        idMedico = medicoService.registrarMedico(medico);
-        return idMedico;
+        try{
+            int idMedico;
+            idMedico = medicoService.registrarMedico(medico);
+            return idMedico;
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return -1;
     }
 
     @PutMapping(value = "/put/actualizarMedicoShort")
     @ResponseBody
     public int actualizarMedicoShort(@RequestBody Medico medico) {
-        int valido;
-        try {
+        try{
+            int valido;
             valido = medicoService.actualizarMedicoShort(medico);
-        } catch (Exception ex) {
-            return -1;
+            return valido;
+        }catch(Exception ex){
+            ex.printStackTrace();
         }
-        return valido;
+        return -1;
     }
 
     /* Cambios en el actualizar y en el eliminar Medico */
     @PutMapping(value = "/put/actualizarMedico")
     @ResponseBody
     public int actualizarMedico(@RequestBody Medico medico) {
-        int n;
-        n = medicoService.actualizarMedico(medico);
-        return n;
+        try{
+            int n;
+            n = medicoService.actualizarMedico(medico);
+            return n;
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return -1;
     }
 
     @DeleteMapping(value = "/delete/eliminarMedico")
     @ResponseBody
     public int eliminarMedico(@RequestBody Medico medico) {
-        int n;
-        n = medicoService.eliminarMedico(medico);
-        return n;
+        try{
+            int n;
+            n = medicoService.eliminarMedico(medico);
+            return n;
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return -1;
     }
 
 }

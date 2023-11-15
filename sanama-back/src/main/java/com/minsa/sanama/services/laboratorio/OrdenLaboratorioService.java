@@ -54,7 +54,7 @@ public class OrdenLaboratorioService {
             }
             return 1;
         }
-        return 0;
+        return -1;
     }
 
     public int registrarOrdenLaboratorio(OrdenLaboratorio orden){
@@ -74,7 +74,7 @@ public class OrdenLaboratorioService {
             }
             return 1;
         }
-        return 0;
+        return -1;
     }
 
 }
