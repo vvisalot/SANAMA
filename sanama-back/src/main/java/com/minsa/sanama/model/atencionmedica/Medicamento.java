@@ -7,7 +7,7 @@ public class Medicamento {
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private int idMedicamento=0;
     private String nombre;
-    private int vecesSeleccionado;
+    private String indicacion;
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private int estado=0;
 
@@ -30,12 +30,12 @@ public class Medicamento {
         this.nombre = nombre;
     }
 
-    public int getVecesSeleccionado() {
-        return vecesSeleccionado;
+    public String getIndicacion() {
+        return indicacion;
     }
 
-    public void setVecesSeleccionado(int vecesSeleccionado) {
-        this.vecesSeleccionado = vecesSeleccionado;
+    public void setIndicacion(String indicacion) {
+        this.indicacion = indicacion;
     }
 
     public int getEstado() {
