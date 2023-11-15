@@ -19,7 +19,7 @@ export default function Accordion({ children, title, id, active = false }) {
           aria-expanded={accordionOpen}
           aria-controls={`accordion-text-${id}`}
         >
-          <span>{title}</span>
+          <h4 className="text-lg font-bold text-gray-700 mb-2">{title}</h4>
           <svg
             className="fill-indigo-500 shrink-0 ml-8"
             width="16"

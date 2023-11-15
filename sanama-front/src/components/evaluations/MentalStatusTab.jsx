@@ -17,10 +17,6 @@ const GlasgowComaScale = () => {
 
   return (
     <div>
-      <h4 className="text-lg font-bold text-gray-700 mb-2">
-        Glasgow Coma Scale
-      </h4>
-      {/* Apertura de Ojos */}
       <div>
         <label className="block text-sm font-medium text-gray-700">
           Apertura de Ojos
