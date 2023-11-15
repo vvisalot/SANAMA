@@ -35,15 +35,10 @@ public class LookupValueService {
         return lcitas;
     }
 
-    public List<LookupValue> listarEstadosOrdenesLaboratorio() {
+    public List<LookupValue> listarEstadosCitasOrdenes() {
         List<LookupValue> lcitas;
-        lcitas = valueRepository.listarEstadosOrdenesLaboratorio();
+        lcitas = valueRepository.listarEstadosCitasOrdenes();
         return lcitas;
     }
 
-    public List<LookupValue> listarEstadosTriajes() {
-        List<LookupValue> lcitas;
-        lcitas = valueRepository.listarEstadosTriajes();
-        return lcitas;
-    }
 }

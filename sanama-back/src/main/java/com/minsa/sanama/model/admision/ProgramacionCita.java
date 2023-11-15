@@ -19,6 +19,7 @@ public class ProgramacionCita {
     private EstadoCita estadoCita;
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private int estado=0;
+    @JsonInclude(JsonInclude.Include.ALWAYS)
     private Triaje triaje;
 
     public ProgramacionCita() {
