@@ -2,11 +2,12 @@
 import useAppointmentForm from "@/hooks/useAppointmentForm"
 import PatientForm from "./PatientForm"
 import usePatientForm from "@/hooks/usePatientForm"
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import AppointementForm from "./AppointementForm"
 import { patientService } from "@/services/patientService"
 import { appointmentService } from "@/services/appointmentService"
 import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 // Para acceder a los elementos
 // elements.namedItem("first_last_name").value
 
@@ -43,25 +44,11 @@ const FormContainer = () => {
         setAppointmentFormComplete,
     } = useAppointmentForm()
 
-    // useEffect(() => {
-    //     // console.log(patientForm)
-    //     // console.log(fechaNacimiento)
-    //     // console.log(sexo)
-    //     // console.log(legalResponsibilityForm)
-    //     console.log(triageRequirement)
-    //     // console.log(schedule)
-
-    // }, [patientForm, fechaNacimiento, sexo, legalResponsibilityForm, triageRequirement, schedule])
-
-
     const handleSubmit = async (event) => {
         event.preventDefault()
-        const isValid = validateAppointmentForm(fechaNacimiento) && validatePatientForm()
 
-        console.log(validatePatientForm())
-        console.log(validateAppointmentForm(fechaNacimiento))
-
-        if (isValid) {
+        if (validateAppointmentForm(fechaNacimiento, validatePatientForm)) {
+            toast.success("Enviando datos...")
             console.log("El formulario es válido. Enviar datos.")
             setAllFormComplete(true)
         } else {
@@ -71,7 +58,6 @@ const FormContainer = () => {
         }
 
         if (patientId.idPersona == -1) {
-            console.log('Error')
             try {
                 const patientData = {
                     nombres: patientForm.nombres,
@@ -109,14 +95,16 @@ const FormContainer = () => {
                         requiereTriaje: triageRequirement === 'Si' ? 1 : 0,
                     }
                     let response = await appointmentService.registrarCita(appointmentFormData)
-                    console.log(response)
                     router.back()
                     console.log('Paciente registrado y cita registrada')
+                    toast.success("Paciente registrado y cita registrada")
                 } else {
                     console.log('Error al registrar paciente y cita')
+                    toast.error("Error al registrar paciente y cita")
                 }
             } catch (error) {
                 console.log('Error en la respuesta del servidor para registrar un paciente y cita')
+                toast.error("Error en la respuesta del servidor para registrar un paciente y cita")
             }
         } else {
             try {
@@ -156,40 +144,18 @@ const FormContainer = () => {
 
             <hr className="bg-gray-600 mt-20" />
 
-
-
-            {/* {patientFormComplete && */}
-            <>
-                <AppointementForm
-                    setFormComplete={setAppointmentFormComplete}
-                    legalResponsibilityForm={legalResponsibilityForm}
-                    setLegalResponsibilityForm={setLegalResponsibilityForm}
-                    setDoctorId={setDoctorId}
-                    schedule={schedule}
-                    setSchedule={setSchedule}
-                    triageRequirement={triageRequirement}
-                    setTriageRequirement={setTriageRequirement}
-                    allFormComplete={allFormComplete}
-                    setAllFormComplete={setAllFormComplete}
-
-                />
-            </>
-            {/* } */}
-
-
-            {errorMessagePatientForm && (
-                <pre className="text-red-500 mt-2">
-                    {errorMessagePatientForm}
-                </pre>
-            )}
-
-            {errorMessageAppointmentForm && (
-                <pre className="text-red-500 mt-2">
-                    {errorMessageAppointmentForm}
-                </pre>
-            )}
-
-            {/* Aqui va el boton de submit que valida que ambos formularios esten completos */}
+            <AppointementForm
+                setFormComplete={setAppointmentFormComplete}
+                legalResponsibilityForm={legalResponsibilityForm}
+                setLegalResponsibilityForm={setLegalResponsibilityForm}
+                setDoctorId={setDoctorId}
+                schedule={schedule}
+                setSchedule={setSchedule}
+                triageRequirement={triageRequirement}
+                setTriageRequirement={setTriageRequirement}
+                allFormComplete={allFormComplete}
+                setAllFormComplete={setAllFormComplete}
+            />
 
             <div className="flex flex-row-reverse">
                 <button type="submit" onClick={handleSubmit}

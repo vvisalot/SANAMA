@@ -1,5 +1,6 @@
 "use client"
 import { useState } from "react"
+import { toast } from "sonner"
 
 const useAppointmentForm = () => {
     const [patientId, setPatientId] = useState({
@@ -29,21 +30,20 @@ const useAppointmentForm = () => {
     const [errorMessageAppointmentForm, setErrorMessageAppointmentForm] = useState("")
 
 
-    const validateAppointmentForm = (fechaNacimiento) => {
-        const scheduleFormValues = Object.values(schedule)
+    const validateAppointmentForm = (fechaNacimiento, validatePatientForm) => {
+        validatePatientForm()
 
-
-
-        if (scheduleFormValues.includes("")) {
+        if (schedule.fecha === "" || schedule.hora === "") {
             setErrorMessageAppointmentForm("Por favor, complete todos los campos para reservar la cita")
             setAppointmentFormComplete(false)
+            toast.error("Por favor, complete todos los campos para reservar la cita")
             return false
         }
-
 
         if (legalResponsibilityForm.tieneAcompañante === "Si") {
             const legalResponsibilityFormValues = Object.values(legalResponsibilityForm)
             if (legalResponsibilityFormValues.includes("")) {
+                toast.error("Por favor, completa todos los campos de responsabilidad legal.")
                 setErrorMessageAppointmentForm("Por favor, completa todos los campos de responsabilidad legal.")
                 setAppointmentFormComplete(false)
                 return false

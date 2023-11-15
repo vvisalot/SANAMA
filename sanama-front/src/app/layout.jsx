@@ -4,6 +4,7 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 import NextBreadcrumb from "@/components/NextBreadcrumb"
 import Sidebar from "@/components/sidebar/Sidebar"
+import { Toaster } from "sonner"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -34,6 +35,7 @@ export default function RootLayout({ children }) {
             capitalizeLinks
           />
           {children}
+          <Toaster position="top-right" richColors />
         </main>
       </body>
     </html>

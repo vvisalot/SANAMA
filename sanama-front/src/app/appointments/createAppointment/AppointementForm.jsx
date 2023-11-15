@@ -277,12 +277,13 @@ const AppointementForm = ({ setFormComplete, legalResponsibilityForm, setLegalRe
                     handleChange={handleDoctorChange}
                 />
 
-                <div className="flex">
+                <div className="flex flex-auto ">
                     <Calendar
                         selectedDate={selectedDate}
                         handleDateClick={handleDateClick}
                         disabled={disabled}
                     ></Calendar>
+
                     <div className="flex flex-wrap pl-10">
                         {availableHours.map((hour, index) => (
                             <ScheduleChip

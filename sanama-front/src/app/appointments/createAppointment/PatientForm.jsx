@@ -8,6 +8,7 @@ import { TextInput } from "flowbite-react"
 import { patientService } from "@/services/patientService"
 import { sexParser } from "@/util/patientParser"
 import Dropdown from "@/components/Dropdowns/Dropdown"
+import { toast } from "sonner"
 const PatientForm = ({ formComplete, setFormComplete, setPatientId, patientForm, fechaNacimiento, setFechaNacimiento, sexo, setSexo, setPatientForm }) => {
     const [showModal, setShowModal] = useState(false)
     const [isFormEnabled, setIsFormEnabled] = useState(false)
@@ -86,22 +87,29 @@ const PatientForm = ({ formComplete, setFormComplete, setPatientId, patientForm,
         setFormComplete(false)
     }
 
+    const confirmClearForm = async () => {
+        clearForm()
+        setIsFormEnabled(false)
+    }
+
     const modifyOrClearForm = () => {
         const isFormEmpty = Object.values(patientForm).every(value => !value) && !fechaNacimiento && !sexo
+
         if (isFormEmpty) {
-            alert("No hay datos en el formulario para modificar.")
+            toast.warning("No hay datos en el formulario para modificar.")
             return
         } else {
             if (isDataFromModal) {
-                const confirmNewPatient = window.confirm("Este paciente ya existe, sus datos no pueden ser alterados, ¿desea ingresar uno nuevo?")
-                if (confirmNewPatient) {
-                    clearForm()
-                    setIsFormEnabled(false)
-                    setFormComplete(false)
-                }
-            } else {
-                setIsFormEnabled(true)
-                setFormComplete(false)
+                toast('Este paciente ya existe, ¿deseas crear otro?', {
+                    action: {
+                        label: 'Si',
+                        onClick: () => confirmClearForm()
+                    },
+                    cancel: {
+                        label: 'No',
+                        onClick: () => toast.dismiss()
+                    }
+                })
             }
         }
     }

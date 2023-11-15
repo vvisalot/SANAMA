@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { toast } from 'sonner'
 
 const usePatientForm = () => {
     const [patientForm, setPatientForm] = useState({
@@ -23,6 +24,7 @@ const usePatientForm = () => {
         const patientFormValues = Object.values(patientForm)
         if (patientFormValues.includes("") || !fechaNacimiento || !sexo) {
             setErrorMessagePatientForm("Por favor, complete todos los campos del paciente")
+            toast.error("Por favor, complete todos los campos del paciente")
             return false
         }
         setErrorMessagePatientForm("")
