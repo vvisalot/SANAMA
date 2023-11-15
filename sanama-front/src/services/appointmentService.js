@@ -9,8 +9,6 @@ const ENDPOINTS = {
   REGISTRAR_CITA: "/admision/post/registrarCitaMedica",
   LISTAR_CITAS: "/admision/get/cita",
   LISTAR_CITAS_MEDICO: "/admision/post/listarCitasPorMedico",
-  APPOINTMENT_TYPES: "/admision/get/tipos",
-  SLOTS_AVAILABLE: "/admision/get/slots",
   LISTAR_CITAS_FILTRO: "/admision/post/listarCitasPorFiltro",
   BUSCAR_CITAS: "/admision/post/buscarCitaMedica",
   CAMBIAR_ESTADO: "/admision/post/cambiarEstadoCita",
@@ -94,30 +92,6 @@ export const appointmentService = {
     } catch (error) {
       console.error("Error getting available days:", error.message);
       throw new Error("Failed to get available days");
-    }
-  },
-
-  getAppointmentTypes: async () => {
-    try {
-      const response = await axiosInstance.get(ENDPOINTS.APPOINTMENT_TYPES, {
-        params: { clients_can_book: true },
-      });
-      return response.data;
-    } catch (error) {
-      console.error("Error getting appointment types:", error.message);
-      throw new Error("Failed to fetch appointment types");
-    }
-  },
-
-  getAvailableSlots: async (params) => {
-    try {
-      const response = await axiosInstance.get(ENDPOINTS.SLOTS_AVAILABLE, {
-        params,
-      });
-      return response.data;
-    } catch (error) {
-      console.error("Error fetching available slots:", error.message);
-      throw new Error("Failed to fetch available slots");
     }
   },
 
