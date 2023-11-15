@@ -63,18 +63,6 @@ export const appointmentService = {
     }
   },
 
-  getBookingSteps: async (providerId) => {
-    try {
-      const response = await axiosInstance.get("URL_PLACEHOLDER", {
-        params: { provider_id: providerId },
-      });
-      return response.data.steps;
-    } catch (error) {
-      console.error("Error getting booking steps:", error.message);
-      throw new Error("Failed to fetch booking steps");
-    }
-  },
-
   getDaysAvailable: async (doctorId) => {
     try {
       const currentDayAndHour = formatDate(new Date());
