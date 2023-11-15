@@ -1,6 +1,5 @@
 package com.minsa.sanama.controller.admision;
 
-
 import com.minsa.sanama.model.admision.Triaje;
 import com.minsa.sanama.services.admision.TriajeService;
 import org.json.simple.JSONArray;

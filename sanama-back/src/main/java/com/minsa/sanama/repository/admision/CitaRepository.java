@@ -6,7 +6,6 @@ import com.minsa.sanama.model.atencionmedica.HistorialClinico;
 import com.minsa.sanama.model.atencionmedica.HojaMedica;
 import com.minsa.sanama.model.rrhh.Especialidad;
 import com.minsa.sanama.model.rrhh.Medico;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;

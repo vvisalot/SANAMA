@@ -1,6 +1,5 @@
 package com.minsa.sanama.controller.rrhh;
 
-import com.minsa.sanama.model.rrhh.Especialidad;
 import com.minsa.sanama.model.rrhh.Medico;
 import com.minsa.sanama.model.rrhh.TurnoAtencion;
 import com.minsa.sanama.services.rrhh.MedicoService;
@@ -11,9 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
-import java.text.SimpleDateFormat;
 
 @RestController
 @RequestMapping("/rrhh")

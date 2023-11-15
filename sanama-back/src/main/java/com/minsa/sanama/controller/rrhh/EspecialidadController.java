@@ -2,10 +2,7 @@ package com.minsa.sanama.controller.rrhh;
 
 import com.minsa.sanama.model.rrhh.Especialidad;
 import com.minsa.sanama.services.rrhh.EspecialidadService;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

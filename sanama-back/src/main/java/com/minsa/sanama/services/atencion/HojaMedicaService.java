@@ -6,8 +6,6 @@ import com.minsa.sanama.repository.atencionmedica.HojaMedicaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class HojaMedicaService {
     @Autowired

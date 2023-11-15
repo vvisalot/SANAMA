@@ -1,6 +1,5 @@
 package com.minsa.sanama.repository.configuracion;
 
-
 import com.minsa.sanama.model.configuracion.LookupValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;

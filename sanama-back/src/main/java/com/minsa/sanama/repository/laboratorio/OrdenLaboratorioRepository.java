@@ -2,7 +2,6 @@ package com.minsa.sanama.repository.laboratorio;
 
 import com.minsa.sanama.model.admision.Paciente;
 import com.minsa.sanama.model.atencionmedica.CitaMedica;
-import com.minsa.sanama.model.laboratorio.ExamenMedico;
 import com.minsa.sanama.model.laboratorio.OrdenLaboratorio;
 import com.minsa.sanama.model.rrhh.Medico;
 import org.springframework.beans.factory.annotation.Autowired;
