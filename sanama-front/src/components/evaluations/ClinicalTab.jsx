@@ -19,23 +19,6 @@ const ClinicalTab = ({ clinicalData, handleInputChange }) => {
     );
   };
 
-  const renderTextArea = (label, name, value, rows = 3) => {
-    return (
-      <div className="col-span-2">
-        <label className="block text-sm font-medium text-gray-700">
-          {label}
-        </label>
-        <textarea
-          name={name}
-          value={value}
-          onChange={handleInputChange}
-          className="mt-1 p-2 w-full border-gray-300 rounded-md"
-          rows={rows}
-        ></textarea>
-      </div>
-    );
-  };
-
   return (
     <>
       <div className="col-span-2">
