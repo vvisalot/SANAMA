@@ -1,7 +1,6 @@
 package com.minsa.sanama.controller.admision;
 
 import com.minsa.sanama.model.atencionmedica.CitaMedica;
-import com.minsa.sanama.model.rrhh.TurnoAtencion;
 import com.minsa.sanama.services.admision.CitaService;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

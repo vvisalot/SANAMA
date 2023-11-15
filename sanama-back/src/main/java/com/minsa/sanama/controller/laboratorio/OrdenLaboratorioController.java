@@ -2,7 +2,6 @@ package com.minsa.sanama.controller.laboratorio;
 
 import com.minsa.sanama.model.laboratorio.OrdenLaboratorio;
 import com.minsa.sanama.services.laboratorio.OrdenLaboratorioService;
-import org.aspectj.weaver.ast.Or;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
