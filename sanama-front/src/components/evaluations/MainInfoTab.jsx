@@ -1,83 +1,68 @@
 import React from "react";
+const calcularEdad = (fechaNacimiento) => {
+  const hoy = new Date();
+  const fechaNac = new Date(fechaNacimiento);
+  let edad = hoy.getFullYear() - fechaNac.getFullYear();
+  const diferenciaMeses = hoy.getMonth() - fechaNac.getMonth();
+  if (
+    diferenciaMeses < 0 ||
+    (diferenciaMeses === 0 && hoy.getDate() < fechaNac.getDate())
+  ) {
+    edad--;
+  }
+  return edad;
+};
+const formatearFecha = (fecha) => {
+  const fechaNac = new Date(fecha);
+  return `${fechaNac.getDate().toString().padStart(2, "0")}/${(
+    fechaNac.getMonth() + 1
+  )
+    .toString()
+    .padStart(2, "0")}/${fechaNac.getFullYear()}`;
+};
 
-const MainInfoComponent = ({ appointmentData }) => {
-  if (!appointmentData) {
-    return <p>Loading appointment data...</p>; // Or any other loading state representation
+const MainInfoComponent = ({ patientTriageData }) => {
+  if (!patientTriageData) {
+    return <p>Cargando...</p>; // Or any other loading state representation
   }
 
-  const {
-    paciente,
-    medico,
-    horaCita,
-    fechaCita,
-    codigoCita,
-    tieneAcompanhante,
-    nombreAcompanhante,
-    dniAcompanhante,
-    parentezco,
-  } = appointmentData;
-
+  const { paciente, triaje } = patientTriageData;
+  const edad = calcularEdad(paciente.fechaNacimiento);
+  const fechaNacimientoFormateada = formatearFecha(paciente.fechaNacimiento);
+  const sexo = paciente.sexo === "M" ? "Masculino" : "Femenino";
   return (
     <>
       <div className="col-span-2">
         <h4 className="text-lg font-bold text-gray-700 mb-2">
-          Información de la Cita
+          Información del Paciente
         </h4>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <InputField label="Código de Cita" value={codigoCita} disabled />
-
-          <InputField
-            label="Fecha y Hora de la Cita"
-            value={`${fechaCita} ${horaCita}`}
-            disabled
-          />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <InputField
             label="Paciente"
             value={`${paciente.nombres} ${paciente.apellidoPaterno} ${paciente.apellidoMaterno}`}
             disabled
           />
-          <InputField label="DNI del Paciente" value={paciente.dni} disabled />
           <InputField
-            label="Médico"
-            value={`${medico.nombres} ${medico.apellidoPaterno} ${medico.apellidoMaterno}`}
+            label="Fecha de Nacimiento"
+            value={fechaNacimientoFormateada}
+            disabled
+          />
+          <InputField label="Edad" value={edad} disabled />
+          <InputField label="Sexo" value={sexo} disabled />
+
+          <InputField
+            label="Peso (kg)"
+            value={triaje ? triaje.peso : "-"}
             disabled
           />
           <InputField
-            label="Especialidad"
-            value={medico.especialidad.nombre}
+            label="Talla (cm)"
+            value={triaje ? triaje.talla : "-"}
             disabled
           />
         </div>
       </div>
-
-      {tieneAcompanhante && (
-        <div className="col-span-2">
-          <h4 className="text-lg font-bold text-gray-700 mb-2">
-            Información del Acompañante
-          </h4>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <InputField
-              label="Nombre del Acompañante"
-              value={nombreAcompanhante}
-              disabled
-            />
-
-            <InputField
-              label="DNI del Acompañante"
-              value={dniAcompanhante}
-              disabled
-            />
-
-            {/* Assuming 'parentezco' is an ID that represents a relationship, you might want to map it to a human-readable form */}
-            <InputField
-              label="Parentesco"
-              value={`Parentesco ID: ${parentezco}`}
-              disabled
-            />
-          </div>
-        </div>
-      )}
     </>
   );
 };
@@ -90,7 +75,7 @@ const InputField = ({ label, value, disabled, type = "text" }) => {
         type={type}
         value={value}
         disabled={disabled}
-        className="mt-1 p-2 w-full border-gray-300 rounded-md"
+        class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
       />
     </div>
   );

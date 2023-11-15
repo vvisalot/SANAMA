@@ -9,12 +9,11 @@ const ENDPOINTS = {
   REGISTRAR_CITA: "/admision/post/registrarCitaMedica",
   LISTAR_CITAS: "/admision/get/cita",
   LISTAR_CITAS_MEDICO: "/admision/post/listarCitasPorMedico",
-  APPOINTMENT_TYPES: "/admision/get/tipos",
-  SLOTS_AVAILABLE: "/admision/get/slots",
   LISTAR_CITAS_FILTRO: "/admision/post/listarCitasPorFiltro",
   BUSCAR_CITAS: "/admision/post/buscarCitaMedica",
   CAMBIAR_ESTADO: "/admision/post/cambiarEstadoCita",
   CAMBIAR_HORA_FECHA: "/admision/post/cambiarHorarioCita",
+  LISTAR_ESTADOS_CITAS: "/configuracion/get/listarEstadosCitas",
 };
 
 const formatDate = (date) => {
@@ -29,10 +28,7 @@ const formatDate = (date) => {
 export const appointmentService = {
   registrarCita: async (form) => {
     try {
-      const response = await axiosInstance.post(
-        "admision/post/registrarCitaMedica",
-        form
-      );
+      const response = await axiosInstance.post(ENDPOINTS.REGISTRAR_CITA, form);
       return response.data;
     } catch (error) {
       console.error(
@@ -65,18 +61,6 @@ export const appointmentService = {
     }
   },
 
-  getBookingSteps: async (providerId) => {
-    try {
-      const response = await axiosInstance.get("URL_PLACEHOLDER", {
-        params: { provider_id: providerId },
-      });
-      return response.data.steps;
-    } catch (error) {
-      console.error("Error getting booking steps:", error.message);
-      throw new Error("Failed to fetch booking steps");
-    }
-  },
-
   getDaysAvailable: async (doctorId) => {
     try {
       const currentDayAndHour = formatDate(new Date());
@@ -94,30 +78,6 @@ export const appointmentService = {
     } catch (error) {
       console.error("Error getting available days:", error.message);
       throw new Error("Failed to get available days");
-    }
-  },
-
-  getAppointmentTypes: async () => {
-    try {
-      const response = await axiosInstance.get(ENDPOINTS.APPOINTMENT_TYPES, {
-        params: { clients_can_book: true },
-      });
-      return response.data;
-    } catch (error) {
-      console.error("Error getting appointment types:", error.message);
-      throw new Error("Failed to fetch appointment types");
-    }
-  },
-
-  getAvailableSlots: async (params) => {
-    try {
-      const response = await axiosInstance.get(ENDPOINTS.SLOTS_AVAILABLE, {
-        params,
-      });
-      return response.data;
-    } catch (error) {
-      console.error("Error fetching available slots:", error.message);
-      throw new Error("Failed to fetch available slots");
     }
   },
 
@@ -172,7 +132,7 @@ export const appointmentService = {
         pn_estado,
       });
 
-      console.log("response",response);
+      console.log("response", response);
       return response.data;
     } catch (error) {
       console.error("Error al buscar cita", error.message);
@@ -182,10 +142,7 @@ export const appointmentService = {
 
   listarEstados: async () => {
     try {
-      const response = await axiosInstance.get(
-        "/configuracion/get/listarEstadosCitas"
-      );
-      //console.log(response)
+      const response = await axiosInstance.get(ENDPOINTS.LISTAR_ESTADOS_CITAS);
       return response.data;
     } catch (error) {
       console.error("Error al listar los estados de las citas", error);

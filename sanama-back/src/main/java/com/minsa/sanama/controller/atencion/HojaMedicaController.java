@@ -1,5 +1,6 @@
 package com.minsa.sanama.controller.atencion;
 
+import com.minsa.sanama.model.admision.ProgramacionCita;
 import com.minsa.sanama.model.admision.Triaje;
 import com.minsa.sanama.model.atencionmedica.HistorialClinico;
 import com.minsa.sanama.model.atencionmedica.HojaMedica;
@@ -56,15 +57,15 @@ public class HojaMedicaController {
             produces = {MediaType.APPLICATION_JSON_VALUE},
             value = "/post/buscarTriajeCitaHojaMedica")
     @ResponseBody
-    public Triaje buscarTriajeCitaHojaMedica(@RequestBody String pv_datos) {
-        Triaje triaje=null;
+    public ProgramacionCita buscarTriajeCitaHojaMedica(@RequestBody String pv_datos) {
+        ProgramacionCita cita=null;
         try{
             JSONObject job = (JSONObject) new JSONParser().parse(pv_datos);
             int pn_id_cita = Integer.parseInt(job.get("pn_id_cita").toString());
-            triaje = hojaMedicaService.buscarTriajeCitaMedica(pn_id_cita);
+            cita = hojaMedicaService.buscarTriajeCitaMedica(pn_id_cita);
         }catch (Exception ex){
             ex.printStackTrace();
         }
-        return triaje;
+        return cita;
     }
 }

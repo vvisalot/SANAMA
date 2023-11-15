@@ -11,7 +11,7 @@ const NextBreadcrumb = ({
   capitalizeLinks,
 }) => {
   const paths = usePathname();
-  const pathNames = paths.split("/").filter((path) => path && isNaN(path)); // Exclude numerical segments
+  const pathNames = paths.split("/").filter((path) => path);
 
   return (
     <div className="px-10">

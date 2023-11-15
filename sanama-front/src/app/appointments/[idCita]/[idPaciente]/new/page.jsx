@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { appointmentService } from "@/services/appointmentService";
-import { patientService } from "@/services/patientService";
+import { attentionService } from "@/services/attentionService";
 import { useParams } from "next/navigation";
 import MainInfoComponent from "@/components/evaluations/MainInfoTab";
 import ClinicalTab from "@/components/evaluations/ClinicalTab";
@@ -9,37 +8,17 @@ import DiagnosticoMedico from "@/components/evaluations/DiagnosisTab";
 import GlasgowComaScale from "@/components/evaluations/MentalStatusTab";
 import TratamientoYDecisionCita from "@/components/evaluations/TreatmentTab";
 import LaboratoryModal from "@/components/evaluations/LaboratoryModal";
-import PatientInfo from "@/components/appointments/view/PatientInfo";
+import ExplorationTab from "@/components/evaluations/ExplorationTab";
+import usePatientTriageData from "@/hooks/usePatientTriageData";
+import Accordion from "@/components/evaluations/acordeon";
+import ChiefComplaint from "@/components/evaluations/chiefComplaint";
 
 const FormularioMedico = () => {
   const params = useParams();
   const idCita = params.idCita;
   const idHistorialClinico = 10;
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
-  const [appointmentData, setAppointmentData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    if (!idCita) return;
-    setLoading(true);
-    appointmentService
-      .buscarCita(idCita)
-      .then((data) => {
-        if (data) {
-          setAppointmentData(data);
-        } else {
-          setError(`No se encontraron datos de la cita con el ID ${idCita}`);
-        }
-      })
-      .catch((error) => {
-        setError("Ocurrió un error al cargar los datos de la cita");
-        console.error(error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [idCita]);
+  const { patientTriageData, loading, error } = usePatientTriageData(idCita);
 
   const initialFormData = {
     MainInfo: {
@@ -59,10 +38,10 @@ const FormularioMedico = () => {
     ClinicalTab: {
       signosVitales: {
         temperatura: "",
-        fc: "", // Frecuencia Cardiaca
-        fr: "", // Frecuencia Respiratoria
-        pa: "", // Presión Arterial
-        sat: "", // Saturación de Oxígeno
+        fc: "",
+        fr: "",
+        pa: "",
+        sat: "",
       },
       antecedentes: "",
       motivoConsulta: "",
@@ -86,16 +65,16 @@ const FormularioMedico = () => {
       },
     },
     DiagnosticoYTratamientos: {
-      diagnosticos: [], // tabla CIE - 10
-      tratamientos: [], // tabla CIE - 10
+      diagnosticos: [],
+      tratamientos: [],
     },
     DatosHojaMedica: {
-      estadoHojaMedica: "", // Puede ser "Cerrar Hoja" o "Mantener Abierta"
-      derivacion: "", // especialidad a la que deberia ir
-      proximaCita: "", // fecha tentativa de proxima cita
-      atendidoPor: "", // id doctor atendido
-      selloYFirma: "", // sello o firma doctor
-      crearOrdenDeLaboratorio: "", // Modal que abre los datos para generar la orden
+      estadoHojaMedica: "",
+      derivacion: "",
+      proximaCita: "",
+      atendidoPor: "",
+      selloYFirma: "",
+      crearOrdenDeLaboratorio: "",
       tipoOrdenDeLaboratorio: "",
       instruccionesLaboratorio: "",
       resultado: "",
@@ -109,14 +88,18 @@ const FormularioMedico = () => {
   const [formData, setFormData] = useState(initialFormData);
 
   const handleCreateMedicalRecord = async () => {
+    const currentDate = new Date();
+    const formattedDate = currentDate.toISOString().split("T")[0]; // yyyy-mm-dd
+    const formattedTime = currentDate.toTimeString().split(" ")[0]; // hh:mm:ss
+
     const newMedicalRecord = {
       idHistorialClinico: idHistorialClinico,
       hojasMedicas: [
         {
-          idCitaMedica: 4,
+          idCitaMedica: idCita,
           hojaRefencia: null,
-          horaAtencion: "18:00",
-          fechaAtencion: "2023-11-09",
+          horaAtencion: formattedTime.slice(0, 5),
+          fechaAtencion: formattedDate,
         },
       ],
     };
@@ -135,7 +118,7 @@ const FormularioMedico = () => {
         );
       }
     } catch (error) {
-      alert("Error al crear la Hoja Médica. Por favor, intente de nuevo."); // Alerta en caso de un error inesperado
+      alert("Error al crear la Hoja Médica. Por favor, intente de nuevo.");
       console.error("Error:", error);
     }
   };
@@ -153,26 +136,43 @@ const FormularioMedico = () => {
     console.log(formData);
   };
 
+  if (loading) return <div>Cargando...</div>;
+  if (error) return <div>Error: {error}</div>;
+
   return (
     <div className="p-8">
       <h1 className="font-bold text-blue-500 text-6xl p-12">
-        Nueva Evaluacion
+        Nueva Hoja Médica
       </h1>
-      <MainInfoComponent appointmentData={appointmentData} />
+
+      <MainInfoComponent patientTriageData={patientTriageData} />
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Accordion title="Clinical Tab" id="clinical">
           <ClinicalTab
+            triaje={patientTriageData ? patientTriageData.triaje : null}
+            handleInputChange={handleInputChange}
+          />
+        </Accordion>
+        <Accordion title="Motivo de la Consulta" id="triage">
+          <ChiefComplaint handleInputChange={handleInputChange} />
+        </Accordion>
+
+        <Accordion title="Exploracion Fisica" id="triage">
+          <ExplorationTab
             formData={formData.ClinicalTab}
             handleInputChange={handleInputChange}
-          ></ClinicalTab>
-        </div>
+          />
+        </Accordion>
+        <Accordion title="Nivel de Consciencia" id="triage">
+          <GlasgowComaScale></GlasgowComaScale>
+        </Accordion>
       </form>
       <div className="mb-6 space-x-4">
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg shadow-md"
           onClick={handleCreateMedicalRecord}
         >
-          Guardar Hoja médica
+          Continuar
         </button>
       </div>
     </div>

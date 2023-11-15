@@ -31,6 +31,7 @@ public class EvaluacionMedica {
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private int estado=0;
     private List<Diagnostico> ldiagnosticos;
+    private SignosVitales signosVitales;
 
     public EvaluacionMedica(){
 
@@ -210,5 +211,13 @@ public class EvaluacionMedica {
 
     public void setLdiagnosticos(List<Diagnostico> ldiagnosticos) {
         this.ldiagnosticos = ldiagnosticos;
+    }
+
+    public SignosVitales getSignosVitales() {
+        return signosVitales;
+    }
+
+    public void setSignosVitales(SignosVitales signosVitales) {
+        this.signosVitales = signosVitales;
     }
 }

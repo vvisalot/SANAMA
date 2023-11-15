@@ -1,5 +1,7 @@
 package com.minsa.sanama.repository.atencionmedica;
 
+import com.minsa.sanama.model.admision.Paciente;
+import com.minsa.sanama.model.admision.ProgramacionCita;
 import com.minsa.sanama.model.admision.Triaje;
 import com.minsa.sanama.model.atencionmedica.HojaMedica;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,36 +98,41 @@ public class HojaMedicaRepository {
         }
     }
 
-    public List<Triaje> buscarTriajeCitaMedica(int pn_id_cita) {
+    public List<ProgramacionCita> buscarTriajeCitaMedica(int pn_id_cita) {
         String procedureCall = "{call dbSanama.ssm_ate_buscar_triaje_x_cita_medica("+pn_id_cita+")};";
         return jdbcTemplate.query(procedureCall, triajeMap);
     }
 
-    private static class TriajeMap implements RowMapper<Triaje> {
+    private static class TriajeMap implements RowMapper<ProgramacionCita> {
         @Override
-        public Triaje mapRow(ResultSet rs, int rowNum) throws SQLException {
+        public ProgramacionCita mapRow(ResultSet rs, int rowNum) throws SQLException {
+            ProgramacionCita programacionCita = new ProgramacionCita();
 
-            Triaje triaje = new Triaje();
-            // Mapea los campos de Triaje
-            triaje.setIdTriaje(rs.getInt("id_triaje"));
-            triaje.setCodigoTriaje(rs.getString("codigo_triaje"));
-            triaje.setPeso(rs.getInt("peso"));
-            triaje.setTalla(rs.getInt("talla"));
-            triaje.setTemperatura(rs.getInt("temperatura"));
-            triaje.setMotivoVisita(rs.getString("motivo_visita"));
-            triaje.setPresionArterial(rs.getInt("presion_arterial"));
-            triaje.setPrioridad(rs.getString("prioridad"));
-            triaje.setEstado(rs.getInt("estado"));
-            triaje.setFechaTriaje(rs.getDate("fecha").toLocalDate());
-            triaje.setHoraTriaje(rs.getTime("hora").toLocalTime());
-            triaje.setSaturacionOxigeno(rs.getString("saturacionOxigeno"));
-            triaje.setFrecuenciaCardiaca(rs.getString("frecuenciaCardiaca"));
-            triaje.setFrecuenciaRespiratoria(rs.getString("frecuenciaRespiratoria"));
-            triaje.setNivelConciencia(rs.getString("nivelConciencia"));
-            triaje.setNivelDolor(rs.getString("nivelDolor"));
-            triaje.setCondicionesPrexistentes(rs.getString("condicionesPrexistentes"));
+            Paciente paciente = new Paciente();
+            if(rs.getInt("id_triaje") != 0){
+                Triaje triaje = new Triaje();
 
-            return triaje;
+                // Mapea los campos de Triaje
+                triaje.setPeso(rs.getInt("peso"));
+                triaje.setTalla(rs.getInt("talla"));
+                triaje.setTemperatura(rs.getInt("temperatura"));
+                triaje.setPresionArterial(rs.getInt("presion_arterial"));
+                triaje.setSaturacionOxigeno(rs.getString("saturacionOxigeno"));
+                triaje.setFrecuenciaCardiaca(rs.getString("frecuenciaCardiaca"));
+                triaje.setFrecuenciaRespiratoria(rs.getString("frecuenciaRespiratoria"));
+                programacionCita.setTriaje(triaje);
+            }
+
+            paciente.setNombres(rs.getString("nombres"));
+            paciente.setApellidoPaterno(rs.getString("apellido_paterno"));
+            paciente.setApellidoMaterno(rs.getString("apellido_materno"));
+            paciente.setSexo(rs.getString("sexo"));
+            paciente.setFechaNacimiento(rs.getDate("fecha_nacimiento").toLocalDate());
+
+
+            programacionCita.setPaciente(paciente);
+
+            return programacionCita;
         }
     }
 }

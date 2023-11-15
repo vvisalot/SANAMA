@@ -39,13 +39,8 @@ public class LookupValueRepository {
         return jdbcTemplate.query(procedureCall, listaValoresMapper);
     }
 
-    public List<LookupValue> listarEstadosOrdenesLaboratorio() {
-        String procedureCall = "{call dbSanama.ssm_conf_listar_estados_ordenes_laboratorio()};";
-        return jdbcTemplate.query(procedureCall, listaValoresMapper);
-    }
-
-    public List<LookupValue> listarEstadosTriajes() {
-        String procedureCall = "{call dbSanama.ssm_conf_listar_estados_triajes()};";
+    public List<LookupValue> listarEstadosCitasOrdenes() {
+        String procedureCall = "{call dbSanama.ssm_conf_listar_estados_citas_ordenes()};";
         return jdbcTemplate.query(procedureCall, listaValoresMapper);
     }
 

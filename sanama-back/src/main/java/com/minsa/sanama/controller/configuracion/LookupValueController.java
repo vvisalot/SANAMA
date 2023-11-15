@@ -49,7 +49,7 @@ public class LookupValueController {
     @ResponseBody
     public List<LookupValue> listarEstadosOrdenesLaboratorio() {
         List<LookupValue> lcitas;
-        lcitas = valueService.listarEstadosOrdenesLaboratorio();
+        lcitas = valueService.listarEstadosCitasOrdenes();
         return lcitas;
     }
 
@@ -57,7 +57,7 @@ public class LookupValueController {
     @ResponseBody
     public List<LookupValue> listarEstadosTriajes() {
         List<LookupValue> lcitas;
-        lcitas = valueService.listarEstadosTriajes();
+        lcitas = valueService.listarEstadosCitasOrdenes();
         return lcitas;
     }
 }

@@ -1,9 +1,9 @@
-import axios from "axios"
-import connection from "@/config/connection"
+import axios from "axios";
+import connection from "@/config/connection";
 
 const axiosInstance = axios.create({
   baseURL: connection.backend,
-})
+});
 
 const ENDPOINTS = {
   REGISTRAR_PACIENTE: "/admision/put/paciente",
@@ -15,27 +15,33 @@ const ENDPOINTS = {
   LISTAR_SEGUROS: "/configuracion/get/listarSeguros",
   BUSCAR_HISTORIAL_CLINICO: "/atencion/post/buscarHistorialClinico",
   REGISTRAR_HOJA_MEDICA: "/atencion/post/registrarHojaMedica",
-}
+  BUSCAR_DATOS_PACIENTE_TRIAGE: "/atencion/post/buscarTriajeCitaHojaMedica",
+};
 
 export const patientService = {
   registrarPaciente: async (patientForm) => {
     try {
-      const response = await axiosInstance.put(ENDPOINTS.REGISTRAR_PACIENTE, patientForm)
-      return response.data
+      const response = await axiosInstance.put(
+        ENDPOINTS.REGISTRAR_PACIENTE,
+        patientForm
+      );
+      return response.data;
     } catch (error) {
-      console.error("Error al registrar los datos del paciente", error)
-      throw error
+      console.error("Error al registrar los datos del paciente", error);
+      throw error;
     }
   },
 
-  //Modificar los datos del paciente
   modificarPaciente: async (params) => {
     try {
-      const response = await axiosInstance.put("/admision/put/actualizarPacienteShort", params)
-      return response.data
+      const response = await axiosInstance.put(
+        "/admision/put/actualizarPacienteShort",
+        params
+      );
+      return response.data;
     } catch (error) {
-      console.error("Error al modificar los datos del paciente", error)
-      throw error
+      console.error("Error al modificar los datos del paciente", error);
+      throw error;
     }
   },
 
@@ -46,11 +52,11 @@ export const patientService = {
         {
           pv_filtro: filtro,
         }
-      )
-      return response.data
+      );
+      return response.data;
     } catch (error) {
-      console.error("Error al buscar paciente por filtro", error)
-      throw error
+      console.error("Error al buscar paciente por filtro", error);
+      throw error;
     }
   },
 
@@ -61,11 +67,11 @@ export const patientService = {
         {
           pn_paciente: idPaciente,
         }
-      )
-      return response.data
+      );
+      return response.data;
     } catch (error) {
-      console.error("Error al listar las citas del paciente", error)
-      throw error
+      console.error("Error al listar las citas del paciente", error);
+      throw error;
     }
   },
 
@@ -76,11 +82,11 @@ export const patientService = {
         {
           pn_id_paciente: idPaciente,
         }
-      )
-      return response.data
+      );
+      return response.data;
     } catch (error) {
-      console.error("Error al llenar los datos del modal", error)
-      throw error
+      console.error("Error al llenar los datos del modal", error);
+      throw error;
     }
   },
 
@@ -91,31 +97,31 @@ export const patientService = {
         {
           pv_nombre_dni: filtro,
         }
-      )
-      return response.data
+      );
+      return response.data;
     } catch (error) {
-      console.error("Error al llenar los datos del modal", error)
-      throw error
+      console.error("Error al llenar los datos del modal", error);
+      throw error;
     }
   },
 
   listarParentescos: async () => {
     try {
-      const response = await axiosInstance.get(ENDPOINTS.LISTAR_PARENTESCOS)
-      return response.data
+      const response = await axiosInstance.get(ENDPOINTS.LISTAR_PARENTESCOS);
+      return response.data;
     } catch (error) {
-      console.error("Error al listar los parentescos", error)
-      throw error
+      console.error("Error al listar los parentescos", error);
+      throw error;
     }
   },
 
   listarSeguros: async () => {
     try {
-      const response = await axiosInstance.get(ENDPOINTS.LISTAR_SEGUROS)
-      return response.data
+      const response = await axiosInstance.get(ENDPOINTS.LISTAR_SEGUROS);
+      return response.data;
     } catch (error) {
-      console.error("Error al listar los seguros", error)
-      throw error
+      console.error("Error al listar los seguros", error);
+      throw error;
     }
   },
 
@@ -126,11 +132,11 @@ export const patientService = {
         {
           pn_id_paciente: idPaciente,
         }
-      )
-      return response.data
+      );
+      return response.data;
     } catch (error) {
-      console.error("Error al buscar el historial clínico", error)
-      throw error
+      console.error("Error al buscar el historial clínico", error);
+      throw error;
     }
   },
 
@@ -139,13 +145,26 @@ export const patientService = {
       const response = await axiosInstance.post(
         ENDPOINTS.REGISTRAR_HOJA_MEDICA,
         params
-      )
-      return response.data
+      );
+      return response.data;
     } catch (error) {
-      console.error("Error al registrar el historial clínico", error)
-      throw error
+      console.error("Error al registrar el historial clínico", error);
+      throw error;
     }
   },
 
-
-}
+  buscarTriageCitaHojaMedica: async (pn_id_cita) => {
+    try {
+      const response = await axiosInstance.post(
+        ENDPOINTS.BUSCAR_DATOS_PACIENTE_TRIAGE,
+        {
+          pn_id_cita,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error al buscar cita", error.message);
+      throw new Error("Failed to list filtered appointments");
+    }
+  },
+};

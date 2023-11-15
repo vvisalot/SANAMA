@@ -1,5 +1,6 @@
 package com.minsa.sanama.services.atencion;
 
+import com.minsa.sanama.model.admision.ProgramacionCita;
 import com.minsa.sanama.model.admision.Triaje;
 import com.minsa.sanama.model.atencionmedica.HojaMedica;
 import com.minsa.sanama.repository.atencionmedica.HojaMedicaRepository;
@@ -25,9 +26,9 @@ public class HojaMedicaService {
         return valido;
     }
 
-    public Triaje buscarTriajeCitaMedica(int pn_id_cita) {
-        Triaje triaje;
-        triaje = hojaMedicaRepository.buscarTriajeCitaMedica(pn_id_cita).get(0);
-        return triaje;
+    public ProgramacionCita buscarTriajeCitaMedica(int pn_id_cita) {
+        ProgramacionCita cita;
+        cita = hojaMedicaRepository.buscarTriajeCitaMedica(pn_id_cita).get(0);
+        return cita;
     }
 }
