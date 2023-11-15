@@ -32,7 +32,6 @@ export const patientService = {
     }
   },
 
-  //Modificar los datos del paciente
   modificarPaciente: async (params) => {
     try {
       const response = await axiosInstance.put(

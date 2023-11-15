@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { patientService } from "@/services/patientService";
+import { attentionService } from "@/services/attentionService";
 import { useParams } from "next/navigation";
 import MainInfoComponent from "@/components/evaluations/MainInfoTab";
 import ClinicalTab from "@/components/evaluations/ClinicalTab";
@@ -22,7 +22,7 @@ const FormularioMedico = () => {
   useEffect(() => {
     if (!idCita) return;
     setLoading(true);
-    patientService
+    attentionService
       .buscarTriageCitaHojaMedica(idCita)
       .then((data) => {
         if (data) {
