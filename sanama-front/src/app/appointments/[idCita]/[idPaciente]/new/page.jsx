@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { appointmentService } from "@/services/appointmentService";
 import { patientService } from "@/services/patientService";
 import { useParams } from "next/navigation";
 import MainInfoComponent from "@/components/evaluations/MainInfoTab";
@@ -23,8 +22,8 @@ const FormularioMedico = () => {
   useEffect(() => {
     if (!idCita) return;
     setLoading(true);
-    appointmentService
-      .buscarCita(idCita)
+    patientService
+      .buscarTriageCitaHojaMedica(idCita)
       .then((data) => {
         if (data) {
           setAppointmentData(data);
