@@ -11,6 +11,8 @@ import LaboratoryModal from "@/components/evaluations/LaboratoryModal";
 import ExplorationTab from "@/components/evaluations/ExplorationTab";
 import usePatientTriageData from "@/hooks/usePatientTriageData";
 import Accordion from "@/components/evaluations/acordeon";
+import ChiefComplaint from "@/components/evaluations/chiefComplaint";
+
 const FormularioMedico = () => {
   const params = useParams();
   const idCita = params.idCita;
@@ -151,6 +153,10 @@ const FormularioMedico = () => {
             handleInputChange={handleInputChange}
           />
         </Accordion>
+        <Accordion title="Motivo de la Consulta" id="triage">
+          <ChiefComplaint handleInputChange={handleInputChange} />
+        </Accordion>
+
         <Accordion title="Exploracion Fisica" id="triage">
           <ExplorationTab
             formData={formData.ClinicalTab}
