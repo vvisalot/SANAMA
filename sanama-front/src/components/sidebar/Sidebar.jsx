@@ -27,16 +27,16 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
   const baseNavClass =
     "fixed overflow-x-hidden top-0 left-0 h-screen z-10 transition-all duration-300 transform"
   const openNavClass =
-    "translate-x-0 bg-primary-dusk-blue text-white"
+    "translate-x-0 bg-[#3F83F8] text-white"
   const closedNavClass =
-    "bg-gradient-to-b bg-primary-dusk-blue text-white"
+    "bg-gradient-to-b bg-[#3F83F8] text-white"
 
   return (
     <nav className={`${baseNavClass} ${isSidebarOpen ? openNavClass : closedNavClass}`} aria-label="Sidebar" >
-      <div className={`pt-8 pl-4 pb-8 pr-4 w-full ${isSidebarOpen ? "justify-between" : "justify-around"} flex`}>
+      <div className={`pl-1 pr-3 w-full ${isSidebarOpen ? "justify-between" : "justify-around"} flex`}>
         <SidebarHeader className="w-full" isOpen={isSidebarOpen} />
         <SidebarToggleButton toggleSidebar={toggleSidebar}>
-          <MenuIcon className="h-7 w-7"/>
+          <MenuIcon className="pl-2 pt-2 h-10 w-10"/>
         </SidebarToggleButton>
       </div>
 

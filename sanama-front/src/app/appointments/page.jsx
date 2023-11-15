@@ -10,6 +10,7 @@ import DropdownCheckbox from "@/components/Dropdowns/DropdownCheckbox"
 import { format } from "date-fns"
 import AppointmentIcon from "@/components/icons/AppointmentIcon"
 import { useRouter } from "next/navigation"
+import TitleWithIcon from "@/components/TitleWithIcon";
 import Link from "next/link"
 
 const initialRequest = {
@@ -88,10 +89,7 @@ const AppointmentPage = () => {
   return (
     <section className="p-4 md:p-14">
       <section className="flex justify-between items-center mb-8">
-        <div className="flex items-center">
-          <AppointmentIcon />
-          <h1 className="ml-6 text-[#264F6E] text-6xl tracking-wide font-extrabold"> Citas </h1>
-        </div>
+        <TitleWithIcon name={"Citas"} Icon={AppointmentIcon} />
         <Link
           className="text-white  bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-4"
           href="/appointments/createAppointment"

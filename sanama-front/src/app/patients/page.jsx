@@ -5,6 +5,7 @@ import { patientService } from "@/services/patientService"
 import { parsePatientTable } from "@/util/patientParser"
 import SearchBar from "@/components/bars/SearchBar"
 import PatientIcon from "@/components/icons/PatientIcon"
+import TitleWithIcon from "@/components/TitleWithIcon";
 
 const PatientPage = () => {
   const [patientTable, setPatientTable] = useState([])
@@ -33,11 +34,7 @@ const PatientPage = () => {
 
   return (
     <section className="w-full px-14 py-6">
-      {/* <TitleWithIcon name={"Pacientes"} Icon={PatientIcon} /> */}
-      <section className="flex items-center mb-8 ">
-        <PatientIcon />
-        <h1 className="ml-6 text-[#264F6E] text-6xl tracking-wide font-extrabold"> Pacientes </h1>
-      </section>
+      <TitleWithIcon name={"Pacientes"} Icon={PatientIcon} />
 
       <form className="flex pb-4 items-center" onSubmit={handleSubmit}>
         <SearchBar

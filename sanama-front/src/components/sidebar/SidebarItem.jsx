@@ -17,7 +17,7 @@ const SidebarItem = ({ name, route, isOpen, Icon, isActive }) => {
           <div className="flex items-center justify-center">
             <Icon className="h-7 w-7" />
           </div>
-          {isOpen && <span className="ml-8 mt-2 mb-2">{name}</span>}
+          {isOpen && <span className="ml-8 mt-2 mb-2" style={{ color: '#FFF0FF' }}>{name}</span>}
         </href>
       </Link>
     </li>

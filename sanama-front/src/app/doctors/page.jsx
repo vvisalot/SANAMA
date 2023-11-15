@@ -7,6 +7,7 @@ import Dropdown from "@/components/Dropdowns/Dropdown"
 import SearchBar from "@/components/bars/SearchBar"
 import DoctorIcon from "@/components/icons/DoctorIcon"
 import { useRouter } from "next/navigation"
+import TitleWithIcon from "@/components/TitleWithIcon";
 import Link from "next/link"
 
 const DoctorsPage = () => {
@@ -60,10 +61,7 @@ const DoctorsPage = () => {
   return (
     <section className="w-full px-14 py-6">
       <section className="flex justify-between items-center mb-8 ">
-        <div className="flex items-center">
-          <DoctorIcon />
-          <h1 className="ml-6 text-[#264F6E] text-6xl tracking-wide font-extrabold"> Doctores </h1>
-        </div>
+        <TitleWithIcon name={"Doctores"} Icon={DoctorIcon} />
         <Link
           className="text-white  bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-4"
           href="/doctors/newDoctor"
