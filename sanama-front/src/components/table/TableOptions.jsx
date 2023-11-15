@@ -7,8 +7,6 @@ const TableOptions = ({ url, id, text, iconName, estado }) => {
 
   const handleClick = () => {
     setIsLoading(true);
-    // Aquí podrías agregar lógica adicional si es necesario
-    // Por ejemplo, redirigir a la URL después de un retraso
   };
 
   if (estado === "3" || estado === "Cancelada") {

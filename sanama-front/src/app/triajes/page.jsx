@@ -8,7 +8,7 @@ import TitleWithIcon from "@/components/TitleWithIcon";
 import TriageIcon from "@/components/icons/TriageIcon";
 import DateRangePicker from "@/components/Date/DateRangePicker";
 import DropdownCheckbox from "@/components/Dropdowns/DropdownCheckbox";
-import { appointmentService } from "@/services/appointmentService";
+import { laboratoryService } from "@/services/laboratoryService";
 import { format } from "date-fns"
 
 const TriajePage = () => {
@@ -41,7 +41,7 @@ const TriajePage = () => {
 
   const fetchStateList = async () => {
     try {
-      const data = await appointmentService.listarEstados();
+      const data = await laboratoryService.listarEstadosOrdenesLaboratorio();
       setStatusList(data);
       let initialValues = {};
       data.forEach((status) => {

@@ -8,17 +8,9 @@
   --background-end-rgb: 255, 255, 255;
 }
 
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-} */
-
 option {
-  font-size: 18px; /* O el tamaño que desees */
-  padding: 10px 16px; /* Agrega un padding para darle más espacio */
+  font-size: 18px; 
+  padding: 10px 16px;
 }
 
 body {
@@ -32,11 +24,11 @@ body {
 }
 
 .bg-atendida {
-  background-color: #D1FFD6; /* Color de fondo para "Atendida" */
+  background-color: #D1FFD6;
 }
 
 .bg-pendiente {
-  background-color: #FFF5D1; /* Color de fondo para "Pendiente" */
+  background-color: #FFF5D1;
 }
 
 
@@ -75,3 +67,4 @@ body {
   padding: 8px 12px;
   resize: none; 
 }
+

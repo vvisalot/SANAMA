@@ -1,5 +1,3 @@
-// Note: Sidebar Header Component
-
 import Link from "next/link";
 import SanamaIcon from "../icons/SanamaIcon";
 

@@ -37,6 +37,7 @@ export function parseLaboratoryTable(data) {
 
         return [
             { "data": row.idOrdenLaboratorio }, // ID
+            { "data": row.codigoOrden },
             { "data": `${fechaOrden}     ${row.horaOrden}`}, // FECHA Y HORA
             { "data": `${paciente.nombres} ${paciente.apellidoPaterno} ${paciente.apellidoMaterno}` }, // NOMBRE COMPLETO
             { "data": paciente.dni }, // DNI

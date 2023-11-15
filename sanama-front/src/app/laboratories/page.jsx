@@ -7,7 +7,6 @@ import { laboratoryService } from "@/services/laboratoryService";
 import TitleWithIcon from "@/components/TitleWithIcon";
 import LabIcon from "@/components/icons/LabIcon";
 import DateRangePicker from "@/components/Date/DateRangePicker"
-import { appointmentService } from "@/services/appointmentService";
 import DropdownCheckbox from "@/components/Dropdowns/DropdownCheckbox";
 import { format } from "date-fns"
 
@@ -42,7 +41,7 @@ const LaboratoryPage = () => {
 
   const fetchStateList = async () => {
     try {
-      const data = await appointmentService.listarEstados();
+      const data = await laboratoryService.listarEstadosOrdenesLaboratorio();
       setStatusList(data);
       let initialValues = {};
       data.forEach((status) => {

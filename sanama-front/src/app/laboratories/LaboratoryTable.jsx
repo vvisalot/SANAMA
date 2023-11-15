@@ -2,6 +2,7 @@ import Table from "@/components/table/Table"
 
 // Columns for the Laboratory table
 const columns = [
+    { name: "Código" },
     { name: "Fecha actualización" },
     { name: "Nombre completo" },
     { name: "DNI" },

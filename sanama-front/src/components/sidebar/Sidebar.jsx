@@ -33,28 +33,26 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
 
   return (
     <nav
-      className={`${baseNavClass} ${isSidebarOpen ? openNavClass : closedNavClass
-        }`}
+      className={`${baseNavClass} ${isSidebarOpen ? openNavClass : closedNavClass}`}
       aria-label="Sidebar"
     >
       <div
-        className={`pt-8 pl-4 pb-8 pr-4 w-full ${isSidebarOpen ? "justify-between" : "justify-around"
-          } flex`}
+        className={`pt-8 pl-4 pb-8 pr-4 w-full ${isSidebarOpen ? "justify-between" : "justify-around"} flex`}
       >
         <SidebarHeader className="w-full" isOpen={isSidebarOpen} />
         <SidebarToggleButton toggleSidebar={toggleSidebar}>
-          <MenuIcon className="h-7 w-7" />
+          <MenuIcon className="h-7 w-7"/>
         </SidebarToggleButton>
       </div>
 
-      <ul className="w-full font-medium text-lg">
+      <ul className="w-full font-medium text-[1.275rem]">
         {sidebarItems.map((item) => (
           <SidebarItem
             key={item.route}
             name={item.name}
             route={item.route}
             isOpen={isSidebarOpen}
-            Icon={item.Icon}
+             Icon={() => <item.Icon className="h-9 w-9" />}
             isActive={isActive(item.route)}
           />
         ))}
