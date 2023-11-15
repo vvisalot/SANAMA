@@ -13,6 +13,7 @@ const ENDPOINTS = {
   BUSCAR_CITAS: "/admision/post/buscarCitaMedica",
   CAMBIAR_ESTADO: "/admision/post/cambiarEstadoCita",
   CAMBIAR_HORA_FECHA: "/admision/post/cambiarHorarioCita",
+  LISTAR_ESTADOS_CITAS: "/configuracion/get/listarEstadosCitas",
 };
 
 const formatDate = (date) => {
@@ -27,10 +28,7 @@ const formatDate = (date) => {
 export const appointmentService = {
   registrarCita: async (form) => {
     try {
-      const response = await axiosInstance.post(
-        "admision/post/registrarCitaMedica",
-        form
-      );
+      const response = await axiosInstance.post(ENDPOINTS.REGISTRAR_CITA, form);
       return response.data;
     } catch (error) {
       console.error(
@@ -144,10 +142,7 @@ export const appointmentService = {
 
   listarEstados: async () => {
     try {
-      const response = await axiosInstance.get(
-        "/configuracion/get/listarEstadosCitas"
-      );
-      //console.log(response)
+      const response = await axiosInstance.get(ENDPOINTS.LISTAR_ESTADOS_CITAS);
       return response.data;
     } catch (error) {
       console.error("Error al listar los estados de las citas", error);
