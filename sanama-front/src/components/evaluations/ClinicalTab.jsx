@@ -38,7 +38,6 @@ const ClinicalTab = ({ clinicalData, handleInputChange }) => {
 
   return (
     <>
-      {/* Signos Vitales */}
       <div className="col-span-2">
         <h4 className="text-lg font-bold text-gray-700 mb-2">Signos Vitales</h4>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -66,18 +65,6 @@ const ClinicalTab = ({ clinicalData, handleInputChange }) => {
             "Saturación de Oxígeno (%)",
             "ClinicalTab.signosVitales.sat",
             clinicalData?.signosVitales?.sat
-          )}
-          {renderInputField(
-            "Peso (kg)",
-            "ClinicalTab.signosVitales.peso",
-            clinicalData?.signosVitales?.peso,
-            "number"
-          )}
-          {renderInputField(
-            "Talla (cm)",
-            "ClinicalTab.signosVitales.talla",
-            clinicalData?.signosVitales?.talla,
-            "number"
           )}
         </div>
       </div>

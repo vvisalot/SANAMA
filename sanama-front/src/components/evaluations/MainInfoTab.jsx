@@ -21,7 +21,7 @@ const MainInfoComponent = ({ appointmentData }) => {
     <>
       <div className="col-span-2">
         <h4 className="text-lg font-bold text-gray-700 mb-2">
-          Información de la Cita
+          Información del Paciente
         </h4>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -45,6 +45,16 @@ const MainInfoComponent = ({ appointmentData }) => {
           />
           <InputField
             label="Especialidad"
+            value={medico.especialidad.nombre}
+            disabled
+          />
+          <InputField
+            label="Talla"
+            value={medico.especialidad.nombre}
+            disabled
+          />
+          <InputField
+            label="Peso"
             value={medico.especialidad.nombre}
             disabled
           />

@@ -3,10 +3,6 @@ import React, { useState } from "react";
 const DiagnosticoMedico = () => {
   const [diagnosticoData, setDiagnosticoData] = useState({
     diagnostico: [],
-    tratamiento: "",
-    derivacion: "",
-    proximaCita: "",
-    atendidoPor: "",
     selloYFirma: "",
   });
 
@@ -47,7 +43,6 @@ const DiagnosticoMedico = () => {
         Diagnóstico Médico
       </h4>
 
-      {/* Diagnóstico */}
       <div className="col-span-2">
         <label className="block text-sm font-medium text-gray-700">
           Diagnóstico (CIE-10)
@@ -79,63 +74,6 @@ const DiagnosticoMedico = () => {
         </button>
       </div>
 
-      {/* Tratamiento */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700">
-          Tratamiento
-        </label>
-        <textarea
-          name="tratamiento"
-          value={diagnosticoData.tratamiento}
-          onChange={handleInputChange}
-          className="mt-1 p-2 w-full border-gray-300 rounded-md"
-          rows="3"
-        ></textarea>
-      </div>
-
-      {/* Derivación */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700">
-          Derivación
-        </label>
-        <input
-          type="text"
-          name="derivacion"
-          value={diagnosticoData.derivacion}
-          onChange={handleInputChange}
-          className="mt-1 p-2 w-full border-gray-300 rounded-md"
-        />
-      </div>
-
-      {/* Próxima Cita */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700">
-          Próxima Cita
-        </label>
-        <input
-          type="date"
-          name="proximaCita"
-          value={diagnosticoData.proximaCita}
-          onChange={handleInputChange}
-          className="mt-1 p-2 w-full border-gray-300 rounded-md"
-        />
-      </div>
-
-      {/* Atendido Por */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700">
-          Atendido Por
-        </label>
-        <input
-          type="text"
-          name="atendidoPor"
-          value={diagnosticoData.atendidoPor}
-          onChange={handleInputChange}
-          className="mt-1 p-2 w-full border-gray-300 rounded-md"
-        />
-      </div>
-
-      {/* Sello y Firma */}
       <div>
         <label className="block text-sm font-medium text-gray-700">
           Sello y Firma

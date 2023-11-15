@@ -6,10 +6,10 @@ import { useParams } from "next/navigation";
 import MainInfoComponent from "@/components/evaluations/MainInfoTab";
 import ClinicalTab from "@/components/evaluations/ClinicalTab";
 import DiagnosticoMedico from "@/components/evaluations/DiagnosisTab";
-import exploracionFisica from "@/components/evaluations/exploracionFisica";
 import GlasgowComaScale from "@/components/evaluations/MentalStatusTab";
 import TratamientoYDecisionCita from "@/components/evaluations/TreatmentTab";
 import LaboratoryModal from "@/components/evaluations/LaboratoryModal";
+import TriageTab from "@/components/evaluations/TriageTab";
 
 const FormularioMedico = () => {
   const params = useParams();
@@ -135,7 +135,7 @@ const FormularioMedico = () => {
         );
       }
     } catch (error) {
-      alert("Error al crear la Hoja Médica. Por favor, intente de nuevo."); // Alerta en caso de un error inesperado
+      alert("Error al crear la Hoja Médica. Por favor, intente de nuevo.");
       console.error("Error:", error);
     }
   };
@@ -160,24 +160,23 @@ const FormularioMedico = () => {
       </h1>
       <MainInfoComponent appointmentData={appointmentData} />
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <ClinicalTab
-            formData={formData.ClinicalTab}
-            handleInputChange={handleInputChange}
-          ></ClinicalTab>
-        </div>
+        <ClinicalTab
+          formData={formData.ClinicalTab}
+          handleInputChange={handleInputChange}
+        ></ClinicalTab>
+        <TriageTab
+          formData={formData.ClinicalTab}
+          handleInputChange={handleInputChange}
+        ></TriageTab>
         <exploracionFisica></exploracionFisica>
         <GlasgowComaScale></GlasgowComaScale>
-
-        <DiagnosticoMedico></DiagnosticoMedico>
-        <TratamientoYDecisionCita></TratamientoYDecisionCita>
       </form>
       <div className="mb-6 space-x-4">
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg shadow-md"
           onClick={handleCreateMedicalRecord}
         >
-          Guardar Hoja médica
+          Continuar
         </button>
       </div>
     </div>

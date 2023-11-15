@@ -1,6 +1,24 @@
 import React from "react";
 
-const exploracionFisica = ({ clinicalData, handleInputChange }) => {
+const TriageTab = ({ clinicalData, handleInputChange }) => {
+  const renderInputField = (label, name, value, type = "text") => {
+    return (
+      <div>
+        <label className="block text-sm font-medium text-gray-700">
+          {label}
+        </label>
+        <input
+          type={type}
+          name={name}
+          value={value}
+          onChange={handleInputChange}
+          className="mt-1 p-2 w-full border-gray-300 rounded-md"
+          placeholder={label}
+        />
+      </div>
+    );
+  };
+
   const renderTextArea = (label, name, value, rows = 3) => {
     return (
       <div className="col-span-2">
@@ -20,25 +38,6 @@ const exploracionFisica = ({ clinicalData, handleInputChange }) => {
 
   return (
     <>
-      {/* Datos de la Consulta */}
-      <div className="col-span-2">
-        <h4 className="text-lg font-bold text-gray-700 mb-2">
-          Datos de la Consulta
-        </h4>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {renderTextArea(
-            "Antecedentes",
-            "ClinicalTab.antecedentes",
-            clinicalData?.antecedentes
-          )}
-          {renderTextArea(
-            "Motivo de Consulta",
-            "ClinicalTab.motivoConsulta",
-            clinicalData?.motivoConsulta
-          )}
-        </div>
-      </div>
-      {/* Exploración Física */}
       <div className="col-span-2">
         <h4 className="text-lg font-bold text-gray-700 mb-2">
           Exploración Física
@@ -91,13 +90,8 @@ const exploracionFisica = ({ clinicalData, handleInputChange }) => {
           )}
         </div>
       </div>
-      {renderTextArea(
-        "Observaciones",
-        "ClinicalTab.observaciones",
-        clinicalData?.observaciones
-      )}
     </>
   );
 };
 
-export default exploracionFisica;
+export default TriageTab;
