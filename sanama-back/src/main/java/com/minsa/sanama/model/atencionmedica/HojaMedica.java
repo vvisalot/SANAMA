@@ -22,7 +22,6 @@ public class HojaMedica {
     private ArrayList<Resultado> resultados;
     private RecetaMedica recetaMedica;
     private EvaluacionMedica evaluacionMedica;
-    private HistorialClinico historialClinico;
 
     public HojaMedica() {
     }
@@ -123,11 +122,4 @@ public class HojaMedica {
         this.evaluacionMedica = evaluacionMedica;
     }
 
-    public HistorialClinico getHistorialClinico() {
-        return historialClinico;
-    }
-
-    public void setHistorialClinico(HistorialClinico historialClinico) {
-        this.historialClinico = historialClinico;
-    }
 }
