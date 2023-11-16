@@ -14,7 +14,7 @@ public class RecetaMedica {
     private LocalDate fechaCaducidad;
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private int estado=0;
-    private List<Medicamento> lmedicamentos;
+    private List<Medicamento> medicamentos;
 
     public RecetaMedica() {
     }
@@ -59,11 +59,11 @@ public class RecetaMedica {
         this.estado = estado;
     }
 
-    public List<Medicamento> getLmedicamentos() {
-        return lmedicamentos;
+    public List<Medicamento> getMedicamentos() {
+        return medicamentos;
     }
 
-    public void setLmedicamentos(List<Medicamento> lmedicamentos) {
-        this.lmedicamentos = lmedicamentos;
+    public void setMedicamentos(List<Medicamento> lmedicamentos) {
+        this.medicamentos = lmedicamentos;
     }
 }

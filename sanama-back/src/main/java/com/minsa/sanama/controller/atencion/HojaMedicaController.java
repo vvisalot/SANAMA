@@ -1,7 +1,6 @@
 package com.minsa.sanama.controller.atencion;
 
 import com.minsa.sanama.model.admision.ProgramacionCita;
-import com.minsa.sanama.model.admision.Triaje;
 import com.minsa.sanama.model.atencionmedica.HistorialClinico;
 import com.minsa.sanama.model.atencionmedica.HojaMedica;
 import com.minsa.sanama.services.atencion.HojaMedicaService;
