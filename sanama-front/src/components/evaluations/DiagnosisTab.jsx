@@ -1,28 +1,34 @@
 import React, { useState } from "react";
 import SearchDiagnostic from "./searchDiagnostic";
+
 const DiagnosticoMedico = () => {
-  const [diagnosticoData, setDiagnosticoData] = useState([]);
+  // State
+  const [diagnosticos, setDiagnosticos] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
-  const addDiagnosticoField = (nuevoDiagnostico) => {
-    setDiagnosticoData((prevDiagnosticoData) => [
-      ...prevDiagnosticoData,
-      nuevoDiagnostico,
+  // Function to add a diagnostic
+  const addDiagnostic = (selectedDiagnostic) => {
+    setDiagnosticos((prevDiagnosticos) => [
+      ...prevDiagnosticos,
+      selectedDiagnostic,
     ]);
   };
 
-  const removeDiagnosticoField = (index) => {
-    setDiagnosticoData((prevDiagnosticoData) => {
-      const updatedDiagnostico = [...prevDiagnosticoData];
-      updatedDiagnostico.splice(index, 1);
-      return updatedDiagnostico;
+  // Function to remove a diagnostic
+  const removeDiagnostic = (index) => {
+    setDiagnosticos((prevDiagnosticos) => {
+      const updatedDiagnosticos = [...prevDiagnosticos];
+      updatedDiagnosticos.splice(index, 1);
+      return updatedDiagnosticos;
     });
   };
 
+  // Function to open the modal
   const handleOpenModal = () => {
     setShowModal(true);
   };
 
+  // Function to close the modal
   const handleCloseModal = () => {
     setShowModal(false);
   };
@@ -37,7 +43,7 @@ const DiagnosticoMedico = () => {
         <label className="block text-sm font-medium text-gray-700">
           Diagnóstico (CIE-10)
         </label>
-        {diagnosticoData.map((diagnose, index) => (
+        {diagnosticos.map((diagnose, index) => (
           <div key={index} className="flex items-center space-x-2">
             <input
               type="text"
@@ -46,7 +52,7 @@ const DiagnosticoMedico = () => {
             />
             <button
               type="button"
-              onClick={() => removeDiagnosticoField(index)}
+              onClick={() => removeDiagnostic(index)}
               className="bg-red-500 text-white p-2 rounded-md"
             >
               X
@@ -65,7 +71,7 @@ const DiagnosticoMedico = () => {
       <SearchDiagnostic
         show={showModal}
         onClose={handleCloseModal}
-        onSelect={addDiagnosticoField} // Replace this with the actual onSelect handler
+        onSelect={addDiagnostic}
       />
     </div>
   );
