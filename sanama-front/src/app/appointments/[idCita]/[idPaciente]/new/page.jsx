@@ -4,6 +4,8 @@ import { useParams } from "next/navigation";
 import MainInfoComponent from "@/components/evaluations/MainInfoTab";
 import usePatientTriageData from "@/hooks/usePatientTriageData";
 import FormContainerMedicalRecord from "@/components/evaluations/FormContainerMedicalRecord";
+import newMedicalRecord from "@/components/icons/newMedicalRecord";
+import TitleWithIcon from "@/components/TitleWithIcon";
 
 const newFormularioMedico = () => {
   const params = useParams();
@@ -56,14 +58,11 @@ const newFormularioMedico = () => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="px-20">
-      <h1 className="font-bold text-blue-500 text-6xl p-12">
-        Nueva Hoja Médica
-      </h1>
-
+    <section className="p-4 md:p-14">
+      <TitleWithIcon name={"Nueva Hoja Médica"} Icon={newMedicalRecord} />
       <MainInfoComponent patientTriageData={patientTriageData} />
       <FormContainerMedicalRecord initialData={formData} />
-    </div>
+    </section>
   );
 };
 
