@@ -5,7 +5,7 @@ const useCreateMedicalRecord = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionError, setSubmissionError] = useState(null);
 
-  const createMedicalRecord = async (idCita, idHistorialClinico) => {
+  const createMedicalRecord = async (idCita) => {
     setIsSubmitting(true);
     setSubmissionError(null);
 
@@ -14,7 +14,6 @@ const useCreateMedicalRecord = () => {
     const formattedTime = currentDate.toTimeString().split(" ")[0];
 
     const newMedicalRecord = {
-      idHistorialClinico: idHistorialClinico,
       hojasMedicas: [
         {
           idCitaMedica: idCita,

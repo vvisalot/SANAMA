@@ -5,7 +5,6 @@ import VitalSigns from "@/components/evaluations/vitalSigns";
 import ChiefComplaint from "@/components/evaluations/chiefComplaint";
 import ExplorationTab from "@/components/evaluations/ExplorationTab";
 import GlasgowComaScale from "@/components/evaluations/MentalStatusTab";
-import useCreateMedicalRecord from "@/hooks/useCreateMedicalRecord";
 import MedicalDecision from "@/components/evaluations/MedicalDecision";
 import Accordion from "@/components/evaluations/acordeon";
 import { toast } from "sonner";
@@ -14,8 +13,6 @@ const FormContainerEvaluation = ({ idCita, formData, setFormData }) => {
   const router = useRouter();
   const [allFormComplete, setAllFormComplete] = useState(false);
   const [step, setStep] = useState(1);
-  const { createMedicalRecord, isSubmitting, submissionError } =
-    useCreateMedicalRecord();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -203,7 +200,6 @@ const FormContainerEvaluation = ({ idCita, formData, setFormData }) => {
           <MedicalDecision
             formData={formData}
             handleSubmit={handleSubmit}
-            createMedicalRecord={createMedicalRecord}
             idCita={idCita}
           />
           <div className="flex space-x-4">
