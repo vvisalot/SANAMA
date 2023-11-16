@@ -16,7 +16,7 @@ import TratamientoYDecisionCita from "@/components/evaluations/TreatmentTab";
 const FormularioMedico = () => {
   const params = useParams();
   const idCita = params.idCita;
-  const idHistorialClinico = 10; //obtener idHistorialClinico
+  const idHistorialClinico = params.idHistorialClinico; //obtener idHistorialClinico
   const { createMedicalRecord, isSubmitting, submissionError } =
     useCreateMedicalRecord();
 

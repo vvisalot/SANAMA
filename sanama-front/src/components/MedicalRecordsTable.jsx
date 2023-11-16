@@ -16,7 +16,7 @@ const MedicalRecordsTable = ({ data }) => {
     <Table
       columns={columns}
       data={data}
-      url={`${pathname}`}
+      url={`${pathname}/view`}
       optionsText="Ver"
     />
   );

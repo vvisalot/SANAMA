@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import MainInfoComponent from "@/components/evaluations/MainInfoTab";
-import ClinicalTab from "@/components/evaluations/ClinicalTab";
+import VitalSigns from "@/components/evaluations/VitalSigns";
 import DiagnosticoMedico from "@/components/evaluations/DiagnosisTab";
 import GlasgowComaScale from "@/components/evaluations/MentalStatusTab";
 import TratamientoYDecisionCita from "@/components/evaluations/TreatmentTab";
@@ -24,7 +24,7 @@ const FormularioMedico = () => {
       fechaUltimaAtencion: "",
       horaUltimaAtencion: "",
     },
-    ClinicalTab: {
+    VitalSigns: {
       signosVitales: {
         temperatura: "",
         fc: "",
@@ -101,10 +101,10 @@ const FormularioMedico = () => {
             handleInputChange={handleInputChange}
           ></MainInfoComponent>
 
-          <ClinicalTab
-            formData={formData.ClinicalTab}
+          <VitalSigns
+            formData={formData.VitalSigns}
             handleInputChange={handleInputChange}
-          ></ClinicalTab>
+          ></VitalSigns>
         </div>
       </form>
     </div>
