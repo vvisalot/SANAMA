@@ -54,13 +54,23 @@ const TratamientoYDecisionCita = () => {
         </label>
         {tratamientoData.tratamientos.map((tratamiento, index) => (
           <div key={index} className="flex items-center space-x-2">
-            <input
-              type="text"
-              value={tratamiento}
-              onChange={(e) => handleArrayChange(index, e.target.value)}
-              className="mt-1 p-2 w-full border-gray-300 rounded-md"
-              placeholder={`Tratamiento ${index + 1}`}
-            />
+            <div className="flex">
+              <input
+                type="text"
+                value={tratamiento}
+                onChange={(e) => handleArrayChange(index, e.target.value)}
+                className="mt-1 p-2 w-full border-gray-300 rounded-md"
+                placeholder={`Medicamento ${index + 1}`}
+              />
+              <input
+                type="text"
+                value={tratamiento}
+                onChange={(e) => handleArrayChange(index, e.target.value)}
+                className="mt-1 p-2 w-full border-gray-300 rounded-md"
+                placeholder={`Indicaciones ${index + 1}`}
+              />
+            </div>
+
             <button
               type="button"
               onClick={() => removeTratamientoField(index)}
