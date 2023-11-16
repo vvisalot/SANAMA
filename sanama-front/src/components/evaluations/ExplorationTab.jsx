@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const ExplorationTab = ({ formData, handleInputChange }) => {
   const [visibleSections, setVisibleSections] = useState({
@@ -30,27 +31,38 @@ const ExplorationTab = ({ formData, handleInputChange }) => {
   };
 
   const renderCheckbox = (label, section, key) => (
-    <div class="flex items-center ml-12">
+    <motion.div
+      key={key}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.2 }}
+      className="flex items-center ml-12 mb-2 "
+    >
       <input
         type="checkbox"
         checked={visibleSections[section]}
         onChange={() => toggleSectionVisibility(section)}
-        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+        className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
       />
-      <label
-        key={key}
-        className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-      >
+      <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
         {label}
       </label>
-    </div>
+    </motion.div>
   );
 
   const renderTextArea = (label, name, section, key) => {
     if (!visibleSections[section]) return null;
     const value = formData?.exploracionFisica?.[section] || "";
     return (
-      <div key={key} className="col-span-2 ml-12">
+      <motion.div
+        key={key}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        transition={{ duration: 0.2 }}
+        className="col-span-2 ml-12"
+      >
         <label
           htmlFor={name}
           className="block resize-none text-sm font-medium text-gray-700"
@@ -65,7 +77,7 @@ const ExplorationTab = ({ formData, handleInputChange }) => {
           className="mt-1 p-2 w-full border-gray-300 rounded-md"
           rows={3}
         />
-      </div>
+      </motion.div>
     );
   };
 
@@ -81,25 +93,27 @@ const ExplorationTab = ({ formData, handleInputChange }) => {
               .replace(/([A-Z])/g, " $1")
               .replace(/^./, (str) => str.toUpperCase()),
             section,
-            `checkbox-${section}` // Agregar una clave única aquí
+            `checkbox-${section}`
           )
         )}
       </div>
       <h5 className="text-base font-medium text-gray-700 mb-2">
         Exploraciones
       </h5>
-      <div className="resize-none grid grid-cols-1 md:grid-cols-2 gap-4">
-        {sectionNames.map((section) =>
-          renderTextArea(
-            section
-              .replace(/([A-Z])/g, " $1")
-              .replace(/^./, (str) => str.toUpperCase()),
-            `ClinicalTab.exploracionFisica.${section}`,
-            section,
-            `textarea-${section}` // Agregar una clave única aquí
-          )
-        )}
-      </div>
+      <AnimatePresence>
+        <div className="resize-none grid grid-cols-1 md:grid-cols-2 gap-4">
+          {sectionNames.map((section) =>
+            renderTextArea(
+              section
+                .replace(/([A-Z])/g, " $1")
+                .replace(/^./, (str) => str.toUpperCase()),
+              `ClinicalTab.exploracionFisica.${section}`,
+              section,
+              `textarea-${section}`
+            )
+          )}
+        </div>
+      </AnimatePresence>
     </div>
   );
 };
