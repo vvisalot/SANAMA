@@ -22,9 +22,24 @@ const useMedicalRecordForm = () => {
     return true;
   };
 
+  const createMedicalRecord = async (idCita, formData) => {
+    // Implement the logic to create a new medical record using the formData
+    // Example:
+    try {
+      const response = await patientService.registrarHojaMedica(
+        idCita,
+        formData
+      );
+      return response; // Return the response from the API call
+    } catch (error) {
+      console.error("Error:", error);
+      return null; // Handle the error as needed
+    }
+  };
+
   return {
-    errorMessageMedicalRecordForm,
     validateMedicalRecordForm,
+    createMedicalRecord,
   };
 };
 

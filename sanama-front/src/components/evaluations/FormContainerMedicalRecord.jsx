@@ -10,7 +10,7 @@ import { patientService } from "@/services/patientService";
 const FormContainerMedicalRecord = ({ idCita, initialData }) => {
   const router = useRouter();
   const [allFormComplete, setAllFormComplete] = useState(false);
-  const { errorMessageMedicalRecordForm, validateMedicalRecordForm } =
+  const { validateMedicalRecordForm, createMedicalRecord } =
     useMedicalRecordForm();
 
   const [formData, setFormData] = useState(initialData);
@@ -44,7 +44,7 @@ const FormContainerMedicalRecord = ({ idCita, initialData }) => {
     }
 
     try {
-      const EvaluationFormData = await createMedicalRecord(formData);
+      const EvaluationFormData = await createMedicalRecord(idCita, formData);
       toast.promise(() => loadingRegister(EvaluationFormData), {
         loading: "Registrando cita",
         success: "Cita registrada",
@@ -65,15 +65,16 @@ const FormContainerMedicalRecord = ({ idCita, initialData }) => {
       <MedicalDecision
         formData={formData}
         handleSubmit={handleSubmit}
-        idCita={idCita}
+        allFormComplete={allFormComplete}
       />
-      <div className="mb-6 space-x-4">
+      <div className="flex flex-row-reverse">
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg shadow-md"
-          onClick={() => createMedicalRecord(idCita)}
-          disabled={isSubmitting}
+          type="submit"
+          onClick={handleSubmit}
+          className=" m-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 
+                            font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center"
         >
-          {isSubmitting ? "Processing..." : "Continue"}
+          Registrar Evaluacion
         </button>
       </div>
     </form>
