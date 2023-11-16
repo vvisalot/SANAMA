@@ -10,6 +10,10 @@ const TratamientoYDecisionCita = () => {
     ],
     fechaDeCaducidad: "",
   });
+  const [editMode, setEditMode] = useState(false);
+  const toggleEditMode = (index) => {
+    setEditMode((prevEditMode) => !prevEditMode);
+  };
 
   const handleArrayChange = (index, field, value) => {
     setTratamientoData((prevState) => {
@@ -90,10 +94,14 @@ const TratamientoYDecisionCita = () => {
             {index !== tratamientoData.recetasMedicas.length - 1 && (
               <button
                 type="button"
-                onClick={() => removeRecetaMedicaField(index)}
-                className="bg-blue-500 text-white p-2 rounded-md"
+                onClick={() => toggleEditMode(index)}
+                className={`p-2 rounded-md ${
+                  !editMode
+                    ? "bg-blue-500 text-white"
+                    : "bg-green-500 text-white"
+                }`}
               >
-                Edit
+                E
               </button>
             )}
             <button
