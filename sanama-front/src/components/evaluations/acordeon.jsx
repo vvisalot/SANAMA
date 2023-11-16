@@ -58,7 +58,7 @@ export default function Accordion({ children, title, id, active = false }) {
         }`}
       >
         <div className="overflow-hidden">
-          <p className="pb-3">{children}</p>
+          <div className="pb-3">{children}</div>
         </div>
       </div>
     </div>
