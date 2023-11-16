@@ -25,8 +25,7 @@ const DiagnosticoMedico = () => {
 
   const handleDiagnosticSelect = (selectedPatient) => {
     setSelectedPatient(selectedPatient);
-    setSearchResults([]);
-    setSearchText("");
+    console.log(selectedPatient);
   };
 
   const removeDiagnosticoField = (index) => {
