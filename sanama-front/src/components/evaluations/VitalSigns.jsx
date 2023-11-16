@@ -24,28 +24,28 @@ const VitalSigns = ({ formData, handleInputChange }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {renderInputField(
             "Temperatura (°C)",
-            "triaje.temperatura",
-            triaje?.temperatura
+            "formData.temperatura",
+            formData.temperatura
           )}
           {renderInputField(
             "Frecuencia Cardiaca",
-            "triaje.frecuenciaCardiaca",
-            triaje?.frecuenciaCardiaca
+            "formData.frecuenciaCardiaca",
+            formData.frecuenciaCardiaca
           )}
           {renderInputField(
             "Frecuencia Respiratoria",
-            "triaje.frecuenciaRespiratoria",
-            triaje?.frecuenciaRespiratoria
+            "formData.frecuenciaRespiratoria",
+            formData.frecuenciaRespiratoria
           )}
           {renderInputField(
             "Presión Arterial",
-            "triaje.presionArterial",
-            triaje?.presionArterial
+            "formData.presionArterial",
+            formData.presionArterial
           )}
           {renderInputField(
             "Saturación de Oxígeno (%)",
-            "triaje.saturacionOxigeno",
-            triaje?.saturacionOxigeno
+            "formData.saturacionOxigeno",
+            formData.saturacionOxigeno
           )}
         </div>
       </div>
