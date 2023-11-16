@@ -6,6 +6,7 @@ import FormEvaluation from "./FormEvaluation";
 import MedicalDecision from "./MedicalDecision"; // Import the missing component
 import { toast } from "sonner";
 import { patientService } from "@/services/patientService";
+import LaboratoryModal from "@/components/evaluations/LaboratoryModal";
 
 const FormContainerMedicalRecord = ({ idCita, initialData }) => {
   const router = useRouter();
@@ -89,10 +90,11 @@ const FormContainerMedicalRecord = ({ idCita, initialData }) => {
           onClick={handleSubmit}
           disable={!isSubmitting}
           className=" m-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 
-                            font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center"
+          font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center"
         >
           Registrar Evaluacion
         </button>
+        <LaboratoryModal></LaboratoryModal>
       </div>
     </form>
   );
