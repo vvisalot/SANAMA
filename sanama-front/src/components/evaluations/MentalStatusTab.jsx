@@ -1,19 +1,11 @@
 import React, { useState } from "react";
 
-const GlasgowComaScale = () => {
+const GlasgowComaScale = ({ formData, handleInputChange }) => {
   const [glasgowData, setGlasgowData] = useState({
     aperturaOjos: "",
     respuestaVerbal: "",
     respuestaMotora: "",
   });
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setGlasgowData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
 
   return (
     <div>

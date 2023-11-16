@@ -35,7 +35,7 @@ const TextAreaField = ({ label, name, handleInputChange, placeholder }) => {
         placeholder={placeholder}
         rows={4}
         aria-label={label}
-        maxlength="255"
+        maxLength="255"
       ></textarea>
     </div>
   );

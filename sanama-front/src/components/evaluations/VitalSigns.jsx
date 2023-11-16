@@ -19,37 +19,35 @@ const VitalSigns = ({ formData, handleInputChange }) => {
     );
   };
   return (
-    <>
-      <div className="col-span-2">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {renderInputField(
-            "Temperatura (°C)",
-            "formData.temperatura",
-            formData.temperatura
-          )}
-          {renderInputField(
-            "Frecuencia Cardiaca",
-            "formData.frecuenciaCardiaca",
-            formData.frecuenciaCardiaca
-          )}
-          {renderInputField(
-            "Frecuencia Respiratoria",
-            "formData.frecuenciaRespiratoria",
-            formData.frecuenciaRespiratoria
-          )}
-          {renderInputField(
-            "Presión Arterial",
-            "formData.presionArterial",
-            formData.presionArterial
-          )}
-          {renderInputField(
-            "Saturación de Oxígeno (%)",
-            "formData.saturacionOxigeno",
-            formData.saturacionOxigeno
-          )}
-        </div>
+    <div className="col-span-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {renderInputField(
+          "Temperatura (°C)",
+          "formData.temperatura",
+          formData.temperatura
+        )}
+        {renderInputField(
+          "Frecuencia Cardiaca",
+          "formData.frecuenciaCardiaca",
+          formData.frecuenciaCardiaca
+        )}
+        {renderInputField(
+          "Frecuencia Respiratoria",
+          "formData.frecuenciaRespiratoria",
+          formData.frecuenciaRespiratoria
+        )}
+        {renderInputField(
+          "Presión Arterial",
+          "formData.presionArterial",
+          formData.presionArterial
+        )}
+        {renderInputField(
+          "Saturación de Oxígeno (%)",
+          "formData.saturacionOxigeno",
+          formData.saturacionOxigeno
+        )}
       </div>
-    </>
+    </div>
   );
 };
 
