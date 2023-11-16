@@ -1,22 +1,21 @@
-"use client"
-import { useState } from "react"
-import { Inter } from "next/font/google"
-import "./globals.css"
-import NextBreadcrumb from "@/components/NextBreadcrumb"
-import Sidebar from "@/components/sidebar/Sidebar"
-import { Toaster } from "sonner"
+"use client";
+import { useState } from "react";
+import { Inter } from "next/font/google";
+import "./globals.css";
+import NextBreadcrumb from "@/components/NextBreadcrumb";
+import Sidebar from "@/components/sidebar/Sidebar";
+import { Toaster } from "sonner";
 
-const inter = Inter({ subsets: ["latin"] })
-
+const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({ children }) {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
-    setIsSidebarOpen((prevIsSidebarOpen) => !prevIsSidebarOpen)
-  }
+    setIsSidebarOpen((prevIsSidebarOpen) => !prevIsSidebarOpen);
+  };
 
-  const mainContentClass = isSidebarOpen ? "ml-64" : "ml-16"
+  const mainContentClass = isSidebarOpen ? "ml-64" : "ml-16";
 
   return (
     <html lang="en">
@@ -24,10 +23,10 @@ export default function RootLayout({ children }) {
         <title>Sanama</title>
       </head>
 
-      <body className={`${inter.className} w-auto h-auto `}>
+      <body className={`${inter.className} w-auto h-screen`}>
         <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
-        <main className={`${mainContentClass} bg-[#EFEFEF]`}>
+        <main className={`${mainContentClass} bg-[#EFEFEF] h-screen`}>
           <NextBreadcrumb
             homeElement={"Inicio"}
             separator={<span>/</span>}
@@ -40,7 +39,6 @@ export default function RootLayout({ children }) {
           <Toaster position="top-right" richColors />
         </main>
       </body>
-
     </html>
-  )
+  );
 }
