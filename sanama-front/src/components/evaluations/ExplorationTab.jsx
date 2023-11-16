@@ -83,7 +83,7 @@ const ExplorationTab = ({ clinicalData, handleInputChange }) => {
         <h5 className="text-base font-medium text-gray-700 mb-2">
           Exploraciones
         </h5>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="resize-none grid grid-cols-1 md:grid-cols-2 gap-4">
           {sectionNames.map((section) =>
             renderTextArea(
               section

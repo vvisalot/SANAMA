@@ -1,17 +1,17 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { attentionService } from "@/services/attentionService";
 import { useParams } from "next/navigation";
-import MainInfoComponent from "@/components/evaluations/MainInfoTab";
-import ClinicalTab from "@/components/evaluations/ClinicalTab";
-import DiagnosticoMedico from "@/components/evaluations/DiagnosisTab";
-import GlasgowComaScale from "@/components/evaluations/MentalStatusTab";
-import TratamientoYDecisionCita from "@/components/evaluations/TreatmentTab";
-import LaboratoryModal from "@/components/evaluations/LaboratoryModal";
-import ExplorationTab from "@/components/evaluations/ExplorationTab";
-import usePatientTriageData from "@/hooks/usePatientTriageData";
 import Accordion from "@/components/evaluations/acordeon";
+import MainInfoComponent from "@/components/evaluations/MainInfoTab";
+import VitalSigns from "@/components/evaluations/vitalSigns";
 import ChiefComplaint from "@/components/evaluations/chiefComplaint";
+import ExplorationTab from "@/components/evaluations/ExplorationTab";
+import GlasgowComaScale from "@/components/evaluations/MentalStatusTab";
+import usePatientTriageData from "@/hooks/usePatientTriageData";
+import LaboratoryModal from "@/components/evaluations/LaboratoryModal";
+import DiagnosticoMedico from "@/components/evaluations/DiagnosisTab";
+import TratamientoYDecisionCita from "@/components/evaluations/TreatmentTab";
 
 const FormularioMedico = () => {
   const params = useParams();
@@ -21,67 +21,34 @@ const FormularioMedico = () => {
   const { patientTriageData, loading, error } = usePatientTriageData(idCita);
 
   const initialFormData = {
-    MainInfo: {
-      nombre: "",
-      dni: "",
-      genero: "",
-      edad: "",
-      peso: "",
-      talla: "",
-      personaResponsable: {
-        nombre: "",
-        dni: "",
-      },
-      fechaUltimaAtencion: "",
-      horaUltimaAtencion: "",
+    signosVitales: {
+      temperatura: "",
+      fc: "",
+      fr: "",
+      pa: "",
+      sat: "",
     },
-    ClinicalTab: {
-      signosVitales: {
-        temperatura: "",
-        fc: "",
-        fr: "",
-        pa: "",
-        sat: "",
-      },
+    ChiefComplaint: {
       antecedentes: "",
       motivoConsulta: "",
       observaciones: "",
-      exploracionFisica: {
-        exGeneral: "",
-        pielYFaneras: "",
-        cabezaYCuello: "",
-        toraxYPulmones: "",
-        cardiovascular: "",
-        abdomen: "",
-        urogenital: "",
-        extremidades: "",
-        snc: "",
-      },
-      estadoMental: {
-        glasgow: "",
-        eyesOpen: "",
-        talkingCorrectly: "",
-        ableToMoveBody: "",
-      },
     },
-    DiagnosticoYTratamientos: {
-      diagnosticos: [],
-      tratamientos: [],
+    exploracionFisica: {
+      exGeneral: "",
+      pielYFaneras: "",
+      cabezaYCuello: "",
+      toraxYPulmones: "",
+      cardiovascular: "",
+      abdomen: "",
+      urogenital: "",
+      extremidades: "",
+      snc: "",
     },
-    DatosHojaMedica: {
-      estadoHojaMedica: "",
-      derivacion: "",
-      proximaCita: "",
-      atendidoPor: "",
-      selloYFirma: "",
-      crearOrdenDeLaboratorio: "",
-      tipoOrdenDeLaboratorio: "",
-      instruccionesLaboratorio: "",
-      resultado: "",
-      recetaMedica: {
-        indicacionesFinales: "",
-        medicamentosRecetados: [],
-      },
+    estadoMental: {
+      glasgow: "",
+      eyesOpen: "",
+      talkingCorrectly: "",
+      ableToMoveBody: "",
     },
   };
 
@@ -89,8 +56,8 @@ const FormularioMedico = () => {
 
   const handleCreateMedicalRecord = async () => {
     const currentDate = new Date();
-    const formattedDate = currentDate.toISOString().split("T")[0]; // yyyy-mm-dd
-    const formattedTime = currentDate.toTimeString().split(" ")[0]; // hh:mm:ss
+    const formattedDate = currentDate.toISOString().split("T")[0];
+    const formattedTime = currentDate.toTimeString().split(" ")[0];
 
     const newMedicalRecord = {
       idHistorialClinico: idHistorialClinico,
@@ -148,13 +115,16 @@ const FormularioMedico = () => {
       <MainInfoComponent patientTriageData={patientTriageData} />
       <form onSubmit={handleSubmit} className="space-y-4">
         <Accordion title="Clinical Tab" id="clinical">
-          <ClinicalTab
-            triaje={patientTriageData ? patientTriageData.triaje : null}
+          <VitalSigns
+            formData={patientTriageData ? patientTriageData.triaje : null}
             handleInputChange={handleInputChange}
           />
         </Accordion>
         <Accordion title="Motivo de la Consulta" id="triage">
-          <ChiefComplaint handleInputChange={handleInputChange} />
+          <ChiefComplaint
+            formData={ChiefComplaint.ClinicalTab}
+            handleInputChange={handleInputChange}
+          />
         </Accordion>
 
         <Accordion title="Exploracion Fisica" id="triage">

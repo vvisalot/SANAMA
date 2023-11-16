@@ -1,6 +1,6 @@
 import React from "react";
 
-const ClinicalTab = ({ triaje, handleInputChange }) => {
+const VitalSigns = ({ formData, handleInputChange }) => {
   const renderInputField = (label, name, value, type = "text") => {
     return (
       <div>
@@ -53,4 +53,4 @@ const ClinicalTab = ({ triaje, handleInputChange }) => {
   );
 };
 
-export default ClinicalTab;
+export default VitalSigns;

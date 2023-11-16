@@ -1,6 +1,6 @@
 import React from "react";
 
-const ChiefComplaint = ({ handleInputChange }) => {
+const ChiefComplaint = ({ formData, handleInputChange }) => {
   return (
     <div className="my-4">
       <div className="grid grid-cols-1 gap-4">
