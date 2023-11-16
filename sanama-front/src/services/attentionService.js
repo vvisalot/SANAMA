@@ -9,6 +9,7 @@ const ENDPOINTS = {
   BUSCAR_HISTORIAL_CLINICO: "/atencion/post/buscarHistorialClinico",
   REGISTRAR_HOJA_MEDICA: "/atencion/post/registrarHojaMedica",
   BUSCAR_DATOS_PACIENTE_TRIAGE: "/atencion/post/buscarTriajeCitaHojaMedica",
+  LISTAR_DIAGNOSTICOS_FILTRO: "/atencion/post/listarDiagnosticosFiltro",
 };
 
 export const attentionService = {
@@ -52,6 +53,19 @@ export const attentionService = {
     } catch (error) {
       console.error("Error al buscar cita", error.message);
       throw new Error("Failed to list filtered appointments");
+    }
+  },
+
+  listarDiagnosticosFiltro: async (filtro) => {
+    try {
+      const response = await axiosInstance.post(
+        ENDPOINTS.LISTAR_DIAGNOSTICOS_FILTRO,
+        { pv_diagnostico: filtro }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching diagnostics", error);
+      throw error;
     }
   },
 };

@@ -1,67 +1,23 @@
-import { useState, useEffect } from "react";
 import { Modal } from "flowbite-react";
+import { useDiagnostics } from "@/hooks/useDiagnostics";
 
 const SearchDiagnostic = ({ show, onClose, onSelect }) => {
-  const [searchText, setSearchText] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [selectedDiagnostic, setSelectedDiagnostic] = useState(null);
-
-  const fetchData = async (filtro) => {
-    try {
-      // Replace with your API call to fetch diagnostics
-      const data = await fetchDiagnosticsFromAPI(filtro);
-      setSearchResults(data);
-    } catch (error) {
-      console.log("No se pudo obtener los datos de los diagnósticos");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchDiagnosticsFromAPI = async (filtro) => {
-    // Replace with your actual API endpoint and request logic
-    const apiUrl =
-      "http://localhost:8080/atencion/post/listarDiagnosticosFiltro";
-    const response = await fetch(apiUrl, {
-      method: "POST",
-      body: JSON.stringify({ pv_diagnostico: filtro }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    if (!response.ok) {
-      throw new Error("Error fetching diagnostics");
-    }
-    const data = await response.json();
-    return data;
-  };
-
-  useEffect(() => {
-    if (searchText) {
-      fetchData(searchText);
-    } else {
-      setSearchResults([]);
-    }
-  }, [searchText]);
-
-  const handleDiagnosticSelect = (selectedDiagnostic) => {
-    setSelectedDiagnostic(selectedDiagnostic);
-    setSearchResults([]);
-    setSearchText("");
-  };
+  const {
+    searchText,
+    setSearchText,
+    searchResults,
+    loading,
+    selectedDiagnostic,
+    handleDiagnosticSelect,
+    resetData,
+  } = useDiagnostics();
 
   const handleConfirm = () => {
     if (selectedDiagnostic) {
       onSelect(selectedDiagnostic);
       onClose();
-      resetModalFields();
+      resetData();
     }
-  };
-
-  const resetModalFields = () => {
-    setSelectedDiagnostic(null);
-    setSearchText("");
   };
 
   return (
