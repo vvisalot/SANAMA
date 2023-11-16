@@ -1,7 +1,7 @@
 const TableHeader = ({ columns, requestSort, sortConfig }) => {
   //console.log("headers",columns)
   return (
-    <thead className="border-gray-200 border-2 text-left text-md tracking-wider text-blue-50 uppercase bg-[#3F83F8]">
+    <thead className="border-gray-200 border-2 text-left text-md tracking-wider text-blue-50 uppercase bg-[#28539E]">
       <tr>
         {columns.map((column, index) => {
           if (column.visible != null && !column.visible) return null

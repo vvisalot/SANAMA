@@ -27,9 +27,9 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
   const baseNavClass =
     "fixed overflow-x-hidden top-0 left-0 h-screen z-10 transition-all duration-300 transform"
   const openNavClass =
-    "translate-x-0 bg-[#3F83F8] text-white"
+    "translate-x-0 bg-[#28539E] text-white"
   const closedNavClass =
-    "bg-gradient-to-b bg-[#3F83F8] text-white"
+    "bg-gradient-to-b bg-[#28539E] text-white"
 
   return (
     <nav className={`${baseNavClass} ${isSidebarOpen ? openNavClass : closedNavClass}`} aria-label="Sidebar" >
