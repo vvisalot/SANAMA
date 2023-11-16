@@ -135,4 +135,119 @@ public class HojaMedicaRepository {
             return programacionCita;
         }
     }
+
+    public int registrarNuevaHojaMedica(HojaMedica hojaMedica) {
+        SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                .withSchemaName("dbSanama")
+                .withProcedureName("ssm_ate_registrar_nueva_hoja_medica")
+                .declareParameters(new SqlParameter[] {
+                        new SqlOutParameter("pn_id_hoja_medica", Types.INTEGER),
+                        new SqlParameter("pn_id_historial_clinico", Types.INTEGER),
+                        new SqlParameter("pn_id_cita_medica", Types.INTEGER),
+                        new SqlParameter("pn_id_hoja_referenciada", Types.INTEGER),
+                        new SqlParameter("pb_firma", Types.BLOB),
+                        new SqlParameter("pd_fecha_caducidad", Types.DATE),
+                       // new SqlParameter("pj_medicamentos_json", Types.JSON),
+                        new SqlParameter("pn_temperatura", Types.DOUBLE),
+                        new SqlParameter("pn_frecuencia_cardiaca", Types.DOUBLE),
+                        new SqlParameter("pn_presion_arterial", Types.DOUBLE),
+                        new SqlParameter("pn_saturacion_oxigeno", Types.DOUBLE),
+                        new SqlParameter("pn_peso", Types.DOUBLE),
+                        new SqlParameter("pn_talla", Types.DOUBLE),
+                        new SqlParameter("pv_motivo_consulta", Types.VARCHAR),
+                        new SqlParameter("pv_antecendetes", Types.VARCHAR),
+                        new SqlParameter("pv_examen_general", Types.VARCHAR),
+                        new SqlParameter("pv_piel_y_faneras", Types.VARCHAR),
+                        new SqlParameter("pv_cabeza_y_cuello", Types.VARCHAR),
+                        new SqlParameter("pv_torax_y_pulmones", Types.VARCHAR),
+                        new SqlParameter("pv_cardiovascular", Types.VARCHAR),
+                        new SqlParameter("pv_abdomen", Types.VARCHAR),
+                        new SqlParameter("pv_urogenital", Types.VARCHAR),
+                        new SqlParameter("pv_extremidades", Types.VARCHAR),
+                        new SqlParameter("pv_snc", Types.VARCHAR),
+                        new SqlParameter("pn_glasgow", Types.INTEGER),
+                        new SqlParameter("pn_eyes_open", Types.INTEGER),
+                        new SqlParameter("pb_talking_correctly", Types.BOOLEAN),
+                        new SqlParameter("pb_able_to_move_body", Types.BOOLEAN),
+                        new SqlParameter("pv_observaciones", Types.VARCHAR),
+                        new SqlParameter("pv_indicaciones_finales", Types.VARCHAR),
+                      //  new SqlParameter("pj_diagnosticos_json", Types.ARRAY)
+                });
+        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
+
+        if(hojaMedica.getHojaRefencia() != null){
+            mapSqlParameterSource
+                    .addValue("pn_id_historial_clinico", hojaMedica.getHistorialClinico().getIdHistorialClinico())
+                    .addValue("pn_id_cita_medica", hojaMedica.getIdCitaMedica())
+                    .addValue("pn_id_hoja_referenciada", hojaMedica.getHojaRefencia().getIdHojaReferenciada())
+                    .addValue("pb_firma", hojaMedica.getFirma())
+                    .addValue("pd_fecha_caducidad", hojaMedica.getRecetaMedica().getFechaCaducidad())
+                    //.addValue("pj_medicamentos_json", hojaMedica.getHoraAtencion())
+                    .addValue("pn_temperatura", hojaMedica.getEvaluacionMedica().getSignosVitales().getTemperatura())
+                    .addValue("pn_frecuencia_cardiaca", hojaMedica.getEvaluacionMedica().getSignosVitales().getFrecuenciaCardiaca())
+                    .addValue("pn_presion_arterial", hojaMedica.getEvaluacionMedica().getSignosVitales().getPresionArterial())
+                    .addValue("pn_saturacion_oxigeno", hojaMedica.getEvaluacionMedica().getSignosVitales().getSaturacionOxigeno())
+                    .addValue("pn_peso", hojaMedica.getEvaluacionMedica().getSignosVitales().getPeso())
+                    .addValue("pn_talla", hojaMedica.getEvaluacionMedica().getSignosVitales().getTalla())
+                    .addValue("pv_motivo_consulta", hojaMedica.getEvaluacionMedica().getMotivoConsulta())
+                    .addValue("pv_antecendetes", hojaMedica.getEvaluacionMedica().getAntecedentes())
+                    .addValue("pv_examen_general", hojaMedica.getEvaluacionMedica().getExamenGeneral())
+                    .addValue("pv_piel_y_faneras", hojaMedica.getEvaluacionMedica().getPielYFaneras())
+                    .addValue("pv_cabeza_y_cuello", hojaMedica.getEvaluacionMedica().getCabezaYCuello())
+                    .addValue("pv_torax_y_pulmones", hojaMedica.getEvaluacionMedica().getToraxYPulmones())
+                    .addValue("pv_cardiovascular", hojaMedica.getEvaluacionMedica().getCardiovascular())
+                    .addValue("pv_abdomen", hojaMedica.getEvaluacionMedica().getAbdomen())
+                    .addValue("pv_urogenital", hojaMedica.getEvaluacionMedica().getUrogenital())
+                    .addValue("pv_extremidades", hojaMedica.getEvaluacionMedica().getExtremidades())
+                    .addValue("pv_snc", hojaMedica.getEvaluacionMedica().getSnc())
+                    .addValue("pn_glasgow", hojaMedica.getEvaluacionMedica().getGlasgow())
+                    .addValue("pn_eyes_open", hojaMedica.getEvaluacionMedica().getEyesOpen())
+                    .addValue("pb_talking_correctly", hojaMedica.getEvaluacionMedica().isTalkingCorrectly())
+                    .addValue("pb_able_to_move_body", hojaMedica.getEvaluacionMedica().isAbleToMoveBody())
+                    .addValue("pv_observaciones", hojaMedica.getEvaluacionMedica().getObservaciones())
+                    .addValue("pv_indicaciones_finales", hojaMedica.getEvaluacionMedica().getIndicacionesFinales());
+            //.addValue("pj_diagnosticos_json", hojaMedica.getEvaluacionMedica().getDiagnosticos());
+        }
+        else{
+            mapSqlParameterSource
+                    .addValue("pn_id_historial_clinico", hojaMedica.getHistorialClinico().getIdHistorialClinico())
+                    .addValue("pn_id_cita_medica", hojaMedica.getIdCitaMedica())
+                    .addValue("pn_id_hoja_referenciada", hojaMedica.getHojaRefencia())
+                    .addValue("pb_firma", hojaMedica.getFirma())
+                    .addValue("pd_fecha_caducidad", hojaMedica.getRecetaMedica().getFechaCaducidad())
+                    //.addValue("pj_medicamentos_json", hojaMedica.getHoraAtencion())
+                    .addValue("pn_temperatura", hojaMedica.getEvaluacionMedica().getSignosVitales().getTemperatura())
+                    .addValue("pn_frecuencia_cardiaca", hojaMedica.getEvaluacionMedica().getSignosVitales().getFrecuenciaCardiaca())
+                    .addValue("pn_presion_arterial", hojaMedica.getEvaluacionMedica().getSignosVitales().getPresionArterial())
+                    .addValue("pn_saturacion_oxigeno", hojaMedica.getEvaluacionMedica().getSignosVitales().getSaturacionOxigeno())
+                    .addValue("pn_peso", hojaMedica.getEvaluacionMedica().getSignosVitales().getPeso())
+                    .addValue("pn_talla", hojaMedica.getEvaluacionMedica().getSignosVitales().getTalla())
+                    .addValue("pv_motivo_consulta", hojaMedica.getEvaluacionMedica().getMotivoConsulta())
+                    .addValue("pv_antecendetes", hojaMedica.getEvaluacionMedica().getAntecedentes())
+                    .addValue("pv_examen_general", hojaMedica.getEvaluacionMedica().getExamenGeneral())
+                    .addValue("pv_piel_y_faneras", hojaMedica.getEvaluacionMedica().getPielYFaneras())
+                    .addValue("pv_cabeza_y_cuello", hojaMedica.getEvaluacionMedica().getCabezaYCuello())
+                    .addValue("pv_torax_y_pulmones", hojaMedica.getEvaluacionMedica().getToraxYPulmones())
+                    .addValue("pv_cardiovascular", hojaMedica.getEvaluacionMedica().getCardiovascular())
+                    .addValue("pv_abdomen", hojaMedica.getEvaluacionMedica().getAbdomen())
+                    .addValue("pv_urogenital", hojaMedica.getEvaluacionMedica().getUrogenital())
+                    .addValue("pv_extremidades", hojaMedica.getEvaluacionMedica().getExtremidades())
+                    .addValue("pv_snc", hojaMedica.getEvaluacionMedica().getSnc())
+                    .addValue("pn_glasgow", hojaMedica.getEvaluacionMedica().getGlasgow())
+                    .addValue("pn_eyes_open", hojaMedica.getEvaluacionMedica().getEyesOpen())
+                    .addValue("pb_talking_correctly", hojaMedica.getEvaluacionMedica().isTalkingCorrectly())
+                    .addValue("pb_able_to_move_body", hojaMedica.getEvaluacionMedica().isAbleToMoveBody())
+                    .addValue("pv_observaciones", hojaMedica.getEvaluacionMedica().getObservaciones())
+                    .addValue("pv_indicaciones_finales", hojaMedica.getEvaluacionMedica().getIndicacionesFinales());
+                    //.addValue("pj_diagnosticos_json", hojaMedica.getEvaluacionMedica().getDiagnosticos());
+        }
+        Map<String, Object> result = simpleJdbcCall.execute(mapSqlParameterSource);
+        if(result.containsKey("ERROR_CODE") || result.containsKey("ERROR_MESSAGE")){
+            return -1;
+        }
+        else{
+            int idHojaMedica = (int)result.get("pn_id_hoja_medica");
+            return idHojaMedica;
+        }
+    }
 }

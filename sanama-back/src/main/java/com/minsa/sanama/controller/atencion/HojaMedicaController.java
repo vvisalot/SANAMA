@@ -67,4 +67,35 @@ public class HojaMedicaController {
         }
         return cita;
     }
+
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE},
+            value = "/post/registrarNuevaHojaMedica")
+    @ResponseBody
+    public int registrarNuevaHojaMedica(@RequestBody HojaMedica hojaMedica){
+        int idHojaMedica=0;
+        try{
+            idHojaMedica = hojaMedicaService.registrarNuevaHojaMedica(hojaMedica);
+            return idHojaMedica;
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return -1;
+    }
+
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE},
+            value = "/post/registrarRecetaMedicaPrueba")
+    @ResponseBody
+    public int registrarRecetaMedicaPrueba(@RequestBody String pv_datos){
+        int idReceta=0;
+        try{
+            System.out.println("dentro del try");
+            idReceta = hojaMedicaService.registrarRecetaMedicaPrueba();
+            return idReceta;
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return -1;
+    }
 }

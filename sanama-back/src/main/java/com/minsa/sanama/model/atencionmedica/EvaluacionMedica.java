@@ -209,7 +209,7 @@ public class EvaluacionMedica {
         return diagnosticos;
     }
 
-    public void getDiagnosticos(List<Diagnostico> diagnosticos) {
+    public void setDiagnosticos(List<Diagnostico> diagnosticos) {
         this.diagnosticos = diagnosticos;
     }
 
