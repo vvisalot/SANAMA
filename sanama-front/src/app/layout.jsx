@@ -26,7 +26,7 @@ export default function RootLayout({ children }) {
       <body className={`${inter.className} w-auto h-screen`}>
         <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
-        <main className={`${mainContentClass} bg-[#EFEFEF] h-screen`}>
+        <main className={`${mainContentClass} bg-[#EFEFEF] h-fill`}>
           <NextBreadcrumb
             homeElement={"Inicio"}
             separator={<span>/</span>}

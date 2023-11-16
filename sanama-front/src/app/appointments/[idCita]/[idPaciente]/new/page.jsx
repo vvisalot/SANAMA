@@ -11,7 +11,7 @@ import usePatientTriageData from "@/hooks/usePatientTriageData";
 import useCreateMedicalRecord from "@/hooks/useCreateMedicalRecord";
 import medicalDecision from "@/components/evaluations/medicalDecision";
 
-const FormularioMedico = () => {
+const newFormularioMedico = () => {
   const params = useParams();
   const idCita = params.idCita;
   const { createMedicalRecord, isSubmitting, submissionError } =
@@ -59,7 +59,7 @@ const FormularioMedico = () => {
   };
 
   const [formData, setFormData] = useState(initialFormData);
-  const [step, setStep] = useState(1); // Initialize step to 1 for the first part
+  const [step, setStep] = useState(1);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -70,12 +70,10 @@ const FormularioMedico = () => {
   };
 
   const handleNextStep = () => {
-    // Move to the next step
     setStep(step + 1);
   };
 
   const handlePrevStep = () => {
-    // Move to the previous step
     setStep(step - 1);
   };
 
@@ -88,7 +86,7 @@ const FormularioMedico = () => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="p-8 h-max">
+    <div className="px-20">
       <h1 className="font-bold text-blue-500 text-6xl p-12">
         Nueva Hoja Médica
       </h1>
@@ -124,13 +122,6 @@ const FormularioMedico = () => {
           </Accordion>
           <div className="flex space-x-4">
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg shadow-md"
-              onClick={handlePrevStep}
-              disabled={step === 1}
-            >
-              Anterior
-            </button>
-            <button
               className="bg-blue-500 hover.bg-blue-700 text-white py-2 px-4 rounded-lg shadow-md"
               onClick={handleNextStep}
             >
@@ -141,15 +132,29 @@ const FormularioMedico = () => {
       )}
 
       {step === 2 && (
-        <medicalDecision
-          formData={formData}
-          handleInputChange={handleInputChange}
-          createMedicalRecord={createMedicalRecord}
-          idCita={idCita}
-        />
+        <div className="flex space-x-4 h-fill">
+          <medicalDecision
+            formData={formData}
+            handleInputChange={handleInputChange}
+            createMedicalRecord={createMedicalRecord}
+            idCita={idCita}
+          />
+          <div className="flex space-x-4">
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg shadow-md"
+              onClick={handlePrevStep}
+              disabled={step === 1}
+            >
+              Anterior
+            </button>
+            <button className="bg-blue-500 hover.bg-blue-700 text-white py-2 px-4 rounded-lg shadow-md">
+              Finalizar
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );
 };
 
-export default FormularioMedico;
+export default newFormularioMedico;
