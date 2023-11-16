@@ -10,10 +10,14 @@ import { patientService } from "@/services/patientService";
 const FormContainerMedicalRecord = ({ idCita, initialData }) => {
   const router = useRouter();
   const [allFormComplete, setAllFormComplete] = useState(false);
-  const { validateMedicalRecordForm, createMedicalRecord } =
-    useMedicalRecordForm();
+  const {
+    validateEvaluationForm,
+    validateMedicalRecordForm,
+    createMedicalRecord,
+  } = useMedicalRecordForm();
 
   const [evaluationData, setEvaluationData] = useState(initialData);
+  const [medicalRecordsData, setMedicalRecordsData] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false); // Add state for submitting
 
   const handleInputChange = (e) => {
@@ -34,7 +38,16 @@ const FormContainerMedicalRecord = ({ idCita, initialData }) => {
     event.preventDefault();
     setIsSubmitting(true); // Set submitting to true
 
-    if (validateMedicalRecordForm(evaluationData)) {
+    if (validateEvaluationForm(evaluationData)) {
+      console.log("The form is valid. Sending data.");
+      setAllFormComplete(true);
+    } else {
+      console.log("Not all fields have been completed correctly.");
+      setIsSubmitting(false); // Set submitting to false
+      return;
+    }
+
+    if (validateMedicalRecordForm(medicalRecordsData)) {
       console.log("The form is valid. Sending data.");
       setAllFormComplete(true);
     } else {
@@ -44,7 +57,10 @@ const FormContainerMedicalRecord = ({ idCita, initialData }) => {
     }
 
     try {
-      const MedicalRecordData = await createMedicalRecord(evaluationData);
+      const MedicalRecordData = await createMedicalRecord(
+        evaluationData,
+        medicalRecordsData
+      );
       toast.promise(() => loadingRegister(MedicalRecordData), {
         loading: "Registrando cita",
         success: "Cita registrada",
@@ -63,8 +79,8 @@ const FormContainerMedicalRecord = ({ idCita, initialData }) => {
         handleInputChange={handleInputChange}
       />
       <MedicalDecision
-        evaluationData={evaluationData}
-        handleSubmit={handleSubmit}
+        evaluationData={evaluationData} //se hace un review de lo que se tiene hasta ahora
+        medicalRecordsData={medicalRecordsData}
         allFormComplete={allFormComplete}
       />
       <div className="flex flex-row-reverse">
