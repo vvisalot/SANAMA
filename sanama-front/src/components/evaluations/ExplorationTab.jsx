@@ -61,20 +61,21 @@ const ExplorationTab = ({ formData, handleInputChange }) => {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
         transition={{ duration: 0.2 }}
-        className="col-span-2 ml-12"
+        className="flex col-span-2 ml-12"
       >
         <label
           htmlFor={name}
-          className="block resize-none text-sm font-medium text-gray-700"
+          className="block resize-none text-sm font-medium text-gray-700 w-1/6"
         >
           {label}
         </label>
-        <input
+        <span className="mr-4">:</span>
+        <textarea
           id={name}
           name={`ClinicalTab.exploracionFisica.${section}`}
           onChange={handleInputChange}
           defaultValue={value}
-          className="mt-1 p-2 w-full border-gray-300 rounded-md"
+          className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           rows={3}
         />
       </motion.div>
@@ -84,7 +85,7 @@ const ExplorationTab = ({ formData, handleInputChange }) => {
   return (
     <div className="ml-2 mr-4 col-span-2">
       <h5 className="text-base font-medium text-gray-700 mb-2">
-        Añadir Exploración
+        Añadir Exploración:
       </h5>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
         {sectionNames.map((section) =>
@@ -98,7 +99,7 @@ const ExplorationTab = ({ formData, handleInputChange }) => {
         )}
       </div>
       <h5 className="text-base font-medium text-gray-700 mb-2">
-        Exploraciones
+        Exploraciones:
       </h5>
       <AnimatePresence>
         <div className="resize-none grid grid-cols-1 md:grid-cols-2 gap-4">
