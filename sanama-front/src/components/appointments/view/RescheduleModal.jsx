@@ -1,54 +1,25 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
 import AvailableHoursBlock from "./AvailableHoursBlock";
-import { doctorService } from "@/services/doctorService";
 import { appointmentService } from "@/services/appointmentService";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider, DateCalendar } from "@mui/x-date-pickers";
-
 import { Modal } from "flowbite-react";
 import PropTypes from "prop-types";
+import {
+  useAvailableDays,
+  useAvailableHours,
+} from "@/hooks/useDoctorAppointments";
 
 const RescheduleModal = ({ isOpen, onClose, medicId, appointmentId }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedHour, setSelectedHour] = useState(null);
-  const [highlightedDays, setHighlightedDays] = useState([]);
-  const [availableHours, setAvailableHours] = useState([]);
   const [isStatusUpdated, setIsStatusUpdated] = useState(false);
   const [confirmationMessage, setConfirmationMessage] = useState("");
   const [isConfirming, setIsConfirming] = useState(false);
 
-  const fetchAvailableDays = useCallback(async () => {
-    try {
-      const data = await doctorService.DiasDisponiblesByID(medicId);
-      setHighlightedDays(data.map((date) => dayjs(date).format("YYYY-MM-DD")));
-    } catch (error) {
-      console.error("Error fetching available days:", error);
-    }
-  }, [medicId]);
-
-  const fetchAvailableHours = useCallback(
-    async (fecha) => {
-      try {
-        const data = await doctorService.buscarHorariosMedicoFecha(
-          fecha,
-          medicId
-        );
-        setAvailableHours(data);
-      } catch (error) {
-        console.error("Error fetching available hours:", error);
-      }
-    },
-    [medicId]
-  );
-
-  useEffect(() => {
-    if (medicId) fetchAvailableDays();
-  }, [medicId, fetchAvailableDays]);
-
-  useEffect(() => {
-    if (selectedDate) fetchAvailableHours(selectedDate);
-  }, [selectedDate, fetchAvailableHours]);
+  const highlightedDays = useAvailableDays(medicId);
+  const availableHours = useAvailableHours(selectedDate, medicId);
 
   useEffect(() => {
     if (isOpen) {
