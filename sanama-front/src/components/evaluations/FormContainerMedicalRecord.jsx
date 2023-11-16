@@ -8,12 +8,12 @@ import GlasgowComaScale from "@/components/evaluations/MentalStatusTab";
 import MedicalDecision from "@/components/evaluations/MedicalDecision";
 import Accordion from "@/components/evaluations/acordeon";
 import useCreateMedicalRecord from "@/hooks/useCreateMedicalRecord";
+import FormEvaluation from "./FormEvaluation";
 import { toast } from "sonner";
 
-const FormContainerEvaluation = ({ idCita, formData, setFormData }) => {
+const FormContainerMedicalRecord = ({ idCita, formData, setFormData }) => {
   const router = useRouter();
   const [allFormComplete, setAllFormComplete] = useState(false);
-  const [step, setStep] = useState(1);
   const { createMedicalRecord, isSubmitting, submissionError } =
     useCreateMedicalRecord();
 
@@ -23,14 +23,6 @@ const FormContainerEvaluation = ({ idCita, formData, setFormData }) => {
       ...prevState,
       [name]: value,
     }));
-  };
-
-  const handleNextStep = () => {
-    setStep(step + 1);
-  };
-
-  const handlePrevStep = () => {
-    setStep(step - 1);
   };
 
   const loadingRegister = async (data) => {
@@ -160,30 +152,10 @@ const FormContainerEvaluation = ({ idCita, formData, setFormData }) => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 h-max">
-      <Accordion title="Clinical Tab" id="clinical">
-        <VitalSigns
-          formData={formData.signosVitales}
-          handleInputChange={handleInputChange}
-        />
-      </Accordion>
-      <Accordion title="Motivo de la Consulta" id="triage">
-        <ChiefComplaint
-          formData={formData.ChiefComplaint}
-          handleInputChange={handleInputChange}
-        />
-      </Accordion>
-      <Accordion title="Exploracion Fisica" id="triage">
-        <ExplorationTab
-          formData={formData.exploracionFisica}
-          handleInputChange={handleInputChange}
-        />
-      </Accordion>
-      <Accordion title="Nivel de Consciencia" id="triage">
-        <GlasgowComaScale
-          formData={formData.estadoMental}
-          handleInputChange={handleInputChange}
-        />
-      </Accordion>{" "}
+      <FormEvaluation
+        formData={formData}
+        handleInputChange={handleInputChange}
+      />
       <MedicalDecision
         formData={formData}
         handleSubmit={handleSubmit}
@@ -202,4 +174,4 @@ const FormContainerEvaluation = ({ idCita, formData, setFormData }) => {
   );
 };
 
-export default FormContainerEvaluation;
+export default FormContainerMedicalRecord;

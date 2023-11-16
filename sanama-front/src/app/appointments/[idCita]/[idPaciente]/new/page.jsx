@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useParams } from "next/navigation";
 import MainInfoComponent from "@/components/evaluations/MainInfoTab";
 import usePatientTriageData from "@/hooks/usePatientTriageData";
-import FormContainerEvaluation from "@/components/evaluations/FormContainerEvaluation";
+import FormContainerMedicalRecord from "@/components/evaluations/FormContainerMedicalRecord";
 
 const newFormularioMedico = () => {
   const params = useParams();
@@ -61,7 +61,7 @@ const newFormularioMedico = () => {
       </h1>
 
       <MainInfoComponent patientTriageData={patientTriageData} />
-      <FormContainerEvaluation
+      <FormContainerMedicalRecord
         idCita={idCita}
         formData={formData}
         setFormData={setFormData}
