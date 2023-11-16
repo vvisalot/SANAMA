@@ -1,47 +1,22 @@
 import React, { useState } from "react";
 import SearchDiagnostic from "./searchDiagnostic";
 const DiagnosticoMedico = () => {
-  const [diagnosticoData, setDiagnosticoData] = useState({
-    diagnostico: [],
-    selloYFirma: "",
-  });
+  const [diagnosticoData, setDiagnosticoData] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [selectedPatient, setSelectedPatient] = useState(null);
 
-  const handleArrayChange = (index, value) => {
-    setDiagnosticoData((prevState) => {
-      const updatedDiagnostico = [...prevState.diagnostico];
-      updatedDiagnostico[index] = value;
-      return { ...prevState, diagnostico: updatedDiagnostico };
-    });
-  };
-
-  const addDiagnosticoField = () => {
-    setDiagnosticoData((prevState) => ({
-      ...prevState,
-      diagnostico: [...prevState.diagnostico, ""],
-    }));
-  };
-
-  const handleDiagnosticSelect = (selectedPatient) => {
-    setSelectedPatient(selectedPatient);
-    console.log(selectedPatient);
+  const addDiagnosticoField = (nuevoDiagnostico) => {
+    setDiagnosticoData((prevDiagnosticoData) => [
+      ...prevDiagnosticoData,
+      nuevoDiagnostico,
+    ]);
   };
 
   const removeDiagnosticoField = (index) => {
-    setDiagnosticoData((prevState) => {
-      const updatedDiagnostico = [...prevState.diagnostico];
+    setDiagnosticoData((prevDiagnosticoData) => {
+      const updatedDiagnostico = [...prevDiagnosticoData];
       updatedDiagnostico.splice(index, 1);
-      return { ...prevState, diagnostico: updatedDiagnostico };
+      return updatedDiagnostico;
     });
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setDiagnosticoData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
   };
 
   const handleOpenModal = () => {
@@ -62,14 +37,12 @@ const DiagnosticoMedico = () => {
         <label className="block text-sm font-medium text-gray-700">
           Diagnóstico (CIE-10)
         </label>
-        {diagnosticoData.diagnostico.map((diagnose, index) => (
+        {diagnosticoData.map((diagnose, index) => (
           <div key={index} className="flex items-center space-x-2">
             <input
               type="text"
-              value={diagnose}
-              onChange={(e) => handleArrayChange(index, e.target.value)}
+              value={`${diagnose.idCiex} - ${diagnose.ciex}`}
               className="mt-1 p-2 w-full border-gray-300 rounded-md"
-              placeholder={`Diagnóstico ${index + 1}`}
             />
             <button
               type="button"
@@ -80,13 +53,6 @@ const DiagnosticoMedico = () => {
             </button>
           </div>
         ))}
-        <button
-          type="button"
-          onClick={addDiagnosticoField}
-          className="mt-2 px-4 py-2 bg-green-500 text-white rounded-md"
-        >
-          Añadir Diagnóstico
-        </button>
       </div>
       <button
         type="button"
@@ -96,25 +62,11 @@ const DiagnosticoMedico = () => {
         Search Diagnostic
       </button>
 
-      {/* Render the SearchDiagnostic component */}
       <SearchDiagnostic
         show={showModal}
         onClose={handleCloseModal}
-        onSelect={handleDiagnosticSelect} // Replace this with the actual onSelect handler
+        onSelect={addDiagnosticoField} // Replace this with the actual onSelect handler
       />
-
-      <div>
-        <label className="block text-sm font-medium text-gray-700">
-          Sello y Firma
-        </label>
-        <input
-          type="text"
-          name="selloYFirma"
-          value={diagnosticoData.selloYFirma}
-          onChange={handleInputChange}
-          className="mt-1 p-2 w-full border-gray-300 rounded-md"
-        />
-      </div>
     </div>
   );
 };
