@@ -6,8 +6,7 @@ const useMedicalRecordForm = () => {
     useState("");
 
   const validateMedicalRecordForm = (formData) => {
-    // Add your validation logic here based on formData
-    // Example validation:
+    // Agregar verificaciones aca
     if (formData.fecha === "" || formData.hora === "") {
       setErrorMessageMedicalRecordForm(
         "Please complete all fields to reserve the appointment"
@@ -16,15 +15,14 @@ const useMedicalRecordForm = () => {
       return false;
     }
 
-    // Additional validation logic for other fields
+    // Aditional validation logic for other fields
 
     setErrorMessageMedicalRecordForm("");
     return true;
   };
 
   const createMedicalRecord = async (evaluationData) => {
-    // Implement the logic to create a new medical record using the formData
-    // Example:
+    // esto basicamento parsea
   };
 
   return {
