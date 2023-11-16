@@ -73,7 +73,7 @@ const FormContainerMedicalRecord = ({ idCita, initialData }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 h-max">
+    <form onSubmit={handleSubmit} className="space-y-4 h-max w-full">
       <FormEvaluation
         evaluationData={evaluationData}
         handleInputChange={handleInputChange}

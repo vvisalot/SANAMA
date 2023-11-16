@@ -5,12 +5,12 @@ const ExplorationTab = ({ formData, handleInputChange }) => {
     exGeneral: false,
     pielYFaneras: false,
     cabezaYCuello: false,
-    toraxYPulmones: false, // Changed to camelCase
+    toraxYPulmones: false,
     cardiovascular: false,
     abdomen: false,
     urogenital: false,
     extremidades: false,
-    snc: false, // Changed to camelCase
+    snc: false,
   });
 
   const sectionNames = [
@@ -48,16 +48,16 @@ const ExplorationTab = ({ formData, handleInputChange }) => {
       <div key={key} className="col-span-2">
         <label
           htmlFor={name}
-          className="block text-sm font-medium text-gray-700"
+          className="block resize-none text-sm font-medium text-gray-700"
         >
           {label}
         </label>
-        <textarea
+        <input
           id={name}
           name={`ClinicalTab.exploracionFisica.${section}`}
-          value={value}
           onChange={handleInputChange}
-          className="mt-1 p-2 w-full border-gray-300 rounded-md"
+          defaultValue={value}
+          className="ml-2 mt-1 p-2 mr-4 w-full border-gray-300 rounded-md"
           rows={3}
         />
       </div>
@@ -69,7 +69,7 @@ const ExplorationTab = ({ formData, handleInputChange }) => {
       <h5 className="text-base font-medium text-gray-700 mb-2">
         Añadir Exploración
       </h5>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
         {sectionNames.map((section) =>
           renderCheckbox(
             section
