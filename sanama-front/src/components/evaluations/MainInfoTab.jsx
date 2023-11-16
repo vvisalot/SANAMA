@@ -33,11 +33,11 @@ const MainInfoComponent = ({ patientTriageData }) => {
   return (
     <>
       <div className="col-span-2">
-        <h4 className="text-lg font-bold text-gray-700 mb-2">
+        <h4 className="text-lg  font-bold rtl:text-right text-gray-500  mb-2">
           Información del Paciente
         </h4>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="ml-4 grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <InputField
             label="Paciente"
             value={`${paciente.nombres} ${paciente.apellidoPaterno} ${paciente.apellidoMaterno}`}

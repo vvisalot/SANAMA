@@ -19,32 +19,34 @@ export default function Accordion({ children, title, id, active = false }) {
           aria-expanded={accordionOpen}
           aria-controls={`accordion-text-${id}`}
         >
-          <h4 className="text-lg font-bold text-gray-700 mb-2">{title}</h4>
-          <svg
-            className="fill-indigo-500 shrink-0 ml-8"
-            width="16"
-            height="16"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <rect
-              y="7"
+          <h4 className="flex items-center justify-between w-full py-5 font-bold rtl:text-right text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 gap-3">
+            {title}
+            <svg
+              className="fill-indigo-500 shrink-0 ml-8"
               width="16"
-              height="2"
-              rx="1"
-              className={`transform origin-center transition duration-200 ease-out ${
-                accordionOpen && "!rotate-180"
-              }`}
-            />
-            <rect
-              y="7"
-              width="16"
-              height="2"
-              rx="1"
-              className={`transform origin-center rotate-90 transition duration-200 ease-out ${
-                accordionOpen && "!rotate-180"
-              }`}
-            />
-          </svg>
+              height="16"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                y="7"
+                width="16"
+                height="2"
+                rx="1"
+                className={`transform origin-center transition duration-200 ease-out ${
+                  accordionOpen && "!rotate-180"
+                }`}
+              />
+              <rect
+                y="7"
+                width="16"
+                height="2"
+                rx="1"
+                className={`transform origin-center rotate-90 transition duration-200 ease-out ${
+                  accordionOpen && "!rotate-180"
+                }`}
+              />
+            </svg>
+          </h4>
         </button>
       </h2>
       <div
