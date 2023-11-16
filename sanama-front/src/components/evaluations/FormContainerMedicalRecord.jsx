@@ -1,21 +1,20 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import VitalSigns from "@/components/evaluations/vitalSigns";
-import ChiefComplaint from "@/components/evaluations/chiefComplaint";
-import ExplorationTab from "@/components/evaluations/ExplorationTab";
-import GlasgowComaScale from "@/components/evaluations/MentalStatusTab";
-import MedicalDecision from "@/components/evaluations/MedicalDecision";
-import Accordion from "@/components/evaluations/acordeon";
-import useCreateMedicalRecord from "@/hooks/useCreateMedicalRecord";
+import useMedicalRecordForm from "@/hooks/useMedicalRecordForm";
 import FormEvaluation from "./FormEvaluation";
+import MedicalDecision from "./MedicalDecision"; // Import the missing component
 import { toast } from "sonner";
+import { patientService } from "@/services/patientService";
 
-const FormContainerMedicalRecord = ({ idCita, formData, setFormData }) => {
+const FormContainerMedicalRecord = ({ idCita, initialData }) => {
   const router = useRouter();
   const [allFormComplete, setAllFormComplete] = useState(false);
-  const { createMedicalRecord, isSubmitting, submissionError } =
-    useCreateMedicalRecord();
+  const { errorMessageMedicalRecordForm, validateMedicalRecordForm } =
+    useMedicalRecordForm();
+
+  const [formData, setFormData] = useState(initialData);
+  const [isSubmitting, setIsSubmitting] = useState(false); // Add state for submitting
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -27,126 +26,33 @@ const FormContainerMedicalRecord = ({ idCita, formData, setFormData }) => {
 
   const loadingRegister = async (data) => {
     console.log(data);
-    await appointmentService.registrarCita(data);
+    await patientService.registrarHojaMedica(data);
     router.push("/appointments");
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (validateAppointmentForm(fechaNacimiento, validatePatientForm)) {
-      console.log("El formulario es válido. Enviar datos.");
+    setIsSubmitting(true); // Set submitting to true
+
+    if (validateMedicalRecordForm(formData)) {
+      console.log("The form is valid. Sending data.");
       setAllFormComplete(true);
     } else {
-      console.log("No se han completado correctamente los campos.");
-      setAllFormComplete(false);
+      console.log("Not all fields have been completed correctly.");
+      setIsSubmitting(false); // Set submitting to false
       return;
     }
 
-    if (patientId.idPersona == -1) {
-      try {
-        const patientData = {
-          nombres: patientForm.nombres,
-          apellidoPaterno: patientForm.apellidoPaterno,
-          apellidoMaterno: patientForm.apellidoMaterno,
-          dni: patientForm.dni,
-          fechaNacimiento: fechaNacimiento,
-          sexo: sexo.charAt(0),
-          telefono: patientForm.telefono,
-          estado: 1,
-          codigoSeguro: patientForm.codigoSeguro,
-          tipoSeguro: patientForm.tipoSeguro,
-          direccion: patientForm.direccion,
-          correo: patientForm.correo,
-        };
-        const patientResponse = await patientService.registrarPaciente(
-          patientData
-        );
-
-        if (patientResponse !== null || patientResponse !== -1) {
-          const newPatientId = patientResponse;
-
-          setPatientId({
-            idPersona: newPatientId,
-          });
-
-          const appointmentFormData = {
-            paciente: {
-              idPersona: newPatientId,
-            },
-            medico: doctorId,
-            horaCita: schedule.hora,
-            fechaCita: schedule.fecha,
-            tieneAcompanhante:
-              legalResponsibilityForm.tieneAcompañante === "Si" ? true : false,
-            nombreAcompanhante:
-              legalResponsibilityForm.tieneAcompañante === "Si"
-                ? `${legalResponsibilityForm.nombres} ${legalResponsibilityForm.apellidoPaterno} ${legalResponsibilityForm.apellidoMaterno}`
-                : null,
-            dniAcompanhante:
-              legalResponsibilityForm.tieneAcompañante === "Si"
-                ? legalResponsibilityForm.dni
-                : null,
-            parentezco:
-              legalResponsibilityForm.tieneAcompañante === "Si"
-                ? legalResponsibilityForm.parentesco
-                : null,
-            requiereTriaje: triageRequirement === "Si" ? 1 : 0,
-          };
-          // let response = await appointmentService.registrarCita(appointmentFormData)
-          // const promise = () => new Promise((resolve) => setTimeout(resolve, 2000));
-
-          console.log("Paciente registrado y cita registrada");
-          toast.promise(() => loadingRegister(appointmentFormData), {
-            loading: "Registrando paciente y cita",
-            success: "Paciente y cita registrados",
-            error: "Error al registrar paciente y cita",
-          });
-        } else {
-          console.log("Error al registrar paciente y cita");
-          toast.error("Error al registrar paciente y cita");
-        }
-      } catch (error) {
-        console.log(
-          "Error en la respuesta del servidor para registrar un paciente y cita"
-        );
-        toast.error(
-          "Error en la respuesta del servidor para registrar un paciente y cita"
-        );
-      }
-    } else {
-      try {
-        const appointmentFormData = {
-          paciente: patientId,
-          medico: doctorId,
-          horaCita: schedule.hora,
-          fechaCita: schedule.fecha,
-          tieneAcompanhante:
-            legalResponsibilityForm.tieneAcompañante === "Si" ? true : false,
-          nombreAcompanhante:
-            legalResponsibilityForm.tieneAcompañante === "Si"
-              ? `${legalResponsibilityForm.nombres} ${legalResponsibilityForm.apellidoPaterno} ${legalResponsibilityForm.apellidoMaterno}`
-              : null,
-          dniAcompanhante:
-            legalResponsibilityForm.tieneAcompañante === "Si"
-              ? legalResponsibilityForm.dni
-              : null,
-          parentezco:
-            legalResponsibilityForm.tieneAcompañante === "Si"
-              ? legalResponsibilityForm.parentesco
-              : null,
-          requiereTriaje: triageRequirement === "Si" ? 1 : 0,
-        };
-
-        // let response = await appointmentService.registrarCita(appointmentFormData)
-
-        toast.promise(() => loadingRegister(appointmentFormData), {
-          loading: "Registrando cita",
-          success: "Cita registrada",
-        });
-      } catch (error) {
-        toast.error("Error al registrar cita para un paciente existente");
-        console.log("Error al registrar cita para un paciente existente");
-      }
+    try {
+      const EvaluationFormData = await createMedicalRecord(formData);
+      toast.promise(() => loadingRegister(EvaluationFormData), {
+        loading: "Registrando cita",
+        success: "Cita registrada",
+      });
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error("Error occurred. Please try again.");
+      setIsSubmitting(false); // Set submitting to false in case of error
     }
   };
 
@@ -167,7 +73,7 @@ const FormContainerMedicalRecord = ({ idCita, formData, setFormData }) => {
           onClick={() => createMedicalRecord(idCita)}
           disabled={isSubmitting}
         >
-          {isSubmitting ? "Procesando..." : "Continuar"}
+          {isSubmitting ? "Processing..." : "Continue"}
         </button>
       </div>
     </form>

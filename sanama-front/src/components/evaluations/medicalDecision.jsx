@@ -6,7 +6,9 @@ import TratamientoYDecisionCita from "@/components/evaluations/TreatmentTab";
 const MedicalDecision = ({ formData, handleSubmit, idCita }) => {
   return (
     <div>
-      <form onSubmit={handleSubmit} className="space-y-4"></form>
+      <LaboratoryModal></LaboratoryModal>
+      <DiagnosticoMedico></DiagnosticoMedico>
+      <TratamientoYDecisionCita></TratamientoYDecisionCita>
     </div>
   );
 };

@@ -61,11 +61,7 @@ const newFormularioMedico = () => {
       </h1>
 
       <MainInfoComponent patientTriageData={patientTriageData} />
-      <FormContainerMedicalRecord
-        idCita={idCita}
-        formData={formData}
-        setFormData={setFormData}
-      />
+      <FormContainerMedicalRecord idCita={idCita} initialData={formData} />
     </div>
   );
 };
