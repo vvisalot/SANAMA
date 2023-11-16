@@ -7,8 +7,8 @@ const columns = [
     { name: "Fecha Actualización" },
     { name: "DNI" },
     { name: "Nombre completo" },
-    { name: "Estado" },
     { name: "Urgencia" },
+    { name: "Estado" },
     { name: "Opciones" },
 ]
 

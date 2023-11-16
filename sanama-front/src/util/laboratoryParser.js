@@ -1,30 +1,31 @@
+import moment from 'moment';
+
 export function parseLaboratoryTable(data) {
     return data.map(row => {
         const paciente = row.citaMedica.paciente;
 
         let estadoTexto;
-        let estadoClase; 
+        let estadoClase = ""; 
         switch (row.estado) {
             case 1:
                 estadoTexto = "Atendida";
-                estadoClase = "bg-atendida"; 
+                estadoClase = "highlight-green";
                 break;
             case 2:
                 estadoTexto = "En Consultorio";
- 
                 break;
             case 3:
+                estadoClase = "highlight-red"; 
                 estadoTexto = "Cancelada";
-
                 break;
             case 4:
+                estadoClase = "highlight-orange";
                 estadoTexto = "Pendiente";
-                estadoClase = "bg-pendiente"; 
                 break;
             default:
                 estadoTexto = "Desconocido";
-
         }
+
 
         // let resultados;
         // if (row.examenMedico && row.examenMedico.urlDescarga) {
@@ -33,16 +34,17 @@ export function parseLaboratoryTable(data) {
         //     resultados = "No disponible";
         // }
 
-        const fechaOrden = row.fechaOrden.split('-').reverse().join('-'); 
+        const fechaOrden = moment(row.fechaOrden).format('DD/MM/YYYY');
+        const horaOrden = moment(row.horaOrden, 'HH:mm:ss').format('hh:mm A');
 
         return [
             { "data": row.idOrdenLaboratorio }, // ID
             { "data": row.codigoOrden },
-            { "data": `${fechaOrden}     ${row.horaOrden}`}, // FECHA Y HORA
-            { "data": `${paciente.nombres} ${paciente.apellidoPaterno} ${paciente.apellidoMaterno}` }, // NOMBRE COMPLETO
-            { "data": paciente.dni }, // DNI
+            { "data": `${fechaOrden} ${horaOrden}`, "className": "centered-column"  },   // FECHA Y HORA
+            { "data": paciente.dni }, 
+            { "data": `${paciente.nombres} ${paciente.apellidoPaterno} ${paciente.apellidoMaterno}` }, // NOMBRE COMPLETO// DNI
             { "data": row.tipoMuestra }, // TIPO DE ORDEN/EXAMEN
-            { "data": estadoTexto, "className": estadoClase },  // ESTADO con su clase
+            { "data": <span className={estadoClase}>{estadoTexto}</span> } // ESTADO con su clase
             // { "data": resultados, "className": "text-center" }, // RESULTADOS
         ];
     });

@@ -108,13 +108,13 @@ const TriajePage = () => {
             setDateFinal={setDateFinal}
           />
 
-
           <button
             type="submit"
-            className="text-white bg-primary-dark-blue hover:bg-primary-dusk-blue focus:ring-4 focus:outline-none focus:ring-primary-light-periwinkle font-medium rounded-lg text-sm px-4 py-2.5"
+            className="ml-2 text-white bg-[#28539E] hover:bg-primary-dusk-blue focus:ring-4 focus:outline-none focus:ring-primary-light-periwinkle font-medium rounded-lg text-sm px-4 py-2.5"
           >
             Buscar
           </button>
+          
         </div>
 
       </form>
