@@ -83,6 +83,9 @@ public class HojaMedicaController {
         return -1;
     }
 
+
+    // este servicio de abajo ni lo miren, ni lo toquen, ni lo usen
+    // ya saben.... solo lo usé de prueba
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE},
             value = "/post/registrarRecetaMedicaPrueba")
