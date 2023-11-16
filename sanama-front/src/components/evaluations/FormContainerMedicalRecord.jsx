@@ -13,12 +13,12 @@ const FormContainerMedicalRecord = ({ idCita, initialData }) => {
   const { validateMedicalRecordForm, createMedicalRecord } =
     useMedicalRecordForm();
 
-  const [formData, setFormData] = useState(initialData);
+  const [evaluationData, setEvaluationData] = useState(initialData);
   const [isSubmitting, setIsSubmitting] = useState(false); // Add state for submitting
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevState) => ({
+    setEvaluationData((prevState) => ({
       ...prevState,
       [name]: value,
     }));
@@ -34,7 +34,7 @@ const FormContainerMedicalRecord = ({ idCita, initialData }) => {
     event.preventDefault();
     setIsSubmitting(true); // Set submitting to true
 
-    if (validateMedicalRecordForm(formData)) {
+    if (validateMedicalRecordForm(evaluationData)) {
       console.log("The form is valid. Sending data.");
       setAllFormComplete(true);
     } else {
@@ -44,8 +44,8 @@ const FormContainerMedicalRecord = ({ idCita, initialData }) => {
     }
 
     try {
-      const EvaluationFormData = await createMedicalRecord(idCita, formData);
-      toast.promise(() => loadingRegister(EvaluationFormData), {
+      const MedicalRecordData = await createMedicalRecord(evaluationData);
+      toast.promise(() => loadingRegister(MedicalRecordData), {
         loading: "Registrando cita",
         success: "Cita registrada",
       });
@@ -59,11 +59,11 @@ const FormContainerMedicalRecord = ({ idCita, initialData }) => {
   return (
     <form onSubmit={handleSubmit} className="space-y-4 h-max">
       <FormEvaluation
-        formData={formData}
+        evaluationData={evaluationData}
         handleInputChange={handleInputChange}
       />
       <MedicalDecision
-        formData={formData}
+        evaluationData={evaluationData}
         handleSubmit={handleSubmit}
         allFormComplete={allFormComplete}
       />
@@ -71,6 +71,7 @@ const FormContainerMedicalRecord = ({ idCita, initialData }) => {
         <button
           type="submit"
           onClick={handleSubmit}
+          disable={!isSubmitting}
           className=" m-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 
                             font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center"
         >

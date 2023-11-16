@@ -3,12 +3,7 @@ import LaboratoryModal from "@/components/evaluations/LaboratoryModal";
 import DiagnosticoMedico from "@/components/evaluations/DiagnosisTab";
 import TratamientoYDecisionCita from "@/components/evaluations/TreatmentTab";
 
-const MedicalDecision = ({
-  formData,
-  handleSubmit,
-  allFormComplete,
-  idCita,
-}) => {
+const MedicalDecision = ({ formData, handleSubmit, allFormComplete }) => {
   return (
     <div>
       <LaboratoryModal></LaboratoryModal>

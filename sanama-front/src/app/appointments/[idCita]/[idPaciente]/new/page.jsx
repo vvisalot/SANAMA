@@ -18,6 +18,7 @@ const newFormularioMedico = () => {
   } = patientTriageData?.triaje ?? {};
 
   const initialFormData = {
+    idCita: idCita,
     signosVitales: {
       temperatura,
       frecuenciaCardiaca,
@@ -61,7 +62,7 @@ const newFormularioMedico = () => {
       </h1>
 
       <MainInfoComponent patientTriageData={patientTriageData} />
-      <FormContainerMedicalRecord idCita={idCita} initialData={formData} />
+      <FormContainerMedicalRecord initialData={formData} />
     </div>
   );
 };
