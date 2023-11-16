@@ -2,37 +2,42 @@ import React, { useState } from "react";
 
 const TratamientoYDecisionCita = () => {
   const [tratamientoData, setTratamientoData] = useState({
-    tratamientos: [],
-    estadoHojaMedica: "",
-    crearOrdenDeLaboratorio: "",
-    tipoOrdenDeLaboratorio: "",
-    instruccionesLaboratorio: "",
-    indicacionesFinales: "",
-    recetaMedica: {
-      medicamentosRecetados: "",
-    },
+    recetasMedicas: [
+      {
+        medicamento: "",
+        indicaciones: "",
+      },
+    ],
+    fechaDeCaducidad: "",
   });
 
-  const handleArrayChange = (index, value) => {
+  const handleArrayChange = (index, field, value) => {
     setTratamientoData((prevState) => {
-      const updatedTratamientos = [...prevState.tratamientos];
-      updatedTratamientos[index] = value;
-      return { ...prevState, tratamientos: updatedTratamientos };
+      const updatedRecetasMedicas = [...prevState.recetasMedicas];
+      updatedRecetasMedicas[index][field] = value;
+      return { ...prevState, recetasMedicas: updatedRecetasMedicas };
     });
   };
 
-  const addTratamientoField = () => {
-    setTratamientoData((prevState) => ({
-      ...prevState,
-      tratamientos: [...prevState.tratamientos, ""],
-    }));
+  const addRecetaMedicaField = () => {
+    const lastReceta =
+      tratamientoData.recetasMedicas[tratamientoData.recetasMedicas.length - 1];
+    if (lastReceta.medicamento && lastReceta.indicaciones) {
+      setTratamientoData((prevState) => ({
+        ...prevState,
+        recetasMedicas: [
+          ...prevState.recetasMedicas,
+          { medicamento: "", indicaciones: "" },
+        ],
+      }));
+    }
   };
 
-  const removeTratamientoField = (index) => {
+  const removeRecetaMedicaField = (index) => {
     setTratamientoData((prevState) => {
-      const updatedTratamientos = [...prevState.tratamientos];
-      updatedTratamientos.splice(index, 1);
-      return { ...prevState, tratamientos: updatedTratamientos };
+      const updatedRecetasMedicas = [...prevState.recetasMedicas];
+      updatedRecetasMedicas.splice(index, 1);
+      return { ...prevState, recetasMedicas: updatedRecetasMedicas };
     });
   };
 
@@ -50,30 +55,31 @@ const TratamientoYDecisionCita = () => {
 
       <div className="col-span-2">
         <label className="block text-sm font-medium text-gray-700">
-          Medicamentos
+          Recetas Médicas
         </label>
-        {tratamientoData.tratamientos.map((tratamiento, index) => (
+        {tratamientoData.recetasMedicas.map((receta, index) => (
           <div key={index} className="flex items-center space-x-2">
-            <div className="flex">
-              <input
-                type="text"
-                value={tratamiento}
-                onChange={(e) => handleArrayChange(index, e.target.value)}
-                className="mt-1 p-2 w-full border-gray-300 rounded-md"
-                placeholder={`Medicamento ${index + 1}`}
-              />
-              <input
-                type="text"
-                value={tratamiento}
-                onChange={(e) => handleArrayChange(index, e.target.value)}
-                className="mt-1 p-2 w-full border-gray-300 rounded-md"
-                placeholder={`Indicaciones ${index + 1}`}
-              />
-            </div>
-
+            <input
+              type="text"
+              value={receta.medicamento}
+              onChange={(e) =>
+                handleArrayChange(index, "medicamento", e.target.value)
+              }
+              className="mt-1 p-2 w-3/6 border-gray-300 rounded-md"
+              placeholder={`Medicamento ${index + 1}`}
+            />
+            <input
+              type="text"
+              value={receta.indicaciones}
+              onChange={(e) =>
+                handleArrayChange(index, "indicaciones", e.target.value)
+              }
+              className="mt-1 p-2 w-full border-gray-300 rounded-md"
+              placeholder={`Indicaciones ${index + 1}`}
+            />
             <button
               type="button"
-              onClick={() => removeTratamientoField(index)}
+              onClick={() => removeRecetaMedicaField(index)}
               className="bg-red-500 text-white p-2 rounded-md"
             >
               X
@@ -82,38 +88,24 @@ const TratamientoYDecisionCita = () => {
         ))}
         <button
           type="button"
-          onClick={addTratamientoField}
+          onClick={addRecetaMedicaField}
           className="mt-2 px-4 py-2 bg-green-500 text-white rounded-md"
         >
-          Añadir Medicamentos
+          Añadir Receta Médica
         </button>
       </div>
 
       <div>
         <label className="block text-sm font-medium text-gray-700">
-          Crear Orden de Laboratorio
+          Fecha de Caducidad
         </label>
         <input
           type="text"
-          name="crearOrdenDeLaboratorio"
-          value={tratamientoData.crearOrdenDeLaboratorio}
+          name="fechaDeCaducidad"
+          value={tratamientoData.fechaDeCaducidad}
           onChange={handleInputChange}
           className="mt-1 p-2 w-full border-gray-300 rounded-md"
-          placeholder="Modal que abre los datos para generar la orden"
-        />
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-gray-700">
-          Indicaciones Finales
-        </label>
-        <input
-          type="text"
-          name="indicacionesFinales"
-          value={tratamientoData.indicacionesFinales}
-          onChange={handleInputChange}
-          className="mt-1 p-2 w-full border-gray-300 rounded-md"
-          placeholder="Indicaciones finales"
+          placeholder="Fecha de Caducidad"
         />
       </div>
     </div>
