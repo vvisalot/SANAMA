@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-
+import SearchDiagnostic from "./searchDiagnostic";
 const DiagnosticoMedico = () => {
   const [diagnosticoData, setDiagnosticoData] = useState({
     diagnostico: [],
     selloYFirma: "",
   });
+  const [showModal, setShowModal] = useState(false);
+  const [selectedPatient, setSelectedPatient] = useState(null);
 
   const handleArrayChange = (index, value) => {
     setDiagnosticoData((prevState) => {
@@ -21,6 +23,12 @@ const DiagnosticoMedico = () => {
     }));
   };
 
+  const handleDiagnosticSelect = (selectedPatient) => {
+    setSelectedPatient(selectedPatient);
+    setSearchResults([]);
+    setSearchText("");
+  };
+
   const removeDiagnosticoField = (index) => {
     setDiagnosticoData((prevState) => {
       const updatedDiagnostico = [...prevState.diagnostico];
@@ -35,6 +43,14 @@ const DiagnosticoMedico = () => {
       ...prevState,
       [name]: value,
     }));
+  };
+
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
   };
 
   return (
@@ -73,6 +89,20 @@ const DiagnosticoMedico = () => {
           Añadir Diagnóstico
         </button>
       </div>
+      <button
+        type="button"
+        onClick={handleOpenModal}
+        className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-md"
+      >
+        Search Diagnostic
+      </button>
+
+      {/* Render the SearchDiagnostic component */}
+      <SearchDiagnostic
+        show={showModal}
+        onClose={handleCloseModal}
+        onSelect={handleDiagnosticSelect} // Replace this with the actual onSelect handler
+      />
 
       <div>
         <label className="block text-sm font-medium text-gray-700">
