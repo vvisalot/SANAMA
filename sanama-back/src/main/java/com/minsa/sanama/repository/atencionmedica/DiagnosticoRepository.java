@@ -31,6 +31,7 @@ public class DiagnosticoRepository {
 
             Diagnostico diagnostico = new Diagnostico();
 
+            diagnostico.setIdDiagnostico(rs.getInt("id_diagnostico"));
             diagnostico.setIdCiex(rs.getString("id_ciex"));
             diagnostico.setCiex(rs.getString("ciex"));
             return diagnostico;
