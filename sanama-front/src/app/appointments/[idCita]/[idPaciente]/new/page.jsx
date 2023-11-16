@@ -1,22 +1,13 @@
 "use client";
 import React, { useState } from "react";
 import { useParams } from "next/navigation";
-import Accordion from "@/components/evaluations/acordeon";
 import MainInfoComponent from "@/components/evaluations/MainInfoTab";
-import VitalSigns from "@/components/evaluations/vitalSigns";
-import ChiefComplaint from "@/components/evaluations/chiefComplaint";
-import ExplorationTab from "@/components/evaluations/ExplorationTab";
-import GlasgowComaScale from "@/components/evaluations/MentalStatusTab";
 import usePatientTriageData from "@/hooks/usePatientTriageData";
-import useCreateMedicalRecord from "@/hooks/useCreateMedicalRecord";
-import medicalDecision from "@/components/evaluations/medicalDecision";
+import FormContainerEvaluation from "@/components/evaluations/FormContainerEvaluation";
 
 const newFormularioMedico = () => {
   const params = useParams();
   const idCita = params.idCita;
-  const { createMedicalRecord, isSubmitting, submissionError } =
-    useCreateMedicalRecord();
-
   const { patientTriageData, loading, error } = usePatientTriageData(idCita);
   const {
     temperatura = "",
@@ -59,28 +50,6 @@ const newFormularioMedico = () => {
   };
 
   const [formData, setFormData] = useState(initialFormData);
-  const [step, setStep] = useState(1);
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  const handleNextStep = () => {
-    setStep(step + 1);
-  };
-
-  const handlePrevStep = () => {
-    setStep(step - 1);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(formData);
-  };
 
   if (loading) return <div>Cargando...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -92,67 +61,11 @@ const newFormularioMedico = () => {
       </h1>
 
       <MainInfoComponent patientTriageData={patientTriageData} />
-
-      {step === 1 && (
-        <form onSubmit={handleSubmit} className="space-y-4 h-max">
-          <Accordion title="Clinical Tab" id="clinical">
-            <VitalSigns
-              formData={formData.signosVitales}
-              handleInputChange={handleInputChange}
-            />
-          </Accordion>
-          <Accordion title="Motivo de la Consulta" id="triage">
-            <ChiefComplaint
-              formData={formData.ChiefComplaint}
-              handleInputChange={handleInputChange}
-            />
-          </Accordion>
-
-          <Accordion title="Exploracion Fisica" id="triage">
-            <ExplorationTab
-              formData={formData.exploracionFisica}
-              handleInputChange={handleInputChange}
-            />
-          </Accordion>
-          <Accordion title="Nivel de Consciencia" id="triage">
-            <GlasgowComaScale
-              formData={formData.estadoMental}
-              handleInputChange={handleInputChange}
-            />
-          </Accordion>
-          <div className="flex space-x-4">
-            <button
-              className="bg-blue-500 hover.bg-blue-700 text-white py-2 px-4 rounded-lg shadow-md"
-              onClick={handleNextStep}
-            >
-              Siguiente
-            </button>
-          </div>
-        </form>
-      )}
-
-      {step === 2 && (
-        <div className="flex space-x-4 h-fill">
-          <medicalDecision
-            formData={formData}
-            handleInputChange={handleInputChange}
-            createMedicalRecord={createMedicalRecord}
-            idCita={idCita}
-          />
-          <div className="flex space-x-4">
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg shadow-md"
-              onClick={handlePrevStep}
-              disabled={step === 1}
-            >
-              Anterior
-            </button>
-            <button className="bg-blue-500 hover.bg-blue-700 text-white py-2 px-4 rounded-lg shadow-md">
-              Finalizar
-            </button>
-          </div>
-        </div>
-      )}
+      <FormContainerEvaluation
+        idCita={idCita}
+        formData={formData}
+        setFormData={setFormData}
+      />
     </div>
   );
 };

@@ -1,44 +1,37 @@
 "use client";
-import useAppointmentForm from "@/hooks/useAppointmentForm";
-import PatientForm from "./PatientForm";
-import usePatientForm from "@/hooks/usePatientForm";
-import { useState } from "react";
-import AppointementForm from "./AppointementForm";
-import { patientService } from "@/services/patientService";
-import { appointmentService } from "@/services/appointmentService";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import VitalSigns from "@/components/evaluations/vitalSigns";
+import ChiefComplaint from "@/components/evaluations/chiefComplaint";
+import ExplorationTab from "@/components/evaluations/ExplorationTab";
+import GlasgowComaScale from "@/components/evaluations/MentalStatusTab";
+import useCreateMedicalRecord from "@/hooks/useCreateMedicalRecord";
+import MedicalDecision from "@/components/evaluations/MedicalDecision";
+import Accordion from "@/components/evaluations/acordeon";
 import { toast } from "sonner";
 
-const FormContainerEvaluation = () => {
+const FormContainerEvaluation = ({ idCita, formData, setFormData }) => {
   const router = useRouter();
   const [allFormComplete, setAllFormComplete] = useState(false);
+  const [step, setStep] = useState(1);
+  const { createMedicalRecord, isSubmitting, submissionError } =
+    useCreateMedicalRecord();
 
-  const {
-    validatePatientForm,
-    patientFormComplete,
-    setPatientFormComplete,
-    patientForm,
-    setPatientForm,
-    fechaNacimiento,
-    setFechaNacimiento,
-    sexo,
-    setSexo,
-  } = usePatientForm();
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
 
-  const {
-    patientId,
-    setPatientId,
-    doctorId,
-    setDoctorId,
-    legalResponsibilityForm,
-    setLegalResponsibilityForm,
-    schedule,
-    setSchedule,
-    triageRequirement,
-    setTriageRequirement,
-    validateAppointmentForm,
-    setAppointmentFormComplete,
-  } = useAppointmentForm();
+  const handleNextStep = () => {
+    setStep(step + 1);
+  };
+
+  const handlePrevStep = () => {
+    setStep(step - 1);
+  };
 
   const loadingRegister = async (data) => {
     console.log(data);
@@ -166,45 +159,68 @@ const FormContainerEvaluation = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-10 w-full">
-      <PatientForm
-        formComplete={patientFormComplete}
-        setFormComplete={setPatientFormComplete}
-        setPatientId={setPatientId}
-        patientForm={patientForm}
-        setPatientForm={setPatientForm}
-        fechaNacimiento={fechaNacimiento}
-        setFechaNacimiento={setFechaNacimiento}
-        sexo={sexo}
-        setSexo={setSexo}
-      />
+    <>
+      {step === 1 && (
+        <form onSubmit={handleSubmit} className="space-y-4 h-max">
+          <Accordion title="Clinical Tab" id="clinical">
+            <VitalSigns
+              formData={formData.signosVitales}
+              handleInputChange={handleInputChange}
+            />
+          </Accordion>
+          <Accordion title="Motivo de la Consulta" id="triage">
+            <ChiefComplaint
+              formData={formData.ChiefComplaint}
+              handleInputChange={handleInputChange}
+            />
+          </Accordion>
 
-      <hr className="bg-gray-600 mt-20" />
+          <Accordion title="Exploracion Fisica" id="triage">
+            <ExplorationTab
+              formData={formData.exploracionFisica}
+              handleInputChange={handleInputChange}
+            />
+          </Accordion>
+          <Accordion title="Nivel de Consciencia" id="triage">
+            <GlasgowComaScale
+              formData={formData.estadoMental}
+              handleInputChange={handleInputChange}
+            />
+          </Accordion>
+          <div className="flex space-x-4">
+            <button
+              className="bg-blue-500 hover.bg-blue-700 text-white py-2 px-4 rounded-lg shadow-md"
+              onClick={handleNextStep}
+            >
+              Siguiente
+            </button>
+          </div>
+        </form>
+      )}
 
-      <AppointementForm
-        setFormComplete={setAppointmentFormComplete}
-        legalResponsibilityForm={legalResponsibilityForm}
-        setLegalResponsibilityForm={setLegalResponsibilityForm}
-        setDoctorId={setDoctorId}
-        schedule={schedule}
-        setSchedule={setSchedule}
-        triageRequirement={triageRequirement}
-        setTriageRequirement={setTriageRequirement}
-        allFormComplete={allFormComplete}
-        setAllFormComplete={setAllFormComplete}
-      />
-
-      <div className="flex flex-row-reverse">
-        <button
-          type="submit"
-          onClick={handleSubmit}
-          className=" m-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 
-                            font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center"
-        >
-          Registrar cita
-        </button>
-      </div>
-    </form>
+      {step === 2 && (
+        <div className="flex space-x-4 h-fill">
+          <MedicalDecision
+            formData={formData}
+            handleSubmit={handleSubmit}
+            createMedicalRecord={createMedicalRecord}
+            idCita={idCita}
+          />
+          <div className="flex space-x-4">
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg shadow-md"
+              onClick={handlePrevStep}
+              disabled={step === 1}
+            >
+              Anterior
+            </button>
+            <button className="bg-blue-500 hover.bg-blue-700 text-white py-2 px-4 rounded-lg shadow-md">
+              Finalizar
+            </button>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

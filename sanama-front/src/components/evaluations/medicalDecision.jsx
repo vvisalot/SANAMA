@@ -3,9 +3,9 @@ import LaboratoryModal from "@/components/evaluations/LaboratoryModal";
 import DiagnosticoMedico from "@/components/evaluations/DiagnosisTab";
 import TratamientoYDecisionCita from "@/components/evaluations/TreatmentTab";
 
-const medicalDecision = ({
+const MedicalDecision = ({
   formData,
-  handleInputChange,
+  handleSubmit,
   createMedicalRecord,
   idCita,
 }) => {
@@ -25,4 +25,4 @@ const medicalDecision = ({
   );
 };
 
-export default medicalDecision;
+export default MedicalDecision;
