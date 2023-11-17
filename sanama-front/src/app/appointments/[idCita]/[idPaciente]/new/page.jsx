@@ -14,6 +14,18 @@ const newFormularioMedico = () => {
 
   if (loading) return <div>Cargando...</div>;
   if (error) return <div>Error: {error}</div>;
+  const defaultTriaje = {
+    temperatura: "",
+    frecuenciaCardiaca: "",
+    frecuenciaRespiratoria: "",
+    presionArterial: "",
+    saturacionOxigeno: "",
+  };
+
+  const signosVitales = {
+    ...defaultTriaje,
+    ...patientTriageData?.triaje,
+  };
 
   return (
     <section className="p-4 md:p-14">
@@ -21,7 +33,7 @@ const newFormularioMedico = () => {
       <MainInfoComponent patientTriageData={patientTriageData} />
       <FormContainerMedicalRecord
         idCita={idCita}
-        patientTriageData={patientTriageData}
+        defaultTriaje={signosVitales}
       />
     </section>
   );

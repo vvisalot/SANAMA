@@ -45,12 +45,16 @@ public class CitaController {
         List<CitaMedica> Lcita = null;
         try {
             JSONObject job = (JSONObject) new JSONParser().parse(pv_datos);
+            String pn_id_especialidad;
             String pv_filtro = job.get("pv_filtro").toString();
             String pd_fecha_inicio;
             String pd_fecha_fin;
             String estado;
             boolean flag=true;
             List<String> estados = new ArrayList<>();
+
+            if(job.get("pn_id_especialidad") == null) pn_id_especialidad=null;
+            else pn_id_especialidad = job.get("pn_id_especialidad").toString();
 
             if(job.get("pd_fecha_inicio") == null) pd_fecha_inicio=null;
             else pd_fecha_inicio = job.get("pd_fecha_inicio").toString();
@@ -70,7 +74,7 @@ public class CitaController {
             }
             if(flag)estados.add(null);
             // Llama al servicio para listar citas por filtros
-            Lcita = citaService.listarCitasxFiltro(null, pv_filtro, pd_fecha_inicio, pd_fecha_fin, estados);
+            Lcita = citaService.listarCitasxFiltro(pn_id_especialidad, pv_filtro, pd_fecha_inicio, pd_fecha_fin, estados);
         } catch (Exception ex) {
             // Manejo de excepciones aquí
             ex.printStackTrace();

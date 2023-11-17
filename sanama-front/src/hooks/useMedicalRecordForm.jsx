@@ -1,31 +1,71 @@
+"use client";
 import { useState } from "react";
 import { toast } from "sonner";
 
 const useMedicalRecordForm = () => {
+  const [medicalRecordData, setMedicalRecordData] = useState({
+    hojaRefencia: {
+      idHojaReferenciada: -1, // default value
+    },
+    firma: "",
+    idCitaMedica: -1, // default value
+    evaluacionMedica: {
+      motivoConsulta: "",
+      antecedentes: "",
+      examenGeneral: "",
+      pielYFaneras: "",
+      cabezaYCuello: "",
+      toraxYPulmones: "",
+      cardiovascular: "",
+      abdomen: "",
+      urogenital: "",
+      extremidades: "",
+      snc: "",
+      glasgow: "",
+      eyesOpen: "",
+      talkingCorrectly: "",
+      ableToMoveBody: "",
+      observaciones: "",
+      indicacionesFinales: "",
+      requiereSignosVitales: false,
+      signosVitales: {
+        temperatura: "",
+        frecuenciaCardiaca: "",
+        frecuenciaRespiratoria: "",
+        presionArterial: "",
+        saturacionOxigeno: "",
+        peso: "",
+        talla: "",
+      },
+      diagnosticos: [],
+    },
+    recetaMedica: {
+      fechaCaducidad: "",
+      medicamentos: [],
+    },
+  });
+
   const [errorMessageMedicalRecordForm, setErrorMessageMedicalRecordForm] =
     useState("");
 
-  const validateEvaluationForm = (formData) => {
-    // Agregar verificaciones aca los datos de la evaluacion
-    if (formData.fecha === "") {
+  const validateMedicalRecordForm = () => {
+    if (!medicalRecordData.idCitaMedica) {
       setErrorMessageMedicalRecordForm(
-        "Please complete all fields to reserve the appointment"
+        "Please specify the medical appointment ID."
       );
-      toast.error("Please complete all fields to reserve the appointment");
+      toast.error(errorMessageMedicalRecordForm);
       return false;
     }
-    //  Validaciones adicionales pendientes...
+    // More validations...
+
     setErrorMessageMedicalRecordForm("");
     return true;
   };
 
-  const createMedicalRecord = async (idCita, evaluationData) => {
-    // esto basicamento parsea los datos de evalution data para
-  };
-
   return {
-    validateEvaluationForm,
-    createMedicalRecord,
+    medicalRecordData,
+    setMedicalRecordData,
+    validateMedicalRecordForm,
   };
 };
 

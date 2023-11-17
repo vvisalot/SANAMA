@@ -1,31 +1,26 @@
-import { Fragment } from "react";
-import TableCell from "./TableCell";
-import TableOptions from "./TableOptions";
+import { Fragment } from "react"
+import TableCell from "./TableCell"
+import TableOptions from "./TableOptions"
 
 const getEstadoFromRow = (row) => {
   for (let item of row) {
 
     if (typeof item.data === 'object' && item.data !== null && item.data.props) {
-
-      const estadoTexto = item.data.props.children;
+      const estadoTexto = item.data.props.children
       if (typeof estadoTexto === 'string') {
-
-        return estadoTexto;
+        return estadoTexto
       }
     }
   }
-  return null;
-};
+  return null
+}
 
 const TableRow = ({ row, url, optionsText, iconName }) => {
-  const estado = getEstadoFromRow(row);
-  
-  console.log("El row es: ", row)
-  console.log("El estado es: ", estado)
+  const estado = getEstadoFromRow(row)
   return (
     <tr className="bg-white border-b">
       {row.map((cell, index) => {
-        if (index === 0) return null;
+        if (index === 0) return null
         if (index === row.length - 1) {
           return (
             <Fragment key={index}>
@@ -43,7 +38,7 @@ const TableRow = ({ row, url, optionsText, iconName }) => {
                 />
               ) : null}
             </Fragment>
-          );
+          )
         } else {
           return (
             <TableCell
@@ -51,11 +46,11 @@ const TableRow = ({ row, url, optionsText, iconName }) => {
               data={cell.data}
               className={cell.className ? cell.className : ""}
             />
-          );
+          )
         }
       })}
     </tr>
-  );
-};
+  )
+}
 
-export default TableRow;
+export default TableRow

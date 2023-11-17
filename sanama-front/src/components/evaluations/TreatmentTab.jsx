@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const TratamientoYDecisionCita = () => {
+const TratamientoYDecisionCita = ({ setMedicalRecordData }) => {
   const [tratamientoData, setTratamientoData] = useState({
     recetasMedicas: [
       {

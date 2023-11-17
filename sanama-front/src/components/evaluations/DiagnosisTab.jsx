@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import SearchDiagnostic from "./searchDiagnostic";
+import SearchDiagnostic from "./SearchDiagnostic";
 
-const DiagnosticoMedico = () => {
+const DiagnosticoMedico = ({ setMedicalRecordData }) => {
   // State
   const [diagnosticos, setDiagnosticos] = useState([]);
   const [showModal, setShowModal] = useState(false);

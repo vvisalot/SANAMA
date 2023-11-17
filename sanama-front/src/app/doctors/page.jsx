@@ -7,7 +7,7 @@ import Dropdown from "@/components/Dropdowns/Dropdown"
 import SearchBar from "@/components/bars/SearchBar"
 import DoctorIcon from "@/components/icons/DoctorIcon"
 import { useRouter } from "next/navigation"
-import TitleWithIcon from "@/components/TitleWithIcon";
+import TitleWithIcon from "@/components/TitleWithIcon"
 import Link from "next/link"
 
 const DoctorsPage = () => {

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const ExplorationTab = ({ formData, handleInputChange }) => {
+const ExplorationTab = ({ setMedicalRecordData }) => {
   const [visibleSections, setVisibleSections] = useState({
     exGeneral: false,
     pielYFaneras: false,
@@ -15,7 +15,7 @@ const ExplorationTab = ({ formData, handleInputChange }) => {
   });
 
   const sectionNames = [
-    "examen general",
+    "examenGeneral",
     "pielYFaneras",
     "cabezaYCuello",
     "toraxYPulmones",
@@ -23,9 +23,26 @@ const ExplorationTab = ({ formData, handleInputChange }) => {
     "abdomen",
     "urogenital",
     "extremidades",
-    "sistemaNerviosoCentral",
+    "snc",
   ];
-
+  const handleOnBlurChange = (e) => {
+    const { name, value } = e.target;
+    setMedicalRecordData((prevData) => {
+      // Asumiendo que los nombres de los campos siguen el patrón "evaluacionMedica.[section]"
+      const sections = name.split(".");
+      if (sections.length === 2) {
+        const section = sections[1];
+        return {
+          ...prevData,
+          evaluacionMedica: {
+            ...prevData.evaluacionMedica,
+            [section]: value,
+          },
+        };
+      }
+      return prevData;
+    });
+  };
   const toggleSectionVisibility = (section) => {
     setVisibleSections((prev) => ({ ...prev, [section]: !prev[section] }));
   };
@@ -36,8 +53,8 @@ const ExplorationTab = ({ formData, handleInputChange }) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.2 }}
       className="flex items-center ml-12 mb-2 "
+      transition={{ duration: 0.2 }}
     >
       <input
         type="checkbox"
@@ -53,7 +70,6 @@ const ExplorationTab = ({ formData, handleInputChange }) => {
 
   const renderTextArea = (label, name, section, key) => {
     if (!visibleSections[section]) return null;
-    const value = formData?.exploracionFisica?.[section] || "";
     return (
       <motion.div
         key={key}
@@ -72,9 +88,8 @@ const ExplorationTab = ({ formData, handleInputChange }) => {
         <span className="mr-4">:</span>
         <textarea
           id={name}
-          name={`ClinicalTab.exploracionFisica.${section}`}
-          onChange={handleInputChange}
-          defaultValue={value}
+          name={`evaluacionMedica.${section}`}
+          onBlur={handleOnBlurChange}
           className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           rows={3}
         />
@@ -108,7 +123,7 @@ const ExplorationTab = ({ formData, handleInputChange }) => {
               section
                 .replace(/([A-Z])/g, " $1")
                 .replace(/^./, (str) => str.toUpperCase()),
-              `ClinicalTab.exploracionFisica.${section}`,
+              `evaluacionMedica.${section}`,
               section,
               `textarea-${section}`
             )
