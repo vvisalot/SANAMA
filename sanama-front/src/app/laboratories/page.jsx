@@ -84,7 +84,7 @@ const LaboratoryPage = () => {
 
   return (
     <section className="p-4 md:p-14">
-      <TitleWithIcon name={"Laboratorio"} Icon={LabIcon} />
+      <TitleWithIcon name={"Laboratorios"} Icon={LabIcon} />
 
       <form className="w-full" onSubmit={handleSubmit}>
         <div className="flex justify-start items-center">
