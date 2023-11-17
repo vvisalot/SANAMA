@@ -1,6 +1,6 @@
 import React from "react";
 
-const ChiefComplaint = ({ formData, handleInputChange }) => {
+const ChiefComplaint = ({ formData, setEvaluationData }) => {
   return (
     <div className="my-4 ml-4">
       <div className="grid grid-cols-1 gap-4">
@@ -8,13 +8,13 @@ const ChiefComplaint = ({ formData, handleInputChange }) => {
           label="Antecedentes:"
           name="antecedentes"
           placeholder="Ingresa los antecentes.."
-          handleInputChange={handleInputChange}
+          setEvaluationData={setEvaluationData}
         />
         <TextAreaField
           label="Motivo de Consulta:"
           name="motivoConsulta"
           placeholder="Ingresa el motivo.."
-          handleInputChange={handleInputChange}
+          setEvaluationData={setEvaluationData}
         />
         <div className="flex flex-row-reverse">
           <button
@@ -30,7 +30,7 @@ const ChiefComplaint = ({ formData, handleInputChange }) => {
   );
 };
 
-const TextAreaField = ({ label, name, handleInputChange, placeholder }) => {
+const TextAreaField = ({ label, name, setEvaluationData, placeholder }) => {
   return (
     <div>
       <label htmlFor={name} className="block text-sm font-medium text-gray-700">
@@ -39,7 +39,7 @@ const TextAreaField = ({ label, name, handleInputChange, placeholder }) => {
       <textarea
         id={name}
         name={name}
-        onChange={handleInputChange}
+        onChange={setEvaluationData}
         className="resize-none mt-1 p-2 w-full border-gray-300 rounded-md"
         placeholder={placeholder}
         rows={4}
