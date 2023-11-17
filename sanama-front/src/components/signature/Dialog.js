@@ -1,8 +1,8 @@
-import React from 'react';
-import {primary45} from '../utils/colors';
-import {FaTimes} from 'react-icons/fa';
-import {Modal} from './Modal';
-
+import React from "react";
+import { primary45 } from "@/util/colors";
+import { FaTimes } from "react-icons/fa";
+//import { Modal } from "./Modal";
+import { Modal } from "flowbite-react";
 export function Dialog({
   isVisible,
   body,
@@ -20,32 +20,33 @@ export function Dialog({
   const styles = {
     header: {
       backgroundColor: primary45,
-      color: '#FFF',
+      color: "#FFF",
       padding: 8,
       fontSize: 14,
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
     },
     body: {
       padding: noPadding ? 0 : 14,
-      backgroundColor: backgroundColor ? backgroundColor : '#FFF',
+      backgroundColor: backgroundColor ? backgroundColor : "#FFF",
     },
     xIcon: {
-      cursor: 'pointer',
+      cursor: "pointer",
     },
   };
-
+  // <Modal show={show} size="6xl" popup onClose={onClose} >
+  //    <Modal  onClose={onClose}  isVisible={isVisible}  positionTop={positionTop}  style={style}>
   return (
-    <Modal onClose={onClose} isVisible={isVisible} positionTop={positionTop} style={style}>
+    <Modal onClose={onClose} show={isVisible}>
       <div style={styles.container}>
         <div style={styles.header}>
           <div>{title}</div>
           <FaTimes
-            color={'#FFF'}
+            color={"#FFF"}
             size={16}
             style={styles.xIcon}
-            className={'dialogClose'}
+            className={"dialogClose"}
             onClick={onClose}
           />
         </div>

@@ -1,6 +1,6 @@
 import React from "react";
-import { primary45 } from "../utils/colors";
-import useHover from "../hooks/useHover";
+import { primary45 } from "@/util/colors";
+import useHover from "@/hooks/useHover";
 
 export function BigButton({
   title,

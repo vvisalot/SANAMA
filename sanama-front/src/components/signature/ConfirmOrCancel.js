@@ -1,4 +1,4 @@
-import { BigButton } from "./BigButton";
+import { BigButton } from "../buttons/BigButton";
 import React from "react";
 
 export function ConfirmOrCancel({
@@ -7,7 +7,7 @@ export function ConfirmOrCancel({
   confirmTitle = "Confirm",
   leftBlock,
   hideCancel,
-  disabled
+  disabled,
 }) {
   const styles = {
     actions: {
@@ -30,7 +30,12 @@ export function ConfirmOrCancel({
             onClick={onCancel}
           />
         ) : null}
-        <BigButton title={confirmTitle} inverted={true} onClick={onConfirm} disabled={disabled}/>
+        <BigButton
+          title={confirmTitle}
+          inverted={true}
+          onClick={onConfirm}
+          disabled={disabled}
+        />
       </div>
     </div>
   );
