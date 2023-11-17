@@ -29,4 +29,8 @@ public class TriajeService {
         return triajeRepository.actualizarTriaje(triaje);
     }
 
+    public int eliminarTriaje(Triaje triaje) {
+        return triajeRepository.eliminarTriaje(triaje);
+    }
+
 }
