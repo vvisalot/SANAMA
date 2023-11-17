@@ -1,5 +1,4 @@
 import React from "react";
-import { useRouter } from "next/navigation";
 
 const CAMPOS = [
   { id: "nombres", label: "PACIENTE", type: "text" },
@@ -22,7 +21,6 @@ const ESTADOS = [
 ];
 
 const PatientInfo = ({ pacienteData, appointmentData, doctor }) => {
-  const router = useRouter();
   const getValue = (id) => {
     switch (id) {
       case "nombres":
@@ -50,22 +48,8 @@ const PatientInfo = ({ pacienteData, appointmentData, doctor }) => {
 
   return pacienteData ? (
     <>
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center space-x-2 w-full">
         <h2 className="text-2xl font-bold mb-4 text-primary-dusk-blue">{`${appointmentData.codigoCita}`}</h2>
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          onClick={() =>
-            router.push(`/doctors/profile/${pacienteData.idPersona}`)
-          }
-        >
-          Ir a Paciente
-        </button>
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          onClick={() => router.push(`/doctors/profile/${doctor.idPersona}`)}
-        >
-          Ir a Doctor
-        </button>
       </div>
       <div className="grid grid-cols-2 gap-4">
         {CAMPOS.map(({ id, label, type }) => (

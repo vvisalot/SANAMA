@@ -90,9 +90,11 @@ public class CitaRepository {
 
 
 
-    public List<CitaMedica> listarCitasxMedico(String pn_id_medico, String pn_estado) {
+    public List<CitaMedica> listarCitasxMedico(String pn_id_medico, String pv_filtro, String pd_fecha_inicio, String pd_fecha_fin, String pn_estado) {
+        if (pd_fecha_inicio != null)pd_fecha_inicio = "'"+pd_fecha_inicio+"'";
+        if (pd_fecha_fin != null)pd_fecha_fin = "'"+pd_fecha_fin+"'";
         if (pn_estado != null)pn_estado = "'"+pn_estado+"'";
-        String procedureCall = "{call dbSanama.ssm_adm_listar_citas_medicas_x_medico("+pn_id_medico+","+pn_estado+")};";
+        String procedureCall = "{call dbSanama.ssm_adm_listar_citas_medicas_x_medico("+pn_id_medico+",'"+pv_filtro+"',"+pd_fecha_inicio+","+pd_fecha_fin+","+pn_estado+")};";
         return jdbcTemplate.query(procedureCall, citaMedicaMedicoMapper);
     }
 
@@ -180,13 +182,14 @@ public class CitaRepository {
             CitaMedica citaMedica = new CitaMedica();
 
             citaMedica.setIdCita(rs.getInt("id_cita"));
-            citaMedica.setTipoCita(rs.getString("tipo_cita"));
             citaMedica.setCodigoCita(rs.getString("codigo_cita_medica"));
+
 
             Paciente paciente = new Paciente();
             paciente.setNombres(rs.getString("nombres_paciente"));
             paciente.setApellidoPaterno(rs.getString("apellido_paterno_paciente"));
             paciente.setApellidoMaterno(rs.getString("apellido_materno_paciente"));
+            paciente.setDni(rs.getString("dni_paciente"));
 
             citaMedica.setPaciente(paciente);
             citaMedica.setHoraCita(rs.getTime("hora_cita").toLocalTime());
