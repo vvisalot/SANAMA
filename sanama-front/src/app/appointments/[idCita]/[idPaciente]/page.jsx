@@ -8,6 +8,7 @@ import usePatientForm from "@/hooks/usePatientForm";
 import { sexParser } from "@/util/patientParser";
 import TitleWithIcon from "@/components/TitleWithIcon";
 import iconoHistorial from "@/components/icons/iconoHistorial";
+import LaboratoryModal from "@/components/evaluations/LaboratoryModal";
 
 const HistorialClinico = () => {
   const params = useParams();
@@ -132,14 +133,15 @@ const HistorialClinico = () => {
           <PatientDataDisplay patient={patientForm} />
         </div>
 
-        <div className="mb-6 space-x-4">
+        <div className=" flex mb-6 space-x-4">
           <button
             type="submit"
             className="text-white  bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-4"
             onClick={() => router.push(`${pathname}/new/`)}
           >
-            Generar Nueva Evaluacion Medica
+            Nueva Evaluacion Medica
           </button>
+          <LaboratoryModal></LaboratoryModal>
         </div>
 
         <div className="bg-white p-4 rounded shadow-md">

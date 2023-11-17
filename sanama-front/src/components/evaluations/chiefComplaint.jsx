@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import SearchMedicalSheet from "./SearchHojaMedica";
+import { useParams } from "next/navigation";
+
 const ChiefComplaint = ({ formData, setEvaluationData }) => {
   const [showModal, setShowModal] = useState(false);
-
+  const params = useParams();
+  const idPaciente = params.idPaciente;
   // Function to open the modal
   const handleOpenModal = () => {
     setShowModal(true);
@@ -38,7 +41,11 @@ const ChiefComplaint = ({ formData, setEvaluationData }) => {
             Asociar Hoja Medica Existente
           </button>
         </div>
-        <SearchMedicalSheet show={showModal} onClose={handleCloseModal} />
+        <SearchMedicalSheet
+          idPaciente={idPaciente}
+          show={showModal}
+          onClose={handleCloseModal}
+        />
       </div>
     </div>
   );
