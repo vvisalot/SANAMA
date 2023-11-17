@@ -59,7 +59,7 @@ const AppointmentPage = () => {
     try {
       const data = await doctorService.listarEspecialidades()
       setSpecialties(data)
-      //console.log(data)
+      console.log(data)
     } catch (error) {
       console.log("No se pudo obtener los datos de las especialidades")
     }
@@ -85,7 +85,10 @@ const AppointmentPage = () => {
     e.preventDefault()
     const elements = e.target.elements
     const filtro = elements.namedItem("search-bar-appointments").value
-    const filtroEspecialidad = elements.namedItem("speciality-dropdown").idValue
+    const filtroEspecialidad = elements.namedItem("speciality-dropdown").value
+
+    console.log(filtro)
+    console.log(filtroEspecialidad)
 
     const stateArray = Object.entries(statusState)
       .filter(([key, value]) => value)
@@ -94,6 +97,7 @@ const AppointmentPage = () => {
           estado: key,
         }
       })
+
     const request = {
       pn_id_especialidad: filtroEspecialidad ? filtroEspecialidad : null,
       pv_filtro: filtro,
@@ -136,7 +140,7 @@ const AppointmentPage = () => {
           defaultText={"Todas las especialidades"}
           text={"nombre"}
           defaultValue={""}
-          value={"nombre"}
+          value={"idEspecialidad"}
           name={"speciality-dropdown"}
           width={"w-[400px]"}
           height={"h-[42px]"}
