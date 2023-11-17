@@ -106,7 +106,7 @@ const ReviewAppointment = ({ params }) => {
 
         <div className="flex flex-row-reverse">
           <Link href="/appointments" passHref>
-            <href className="block justify-self-end bg-gray-500 text-white p-2 w-80 rounded-md text-center mt-2">
+            <href className="block justify-self-end font-semibold bg-gray-500 text-white p-2 w-80 rounded-md text-center mt-2">
               Atras
             </href>
           </Link>
