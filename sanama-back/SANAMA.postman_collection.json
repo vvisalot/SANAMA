@@ -668,7 +668,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"pn_id_especialidad\": null,\r\n    \"pd_fecha_inicio\": null,\r\n    \"pd_fecha_fin\": null\r\n}",
+							"raw": "{\r\n    \"pn_id_paciente\": null,\r\n    \"pn_id_especialidad\": null,\r\n    \"pd_fecha_inicio\": null,\r\n    \"pd_fecha_fin\": null\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

@@ -114,10 +114,13 @@ public class HojaMedicaController {
             JSONObject job = (JSONObject) new JSONParser().parse(pv_datos);
             System.out.println(pv_datos);
 
+            String pn_id_paciente;
             String pn_id_especialidad;
             String pd_fecha_inicio;
             String pd_fecha_fin;
 
+            if(job.get("pn_id_paciente") == null) pn_id_paciente=null;
+            else pn_id_paciente = job.get("pn_id_paciente").toString();
             if(job.get("pn_id_especialidad") == null) pn_id_especialidad=null;
             else pn_id_especialidad = job.get("pn_id_especialidad").toString();
             if(job.get("pd_fecha_inicio") == null) pd_fecha_inicio=null;
@@ -125,7 +128,7 @@ public class HojaMedicaController {
             if(job.get("pd_fecha_fin") == null) pd_fecha_fin=null;
             else pd_fecha_fin = job.get("pd_fecha_fin").toString();
 
-            lhoja = hojaMedicaService.listarHojasMedicasFiltro(pn_id_especialidad, pd_fecha_inicio, pd_fecha_fin);
+            lhoja = hojaMedicaService.listarHojasMedicasFiltro(pn_id_paciente, pn_id_especialidad, pd_fecha_inicio, pd_fecha_fin);
         } catch (Exception ex) {
             // Manejo de excepciones aquí
             ex.printStackTrace();
