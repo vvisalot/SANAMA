@@ -3,9 +3,12 @@ package com.minsa.sanama.repository.atencionmedica;
 import com.minsa.sanama.model.admision.Paciente;
 import com.minsa.sanama.model.admision.ProgramacionCita;
 import com.minsa.sanama.model.admision.Triaje;
+import com.minsa.sanama.model.atencionmedica.CitaMedica;
 import com.minsa.sanama.model.atencionmedica.Diagnostico;
 import com.minsa.sanama.model.atencionmedica.HojaMedica;
 import com.minsa.sanama.model.atencionmedica.Medicamento;
+import com.minsa.sanama.model.rrhh.Especialidad;
+import com.minsa.sanama.model.rrhh.Medico;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +34,42 @@ public class HojaMedicaRepository {
     @Autowired
     public HojaMedicaRepository(JdbcTemplate jdbcTemplate) {this.jdbcTemplate = jdbcTemplate;}
     private final TriajeMap triajeMap = new TriajeMap();
+    private final HojaMedicaMapper hojaMedicaMapper = new HojaMedicaMapper();
+
+    public List<HojaMedica> listarHojasMedicasFiltro(String pn_id_especialidad, String pd_fecha_inicio, String pd_fecha_fin) {
+        if (pn_id_especialidad != null)pn_id_especialidad = "'"+pn_id_especialidad+"'";
+        if (pd_fecha_inicio != null)pd_fecha_inicio = "'"+pd_fecha_inicio+"'";
+        if (pd_fecha_fin != null)pd_fecha_fin = "'"+pd_fecha_fin+"'";
+        String procedureCall = "{call dbSanama.ssm_ate_listar_hoja_medica_filtro("+pn_id_especialidad+","+pd_fecha_inicio+","+pd_fecha_fin+")};";
+        return jdbcTemplate.query(procedureCall, hojaMedicaMapper);
+    }
+
+    public List<ProgramacionCita> buscarTriajeCitaMedica(int pn_id_cita) {
+        String procedureCall = "{call dbSanama.ssm_ate_buscar_triaje_x_cita_medica("+pn_id_cita+")};";
+        return jdbcTemplate.query(procedureCall, triajeMap);
+    }
+
+    private static class HojaMedicaMapper implements RowMapper<HojaMedica> {
+        @Override
+        public HojaMedica mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+            HojaMedica hojaMedica = new HojaMedica();
+
+            hojaMedica.setIdHojaMedica(rs.getInt("id_hoja_medica"));
+            hojaMedica.setCodigo(rs.getString("codigo"));
+            hojaMedica.setFechaAtencion(rs.getDate("fecha_atencion").toLocalDate());
+            hojaMedica.setHoraAtencion(rs.getTime("hora_atencion").toLocalTime());
+            hojaMedica.setCitaMedica(new CitaMedica());
+            hojaMedica.getCitaMedica().setMedico(new Medico());
+            hojaMedica.getCitaMedica().getMedico().setNombres(rs.getString("nombres"));
+            hojaMedica.getCitaMedica().getMedico().setApellidoPaterno(rs.getString("apellido_paterno"));
+            hojaMedica.getCitaMedica().getMedico().setApellidoMaterno(rs.getString("apellido_materno"));
+            hojaMedica.getCitaMedica().getMedico().setEspecialidad(new Especialidad());
+            hojaMedica.getCitaMedica().getMedico().getEspecialidad().setNombre(rs.getString("nombre_especialidad"));
+
+            return hojaMedica;
+        }
+    }
 
     public int registrarHojaMedica(HojaMedica hojaMedica,int pn_id_historial) {
         SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate)
@@ -100,11 +139,6 @@ public class HojaMedicaRepository {
         else{
             return 1;
         }
-    }
-
-    public List<ProgramacionCita> buscarTriajeCitaMedica(int pn_id_cita) {
-        String procedureCall = "{call dbSanama.ssm_ate_buscar_triaje_x_cita_medica("+pn_id_cita+")};";
-        return jdbcTemplate.query(procedureCall, triajeMap);
     }
 
     private static class TriajeMap implements RowMapper<ProgramacionCita> {

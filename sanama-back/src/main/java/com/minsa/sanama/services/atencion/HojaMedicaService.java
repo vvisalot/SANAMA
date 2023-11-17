@@ -7,6 +7,8 @@ import com.minsa.sanama.repository.atencionmedica.RecetaMedicaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class HojaMedicaService {
     @Autowired
@@ -44,6 +46,12 @@ public class HojaMedicaService {
         int idReceta;
         idReceta = recetaMedicaRepository.registrarRecetaMedicaPrueba();
         return idReceta;
+    }
+
+    public List<HojaMedica> listarHojasMedicasFiltro(String pn_id_especialidad, String pd_fecha_inicio, String pd_fecha_fin) {
+        List<HojaMedica> lhoja = null;
+        lhoja = hojaMedicaRepository.listarHojasMedicasFiltro(pn_id_especialidad, pd_fecha_inicio, pd_fecha_fin);
+        return lhoja;
     }
 
 }
