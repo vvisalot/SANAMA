@@ -1,10 +1,12 @@
 import React from "react";
 import Accordion from "@/components/evaluations/acordeon";
-import VitalSigns from "@/components/evaluations/vitalSigns";
+import VitalSigns from "@/components/evaluations/VitalSigns";
 import ChiefComplaint from "@/components/evaluations/chiefComplaint";
 import ExplorationTab from "@/components/evaluations/ExplorationTab";
 import GlasgowComaScale from "@/components/evaluations/MentalStatusTab";
-
+import DiagnosticoMedico from "@/components/evaluations/DiagnosisTab";
+import TratamientoYDecisionCita from "@/components/evaluations/TreatmentTab";
+import Signature from "@/components/evaluations/Signature";
 const FormEvaluation = ({ evaluationData, handleInputChange }) => {
   return (
     <>
@@ -31,6 +33,16 @@ const FormEvaluation = ({ evaluationData, handleInputChange }) => {
           formData={evaluationData.estadoMental}
           handleInputChange={handleInputChange}
         />
+      </Accordion>
+      <Accordion title="Diagnostico" id="glasgow">
+        <DiagnosticoMedico></DiagnosticoMedico>
+      </Accordion>
+      <Accordion title="Receta Medica" id="glasgow">
+        <TratamientoYDecisionCita></TratamientoYDecisionCita>
+      </Accordion>
+
+      <Accordion title="Firma" id="glasgow">
+        <Signature />
       </Accordion>
     </>
   );

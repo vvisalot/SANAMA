@@ -19,19 +19,12 @@ const useMedicalRecordForm = () => {
     return true;
   };
 
-  const validateMedicalRecordForm = (formData) => {
-    // Agregar verificaciones aca de la misma hoja (receta etc)
-    setErrorMessageMedicalRecordForm("");
-    return true;
-  };
-
   const createMedicalRecord = async (evaluationData, medicalRecordsData) => {
     // esto basicamento parsea los datos de evalution data para
   };
 
   return {
     validateEvaluationForm,
-    validateMedicalRecordForm,
     createMedicalRecord,
   };
 };

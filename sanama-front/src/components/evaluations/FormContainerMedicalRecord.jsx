@@ -3,23 +3,55 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import useMedicalRecordForm from "@/hooks/useMedicalRecordForm";
 import FormEvaluation from "./FormEvaluation";
-import MedicalDecision from "./MedicalDecision"; // Import the missing component
 import { toast } from "sonner";
 import { patientService } from "@/services/patientService";
 import LaboratoryModal from "@/components/evaluations/LaboratoryModal";
 
-const FormContainerMedicalRecord = ({ idCita, initialData }) => {
+const FormContainerMedicalRecord = ({ idCita, patientTriageData }) => {
   const router = useRouter();
   const [allFormComplete, setAllFormComplete] = useState(false);
-  const {
-    validateEvaluationForm,
-    validateMedicalRecordForm,
-    createMedicalRecord,
-  } = useMedicalRecordForm();
+  const { validateEvaluationForm, createMedicalRecord } =
+    useMedicalRecordForm();
+
+  const defaultTriaje = {
+    temperatura: "",
+    frecuenciaCardiaca: "",
+    frecuenciaRespiratoria: "",
+    presionArterial: "",
+    saturacionOxigeno: "",
+  };
+
+  const initialData = {
+    signosVitales: {
+      ...defaultTriaje,
+      ...patientTriageData?.triaje,
+    },
+    ChiefComplaint: {
+      antecedentes: "",
+      motivoConsulta: "",
+      observaciones: "",
+    },
+    exploracionFisica: {
+      exGeneral: "",
+      pielYFaneras: "",
+      cabezaYCuello: "",
+      toraxYPulmones: "",
+      cardiovascular: "",
+      abdomen: "",
+      urogenital: "",
+      extremidades: "",
+      snc: "",
+    },
+    estadoMental: {
+      glasgow: "",
+      eyesOpen: "",
+      talkingCorrectly: "",
+      ableToMoveBody: "",
+    },
+  };
 
   const [evaluationData, setEvaluationData] = useState(initialData);
-  const [medicalRecordsData, setMedicalRecordsData] = useState(null);
-  const [isSubmitting, setIsSubmitting] = useState(false); // Add state for submitting
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -48,20 +80,8 @@ const FormContainerMedicalRecord = ({ idCita, initialData }) => {
       return;
     }
 
-    if (validateMedicalRecordForm(medicalRecordsData)) {
-      console.log("The form is valid. Sending data.");
-      setAllFormComplete(true);
-    } else {
-      console.log("Not all fields have been completed correctly.");
-      setIsSubmitting(false); // Set submitting to false
-      return;
-    }
-
     try {
-      const MedicalRecordData = await createMedicalRecord(
-        evaluationData,
-        medicalRecordsData
-      );
+      const MedicalRecordData = await createMedicalRecord(evaluationData);
       toast.promise(() => loadingRegister(MedicalRecordData), {
         loading: "Registrando cita",
         success: "Cita registrada",
@@ -78,10 +98,6 @@ const FormContainerMedicalRecord = ({ idCita, initialData }) => {
       <FormEvaluation
         evaluationData={evaluationData}
         handleInputChange={handleInputChange}
-      />
-      <MedicalDecision
-        evaluationData={evaluationData} //se hace un review de lo que se tiene hasta ahora
-        medicalRecordsData={medicalRecordsData}
         allFormComplete={allFormComplete}
       />
       <div className="flex flex-row-reverse">
