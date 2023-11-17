@@ -10,7 +10,7 @@ const getEstadoFromRow = (row) => {
         "En Consultorio",
         "Cancelada",
         "Pendiente",
-        "En Triage",
+        "En Triaje",
         "Desconocido",
       ].includes(item.data)
     ) {

@@ -17,7 +17,7 @@ const ESTADOS = [
   "En Consultorio",
   "Cancelada",
   "Pendiente",
-  "En triage",
+  "En Triaje",
 ];
 
 const PatientInfo = ({ pacienteData, appointmentData, doctor }) => {
