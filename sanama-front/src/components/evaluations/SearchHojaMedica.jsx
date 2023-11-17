@@ -44,8 +44,8 @@ const SearchMedicalSheet = ({ idpaciente, show, onClose, onSelect }) => {
         </h3>
         <div className="space-y-2 ">
           <div className="relative">
-            <div className="flex rounded-md m-2 bg-white shadow shadow-black/20">
-              <div>
+            <div className="flex gap-4 rounded-md m-2">
+              <div className="flex-1 min-w-[200px]">
                 <label
                   htmlFor="especialidadId"
                   className="block text-sm font-medium text-gray-700"
@@ -61,7 +61,7 @@ const SearchMedicalSheet = ({ idpaciente, show, onClose, onSelect }) => {
                   placeholder="Ingrese ID de Especialidad"
                 />
               </div>
-              <div>
+              <div className="flex-1 min-w-[200px]">
                 <label
                   htmlFor="fechaInicio"
                   className="block text-sm font-medium text-gray-700"
@@ -76,7 +76,7 @@ const SearchMedicalSheet = ({ idpaciente, show, onClose, onSelect }) => {
                   className="mt-1 block w-full p-2 border-gray-300 rounded-md shadow-sm"
                 />
               </div>
-              <div>
+              <div className="flex-1 min-w-[200px]">
                 <label
                   htmlFor="fechaFin"
                   className="block text-sm font-medium text-gray-700"
@@ -91,23 +91,24 @@ const SearchMedicalSheet = ({ idpaciente, show, onClose, onSelect }) => {
                   className="mt-1 block w-full p-2 border-gray-300 rounded-md shadow-sm"
                 />
               </div>
-              <button
-                type="button"
-                onClick={handleSubmit}
-                className="mt-4 inline-flex justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700"
-              >
-                Buscar
-              </button>
-              <button
-                type="button"
-                onClick={handleConfirm}
-                className=" inline-flex cursor-pointer items-center rounded-r text-white bg-green-500 px-2 py-2 hover:bg-green-400"
-              >
-                Confirmar
-              </button>
+              <div className="flex items-end gap-2">
+                <button
+                  type="button"
+                  onClick={handleSubmit}
+                  className="inline-flex justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700"
+                >
+                  Buscar
+                </button>
+                <button
+                  type="button"
+                  onClick={handleConfirm}
+                  className="inline-flex justify-center rounded-md border border-transparent bg-green-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-green-400"
+                >
+                  Confirmar
+                </button>
+              </div>
             </div>
           </div>
-
           {searchResults.length > 0 && searchFilters && (
             <div className="w-full max-h-screen overflow-y-auto rounded-md bg-white px-4 pt-3">
               {searchResults.map((result) => (
