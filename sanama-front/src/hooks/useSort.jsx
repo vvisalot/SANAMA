@@ -1,23 +1,24 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo } from "react"
 
 export const useSort = (data) => {
-  const [sortConfig, setSortConfig] = useState({ key: "", direction: "" });
+  const [sortConfig, setSortConfig] = useState({ key: "", direction: "" })
   const sortedData = useMemo(() => {
-    const sortArray = [...data];
+    const sortArray = [...data]
+
     if (sortConfig.key) {
       sortArray.sort((a, b) => {
-        let keyA = a[sortConfig.key];
-        let keyB = b[sortConfig.key];
+        let keyA = a[sortConfig.key]
+        let keyB = b[sortConfig.key]
 
         // Lowercase string values for case-insensitive comparison
-        
-        if (typeof keyA === "string") keyA = keyA.toLowerCase();
-        if (typeof keyB === "string") keyB = keyB.toLowerCase();
+
+        if (typeof keyA === "string") keyA = keyA.toLowerCase()
+        if (typeof keyB === "string") keyB = keyB.toLowerCase()
 
         // Handle date and time sorting
         if (sortConfig.key === "date") {
-          keyA = new Date(`${a.date} ${a.time}`);
-          keyB = new Date(`${b.date} ${b.time}`);
+          keyA = new Date(`${a.date} ${a.time}`)
+          keyB = new Date(`${b.date} ${b.time}`)
         }
 
         // Handle status sorting
@@ -28,25 +29,25 @@ export const useSort = (data) => {
             Cancelada: 3,
             Pendiente: 4,
             Desconocido: 5,
-          };
-          keyA = statusOrder[keyA];
-          keyB = statusOrder[keyB];
+          }
+          keyA = statusOrder[keyA]
+          keyB = statusOrder[keyB]
         }
 
         if (sortConfig.key === "ID") {
-          keyA = parseInt(keyA);
-          keyB = parseInt(keyB);
+          keyA = parseInt(keyA)
+          keyB = parseInt(keyB)
         }
 
         // Comparison logic
         return (
           (keyA < keyB ? -1 : 1) *
           (sortConfig.direction === "ascending" ? 1 : -1)
-        );
-      });
+        )
+      })
     }
-    return sortArray;
-  }, [data, sortConfig]);
+    return sortArray
+  }, [data, sortConfig])
 
   const requestSort = (key) => {
     setSortConfig((prevConfig) => ({
@@ -55,8 +56,8 @@ export const useSort = (data) => {
         prevConfig.key === key && prevConfig.direction === "ascending"
           ? "descending"
           : "ascending",
-    }));
-  };
+    }))
+  }
 
-  return { sortedData, requestSort, sortConfig };
-};
+  return { sortedData, requestSort, sortConfig }
+}
