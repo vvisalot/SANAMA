@@ -36,11 +36,12 @@ public class HojaMedicaRepository {
     private final TriajeMap triajeMap = new TriajeMap();
     private final HojaMedicaMapper hojaMedicaMapper = new HojaMedicaMapper();
 
-    public List<HojaMedica> listarHojasMedicasFiltro(String pn_id_especialidad, String pd_fecha_inicio, String pd_fecha_fin) {
+    public List<HojaMedica> listarHojasMedicasFiltro(String pn_id_paciente, String pn_id_especialidad, String pd_fecha_inicio, String pd_fecha_fin) {
+        if (pn_id_paciente != null)pn_id_paciente = "'"+pn_id_paciente+"'";
         if (pn_id_especialidad != null)pn_id_especialidad = "'"+pn_id_especialidad+"'";
         if (pd_fecha_inicio != null)pd_fecha_inicio = "'"+pd_fecha_inicio+"'";
         if (pd_fecha_fin != null)pd_fecha_fin = "'"+pd_fecha_fin+"'";
-        String procedureCall = "{call dbSanama.ssm_ate_listar_hoja_medica_filtro("+pn_id_especialidad+","+pd_fecha_inicio+","+pd_fecha_fin+")};";
+        String procedureCall = "{call dbSanama.ssm_ate_listar_hoja_medica_filtro("+pn_id_paciente+","+pn_id_especialidad+","+pd_fecha_inicio+","+pd_fecha_fin+")};";
         return jdbcTemplate.query(procedureCall, hojaMedicaMapper);
     }
 

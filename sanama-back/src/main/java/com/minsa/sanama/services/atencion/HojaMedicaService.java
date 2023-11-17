@@ -48,9 +48,9 @@ public class HojaMedicaService {
         return idReceta;
     }
 
-    public List<HojaMedica> listarHojasMedicasFiltro(String pn_id_especialidad, String pd_fecha_inicio, String pd_fecha_fin) {
+    public List<HojaMedica> listarHojasMedicasFiltro(String pn_id_paciente, String pn_id_especialidad, String pd_fecha_inicio, String pd_fecha_fin) {
         List<HojaMedica> lhoja = null;
-        lhoja = hojaMedicaRepository.listarHojasMedicasFiltro(pn_id_especialidad, pd_fecha_inicio, pd_fecha_fin);
+        lhoja = hojaMedicaRepository.listarHojasMedicasFiltro(pn_id_paciente, pn_id_especialidad, pd_fecha_inicio, pd_fecha_fin);
         return lhoja;
     }
 
