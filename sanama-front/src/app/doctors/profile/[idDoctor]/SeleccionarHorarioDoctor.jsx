@@ -64,8 +64,8 @@ function convertirDatosParaCalendar(datos) {
   return combinarEventosContiguos(eventos);
 }
 
-function SeleccionarHorarioMedico(props) {
-  const { doctor } = props;
+function SeleccionarHorarioMedico({doctor}) {
+  const idDoctor = doctor;
   const [isLoading, setIsLoading] = useState(true);
   const [isCalendarEnabled, setIsCalendarEnabled] = useState(false);
   const [showConfirmationPopup, setShowConfirmationPopup] = useState(false);
@@ -184,7 +184,7 @@ function SeleccionarHorarioMedico(props) {
           return jsonParaServidor;
         }
 
-        const jsonParaServidor = crearJSONParaServidor(eventosTransformados, doctor.idPersona, fechaInicioReg, fechaFinReg);
+        const jsonParaServidor = crearJSONParaServidor(eventosTransformados, idDoctor, fechaInicioReg, fechaFinReg);
 
         //console.log(jsonParaServidor);
 
@@ -241,7 +241,7 @@ function SeleccionarHorarioMedico(props) {
       const month2 = fechaLimite.getMonth() + 1;
       const day2 = fechaLimite.getDate();
       const requestData = {
-        pn_id_medico: doctor.idPersona,
+        pn_id_medico: idDoctor,
         pd_fecha_inicio: `${year}-${month}-${day}`,
         pd_fecha_fin: `${year2}-${month2}-${day2}`,
       };
@@ -255,6 +255,7 @@ function SeleccionarHorarioMedico(props) {
       };
 
       try {
+        console.log("r o",requestOptions);
         const response = await fetch(url, requestOptions);
         if (response.ok) {
           const data = await response.json();

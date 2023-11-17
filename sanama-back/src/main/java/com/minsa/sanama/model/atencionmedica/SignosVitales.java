@@ -5,13 +5,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 public class SignosVitales {
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private int idSigno=0;
-    private double temperatura;
-    private double frecuenciaCardiaca;
-    private double frecuenciaRespiratoria;
-    private double presionArterial;
-    private double saturacionOxigeno;
-    private double peso;
-    private double talla;
+    private String temperatura;
+    private String frecuenciaCardiaca;
+    private String frecuenciaRespiratoria;
+    private String presionArterial;
+    private String saturacionOxigeno;
+    private String peso;
+    private String talla;
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private int estado=0;
 
@@ -26,59 +26,59 @@ public class SignosVitales {
         this.idSigno = idSigno;
     }
 
-    public double getTemperatura() {
+    public String getTemperatura() {
         return temperatura;
     }
 
-    public void setTemperatura(double temperatura) {
+    public void setTemperatura(String temperatura) {
         this.temperatura = temperatura;
     }
 
-    public double getFrecuenciaCardiaca() {
+    public String getFrecuenciaCardiaca() {
         return frecuenciaCardiaca;
     }
 
-    public void setFrecuenciaCardiaca(double frecuenciaCardiaca) {
+    public void setFrecuenciaCardiaca(String frecuenciaCardiaca) {
         this.frecuenciaCardiaca = frecuenciaCardiaca;
     }
 
-    public double getFrecuenciaRespiratoria() {
+    public String getFrecuenciaRespiratoria() {
         return frecuenciaRespiratoria;
     }
 
-    public void setFrecuenciaRespiratoria(double frecuenciaRespiratoria) {
+    public void setFrecuenciaRespiratoria(String frecuenciaRespiratoria) {
         this.frecuenciaRespiratoria = frecuenciaRespiratoria;
     }
 
-    public double getPresionArterial() {
+    public String getPresionArterial() {
         return presionArterial;
     }
 
-    public void setPresionArterial(double presionArterial) {
+    public void setPresionArterial(String presionArterial) {
         this.presionArterial = presionArterial;
     }
 
-    public double getSaturacionOxigeno() {
+    public String getSaturacionOxigeno() {
         return saturacionOxigeno;
     }
 
-    public void setSaturacionOxigeno(double saturacionOxigeno) {
+    public void setSaturacionOxigeno(String saturacionOxigeno) {
         this.saturacionOxigeno = saturacionOxigeno;
     }
 
-    public double getPeso() {
+    public String getPeso() {
         return peso;
     }
 
-    public void setPeso(double peso) {
+    public void setPeso(String peso) {
         this.peso = peso;
     }
 
-    public double getTalla() {
+    public String getTalla() {
         return talla;
     }
 
-    public void setTalla(double talla) {
+    public void setTalla(String talla) {
         this.talla = talla;
     }
 
