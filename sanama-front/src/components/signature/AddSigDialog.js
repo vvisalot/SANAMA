@@ -1,22 +1,22 @@
 import { useRef } from "react";
-import { Dialog } from "./Dialog";
 import ReactSignatureCanvas from "react-signature-canvas";
 import { ConfirmOrCancel } from "./ConfirmOrCancel";
+import { Modal } from "flowbite-react";
 
 export function AddSigDialog({ onConfirm, onClose, autoDate, setAutoDate }) {
   const sigRef = useRef(null);
 
   return (
-    <Dialog
-      isVisible={true}
-      title={"Add signature"}
-      onClose={onClose}
-      body={
-        <div>
-          <div className="justify-center">
-            <span className="text-sm font-medium text-gray-900 dark:text-gray-300">
+    <>
+      <Modal onClose={onClose} show={true}>
+        <Modal.Header className="bg-blue-700 text-white p-2 flex justify-between items-center">
+          {"Firma del Doctor"}
+        </Modal.Header>
+        <div className="p-4 bg-white">
+          <div>
+            <div className="text-sm font-medium text-gray-900">
               Dibuja tu firma abajo:
-            </span>
+            </div>
             <div className="inline-block border border-blue-700">
               <ReactSignatureCanvas
                 velocityFilterWeight={1}
@@ -47,7 +47,7 @@ export function AddSigDialog({ onConfirm, onClose, autoDate, setAutoDate }) {
             }}
           />
         </div>
-      }
-    />
+      </Modal>
+    </>
   );
 }
