@@ -59,6 +59,7 @@ public class CitaRepository {
 
 
     public List<CitaMedica> listarCitasxFiltro(String pn_id_especialidad, String pv_filtro, String pd_fecha_inicio, String pd_fecha_fin, List<String> estados) {
+        if (pn_id_especialidad != null)pn_id_especialidad = "'"+pn_id_especialidad+"'";
         if (pd_fecha_inicio != null)pd_fecha_inicio = "'"+pd_fecha_inicio+"'";
         if (pd_fecha_fin != null)pd_fecha_fin = "'"+pd_fecha_fin+"'";
         String procedureCall;
