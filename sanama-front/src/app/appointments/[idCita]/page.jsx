@@ -84,7 +84,7 @@ const ReviewAppointment = ({ params }) => {
     handleActionClick(3).then(() => setHasBeenCanceled(true));
 
   return (
-    <section className="p-14">
+    <section className="p-14 h-screen">
       <TitleWithIcon name={"Cita Medica"} Icon={viewAppointmentIcon} />
 
       <div className="container mx-auto p-4">

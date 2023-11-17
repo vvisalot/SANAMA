@@ -59,7 +59,7 @@ const PatientInfo = ({ pacienteData, appointmentData, doctor }) => {
               id={id}
               name={id}
               className="mt-1 p-2 w-full border rounded-md"
-              defaultValue={getValue(id)}
+              value={getValue(id)}
               readOnly
             />
           </div>
