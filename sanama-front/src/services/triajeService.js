@@ -9,6 +9,7 @@ const ENDPOINTS = {
   LISTAR_TRIAJE_POR_FILTRO: "/admision/post/listarTriajePorFiltro",
   BUSCAR_TRIAJE_POR_FILTRO: "/admision/post/buscarTriaje",
   ACTUALIZAR_TRIAJE: "/admision/put/actualizarTriaje",
+  ELIMNAR_TRIAJE: "/admision/put/eliminarTriaje",
 };
 
 export const triajeService = {
@@ -49,6 +50,19 @@ export const triajeService = {
       return 1;
     } catch (error) {
       console.error("Error al actualizar el triaje", error);
+      throw error;
+    }
+  },
+
+  eliminarTriaje: async (data) => {
+    try {
+      const response = await axiosInstance.put(
+        ENDPOINTS.ELIMINAR_TRIAJE,
+        data
+      );
+      return 1;
+    } catch (error) {
+      console.error("Error al eliminar el triaje", error);
       throw error;
     }
   },

@@ -202,7 +202,7 @@ const TriajeProfile = ({ params }) => {
     
         try {
             console.log("ANTES DEL RESULT ES: ", triajeDataCancelled);
-            const result = await triajeService.actualizarTriaje(triajeDataCancelled)
+            const result = await triajeService.eliminarTriaje(triajeDataCancelled)
             console.log("EL TRIAJE ES: ", triajeDataCancelled);
             if (result === 1) {
                 if (typeof window !== "undefined") {
