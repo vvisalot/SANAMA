@@ -125,7 +125,7 @@ const TratamientoYDecisionCita = () => {
           Fecha de Caducidad
         </label>
         <input
-          type="text"
+          type="date"
           name="fechaDeCaducidad"
           value={tratamientoData.fechaDeCaducidad}
           onChange={handleInputChange}
