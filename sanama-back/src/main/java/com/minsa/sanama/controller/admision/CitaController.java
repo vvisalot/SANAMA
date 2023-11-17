@@ -85,22 +85,35 @@ public class CitaController {
         List<CitaMedica> Lcita = null;
         try {
             JSONObject job = (JSONObject) new JSONParser().parse(pv_datos);
-            System.out.println(pv_datos);
-            String pn_id_medico= job.get("pn_id_medico").toString();
             String pv_filtro = job.get("pv_filtro").toString();
+            String pn_id_medico = job.get("pn_id_medico").toString();
             String pd_fecha_inicio;
             String pd_fecha_fin;
-            String pn_estado;
+            String estado;
+
 
             if(job.get("pd_fecha_inicio") == null) pd_fecha_inicio=null;
             else pd_fecha_inicio = job.get("pd_fecha_inicio").toString();
+
             if(job.get("pd_fecha_fin") == null) pd_fecha_fin=null;
             else pd_fecha_fin = job.get("pd_fecha_fin").toString();
-            if(job.get("pn_estado") == null) pn_estado=null;
-            else pn_estado = job.get("pn_estado").toString();
+
+            boolean flag=true;
+            List<String> estados = new ArrayList<>();
+            JSONArray arregloEstados = (JSONArray) job.get("arregloEstados");
+            if (arregloEstados != null){
+                for (Object estadoObjetc : arregloEstados) {
+                    JSONObject pn_estado = (JSONObject) estadoObjetc;
+                    if(pn_estado.get("estado") == null) estado=null;
+                    else estado = pn_estado.get("estado").toString();
+                    flag=false;
+                    estados.add(estado);
+                }
+            }
+            if(flag)estados.add(null);
 
             // Llama al servicio para listar citas por filtros
-            Lcita = citaService.listarCitasxMedico(pn_id_medico,pv_filtro,pd_fecha_inicio,pd_fecha_fin, pn_estado);
+            Lcita = citaService.listarCitasxMedico(pn_id_medico,pv_filtro,pd_fecha_inicio,pd_fecha_fin, estados);
         } catch (Exception ex) {
             // Manejo de excepciones aquí
             ex.printStackTrace();

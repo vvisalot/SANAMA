@@ -90,12 +90,20 @@ public class CitaRepository {
 
 
 
-    public List<CitaMedica> listarCitasxMedico(String pn_id_medico, String pv_filtro, String pd_fecha_inicio, String pd_fecha_fin, String pn_estado) {
+    public List<CitaMedica> listarCitasxMedico(String pn_id_medico, String pv_filtro, String pd_fecha_inicio, String pd_fecha_fin,List<String> estados) {
         if (pd_fecha_inicio != null)pd_fecha_inicio = "'"+pd_fecha_inicio+"'";
         if (pd_fecha_fin != null)pd_fecha_fin = "'"+pd_fecha_fin+"'";
-        if (pn_estado != null)pn_estado = "'"+pn_estado+"'";
-        String procedureCall = "{call dbSanama.ssm_adm_listar_citas_medicas_x_medico("+pn_id_medico+",'"+pv_filtro+"',"+pd_fecha_inicio+","+pd_fecha_fin+","+pn_estado+")};";
-        return jdbcTemplate.query(procedureCall, citaMedicaMedicoMapper);
+        String procedureCall;
+        List<CitaMedica> lcitasMedicas= new ArrayList<>();
+        List<CitaMedica> aux=null;
+        for (String pn_estado : estados){
+            if (pn_estado != null)pn_estado = "'"+pn_estado+"'";
+            procedureCall = "{call dbSanama.ssm_adm_listar_citas_medicas_x_medico("+pn_id_medico+",'"+pv_filtro+"',"+pd_fecha_inicio+","+pd_fecha_fin+","+pn_estado+")};";
+            aux = jdbcTemplate.query(procedureCall, citaMedicaMedicoMapper);
+            lcitasMedicas.addAll(aux);
+
+        }
+        return lcitasMedicas;
     }
 
     private static class CitaMedicaIDMapper implements RowMapper<CitaMedica> {
