@@ -12,22 +12,43 @@
 }
 
 .highlight-green {
-  background-color: #c6f6d5; /* Color de fondo verde claro */
-  padding: 0.4rem 0.8rem; /* Espaciado interno para hacer el resaltado más grande */
-  border-radius: 0.4rem; /* Bordes redondeados */
-  display: inline-block; /* Hace que el padding se aplique solo alrededor del texto */
+  background-color: #c6f6d5; 
+  padding: 0.4rem 0.8rem; 
+  border-radius: 0.4rem; 
+  display: inline-block; 
 }
 
 .highlight-red {
-  background-color: #fed7d7; /* Color de fondo rojo claro */
+  background-color: #fed7d7; 
   padding: 0.4rem 0.8rem;
   border-radius: 0.4rem; 
   display: inline-block;
 }
 
 .highlight-orange {
-  background-color: #fbd38d; /* Color de fondo naranja claro */
+  background-color: #fbd38d;
   padding: 0.4rem 0.8rem;
   border-radius: 0.4rem; 
+  display: inline-block;
+}
+
+.highlight-blue {
+  background-color: #bee3f8; 
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.4rem;
+  display: inline-block;
+}
+
+.highlight-gray {
+  background-color: #e2e8f0; 
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.4rem;
+  display: inline-block;
+}
+
+.highlight-yellow {
+  background-color: #fefcbf; 
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.4rem;
   display: inline-block;
 }

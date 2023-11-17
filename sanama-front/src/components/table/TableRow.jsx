@@ -4,12 +4,12 @@ import TableOptions from "./TableOptions";
 
 const getEstadoFromRow = (row) => {
   for (let item of row) {
-    // Verifica si item.data es un objeto y tiene una propiedad props
+
     if (typeof item.data === 'object' && item.data !== null && item.data.props) {
-      // Accede a las propiedades del objeto para obtener el texto
+
       const estadoTexto = item.data.props.children;
       if (typeof estadoTexto === 'string') {
-        // Retorna el texto si es una cadena
+
         return estadoTexto;
       }
     }
