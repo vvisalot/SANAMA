@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import SearchDiagnostic from "./searchDiagnostic";
+import SearchDiagnostic from "./SearchDiagnostic";
 
 const DiagnosticoMedico = ({ setMedicalRecordData }) => {
   // State

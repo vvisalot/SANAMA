@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import SearchMedicalSheet from "./SearchHojaMedica";
 import { useParams } from "next/navigation";
 
-const ChiefComplaint = ({ setEvaluationData }) => {
+const ChiefComplaint = ({ setMedicalRecordData }) => {
   const [showModal, setShowModal] = useState(false);
   const params = useParams();
   const idPaciente = params.idPaciente;
 
   const handleBlur = (e) => {
     const { name, value } = e.target;
-    setEvaluationData((prevData) => ({
+    setMedicalRecordData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
@@ -17,7 +17,7 @@ const ChiefComplaint = ({ setEvaluationData }) => {
 
   const addEvaluation = (selectedHoja) => {
     if (selectedHoja && selectedHoja.idHojaMedica) {
-      setEvaluationData((prevData) => ({
+      setMedicalRecordData((prevData) => ({
         ...prevData,
         hojaRefencia: { idHojaReferenciada: selectedHoja.idHojaMedica },
       }));
@@ -27,7 +27,7 @@ const ChiefComplaint = ({ setEvaluationData }) => {
   };
 
   const removeEvaluation = (selectedHoja) => {
-    setEvaluationData((prevData) => ({
+    setMedicalRecordData((prevData) => ({
       ...prevData,
       hojaRefencia: null, // Change here
     }));
