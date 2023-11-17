@@ -2,11 +2,37 @@ import React, { useState } from "react";
 import SearchMedicalSheet from "./SearchHojaMedica";
 import { useParams } from "next/navigation";
 
-const ChiefComplaint = ({ formData, setEvaluationData }) => {
+const ChiefComplaint = ({ setEvaluationData }) => {
   const [showModal, setShowModal] = useState(false);
   const params = useParams();
   const idPaciente = params.idPaciente;
-  // Function to open the modal
+
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    setEvaluationData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const addEvaluation = (selectedHoja) => {
+    if (selectedHoja && selectedHoja.idHojaMedica) {
+      setEvaluationData((prevData) => ({
+        ...prevData,
+        hojaRefencia: { idHojaReferenciada: selectedHoja.idHojaMedica },
+      }));
+    } else {
+      console.error("Hoja Médica seleccionada no válida o sin ID.");
+    }
+  };
+
+  const removeEvaluation = (selectedHoja) => {
+    setEvaluationData((prevData) => ({
+      ...prevData,
+      hojaRefencia: null, // Change here
+    }));
+  };
+
   const handleOpenModal = () => {
     setShowModal(true);
   };
@@ -23,13 +49,13 @@ const ChiefComplaint = ({ formData, setEvaluationData }) => {
           label="Antecedentes:"
           name="antecedentes"
           placeholder="Ingresa los antecentes.."
-          setEvaluationData={setEvaluationData}
+          onBlur={handleBlur} // Cambio aquí
         />
         <TextAreaField
           label="Motivo de Consulta:"
           name="motivoConsulta"
           placeholder="Ingresa el motivo.."
-          setEvaluationData={setEvaluationData}
+          onBlur={handleBlur}
         />
         <div className="flex flex-row-reverse">
           <button
@@ -45,13 +71,14 @@ const ChiefComplaint = ({ formData, setEvaluationData }) => {
           idPaciente={idPaciente}
           show={showModal}
           onClose={handleCloseModal}
+          onSelect={addEvaluation}
         />
       </div>
     </div>
   );
 };
 
-const TextAreaField = ({ label, name, setEvaluationData, placeholder }) => {
+const TextAreaField = ({ label, name, onBlur, placeholder }) => {
   return (
     <div>
       <label htmlFor={name} className="block text-sm font-medium text-gray-700">
@@ -60,7 +87,7 @@ const TextAreaField = ({ label, name, setEvaluationData, placeholder }) => {
       <textarea
         id={name}
         name={name}
-        onChange={setEvaluationData}
+        onBlur={onBlur} // Usar el prop onBlur aquí
         className="resize-none mt-1 p-2 w-full border-gray-300 rounded-md"
         placeholder={placeholder}
         rows={4}

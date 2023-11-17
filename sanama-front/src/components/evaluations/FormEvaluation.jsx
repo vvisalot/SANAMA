@@ -7,38 +7,30 @@ import GlasgowComaScale from "@/components/evaluations/MentalStatusTab";
 import DiagnosticoMedico from "@/components/evaluations/DiagnosisTab";
 import TratamientoYDecisionCita from "@/components/evaluations/TreatmentTab";
 import Signature from "@/components/evaluations/Signature";
-const FormEvaluation = ({ evaluationData, setEvaluationData }) => {
+
+const FormEvaluation = ({ defaultTriaje, setMedicalRecordData }) => {
   return (
     <>
       <Accordion title="Ultimo Triaje" id="triage">
         <VitalSigns
-          formData={evaluationData.signosVitales}
-          setEvaluationData={setEvaluationData}
+          defaultTriaje={defaultTriaje}
+          setMedicalRecordData={setMedicalRecordData}
         />
       </Accordion>
       <Accordion title="Motivo de la Consulta" id="consulta">
-        <ChiefComplaint
-          formData={evaluationData.ChiefComplaint}
-          setEvaluationData={setEvaluationData}
-        />
+        <ChiefComplaint setMedicalRecordData={setMedicalRecordData} />
       </Accordion>
       <Accordion title="Exploracion Fisica" id="expfisica">
-        <ExplorationTab
-          formData={evaluationData.exploracionFisica}
-          setEvaluationData={setEvaluationData}
-        />
+        <ExplorationTab setMedicalRecordData={setMedicalRecordData} />
       </Accordion>
       <Accordion title="Nivel de Consciencia" id="glasgow">
-        <GlasgowComaScale
-          formData={evaluationData.estadoMental}
-          setEvaluationData={setEvaluationData}
-        />
+        <GlasgowComaScale setMedicalRecordData={setMedicalRecordData} />
       </Accordion>
       <Accordion title="Diagnostico" id="glasgow">
-        <DiagnosticoMedico></DiagnosticoMedico>
+        <DiagnosticoMedico setMedicalRecordData={setMedicalRecordData} />
       </Accordion>
       <Accordion title="Receta Medica" id="glasgow">
-        <TratamientoYDecisionCita></TratamientoYDecisionCita>
+        <TratamientoYDecisionCita setMedicalRecordData={setMedicalRecordData} />
       </Accordion>
 
       <Accordion title="Firma" id="glasgow">
