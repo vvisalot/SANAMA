@@ -1,27 +1,37 @@
-import { Fragment } from "react"
-import TableCell from "./TableCell"
-import TableOptions from "./TableOptions"
+import { Fragment } from "react";
+import TableCell from "./TableCell";
+import TableOptions from "./TableOptions";
 
 const getEstadoFromRow = (row) => {
   for (let item of row) {
-    if (["Atendida", "En Consultorio", "Cancelada", "Pendiente", "Desconocido"].includes(item.data)) {
-      return item.data
+    if (
+      [
+        "Atendida",
+        "En Consultorio",
+        "Cancelada",
+        "Pendiente",
+        "En Triage",
+        "Desconocido",
+      ].includes(item.data)
+    ) {
+      return item.data;
     }
   }
-  return null
-}
+  return null;
+};
 
 const TableRow = ({ row, url, optionsText, iconName }) => {
-
-  const estado = getEstadoFromRow(row)
+  const estado = getEstadoFromRow(row);
   return (
     <tr className="bg-white border-b">
       {row.map((cell, index) => {
-        if (index === 0) return null
+        if (index === 0) return null;
         if (index === row.length - 1) {
           return (
             <Fragment key={index}>
-              <TableCell data={cell.data} className={cell.className ? cell.className : ""}
+              <TableCell
+                data={cell.data}
+                className={cell.className ? cell.className : ""}
               />
               {url.length > 0 ? (
                 <TableOptions
@@ -33,7 +43,7 @@ const TableRow = ({ row, url, optionsText, iconName }) => {
                 />
               ) : null}
             </Fragment>
-          )
+          );
         } else {
           return (
             <TableCell
@@ -41,11 +51,11 @@ const TableRow = ({ row, url, optionsText, iconName }) => {
               data={cell.data}
               className={cell.className ? cell.className : ""}
             />
-          )
+          );
         }
       })}
     </tr>
-  )
-}
+  );
+};
 
-export default TableRow
+export default TableRow;

@@ -12,7 +12,13 @@ const CAMPOS = [
   { id: "estado", label: "ESTADO", type: "text" },
 ];
 
-const ESTADOS = ["Atendida", "En Consultorio", "Cancelada", "Pendiente"];
+const ESTADOS = [
+  "Atendida",
+  "En Consultorio",
+  "Cancelada",
+  "Pendiente",
+  "En triage",
+];
 
 const PatientInfo = ({ pacienteData, appointmentData, doctor }) => {
   const getValue = (id) => {

@@ -68,22 +68,24 @@
 //     "requiereTriaje": 0
 // },
 
-import { format, parse, parseISO } from "date-fns"
+import { format, parse, parseISO } from "date-fns";
 
 const getStatus = (estado) => {
   switch (estado) {
     case 1:
-      return "Atendida"
+      return "Atendida";
     case 2:
-      return "En Consultorio"
+      return "En Consultorio";
     case 3:
-      return "Cancelada"
+      return "Cancelada";
     case 4:
-      return "Pendiente"
+      return "Pendiente";
+    case 5:
+      return "En Triaje";
     default:
-      return "Desconocido" // Puedes cambiar este valor predeterminado por lo que consideres adecuado.
+      return "Desconocido"; // Puedes cambiar este valor predeterminado por lo que consideres adecuado.
   }
-}
+};
 
 export function parseAppointmentTable(data) {
   const table = data.map((row) => [
@@ -92,9 +94,11 @@ export function parseAppointmentTable(data) {
     { data: row["codigoCita"] },
 
     {
-      data: format(parseISO(row["fechaCita"]), "dd/MM/yyyy") + " " + format(parse(row["horaCita"], 'HH:mm:ss', new Date()), 'hh:mm a')
+      data:
+        format(parseISO(row["fechaCita"]), "dd/MM/yyyy") +
+        " " +
+        format(parse(row["horaCita"], "HH:mm:ss", new Date()), "hh:mm a"),
     },
-
 
     {
       data: `${row["paciente"]["nombres"]} ${row["paciente"]["apellidoPaterno"]} ${row["paciente"]["apellidoMaterno"]}`,
@@ -105,16 +109,15 @@ export function parseAppointmentTable(data) {
     // },
 
     {
-      data: row["medico"]["especialidad"]["nombre"]
+      data: row["medico"]["especialidad"]["nombre"],
     },
 
-
     {
-      data: getStatus(row["estado"])
+      data: getStatus(row["estado"]),
     }, // Utilizando la función getStatus aquí
-  ])
+  ]);
   //console.log(table);
-  return table
+  return table;
 }
 
 export function parsePatientAppointmentTable(data) {
@@ -124,13 +127,13 @@ export function parsePatientAppointmentTable(data) {
       data: `${row["medico"]["nombres"]} ${row["medico"]["apellidoPaterno"]} ${row["medico"]["apellidoMaterno"]}`,
     },
     {
-      data: row["medico"]["especialidad"]["nombre"]
+      data: row["medico"]["especialidad"]["nombre"],
     },
     {
-      data: `${row["fechaCita"]} ${row["horaCita"]}`
+      data: `${row["fechaCita"]} ${row["horaCita"]}`,
     },
     { data: getStatus(row["estado"]) }, // Utilizando la función getStatus aquí
-  ])
+  ]);
   //console.log(table);
-  return table
+  return table;
 }
