@@ -4,6 +4,8 @@ import { doctorService } from "@/services/doctorService";
 import { useState, useEffect } from "react";
 import SeleccionarHorarioMedico from "./SeleccionarHorarioDoctor";
 import CitasMedico from "./CitasMedico";
+import DoctorActions from "./DoctorActions";
+import LatestAppointmentsDoctor from "./LastestAppointmentsDoctor";
 function formatearFechaNacimiento(fechaNacimiento) {
   if (!fechaNacimiento) {
     return 'No especifica';
@@ -28,7 +30,7 @@ const DoctorProfile = ({ params }) => {
         if (data && data.length > 0) {
           console.log("data", data[0]);
           setDataDoctor(data[0]);
-          if(data[0].foto){
+          if (data[0].foto) {
             setImagenPerfil(`data:image/png;base64,${data[0].foto}`)
           }
         }
@@ -58,7 +60,7 @@ const DoctorProfile = ({ params }) => {
             module={"doctors"}
             urlEdit={"editDoctorData"}
             id={params.idDoctor}
-            imagenPerfil = {imagenPerfil}
+            imagenPerfil={imagenPerfil}
           />
         </div>
 
@@ -100,19 +102,29 @@ const DoctorProfile = ({ params }) => {
         </div>
 
       </div>
+
+      <div className="flex">
+        <div className="w-1/2 p-10">
+          <DoctorActions id={params.idDoctor}/>
+
+        </div>
+        <div className="w-1/2 flex-row p-10">
+          <LatestAppointmentsDoctor id={params.idDoctor}/>
+        </div>
+      </div>
       {/* <div className="bg-white w-1/3 flex-row p-10 text-black">
         <SeleccionarHorarioMedico doctor={dataDoctor} />
       </div> */}
-      <div className="p-10 ">
+      {/* <div className="p-10 ">
         <div className="bg-white flex-row p-10 text-black border border-gray-200 rounded-xl shadow">
-          <SeleccionarHorarioMedico doctor={dataDoctor} />
+          <SeleccionarHorarioMedico doctor={params.idDoctor} />
         </div>
-      </div>
-      <div className="p-10 ">
+      </div> */}
+      {/* <div className="p-10 ">
         <div className="bg-white flex-row p-10 text-black border border-gray-200 rounded-xl shadow">
           <CitasMedico doctor={dataDoctor} />
         </div>
-      </div>
+      </div> */}
     </article>
   );
 

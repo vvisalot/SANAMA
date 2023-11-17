@@ -6,7 +6,8 @@ import SearchBar from "@/components/bars/SearchBar"
 import DateRangePicker from "@/components/Date/DateRangePicker"
 import DropdownCheckbox from "@/components/Dropdowns/DropdownCheckbox"
 import { format } from "date-fns"
-function CitasMedico({ doctor }) {
+function CitasMedico({ dataDoctor }) {
+  const doctor = dataDoctor[0];
   const [appointmentTable, setAppointmentTable] = useState([]);
   const [statusList, setStatusList] = useState([])
   const [statusState, setStatusState] = useState({})
