@@ -44,10 +44,10 @@ const VitalSigns = ({ formData, setEvaluationData }) => {
     },
     {
       type: "text",
-      label: "Presión Arterial (mmHg)",
+      label: "Presión Arterial (Sistolica / Diastolica)",
       name: "presionArterial",
       value: formData.presionArterial,
-      pattern: "^(1[0-2]\\d|130)\\/(6\\d|7[0-5]|80)$", // Formato como "120/80"
+      pattern: "^(1[0-2]\\d|130)\\/(6\\d|7[0-9]|80)$", // Formato como "120/80"
     },
     {
       type: "number",
