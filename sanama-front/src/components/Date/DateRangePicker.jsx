@@ -89,7 +89,7 @@ const DateRangePicker = ({
       >
       </Datepicker >
       <Datepicker
-        classNames=""
+        classNames="pr-2"
         options={optionsFinal}
         onChange={handleChangeFinal}
         show={showFinal}

@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from "react"
 const PatientIcon = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -64,7 +64,7 @@ const PatientIcon = (props) => (
         fillRule: "evenodd",
         clipRule: "evenodd",
         fill: "#f9b97a",
-        stroke: "#08828b",
+        stroke: "#08828b  ",
         strokeWidth: 2.0001,
         strokeLinecap: "round",
         strokeLinejoin: "round",
@@ -103,5 +103,5 @@ const PatientIcon = (props) => (
       }}
     />
   </svg>
-);
-export default PatientIcon;
+)
+export default PatientIcon

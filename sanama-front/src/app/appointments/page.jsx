@@ -10,8 +10,10 @@ import DropdownCheckbox from "@/components/Dropdowns/DropdownCheckbox"
 import { format } from "date-fns"
 import AppointmentIcon from "@/components/icons/AppointmentIcon"
 import { useRouter } from "next/navigation"
-import TitleWithIcon from "@/components/TitleWithIcon";
+import TitleWithIcon from "@/components/TitleWithIcon"
 import Link from "next/link"
+import Dropdown from "@/components/Dropdowns/Dropdown"
+import { doctorService } from "@/services/doctorService"
 
 const initialRequest = {
   pn_id_especialidad: null,
@@ -49,6 +51,20 @@ const AppointmentPage = () => {
     }
   }
 
+  const [specialties, setSpecialties] = useState([])
+  const [especialidadSeleccionada, setEspecialidadSeleccionada] = useState(
+    "Todas las especialidades"
+  )
+  const fetchSpecialty = async () => {
+    try {
+      const data = await doctorService.listarEspecialidades()
+      setSpecialties(data)
+      //console.log(data)
+    } catch (error) {
+      console.log("No se pudo obtener los datos de las especialidades")
+    }
+  }
+
   const fetchData = async (request) => {
     try {
       const data = await appointmentService.listarCitasFiltro(request)
@@ -61,6 +77,7 @@ const AppointmentPage = () => {
 
   useEffect(() => {
     fetchStateList()
+    fetchSpecialty()
     fetchData(initialRequest)
   }, [])
 
@@ -68,6 +85,7 @@ const AppointmentPage = () => {
     e.preventDefault()
     const elements = e.target.elements
     const filtro = elements.namedItem("search-bar-appointments").value
+    const filtroEspecialidad = elements.namedItem("speciality-dropdown").idValue
 
     const stateArray = Object.entries(statusState)
       .filter(([key, value]) => value)
@@ -77,7 +95,7 @@ const AppointmentPage = () => {
         }
       })
     const request = {
-      pn_id_especialidad: null,
+      pn_id_especialidad: filtroEspecialidad ? filtroEspecialidad : null,
       pv_filtro: filtro,
       pd_fecha_inicio: dateInitial ? format(dateInitial, "yyyy-MM-dd") : null,
       pd_fecha_fin: dateFinal ? format(dateFinal, "yyyy-MM-dd") : null,
@@ -87,8 +105,8 @@ const AppointmentPage = () => {
   }
 
   return (
-    <section className="p-4 md:p-14">
-      <section className="flex justify-between items-center mb-8">
+    <section className="w-full px-14 py-6">
+      <section className="flex justify-between items-center">
         <TitleWithIcon name={"Citas"} Icon={AppointmentIcon} />
         <Link
           className="text-white  bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-4"
@@ -101,7 +119,7 @@ const AppointmentPage = () => {
 
       <form className=" flex items-center " onSubmit={handleSubmit}>
         <DropdownCheckbox
-          text={"Selecciona el estado de la cita"}
+          text={"Estado de la cita"}
           statusList={statusList}
           statusState={statusState}
           setStatusState={setStatusState}
@@ -113,9 +131,23 @@ const AppointmentPage = () => {
           setDateFinal={setDateFinal}
         />
 
+        <Dropdown
+          data={specialties}
+          defaultText={"Todas las especialidades"}
+          text={"nombre"}
+          defaultValue={""}
+          value={"nombre"}
+          name={"speciality-dropdown"}
+          width={"w-[400px]"}
+          height={"h-[42px]"}
+          handleChange={(event) => {
+            setEspecialidadSeleccionada(event.target.value)
+          }}
+        ></Dropdown>
+
         <SearchBar
           name={"search-bar-appointments"}
-          width={"w-full"}
+          width={"w-[600px]"}
           placeholderText={"Buscar por Nombre, DNI o Código de la Cita"}
         />
         <button
