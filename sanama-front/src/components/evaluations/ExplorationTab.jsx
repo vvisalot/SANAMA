@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const ExplorationTab = ({ formData, handleInputChange }) => {
+const ExplorationTab = ({ setMedicalRecordData }) => {
   const [visibleSections, setVisibleSections] = useState({
     exGeneral: false,
     pielYFaneras: false,
@@ -53,7 +53,6 @@ const ExplorationTab = ({ formData, handleInputChange }) => {
 
   const renderTextArea = (label, name, section, key) => {
     if (!visibleSections[section]) return null;
-    const value = formData?.exploracionFisica?.[section] || "";
     return (
       <motion.div
         key={key}
@@ -74,7 +73,6 @@ const ExplorationTab = ({ formData, handleInputChange }) => {
           id={name}
           name={`ClinicalTab.exploracionFisica.${section}`}
           onChange={handleInputChange}
-          defaultValue={value}
           className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           rows={3}
         />

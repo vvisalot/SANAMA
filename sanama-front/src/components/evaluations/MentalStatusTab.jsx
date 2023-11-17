@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const GlasgowComaScale = ({ formData, handleInputChange }) => {
+const GlasgowComaScale = ({ setMedicalRecordData }) => {
   const [glasgowData, setGlasgowData] = useState({
     aperturaOjos: "",
     respuestaVerbal: "",
