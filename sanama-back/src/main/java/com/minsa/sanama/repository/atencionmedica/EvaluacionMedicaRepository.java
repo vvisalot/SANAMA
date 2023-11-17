@@ -35,10 +35,10 @@ public class EvaluacionMedicaRepository {
                         new SqlParameter("pv_urogenital", Types.VARCHAR),
                         new SqlParameter("pv_extremidades", Types.VARCHAR),
                         new SqlParameter("pv_snc", Types.VARCHAR),
-                        new SqlParameter("pn_glasgow", Types.INTEGER),
-                        new SqlParameter("pn_eyes_open", Types.INTEGER),
-                        new SqlParameter("pb_talking_correctly", Types.BOOLEAN),
-                        new SqlParameter("pb_able_to_move_body", Types.BOOLEAN),
+                        new SqlParameter("pn_glasgow", Types.VARCHAR),
+                        new SqlParameter("pn_eyes_open", Types.VARCHAR),
+                        new SqlParameter("pb_talking_correctly", Types.VARCHAR),
+                        new SqlParameter("pb_able_to_move_body", Types.VARCHAR),
                         new SqlParameter("pv_observaciones", Types.VARCHAR),
                         new SqlParameter("pv_indicaciones_finales", Types.VARCHAR),
                         new SqlParameter("pb_requiere_signos_vitales", Types.BOOLEAN)
@@ -59,8 +59,8 @@ public class EvaluacionMedicaRepository {
                 .addValue("pv_snc", evaluacionMedica.getSnc())
                 .addValue("pn_glasgow", evaluacionMedica.getGlasgow())
                 .addValue("pn_eyes_open", evaluacionMedica.getEyesOpen())
-                .addValue("pb_talking_correctly", evaluacionMedica.isTalkingCorrectly())
-                .addValue("pb_able_to_move_body", evaluacionMedica.isAbleToMoveBody())
+                .addValue("pb_talking_correctly", evaluacionMedica.getTalkingCorrectly())
+                .addValue("pb_able_to_move_body", evaluacionMedica.getAbleToMoveBody())
                 .addValue("pv_observaciones", evaluacionMedica.getObservaciones())
                 .addValue("pv_indicaciones_finales", evaluacionMedica.getIndicacionesFinales())
                 .addValue("pb_requiere_signos_vitales", evaluacionMedica.isRequiereSignosVitales());
@@ -117,8 +117,8 @@ public class EvaluacionMedicaRepository {
                 .addValue("pv_snc", evaluacionMedica.getSnc())
                 .addValue("pn_glasgow", evaluacionMedica.getGlasgow())
                 .addValue("pn_eyes_open", evaluacionMedica.getEyesOpen())
-                .addValue("pb_talking_correctly", evaluacionMedica.isTalkingCorrectly())
-                .addValue("pb_able_to_move_body", evaluacionMedica.isAbleToMoveBody())
+                .addValue("pb_talking_correctly", evaluacionMedica.getTalkingCorrectly())
+                .addValue("pb_able_to_move_body", evaluacionMedica.getAbleToMoveBody())
                 .addValue("pv_observaciones", evaluacionMedica.getObservaciones())
                 .addValue("pv_indicaciones_finales", evaluacionMedica.getIndicacionesFinales())
                 .addValue("pb_requiere_signos_vitales", evaluacionMedica.isRequiereSignosVitales());
