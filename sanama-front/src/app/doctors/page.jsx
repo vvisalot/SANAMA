@@ -60,7 +60,7 @@ const DoctorsPage = () => {
 
   return (
     <section className="w-full px-14 py-6">
-      <section className="flex justify-between items-center mb-8 ">
+      <section className="flex justify-between items-center ">
         <TitleWithIcon name={"Doctores"} Icon={DoctorIcon} />
         <Link
           className="text-white  bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-4"
@@ -71,7 +71,7 @@ const DoctorsPage = () => {
 
       </section>
 
-      <form className="flex pb-4 items-center" onSubmit={handleSubmit}>
+      <form className="flex items-center" onSubmit={handleSubmit}>
         <Dropdown
           data={specialties}
           defaultText={"Todas las especialidades"}
@@ -80,7 +80,7 @@ const DoctorsPage = () => {
           value={"nombre"}
           name={"speciality-dropdown"}
           width={"w-[400px]"}
-          height={"h-[50px]"}
+          height={"h-[51px]"}
           handleChange={(event) => {
             setEspecialidadSeleccionada(event.target.value)
           }}
