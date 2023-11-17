@@ -116,7 +116,7 @@ const AppointmentPage = () => {
         <SearchBar
           name={"search-bar-appointments"}
           width={"w-full"}
-          placeholderText={"Buscar por nombre del paciente"}
+          placeholderText={"Buscar por Nombre, DNI o Código de la Cita"}
         />
         <button
           type="submit"

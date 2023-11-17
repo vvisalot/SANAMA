@@ -90,7 +90,7 @@ const TriajePage = () => {
           <SearchBar
             name={"patients-search"}
             width={"flex-grow"}
-            placeholderText="Buscar por Nombre o DNI"
+            placeholderText="Buscar por Nombre, DNI o Código del Triaje"
           />
 
           <DropdownCheckbox

@@ -92,7 +92,7 @@ const LaboratoryPage = () => {
           <SearchBar
             name={"patients-search"}
             width={"flex-grow"}
-            placeholderText="Buscar por Nombre o DNI"
+            placeholderText="Buscar por Nombre, DNI o Código de la Orden"
           />
 
           <DropdownCheckbox
