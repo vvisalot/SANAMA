@@ -1,9 +1,10 @@
+"use client";
 import React, { useState, useEffect } from "react";
-import AddTaskForm from "./components/AddTaskForm";
-import TaskList from "./components/TaskList";
+import AddTaskForm from "@/components/todolist/AddTaskForm";
+import TaskList from "@/components/todolist/TaskList";
 import { MdDarkMode, MdSunny } from "react-icons/md";
 
-function App() {
+const TodoList = () => {
   const [tasks, setTasks] = useState([]);
   const [darkTheme, setDarkTheme] = useState(false);
 
@@ -109,6 +110,6 @@ function App() {
       </div>
     </div>
   );
-}
+};
 
-export default App;
+export default TodoList;

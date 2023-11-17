@@ -56,7 +56,6 @@ const TratamientoYDecisionCita = () => {
   return (
     <div className="p-8">
       <h4 className="text-lg font-bold text-gray-700 mb-2">Receta Médica</h4>
-
       <div className="col-span-2">
         <label className="block text-sm font-medium text-gray-700">
           Recetas Médicas
@@ -121,7 +120,6 @@ const TratamientoYDecisionCita = () => {
           Añadir Receta Médica
         </button>
       </div>
-
       <div>
         <label className="block text-sm font-medium text-gray-700">
           Fecha de Caducidad
