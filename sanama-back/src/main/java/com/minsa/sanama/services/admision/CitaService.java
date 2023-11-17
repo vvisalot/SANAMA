@@ -54,9 +54,9 @@ public class CitaService {
         return lCitas;
     }
 
-    public List<CitaMedica> listarCitasxMedico(String pn_id_medico, String pn_estado) {
+    public List<CitaMedica> listarCitasxMedico(String pn_id_medico, String pv_filtro, String pd_fecha_inicio, String pd_fecha_fin, String pn_estado) {
         List<CitaMedica> lCitas;
-        lCitas = citaRepository.listarCitasxMedico(pn_id_medico, pn_estado);
+        lCitas = citaRepository.listarCitasxMedico(pn_id_medico,pv_filtro,pd_fecha_inicio,pd_fecha_fin, pn_estado);
         return lCitas;
     }
 
