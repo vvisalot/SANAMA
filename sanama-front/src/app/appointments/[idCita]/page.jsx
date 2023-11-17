@@ -84,10 +84,10 @@ const ReviewAppointment = ({ params }) => {
     handleActionClick(3).then(() => setHasBeenCanceled(true));
 
   return (
-    <section className="p-14 h-screen">
+    <section className="p-14 h-screen content-end">
       <TitleWithIcon name={"Cita Medica"} Icon={viewAppointmentIcon} />
 
-      <div className="container mx-auto p-4">
+      <div className="container mx-auto p-4 ">
         <div className="flex justify-end mb-6 w-full">
           <ActionButtons
             estado={estado}
@@ -103,19 +103,21 @@ const ReviewAppointment = ({ params }) => {
           appointmentData={appointmentData}
           doctor={appointmentData.medico}
         />
-        <Link href="/appointments" passHref>
-          <href className="block justify-self-end bg-gray-500 text-white p-2 w-80 rounded-md text-center mt-2">
-            Volver
-          </href>
-        </Link>
 
-        <RescheduleModal
-          isOpen={isRescheduleModalOpen}
-          onClose={closeRescheduleModal}
-          medicId={appointmentData.medico.idPersona}
-          appointmentId={appointmentData.idCita}
-        />
+        <div className="flex flex-row-reverse">
+          <Link href="/appointments" passHref>
+            <href className="block justify-self-end bg-gray-500 text-white p-2 w-80 rounded-md text-center mt-2">
+              Volver
+            </href>
+          </Link>
+        </div>
       </div>
+      <RescheduleModal
+        isOpen={isRescheduleModalOpen}
+        onClose={closeRescheduleModal}
+        medicId={appointmentData.medico.idPersona}
+        appointmentId={appointmentData.idCita}
+      />
     </section>
   );
 };

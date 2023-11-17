@@ -43,7 +43,7 @@ const PatientInfo = ({ pacienteData, appointmentData, doctor }) => {
   };
 
   return pacienteData ? (
-    <div className="bg-white p-6 rounded-lg shadow-md mb-6 h-full">
+    <>
       <h2 className="text-2xl font-bold mb-4 text-primary-dusk-blue">{`${appointmentData.codigoCita}`}</h2>
       <div className="grid grid-cols-2 gap-4">
         {CAMPOS.map(({ id, label, type }) => (
@@ -65,7 +65,7 @@ const PatientInfo = ({ pacienteData, appointmentData, doctor }) => {
           </div>
         ))}
       </div>
-    </div>
+    </>
   ) : null;
 };
 
