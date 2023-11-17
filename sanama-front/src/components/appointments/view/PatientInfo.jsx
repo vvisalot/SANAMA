@@ -1,31 +1,65 @@
 import React from "react";
 
-const patientFieldsConfig = [
-  { name: "dni", label: "DOCUMENTO DE IDENTIDAD" },
-  { name: "nombres", label: "NOMBRES" },
-  { name: "apellidoPaterno", label: "PRIMER APELLIDO" },
-  { name: "apellidoMaterno", label: "SEGUNDO APELLIDO" },
+const CAMPOS = [
+  { id: "nombres", label: "PACIENTE", type: "text" },
+  { id: "dni", label: "DOCUMENTO DE IDENTIDAD", type: "text" },
+  { id: "fecha-atencion", label: "FECHA DE ATENCION", type: "date" },
+  { id: "hora-atencion", label: "HORA DE ATENCION", type: "time" },
+  { id: "medico-responsable", label: "MEDICO RESPONSABLE", type: "text" },
+  { id: "especialidad", label: "ESPECIALIDAD", type: "text" },
+  { id: "nombreAcompanhante", label: "ACOMPAÑANTE", type: "text" },
+  { id: "dniAcompanhante", label: "DNI ACOMPAÑANTE", type: "text" },
+  { id: "estado", label: "ESTADO", type: "text" },
 ];
 
-const PatientInfo = ({ pacienteData }) => {
+const ESTADOS = ["Atendida", "En Consultorio", "Cancelada", "Pendiente"];
+
+const PatientInfo = ({ pacienteData, appointmentData, doctor }) => {
+  const getValue = (id) => {
+    switch (id) {
+      case "numero-cita":
+        return appointmentData.codigoCita;
+      case "nombres":
+        return `${pacienteData.nombres} ${pacienteData.apellidoPaterno} ${pacienteData.apellidoMaterno}`;
+      case "dni":
+        return pacienteData.dni;
+      case "fecha-atencion":
+        return appointmentData.fechaCita;
+      case "hora-atencion":
+        return appointmentData.horaCita;
+      case "medico-responsable":
+        return `${doctor.nombres} ${doctor.apellidoPaterno} ${doctor.apellidoMaterno}`;
+      case "especialidad":
+        return doctor.especialidad ? doctor.especialidad.nombre : "";
+      case "dniAcompanhante":
+        return appointmentData.dniAcompanhante || "No especificado";
+      case "nombreAcompanhante":
+        return appointmentData.nombreAcompanhante || "No especificado";
+      case "estado":
+        return ESTADOS[appointmentData.estado - 1] || "Desconocido";
+      default:
+        return "Desconocido";
+    }
+  };
+
   return pacienteData ? (
-    <div className="bg-white p-6 rounded-lg shadow-md mb-6">
-      <h2 className="text-2xl font-semibold mb-4">Información del paciente</h2>
-      <div className="grid grid-cols-4 gap-4">
-        {patientFieldsConfig.map((campo) => (
-          <div key={campo.name}>
+    <div className="bg-white p-6 rounded-lg shadow-md mb-6 h-full">
+      <h2 className="text-2xl font-bold mb-4 text-primary-dusk-blue">{`${appointmentData.codigoCita}`}</h2>
+      <div className="grid grid-cols-2 gap-4">
+        {CAMPOS.map(({ id, label, type }) => (
+          <div key={id}>
             <label
-              htmlFor={campo.name}
-              className="block text-sm font-medium text-gray-700"
+              htmlFor={id}
+              className="block text-sm font-medium text-primary-dusk-blue"
             >
-              {campo.label}
+              {label}
             </label>
             <input
-              type="text"
-              id={campo.name}
-              name={campo.name}
+              type={type}
+              id={id}
+              name={id}
               className="mt-1 p-2 w-full border rounded-md"
-              defaultValue={pacienteData ? pacienteData[campo.name] : ""}
+              defaultValue={getValue(id)}
               readOnly
             />
           </div>

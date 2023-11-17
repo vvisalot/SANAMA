@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { appointmentService } from "@/services/appointmentService";
 import PatientInfo from "@/components/appointments/view/PatientInfo";
-import AppointmentInfo from "@/components/appointments/view/AppointmentInfo";
 import RescheduleModal from "@/components/appointments/view/RescheduleModal";
 import useUpdateAppointmentStatus from "@/hooks/useUpdateAppointmentStatus";
 import useAppointmentReschedule from "@/hooks/useAppointmentReschedule";
@@ -86,7 +85,7 @@ const ReviewAppointment = ({ params }) => {
 
   return (
     <section className="p-14">
-      <TitleWithIcon name={"Ver Citas"} Icon={viewAppointmentIcon} />
+      <TitleWithIcon name={"Cita Medica"} Icon={viewAppointmentIcon} />
 
       <div className="container mx-auto p-4">
         <div className="flex justify-end mb-6 w-full">
@@ -99,8 +98,8 @@ const ReviewAppointment = ({ params }) => {
             handleAttendClick={handleAttendClick}
           />
         </div>
-        <PatientInfo pacienteData={appointmentData.paciente} />
-        <AppointmentInfo
+        <PatientInfo
+          pacienteData={appointmentData.paciente}
           appointmentData={appointmentData}
           doctor={appointmentData.medico}
         />

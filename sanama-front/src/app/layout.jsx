@@ -23,10 +23,10 @@ export default function RootLayout({ children }) {
         <title>Sanama</title>
       </head>
 
-      <body className={`${inter.className} w-auto h-screen`}>
+      <body className={`${inter.className} w-auto h-full`}>
         <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
-        <main className={`${mainContentClass} bg-[#EFEFEF] h-fill`}>
+        <main className={`${mainContentClass} bg-[#EFEFEF] h-full`}>
           <NextBreadcrumb
             homeElement={"Inicio"}
             separator={<span>/</span>}

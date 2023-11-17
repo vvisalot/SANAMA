@@ -123,7 +123,10 @@ const HistorialClinico = () => {
 
   return (
     <section className="p-4 md:p-14">
-      <TitleWithIcon name={"Ver Historial"} Icon={iconoHistorial} />
+      <TitleWithIcon
+        name={`Atencion Medica ${idPaciente}`}
+        Icon={iconoHistorial}
+      />
       <div className="container mx-auto p-4">
         <div className="bg-gray-100 min-h-screen p-4 md:p-8">
           <div className="bg-white p-4 rounded shadow-md mb-6">
