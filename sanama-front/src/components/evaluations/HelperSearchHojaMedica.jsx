@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const SearchMedicalRecord = ({ idpaciente, onSearch }) => {
+const HelperSearchHojaMedica = ({ idpaciente, onSearch }) => {
   const [especialidadId, setEspecialidadId] = useState("");
   const [fechaInicio, setFechaInicio] = useState("");
   const [fechaFin, setFechaFin] = useState("");
@@ -16,7 +16,7 @@ const SearchMedicalRecord = ({ idpaciente, onSearch }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-4 flex">
       <div>
         <label
           htmlFor="especialidadId"
@@ -75,4 +75,4 @@ const SearchMedicalRecord = ({ idpaciente, onSearch }) => {
   );
 };
 
-export default SearchMedicalRecord;
+export default HelperSearchHojaMedica;
