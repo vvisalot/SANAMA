@@ -2,7 +2,6 @@ import { useRef } from "react";
 import { Dialog } from "./Dialog";
 import ReactSignatureCanvas from "react-signature-canvas";
 import { ConfirmOrCancel } from "./ConfirmOrCancel";
-import { primary45 } from "@/util/colors";
 
 export function AddSigDialog({ onConfirm, onClose, autoDate, setAutoDate }) {
   const sigRef = useRef(null);
