@@ -23,8 +23,6 @@ const ESTADOS = [
 const PatientInfo = ({ pacienteData, appointmentData, doctor }) => {
   const getValue = (id) => {
     switch (id) {
-      case "numero-cita":
-        return appointmentData.codigoCita;
       case "nombres":
         return `${pacienteData.nombres} ${pacienteData.apellidoPaterno} ${pacienteData.apellidoMaterno}`;
       case "dni":
@@ -50,7 +48,9 @@ const PatientInfo = ({ pacienteData, appointmentData, doctor }) => {
 
   return pacienteData ? (
     <>
-      <h2 className="text-2xl font-bold mb-4 text-primary-dusk-blue">{`${appointmentData.codigoCita}`}</h2>
+      <div className="flex items-center space-x-2 w-full">
+        <h2 className="text-2xl font-bold mb-4 text-primary-dusk-blue">{`${appointmentData.codigoCita}`}</h2>
+      </div>
       <div className="grid grid-cols-2 gap-4">
         {CAMPOS.map(({ id, label, type }) => (
           <div key={id}>

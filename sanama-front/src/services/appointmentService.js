@@ -125,11 +125,10 @@ export const appointmentService = {
     }
   },
 
-  citasMedicoPorID: async (pn_id_medico, pn_estado) => {
+  citasMedicoPorID: async (pn_id_medico, pv_filtro, pd_fecha_inicio, pd_fecha_fin,arregloEstados) => {
     try {
       const response = await axiosInstance.post(ENDPOINTS.LISTAR_CITAS_MEDICO, {
-        pn_id_medico,
-        pn_estado,
+        pn_id_medico, pv_filtro, pd_fecha_inicio, pd_fecha_fin,arregloEstados
       });
 
       console.log("response", response);

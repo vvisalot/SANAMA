@@ -33,7 +33,7 @@ export function parseTriajeTable(data) {
         switch (row.estado) {
             case 1:
                 estadoTexto = "Atendida";
-                estadoClase = "highlight-green";
+                estadoClase = "highlight-blue";
                 break;
             case 2:
                 estadoTexto = "En Consultorio";

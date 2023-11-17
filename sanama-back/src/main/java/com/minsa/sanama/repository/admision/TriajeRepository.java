@@ -97,7 +97,7 @@ public class TriajeRepository {
     public int eliminarTriaje(Triaje triaje) {
         SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate)
                 .withSchemaName("dbSanama")
-                .withProcedureName("ssm_eliminar_triaje")
+                .withProcedureName("ssm_adm_eliminar_triaje")
                 .declareParameters(
                         new SqlParameter("pn_id_triaje", Types.INTEGER),
                         new SqlParameter("pn_peso", Types.INTEGER),

@@ -4,17 +4,14 @@ import TableOptions from "./TableOptions";
 
 const getEstadoFromRow = (row) => {
   for (let item of row) {
-    if (
-      [
-        "Atendida",
-        "En Consultorio",
-        "Cancelada",
-        "Pendiente",
-        "En Triaje",
-        "Desconocido",
-      ].includes(item.data)
-    ) {
-      return item.data;
+
+    if (typeof item.data === 'object' && item.data !== null && item.data.props) {
+
+      const estadoTexto = item.data.props.children;
+      if (typeof estadoTexto === 'string') {
+
+        return estadoTexto;
+      }
     }
   }
   return null;
@@ -22,6 +19,9 @@ const getEstadoFromRow = (row) => {
 
 const TableRow = ({ row, url, optionsText, iconName }) => {
   const estado = getEstadoFromRow(row);
+  
+  console.log("El row es: ", row)
+  console.log("El estado es: ", estado)
   return (
     <tr className="bg-white border-b">
       {row.map((cell, index) => {
