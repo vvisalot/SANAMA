@@ -122,47 +122,40 @@ const HistorialClinico = () => {
   );
 
   return (
-    <section className="p-4 md:p-14">
-      <TitleWithIcon
-        name={`Atencion Medica ${idPaciente}`}
-        Icon={iconoHistorial}
-      />
-      <div className="container mx-auto p-4">
-        <div className="bg-gray-100 min-h-screen p-4 md:p-8">
-          <div className="bg-white p-4 rounded shadow-md mb-6">
-            <h1 className="text-3xl font-bold mb-4">
-              Historial Clínico: {historialClinico.codigo}
-            </h1>
-            <PatientDataDisplay patient={patientForm} />
-          </div>
+    <section className="p-4 md:p-14 h-screen">
+      <TitleWithIcon name={`Atencion Medica`} Icon={iconoHistorial} />
+      <div className="bg-gray-100 max-h-screen p-4 md:p-8">
+        <div className="bg-white p-4 rounded shadow-md mb-6">
+          <h1 className="text-3xl font-bold mb-4">
+            Historial Clínico: {historialClinico.codigo}
+          </h1>
+          <PatientDataDisplay patient={patientForm} />
+        </div>
 
-          <div className="mb-6 space-x-4">
-            <button
-              type="submit"
-              className="text-white  bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-4"
-              onClick={() => router.push(`${pathname}/new/`)}
-            >
-              Generar Nueva Evaluacion Medica
-            </button>
-          </div>
+        <div className="mb-6 space-x-4">
+          <button
+            type="submit"
+            className="text-white  bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-4"
+            onClick={() => router.push(`${pathname}/new/`)}
+          >
+            Generar Nueva Evaluacion Medica
+          </button>
+        </div>
 
-          <div className="bg-white p-4 rounded shadow-md">
-            <h2 className="text-xl font-bold mb-4 border-b pb-2">
-              Hojas Medicas Existentes:
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 mt-4">
-              <div className="flex flex-col">
-                <label className="font-semibold mb-2 text-gray-600">
-                  Desde:
-                </label>
-                <input className="border rounded p-2 w-full" type="date" />
-              </div>
+        <div className="bg-white p-4 rounded shadow-md">
+          <h2 className="text-xl font-bold mb-4 border-b pb-2">
+            Hojas Medicas Existentes:
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 mt-4">
+            <div className="flex flex-col">
+              <label className="font-semibold mb-2 text-gray-600">Desde:</label>
+              <input className="border rounded p-2 w-full" type="date" />
             </div>
-            <MedicalRecordsTable
-              data={hojasMedicas}
-              extrapath={"view"}
-            ></MedicalRecordsTable>
           </div>
+          <MedicalRecordsTable
+            data={hojasMedicas}
+            extrapath={"view"}
+          ></MedicalRecordsTable>
         </div>
       </div>
     </section>

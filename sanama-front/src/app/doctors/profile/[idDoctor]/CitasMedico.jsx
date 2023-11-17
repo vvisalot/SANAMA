@@ -64,7 +64,7 @@ function CitasMedico({ doctor }) {
   return (
     <>
       <header className="p-5  text-2xl font-bold tracking-wider text-gray-900">
-        Citas pendientes
+        Mis Citas
       </header>
       <SearchAndAddBar
         linkHref="appointments/createAppointment"
