@@ -4,7 +4,7 @@ import { AddSigDialog } from "@/components/signature/AddSigDialog";
 import DraggableSignature from "@/components/signature/DraggableSignature";
 import { BigButton } from "@/components/buttons/BigButton";
 
-function signature() {
+const Signature = ({ props }) => {
   const [autoDate, setAutoDate] = useState(true);
   const [signatureURL, setSignatureURL] = useState(null);
   const [signatureDialogVisible, setSignatureDialogVisible] = useState(false);
@@ -49,6 +49,6 @@ function signature() {
       </div>
     </div>
   );
-}
+};
 
-export default signature;
+export default Signature;
