@@ -107,7 +107,7 @@ const ReviewAppointment = ({ params }) => {
         <div className="flex flex-row-reverse">
           <Link href="/appointments" passHref>
             <href className="block justify-self-end bg-gray-500 text-white p-2 w-80 rounded-md text-center mt-2">
-              Volver
+              Atras
             </href>
           </Link>
         </div>
@@ -135,25 +135,25 @@ const ActionButtons = ({
       {estado === 4 && (
         <>
           <button
-            className="flex justify-center items-center bg-blue-500 text-white p-2 rounded-md mr-4 mt-2 mb-2"
+            className="flex justify-center items-center font-semibold bg-green-500 text-white p-2 rounded-md mr-4 mt-2 mb-2"
             onClick={handleAttendClick}
             disabled={loading}
           >
             <MdEdit className="mr-2" />
-            Atender Cita
+            Atender
           </button>
 
           <button
-            className="flex justify-center items-center bg-blue-500 text-white p-2 rounded-md mr-4 mt-2 mb-2"
+            className="flex justify-center items-center font-semibold bg-orange-400 text-white p-2 rounded-md mr-4 mt-2 mb-2"
             onClick={openRescheduleModal}
             disabled={loading}
           >
             <MdEdit />
-            Reprogramar Cita
+            Reprogramar
           </button>
 
           <button
-            className={`flex justify-center items-center bg-red-500 text-white p-2 rounded-md mt-2 mb-2 ${
+            className={`flex justify-center items-center font-semibold bg-red-500 text-white p-2 rounded-md mt-2 mb-2 ${
               loading ? "opacity-50 cursor-not-allowed" : ""
             }`}
             onClick={handleCancelClick}
@@ -182,7 +182,7 @@ const ActionButtons = ({
                 Cargando...
               </>
             ) : (
-              "Cancelar Cita"
+              "Cancelar"
             )}
           </button>
         </>
