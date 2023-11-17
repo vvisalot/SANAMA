@@ -1,6 +1,7 @@
 package com.minsa.sanama.controller.atencion;
 
 import com.minsa.sanama.model.admision.ProgramacionCita;
+import com.minsa.sanama.model.atencionmedica.CitaMedica;
 import com.minsa.sanama.model.atencionmedica.HistorialClinico;
 import com.minsa.sanama.model.atencionmedica.HojaMedica;
 import com.minsa.sanama.services.atencion.HojaMedicaService;
@@ -9,6 +10,8 @@ import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/atencion")
@@ -100,5 +103,33 @@ public class HojaMedicaController {
             ex.printStackTrace();
         }
         return -1;
+    }
+
+    @PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = {
+            MediaType.APPLICATION_JSON_VALUE }, value = "/post/ListarHojasMedicasFiltro")
+    @ResponseBody
+    public List<HojaMedica> listarHojasMedicasFiltro(@RequestBody String pv_datos) {
+        List<HojaMedica> lhoja = null;
+        try {
+            JSONObject job = (JSONObject) new JSONParser().parse(pv_datos);
+            System.out.println(pv_datos);
+
+            String pn_id_especialidad;
+            String pd_fecha_inicio;
+            String pd_fecha_fin;
+
+            if(job.get("pn_id_especialidad") == null) pn_id_especialidad=null;
+            else pn_id_especialidad = job.get("pn_id_especialidad").toString();
+            if(job.get("pd_fecha_inicio") == null) pd_fecha_inicio=null;
+            else pd_fecha_inicio = job.get("pd_fecha_inicio").toString();
+            if(job.get("pd_fecha_fin") == null) pd_fecha_fin=null;
+            else pd_fecha_fin = job.get("pd_fecha_fin").toString();
+
+            lhoja = hojaMedicaService.listarHojasMedicasFiltro(pn_id_especialidad, pd_fecha_inicio, pd_fecha_fin);
+        } catch (Exception ex) {
+            // Manejo de excepciones aquí
+            ex.printStackTrace();
+        }
+        return lhoja;
     }
 }
