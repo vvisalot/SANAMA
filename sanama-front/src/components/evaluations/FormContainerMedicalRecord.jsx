@@ -53,14 +53,6 @@ const FormContainerMedicalRecord = ({ idCita, patientTriageData }) => {
   const [evaluationData, setEvaluationData] = useState(initialData);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setEvaluationData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
   const loadingRegister = async (data) => {
     console.log(data);
     await patientService.registrarHojaMedica(data);
@@ -100,7 +92,7 @@ const FormContainerMedicalRecord = ({ idCita, patientTriageData }) => {
     <form onSubmit={handleSubmit} className="space-y-4 h-max w-full">
       <FormEvaluation
         evaluationData={evaluationData}
-        handleInputChange={handleInputChange}
+        setEvaluationData={setEvaluationData}
         allFormComplete={allFormComplete}
       />
       <div className="flex flex-row-reverse">

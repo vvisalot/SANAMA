@@ -7,31 +7,31 @@ import GlasgowComaScale from "@/components/evaluations/MentalStatusTab";
 import DiagnosticoMedico from "@/components/evaluations/DiagnosisTab";
 import TratamientoYDecisionCita from "@/components/evaluations/TreatmentTab";
 import Signature from "@/components/evaluations/Signature";
-const FormEvaluation = ({ evaluationData, handleInputChange }) => {
+const FormEvaluation = ({ evaluationData, setEvaluationData }) => {
   return (
     <>
       <Accordion title="Ultimo Triaje" id="triage">
         <VitalSigns
           formData={evaluationData.signosVitales}
-          handleInputChange={handleInputChange}
+          setEvaluationData={setEvaluationData}
         />
       </Accordion>
       <Accordion title="Motivo de la Consulta" id="consulta">
         <ChiefComplaint
           formData={evaluationData.ChiefComplaint}
-          handleInputChange={handleInputChange}
+          setEvaluationData={setEvaluationData}
         />
       </Accordion>
       <Accordion title="Exploracion Fisica" id="expfisica">
         <ExplorationTab
           formData={evaluationData.exploracionFisica}
-          handleInputChange={handleInputChange}
+          setEvaluationData={setEvaluationData}
         />
       </Accordion>
       <Accordion title="Nivel de Consciencia" id="glasgow">
         <GlasgowComaScale
           formData={evaluationData.estadoMental}
-          handleInputChange={handleInputChange}
+          setEvaluationData={setEvaluationData}
         />
       </Accordion>
       <Accordion title="Diagnostico" id="glasgow">

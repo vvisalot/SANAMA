@@ -1,31 +1,60 @@
-import React from "react";
+import React, { useState } from "react";
 
-const VitalSigns = ({ formData, handleInputChange }) => {
+const VitalSigns = ({ formData, setEvaluationData }) => {
+  const [errors, setErrors] = useState({});
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    const pattern = fields.find((field) => field.name === name).pattern;
+    const regex = new RegExp(pattern);
+    const isValid = regex.test(value);
+
+    setEvaluationData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: value ? !regex.test(value) : false,
+    }));
+  };
+
   const fields = [
     {
+      type: "number",
       label: "Temperatura (°C)",
       name: "temperatura",
       value: formData.temperatura,
+      pattern: "^(3[6-9](\\.\\d)?|40(\\.0)?)$", // Asegúrate de escapar los caracteres especiales
     },
     {
-      label: "Frecuencia Cardiaca",
+      type: "number",
+      label: "Frecuencia Cardiaca (FC)",
       name: "frecuenciaCardiaca",
       value: formData.frecuenciaCardiaca,
+      pattern: "^([6-9]\\d|100)$", // Valores entre 60 y 100
     },
     {
-      label: "Frecuencia Respiratoria",
+      type: "number",
+      label: "Frecuencia Respiratoria (FR)",
       name: "frecuenciaRespiratoria",
       value: formData.frecuenciaRespiratoria,
+      pattern: "^1[2-9]|20$", // Valores entre 12 y 20
     },
     {
-      label: "Presión Arterial",
+      type: "text",
+      label: "Presión Arterial (mmHg)",
       name: "presionArterial",
       value: formData.presionArterial,
+      pattern: "^(1[0-2]\\d|130)\\/(6\\d|7[0-5]|80)$", // Formato como "120/80"
     },
     {
+      type: "number",
       label: "Saturación de Oxígeno (%)",
       name: "saturacionOxigeno",
       value: formData.saturacionOxigeno,
+      pattern: "^(9[5-9]|100)$", // Valores entre 95 y 100
     },
   ];
 
@@ -35,13 +64,20 @@ const VitalSigns = ({ formData, handleInputChange }) => {
         {field.label}
       </label>
       <input
-        type="text"
+        type={field.type}
         name={field.name}
-        defaultValue={field.value}
+        defaultValue={formData[field.name]}
         onChange={handleInputChange}
-        className="mt-1 p-2 w-full border-gray-300 rounded-md"
+        className={`mt-1 p-2 w-full border-gray-300 rounded-md ${
+          errors[field.name] ? "border-red-500" : ""
+        }`}
         placeholder={field.label}
+        pattern={field.pattern}
+        title={`Ingrese un valor válido para ${field.label}`}
       />
+      {errors[field.name] && (
+        <p className="text-red-500 text-xs italic">Ingrese un valor válido</p>
+      )}
     </div>
   );
 
