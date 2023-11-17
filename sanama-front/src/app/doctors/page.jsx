@@ -90,7 +90,7 @@ const DoctorsPage = () => {
           name={"doctor-search"}
           width={"w-full"}
           height={"h-[50px]"}
-          placeholderText={"Buscar por nombre o CMP"}
+          placeholderText={"Buscar por Nombre o CMP"}
         ></SearchBar>
 
         <button

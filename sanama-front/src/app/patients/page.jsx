@@ -41,7 +41,7 @@ const PatientPage = () => {
           name={"patients-search"}
           width={"w-full"}
           height={"h-12"}
-          placeholderText={"Buscar por nombre o DNI"}
+          placeholderText={"Buscar por Nombre o DNI"}
         />
 
         <button
