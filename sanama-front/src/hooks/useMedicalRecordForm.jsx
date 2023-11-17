@@ -19,7 +19,7 @@ const useMedicalRecordForm = () => {
     return true;
   };
 
-  const createMedicalRecord = async (evaluationData, medicalRecordsData) => {
+  const createMedicalRecord = async (idCita, evaluationData) => {
     // esto basicamento parsea los datos de evalution data para
   };
 

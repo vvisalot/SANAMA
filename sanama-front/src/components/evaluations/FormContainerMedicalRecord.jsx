@@ -81,7 +81,10 @@ const FormContainerMedicalRecord = ({ idCita, patientTriageData }) => {
     }
 
     try {
-      const MedicalRecordData = await createMedicalRecord(evaluationData);
+      const MedicalRecordData = await createMedicalRecord(
+        idCita,
+        evaluationData
+      );
       toast.promise(() => loadingRegister(MedicalRecordData), {
         loading: "Registrando cita",
         success: "Cita registrada",
