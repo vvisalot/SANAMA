@@ -1,10 +1,11 @@
 import { Modal } from "flowbite-react";
 import { useMedicalSheets } from "@/hooks/useMedicalSheets";
+import SearchMedicalRecord from "./SearchMedicalRecord";
 
-const SearchMedicalSheet = ({ show, onClose, onSelect }) => {
+const SearchMedicalSheet = ({ idpaciente, show, onClose, onSelect }) => {
   const {
-    searchText,
-    setSearchText,
+    searchFilters,
+    setSearchFilters,
     searchResults,
     loading,
     selectedMedicalSheet,
@@ -30,13 +31,11 @@ const SearchMedicalSheet = ({ show, onClose, onSelect }) => {
         <div className="space-y-2 ">
           <div className="relative">
             <div className="flex rounded-md m-2 bg-white shadow shadow-black/20">
-              <input
-                id="search-modal"
-                type="text"
-                value={searchText}
-                onChange={(e) => setSearchText(e.target.value)}
-                className="rounded-l block w-full flex-1  px-4 "
-                placeholder="Ingresar el diagnóstico"
+              <SearchMedicalRecord
+                idpaciente={idpaciente}
+                onSearch={(filters) => {
+                  setSearchFilters(filters);
+                }}
               />
               <button
                 type="button"
@@ -48,7 +47,7 @@ const SearchMedicalSheet = ({ show, onClose, onSelect }) => {
             </div>
           </div>
 
-          {searchResults.length > 0 && searchText && (
+          {searchResults.length > 0 && searchFilters && (
             <div className="w-full max-h-screen overflow-y-auto rounded-md bg-white px-4 pt-3">
               {searchResults.map((result) => (
                 <div

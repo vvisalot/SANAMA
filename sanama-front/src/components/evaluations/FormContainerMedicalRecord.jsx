@@ -5,7 +5,6 @@ import useMedicalRecordForm from "@/hooks/useMedicalRecordForm";
 import FormEvaluation from "./FormEvaluation";
 import { toast } from "sonner";
 import { patientService } from "@/services/patientService";
-import LaboratoryModal from "@/components/evaluations/LaboratoryModal";
 
 const FormContainerMedicalRecord = ({ idCita, patientTriageData }) => {
   const router = useRouter();
@@ -105,7 +104,6 @@ const FormContainerMedicalRecord = ({ idCita, patientTriageData }) => {
         >
           Registrar Evaluacion
         </button>
-        <LaboratoryModal></LaboratoryModal>
       </div>
     </form>
   );

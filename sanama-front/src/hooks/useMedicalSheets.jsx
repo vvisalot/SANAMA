@@ -2,58 +2,47 @@ import { useState, useEffect } from "react";
 import { attentionService } from "@/services/attentionService";
 
 export const useMedicalSheets = () => {
-  const [searchText, setSearchText] = useState("");
+  const [searchFilters, setSearchFilters] = useState(null);
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedMedicalSheet, setSelectedMedicalSheet] = useState(null);
 
-  const fetchMedicalSheets = async (
-    idpaciente,
-    idespecialidad,
-    fechaIni,
-    fechaFin
-  ) => {
+  const fetchMedicalSheets = async (filtro) => {
     try {
       setLoading(true);
-      const filters = {
-        pn_id_paciente: idpaciente,
-        pn_id_especialidad: idespecialidad,
-        pd_fecha_inicio: fechaIni,
-        pd_fecha_fin: fechaFin,
-      };
-      const data = await attentionService.listarHojasMedicasFiltro(filters);
+      const data = await attentionService.listarHojasMedicasFiltro(filtro);
       setSearchResults(data);
     } catch (error) {
       console.error("No se pudo obtener los datos de las hojas médicas", error);
-      setSearchResults([]); // Asegurarse de limpiar los resultados de búsqueda en caso de error
+      setSearchResults([]);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    if (searchText) {
-      fetchMedicalSheets(searchText);
+    if (searchFilters) {
+      fetchMedicalSheets(searchFilters);
     } else {
       setSearchResults([]);
     }
-  }, [searchText]);
+  }, [searchFilters]);
 
   const handleMedicalSheetSelect = (medicalSheet) => {
     setSelectedMedicalSheet(medicalSheet);
     setSearchResults([]);
-    setSearchText("");
+    setSearchFilters(null);
   };
 
   const resetData = () => {
     setSearchResults([]);
     setSelectedMedicalSheet(null);
-    setSearchText("");
+    setSearchFilters(null);
   };
 
   return {
-    searchText,
-    setSearchText,
+    searchFilters,
+    setSearchFilters,
     searchResults,
     loading,
     selectedMedicalSheet,
