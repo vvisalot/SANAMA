@@ -9,7 +9,7 @@ const ENDPOINTS = {
   LISTAR_TRIAJE_POR_FILTRO: "/admision/post/listarTriajePorFiltro",
   BUSCAR_TRIAJE_POR_FILTRO: "/admision/post/buscarTriaje",
   ACTUALIZAR_TRIAJE: "/admision/put/actualizarTriaje",
-  ELIMNAR_TRIAJE: "/admision/put/eliminarTriaje",
+  ELIMINAR_TRIAJE: "/admision/put/eliminarTriaje",
 };
 
 export const triajeService = {
