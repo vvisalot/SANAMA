@@ -215,12 +215,12 @@ public class HojaMedicaRepository {
                         new SqlParameter("pb_firma", Types.BLOB),
                         new SqlParameter("pd_fecha_caducidad", Types.DATE),
                         new SqlParameter("pj_medicamentos_json", Types.VARCHAR),
-                        new SqlParameter("pn_temperatura", Types.DOUBLE),
-                        new SqlParameter("pn_frecuencia_cardiaca", Types.DOUBLE),
-                        new SqlParameter("pn_presion_arterial", Types.DOUBLE),
-                        new SqlParameter("pn_saturacion_oxigeno", Types.DOUBLE),
-                        new SqlParameter("pn_peso", Types.DOUBLE),
-                        new SqlParameter("pn_talla", Types.DOUBLE),
+                        new SqlParameter("pn_temperatura", Types.VARCHAR),
+                        new SqlParameter("pn_frecuencia_cardiaca", Types.VARCHAR),
+                        new SqlParameter("pn_presion_arterial", Types.VARCHAR),
+                        new SqlParameter("pn_saturacion_oxigeno", Types.VARCHAR),
+                        new SqlParameter("pn_peso", Types.VARCHAR),
+                        new SqlParameter("pn_talla", Types.VARCHAR),
                         new SqlParameter("pv_motivo_consulta", Types.VARCHAR),
                         new SqlParameter("pv_antecendetes", Types.VARCHAR),
                         new SqlParameter("pv_examen_general", Types.VARCHAR),
@@ -232,10 +232,10 @@ public class HojaMedicaRepository {
                         new SqlParameter("pv_urogenital", Types.VARCHAR),
                         new SqlParameter("pv_extremidades", Types.VARCHAR),
                         new SqlParameter("pv_snc", Types.VARCHAR),
-                        new SqlParameter("pn_glasgow", Types.INTEGER),
-                        new SqlParameter("pn_eyes_open", Types.INTEGER),
-                        new SqlParameter("pb_talking_correctly", Types.BOOLEAN),
-                        new SqlParameter("pb_able_to_move_body", Types.BOOLEAN),
+                        new SqlParameter("pn_glasgow", Types.VARCHAR),
+                        new SqlParameter("pn_eyes_open", Types.VARCHAR),
+                        new SqlParameter("pb_talking_correctly", Types.VARCHAR),
+                        new SqlParameter("pb_able_to_move_body", Types.VARCHAR),
                         new SqlParameter("pv_observaciones", Types.VARCHAR),
                         new SqlParameter("pv_indicaciones_finales", Types.VARCHAR),
                         new SqlParameter("pj_diagnosticos_json", Types.VARCHAR)
@@ -268,8 +268,8 @@ public class HojaMedicaRepository {
                     .addValue("pv_snc", hojaMedica.getEvaluacionMedica().getSnc())
                     .addValue("pn_glasgow", hojaMedica.getEvaluacionMedica().getGlasgow())
                     .addValue("pn_eyes_open", hojaMedica.getEvaluacionMedica().getEyesOpen())
-                    .addValue("pb_talking_correctly", hojaMedica.getEvaluacionMedica().isTalkingCorrectly())
-                    .addValue("pb_able_to_move_body", hojaMedica.getEvaluacionMedica().isAbleToMoveBody())
+                    .addValue("pb_talking_correctly", hojaMedica.getEvaluacionMedica().getTalkingCorrectly())
+                    .addValue("pb_able_to_move_body", hojaMedica.getEvaluacionMedica().getAbleToMoveBody())
                     .addValue("pv_observaciones", hojaMedica.getEvaluacionMedica().getObservaciones())
                     .addValue("pv_indicaciones_finales", hojaMedica.getEvaluacionMedica().getIndicacionesFinales())
                     .addValue("pj_diagnosticos_json", jsonArrayDiagnosticos.toJSONString());
@@ -300,8 +300,8 @@ public class HojaMedicaRepository {
                     .addValue("pv_snc", hojaMedica.getEvaluacionMedica().getSnc())
                     .addValue("pn_glasgow", hojaMedica.getEvaluacionMedica().getGlasgow())
                     .addValue("pn_eyes_open", hojaMedica.getEvaluacionMedica().getEyesOpen())
-                    .addValue("pb_talking_correctly", hojaMedica.getEvaluacionMedica().isTalkingCorrectly())
-                    .addValue("pb_able_to_move_body", hojaMedica.getEvaluacionMedica().isAbleToMoveBody())
+                    .addValue("pb_talking_correctly", hojaMedica.getEvaluacionMedica().getTalkingCorrectly())
+                    .addValue("pb_able_to_move_body", hojaMedica.getEvaluacionMedica().getAbleToMoveBody())
                     .addValue("pv_observaciones", hojaMedica.getEvaluacionMedica().getObservaciones())
                     .addValue("pv_indicaciones_finales", hojaMedica.getEvaluacionMedica().getIndicacionesFinales())
                     .addValue("pj_diagnosticos_json", jsonArrayDiagnosticos.toJSONString());

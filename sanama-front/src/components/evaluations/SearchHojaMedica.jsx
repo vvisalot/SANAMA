@@ -113,12 +113,12 @@ const SearchMedicalSheet = ({ idpaciente, show, onClose, onSelect }) => {
             <div className="w-full max-h-screen overflow-y-auto rounded-md bg-white px-4 pt-3">
               {searchResults.map((result) => (
                 <div
-                  key={result.idDiagnostico}
+                  key={result.codigo}
                   onClick={() => handleMedicalSheetSelect(result)}
                   className="cursor-pointer py-2 px-3 hover:bg-slate-100 rounded"
                 >
-                  <p className="text-sm font-medium text-black">
-                    {result.ciex}
+                  <p className="text-m font-semibold text-black">
+                    {`${result.codigo} ${result.citaMedica.medico.especialidad.nombre}`}
                   </p>
                 </div>
               ))}
