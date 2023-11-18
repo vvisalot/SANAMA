@@ -1,9 +1,11 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Modal } from "flowbite-react";
 import { useMedicalSheets } from "@/hooks/useMedicalSheets";
+import { doctorService } from "@/services/doctorService";
 
 const SearchMedicalSheet = ({ idpaciente, show, onClose, onSelect }) => {
+  const [especialidades, setEspecialidades] = useState([]);
   const [especialidadId, setEspecialidadId] = useState("");
   const [fechaInicio, setFechaInicio] = useState("");
   const [fechaFin, setFechaFin] = useState("");
@@ -18,14 +20,14 @@ const SearchMedicalSheet = ({ idpaciente, show, onClose, onSelect }) => {
     resetData,
   } = useMedicalSheets();
 
-  const handleSubmit = () => {
-    setSearchFilters({
-      pn_id_paciente: idpaciente,
-      pn_id_especialidad: especialidadId || null,
-      pd_fecha_inicio: fechaInicio || null,
-      pd_fecha_fin: fechaFin || null,
-    });
-  };
+  useEffect(() => {
+    const cargarEspecialidades = async () => {
+      const especialidadesData = await doctorService.listarEspecialidades();
+      setEspecialidades(especialidadesData);
+    };
+
+    cargarEspecialidades();
+  }, []);
 
   const handleConfirm = () => {
     if (selectedMedicalSheet) {
@@ -33,6 +35,15 @@ const SearchMedicalSheet = ({ idpaciente, show, onClose, onSelect }) => {
       onClose();
       resetData();
     }
+  };
+
+  const handleSubmit = () => {
+    setSearchFilters({
+      pn_id_paciente: idpaciente,
+      pn_id_especialidad: null,
+      pd_fecha_inicio: fechaInicio || null,
+      pd_fecha_fin: fechaFin || null,
+    });
   };
 
   return (
@@ -52,14 +63,19 @@ const SearchMedicalSheet = ({ idpaciente, show, onClose, onSelect }) => {
                 >
                   ID de Especialidad
                 </label>
-                <input
-                  type="text"
+                <select
                   id="especialidadId"
                   value={especialidadId}
                   onChange={(e) => setEspecialidadId(e.target.value)}
                   className="mt-1 block w-full p-2 border-gray-300 rounded-md shadow-sm"
-                  placeholder="Ingrese ID de Especialidad"
-                />
+                >
+                  <option value="">Seleccione una especialidad</option>
+                  {especialidades.map((especialidad) => (
+                    <option key={especialidad.id} value={especialidad.id}>
+                      {especialidad.nombre}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="flex-1 min-w-[200px]">
                 <label
@@ -118,7 +134,7 @@ const SearchMedicalSheet = ({ idpaciente, show, onClose, onSelect }) => {
                   className="cursor-pointer py-2 px-3 hover:bg-slate-100 rounded"
                 >
                   <p className="text-m font-semibold text-black">
-                    {`${result.codigo} ${result.citaMedica.medico.especialidad.nombre}`}
+                    {`${result.codigo} ${result.citaMedica.medico.especialidad.nombre} ${result.fechaAtencion}`}
                   </p>
                 </div>
               ))}
