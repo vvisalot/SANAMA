@@ -8,19 +8,28 @@ const DiagnosticoMedico = ({ setMedicalRecordData }) => {
 
   // Function to add a diagnostic
   const addDiagnostic = (selectedDiagnostic) => {
-    setDiagnosticos((prevDiagnosticos) => [
-      ...prevDiagnosticos,
-      selectedDiagnostic,
-    ]);
+    const newDiagnosticos = [...diagnosticos, selectedDiagnostic];
+    setDiagnosticos(newDiagnosticos);
+    setMedicalRecordData((prevData) => ({
+      ...prevData,
+      evaluacionMedica: {
+        ...prevData.evaluacionMedica,
+        diagnosticos: newDiagnosticos,
+      },
+    }));
   };
 
   // Function to remove a diagnostic
   const removeDiagnostic = (index) => {
-    setDiagnosticos((prevDiagnosticos) => {
-      const updatedDiagnosticos = [...prevDiagnosticos];
-      updatedDiagnosticos.splice(index, 1);
-      return updatedDiagnosticos;
-    });
+    const newDiagnosticos = diagnosticos.filter((_, i) => i !== index);
+    setDiagnosticos(newDiagnosticos);
+    setMedicalRecordData((prevData) => ({
+      ...prevData,
+      evaluacionMedica: {
+        ...prevData.evaluacionMedica,
+        diagnosticos: newDiagnosticos,
+      },
+    }));
   };
 
   // Function to open the modal
