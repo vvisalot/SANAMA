@@ -82,10 +82,11 @@ const ReviewAppointment = ({ params }) => {
       <TitleWithIcon name={"Cita Medica"} Icon={viewAppointmentIcon} />
       <div className="flex place-content-between w-full mb-10 mt-8">
         <div>
-          <Link href="/appointments" passHref>
-            <href class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
-              Volver a Citas
-            </href>
+          <Link
+            href="/appointments"
+            className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white"
+          >
+            Volver a Citas
           </Link>
         </div>
         <div className="flex">
@@ -112,8 +113,8 @@ const ReviewAppointment = ({ params }) => {
       <RescheduleModal
         isOpen={state.isRescheduleModalOpen}
         onClose={() => updateState({ isRescheduleModalOpen: false })}
-        medicId={state.appointmentData.medico.idPersona}
-        appointmentId={state.appointmentData.idCita}
+        medicId={String(state.appointmentData.medico.idPersona)}
+        appointmentId={String(state.appointmentData.idCita)}
       />
     </section>
   );
