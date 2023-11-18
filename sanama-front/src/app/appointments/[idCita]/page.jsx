@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 import { appointmentService } from "@/services/appointmentService";
 import PatientInfo from "@/components/appointments/view/PatientInfo";
@@ -12,54 +12,73 @@ import ActionButtons from "@/components/appointments/view/ActionButtons";
 import viewAppointmentIcon from "@/components/icons/viewAppointmentIcon";
 
 const ReviewAppointment = ({ params }) => {
-  const [appointmentData, setAppointmentData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [hasBeenCanceled, setHasBeenCanceled] = useState(false);
-  const [isRescheduleModalOpen, setIsRescheduleModalOpen] = useState(false);
+  const pathname = usePathname();
+  const [state, setState] = useState({
+    appointmentData: null,
+    loading: true,
+    error: null,
+    hasBeenCanceled: false,
+    isRescheduleModalOpen: false,
+  });
   const router = useRouter();
 
-  const { updateAppointmentStatus } = useUpdateAppointmentStatus();
+  const updateState = (newState) => {
+    setState((prevState) => ({ ...prevState, ...newState }));
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const data = await appointmentService.buscarCita(params.idCita);
-        setAppointmentData(
-          data || `No se encontraron datos de la cita  ${params.idCita}`
-        );
+        updateState({
+          appointmentData:
+            data || `No se encontraron datos de la cita ${params.idCita}`,
+          loading: false,
+        });
       } catch (error) {
-        setError("Error al cargar los datos de la cita");
+        updateState({
+          error: "Error al cargar los datos de la cita",
+          loading: false,
+        });
         console.error(error);
-      } finally {
-        setLoading(false);
       }
     };
     fetchData();
   }, [params.idCita]);
 
-  const handleActionClick = useCallback(
-    async (status) => {
-      try {
-        setLoading(true);
-        await updateAppointmentStatus(appointmentData.idCita, status);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    },
-    [appointmentData, updateAppointmentStatus]
-  );
+  const { updateAppointmentStatus } = useUpdateAppointmentStatus();
 
-  if (loading) return <p>Cargando...</p>;
-  if (error) return <p className="text-red-500">{error}</p>;
-  if (!appointmentData) return null;
+  const handleActionClick = async (status) => {
+    updateState({ loading: true });
+    try {
+      await updateAppointmentStatus(state.appointmentData.idCita, status);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      updateState({ loading: false });
+    }
+  };
+
+  const handleAttendClick = () => {
+    handleActionClick(2).then(
+      router.push(`${pathname}/${state.appointmentData.paciente.idPersona}`)
+    );
+  };
+
+  const handleCancelClick = () => {
+    handleActionClick(3).then(() => updateState({ hasBeenCanceled: true }));
+  };
+
+  if (state.loading) return <p>Cargando...</p>;
+  if (state.error) return <p className="text-red-500">{state.error}</p>;
+  if (!state.appointmentData) return null;
+
+  const { estado, paciente, medico } = state.appointmentData;
 
   return (
     <section className="p-14 h-screen content-end">
       <TitleWithIcon name={"Cita Medica"} Icon={viewAppointmentIcon} />
-      <div className="flex place-content-between w-full">
+      <div className="flex place-content-between w-full mb-10 mt-8">
         <div>
           <Link href="/appointments" passHref>
             <href class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
@@ -69,27 +88,30 @@ const ReviewAppointment = ({ params }) => {
         </div>
         <div className="flex">
           <ActionButtons
-            estado={appointmentData.estado}
-            loading={loading}
-            setIsRescheduleModalOpen={setIsRescheduleModalOpen}
-            setHasBeenCanceled={setHasBeenCanceled}
-            handleActionClick={handleActionClick}
-            idMedico={appointmentData.medico.idPersona}
-            idPaciente={appointmentData.paciente.idPersona}
+            estado={state.appointmentData.estado}
+            loading={state.loading}
+            openRescheduleModal={() =>
+              updateState({ isRescheduleModalOpen: true })
+            }
+            handleCancelClick={handleCancelClick}
+            hasBeenCanceled={state.hasBeenCanceled}
+            handleAttendClick={handleAttendClick}
+            idMedico={state.appointmentData.medico.idPersona}
+            idPaciente={state.appointmentData.paciente.idPersona}
           />
         </div>
       </div>
       <PatientInfo
-        pacienteData={appointmentData.paciente}
-        appointmentData={appointmentData}
-        doctor={appointmentData.medico}
+        pacienteData={state.appointmentData.paciente}
+        appointmentData={state.appointmentData}
+        doctor={state.appointmentData.medico}
       />
 
       <RescheduleModal
-        isOpen={isRescheduleModalOpen}
-        onClose={() => setIsRescheduleModalOpen(false)}
-        medicId={appointmentData.medico.idPersona}
-        appointmentId={appointmentData.idCita}
+        isOpen={state.isRescheduleModalOpen}
+        onClose={() => updateState({ isRescheduleModalOpen: false })}
+        medicId={state.appointmentData.medico.idPersona}
+        appointmentId={state.appointmentData.idCita}
       />
     </section>
   );
