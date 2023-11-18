@@ -65,13 +65,16 @@ const SearchMedicalSheet = ({ idpaciente, show, onClose, onSelect }) => {
                 </label>
                 <select
                   id="especialidadId"
-                  value={especialidadId}
+                  value={"especialidad.id"}
                   onChange={(e) => setEspecialidadId(e.target.value)}
                   className="mt-1 block w-full p-2 border-gray-300 rounded-md shadow-sm"
                 >
                   <option value="">Seleccione una especialidad</option>
                   {especialidades.map((especialidad) => (
-                    <option key={especialidad.id} value={especialidad.id}>
+                    <option
+                      key={especialidad.idEspecialidad}
+                      value={especialidad.idEspecialidad}
+                    >
                       {especialidad.nombre}
                     </option>
                   ))}

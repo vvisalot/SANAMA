@@ -93,6 +93,8 @@ const ReviewAppointment = ({ params }) => {
             handleCancelClick={handleCancelClick}
             hasBeenCanceled={hasBeenCanceled}
             handleAttendClick={handleAttendClick}
+            doctor={appointmentData.medico}
+            pacienteData={appointmentData.paciente}
           />
         </div>
         <PatientInfo
@@ -126,7 +128,10 @@ const ActionButtons = ({
   handleCancelClick,
   hasBeenCanceled,
   handleAttendClick,
+  pacienteData,
+  doctor,
 }) => {
+  const router = useRouter();
   return (
     <div className="flex">
       <button
