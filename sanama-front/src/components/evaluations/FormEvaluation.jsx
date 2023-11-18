@@ -6,7 +6,6 @@ import ExplorationTab from "@/components/evaluations/ExplorationTab";
 import GlasgowComaScale from "@/components/evaluations/MentalStatusTab";
 import DiagnosticoMedico from "@/components/evaluations/DiagnosisTab";
 import TratamientoYDecisionCita from "@/components/evaluations/TreatmentTab";
-import Signature from "@/components/evaluations/Signature";
 
 const FormEvaluation = ({ defaultTriaje, setMedicalRecordData }) => {
   return (
@@ -31,10 +30,6 @@ const FormEvaluation = ({ defaultTriaje, setMedicalRecordData }) => {
       </Accordion>
       <Accordion title="Receta Medica" id="glasgow">
         <TratamientoYDecisionCita setMedicalRecordData={setMedicalRecordData} />
-      </Accordion>
-
-      <Accordion title="Firma" id="glasgow">
-        <Signature />
       </Accordion>
     </>
   );

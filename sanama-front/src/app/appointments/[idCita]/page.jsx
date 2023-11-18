@@ -1,181 +1,119 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
+import { useRouter, usePathname } from "next/navigation";
+
 import { appointmentService } from "@/services/appointmentService";
 import PatientInfo from "@/components/appointments/view/PatientInfo";
 import RescheduleModal from "@/components/appointments/view/RescheduleModal";
 import useUpdateAppointmentStatus from "@/hooks/useUpdateAppointmentStatus";
-import { useRouter, usePathname } from "next/navigation";
-import { MdDelete, MdEdit } from "react-icons/md";
-import viewAppointmentIcon from "@/components/icons/viewAppointmentIcon";
 import TitleWithIcon from "@/components/TitleWithIcon";
+import ActionButtons from "@/components/appointments/view/ActionButtons";
+import viewAppointmentIcon from "@/components/icons/viewAppointmentIcon";
 
 const ReviewAppointment = ({ params }) => {
-  const [appointmentData, setAppointmentData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [hasBeenCanceled, setHasBeenCanceled] = useState(false);
-  const [isRescheduleModalOpen, setIsRescheduleModalOpen] = useState(false);
-  const router = useRouter();
-  const openRescheduleModal = () => setIsRescheduleModalOpen(true);
-  const closeRescheduleModal = () => setIsRescheduleModalOpen(false);
   const pathname = usePathname();
+  const [state, setState] = useState({
+    appointmentData: null,
+    loading: true,
+    error: null,
+    hasBeenCanceled: false,
+    isRescheduleModalOpen: false,
+  });
+  const router = useRouter();
 
-  const {
-    updateAppointmentStatus,
-    confirmationMessage,
-    isStatusUpdated,
-    error: statusUpdateError,
-  } = useUpdateAppointmentStatus();
+  const updateState = (newState) => {
+    setState((prevState) => ({ ...prevState, ...newState }));
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const data = await appointmentService.buscarCita(params.idCita);
-        setAppointmentData(
-          data || `No se encontraron datos de la cita  ${params.idCita}`
-        );
+        updateState({
+          appointmentData:
+            data || `No se encontraron datos de la cita ${params.idCita}`,
+          loading: false,
+        });
       } catch (error) {
-        setError("Ocurrió un error al cargar los datos de la cita");
+        updateState({
+          error: "Error al cargar los datos de la cita",
+          loading: false,
+        });
         console.error(error);
-      } finally {
-        setLoading(false);
       }
     };
     fetchData();
-  }, [params.idCita, isStatusUpdated]);
+  }, [params.idCita]);
 
-  useEffect(() => {
-    if (statusUpdateError) {
-      setError(statusUpdateError);
-    } else if (confirmationMessage) {
-      console.log(confirmationMessage);
-    }
-  }, [statusUpdateError, confirmationMessage]);
-
-  if (loading) return <p>Cargando...</p>;
-  if (error) return <p className="text-red-500">{error}</p>;
-  if (!appointmentData) return null;
-
-  const { idCita, estado } = appointmentData;
+  const { updateAppointmentStatus } = useUpdateAppointmentStatus();
 
   const handleActionClick = async (status) => {
+    updateState({ loading: true });
     try {
-      setLoading(true);
-      await updateAppointmentStatus(idCita, status);
+      await updateAppointmentStatus(state.appointmentData.idCita, status);
     } catch (error) {
       console.error(error);
     } finally {
-      setLoading(false);
+      updateState({ loading: false });
     }
   };
 
   const handleAttendClick = () => {
-    router;
     handleActionClick(2).then(
-      router.push(`${pathname}/${appointmentData.paciente.idPersona}`)
+      router.push(`${pathname}/${state.appointmentData.paciente.idPersona}`)
     );
   };
 
-  const handleCancelClick = () =>
-    handleActionClick(3).then(() => setHasBeenCanceled(true));
+  const handleCancelClick = () => {
+    handleActionClick(3).then(() => updateState({ hasBeenCanceled: true }));
+  };
+
+  if (state.loading) return <p>Cargando...</p>;
+  if (state.error) return <p className="text-red-500">{state.error}</p>;
+  if (!state.appointmentData) return null;
+
+  const { estado, paciente, medico } = state.appointmentData;
 
   return (
     <section className="p-14 h-screen content-end">
       <TitleWithIcon name={"Cita Medica"} Icon={viewAppointmentIcon} />
-
-      <div className="container mx-auto p-4 ">
-        <div className="flex justify-end mb-6 w-full">
-          <ActionButtons
-            estado={estado}
-            loading={loading}
-            openRescheduleModal={openRescheduleModal}
-            handleCancelClick={handleCancelClick}
-            hasBeenCanceled={hasBeenCanceled}
-            handleAttendClick={handleAttendClick}
-          />
-        </div>
-        <PatientInfo
-          pacienteData={appointmentData.paciente}
-          appointmentData={appointmentData}
-          doctor={appointmentData.medico}
-        />
-
-        <div className="flex flex-row-reverse">
+      <div className="flex place-content-between w-full mb-10 mt-8">
+        <div>
           <Link href="/appointments" passHref>
-            <href className="block justify-self-end font-semibold bg-gray-500 text-white p-2 w-80 rounded-md text-center mt-2">
-              Atras
+            <href class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+              Volver a Citas
             </href>
           </Link>
         </div>
+        <div className="flex">
+          <ActionButtons
+            estado={state.appointmentData.estado}
+            loading={state.loading}
+            openRescheduleModal={() =>
+              updateState({ isRescheduleModalOpen: true })
+            }
+            handleCancelClick={handleCancelClick}
+            hasBeenCanceled={state.hasBeenCanceled}
+            handleAttendClick={handleAttendClick}
+            idMedico={state.appointmentData.medico.idPersona}
+            idPaciente={state.appointmentData.paciente.idPersona}
+          />
+        </div>
       </div>
+      <PatientInfo
+        pacienteData={state.appointmentData.paciente}
+        appointmentData={state.appointmentData}
+        doctor={state.appointmentData.medico}
+      />
+
       <RescheduleModal
-        isOpen={isRescheduleModalOpen}
-        onClose={closeRescheduleModal}
-        medicId={appointmentData.medico.idPersona}
-        appointmentId={appointmentData.idCita}
+        isOpen={state.isRescheduleModalOpen}
+        onClose={() => updateState({ isRescheduleModalOpen: false })}
+        medicId={state.appointmentData.medico.idPersona}
+        appointmentId={state.appointmentData.idCita}
       />
     </section>
-  );
-};
-
-const ActionButtons = ({
-  estado,
-  loading,
-  openRescheduleModal,
-  handleCancelClick,
-  hasBeenCanceled,
-  handleAttendClick,
-}) => {
-  return (
-    <div className="flex">
-      <button
-        className="flex justify-center items-center font-semibold bg-blue-500 text-white p-2 rounded-md mr-4 mt-2 mb-2"
-        onClick={() =>
-          router.push(`/doctors/profile/${pacienteData.idPersona}`)
-        }
-      >
-        Ir a Paciente
-      </button>
-      <button
-        className="flex justify-center items-center font-semibold bg-blue-500 text-white p-2 rounded-md mr-4 mt-2 mb-2"
-        onClick={() => router.push(`/doctors/profile/${doctor.idPersona}`)}
-      >
-        Ir a Doctor
-      </button>
-      {estado === 4 && (
-        <>
-          <button
-            className="flex justify-center items-center font-semibold bg-green-500 text-white p-2 rounded-md mr-4 mt-2 mb-2"
-            onClick={handleAttendClick}
-            disabled={loading}
-          >
-            <MdEdit className="mr-2" />
-            Atender
-          </button>
-
-          <button
-            className="flex justify-center items-center font-semibold bg-orange-400 text-white p-2 rounded-md mr-4 mt-2 mb-2"
-            onClick={openRescheduleModal}
-            disabled={loading}
-          >
-            <MdEdit />
-            Reprogramar
-          </button>
-
-          <button
-            className={`flex justify-center items-center font-semibold bg-red-500 text-white p-2 rounded-md mt-2 mb-2 ${
-              hasBeenCanceled ? "opacity-50 cursor-not-allowed" : ""
-            }`}
-            onClick={handleCancelClick}
-            disabled={hasBeenCanceled}
-          >
-            <MdDelete />
-            "Cancelar"
-          </button>
-        </>
-      )}
-    </div>
   );
 };
 
