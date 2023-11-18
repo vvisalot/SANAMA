@@ -9,7 +9,6 @@ import DateRangePicker from "@/components/Date/DateRangePicker";
 import DropdownCheckbox from "@/components/Dropdowns/DropdownCheckbox";
 import { format } from "date-fns";
 import AppointmentIcon from "@/components/icons/AppointmentIcon";
-import { useRouter } from "next/navigation";
 import TitleWithIcon from "@/components/TitleWithIcon";
 import Link from "next/link";
 import Dropdown from "@/components/Dropdowns/Dropdown";
@@ -29,10 +28,8 @@ const initialRequest = {
 
 const AppointmentPage = () => {
   const [appointmentTable, setAppointmentTable] = useState([]);
-  const router = useRouter();
   const [statusList, setStatusList] = useState([]);
   const [statusState, setStatusState] = useState({});
-
   const [dateInitial, setDateInitial] = useState(null);
   const [dateFinal, setDateFinal] = useState(null);
 
@@ -118,19 +115,17 @@ const AppointmentPage = () => {
       </section>
 
       <form className=" flex items-center " onSubmit={handleSubmit}>
+        <SearchBar
+          name={"search-bar-appointments"}
+          width={"w-[600px]"}
+          placeholderText={"Buscar por Nombre, DNI o Código"}
+        />
         <DropdownCheckbox
-          text={"Estado de la cita"}
+          text={"Estado"}
           statusList={statusList}
           statusState={statusState}
           setStatusState={setStatusState}
         />
-        <DateRangePicker
-          dateInitial={dateInitial}
-          setDateInitial={setDateInitial}
-          dateFinal={dateFinal}
-          setDateFinal={setDateFinal}
-        />
-
         <Dropdown
           data={specialties}
           defaultText={"Todas las especialidades"}
@@ -138,17 +133,18 @@ const AppointmentPage = () => {
           defaultValue={""}
           value={"idEspecialidad"}
           name={"speciality-dropdown"}
-          width={"w-[400px]"}
-          height={"h-[42px]"}
+          width={"w-[240px]"}
+          height={"h-[43px]"}
           handleChange={(event) => {
             setEspecialidadSeleccionada(event.target.value);
           }}
         ></Dropdown>
 
-        <SearchBar
-          name={"search-bar-appointments"}
-          width={"w-[600px]"}
-          placeholderText={"Buscar por Nombre, DNI o Código de la Cita"}
+        <DateRangePicker
+          dateInitial={dateInitial}
+          setDateInitial={setDateInitial}
+          dateFinal={dateFinal}
+          setDateFinal={setDateFinal}
         />
         <button
           type="submit"
