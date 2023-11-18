@@ -41,7 +41,6 @@ const AppointmentPage = () => {
       data.forEach((status) => {
         initialValues[status.idValue] = false;
       });
-      console.log(initialValues);
       setStatusState(initialValues);
     } catch (error) {
       console.log("No se pudo obtener la lista de estados");
@@ -56,7 +55,6 @@ const AppointmentPage = () => {
     try {
       const data = await doctorService.listarEspecialidades();
       setSpecialties(data);
-      console.log(data);
     } catch (error) {
       console.log("No se pudo obtener los datos de las especialidades");
     }

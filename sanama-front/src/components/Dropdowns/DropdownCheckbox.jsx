@@ -17,7 +17,6 @@ const DropdownCheckbox = ({
 
   const handleCheckboxChange = (id) => (event) => {
     const value = event.target.checked;
-    console.log(event.target.checked);
     setStatusState((prevState) => ({ ...prevState, [id]: value }));
   };
 
