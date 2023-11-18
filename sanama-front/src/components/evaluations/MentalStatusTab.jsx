@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 
 const GlasgowComaScale = ({ setMedicalRecordData }) => {
   const gcsValues = {
     eyesOpen: {
-      Espontena: 4,
+      "Espontena": 4,
       "Al estímulo verbal": 3,
       "Al estímulo doloroso": 2,
       "Sin respuesta": 1,
