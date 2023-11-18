@@ -2,19 +2,19 @@ import React, { useState } from "react";
 
 const GlasgowComaScale = ({ setMedicalRecordData }) => {
   const gcsValues = {
-    aperturaOjos: {
-      Espontánea: 4,
+    eyesOpen: {
+      Espontena: 4,
       "Al estímulo verbal": 3,
       "Al estímulo doloroso": 2,
       "Sin respuesta": 1,
     },
-    respuestaVerbal: {
+    talkingCorrectly: {
       "Orientado y conversando": 5,
       "Palabras inapropiadas": 3,
       "Sonidos incomprensibles": 2,
       "Sin respuesta": 1,
     },
-    respuestaMotora: {
+    ableToMoveBody: {
       "Obedece órdenes verbales": 6,
       "Localiza el dolor": 5,
       "Retirada al dolor": 4,
@@ -44,10 +44,12 @@ const GlasgowComaScale = ({ setMedicalRecordData }) => {
         evaluacionMedica: {
           ...prevData.evaluacionMedica,
           glasgow: totalScore,
+          [name]: gcsValues[name][value],
         },
       };
     });
   };
+
   const renderOptions = (categoryValues) => {
     return Object.entries(categoryValues).map(([key, value]) => (
       <option key={value} value={key}>
@@ -62,12 +64,12 @@ const GlasgowComaScale = ({ setMedicalRecordData }) => {
           Apertura de Ojos
         </label>
         <select
-          name="aperturaOjos"
+          name="eyesOpen"
           onChange={handleGlasgowChange}
           className="mt-1 p-2 w-full border-gray-300 rounded-md"
         >
           <option value="">Seleccione una opción</option>
-          {renderOptions(gcsValues.aperturaOjos)}
+          {renderOptions(gcsValues.eyesOpen)}
         </select>
       </div>
 
@@ -76,12 +78,12 @@ const GlasgowComaScale = ({ setMedicalRecordData }) => {
           Respuesta Verbal
         </label>
         <select
-          name="respuestaVerbal"
+          name="talkingCorrectly"
           onChange={handleGlasgowChange}
           className="mt-1 p-2 w-full border-gray-300 rounded-md"
         >
           <option value="">Seleccione una opción</option>
-          {renderOptions(gcsValues.respuestaVerbal)}
+          {renderOptions(gcsValues.talkingCorrectly)}
         </select>
       </div>
 
@@ -90,12 +92,12 @@ const GlasgowComaScale = ({ setMedicalRecordData }) => {
           Respuesta Motora
         </label>
         <select
-          name="respuestaMotora"
+          name="ableToMoveBody"
           onChange={handleGlasgowChange}
           className="mt-1 p-2 w-full border-gray-300 rounded-md"
         >
           <option value="">Seleccione una opción</option>
-          {renderOptions(gcsValues.respuestaMotora)}
+          {renderOptions(gcsValues.ableToMoveBody)}
         </select>
       </div>
     </div>

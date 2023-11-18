@@ -28,7 +28,9 @@ const FormContainerMedicalRecord = ({ idCita, defaultTriaje }) => {
       ...prevState,
       idCitaMedica: idCita,
     }));
+    console.log(medicalRecordData);
 
+    /*
     if (validateMedicalRecordForm(medicalRecordData)) {
       console.log("The form is valid. Sending data.");
     } else {
@@ -48,6 +50,7 @@ const FormContainerMedicalRecord = ({ idCita, defaultTriaje }) => {
       toast.error("Error occurred. Please try again.");
       setIsSubmitting(false); // Set submitting to false in case of error
     }
+    */
   };
 
   return (
