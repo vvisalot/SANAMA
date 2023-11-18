@@ -7,14 +7,24 @@ const ChiefComplaint = ({ setMedicalRecordData }) => {
   const params = useParams();
   const idPaciente = params.idPaciente;
 
-  const handleBlur = (e) => {
+  const handleOnBlurChange = (e) => {
     const { name, value } = e.target;
-    setMedicalRecordData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    setMedicalRecordData((prevData) => {
+      // Asumiendo que los nombres de los campos siguen el patrón "evaluacionMedica.[section]"
+      const sections = name.split(".");
+      if (sections.length === 2) {
+        const section = sections[1];
+        return {
+          ...prevData,
+          evaluacionMedica: {
+            ...prevData.evaluacionMedica,
+            [section]: value,
+          },
+        };
+      }
+      return prevData;
+    });
   };
-
   const addEvaluation = (selectedHoja) => {
     if (selectedHoja && selectedHoja.idHojaMedica) {
       setMedicalRecordData((prevData) => ({
@@ -47,15 +57,15 @@ const ChiefComplaint = ({ setMedicalRecordData }) => {
       <div className="grid grid-cols-1 gap-4">
         <TextAreaField
           label="Antecedentes:"
-          name="antecedentes"
+          name="evaluacionMedica.antecedentes"
           placeholder="Ingresa los antecentes.."
-          onBlur={handleBlur} // Cambio aquí
+          onBlur={handleOnBlurChange} // Cambio aquí
         />
         <TextAreaField
           label="Motivo de Consulta:"
-          name="motivoConsulta"
+          name="evaluacionMedica.motivoConsulta"
           placeholder="Ingresa el motivo.."
-          onBlur={handleBlur}
+          onBlur={handleOnBlurChange}
         />
         <div className="flex flex-row-reverse">
           <button
