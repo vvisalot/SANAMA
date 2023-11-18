@@ -31,8 +31,7 @@ const ReviewAppointment = ({ params }) => {
       try {
         const data = await appointmentService.buscarCita(params.idCita);
         updateState({
-          appointmentData:
-            data || `No se encontraron datos de la cita ${params.idCita}`,
+          appointmentData: data,
           loading: false,
         });
       } catch (error) {
@@ -48,26 +47,29 @@ const ReviewAppointment = ({ params }) => {
 
   const { updateAppointmentStatus } = useUpdateAppointmentStatus();
 
-  const handleActionClick = async (status) => {
-    updateState({ loading: true });
-    try {
-      await updateAppointmentStatus(state.appointmentData.idCita, status);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      updateState({ loading: false });
-    }
-  };
+  const handleActionClick = useCallback(
+    async (status) => {
+      updateState({ loading: true });
+      try {
+        await updateAppointmentStatus(state.appointmentData.idCita, status);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        updateState({ loading: false });
+      }
+    },
+    [state.appointmentData, updateAppointmentStatus]
+  );
 
-  const handleAttendClick = () => {
+  const handleAttendClick = useCallback(() => {
     handleActionClick(2).then(
       router.push(`${pathname}/${state.appointmentData.paciente.idPersona}`)
     );
-  };
+  }, [handleActionClick, state.appointmentData, pathname, router]);
 
-  const handleCancelClick = () => {
+  const handleCancelClick = useCallback(() => {
     handleActionClick(3).then(() => updateState({ hasBeenCanceled: true }));
-  };
+  }, [handleActionClick]);
 
   if (state.loading) return <p>Cargando...</p>;
   if (state.error) return <p className="text-red-500">{state.error}</p>;
