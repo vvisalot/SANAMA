@@ -17,7 +17,7 @@ const FormContainerMedicalRecord = ({ idCita, defaultTriaje }) => {
   const loadingRegister = async (data) => {
     console.log(data);
     await patientService.registrarHojaMedica(data);
-    router.push("/appointments");
+    router.back();
   };
 
   const handleSubmit = async (event) => {
@@ -42,6 +42,7 @@ const FormContainerMedicalRecord = ({ idCita, defaultTriaje }) => {
         loading: "Registrando Atencion",
         success: "Atencion registrada",
       });
+      console.log(medicalRecordData);
     } catch (error) {
       console.error("Error:", error);
       toast.error("Error occurred. Please try again.");

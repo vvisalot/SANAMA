@@ -2,7 +2,7 @@ import Picker from "@/components/buttons/Picker";
 import { useEffect, useState } from "react";
 import ScheduleChip from "./ScheduleChip";
 import { TextInput } from "flowbite-react";
-import { format } from "date-fns";
+import { format, parse, set } from "date-fns";
 import Calendar from "@/components/Calendar";
 import Dropdown from "@/components/Dropdowns/Dropdown";
 import { doctorService } from "@/services/doctorService";
@@ -16,6 +16,7 @@ import {
 } from "@/util/formValidations";
 
 const AppointementForm = ({
+  setFormComplete,
   legalResponsibilityForm,
   setLegalResponsibilityForm,
   setDoctorId,
@@ -23,6 +24,9 @@ const AppointementForm = ({
   setSchedule,
   triageRequirement,
   setTriageRequirement,
+  formComplete,
+  allFormComplete,
+  setAllFormComplete,
 }) => {
   //Seccion 2
   const [relationships, setRelationships] = useState([]);
@@ -81,6 +85,7 @@ const AppointementForm = ({
   const fetchRelationships = async () => {
     try {
       const data = await patientService.listarParentescos();
+      //console.log(data)
       setRelationships(data);
     } catch (error) {
       console.log("No se pudo obtener el listado de parentescos");
@@ -367,11 +372,11 @@ const AppointementForm = ({
           Solicitud de triaje{" "}
         </h2>
         <Picker
-          name1={"notriaje"}
-          name2={"sitriaje"}
+          name1={"sitriaje"}
+          name2={"notriaje"}
           text={"¿El paciente necesita triaje?"}
-          option1={"No"}
-          option2={"Sí"}
+          option1={"Si"}
+          option2={"No"}
           value={triageRequirement}
           setValue={setTriageRequirement}
         ></Picker>
