@@ -43,13 +43,13 @@ const MainInfoComponent = ({ patientTriageData }) => {
             value={`${paciente.nombres} ${paciente.apellidoPaterno} ${paciente.apellidoMaterno}`}
             disabled
           />
-          <InputField
+          <InputFieldz
             label="Fecha de Nacimiento"
             value={fechaNacimientoFormateada}
             disabled
           />
           <InputField label="Edad" value={edad} disabled />
-          <InputField label="Sexo" value={sexo} disabled />
+          <InputField label="Sexo" value={sexo} disabled />Z
 
           <InputField
             label="Peso (kg)"
