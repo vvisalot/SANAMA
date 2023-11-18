@@ -21,10 +21,10 @@ public class EvaluacionMedica {
     private String urogenital;
     private String extremidades;
     private String snc;
-    private int glasgow;
-    private int eyesOpen;
-    private boolean talkingCorrectly;
-    private boolean ableToMoveBody;
+    private String glasgow;
+    private String eyesOpen;
+    private String talkingCorrectly;
+    private String ableToMoveBody;
     private String observaciones;
     private String indicacionesFinales;
     private boolean requiereSignosVitales;
@@ -141,35 +141,35 @@ public class EvaluacionMedica {
         this.snc = snc;
     }
 
-    public int getGlasgow() {
+    public String getGlasgow() {
         return glasgow;
     }
 
-    public void setGlasgow(int glasgow) {
+    public void setGlasgow(String glasgow) {
         this.glasgow = glasgow;
     }
 
-    public int getEyesOpen() {
+    public String getEyesOpen() {
         return eyesOpen;
     }
 
-    public void setEyesOpen(int eyesOpen) {
+    public void setEyesOpen(String eyesOpen) {
         this.eyesOpen = eyesOpen;
     }
 
-    public boolean isTalkingCorrectly() {
+    public String getTalkingCorrectly() {
         return talkingCorrectly;
     }
 
-    public void setTalkingCorrectly(boolean talkingCorrectly) {
+    public void setTalkingCorrectly(String talkingCorrectly) {
         this.talkingCorrectly = talkingCorrectly;
     }
 
-    public boolean isAbleToMoveBody() {
+    public String getAbleToMoveBody() {
         return ableToMoveBody;
     }
 
-    public void setAbleToMoveBody(boolean ableToMoveBody) {
+    public void setAbleToMoveBody(String ableToMoveBody) {
         this.ableToMoveBody = ableToMoveBody;
     }
 
