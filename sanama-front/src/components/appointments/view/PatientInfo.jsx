@@ -1,15 +1,16 @@
 import React from "react";
+import InputField from "@/components/common/InputField";
 
 const CAMPOS = [
-  { id: "nombres", label: "PACIENTE", type: "text" },
-  { id: "dni", label: "DOCUMENTO DE IDENTIDAD", type: "text" },
-  { id: "fecha-atencion", label: "FECHA DE ATENCION", type: "date" },
-  { id: "hora-atencion", label: "HORA DE ATENCION", type: "time" },
-  { id: "medico-responsable", label: "MEDICO RESPONSABLE", type: "text" },
-  { id: "especialidad", label: "ESPECIALIDAD", type: "text" },
-  { id: "nombreAcompanhante", label: "ACOMPAÑANTE", type: "text" },
-  { id: "dniAcompanhante", label: "DNI ACOMPAÑANTE", type: "text" },
-  { id: "estado", label: "ESTADO", type: "text" },
+  { id: "nombres", label: "PACIENTE" },
+  { id: "dni", label: "DOCUMENTO DE IDENTIDAD" },
+  { id: "fecha-atencion", label: "FECHA DE ATENCION" },
+  { id: "hora-atencion", label: "HORA DE ATENCION" },
+  { id: "medico-responsable", label: "MEDICO RESPONSABLE" },
+  { id: "especialidad", label: "ESPECIALIDAD" },
+  { id: "nombreAcompanhante", label: "ACOMPAÑANTE" },
+  { id: "dniAcompanhante", label: "DNI ACOMPAÑANTE" },
+  { id: "estado", label: "ESTADO" },
 ];
 
 const ESTADOS = [
@@ -54,20 +55,7 @@ const PatientInfo = ({ pacienteData, appointmentData, doctor }) => {
       <div className="grid grid-cols-2 gap-4">
         {CAMPOS.map(({ id, label, type }) => (
           <div key={id}>
-            <label
-              htmlFor={id}
-              className="block text-sm font-medium text-primary-dusk-blue"
-            >
-              {label}
-            </label>
-            <input
-              type={type}
-              id={id}
-              name={id}
-              className="mt-1 p-2 w-full border rounded-md"
-              value={getValue(id)}
-              readOnly
-            />
+            <InputField label={label} value={getValue(id)} disabled />
           </div>
         ))}
       </div>
