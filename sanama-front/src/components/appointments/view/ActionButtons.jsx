@@ -50,32 +50,29 @@ const ActionButtons = ({
       {estado === 4 && (
         <>
           <button
-            className="flex justify-center items-center font-semibold bg-green-500 text-white p-2 rounded-md mr-4 mt-2 mb-2"
+            class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white"
             onClick={handleAttendClick}
             disabled={loading}
           >
-            <MdEdit className="mr-2" />
             Atender
           </button>
 
           <button
-            className="flex justify-center items-center font-semibold bg-orange-400 text-white p-2 rounded-md mr-4 mt-2 mb-2"
+            class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white"
             onClick={openRescheduleModal}
             disabled={loading}
           >
-            <MdEdit />
             Reprogramar
           </button>
 
           <button
-            className={`flex justify-center items-center font-semibold bg-red-500 text-white p-2 rounded-md mt-2 mb-2 ${
+            className={`inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-e-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white ${
               hasBeenCanceled ? "opacity-50 cursor-not-allowed" : ""
             }`}
             onClick={handleCancelClick}
             disabled={hasBeenCanceled}
           >
-            <MdDelete />
-            "Cancelar"
+            Cancelar
           </button>
         </>
       )}
