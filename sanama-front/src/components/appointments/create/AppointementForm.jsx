@@ -16,7 +16,6 @@ import {
 } from "@/util/formValidations";
 
 const AppointementForm = ({
-  setFormComplete,
   legalResponsibilityForm,
   setLegalResponsibilityForm,
   setDoctorId,
@@ -24,9 +23,6 @@ const AppointementForm = ({
   setSchedule,
   triageRequirement,
   setTriageRequirement,
-  formComplete,
-  allFormComplete,
-  setAllFormComplete,
 }) => {
   //Seccion 2
   const [relationships, setRelationships] = useState([]);
@@ -148,7 +144,7 @@ const AppointementForm = ({
 
   return (
     <fieldset>
-      <section id="section2">
+      <section id="section2" className="pt-10">
         <h2 className="w-full font-bold break-normal text-gray-700  pb-8 text-2xl">
           Revision de responsabilidad legal
         </h2>
@@ -293,7 +289,7 @@ const AppointementForm = ({
         ) : null}
       </section>
 
-      <section id="section3" className="pt-10">
+      <section id="section3" className="py-10">
         <h2 className="font-sans font-bold break-normal text-gray-700 mb-4 text-2xl">
           Medicos y horarios disponibles
         </h2>
@@ -341,7 +337,12 @@ const AppointementForm = ({
           </div>
         </div>
         <div className="pt-3 pr-3">
-          <label htmlFor="fechaSeleccionada">Reservar a las:</label>
+          <label
+            htmlFor="fechaSeleccionada"
+            className="font-sans font-semibold break-normal text-gray-700 mb-4"
+          >
+            Reservar a las:
+          </label>
           <TextInput
             type="text"
             name="fechaSeleccionada"
@@ -357,9 +358,9 @@ const AppointementForm = ({
         </div>
       </section>
 
-      <section id="section-4" className="pt-20">
+      <section id="section-4" className="pb-10">
         <h2 className="w-full font-bold break-normal text-gray-700  pb-8 text-2xl">
-          Solicitud de triaje{" "}
+          Derivación Previa a triaje{" "}
         </h2>
         <Picker
           name1={"sitriaje"}
