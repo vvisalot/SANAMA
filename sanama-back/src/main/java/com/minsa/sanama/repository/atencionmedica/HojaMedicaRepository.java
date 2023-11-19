@@ -22,6 +22,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -402,7 +403,7 @@ public class HojaMedicaRepository {
     }
 
     private List<Medicamento> obtenerMedicamentos(String jsonMedicamentos){
-        List<Medicamento> lmedicamentos= null;
+        List<Medicamento> lmedicamentos = new ArrayList<>();
         try{
             JSONArray jobArray = (JSONArray) new JSONParser().parse(jsonMedicamentos);
             for(Object obj: jobArray){
@@ -421,7 +422,7 @@ public class HojaMedicaRepository {
     }
 
     private List<Diagnostico> obtenerDiagnosticos(String jsonDiagnosticos){
-        List<Diagnostico> ldiagnosticos=null;
+        List<Diagnostico> ldiagnosticos = new ArrayList<>();;
         try{
             JSONArray jobArray = (JSONArray) new JSONParser().parse(jsonDiagnosticos);
             for(Object obj: jobArray){
