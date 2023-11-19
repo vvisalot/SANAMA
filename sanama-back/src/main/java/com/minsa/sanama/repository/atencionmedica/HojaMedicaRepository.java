@@ -324,7 +324,7 @@ public class HojaMedicaRepository {
                 .declareParameters(new SqlParameter[]{
                         new SqlParameter("pn_id_hoja_medica", Types.INTEGER),
                         new SqlOutParameter("pn_id_hoja_referenciada", Types.INTEGER),
-                        new SqlOutParameter("pv_codigo_hoja_medica", Types.INTEGER),
+                        new SqlOutParameter("pv_codigo_hoja_medica", Types.VARCHAR),
                         new SqlOutParameter("pb_firma", Types.BLOB),
                         new SqlOutParameter("pd_fecha_caducidad", Types.DATE),
                         new SqlOutParameter("pj_medicamentos_json", Types.VARCHAR),
@@ -362,7 +362,7 @@ public class HojaMedicaRepository {
         } else {
             hojaMedica.setHojaRefencia(new HojaRefencia());
             hojaMedica.getHojaRefencia().setIdHojaReferenciada((int) result.get("pn_id_hoja_referenciada"));
-            hojaMedica.setCodigo((String) result.get("pv_codigo_hoja_medica"));
+            hojaMedica.setCodigo(result.get("pv_codigo_hoja_medica").toString());
             hojaMedica.setFirma((byte[]) result.get("pb_firma"));
             hojaMedica.setEvaluacionMedica(new EvaluacionMedica());
             hojaMedica.getEvaluacionMedica().setSignosVitales(new SignosVitales());
@@ -390,7 +390,7 @@ public class HojaMedicaRepository {
             hojaMedica.getEvaluacionMedica().setObservaciones((String) result.get("pv_observaciones"));
             hojaMedica.getEvaluacionMedica().setIndicacionesFinales((String) result.get("pv_indicaciones_finales"));
             hojaMedica.setRecetaMedica(new RecetaMedica());
-            hojaMedica.getRecetaMedica().setFechaCaducidad((LocalDate) result.get("pd_fecha_caducidad"));
+            hojaMedica.getRecetaMedica().setFechaCaducidad(LocalDate.parse(result.get("pd_fecha_caducidad").toString()));
 
             // obtenemos el json de medicamentos y de diagnosticos
             String jsonMedicamentos = (String) result.get("pj_medicamentos_json");
