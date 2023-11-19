@@ -76,7 +76,7 @@ const LatestAppointmentsDoctor = ({ id }) => {
               {appointment.paciente.apellidoPaterno + " " + appointment.paciente.apellidoMaterno + ", " + appointment.paciente.nombres}
             </p>
             <p>
-              <strong className="text-gray-500 pr-3">Paciente:</strong>
+              <strong className="text-gray-500 pr-3">Estado:</strong>
               {appointment.estado === 1
                 ? "Atendida"
                 : appointment.estado === 2

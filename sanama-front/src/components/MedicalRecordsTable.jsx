@@ -1,17 +1,19 @@
-import Table from "@/components/table/Table";
-import { usePathname } from "next/navigation";
+import Table from "@/components/table/Table"
+import { usePathname } from "next/navigation"
 
 const columns = [
-  { name: "ID" },
+  // { name: "ID" },
   { name: "Código" },
   { name: "Médico" },
   { name: "Especialidad" },
-  { name: "Hora de Atención" },
   { name: "Fecha de Atención" },
-];
+  { name: "Hora de Atención" },
+  { name: "Hoja medica" },
+  { name: "Resultados" },
+]
 
 const MedicalRecordsTable = ({ data }) => {
-  const pathname = usePathname();
+  const pathname = usePathname()
   return (
     <Table
       columns={columns}
@@ -19,6 +21,6 @@ const MedicalRecordsTable = ({ data }) => {
       url={`${pathname}/view`}
       optionsText="Ver"
     />
-  );
-};
-export default MedicalRecordsTable;
+  )
+}
+export default MedicalRecordsTable

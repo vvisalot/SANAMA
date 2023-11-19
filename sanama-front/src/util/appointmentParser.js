@@ -10,11 +10,14 @@ const STATUS = {
 
 const getStatus = (estado) => {
   const statusMapping = {
-    [STATUS.ATTENDED]: "Atendida",
-    [STATUS.IN_CONSULTATION]: "En Consultorio",
-    [STATUS.CANCELLED]: "Cancelada",
-    [STATUS.PENDING]: "Pendiente",
-    [STATUS.IN_TRIAGE]: "En Triaje",
+    [STATUS.ATTENDED]: { text: "Atendida", className: "highlight-blue" },
+    [STATUS.IN_CONSULTATION]: {
+      text: "En Consultorio",
+      className: "highlight-orange",
+    },
+    [STATUS.CANCELLED]: { text: "Cancelada", className: "highlight-red" },
+    [STATUS.PENDING]: { text: "Pendiente", className: "highlight-green" },
+    [STATUS.IN_TRIAGE]: { text: "En Triaje", className: "highlight-yellow" },
   };
   return statusMapping[estado] || "Desconocido";
 };
@@ -42,6 +45,18 @@ export function parseAppointmentTable(data) {
     status: getStatus(row.estado),
   }));
 }
+
+// export function parseAppointmentTable(data) {
+//   return data.map((row) => [
+//     { data: row.idCita },
+//     { data: row.codigoCita },
+//     { data: formatDateAndTime(row.fechaCita, row.horaCita) },
+//     { data: formatFullName(row.paciente) },
+//     { data: formatFullName(row.medico) },
+//     { data: row.medico.especialidad.nombre },
+//     { data: getStatus(row.estado) },
+//   ]);
+// }
 
 export function parsePatientAppointmentTable(data) {
   return data.map((row) => [

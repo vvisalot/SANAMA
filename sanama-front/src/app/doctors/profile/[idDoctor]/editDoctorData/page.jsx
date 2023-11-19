@@ -8,13 +8,11 @@ import { doctorService } from '@/services/doctorService';
 import { es, id } from 'date-fns/locale';
 import swal from "sweetalert";
 import { useRouter, useParams } from "next/navigation";
+import { toast } from 'sonner';
 const EditDoctorProfile = () => {
   const params = useParams();
   const idDoctor = params.idDoctor;
   const router = useRouter();
-  const [showModal, setShowModal] = useState(false);
-  const [isFormEnabled, setIsFormEnabled] = useState(true);
-  const [isNextPart, setIsNextPart] = useState(false);
   const [cancelButton, setCancelButton] = useState(false);
   const [imagenPerfil, setImagenPerfil] = useState(null);
   // Estados para campos del médico
@@ -30,6 +28,10 @@ const EditDoctorProfile = () => {
   const [cmp, setCmp] = useState('');
   const [especialidad, setEspecialidad] = useState('');
   const [especialidades, setEspecialidades] = useState([]);
+
+  const [telefonoBack, setTelefonoBack] = useState(null);
+  const [correoBack, setCorreoBack] = useState(null);
+  const [fotoBack, setFotoBack] = useState(null);
   const fetchSpecialty = async () => {
     try {
       const data = await doctorService.listarEspecialidades()
@@ -49,7 +51,7 @@ const EditDoctorProfile = () => {
     const fetchData = async () => {
       try {
         const data = await doctorService.buscarPorNombre(idDoctor);
-        console.log("doc",data);
+        console.log("doc", data);
         if (data && data.length > 0) {
           setDataDoctor(data[0]);
           setNombreMedico(data[0].nombres);
@@ -68,8 +70,9 @@ const EditDoctorProfile = () => {
             setSexo("Femenino")
 
           }
+          
           setImagenPerfil(`data:image/png;base64,${data[0].foto}`) //hardcodeado. Falta guarda su extensión en la bbdd para que sea exacto.
-                                                            //por ahora el navegador sabe qué hacer para que se muestre la imagen, lo corrige
+          //por ahora el navegador sabe qué hacer para que se muestre la imagen, lo corrige
           //setImagenPerfil(data[0].foto)
         }
       } catch (error) {
@@ -82,14 +85,29 @@ const EditDoctorProfile = () => {
 
 
   const handleImagenChange = (event) => {
+    event.preventDefault();
     const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagenPerfil(reader.result);
-      };
-      reader.readAsDataURL(file);
+    // Obtener el nombre del archivo
+    const fileName = file.name;
+    // Obtener la extensión del archivo
+    const fileExtension = fileName.split('.').pop().toLowerCase();;
+    if (fileExtension === "jpeg" || fileExtension === "png" || fileExtension === "jpg") {
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          //Si la imagen no es jpg o png, no se permite
+          const imageData = reader.result;
+          // Verificar la extensión de la imagen
+          // Es una imagen jpg o png, puedes procesarla
+
+          setImagenPerfil(imageData);
+        };
+        reader.readAsDataURL(file);
+      }
+    } else {
+      toast.error(`No se permite imagen con extensión .${fileExtension}. Por favor usar imágenes con extensión .jpg, .jpeg o .png.`)
     }
+
     //console.log("foto", imagenPerfil)
   };
 
@@ -118,7 +136,31 @@ const EditDoctorProfile = () => {
     // ...
   };
 
-  const handleSave = () => {
+  function validarCorreoElectronico(correo) {
+    // Patrón para validar dirección de correo electrónico
+    const patronCorreo = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  
+    return patronCorreo.test(correo);
+  }
+  function validarNumeroTelefono(numero) {
+    // Patrón para validar número de teléfono (10 dígitos, opcionalmente con guiones, paréntesis y espacios)
+    const patronTelefono = /^\d{9}$/;
+  
+    return patronTelefono.test(numero);
+  }
+
+  const handleSave = () => { //validar correo y teléfono
+    let hayErrores = false;
+    if(!validarNumeroTelefono(telefono)){
+      toast.error("El teléfono debe tener 9 dígitos");
+      hayErrores = true; 
+    }
+    if(!validarCorreoElectronico(correo)){
+      toast.error("Por favor, ingrese un correo electrónico válido.");
+      hayErrores = true; 
+    }
+    if(hayErrores) return;
+
     swal({
       title: "Confirmar",
       text: "¿Confirmar actualización de datos?",
@@ -154,7 +196,7 @@ const EditDoctorProfile = () => {
           foto: base64Data,
           correoElectronico: correo
         };
-        console.log("data",data);
+        console.log("data", data);
         fetch(url, {
           method: 'PUT',
           headers: {
@@ -165,7 +207,7 @@ const EditDoctorProfile = () => {
           .then(response => {
             if (!response.ok) {
               throw new Error('Network response was not ok');
-              
+
             }
             swal.close();
             swal({ text: "El registro se realizó con éxito", icon: "success", timer: "2500" });

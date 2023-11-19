@@ -53,6 +53,13 @@ module.exports = {
 
       // Grays
       "gray-one": "#C3D0D4",
+
+      //Chips
+      "chip-green": "#C6F6D5",
+      "chip-yellow": "#fefcbf",
+      "chip-red": "#f9acaa",
+      "chip-blue": "#a0c4ff",
+      "chip-orange": "#fbd38d",
     },
   },
   plugins: [require("flowbite/plugin")],

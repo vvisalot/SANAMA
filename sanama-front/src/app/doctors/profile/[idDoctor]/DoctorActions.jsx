@@ -8,7 +8,7 @@ const DoctorActions = ({ id }) => {
         url={`/doctors/profile/${id}/disponibilidad`}
         color={"bg-orange-400"}
         shadow={"shadow-orange-200"}
-        name={"Registrar disponibilidad"}
+        name={"Editar disponibilidad"}
       />
 
       <ActionButton
