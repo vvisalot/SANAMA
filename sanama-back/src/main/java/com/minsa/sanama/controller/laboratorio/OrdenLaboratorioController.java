@@ -106,7 +106,7 @@ public class OrdenLaboratorioController {
         }
         return -1;
     }
-
+/*
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE},
             value = "/post/actualizarOrdenLaboratorio")
@@ -122,5 +122,5 @@ public class OrdenLaboratorioController {
         }
         return -1;
     }
-
+*/
 }
