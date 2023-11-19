@@ -16,13 +16,12 @@ const FormContainerMedicalRecord = ({ idCita, defaultTriaje }) => {
 
   const loadingRegister = async (data) => {
     await patientService.registrarHojaMedica(data);
-    router.back();
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsSubmitting(true);
-
+    console.log(idCita);
     setMedicalRecordData((prevState) => ({
       ...prevState,
       idCitaMedica: idCita,

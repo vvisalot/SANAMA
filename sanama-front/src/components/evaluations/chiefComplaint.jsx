@@ -6,7 +6,6 @@ const ChiefComplaint = ({ setMedicalRecordData }) => {
   const [showModal, setShowModal] = useState(false);
   const params = useParams();
   const idPaciente = params.idPaciente;
-
   const handleOnBlurChange = (e) => {
     const { name, value } = e.target;
     setMedicalRecordData((prevData) => {

@@ -4,7 +4,7 @@ import { Modal } from "flowbite-react";
 import { useMedicalSheets } from "@/hooks/useMedicalSheets";
 import { doctorService } from "@/services/doctorService";
 
-const SearchMedicalSheet = ({ idpaciente, show, onClose, onSelect }) => {
+const SearchMedicalSheet = ({ idPaciente, show, onClose, onSelect }) => {
   const [especialidades, setEspecialidades] = useState([]);
   const [especialidadId, setEspecialidadId] = useState("");
   const [fechaInicio, setFechaInicio] = useState("");
@@ -39,7 +39,7 @@ const SearchMedicalSheet = ({ idpaciente, show, onClose, onSelect }) => {
 
   const handleSubmit = () => {
     setSearchFilters({
-      pn_id_paciente: idpaciente,
+      pn_id_paciente: idPaciente,
       pn_id_especialidad: null,
       pd_fecha_inicio: fechaInicio || null,
       pd_fecha_fin: fechaFin || null,
