@@ -1,139 +1,54 @@
-// {
-//     "idCita": 3,
-//     "paciente": {
-//         "idPersona": 23,
-//         "nombres": "Javier",
-//         "apellidoPaterno": "Mendez",
-//         "apellidoMaterno": "Molinas",
-//         "dni": "74032409",
-//         "fechaNacimiento": null,
-//         "sexo": null,
-//         "telefono": null,
-//         "correoElectronico": null,
-//         "foto": null,
-//         "estado": 0,
-//         "codigoSeguro": null,
-//         "tipoSeguro": null,
-//         "tieneAcompanhante": false,
-//         "nombreAcompnhante": null,
-//         "dniAcompanhante": null,
-//         "correo": null,
-//         "direccion": null,
-//         "parentezco": null,
-//         "historialClinico": null,
-//         "programacionesCitas": null
-//     },
-//     "medico": {
-//         "idPersona": 1,
-//         "nombres": "Marcos",
-//         "apellidoPaterno": "Salute",
-//         "apellidoMaterno": "Segura",
-//         "dni": null,
-//         "fechaNacimiento": null,
-//         "sexo": null,
-//         "telefono": null,
-//         "correoElectronico": null,
-//         "foto": null,
-//         "estado": 0,
-//         "area": null,
-//         "cmp": null,
-//         "especialidad": {
-//             "idEspecialidad": 0,
-//             "codigo": null,
-//             "nombre": "Cardiología",
-//             "descripcion": null,
-//             "estado": 0
-//         },
-//         "horariosAtencion": null
-//     },
-//     "horaCita": "14:30:00",
-//     "fechaCita": "2023-10-23",
-//     "lugarCita": null,
-//     "tipoCita": null,
-//     "codigoCita": "CODIGO_CITA_1",
-//     "estadoCita": null,
-//     "estado": 4,
-//     "triaje": null,
-//     "codigoCitaMedica": null,
-//     "hojaMedica": {
-//         "idHojaClinica": 1,
-//         "codigo": null,
-//         "fecha": null,
-//         "estado": 0,
-//         "diagnostico": null,
-//         "resultados": null,
-//         "recetaMedica": null
-//     },
-//     "ordenesLaboratorio": null,
-//     "requiereTriaje": 0
-// },
-
 import { format, parse, parseISO } from "date-fns";
 
+const STATUS = {
+  ATTENDED: 1,
+  IN_CONSULTATION: 2,
+  CANCELLED: 3,
+  PENDING: 4,
+  IN_TRIAGE: 5,
+};
+
 const getStatus = (estado) => {
-  switch (estado) {
-    case 1:
-      return "Atendida";
-    case 2:
-      return "En Consultorio";
-    case 3:
-      return "Cancelada";
-    case 4:
-      return "Pendiente";
-    case 5:
-      return "En Triaje";
-    default:
-      return "Desconocido"; // Puedes cambiar este valor predeterminado por lo que consideres adecuado.
-  }
+  const statusMapping = {
+    [STATUS.ATTENDED]: "Atendida",
+    [STATUS.IN_CONSULTATION]: "En Consultorio",
+    [STATUS.CANCELLED]: "Cancelada",
+    [STATUS.PENDING]: "Pendiente",
+    [STATUS.IN_TRIAGE]: "En Triaje",
+  };
+  return statusMapping[estado] || "Desconocido";
+};
+
+const formatFullName = ({ nombres, apellidoPaterno, apellidoMaterno }) =>
+  `${nombres} ${apellidoPaterno} ${apellidoMaterno}`;
+
+const formatDateAndTime = (fechaCita, horaCita) => {
+  const formattedDate = format(parseISO(fechaCita), "dd/MM/yyyy");
+  const formattedTime = format(
+    parse(horaCita, "HH:mm:ss", new Date()),
+    "hh:mm a"
+  );
+  return `${formattedDate} ${formattedTime}`;
 };
 
 export function parseAppointmentTable(data) {
-  const table = data.map((row) => [
-    { data: row["idCita"] },
-
-    { data: row["codigoCita"] },
-
-    {
-      data:
-        format(parseISO(row["fechaCita"]), "dd/MM/yyyy") +
-        " " +
-        format(parse(row["horaCita"], "HH:mm:ss", new Date()), "hh:mm a"),
-    },
-
-    {
-      data: `${row["paciente"]["nombres"]} ${row["paciente"]["apellidoPaterno"]} ${row["paciente"]["apellidoMaterno"]}`,
-    },
-
-    // {
-    //   data: `${row["medico"]["nombres"]} ${row["medico"]["apellidoPaterno"]} ${row["medico"]["apellidoMaterno"]}`,
-    // },
-
-    {
-      data: row["medico"]["especialidad"]["nombre"],
-    },
-
-    {
-      data: getStatus(row["estado"]),
-    }, // Utilizando la función getStatus aquí
+  return data.map((row) => [
+    { data: row.idCita },
+    { data: row.codigoCita },
+    { data: formatDateAndTime(row.fechaCita, row.horaCita) },
+    { data: formatFullName(row.paciente) },
+    { data: formatFullName(row.medico) },
+    { data: row.medico.especialidad.nombre },
+    { data: getStatus(row.estado) },
   ]);
-  //console.log(table);
-  return table;
 }
 
 export function parsePatientAppointmentTable(data) {
-  const table = data.map((row) => [
-    { data: row["idCita"] },
-    {
-      data: `${row["medico"]["nombres"]} ${row["medico"]["apellidoPaterno"]} ${row["medico"]["apellidoMaterno"]}`,
-    },
-    {
-      data: row["medico"]["especialidad"]["nombre"],
-    },
-    {
-      data: `${row["fechaCita"]} ${row["horaCita"]}`,
-    },
-    { data: getStatus(row["estado"]) }, // Utilizando la función getStatus aquí
+  return data.map((row) => [
+    { data: row.idCita },
+    { data: formatFullName(row.medico) },
+    { data: row.medico.especialidad.nombre },
+    { data: formatDateAndTime(row.fechaCita, row.horaCita) },
+    { data: getStatus(row.estado) },
   ]);
-  //console.log(table);
-  return table;
 }

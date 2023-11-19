@@ -1,10 +1,10 @@
-import React, { memo } from "react"
-import TableBody from "./TableBody"
-import TableHeader from "./TableHeader"
+import React, { memo } from "react";
+import TableBody from "./TableBody";
+import TableHeader from "./TableHeader";
 
 const Table = memo(
   ({ columns, data, url, optionsText, iconName, requestSort, sortConfig }) => (
-    <table className="w-full">
+    <table className="table-fixed w-full">
       <TableHeader
         columns={columns}
         requestSort={requestSort}
@@ -18,6 +18,6 @@ const Table = memo(
       />
     </table>
   )
-)
+);
 
-export default Table
+export default Table;

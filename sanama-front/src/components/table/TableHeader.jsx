@@ -1,10 +1,9 @@
 const TableHeader = ({ columns, requestSort, sortConfig }) => {
-  //console.log("headers",columns)
   return (
     <thead className="border-gray-200 border-2 text-left text-md tracking-wider text-blue-50 uppercase bg-[#28539E]">
       <tr>
         {columns.map((column, index) => {
-          if (column.visible != null && !column.visible) return null
+          if (column.visible != null && !column.visible) return null;
           else {
             return column.sortable ? (
               <th
@@ -24,14 +23,12 @@ const TableHeader = ({ columns, requestSort, sortConfig }) => {
               <th key={index} scope="col" className="px-6 py-6">
                 {column.name}
               </th>
-            )
+            );
           }
-        }
-
-        )}
+        })}
       </tr>
     </thead>
-  )
-}
+  );
+};
 
-export default TableHeader
+export default TableHeader;

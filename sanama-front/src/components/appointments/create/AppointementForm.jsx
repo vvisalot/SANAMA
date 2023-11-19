@@ -16,6 +16,7 @@ import {
 } from "@/util/formValidations";
 
 const AppointementForm = ({
+  setFormComplete,
   legalResponsibilityForm,
   setLegalResponsibilityForm,
   setDoctorId,
@@ -23,6 +24,9 @@ const AppointementForm = ({
   setSchedule,
   triageRequirement,
   setTriageRequirement,
+  formComplete,
+  allFormComplete,
+  setAllFormComplete,
 }) => {
   //Seccion 2
   const [relationships, setRelationships] = useState([]);
@@ -81,6 +85,7 @@ const AppointementForm = ({
   const fetchRelationships = async () => {
     try {
       const data = await patientService.listarParentescos();
+      //console.log(data)
       setRelationships(data);
     } catch (error) {
       console.log("No se pudo obtener el listado de parentescos");
@@ -292,36 +297,39 @@ const AppointementForm = ({
         <h2 className="font-sans font-bold break-normal text-gray-700 mb-4 text-2xl">
           Medicos y horarios disponibles
         </h2>
-        <Dropdown
-          data={specialties}
-          name={"dropdown-specialty"}
-          defaultText={"Selecciona una especialidad"}
-          text={"nombre"}
-          defaultValue={""}
-          value={"nombre"}
-          width={"w-[500px]"}
-          handleChange={handleSpecialityChange}
-        />
+        <div className="flex">
+          <div>
+            <Dropdown
+              data={specialties}
+              name={"dropdown-specialty"}
+              defaultText={"Selecciona una especialidad"}
+              text={"nombre"}
+              defaultValue={""}
+              value={"nombre"}
+              width={"w-[500px]"}
+              handleChange={handleSpecialityChange}
+            />
 
-        <Dropdown
-          data={doctors}
-          name={"dropdown-doctor"}
-          defaultText={"Selecciona un medico"}
-          text={"nombreCompleto"}
-          defaultValue={""}
-          value={"idPersona"}
-          width={"w-[500px]"}
-          handleChange={handleDoctorChange}
-        />
+            <Dropdown
+              data={doctors}
+              name={"dropdown-doctor"}
+              defaultText={"Selecciona un medico"}
+              text={"nombreCompleto"}
+              defaultValue={""}
+              value={"idPersona"}
+              width={"w-[500px]"}
+              handleChange={handleDoctorChange}
+            />
 
-        <div className="flex flex-auto ">
-          <Calendar
-            selectedDate={selectedDate}
-            handleDateClick={handleDateClick}
-            disabled={disabled}
-          ></Calendar>
-
-          <div className="flex flex-wrap pl-10">
+            <div className="flex flex-auto ">
+              <Calendar
+                selectedDate={selectedDate}
+                handleDateClick={handleDateClick}
+                disabled={disabled}
+              ></Calendar>
+            </div>
+          </div>
+          <div className="flex flex-wrap-reverse pl-10">
             {availableHours.map((hour, index) => (
               <ScheduleChip
                 key={index}
@@ -332,33 +340,20 @@ const AppointementForm = ({
             ))}
           </div>
         </div>
-
-        <div className="flex pl-4 pt-5 items-center w-fit">
-          <div className="pt-3 pr-3">
-            <label htmlFor="fechaSeleccionada">Fecha:</label>
-            <TextInput
-              type="text"
-              name="fechaSeleccionada"
-              className=" bg-transparent"
-              id="fechaSeleccionada"
-              value={
-                selectedDate !== null ? format(selectedDate, "yyyy-MM-dd") : ""
-              }
-              disabled
-            />
-          </div>
-
-          <div className="pt-3 pl-3">
-            <label htmlFor="horaSeleccionada">Hora:</label>
-            <TextInput
-              type="text"
-              name="horaSeleccionada"
-              className="bg-transparent"
-              id="horaSeleccionada"
-              value={selectedHour !== null ? selectedHour.substring(0, 5) : ""}
-              disabled
-            />
-          </div>
+        <div className="pt-3 pr-3">
+          <label htmlFor="fechaSeleccionada">Reservar a las:</label>
+          <TextInput
+            type="text"
+            name="fechaSeleccionada"
+            className=" bg-transparent"
+            id="fechaSeleccionada"
+            value={`${
+              selectedDate !== null ? format(selectedDate, "dd/MM/yyyy") : ""
+            } a las ${
+              selectedHour !== null ? selectedHour.substring(0, 5) : ""
+            }`}
+            disabled
+          />
         </div>
       </section>
 
@@ -367,11 +362,11 @@ const AppointementForm = ({
           Solicitud de triaje{" "}
         </h2>
         <Picker
-          name1={"notriaje"}
-          name2={"sitriaje"}
+          name1={"sitriaje"}
+          name2={"notriaje"}
           text={"¿El paciente necesita triaje?"}
-          option1={"No"}
-          option2={"Sí"}
+          option1={"Si"}
+          option2={"No"}
           value={triageRequirement}
           setValue={setTriageRequirement}
         ></Picker>

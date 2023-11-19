@@ -26,14 +26,30 @@ const TratamientoYDecisionCita = ({ setMedicalRecordData }) => {
   const addRecetaMedicaField = () => {
     const lastReceta =
       tratamientoData.recetasMedicas[tratamientoData.recetasMedicas.length - 1];
+
     if (!lastReceta || (lastReceta.medicamento && lastReceta.indicaciones)) {
-      setTratamientoData((prevState) => ({
-        ...prevState,
-        recetasMedicas: [
+      setTratamientoData((prevState) => {
+        const newRecetasMedicas = [
           ...prevState.recetasMedicas,
           { medicamento: "", indicaciones: "" },
-        ],
-      }));
+        ];
+
+        setMedicalRecordData((prevMedicalState) => ({
+          ...prevMedicalState,
+          recetaMedica: {
+            ...prevMedicalState.recetaMedica,
+            medicamentos: newRecetasMedicas.map((receta) => ({
+              nombre: receta.medicamento,
+              indicacion: receta.indicaciones,
+            })),
+          },
+        }));
+
+        return {
+          ...prevState,
+          recetasMedicas: newRecetasMedicas,
+        };
+      });
     }
   };
 

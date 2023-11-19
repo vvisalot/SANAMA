@@ -14,7 +14,7 @@ const ENDPOINTS = {
   LISTAR_PARENTESCOS: "/configuracion/get/listarParentezcos",
   LISTAR_SEGUROS: "/configuracion/get/listarSeguros",
   BUSCAR_HISTORIAL_CLINICO: "/atencion/post/buscarHistorialClinico",
-  REGISTRAR_HOJA_MEDICA: "/atencion/post/registrarHojaMedica",
+  REGISTRAR_HOJA_MEDICA: "/atencion/post/registrarNuevaHojaMedica",
   BUSCAR_DATOS_PACIENTE_TRIAGE: "/atencion/post/buscarTriajeCitaHojaMedica",
 };
 
@@ -146,6 +146,7 @@ export const patientService = {
         ENDPOINTS.REGISTRAR_HOJA_MEDICA,
         params
       );
+      console.log(response.data);
       return response.data;
     } catch (error) {
       console.error("Error al registrar el historial clínico", error);

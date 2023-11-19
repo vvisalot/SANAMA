@@ -6,13 +6,22 @@ const ChiefComplaint = ({ setMedicalRecordData }) => {
   const [showModal, setShowModal] = useState(false);
   const params = useParams();
   const idPaciente = params.idPaciente;
-
-  const handleBlur = (e) => {
+  const handleOnBlurChange = (e) => {
     const { name, value } = e.target;
-    setMedicalRecordData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    setMedicalRecordData((prevData) => {
+      const sections = name.split(".");
+      if (sections.length === 2) {
+        const section = sections[1];
+        return {
+          ...prevData,
+          evaluacionMedica: {
+            ...prevData.evaluacionMedica,
+            [section]: value,
+          },
+        };
+      }
+      return prevData;
+    });
   };
 
   const addEvaluation = (selectedHoja) => {
@@ -26,10 +35,10 @@ const ChiefComplaint = ({ setMedicalRecordData }) => {
     }
   };
 
-  const removeEvaluation = (selectedHoja) => {
+  const removeEvaluation = () => {
     setMedicalRecordData((prevData) => ({
       ...prevData,
-      hojaRefencia: null, // Change here
+      hojaRefencia: null,
     }));
   };
 
@@ -47,15 +56,15 @@ const ChiefComplaint = ({ setMedicalRecordData }) => {
       <div className="grid grid-cols-1 gap-4">
         <TextAreaField
           label="Antecedentes:"
-          name="antecedentes"
+          name="evaluacionMedica.antecedentes"
           placeholder="Ingresa los antecentes.."
-          onBlur={handleBlur} // Cambio aquí
+          onBlur={handleOnBlurChange} // Cambio aquí
         />
         <TextAreaField
           label="Motivo de Consulta:"
-          name="motivoConsulta"
+          name="evaluacionMedica.motivoConsulta"
           placeholder="Ingresa el motivo.."
-          onBlur={handleBlur}
+          onBlur={handleOnBlurChange}
         />
         <div className="flex flex-row-reverse">
           <button
@@ -65,6 +74,13 @@ const ChiefComplaint = ({ setMedicalRecordData }) => {
             onClick={handleOpenModal}
           >
             Asociar Hoja Medica Existente
+          </button>
+          <button
+            type="button"
+            onClick={removeEvaluation}
+            className="bg-red-500 text-white p-2 rounded-md"
+          >
+            X
           </button>
         </div>
         <SearchMedicalSheet

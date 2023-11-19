@@ -7,29 +7,21 @@ import { toast } from "sonner";
 import { patientService } from "@/services/patientService";
 import Signature from "@/components/evaluations/Signature";
 
-const FormContainerMedicalRecord = ({ idCita, defaultTriaje }) => {
-  const router = useRouter();
+const FormContainerMedicalRecord = ({ defaultTriaje }) => {
   const { medicalRecordData, setMedicalRecordData, validateMedicalRecordForm } =
     useMedicalRecordForm();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const loadingRegister = async (data) => {
-    console.log(data);
     await patientService.registrarHojaMedica(data);
-    router.push("/appointments");
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsSubmitting(true);
 
-    setMedicalRecordData((prevState) => ({
-      ...prevState,
-      idCitaMedica: idCita,
-    }));
-
-    if (validateMedicalRecordForm(medicalRecordData)) {
+    if (validateMedicalRecordForm()) {
       console.log("The form is valid. Sending data.");
     } else {
       console.log("Not all fields have been completed correctly.");
@@ -42,6 +34,7 @@ const FormContainerMedicalRecord = ({ idCita, defaultTriaje }) => {
         loading: "Registrando Atencion",
         success: "Atencion registrada",
       });
+      console.log(medicalRecordData);
     } catch (error) {
       console.error("Error:", error);
       toast.error("Error occurred. Please try again.");
