@@ -104,9 +104,9 @@ export function parseAppointmentTable(data) {
       data: `${row["paciente"]["nombres"]} ${row["paciente"]["apellidoPaterno"]} ${row["paciente"]["apellidoMaterno"]}`,
     },
 
-    // {
-    //   data: `${row["medico"]["nombres"]} ${row["medico"]["apellidoPaterno"]} ${row["medico"]["apellidoMaterno"]}`,
-    // },
+    {
+      data: `${row["medico"]["nombres"]} ${row["medico"]["apellidoPaterno"]} ${row["medico"]["apellidoMaterno"]}`,
+    },
 
     {
       data: row["medico"]["especialidad"]["nombre"],
