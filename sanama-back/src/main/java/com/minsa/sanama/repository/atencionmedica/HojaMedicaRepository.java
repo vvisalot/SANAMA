@@ -3,14 +3,12 @@ package com.minsa.sanama.repository.atencionmedica;
 import com.minsa.sanama.model.admision.Paciente;
 import com.minsa.sanama.model.admision.ProgramacionCita;
 import com.minsa.sanama.model.admision.Triaje;
-import com.minsa.sanama.model.atencionmedica.CitaMedica;
-import com.minsa.sanama.model.atencionmedica.Diagnostico;
-import com.minsa.sanama.model.atencionmedica.HojaMedica;
-import com.minsa.sanama.model.atencionmedica.Medicamento;
+import com.minsa.sanama.model.atencionmedica.*;
 import com.minsa.sanama.model.rrhh.Especialidad;
 import com.minsa.sanama.model.rrhh.Medico;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -23,6 +21,8 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -314,5 +314,128 @@ public class HojaMedicaRepository {
             int idHojaMedica = (int)result.get("pn_id_hoja_medica");
             return idHojaMedica;
         }
+    }
+
+    public HojaMedica buscarHojaMedicaPaciente(int pn_id_hoja_medica) {
+        HojaMedica hojaMedica = new HojaMedica();
+        SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                .withSchemaName("dbSanama")
+                .withProcedureName("ssm_ate_buscar_hoja_medica_paciente")
+                .declareParameters(new SqlParameter[]{
+                        new SqlParameter("pn_id_hoja_medica", Types.INTEGER),
+                        new SqlOutParameter("pn_id_hoja_referenciada", Types.INTEGER),
+                        new SqlOutParameter("pv_codigo_hoja_medica", Types.INTEGER),
+                        new SqlOutParameter("pb_firma", Types.BLOB),
+                        new SqlOutParameter("pd_fecha_caducidad", Types.DATE),
+                        new SqlOutParameter("pj_medicamentos_json", Types.VARCHAR),
+                        new SqlOutParameter("pn_temperatura", Types.VARCHAR),
+                        new SqlOutParameter("pn_frecuencia_cardiaca", Types.VARCHAR),
+                        new SqlOutParameter("pn_presion_arterial", Types.VARCHAR),
+                        new SqlOutParameter("pn_saturacion_oxigeno", Types.VARCHAR),
+                        new SqlOutParameter("pn_peso", Types.VARCHAR),
+                        new SqlOutParameter("pn_talla", Types.VARCHAR),
+                        new SqlOutParameter("pv_motivo_consulta", Types.VARCHAR),
+                        new SqlOutParameter("pv_antecendetes", Types.VARCHAR),
+                        new SqlOutParameter("pv_examen_general", Types.VARCHAR),
+                        new SqlOutParameter("pv_piel_y_faneras", Types.VARCHAR),
+                        new SqlOutParameter("pv_cabeza_y_cuello", Types.VARCHAR),
+                        new SqlOutParameter("pv_torax_y_pulmones", Types.VARCHAR),
+                        new SqlOutParameter("pv_cardiovascular", Types.VARCHAR),
+                        new SqlOutParameter("pv_abdomen", Types.VARCHAR),
+                        new SqlOutParameter("pv_urogenital", Types.VARCHAR),
+                        new SqlOutParameter("pv_extremidades", Types.VARCHAR),
+                        new SqlOutParameter("pv_snc", Types.VARCHAR),
+                        new SqlOutParameter("pn_glasgow", Types.VARCHAR),
+                        new SqlOutParameter("pn_eyes_open", Types.VARCHAR),
+                        new SqlOutParameter("pb_talking_correctly", Types.VARCHAR),
+                        new SqlOutParameter("pb_able_to_move_body", Types.VARCHAR),
+                        new SqlOutParameter("pv_observaciones", Types.VARCHAR),
+                        new SqlOutParameter("pv_indicaciones_finales", Types.VARCHAR),
+                        new SqlOutParameter("pj_diagnosticos_json", Types.VARCHAR)
+                });
+        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
+        mapSqlParameterSource.addValue("pn_id_hoja_medica", pn_id_hoja_medica);
+
+        Map<String, Object> result = simpleJdbcCall.execute(mapSqlParameterSource);
+        if (result.containsKey("ERROR_CODE") || result.containsKey("ERROR_MESSAGE")) {
+            return null;
+        } else {
+            hojaMedica.setHojaRefencia(new HojaRefencia());
+            hojaMedica.getHojaRefencia().setIdHojaReferenciada((int) result.get("pn_id_hoja_referenciada"));
+            hojaMedica.setCodigo((String) result.get("pv_codigo_hoja_medica"));
+            hojaMedica.setFirma((byte[]) result.get("pb_firma"));
+            hojaMedica.setEvaluacionMedica(new EvaluacionMedica());
+            hojaMedica.getEvaluacionMedica().setSignosVitales(new SignosVitales());
+            hojaMedica.getEvaluacionMedica().getSignosVitales().setTemperatura((String) result.get("pn_temperatura"));
+            hojaMedica.getEvaluacionMedica().getSignosVitales().setFrecuenciaCardiaca((String) result.get("pn_frecuencia_cardiaca"));
+            hojaMedica.getEvaluacionMedica().getSignosVitales().setPresionArterial((String) result.get("pn_presion_arterial"));
+            hojaMedica.getEvaluacionMedica().getSignosVitales().setSaturacionOxigeno((String) result.get("pn_saturacion_oxigeno"));
+            hojaMedica.getEvaluacionMedica().getSignosVitales().setPeso((String) result.get("pn_peso"));
+            hojaMedica.getEvaluacionMedica().getSignosVitales().setTalla((String) result.get("pn_talla"));
+            hojaMedica.getEvaluacionMedica().setMotivoConsulta((String) result.get("pv_motivo_consulta"));
+            hojaMedica.getEvaluacionMedica().setAntecedentes((String) result.get("pv_antecendetes"));
+            hojaMedica.getEvaluacionMedica().setExamenGeneral((String) result.get("pv_examen_general"));
+            hojaMedica.getEvaluacionMedica().setPielYFaneras((String) result.get("pv_piel_y_faneras"));
+            hojaMedica.getEvaluacionMedica().setCabezaYCuello((String) result.get("pv_cabeza_y_cuello"));
+            hojaMedica.getEvaluacionMedica().setToraxYPulmones((String) result.get("pv_torax_y_pulmones"));
+            hojaMedica.getEvaluacionMedica().setCardiovascular((String) result.get("pv_cardiovascular"));
+            hojaMedica.getEvaluacionMedica().setAbdomen((String) result.get("pv_abdomen"));
+            hojaMedica.getEvaluacionMedica().setUrogenital((String) result.get("pv_urogenital"));
+            hojaMedica.getEvaluacionMedica().setExtremidades((String) result.get("pv_extremidades"));
+            hojaMedica.getEvaluacionMedica().setSnc((String) result.get("pv_snc"));
+            hojaMedica.getEvaluacionMedica().setGlasgow((String) result.get("pn_glasgow"));
+            hojaMedica.getEvaluacionMedica().setEyesOpen((String) result.get("pn_eyes_open"));
+            hojaMedica.getEvaluacionMedica().setTalkingCorrectly((String) result.get("pb_talking_correctly"));
+            hojaMedica.getEvaluacionMedica().setAbleToMoveBody((String) result.get("pb_able_to_move_body"));
+            hojaMedica.getEvaluacionMedica().setObservaciones((String) result.get("pv_observaciones"));
+            hojaMedica.getEvaluacionMedica().setIndicacionesFinales((String) result.get("pv_indicaciones_finales"));
+            hojaMedica.setRecetaMedica(new RecetaMedica());
+            hojaMedica.getRecetaMedica().setFechaCaducidad((LocalDate) result.get("pd_fecha_caducidad"));
+
+            // obtenemos el json de medicamentos y de diagnosticos
+            String jsonMedicamentos = (String) result.get("pj_medicamentos_json");
+            String jsonDiagnosticos = (String) result.get("pj_diagnosticos_json");
+            hojaMedica.getEvaluacionMedica().setDiagnosticos(obtenerDiagnosticos(jsonDiagnosticos));
+            hojaMedica.getRecetaMedica().setMedicamentos(obtenerMedicamentos(jsonMedicamentos));
+
+            return hojaMedica;
+        }
+    }
+
+    private List<Medicamento> obtenerMedicamentos(String jsonMedicamentos){
+        List<Medicamento> lmedicamentos = new ArrayList<>();
+        try{
+            JSONArray jobArray = (JSONArray) new JSONParser().parse(jsonMedicamentos);
+            for(Object obj: jobArray){
+                Medicamento medicamento = new Medicamento();
+                JSONObject jobMed = (JSONObject) obj;
+                medicamento.setNombre(jobMed.get("nombre").toString());
+                medicamento.setIndicacion(jobMed.get("indicacion").toString());
+
+                lmedicamentos.add(medicamento);
+            }
+        }catch (Exception ex){
+            // Manejo de excepciones aquí
+            ex.printStackTrace();
+        }
+        return lmedicamentos;
+    }
+
+    private List<Diagnostico> obtenerDiagnosticos(String jsonDiagnosticos){
+        List<Diagnostico> ldiagnosticos = new ArrayList<>();;
+        try{
+            JSONArray jobArray = (JSONArray) new JSONParser().parse(jsonDiagnosticos);
+            for(Object obj: jobArray){
+                Diagnostico diagnostico = new Diagnostico();
+                JSONObject jobMed = (JSONObject) obj;
+                diagnostico.setIdCiex(jobMed.get("id_ciex").toString());
+                diagnostico.setCiex(jobMed.get("ciex").toString());
+                ldiagnosticos.add(diagnostico);
+            }
+        }catch (Exception ex){
+            // Manejo de excepciones aquí
+            ex.printStackTrace();
+        }
+        return ldiagnosticos;
     }
 }
