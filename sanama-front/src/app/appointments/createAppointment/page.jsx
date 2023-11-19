@@ -1,15 +1,12 @@
-import FormContainer from "./FormContainer";
-
+import FormContainer from "@/components/appointments/create/FormContainer";
+import TitleWithIcon from "@/components/TitleWithIcon";
+import createAppointmentIcon from "@/components/icons/createAppointmentIcon";
 const CreateAppointmentForm = () => {
   return (
-    <>
-      <h1 className="pl-10 pt-10 font-bold tracking-wide text-4xl">
-        Crear nueva cita
-      </h1>
-      <section className="px-20">
-        <FormContainer />
-      </section>
-    </>
+    <section className="w-full px-14 py-6">
+      <TitleWithIcon name={"Nueva Cita"} Icon={createAppointmentIcon} />
+      <FormContainer />
+    </section>
   );
 };
 
