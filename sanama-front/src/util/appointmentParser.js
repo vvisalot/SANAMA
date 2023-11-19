@@ -26,21 +26,21 @@ const formatDateAndTime = (fechaCita, horaCita) => {
   const formattedDate = format(parseISO(fechaCita), "dd/MM/yyyy");
   const formattedTime = format(
     parse(horaCita, "HH:mm:ss", new Date()),
-    "hh:mm a"
+    " HH:mm"
   );
   return `${formattedDate} ${formattedTime}`;
 };
 
 export function parseAppointmentTable(data) {
-  return data.map((row) => [
-    { data: row.idCita },
-    { data: row.codigoCita },
-    { data: formatDateAndTime(row.fechaCita, row.horaCita) },
-    { data: formatFullName(row.paciente) },
-    { data: formatFullName(row.medico) },
-    { data: row.medico.especialidad.nombre },
-    { data: getStatus(row.estado) },
-  ]);
+  return data.map((row) => ({
+    idCita: row.idCita,
+    codigo: row.codigoCita,
+    date: formatDateAndTime(row.fechaCita, row.horaCita),
+    patientName: formatFullName(row.paciente),
+    doctorName: formatFullName(row.medico),
+    specialty: row.medico.especialidad.nombre,
+    status: getStatus(row.estado),
+  }));
 }
 
 export function parsePatientAppointmentTable(data) {

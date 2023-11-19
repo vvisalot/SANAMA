@@ -23,7 +23,7 @@ export default function RootLayout({ children }) {
         <title>Sanama</title>
       </head>
 
-      <body className={`${inter.className} w-auto h-full`}>
+      <body className={`${inter.className} w-auto h-full min-h-screen`}>
         <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
         <main className={`${mainContentClass} bg-[#EFEFEF] h-full`}>
