@@ -36,10 +36,10 @@ const ChiefComplaint = ({ setMedicalRecordData }) => {
     }
   };
 
-  const removeEvaluation = (selectedHoja) => {
+  const removeEvaluation = () => {
     setMedicalRecordData((prevData) => ({
       ...prevData,
-      hojaRefencia: null, // Change here
+      hojaRefencia: null,
     }));
   };
 
@@ -75,6 +75,13 @@ const ChiefComplaint = ({ setMedicalRecordData }) => {
             onClick={handleOpenModal}
           >
             Asociar Hoja Medica Existente
+          </button>
+          <button
+            type="button"
+            onClick={removeEvaluation}
+            className="bg-red-500 text-white p-2 rounded-md"
+          >
+            X
           </button>
         </div>
         <SearchMedicalSheet

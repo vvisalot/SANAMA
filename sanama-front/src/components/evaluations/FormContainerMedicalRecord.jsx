@@ -15,7 +15,6 @@ const FormContainerMedicalRecord = ({ idCita, defaultTriaje }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const loadingRegister = async (data) => {
-    console.log(data);
     await patientService.registrarHojaMedica(data);
     router.back();
   };
@@ -28,9 +27,7 @@ const FormContainerMedicalRecord = ({ idCita, defaultTriaje }) => {
       ...prevState,
       idCitaMedica: idCita,
     }));
-    console.log(medicalRecordData);
 
-    /*
     if (validateMedicalRecordForm(medicalRecordData)) {
       console.log("The form is valid. Sending data.");
     } else {
@@ -50,7 +47,6 @@ const FormContainerMedicalRecord = ({ idCita, defaultTriaje }) => {
       toast.error("Error occurred. Please try again.");
       setIsSubmitting(false); // Set submitting to false in case of error
     }
-    */
   };
 
   return (
