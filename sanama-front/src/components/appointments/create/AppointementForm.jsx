@@ -329,7 +329,7 @@ const AppointementForm = ({
               ></Calendar>
             </div>
           </div>
-          <div className="flex flex-wrap pl-10">
+          <div className="flex flex-wrap-reverse pl-10">
             {availableHours.map((hour, index) => (
               <ScheduleChip
                 key={index}
@@ -339,6 +339,21 @@ const AppointementForm = ({
               />
             ))}
           </div>
+        </div>
+        <div className="pt-3 pr-3">
+          <label htmlFor="fechaSeleccionada">Reservar a las:</label>
+          <TextInput
+            type="text"
+            name="fechaSeleccionada"
+            className=" bg-transparent"
+            id="fechaSeleccionada"
+            value={`${
+              selectedDate !== null ? format(selectedDate, "dd/MM/yyyy") : ""
+            } a las ${
+              selectedHour !== null ? selectedHour.substring(0, 5) : ""
+            }`}
+            disabled
+          />
         </div>
       </section>
 
