@@ -49,18 +49,16 @@ const FormContainerMedicalRecord = ({ defaultTriaje }) => {
         setMedicalRecordData={setMedicalRecordData}
       />
       <div className="flex flex-row-reverse">
-        <Signature />
+        <Signature setMedicalRecordData={setMedicalRecordData} />
 
-        <div className="flex flex-row-reverse">
-          <button
-            type="submit"
-            onClick={handleSubmit}
-            className=" m-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 
+        <button
+          type="submit"
+          onClick={handleSubmit}
+          className=" m-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 
                             font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center"
-          >
-            Registrar cita
-          </button>
-        </div>
+        >
+          Registrar cita
+        </button>
       </div>
     </form>
   );

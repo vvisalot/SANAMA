@@ -4,7 +4,7 @@ import { AddSigDialog } from "@/components/signature/AddSigDialog";
 import DraggableSignature from "@/components/signature/DraggableSignature";
 import { BigButton } from "@/components/buttons/BigButton";
 
-const Signature = ({ props }) => {
+const Signature = ({ setMedicalRecordData }) => {
   const [autoDate, setAutoDate] = useState(true);
   const [signatureURL, setSignatureURL] = useState(null);
   const [signatureDialogVisible, setSignatureDialogVisible] = useState(false);

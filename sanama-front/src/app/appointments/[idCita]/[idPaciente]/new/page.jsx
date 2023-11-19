@@ -14,6 +14,7 @@ const newFormularioMedico = () => {
 
   if (loading) return <div>Cargando...</div>;
   if (error) return <div>Error: {error}</div>;
+
   const defaultTriaje = {
     temperatura: "",
     frecuenciaCardiaca: "",
