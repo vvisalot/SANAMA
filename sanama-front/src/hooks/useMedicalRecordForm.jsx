@@ -4,9 +4,7 @@ import { toast } from "sonner";
 
 const useMedicalRecordForm = () => {
   const [medicalRecordData, setMedicalRecordData] = useState({
-    hojaRefencia: {
-      idHojaReferenciada: -1, // default value
-    },
+    hojaRefencia: null,
     firma: "",
     idCitaMedica: -1, // default value
     evaluacionMedica: {
