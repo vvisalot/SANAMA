@@ -34,7 +34,6 @@ const FormContainerMedicalRecord = ({ defaultTriaje }) => {
         loading: "Registrando Atencion",
         success: "Atencion registrada",
       });
-      console.log(medicalRecordData);
     } catch (error) {
       console.error("Error:", error);
       toast.error("Error occurred. Please try again.");

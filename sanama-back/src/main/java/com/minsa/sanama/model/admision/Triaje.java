@@ -27,12 +27,48 @@ public class Triaje {
     private String frecuenciaCardiaca;
     private String frecuenciaRespiratoria;
     private String nivelConciencia;
+    private String glasgow;     //aqui
+    private String eyesOpen;    //aqui
+    private String talkingCorrectly;    //aqui
+    private String ableToMoveBody;      //aqui
     private String nivelDolor;
     private String condicionesPrexistentes;
     private Paciente paciente;
 
 
     public Triaje() {
+    }
+
+    public String getGlasgow() {
+        return glasgow;
+    }
+
+    public void setGlasgow(String glasgow) {
+        this.glasgow = glasgow;
+    }
+
+    public String getEyesOpen() {
+        return eyesOpen;
+    }
+
+    public void setEyesOpen(String eyesOpen) {
+        this.eyesOpen = eyesOpen;
+    }
+
+    public String getTalkingCorrectly() {
+        return talkingCorrectly;
+    }
+
+    public void setTalkingCorrectly(String talkingCorrectly) {
+        this.talkingCorrectly = talkingCorrectly;
+    }
+
+    public String getAbleToMoveBody() {
+        return ableToMoveBody;
+    }
+
+    public void setAbleToMoveBody(String ableToMoveBody) {
+        this.ableToMoveBody = ableToMoveBody;
     }
 
     public Paciente getPaciente() {

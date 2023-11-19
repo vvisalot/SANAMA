@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { AddSigDialog } from "@/components/signature/AddSigDialog";
 import DraggableSignature from "@/components/signature/DraggableSignature";
-import { BigButton } from "@/components/buttons/BigButton";
 
 const Signature = ({ setMedicalRecordData }) => {
   const [autoDate, setAutoDate] = useState(true);
@@ -26,11 +25,13 @@ const Signature = ({ setMedicalRecordData }) => {
       <div className="max-w-screen-md mx-auto mt-2">
         <div>
           {!signatureURL ? (
-            <BigButton
-              marginRight={8}
-              title={"Add signature"}
+            <button
               onClick={() => setSignatureDialogVisible(true)}
-            />
+              className=" m-2 text-white bg-green-400 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 
+            font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center"
+            >
+              Registrar cita
+            </button>
           ) : null}
         </div>
         <div>

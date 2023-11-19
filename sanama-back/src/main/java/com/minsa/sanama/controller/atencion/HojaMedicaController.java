@@ -135,4 +135,22 @@ public class HojaMedicaController {
         }
         return lhoja;
     }
+
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE},
+            value = "/post/buscarHojaMedicaPaciente")
+    @ResponseBody
+    public HojaMedica buscarHojaMedicaPaciente(@RequestBody String pv_datos){
+        HojaMedica hojaMedica;
+        try{
+            System.out.println("dentro del try");
+            JSONObject job = (JSONObject) new JSONParser().parse(pv_datos);
+            int pn_id_hoja_medica = Integer.parseInt(job.get("pn_id_hoja_medica").toString());
+            hojaMedica = hojaMedicaService.buscarHojaMedicaPaciente(pn_id_hoja_medica);
+            return hojaMedica;
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return null;
+    }
 }
