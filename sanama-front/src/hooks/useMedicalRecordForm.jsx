@@ -1,12 +1,16 @@
 "use client";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useParams } from "next/navigation";
 
 const useMedicalRecordForm = () => {
+  const params = useParams();
+  const idCita = params.idCita;
+
   const [medicalRecordData, setMedicalRecordData] = useState({
     hojaRefencia: null,
     firma: "",
-    idCitaMedica: -1, // default value
+    idCitaMedica: idCita, // default value
     evaluacionMedica: {
       motivoConsulta: "",
       antecedentes: "",

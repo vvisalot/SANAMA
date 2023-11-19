@@ -31,10 +31,7 @@ const newFormularioMedico = () => {
     <section className="p-4 md:p-14">
       <TitleWithIcon name={"Nueva Hoja Médica"} Icon={newMedicalRecord} />
       <MainInfoComponent patientTriageData={patientTriageData} />
-      <FormContainerMedicalRecord
-        idCita={idCita}
-        defaultTriaje={signosVitales}
-      />
+      <FormContainerMedicalRecord defaultTriaje={signosVitales} />
     </section>
   );
 };
