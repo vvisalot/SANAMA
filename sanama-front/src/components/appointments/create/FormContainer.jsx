@@ -8,8 +8,6 @@ import { patientService } from "@/services/patientService";
 import { appointmentService } from "@/services/appointmentService";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-// Para acceder a los elementos
-// elements.namedItem("first_last_name").value
 
 const FormContainer = () => {
   const router = useRouter();

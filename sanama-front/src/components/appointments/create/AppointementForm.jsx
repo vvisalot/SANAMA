@@ -2,7 +2,7 @@ import Picker from "@/components/buttons/Picker";
 import { useEffect, useState } from "react";
 import ScheduleChip from "./ScheduleChip";
 import { TextInput } from "flowbite-react";
-import { format, parse, set } from "date-fns";
+import { format } from "date-fns";
 import Calendar from "@/components/Calendar";
 import Dropdown from "@/components/Dropdowns/Dropdown";
 import { doctorService } from "@/services/doctorService";
@@ -297,35 +297,38 @@ const AppointementForm = ({
         <h2 className="font-sans font-bold break-normal text-gray-700 mb-4 text-2xl">
           Medicos y horarios disponibles
         </h2>
-        <Dropdown
-          data={specialties}
-          name={"dropdown-specialty"}
-          defaultText={"Selecciona una especialidad"}
-          text={"nombre"}
-          defaultValue={""}
-          value={"nombre"}
-          width={"w-[500px]"}
-          handleChange={handleSpecialityChange}
-        />
+        <div className="flex">
+          <div>
+            <Dropdown
+              data={specialties}
+              name={"dropdown-specialty"}
+              defaultText={"Selecciona una especialidad"}
+              text={"nombre"}
+              defaultValue={""}
+              value={"nombre"}
+              width={"w-[500px]"}
+              handleChange={handleSpecialityChange}
+            />
 
-        <Dropdown
-          data={doctors}
-          name={"dropdown-doctor"}
-          defaultText={"Selecciona un medico"}
-          text={"nombreCompleto"}
-          defaultValue={""}
-          value={"idPersona"}
-          width={"w-[500px]"}
-          handleChange={handleDoctorChange}
-        />
+            <Dropdown
+              data={doctors}
+              name={"dropdown-doctor"}
+              defaultText={"Selecciona un medico"}
+              text={"nombreCompleto"}
+              defaultValue={""}
+              value={"idPersona"}
+              width={"w-[500px]"}
+              handleChange={handleDoctorChange}
+            />
 
-        <div className="flex flex-auto ">
-          <Calendar
-            selectedDate={selectedDate}
-            handleDateClick={handleDateClick}
-            disabled={disabled}
-          ></Calendar>
-
+            <div className="flex flex-auto ">
+              <Calendar
+                selectedDate={selectedDate}
+                handleDateClick={handleDateClick}
+                disabled={disabled}
+              ></Calendar>
+            </div>
+          </div>
           <div className="flex flex-wrap pl-10">
             {availableHours.map((hour, index) => (
               <ScheduleChip
@@ -335,34 +338,6 @@ const AppointementForm = ({
                 onSelect={() => handleHourSelect(hour.horaInicio)}
               />
             ))}
-          </div>
-        </div>
-
-        <div className="flex pl-4 pt-5 items-center w-fit">
-          <div className="pt-3 pr-3">
-            <label htmlFor="fechaSeleccionada">Fecha:</label>
-            <TextInput
-              type="text"
-              name="fechaSeleccionada"
-              className=" bg-transparent"
-              id="fechaSeleccionada"
-              value={
-                selectedDate !== null ? format(selectedDate, "yyyy-MM-dd") : ""
-              }
-              disabled
-            />
-          </div>
-
-          <div className="pt-3 pl-3">
-            <label htmlFor="horaSeleccionada">Hora:</label>
-            <TextInput
-              type="text"
-              name="horaSeleccionada"
-              className="bg-transparent"
-              id="horaSeleccionada"
-              value={selectedHour !== null ? selectedHour.substring(0, 5) : ""}
-              disabled
-            />
           </div>
         </div>
       </section>
