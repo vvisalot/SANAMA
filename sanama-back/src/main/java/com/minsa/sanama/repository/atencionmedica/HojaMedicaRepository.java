@@ -217,6 +217,7 @@ public class HojaMedicaRepository {
                         new SqlParameter("pj_medicamentos_json", Types.VARCHAR),
                         new SqlParameter("pn_temperatura", Types.VARCHAR),
                         new SqlParameter("pn_frecuencia_cardiaca", Types.VARCHAR),
+                        new SqlParameter("pn_frecuencia_respiratoria", Types.VARCHAR),
                         new SqlParameter("pn_presion_arterial", Types.VARCHAR),
                         new SqlParameter("pn_saturacion_oxigeno", Types.VARCHAR),
                         new SqlParameter("pn_peso", Types.VARCHAR),
@@ -251,6 +252,7 @@ public class HojaMedicaRepository {
                     .addValue("pj_medicamentos_json", jsonArrayMedicamentos.toJSONString())
                     .addValue("pn_temperatura", hojaMedica.getEvaluacionMedica().getSignosVitales().getTemperatura())
                     .addValue("pn_frecuencia_cardiaca", hojaMedica.getEvaluacionMedica().getSignosVitales().getFrecuenciaCardiaca())
+                    .addValue("pn_frecuencia_respiratoria", hojaMedica.getEvaluacionMedica().getSignosVitales().getFrecuenciaRespiratoria())
                     .addValue("pn_presion_arterial", hojaMedica.getEvaluacionMedica().getSignosVitales().getPresionArterial())
                     .addValue("pn_saturacion_oxigeno", hojaMedica.getEvaluacionMedica().getSignosVitales().getSaturacionOxigeno())
                     .addValue("pn_peso", hojaMedica.getEvaluacionMedica().getSignosVitales().getPeso())
@@ -283,6 +285,7 @@ public class HojaMedicaRepository {
                     .addValue("pj_medicamentos_json", jsonArrayMedicamentos.toJSONString())
                     .addValue("pn_temperatura", hojaMedica.getEvaluacionMedica().getSignosVitales().getTemperatura())
                     .addValue("pn_frecuencia_cardiaca", hojaMedica.getEvaluacionMedica().getSignosVitales().getFrecuenciaCardiaca())
+                    .addValue("pn_frecuencia_respiratoria", hojaMedica.getEvaluacionMedica().getSignosVitales().getFrecuenciaRespiratoria())
                     .addValue("pn_presion_arterial", hojaMedica.getEvaluacionMedica().getSignosVitales().getPresionArterial())
                     .addValue("pn_saturacion_oxigeno", hojaMedica.getEvaluacionMedica().getSignosVitales().getSaturacionOxigeno())
                     .addValue("pn_peso", hojaMedica.getEvaluacionMedica().getSignosVitales().getPeso())
@@ -330,6 +333,7 @@ public class HojaMedicaRepository {
                         new SqlOutParameter("pj_medicamentos_json", Types.VARCHAR),
                         new SqlOutParameter("pn_temperatura", Types.VARCHAR),
                         new SqlOutParameter("pn_frecuencia_cardiaca", Types.VARCHAR),
+                        new SqlOutParameter("pn_frecuencia_respiratoria", Types.VARCHAR),
                         new SqlOutParameter("pn_presion_arterial", Types.VARCHAR),
                         new SqlOutParameter("pn_saturacion_oxigeno", Types.VARCHAR),
                         new SqlOutParameter("pn_peso", Types.VARCHAR),
@@ -361,13 +365,20 @@ public class HojaMedicaRepository {
             return null;
         } else {
             hojaMedica.setHojaRefencia(new HojaRefencia());
-            hojaMedica.getHojaRefencia().setIdHojaReferenciada((int) result.get("pn_id_hoja_referenciada"));
+            if(result.get("pn_id_hoja_referenciada")==null){
+                hojaMedica.getHojaRefencia().setIdHojaReferenciada(-1);
+            }
+            else{
+                hojaMedica.getHojaRefencia().setIdHojaReferenciada((int) result.get("pn_id_hoja_referenciada"));
+            }
+
             hojaMedica.setCodigo(result.get("pv_codigo_hoja_medica").toString());
             hojaMedica.setFirma((byte[]) result.get("pb_firma"));
             hojaMedica.setEvaluacionMedica(new EvaluacionMedica());
             hojaMedica.getEvaluacionMedica().setSignosVitales(new SignosVitales());
             hojaMedica.getEvaluacionMedica().getSignosVitales().setTemperatura((String) result.get("pn_temperatura"));
             hojaMedica.getEvaluacionMedica().getSignosVitales().setFrecuenciaCardiaca((String) result.get("pn_frecuencia_cardiaca"));
+            hojaMedica.getEvaluacionMedica().getSignosVitales().setFrecuenciaRespiratoria((String) result.get("pn_frecuencia_respiratoria"));
             hojaMedica.getEvaluacionMedica().getSignosVitales().setPresionArterial((String) result.get("pn_presion_arterial"));
             hojaMedica.getEvaluacionMedica().getSignosVitales().setSaturacionOxigeno((String) result.get("pn_saturacion_oxigeno"));
             hojaMedica.getEvaluacionMedica().getSignosVitales().setPeso((String) result.get("pn_peso"));
