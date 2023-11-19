@@ -51,7 +51,7 @@ const MainInfoComponent = ({ patientTriageData }) => {
             disabled
           />
           <InputField label="Edad" value={edad} disabled />
-          <InputField label="Sexo" value={sexo} disabled />
+          <InputField label="Sexo" value={sexo} disabled />Z
 
           <InputField
             label="Peso (kg)"
