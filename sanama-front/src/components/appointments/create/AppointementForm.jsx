@@ -85,7 +85,6 @@ const AppointementForm = ({
   const fetchRelationships = async () => {
     try {
       const data = await patientService.listarParentescos();
-      //console.log(data)
       setRelationships(data);
     } catch (error) {
       console.log("No se pudo obtener el listado de parentescos");
@@ -136,6 +135,7 @@ const AppointementForm = ({
 
   const handleDateClick = (date) => () => {
     setSelectedDate(date);
+    setSelectedHour(null);
     setSchedule({ ...schedule, fecha: format(date, "yyyy-MM-dd") });
     const selectedDoctor = document.getElementById("dropdown-doctor").value;
     fetchAvailableHours(format(date, "yyyy-MM-dd"), selectedDoctor);
@@ -329,7 +329,7 @@ const AppointementForm = ({
               ></Calendar>
             </div>
           </div>
-          <div className="flex flex-wrap-reverse pl-10">
+          <div className="flex flex-wrap place-content-around pl-10">
             {availableHours.map((hour, index) => (
               <ScheduleChip
                 key={index}
@@ -350,7 +350,7 @@ const AppointementForm = ({
             value={`${
               selectedDate !== null ? format(selectedDate, "dd/MM/yyyy") : ""
             } a las ${
-              selectedHour !== null ? selectedHour.substring(0, 5) : ""
+              selectedHour !== null ? selectedHour.substring(0, 5) : "..."
             }`}
             disabled
           />
