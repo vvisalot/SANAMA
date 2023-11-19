@@ -1,5 +1,4 @@
 import {
-  ColumnDef,
   flexRender,
   getCoreRowModel,
   getSortedRowModel,

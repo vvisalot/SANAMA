@@ -25,8 +25,6 @@ export default function RootLayout({ children }) {
       </head>
 
       <body className={`${inter.className} bg-[#EFEFEF] w-auto h-screen`}>
-        {/* <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} /> */}
-
         <Navbar />
         <main className={`h-screen`}>
           {/* <NextBreadcrumb

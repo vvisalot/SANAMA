@@ -42,7 +42,7 @@ export function parseAppointmentTable(data) {
     patientName: formatFullName(row.paciente),
     doctorName: formatFullName(row.medico),
     specialty: row.medico.especialidad.nombre,
-    status: getStatus(row.estado),
+    status: getStatus(row.estado).text,
   }));
 }
 

@@ -1,5 +1,5 @@
-import Datepicker from "tailwind-datepicker-react"
-import React, { useEffect, useState } from "react"
+import Datepicker from "tailwind-datepicker-react";
+import React, { useEffect, useState } from "react";
 
 const defaultOptions = {
   autoHide: false,
@@ -24,7 +24,7 @@ const defaultOptions = {
   theme: {
     disabled: "bg-gray-800 text-gray-600",
   },
-}
+};
 
 const DateRangePicker = ({
   dateInitial,
@@ -32,8 +32,8 @@ const DateRangePicker = ({
   dateFinal,
   setDateFinal,
 }) => {
-  const [showInitial, setShowInitial] = useState(false)
-  const [showFinal, setShowFinal] = useState(false)
+  const [showInitial, setShowInitial] = useState(false);
+  const [showFinal, setShowFinal] = useState(false);
 
   const [optionsInitial, setOptionsInitial] = useState({
     ...defaultOptions,
@@ -41,63 +41,61 @@ const DateRangePicker = ({
     inputPlaceholderProp: "Fecha Inicial",
     inputNameProp: "fecha_inicial",
     inputIdProp: "fecha_inicial",
-  })
+  });
 
   const [optionsFinal, setOptionsFinal] = useState({
     ...defaultOptions,
     inputPlaceholderProp: "Fecha Final",
     inputNameProp: "fecha_final",
     inputIdProp: "fecha_final",
-  })
+  });
 
   useEffect(() => {
     setOptionsFinal((prevOptions) => ({
       ...prevOptions,
-    }))
-  }, [dateInitial])
+    }));
+  }, [dateInitial]);
 
   const handleChangeInitial = (selectedDate) => {
-    const dateObject = new Date(selectedDate)
-    setDateInitial(dateObject)
-    console.log(dateObject)
-    setOptionsFinal(prevOptions => ({
+    const dateObject = new Date(selectedDate);
+    setDateInitial(dateObject);
+    console.log(dateObject);
+    setOptionsFinal((prevOptions) => ({
       ...prevOptions,
       minDate: dateObject,
-    }))
-  }
+    }));
+  };
   const handleChangeFinal = (selectedDate) => {
-    setDateFinal(selectedDate)
-    console.log(selectedDate)
-  }
+    setDateFinal(selectedDate);
+    console.log(selectedDate);
+  };
 
   const handleCloseInitial = (state) => {
-    setShowInitial(state)
-  }
+    setShowInitial(state);
+  };
 
   const handleCloseFinal = (state) => {
-    setShowFinal(state)
-  }
+    setShowFinal(state);
+  };
 
   return (
-    <section className="flex h-16 items-center">
+    <section className="flex h-16 items-center w-full">
       <Datepicker
-        classNames="pr-2"
+        classNames="pr-2 min-w-7xl"
         options={optionsInitial}
         onChange={handleChangeInitial}
         show={showInitial}
         setShow={handleCloseInitial}
-      >
-      </Datepicker >
+      ></Datepicker>
       <Datepicker
-        classNames="pr-2"
+        classNames="pr-2 min-w-7xl"
         options={optionsFinal}
         onChange={handleChangeFinal}
         show={showFinal}
         setShow={handleCloseFinal}
       />
     </section>
-  )
+  );
+};
 
-}
-
-export default DateRangePicker
+export default DateRangePicker;
