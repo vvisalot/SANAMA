@@ -17,6 +17,8 @@
   padding: 0.4rem 0.8rem; 
   border-radius: 0.4rem; 
   display: inline-block; 
+  color: #1dba4b;
+  font-weight: bold;
 }
 
 .highlight-red {
@@ -24,13 +26,17 @@
   padding: 0.4rem 0.8rem;
   border-radius: 0.4rem; 
   display: inline-block;
+  color: #fb4d4d;
+  font-weight: bold;
 }
 
 .highlight-orange {
-  background-color: #fbd38d;
+  background-color: #fbcc7d;
   padding: 0.4rem 0.8rem;
   border-radius: 0.4rem; 
   display: inline-block;
+  color: #b47305;
+  font-weight: bold;
 }
 
 .highlight-blue {
@@ -38,6 +44,8 @@
   padding: 0.4rem 0.8rem;
   border-radius: 0.4rem;
   display: inline-block;
+  color: #179de6;
+  font-weight: bold;
 }
 
 .highlight-gray {
@@ -52,4 +60,7 @@
   padding: 0.4rem 0.8rem;
   border-radius: 0.4rem;
   display: inline-block;
+  color: #b8aa01;
+  font-weight: bold;
+
 }

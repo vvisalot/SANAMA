@@ -1,6 +1,6 @@
-const TableCell = ({ data, className }) => {
+const TableCell = ({ data }) => {
     return (
-        <td scope="row" className={`px-6 py-4 text-gray-900 whitespace-nowrap ${className}`}>
+        <td scope="row" className={`px-6 py-4`}>
             {data}
         </td>
     )

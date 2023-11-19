@@ -1,11 +1,11 @@
-import React from "react";
+import React from "react"
 
 function Icon() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="88"
-      height="88"
+      width="50"
+      height="50"
       version="1"
       viewBox="0 0 500 500"
     >
@@ -35,7 +35,7 @@ function Icon() {
         fill="#FFF0FF"
       ></path>
     </svg>
-  );
+  )
 }
 
 export default Icon;

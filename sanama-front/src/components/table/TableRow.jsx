@@ -1,6 +1,6 @@
-import { Fragment } from "react";
-import TableCell from "./TableCell";
-import TableOptions from "./TableOptions";
+import { Fragment } from "react"
+import TableCell from "./TableCell"
+import TableOptions from "./TableOptions"
 
 const getEstadoFromRow = (row) => {
   for (let item of row) {
@@ -9,28 +9,25 @@ const getEstadoFromRow = (row) => {
       item.data !== null &&
       item.data.props
     ) {
-      const estadoTexto = item.data.props.children;
+      const estadoTexto = item.data.props.children
       if (typeof estadoTexto === "string") {
-        return estadoTexto;
+        return estadoTexto
       }
     }
   }
-  return null;
-};
+  return null
+}
 
 const TableRow = ({ row, url, optionsText, iconName }) => {
-  const estado = getEstadoFromRow(row);
+  const estado = getEstadoFromRow(row)
   return (
-    <tr className="bg-white border-b">
+    <tr className="bg-white border-b-l-r hover:bg-gray-100">
       {row.map((cell, index) => {
-        if (index === 0) return null;
+        if (index === 0) return null
         if (index === row.length - 1) {
           return (
             <Fragment key={index}>
-              <TableCell
-                data={cell.data}
-                className={cell.className ? cell.className : ""}
-              />
+              <TableCell data={cell.data} />
               {url.length > 0 ? (
                 <TableOptions
                   id={parseInt(row[0].data)}
@@ -41,19 +38,15 @@ const TableRow = ({ row, url, optionsText, iconName }) => {
                 />
               ) : null}
             </Fragment>
-          );
+          )
         } else {
           return (
-            <TableCell
-              key={index}
-              data={cell.data}
-              className={cell.className ? cell.className : ""}
-            />
-          );
+            <TableCell key={index} data={cell.data} />
+          )
         }
       })}
     </tr>
-  );
-};
+  )
+}
 
-export default TableRow;
+export default TableRow
