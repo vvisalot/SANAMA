@@ -7,7 +7,7 @@ const MedicalRecordsTable = ({ data, options }) => {
   const columns = React.useMemo(
     () => [
       {
-        accessorKey: "idHistory",
+        accessorKey: "idHojaMedica",
         header: "ID",
         enableSorting: true,
       },
@@ -43,7 +43,7 @@ const MedicalRecordsTable = ({ data, options }) => {
           }));
           return (
             <TableOptions
-              id={row.original.idHistory}
+              id={row.original.idHojaMedica}
               options={modifiedOptions}
             />
           );

@@ -1,3 +1,4 @@
+"use client";
 import { useState, useEffect } from "react";
 import { attentionService } from "@/services/attentionService";
 import { patientService } from "@/services/patientService";
@@ -19,7 +20,6 @@ const usePatientHojaMedicaData = (idHojaMedica, idPaciente) => {
           idHojaMedica
         );
         setMedicalRecordData(data);
-        console.log(data);
       } catch (error) {
         setErrorMedicalRecord(
           "Error fetching medical record: " + error.message
@@ -37,7 +37,6 @@ const usePatientHojaMedicaData = (idHojaMedica, idPaciente) => {
       try {
         const data = await patientService.mostrarPacienteRegistrado(idPaciente);
         setPatientData(data);
-        console.log(data);
       } catch (error) {
         setErrorPatientData("Error fetching patient data: " + error.message);
       } finally {
@@ -46,18 +45,6 @@ const usePatientHojaMedicaData = (idHojaMedica, idPaciente) => {
     };
     fecthPatientData();
   }, [idPaciente]);
-
-  useEffect(() => {
-    if (medicalRecordData) {
-      setPatientData((prevPatientData) => ({
-        ...prevPatientData,
-        triaje: {
-          peso: "",
-          talla: "",
-        },
-      }));
-    }
-  }, [medicalRecordData]);
 
   return {
     patientData,

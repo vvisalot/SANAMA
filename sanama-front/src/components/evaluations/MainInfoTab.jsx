@@ -1,37 +1,16 @@
-import React from "react"
-import InputField from "../common/InputField"
-
-const calcularEdad = (fechaNacimiento) => {
-  const hoy = new Date()
-  const fechaNac = new Date(fechaNacimiento)
-  let edad = hoy.getFullYear() - fechaNac.getFullYear()
-  const diferenciaMeses = hoy.getMonth() - fechaNac.getMonth()
-  if (
-    diferenciaMeses < 0 ||
-    (diferenciaMeses === 0 && hoy.getDate() < fechaNac.getDate())
-  ) {
-    edad--
-  }
-  return edad
-}
-const formatearFecha = (fecha) => {
-  const fechaNac = new Date(fecha)
-  return `${fechaNac.getDate().toString().padStart(2, "0")}/${(
-    fechaNac.getMonth() + 1
-  )
-    .toString()
-    .padStart(2, "0")}/${fechaNac.getFullYear()}`
-}
+import React from "react";
+import InputField from "../common/InputField";
+import { calcularEdad, formatearFecha } from "@/util/formValidations";
 
 const MainInfoComponent = ({ patientTriageData }) => {
   if (!patientTriageData) {
-    return <p>Cargando...</p> // Or any other loading state representation
+    return <p>Cargando...</p>; // Or any other loading state representation
   }
 
-  const { paciente, triaje } = patientTriageData
-  const edad = calcularEdad(paciente.fechaNacimiento)
-  const fechaNacimientoFormateada = formatearFecha(paciente.fechaNacimiento)
-  const sexo = paciente.sexo === "M" ? "Masculino" : "Femenino"
+  const { paciente, triaje } = patientTriageData;
+  const edad = calcularEdad(paciente.fechaNacimiento);
+  const fechaNacimientoFormateada = formatearFecha(paciente.fechaNacimiento);
+  const sexo = paciente.sexo === "M" ? "Masculino" : "Femenino";
   return (
     <>
       <div className="col-span-2">
@@ -66,7 +45,7 @@ const MainInfoComponent = ({ patientTriageData }) => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default MainInfoComponent
+export default MainInfoComponent;

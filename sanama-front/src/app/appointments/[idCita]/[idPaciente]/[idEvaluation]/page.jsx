@@ -31,7 +31,10 @@ const ReviewContainerMedicalRecord = ({}) => {
   return (
     <section className="p-4 md:p-14">
       <TitleWithIcon name={"Ver Hoja Médica"} Icon={newMedicalRecord} />
-      <MainInfoComponent patientData={patientData} />
+      <ReviewFormEvaluation
+        patientData={patientData}
+        hojaMedicaData={medicalRecordData}
+      />
     </section>
   );
 };
