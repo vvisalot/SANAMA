@@ -3,7 +3,7 @@ import React from "react";
 import { useParams } from "next/navigation";
 import MainInfoComponent from "@/components/evaluations/MainInfoTab";
 import usePatientHojaMedicaData from "@/hooks/usePatientHojaMedicaData";
-import ReviewContainerMedicalRecord from "@/components/evaluations/ReviewContainerMedicalRecord";
+import ReviewContainerMedicalRecord from "@/components/evaluations/review/ReviewContainerMedicalRecord";
 import newMedicalRecord from "@/components/icons/newMedicalRecord";
 import TitleWithIcon from "@/components/TitleWithIcon";
 
