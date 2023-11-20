@@ -1,38 +1,25 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { useParams } from "next/navigation";
 import MainInfoComponent from "@/components/evaluations/MainInfoTab";
-import usePatientTriageData from "@/hooks/usePatientTriageData";
-import FormContainerMedicalRecord from "@/components/evaluations/FormContainerMedicalRecord";
+import usePatientHojaMedicaData from "@/hooks/usePatientHojaMedicaData";
+import ReviewContainerMedicalRecord from "@/components/evaluations/ReviewContainerMedicalRecord";
 import newMedicalRecord from "@/components/icons/newMedicalRecord";
 import TitleWithIcon from "@/components/TitleWithIcon";
 
 const reviewFormularioMedico = () => {
   const params = useParams();
-  const idCita = params.idCita;
-  const { patientTriageData, loading, error } = usePatientTriageData(idCita);
+  const idEvaluation = params.idEvaluation;
+  const { patientData, hojaMedicaData, loading, error } =
+    usePatientHojaMedicaData(idEvaluation);
 
   if (loading) return <div>Cargando...</div>;
   if (error) return <div>Error: {error}</div>;
-
-  const defaultTriaje = {
-    temperatura: "",
-    frecuenciaCardiaca: "",
-    frecuenciaRespiratoria: "",
-    presionArterial: "",
-    saturacionOxigeno: "",
-  };
-
-  const signosVitales = {
-    ...defaultTriaje,
-    ...patientTriageData?.triaje,
-  };
-
   return (
     <section className="p-4 md:p-14">
-      <TitleWithIcon name={"Nueva Hoja Médica"} Icon={newMedicalRecord} />
-      <MainInfoComponent patientTriageData={patientTriageData} />
-      <FormContainerMedicalRecord defaultTriaje={signosVitales} />
+      <TitleWithIcon name={"Ver Hoja Médica"} Icon={newMedicalRecord} />
+      <MainInfoComponent patientData={patientData} />
+      <ReviewContainerMedicalRecord hojaMedicaData={hojaMedicaData} />
     </section>
   );
 };
