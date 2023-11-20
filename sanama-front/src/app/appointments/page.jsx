@@ -64,6 +64,7 @@ const AppointmentPage = () => {
     try {
       const data = await appointmentService.listarCitasFiltro(request)
       const tableData = parseAppointmentTable(data)
+      console.log(tableData)
       setAppointmentTable(tableData)
     } catch (error) {
       console.log("No se pudo obtener la lista de las citas")
