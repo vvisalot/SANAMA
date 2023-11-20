@@ -17,6 +17,7 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
   const medicamentos = recetaMedica.medicamentos;
   const vitalSigns = evaluacionMedica.signosVitales || {};
   const diagnosticos = evaluacionMedica.diagnosticos;
+
   return (
     <>
       <div className="col-span-2">
@@ -29,14 +30,16 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
             label="Paciente"
             value={`${patientData.nombres} ${patientData.apellidoPaterno} ${patientData.apellidoMaterno}`}
             disabled
+            readOnly
           />
           <InputField
             label="Fecha de Nacimiento"
             value={fechaNacimientoFormateada}
+            disabled
+            readOnly
           />
-          disabled
-          <InputField label="Edad" value={edad} disabled />
-          <InputField label="Sexo" value={sexo} disabled />
+          <InputField label="Edad" value={edad} readOnly disabled />
+          <InputField label="Sexo" value={sexo} readOnly disabled />
           <InputField
             label="Peso (kg)"
             value={
@@ -44,6 +47,7 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
                 ? evaluacionMedica.signosVitales.peso
                 : "-"
             }
+            readOnly
             disabled
           />
           <InputField
@@ -53,30 +57,33 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
                 ? evaluacionMedica.signosVitales.talla
                 : "-"
             }
+            readOnly
             disabled
           />
         </div>
       </div>
 
       <Accordion title="Motivo de la Consulta" id="triage" active={true}>
-        <TextAreaField
-          label="Antecedentes:"
-          name="evaluacionMedica.antecedentes"
-          placeholder="Ingresa los antecentes.."
-          data={evaluacionMedica.antecedentes}
-        />
-        <TextAreaField
-          label="Motivo de Consulta:"
-          name="evaluacionMedica.motivoConsulta"
-          placeholder="Ingresa el motivo.."
-          data={evaluacionMedica.motivoConsulta}
-        />
-        <TextAreaField
-          label="Observaciones Adicionales:"
-          name="evaluacionMedica.observaciones"
-          placeholder="Ingresa observación.."
-          data={evaluacionMedica.observaciones}
-        />
+        <div className="ml-4 grid mb-4 gap-4">
+          <TextAreaField
+            label="Antecedentes:"
+            name="evaluacionMedica.antecedentes"
+            placeholder="Ingresa los antecentes.."
+            data={evaluacionMedica.antecedentes}
+          />
+          <TextAreaField
+            label="Motivo de Consulta:"
+            name="evaluacionMedica.motivoConsulta"
+            placeholder="Ingresa el motivo.."
+            data={evaluacionMedica.motivoConsulta}
+          />
+          <TextAreaField
+            label="Observaciones Adicionales:"
+            name="evaluacionMedica.observaciones"
+            placeholder="Ingresa observación.."
+            data={evaluacionMedica.observaciones}
+          />
+        </div>
       </Accordion>
 
       <Accordion title="Signos Vitales" id="triage" active={true}>
@@ -85,187 +92,191 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
             key={"temperatura"}
             label={"Temperatura (°C)"}
             value={vitalSigns.temperatura}
+            readOnly
             disabled
           />
           <InputField
             key={"frecuenciaCardiaca"}
             label={"Frecuencia Cardiaca (FC)"}
             value={vitalSigns.frecuenciaCardiaca}
+            readOnly
             disabled
           />
           <InputField
             key={"frecuenciaRespiratoria"}
             label={"Frecuencia Respiratoria (FR)"}
             value={vitalSigns.frecuenciaRespiratoria}
+            readOnly
             disabled
           />
           <InputField
             key={"presionArterial"}
             label={"Presión Arterial (Sistolica / Diastolica)"}
             value={vitalSigns.presionArterial}
+            readOnly
             disabled
           />
           <InputField
             key={"saturacionOxigeno"}
             label={"Saturación de Oxígeno (%)"}
             value={vitalSigns.saturacionOxigeno}
+            readOnly
             disabled
           />
         </div>
       </Accordion>
 
       <Accordion title="Exploracion Fisica" id="expfisica" active={true}>
-        <div className="ml-2 mr-4 col-span-2">
-          <div className="resize-none grid grid-cols-1 md:grid-cols-2 gap-4">
-            {evaluacionMedica.examenGeneral && (
-              <div className="flex col-span-2 ml-12">
-                <label className="block resize-none text-sm font-medium text-gray-700 w-1/6">
-                  Examen General
-                </label>
-                <span className="mr-4">:</span>
-                <textarea
-                  readOnly
-                  className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
-                  rows={3}
-                  value={evaluacionMedica.examenGeneral}
-                />
-              </div>
-            )}
+        <div className="ml-2 mr-4 resize-none grid grid-cols-1 md:grid-cols-2 gap-4">
+          {evaluacionMedica.examenGeneral && (
+            <div className="flex col-span-2 ">
+              <label className="block resize-none text-sm font-medium text-gray-700 w-1/6">
+                Examen General
+              </label>
+              <span className="mr-4">:</span>
+              <textarea
+                readOnly
+                className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
+                rows={3}
+                value={evaluacionMedica.examenGeneral}
+              />
+            </div>
+          )}
 
-            {evaluacionMedica.pielYFaneras && (
-              <div className="flex col-span-2 ml-12">
-                <label className="block resize-none text-sm font-medium text-gray-700 w-1/6">
-                  Piel y Faneras
-                </label>
-                <span className="mr-4">:</span>
-                <textarea
-                  readOnly
-                  className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
-                  rows={3}
-                  value={evaluacionMedica.pielYFaneras}
-                />
-              </div>
-            )}
+          {evaluacionMedica.pielYFaneras && (
+            <div className="flex col-span-2 ">
+              <label className="block resize-none text-sm font-medium text-gray-700 w-1/6">
+                Piel y Faneras
+              </label>
+              <span className="mr-4">:</span>
+              <textarea
+                readOnly
+                className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
+                rows={3}
+                value={evaluacionMedica.pielYFaneras}
+              />
+            </div>
+          )}
 
-            {evaluacionMedica.cabezaYCuello && (
-              <div className="flex col-span-2 ml-12">
-                <label className="block resize-none text-sm font-medium text-gray-700 w-1/6">
-                  Cabeza y Cuello
-                </label>
-                <span className="mr-4">:</span>
-                <textarea
-                  readOnly
-                  className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
-                  rows={3}
-                  value={evaluacionMedica.cabezaYCuello}
-                />
-              </div>
-            )}
+          {evaluacionMedica.cabezaYCuello && (
+            <div className="flex col-span-2 ">
+              <label className="block resize-none text-sm font-medium text-gray-700 w-1/6">
+                Cabeza y Cuello
+              </label>
+              <span className="mr-4">:</span>
+              <textarea
+                readOnly
+                className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
+                rows={3}
+                value={evaluacionMedica.cabezaYCuello}
+              />
+            </div>
+          )}
 
-            {evaluacionMedica.toraxYPulmones && (
-              <div className="flex col-span-2 ml-12">
-                <label className="block resize-none text-sm font-medium text-gray-700 w-1/6">
-                  Tórax y Pulmones
-                </label>
-                <span className="mr-4">:</span>
-                <textarea
-                  readOnly
-                  className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
-                  rows={3}
-                  value={evaluacionMedica.toraxYPulmones}
-                />
-              </div>
-            )}
-            {evaluacionMedica.toraxYPulmones && (
-              <div className="flex col-span-2 ml-12">
-                <label className="block resize-none text-sm font-medium text-gray-700 w-1/6">
-                  Tórax y Pulmones
-                </label>
-                <span className="mr-4">:</span>
-                <textarea
-                  readOnly
-                  className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
-                  rows={3}
-                  value={evaluacionMedica.toraxYPulmones}
-                />
-              </div>
-            )}
+          {evaluacionMedica.toraxYPulmones && (
+            <div className="flex col-span-2 ">
+              <label className="block resize-none text-sm font-medium text-gray-700 w-1/6">
+                Tórax y Pulmones
+              </label>
+              <span className="mr-4">:</span>
+              <textarea
+                readOnly
+                className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
+                rows={3}
+                value={evaluacionMedica.toraxYPulmones}
+              />
+            </div>
+          )}
 
-            {evaluacionMedica.cardiovascular && (
-              <div className="flex col-span-2 ml-12">
-                <label className="block resize-none text-sm font-medium text-gray-700 w-1/6">
-                  Cardiovascular
-                </label>
-                <span className="mr-4">:</span>
-                <textarea
-                  readOnly
-                  className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
-                  rows={3}
-                  value={evaluacionMedica.cardiovascular}
-                />
-              </div>
-            )}
+          {evaluacionMedica.toraxYPulmones && (
+            <div className="flex col-span-2 ">
+              <label className="block resize-none text-sm font-medium text-gray-700 w-1/6">
+                Tórax y Pulmones
+              </label>
+              <span className="mr-4">:</span>
+              <textarea
+                readOnly
+                className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
+                rows={3}
+                value={evaluacionMedica.toraxYPulmones}
+              />
+            </div>
+          )}
 
-            {evaluacionMedica.abdomen && (
-              <div className="flex col-span-2 ml-12">
-                <label className="block resize-none text-sm font-medium text-gray-700 w-1/6">
-                  Abdomen
-                </label>
-                <span className="mr-4">:</span>
-                <textarea
-                  readOnly
-                  className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
-                  rows={3}
-                  value={evaluacionMedica.abdomen}
-                />
-              </div>
-            )}
+          {evaluacionMedica.cardiovascular && (
+            <div className="flex col-span-2 ">
+              <label className="block resize-none text-sm font-medium text-gray-700 w-1/6">
+                Cardiovascular
+              </label>
+              <span className="mr-4">:</span>
+              <textarea
+                readOnly
+                className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
+                rows={3}
+                value={evaluacionMedica.cardiovascular}
+              />
+            </div>
+          )}
 
-            {evaluacionMedica.urogenital && (
-              <div className="flex col-span-2 ml-12">
-                <label className="block resize-none text-sm font-medium text-gray-700 w-1/6">
-                  Urogenital
-                </label>
-                <span className="mr-4">:</span>
-                <textarea
-                  readOnly
-                  className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
-                  rows={3}
-                  value={evaluacionMedica.urogenital}
-                />
-              </div>
-            )}
+          {evaluacionMedica.abdomen && (
+            <div className="flex col-span-2 ">
+              <label className="block resize-none text-sm font-medium text-gray-700 w-1/6">
+                Abdomen
+              </label>
+              <span className="mr-4">:</span>
+              <textarea
+                readOnly
+                className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
+                rows={3}
+                value={evaluacionMedica.abdomen}
+              />
+            </div>
+          )}
 
-            {evaluacionMedica.extremidades && (
-              <div className="flex col-span-2 ml-12">
-                <label className="block resize-none text-sm font-medium text-gray-700 w-1/6">
-                  Extremidades
-                </label>
-                <span className="mr-4">:</span>
-                <textarea
-                  readOnly
-                  className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
-                  rows={3}
-                  value={evaluacionMedica.extremidades}
-                />
-              </div>
-            )}
+          {evaluacionMedica.urogenital && (
+            <div className="flex col-span-2 ">
+              <label className="block resize-none text-sm font-medium text-gray-700 w-1/6">
+                Urogenital
+              </label>
+              <span className="mr-4">:</span>
+              <textarea
+                readOnly
+                className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
+                rows={3}
+                value={evaluacionMedica.urogenital}
+              />
+            </div>
+          )}
 
-            {evaluacionMedica.snc && (
-              <div className="flex col-span-2 ml-12">
-                <label className="block resize-none text-sm font-medium text-gray-700 w-1/6">
-                  Sistema Nervioso Central
-                </label>
-                <span className="mr-4">:</span>
-                <textarea
-                  readOnly
-                  className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
-                  rows={3}
-                  value={evaluacionMedica.snc}
-                />
-              </div>
-            )}
-          </div>
+          {evaluacionMedica.extremidades && (
+            <div className="flex col-span-2 ">
+              <label className="block resize-none text-sm font-medium text-gray-700 w-1/6">
+                Extremidades
+              </label>
+              <span className="mr-4">:</span>
+              <textarea
+                readOnly
+                className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
+                rows={3}
+                value={evaluacionMedica.extremidades}
+              />
+            </div>
+          )}
+
+          {evaluacionMedica.snc && (
+            <div className="flex col-span-2 ">
+              <label className="block resize-none text-sm font-medium text-gray-700 w-1/6">
+                Sistema Nervioso Central
+              </label>
+              <span className="mr-4">:</span>
+              <textarea
+                readOnly
+                className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
+                rows={3}
+                value={evaluacionMedica.snc}
+              />
+            </div>
+          )}
         </div>
         ;
       </Accordion>
@@ -276,24 +287,28 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
             key={"glasgow"}
             label={"Prueba de Glasgow"}
             value={evaluacionMedica.glasgow}
+            readOnly
             disabled
           />
           <InputField
             key={"eyesOpen"}
             label={"Abertura Ocular"}
             value={evaluacionMedica.eyesOpen}
+            readOnly
             disabled
           />
           <InputField
             key={"talkingCorrectly"}
             label={"Respuesta Verbal)"}
             value={evaluacionMedica.talkingCorrectly}
+            readOnly
             disabled
           />
           <InputField
             key={"ableToMoveBody"}
             label={"Respuesta Motriz"}
             value={evaluacionMedica.ableToMoveBody}
+            readOnly
             disabled
           />
         </div>
@@ -349,6 +364,7 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
               key={"fechaCaducidad"}
               label={"Fecha de Caducidad"}
               value={recetaMedica.fechaCaducidad}
+              readOnly
               disabled
             />
           </div>
