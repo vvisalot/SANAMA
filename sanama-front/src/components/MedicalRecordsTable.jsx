@@ -2,6 +2,7 @@ import Table from "@/components/table/Table"
 import { usePathname } from "next/navigation"
 import React from "react"
 import TableOptions from "./table/TableOptions"
+import AdvancedTable from "@/components/table/Table"
 
 
 // const columns = [
@@ -65,9 +66,10 @@ const MedicalRecordsTable = ({ data, options }) => {
 
 
   return (
-    <Table
+    <AdvancedTable
       columns={columns}
       data={data}
+      id={"idHistory"}
     />
   )
 }
