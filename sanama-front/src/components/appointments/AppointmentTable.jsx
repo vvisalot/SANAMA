@@ -1,16 +1,59 @@
-import { useSort } from "@/hooks/useSort"
-import Table from "@/components/table/Table"
+import {
+  flexRender,
+  getCoreRowModel,
+  getSortedRowModel,
+  getPaginationRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import React from "react";
 
-const defaultColumns = [
-  { name: "Código cita", sortable: true, sortKey: "string", visible: true },
-  { name: "Fecha y hora", sortable: true, sortKey: "date" },
-  { name: "idCita", sortable: false, sortKey: "idCita", visible: false },
-  { name: "Nombre del paciente", sortable: true, sortKey: "patientName" },
-  // { name: "Nombre del doctor", sortable: true, sortKey: "doctorName" },
-  { name: "Especialidad", sortable: true, sortKey: "specialty" },
-  { name: "Estado", sortable: true, sortKey: "status" },
-  { name: "Opciones", sortable: false, visible: true },
-]
+const AppointmentTable = ({ data }) => {
+  const columns = React.useMemo(
+    () => [
+      {
+        accessorKey: "idCita",
+        header: "ID",
+        enableSorting: true,
+      },
+      {
+        accessorKey: "codigo",
+        header: "Código",
+        enableSorting: true,
+        width: 120,
+      },
+      {
+        accessorKey: "date",
+        header: "Fecha y hora",
+        enableSorting: true,
+        width: 160,
+      },
+      {
+        accessorKey: "patientName",
+        header: "Paciente",
+        enableSorting: true,
+        width: 240,
+      },
+      {
+        accessorKey: "doctorName",
+        header: "Doctor",
+        enableSorting: true,
+        width: 240,
+      },
+      {
+        accessorKey: "specialty",
+        header: "Especialidad",
+        enableSorting: true,
+        width: 150,
+      },
+      {
+        accessorKey: "status",
+        header: "Estado",
+        enableSorting: true,
+        width: 150,
+      },
+    ],
+    []
+  );
 
 const options = [
   {
@@ -29,22 +72,6 @@ function columnExists(columnName) {
   return -1
 }
 
-const AppointmentTable = ({ data, columns }) => {
-  const displayColumns = columns ? columns : defaultColumns
-  let count = 0
-  const arrayDeArraysVacios = new Array(data.length).fill(null).map(() => [])
-  displayColumns.forEach((column, indexColumn) => {
-    let indexTablaDefa = columnExists(column.name)
-    if (indexTablaDefa != -1) {
-      data.forEach((elemento, index) => {
-        arrayDeArraysVacios[index][count] = elemento[indexTablaDefa]
-      })
-      count++
-    } else {
-    }
-  })
-
-  const { sortedData, requestSort, sortConfig } = useSort(arrayDeArraysVacios)
   return (
     <Table
       columns={displayColumns}
@@ -56,4 +83,4 @@ const AppointmentTable = ({ data, columns }) => {
   )
 }
 
-export default AppointmentTable
+export default AppointmentTable;

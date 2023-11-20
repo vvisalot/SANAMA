@@ -75,8 +75,6 @@ const ReviewAppointment = ({ params }) => {
   if (state.error) return <p className="text-red-500">{state.error}</p>;
   if (!state.appointmentData) return null;
 
-  const { estado, paciente, medico } = state.appointmentData;
-
   return (
     <section className="p-14 h-screen content-end">
       <TitleWithIcon name={"Cita Medica"} Icon={viewAppointmentIcon} />

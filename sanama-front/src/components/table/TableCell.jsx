@@ -10,4 +10,4 @@ const TableCell = ({ data, className }) => {
     )
 }
 
-export default TableCell
+export default TableCell;

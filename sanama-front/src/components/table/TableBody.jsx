@@ -1,4 +1,4 @@
-import TableRow from "./TableRow"
+import TableRow from "./TableRow";
 
 const TableBody = ({
   data,
@@ -21,7 +21,7 @@ const TableBody = ({
         )
       })}
     </tbody>
-  )
-}
+  );
+};
 
-export default TableBody
+export default TableBody;
