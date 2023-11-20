@@ -16,8 +16,6 @@ const Navbar = () => {
     { name: "Citas", route: "/appointments", icon: AppointmentIcon },
     { name: "Triajes", route: "/triajes", icon: TriageIcon },
     { name: "Laboratorio", route: "/laboratories", icon: LabIcon },
-    { name: "pruebas", route: "/todoList", icon: LabIcon },
-    // { name: "Resultados paciente", route: "/todoList", Icon: LabIcon }
   ];
   const pathname = usePathname();
 
