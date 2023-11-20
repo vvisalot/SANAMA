@@ -1,29 +1,55 @@
+import AdvancedTable from "@/components/table/Table"
 import Table from "@/components/table/Table"
+import TableOptions from "@/components/table/TableOptions"
+import React from "react"
 
-const columns = [
-    { name: "Nombre completo" },
-    { name: "CMP" },
-    { name: "Especialidad" },
-    { name: "Area" },
-    { name: "Opciones" }
-]
-
-const options = [
+const DoctorTable = ({ data, options }) => {
+  const columns = React.useMemo(() => [
     {
-        text: "Ver perfil",
-        link: "/doctors/profile",
-        icon: "/icons/eye.svg"
-
+      accessorKey: "idPersona",
+      header: "ID",
+      enableSorting: true,
     },
-]
 
-const DoctorTable = ({ data }) => {
-    return (
-        <Table
-            columns={columns}
-            data={data}
-            options={options}
-        />
-    )
+    {
+      accessorKey: "doctorName",
+      header: "Nombre completo",
+      enableSorting: true,
+    },
+    {
+      accessorKey: "cmp",
+      header: "CMP",
+      enableSorting: true,
+    },
+    {
+      accessorKey: "specialty",
+      header: "Especialidad",
+      enableSorting: true,
+    },
+    {
+      accessorKey: "area",
+      header: "Area",
+      enableSorting: true,
+    },
+    {
+      accessorKey: "actions",
+      header: "Acciones",
+      cell: ({ row }) => {
+        return (
+          <TableOptions id={row.original.idPersona} options={options} />
+        )
+      }
+    },
+  ], []
+  )
+
+  return (
+    <AdvancedTable
+      columns={columns}
+      data={data}
+      id={"idPersona"}
+      options={options}
+    />
+  )
 }
 export default DoctorTable

@@ -1,29 +1,28 @@
-"use client";
-import { useState } from "react";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import NextBreadcrumb from "@/components/NextBreadcrumb";
-import Sidebar from "@/components/sidebar/Sidebar";
-import { Toaster } from "sonner";
-import Navbar from "@/components/navbar/Navbar";
+"use client"
+import { useState } from "react"
+import { Inter } from "next/font/google"
+import "./globals.css"
+import NextBreadcrumb from "@/components/NextBreadcrumb"
+import Sidebar from "@/components/sidebar/Sidebar"
+import { Toaster } from "sonner"
+import Navbar from "@/components/navbar/Navbar"
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"] })
 
 export default function RootLayout({ children }) {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen((prevIsSidebarOpen) => !prevIsSidebarOpen);
-  };
+  // const toggleSidebar = () => {
+  //   setIsSidebarOpen((prevIsSidebarOpen) => !prevIsSidebarOpen)
+  // }
 
-  const mainContentClass = isSidebarOpen ? "ml-64" : "ml-16";
+  // const mainContentClass = isSidebarOpen ? "ml-64" : "ml-16";
 
   return (
     <html lang="en">
       <head>
         <title>Sanama</title>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.1.1/flowbite.min.css" rel="stylesheet" />
-
       </head>
 
       <body className={`${inter.className} bg-[#EFEFEF] w-auto h-screen`}>
@@ -46,5 +45,5 @@ export default function RootLayout({ children }) {
 
       </body>
     </html>
-  );
+  )
 }
