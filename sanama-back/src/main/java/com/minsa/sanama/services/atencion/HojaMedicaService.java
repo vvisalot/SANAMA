@@ -59,4 +59,10 @@ public class HojaMedicaService {
         hojaMedica = hojaMedicaRepository.buscarHojaMedicaPaciente(pn_id_hoja_medica);
         return hojaMedica;
     }
+
+    public HojaMedica buscarResultadosPaciente(int pn_id_hoja_medica) {
+        HojaMedica hojaMedica;
+        hojaMedica = hojaMedicaRepository.buscarResultadosPaciente(pn_id_hoja_medica);
+        return hojaMedica;
+    }
 }

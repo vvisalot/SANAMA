@@ -18,6 +18,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
+import java.nio.charset.StandardCharsets;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
@@ -373,6 +374,8 @@ public class HojaMedicaRepository {
             }
 
             hojaMedica.setCodigo(result.get("pv_codigo_hoja_medica").toString());
+            //String archivoString = (String) result.get("pb_firma");
+            //hojaMedica.setFirma(archivoString.getBytes(StandardCharsets.UTF_8));
             hojaMedica.setFirma((byte[]) result.get("pb_firma"));
             hojaMedica.setEvaluacionMedica(new EvaluacionMedica());
             hojaMedica.getEvaluacionMedica().setSignosVitales(new SignosVitales());
@@ -448,5 +451,57 @@ public class HojaMedicaRepository {
             ex.printStackTrace();
         }
         return ldiagnosticos;
+    }
+
+    public HojaMedica buscarResultadosPaciente(int pn_id_hoja_medica) {
+        HojaMedica hojaMedica = new HojaMedica();
+        SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                .withSchemaName("dbSanama")
+                .withProcedureName("ssm_ate_mostrar_resultados_paciente")
+                .declareParameters(new SqlParameter[]{
+                        new SqlParameter("pn_id_hoja_medica", Types.INTEGER),
+                        new SqlOutParameter("pv_nombre_medico", Types.VARCHAR),
+                        new SqlOutParameter("pv_observaciones", Types.VARCHAR),
+                        new SqlOutParameter("pj_resultados", Types.VARCHAR)
+                });
+        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
+        mapSqlParameterSource.addValue("pn_id_hoja_medica", pn_id_hoja_medica);
+
+        Map<String, Object> result = simpleJdbcCall.execute(mapSqlParameterSource);
+        if (result.containsKey("ERROR_CODE") || result.containsKey("ERROR_MESSAGE")) {
+            return null;
+        } else{
+            hojaMedica.setMedicoConsulta(result.get("pv_nombre_medico").toString());
+            hojaMedica.setObservaciones(result.get("pv_observaciones").toString());
+            // Manejamos el json de Resultados
+            String jsonResultados = (String) result.get("pj_resultados");
+
+            hojaMedica.setResultados(obtenerResultados(jsonResultados));
+
+            return hojaMedica;
+        }
+    }
+
+    private List<Resultado> obtenerResultados(String jsonResultados){
+        List<Resultado> lresultados = new ArrayList<>();
+
+        try{
+            JSONArray jobArray = (JSONArray) new JSONParser().parse(jsonResultados);
+            for(Object obj: jobArray){
+                Resultado resultado = new Resultado();
+                JSONObject jobResult = (JSONObject) obj;
+                resultado.setNombre(jobResult.get("nombre").toString());
+                resultado.setMedicoFirmante(jobResult.get("medico_firmante").toString());
+                resultado.setTipoMuestra(jobResult.get("tipo_muestra").toString());
+                String archivoString = (String) jobResult.get("archivo");
+                resultado.setArchivo(archivoString.getBytes(StandardCharsets.UTF_8));
+
+                lresultados.add(resultado);
+            }
+        }catch (Exception ex){
+            // Manejo de excepciones aquí
+            ex.printStackTrace();
+        }
+        return lresultados;
     }
 }
