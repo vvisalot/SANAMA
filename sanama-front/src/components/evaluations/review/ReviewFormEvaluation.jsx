@@ -60,7 +60,7 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
         </div>
       </div>
 
-      <Accordion title="Motivo de la Consulta" id="triage">
+      <Accordion title="Motivo de la Consulta" id="triage" active={true}>
         <TextAreaField
           label="Antecedentes:"
           name="evaluacionMedica.antecedentes"
@@ -81,7 +81,7 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
         />
       </Accordion>
 
-      <Accordion title="Signos Vitales" id="triage">
+      <Accordion title="Signos Vitales" id="triage" active={true}>
         <div className="ml-4 grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <InputField
             key={"temperatura"}
@@ -116,11 +116,11 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
         </div>
       </Accordion>
 
-      <Accordion title="Exploracion Fisica" id="expfisica">
+      <Accordion title="Exploracion Fisica" id="expfisica" active={true}>
         <ExplorationTab evaluationData={evaluacionMedica} />
       </Accordion>
 
-      <Accordion title="Nivel de Consciencia" id="glasgow">
+      <Accordion title="Nivel de Consciencia" id="glasgow" active={true}>
         <div className="ml-4 grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <InputField
             key={"glasgow"}
@@ -149,7 +149,7 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
         </div>
       </Accordion>
 
-      <Accordion title="Diagnostico" id="diagnostico">
+      <Accordion title="Diagnostico" id="diagnostico" active={true}>
         <div className="w-full grid justify-items-center">
           <table className="w-3/6 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -173,7 +173,7 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
         </div>
       </Accordion>
 
-      <Accordion title="Receta Medica" id="receta">
+      <Accordion title="Receta Medica" id="receta" active={true}>
         <div className="w-full grid justify-items-center">
           <table className="w-3/6 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -194,6 +194,14 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
               ))}
             </tbody>
           </table>
+          <div className="w-3/6 mt-2">
+            <InputField
+              key={"fechaCaducidad"}
+              label={"Fecha de Caducidad"}
+              value={recetaMedica.fechaCaducidad}
+              disabled
+            />
+          </div>
         </div>
       </Accordion>
     </>
@@ -201,8 +209,6 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
 };
 
 const ExplorationTab = ({ evaluationData }) => {
-  // Suponiendo que medicalRecordData.evaluacionMedica contiene los datos necesarios
-
   const sectionNames = [
     "examenGeneral",
     "pielYFaneras",
