@@ -1,23 +1,27 @@
-import React, { memo } from "react";
-import TableBody from "./TableBody";
-import TableHeader from "./TableHeader";
+import React, { memo } from "react"
+import TableBody from "./TableBody"
+import TableHeader from "./TableHeader"
 
-const Table = memo(
-  ({ columns, data, url, optionsText, iconName, requestSort, sortConfig }) => (
-    <table className="table-fixed w-full">
-      <TableHeader
-        columns={columns}
-        requestSort={requestSort}
-        sortConfig={sortConfig}
-      />
-      <TableBody
-        data={data}
-        url={url}
-        optionsText={optionsText}
-        iconName={iconName}
-      />
-    </table>
-  )
-);
+const Table = ({
+  columns,
+  data,
+  options = [],
+  requestSort,
+  sortConfig
+}) => (
+  <table className="table-fixed w-full">
+    <TableHeader
+      columns={columns}
+      requestSort={requestSort}
+      sortConfig={sortConfig}
+    />
 
-export default Table;
+    <TableBody
+      data={data}
+      options={options}
+    />
+  </table>
+)
+
+
+export default Table

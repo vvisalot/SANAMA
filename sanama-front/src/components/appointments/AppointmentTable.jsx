@@ -12,6 +12,14 @@ const defaultColumns = [
   { name: "Opciones", sortable: false, visible: true },
 ]
 
+const options = [
+  {
+    text: "Ver Cita",
+    link: "/appointments",
+    icon: "/icons/eye.svg",
+  },
+]
+
 function columnExists(columnName) {
   for (let i = 0; i < defaultColumns.length - 1; i++) {
     if (defaultColumns[i].name === columnName) {
@@ -39,12 +47,11 @@ const AppointmentTable = ({ data, columns }) => {
   const { sortedData, requestSort, sortConfig } = useSort(arrayDeArraysVacios)
   return (
     <Table
-      url={"/appointments"}
       columns={displayColumns}
       data={sortedData}
       requestSort={requestSort}
       sortConfig={sortConfig}
-      optionsText="Ver Cita"
+      options={options}
     />
   )
 }

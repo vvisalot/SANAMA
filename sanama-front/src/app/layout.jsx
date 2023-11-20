@@ -22,6 +22,8 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <head>
         <title>Sanama</title>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.1.1/flowbite.min.css" rel="stylesheet" />
+
       </head>
 
       <body className={`${inter.className} bg-[#EFEFEF] w-auto h-screen`}>
@@ -40,6 +42,8 @@ export default function RootLayout({ children }) {
           {children}
           <Toaster position="top-right" richColors />
         </main>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.1.1/flowbite.min.js"></script>
+
       </body>
     </html>
   )

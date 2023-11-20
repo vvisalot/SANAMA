@@ -12,9 +12,21 @@ const columns = [
     { name: "Opciones" },
 ]
 
+const options = [
+    {
+        text: "Ver triaje",
+        link: "/triajes/profile",
+        icon: "fa fa-file",
+    },
+]
+
 const TriajeTable = ({ data }) => {
     return (
-        <Table columns={columns} data={data} url="/triajes/profile" iconName="fa fa-file" />
+        <Table
+            columns={columns}
+            data={data}
+            options={options}
+        />
     )
 }
 

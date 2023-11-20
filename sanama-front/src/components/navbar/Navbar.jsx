@@ -25,7 +25,7 @@ const Navbar = () => {
     const isActive = (route) => pathname.startsWith(route)
 
     return (
-        <nav class="bg-[#28539E] px-6 py-2 flex justify-between">
+        <nav className="bg-[#28539E] px-6 py-2 flex justify-between">
             <Link href="/">
                 <div className="flex items-center">
                     <SanamaIcon className="mr-4" />
@@ -35,8 +35,8 @@ const Navbar = () => {
                 </div>
             </Link>
 
-            <div class="max-w-screen-xl flex flex-wrap items-center justify-between">
-                <div class="hidden w-full md:block md:w-auto" id="navbar-default">
+            <div className="max-w-screen-xl flex flex-wrap items-center justify-between">
+                <div className="hidden w-full md:block md:w-auto" id="navbar-default">
                     <ul className="font-medium flex flex-row rounded-lg text-md text-white">
                         {navbarItems.map((item) => (
                             <NavbarItem

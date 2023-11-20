@@ -19,6 +19,7 @@
   display: inline-block; 
   color: #1dba4b;
   font-weight: bold;
+  justify-self: center;
 }
 
 .highlight-red {
@@ -28,6 +29,7 @@
   display: inline-block;
   color: #fb4d4d;
   font-weight: bold;
+  justify-self: center;
 }
 
 .highlight-orange {
@@ -37,6 +39,7 @@
   display: inline-block;
   color: #b47305;
   font-weight: bold;
+  justify-self: center;
 }
 
 .highlight-blue {
@@ -46,6 +49,8 @@
   display: inline-block;
   color: #179de6;
   font-weight: bold;
+  justify-self: center;
+
 }
 
 .highlight-gray {
@@ -53,6 +58,8 @@
   padding: 0.4rem 0.8rem;
   border-radius: 0.4rem;
   display: inline-block;
+  justify-self: center;
+
 }
 
 .highlight-yellow {
@@ -62,5 +69,7 @@
   display: inline-block;
   color: #b8aa01;
   font-weight: bold;
+  justify-self: center;
+
 
 }

@@ -62,5 +62,7 @@ module.exports = {
       "chip-orange": "#fbd38d",
     },
   },
-  plugins: [require("flowbite/plugin")],
+  plugins: [
+    require("flowbite/plugin")
+  ],
 }

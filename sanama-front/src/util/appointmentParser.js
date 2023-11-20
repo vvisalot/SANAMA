@@ -34,7 +34,7 @@ const formatDateAndTime = (fechaCita, horaCita) => {
 export function parseAppointmentTable(data) {
   return data.map((row) => {
     const { text: estadoTexto, className: estadoClase } = getStatus(row.estado)
-
+    console.log(estadoTexto)
     return [
       { "data": row.idCita },
       { "data": row.codigoCita },
@@ -42,7 +42,7 @@ export function parseAppointmentTable(data) {
       { "data": formatFullName(row.paciente) },
       // { "data": formatFullName(row.medico) },
       { "data": row.medico.especialidad.nombre },
-      { "data": <span className={`${estadoClase} p-2 rounded-lg inline-block`}>{estadoTexto}</span> },
+      { "data": estadoTexto, "className": estadoClase },
     ]
   })
 }
@@ -62,11 +62,15 @@ export function parseAppointmentTable(data) {
 
 
 export function parsePatientAppointmentTable(data) {
-  return data.map((row) => [
-    { data: row.idCita },
-    { data: formatFullName(row.medico) },
-    { data: row.medico.especialidad.nombre },
-    { data: formatDateAndTime(row.fechaCita, row.horaCita) },
-    { data: getStatus(row.estado) },
-  ])
+  return data.map((row) => {
+
+    const { text: estadoTexto, className: estadoClase } = getStatus(row.estado)
+    return [
+      { data: row.idCita },
+      { data: formatFullName(row.medico) },
+      { data: row.medico.especialidad.nombre },
+      { data: formatDateAndTime(row.fechaCita, row.horaCita) },
+      { data: estadoTexto, className: estadoClase },
+    ]
+  })
 }

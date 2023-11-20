@@ -18,7 +18,10 @@ const getEstadoFromRow = (row) => {
   return null
 }
 
-const TableRow = ({ row, url, optionsText, iconName }) => {
+const TableRow = ({
+  row,
+  options,
+}) => {
   const estado = getEstadoFromRow(row)
   return (
     <tr className="bg-white border-b-l-r hover:bg-gray-100">
@@ -26,22 +29,20 @@ const TableRow = ({ row, url, optionsText, iconName }) => {
         if (index === 0) return null
         if (index === row.length - 1) {
           return (
-            <Fragment key={index}>
-              <TableCell data={cell.data} />
-              {url.length > 0 ? (
+            <Fragment key={index + row[0].data * row.length}>
+              <TableCell data={cell.data} className={cell.className ? cell.className : ""} />
+              {options.length > 0 ? (
                 <TableOptions
                   id={parseInt(row[0].data)}
-                  url={url}
-                  text={optionsText}
-                  iconName={iconName}
                   estado={estado}
+                  options={options}
                 />
               ) : null}
             </Fragment>
           )
         } else {
           return (
-            <TableCell key={index} data={cell.data} />
+            <TableCell key={index + row[0].data * row.length} data={cell.data} className={cell.className ? cell.className : ""} />
           )
         }
       })}
