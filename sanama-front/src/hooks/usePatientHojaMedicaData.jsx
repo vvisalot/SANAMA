@@ -1,54 +1,70 @@
 import { useState, useEffect } from "react";
 import { attentionService } from "@/services/attentionService";
 import { patientService } from "@/services/patientService";
-const usePatientHojaMedicaData = (idEvaluation, idPaciente) => {
+
+const usePatientHojaMedicaData = (idHojaMedica, idPaciente) => {
   const [medicalRecordData, setMedicalRecordData] = useState(null);
   const [patientData, setPatientData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [errorMessageMedicalRecordForm, setErrorMessageMedicalRecordForm] =
-    useState("");
+  const [loadingMedicalRecord, setLoadingMedicalRecord] = useState(false);
+  const [loadingPatientData, setLoadingPatientData] = useState(false);
+  const [errorMedicalRecord, setErrorMedicalRecord] = useState("");
+  const [errorPatientData, setErrorPatientData] = useState("");
+  const loading = loadingMedicalRecord || loadingPatientData;
 
   useEffect(() => {
     const fetchMedicalRecord = async () => {
-      setLoading(true);
+      setLoadingMedicalRecord(true);
       try {
         const data = await attentionService.buscarHojaMedicaPaciente(
-          idEvaluation
+          idHojaMedica
         );
         setMedicalRecordData(data);
+        console.log(data);
       } catch (error) {
-        setErrorMessageMedicalRecordForm(
+        setErrorMedicalRecord(
           "Error fetching medical record: " + error.message
         );
       } finally {
-        setLoading(false);
+        setLoadingMedicalRecord(false);
       }
     };
     fetchMedicalRecord();
-  }, [idEvaluation]);
+  }, [idHojaMedica]);
 
   useEffect(() => {
     const fecthPatientData = async () => {
-      setLoading(true);
+      setLoadingPatientData(true);
       try {
         const data = await patientService.mostrarPacienteRegistrado(idPaciente);
         setPatientData(data);
+        console.log(data);
       } catch (error) {
-        setErrorMessageMedicalRecordForm(
-          "Error fetching patient data: " + error.message
-        );
+        setErrorPatientData("Error fetching patient data: " + error.message);
       } finally {
-        setLoading(false);
+        setLoadingPatientData(false);
       }
     };
     fecthPatientData();
   }, [idPaciente]);
 
+  useEffect(() => {
+    if (medicalRecordData) {
+      setPatientData((prevPatientData) => ({
+        ...prevPatientData,
+        triaje: {
+          peso: "",
+          talla: "",
+        },
+      }));
+    }
+  }, [medicalRecordData]);
+
   return {
     patientData,
     medicalRecordData,
     loading,
-    errorMessageMedicalRecordForm,
+    errorMedicalRecord,
+    errorPatientData,
   };
 };
 
