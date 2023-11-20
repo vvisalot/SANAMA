@@ -15,7 +15,7 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
   const sexo = patientData.sexo === "M" ? "Masculino" : "Femenino";
   const evaluacionMedica = hojaMedicaData.evaluacionMedica;
   const vitalSigns = evaluacionMedica.signosVitales || {};
-
+  const diagnosticos = evaluacionMedica.diagnosticos;
   return (
     <>
       <div className="col-span-2">
@@ -144,6 +144,30 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
             value={evaluacionMedica.ableToMoveBody}
             disabled
           />
+        </div>
+      </Accordion>
+
+      <Accordion title="Diagnostico" id="glasgow">
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+          <table class="text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                <th className="px-6 py-3">CIE-10</th>
+                <th className="px-6 py-3">Descripción</th>
+              </tr>
+            </thead>
+            <tbody>
+              {diagnosticos.map((diagnostico, index) => (
+                <tr
+                  key={index}
+                  className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
+                >
+                  <td className="px-6 py-3">{diagnostico.idCiex}</td>
+                  <td className="px-6 py-3">{diagnostico.ciex}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </Accordion>
     </>
