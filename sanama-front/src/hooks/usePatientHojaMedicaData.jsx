@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import { useParams } from "next/navigation";
 
 const usePatientHojaMedicaData = (idEvaluation) => {
   const [errorMessageMedicalRecordForm, setErrorMessageMedicalRecordForm] =
