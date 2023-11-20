@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
+import java.util.List;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class HojaMedica {
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
@@ -14,12 +15,14 @@ public class HojaMedica {
     private LocalTime horaAtencion;
     private LocalDate fechaAtencion;
     private byte[] firma;
+    private String medicoConsulta;
+    private String observaciones;
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private int estado=0;
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private int idCitaMedica=0;
     private CitaMedica citaMedica;
-    private ArrayList<Resultado> resultados;
+    private List<Resultado> resultados;
     private RecetaMedica recetaMedica;
     private EvaluacionMedica evaluacionMedica;
 
@@ -90,6 +93,22 @@ public class HojaMedica {
         this.firma = firma;
     }
 
+    public String getMedicoConsulta() {
+        return medicoConsulta;
+    }
+
+    public void setMedicoConsulta(String medicoConsulta) {
+        this.medicoConsulta = medicoConsulta;
+    }
+
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
+    }
+
     public int getEstado() {
         return estado;
     }
@@ -98,11 +117,11 @@ public class HojaMedica {
         this.estado = estado;
     }
 
-    public ArrayList<Resultado> getResultados() {
+    public List<Resultado> getResultados() {
         return resultados;
     }
 
-    public void setResultados(ArrayList<Resultado> resultados) {
+    public void setResultados(List<Resultado> resultados) {
         this.resultados = resultados;
     }
 
