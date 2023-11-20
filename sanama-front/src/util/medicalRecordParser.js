@@ -9,26 +9,12 @@ export function parseHistorial(data) {
 }
 
 export function parseHojaMedicaTable(data) {
-  const columns = [
-    "idHojaMedica",
-    "codigo",
-    "medico",
-    "especialidad",
-    "fechaAtencion",
-    "horaAtencion",
-  ]
-  const table = data.map((item) => {
-    return columns.map((column) => {
-      if (column === "medico") {
-        return {
-          data: `${item.citaMedica.medico.nombres} ${item.citaMedica.medico.apellidoPaterno} ${item.citaMedica.medico.apellidoMaterno}`,
-        }
-      } else if (column === "especialidad") {
-        return { data: item.citaMedica.medico.especialidad.nombre }
-      } else {
-        return { data: item[column] }
-      }
-    })
-  })
-  return table
+  return data.map((row) => ({
+    idHistory: row.idHojaMedica,
+    historyCode: row.codigo,
+    doctorName: row.citaMedica.medico.nombres + ' ' + row.citaMedica.medico.apellidoPaterno + ' ' + row.citaMedica.medico.apellidoMaterno,
+    specialty: row.citaMedica.medico.especialidad.nombre,
+    dateTime: row.fechaAtencion + ' ' + row.horaAtencion,
+  }))
 }
+

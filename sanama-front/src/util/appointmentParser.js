@@ -35,22 +35,6 @@ const formatDateAndTime = (fechaCita, horaCita) => {
   return `${formattedDate} ${formattedTime}`
 }
 
-// export function parseAppointmentTable(data) {
-//   return data.map((row) => {
-//     const { text: estadoTexto, className: estadoClase } = getStatus(row.estado)
-//     console.log(estadoTexto)
-//     return [
-//       { "data": row.idCita },
-//       { "data": row.codigoCita },
-//       { "data": formatDateAndTime(row.fechaCita, row.horaCita) },
-//       { "data": formatFullName(row.paciente) },
-//       { "data": formatFullName(row.medico) },
-//       { "data": row.medico.especialidad.nombre },
-//       { "data": estadoTexto, "className": estadoClase },
-//     ]
-//   })
-// }
-
 
 export function parsePatientAppointmentTable(data) {
   return data.map((row) => {

@@ -5,7 +5,7 @@ import { patientService } from "@/services/patientService"
 import { parsePatientTable } from "@/util/patientParser"
 import SearchBar from "@/components/bars/SearchBar"
 import PatientIcon from "@/components/icons/PatientIcon"
-import TitleWithIcon from "@/components/TitleWithIcon";
+import TitleWithIcon from "@/components/TitleWithIcon"
 
 const PatientPage = () => {
   const [patientTable, setPatientTable] = useState([])
@@ -31,6 +31,14 @@ const PatientPage = () => {
     const filtro = elements.namedItem("patients-search").value
     fetchData(filtro)
   }
+
+  const options = [
+    {
+      text: "Ver perfil",
+      link: "/patients/profile",
+      icon: "/icons/eye.svg",
+    },
+  ]
 
   return (
     <section className="w-full px-14 py-6">
@@ -59,7 +67,7 @@ const PatientPage = () => {
       </div>
 
       <section className="w-full">
-        <PatientTable data={patientTable}></PatientTable>
+        <PatientTable data={patientTable} options={options}></PatientTable>
       </section>
     </section>
   )
