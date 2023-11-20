@@ -37,7 +37,7 @@ const Navbar = () => {
 
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between">
         <div className="hidden w-full md:block md:w-auto" id="navbar-default">
-          <ul className="font-medium flex flex-row rounded-lg text-md text-white">
+          <ul className=" flex flex-row font-semibold rounded-lg text-md text-white">
             {navbarItems.map((item) => (
               <NavbarItem
                 key={item.route}

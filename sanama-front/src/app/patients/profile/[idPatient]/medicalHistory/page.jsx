@@ -125,6 +125,19 @@ const HistorialClinico = () => {
     </div>
   )
 
+
+  const options = [
+    {
+      text: "Ver cita",
+      link: "/info",
+    },
+
+    {
+      text: "Ver resultados",
+      link: "/historyLabResults",
+    }
+  ]
+
   return (
     <section className="p-4 md:p-14">
       <TitleWithIcon name={"Ver Historial"} Icon={iconoHistorial} />
@@ -149,7 +162,7 @@ const HistorialClinico = () => {
                 <input className="border rounded p-2 w-full" type="date" />
               </div>
             </div>
-            <MedicalRecordsTable data={hojasMedicas} />
+            <MedicalRecordsTable data={hojasMedicas} options={options} />
           </div>
         </div>
       </div>

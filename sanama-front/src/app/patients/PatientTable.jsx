@@ -1,28 +1,53 @@
-import Table from "@/components/table/Table"
+import AdvancedTable from "@/components/table/Table"
+import TableOptions from "@/components/table/TableOptions"
+import React from "react"
 
-//Nombre de las columnas a secas
-const columns = [
-  { name: "Nombre completo" },
-  { name: "DNI" },
-  { name: "Fecha de nacimiento" },
-  { name: "Telefono" },
-  { name: "Opciones" },
-]
 
-const options = [
-  {
-    text: "Ver perfil",
-    link: "/patients/profile",
-    icon: "/icons/eye.svg",
-  },
-]
 
-const PatientTable = ({ data }) => {
+const PatientTable = ({ data, options }) => {
+  const columns = React.useMemo(() => [
+    {
+      accessorKey: "idPersona",
+      header: "ID",
+      enableSorting: true,
+    },
+
+    {
+      accessorKey: "patientName",
+      header: "Nombre completo",
+      enableSorting: true,
+    },
+    {
+      accessorKey: "dni",
+      header: "DNI",
+      enableSorting: true,
+    },
+    {
+      accessorKey: "birthdate",
+      header: "Fecha de nacimiento",
+      enableSorting: true,
+    },
+    {
+      accessorKey: "phone",
+      header: "Teléfono",
+      enableSorting: true,
+    },
+    {
+      accessorKey: "actions",
+      header: "Acciones",
+      cell: ({ row }) => {
+        return (
+          <TableOptions id={row.original.idPersona} options={options} />
+        )
+      }
+    },
+  ], []
+  )
   return (
-    <Table
+    <AdvancedTable
       columns={columns}
       data={data}
-      options={options}
+      id={"idPersona"}
     />
   )
 }
