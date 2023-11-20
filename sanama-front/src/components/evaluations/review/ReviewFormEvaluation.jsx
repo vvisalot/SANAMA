@@ -3,11 +3,10 @@ import Accordion from "@/components/evaluations/acordeon";
 import InputField from "@/components/common/InputField";
 import TextAreaField from "@/components/common/TextAreaField";
 import { calcularEdad, formatearFecha } from "@/util/formValidations";
-import { motion, AnimatePresence } from "framer-motion";
 
 const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
   if (!patientData) {
-    return <p>Cargando...</p>; // Or any other loading state representation
+    return <p>Cargando...</p>;
   }
 
   const edad = calcularEdad(patientData.fechaNacimiento);
@@ -34,11 +33,10 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
           <InputField
             label="Fecha de Nacimiento"
             value={fechaNacimientoFormateada}
-            disabled
           />
+          disabled
           <InputField label="Edad" value={edad} disabled />
           <InputField label="Sexo" value={sexo} disabled />
-
           <InputField
             label="Peso (kg)"
             value={
@@ -117,7 +115,159 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
       </Accordion>
 
       <Accordion title="Exploracion Fisica" id="expfisica" active={true}>
-        <ExplorationTab evaluationData={evaluacionMedica} />
+        <div className="ml-2 mr-4 col-span-2">
+          <div className="resize-none grid grid-cols-1 md:grid-cols-2 gap-4">
+            {evaluacionMedica.examenGeneral && (
+              <div className="flex col-span-2 ml-12">
+                <label className="block resize-none text-sm font-medium text-gray-700 w-1/6">
+                  Examen General
+                </label>
+                <span className="mr-4">:</span>
+                <textarea
+                  readOnly
+                  className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
+                  rows={3}
+                  value={evaluacionMedica.examenGeneral}
+                />
+              </div>
+            )}
+
+            {evaluacionMedica.pielYFaneras && (
+              <div className="flex col-span-2 ml-12">
+                <label className="block resize-none text-sm font-medium text-gray-700 w-1/6">
+                  Piel y Faneras
+                </label>
+                <span className="mr-4">:</span>
+                <textarea
+                  readOnly
+                  className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
+                  rows={3}
+                  value={evaluacionMedica.pielYFaneras}
+                />
+              </div>
+            )}
+
+            {evaluacionMedica.cabezaYCuello && (
+              <div className="flex col-span-2 ml-12">
+                <label className="block resize-none text-sm font-medium text-gray-700 w-1/6">
+                  Cabeza y Cuello
+                </label>
+                <span className="mr-4">:</span>
+                <textarea
+                  readOnly
+                  className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
+                  rows={3}
+                  value={evaluacionMedica.cabezaYCuello}
+                />
+              </div>
+            )}
+
+            {evaluacionMedica.toraxYPulmones && (
+              <div className="flex col-span-2 ml-12">
+                <label className="block resize-none text-sm font-medium text-gray-700 w-1/6">
+                  Tórax y Pulmones
+                </label>
+                <span className="mr-4">:</span>
+                <textarea
+                  readOnly
+                  className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
+                  rows={3}
+                  value={evaluacionMedica.toraxYPulmones}
+                />
+              </div>
+            )}
+            {evaluacionMedica.toraxYPulmones && (
+              <div className="flex col-span-2 ml-12">
+                <label className="block resize-none text-sm font-medium text-gray-700 w-1/6">
+                  Tórax y Pulmones
+                </label>
+                <span className="mr-4">:</span>
+                <textarea
+                  readOnly
+                  className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
+                  rows={3}
+                  value={evaluacionMedica.toraxYPulmones}
+                />
+              </div>
+            )}
+
+            {evaluacionMedica.cardiovascular && (
+              <div className="flex col-span-2 ml-12">
+                <label className="block resize-none text-sm font-medium text-gray-700 w-1/6">
+                  Cardiovascular
+                </label>
+                <span className="mr-4">:</span>
+                <textarea
+                  readOnly
+                  className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
+                  rows={3}
+                  value={evaluacionMedica.cardiovascular}
+                />
+              </div>
+            )}
+
+            {evaluacionMedica.abdomen && (
+              <div className="flex col-span-2 ml-12">
+                <label className="block resize-none text-sm font-medium text-gray-700 w-1/6">
+                  Abdomen
+                </label>
+                <span className="mr-4">:</span>
+                <textarea
+                  readOnly
+                  className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
+                  rows={3}
+                  value={evaluacionMedica.abdomen}
+                />
+              </div>
+            )}
+
+            {evaluacionMedica.urogenital && (
+              <div className="flex col-span-2 ml-12">
+                <label className="block resize-none text-sm font-medium text-gray-700 w-1/6">
+                  Urogenital
+                </label>
+                <span className="mr-4">:</span>
+                <textarea
+                  readOnly
+                  className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
+                  rows={3}
+                  value={evaluacionMedica.urogenital}
+                />
+              </div>
+            )}
+
+            {evaluacionMedica.extremidades && (
+              <div className="flex col-span-2 ml-12">
+                <label className="block resize-none text-sm font-medium text-gray-700 w-1/6">
+                  Extremidades
+                </label>
+                <span className="mr-4">:</span>
+                <textarea
+                  readOnly
+                  className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
+                  rows={3}
+                  value={evaluacionMedica.extremidades}
+                />
+              </div>
+            )}
+
+            {evaluacionMedica.snc && (
+              <div className="flex col-span-2 ml-12">
+                <label className="block resize-none text-sm font-medium text-gray-700 w-1/6">
+                  Sistema Nervioso Central
+                </label>
+                <span className="mr-4">:</span>
+                <textarea
+                  readOnly
+                  className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
+                  rows={3}
+                  value={evaluacionMedica.snc}
+                />
+              </div>
+            )}
+          </div>
+        </div>
+        ;
       </Accordion>
 
       <Accordion title="Nivel de Consciencia" id="glasgow" active={true}>
@@ -205,66 +355,6 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
         </div>
       </Accordion>
     </>
-  );
-};
-
-const ExplorationTab = ({ evaluationData }) => {
-  const sectionNames = [
-    "examenGeneral",
-    "pielYFaneras",
-    "cabezaYCuello",
-    "toraxYPulmones",
-    "cardiovascular",
-    "abdomen",
-    "urogenital",
-    "extremidades",
-    "snc",
-  ];
-
-  const renderTextArea = (label, name, section, key) => {
-    if (!evaluationData[section]) return null; // No muestra el área si no hay datos
-    return (
-      <motion.div
-        key={key}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -20 }}
-        transition={{ duration: 0.2 }}
-        className="flex col-span-2 ml-12"
-      >
-        <label
-          htmlFor={name}
-          className="block resize-none text-sm font-medium text-gray-700 w-1/6"
-        >
-          {label}
-        </label>
-        <span className="mr-4">:</span>
-        <textarea
-          id={name}
-          readOnly // Hace el área de texto de solo lectura
-          className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          rows={3}
-          value={evaluationData[section]} // Muestra los datos
-        />
-      </motion.div>
-    );
-  };
-
-  return (
-    <div className="ml-2 mr-4 col-span-2">
-      <div className="resize-none grid grid-cols-1 md:grid-cols-2 gap-4">
-        {sectionNames.map((section) =>
-          renderTextArea(
-            section
-              .replace(/([A-Z])/g, " $1")
-              .replace(/^./, (str) => str.toUpperCase()),
-            `evaluacionMedica.${section}`,
-            section,
-            `textarea-${section}`
-          )
-        )}
-      </div>
-    </div>
   );
 };
 
