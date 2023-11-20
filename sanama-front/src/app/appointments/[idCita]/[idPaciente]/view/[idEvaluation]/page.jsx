@@ -1,114 +1,40 @@
 "use client";
 import React, { useState } from "react";
+import { useParams } from "next/navigation";
 import MainInfoComponent from "@/components/evaluations/MainInfoTab";
-import VitalSigns from "@/components/evaluations/VitalSigns";
-import DiagnosticoMedico from "@/components/evaluations/DiagnosisTab";
-import GlasgowComaScale from "@/components/evaluations/MentalStatusTab";
-import TratamientoYDecisionCita from "@/components/evaluations/TreatmentTab";
-import LaboratoryModal from "@/components/evaluations/LaboratoryModal";
+import usePatientTriageData from "@/hooks/usePatientTriageData";
+import FormContainerMedicalRecord from "@/components/evaluations/FormContainerMedicalRecord";
+import newMedicalRecord from "@/components/icons/newMedicalRecord";
+import TitleWithIcon from "@/components/TitleWithIcon";
 
-// evauliacion existente
-const FormularioMedico = () => {
-  const initialFormData = {
-    MainInfo: {
-      nombre: "",
-      dni: "",
-      genero: "",
-      edad: "",
-      peso: "",
-      talla: "",
-      personaResponsable: {
-        nombre: "",
-        dni: "",
-      },
-      fechaUltimaAtencion: "",
-      horaUltimaAtencion: "",
-    },
-    VitalSigns: {
-      signosVitales: {
-        temperatura: "",
-        fc: "",
-        fr: "", // Frecuencia Respiratoria
-        pa: "", // Presión Arterial
-        sat: "", // Saturación de Oxígeno
-      },
-      antecedentes: "",
-      motivoConsulta: "",
-      observaciones: "",
-      exploracionFisica: {
-        exGeneral: "",
-        pielYFaneras: "",
-        cabezaYCuello: "",
-        toraxYPulmones: "",
-        cardiovascular: "",
-        abdomen: "",
-        urogenital: "",
-        extremidades: "",
-        snc: "",
-      },
-      estadoMental: {
-        glasgow: "",
-        eyesOpen: "",
-        talkingCorrectly: "",
-        ableToMoveBody: "",
-      },
-    },
-    DiagnosticoYTratamientos: {
-      diagnosticos: [], // tabla CIE - 10
-      tratamientos: [], // tabla CIE - 10
-    },
-    DatosHojaMedica: {
-      estadoHojaMedica: "", // Puede ser "Cerrar Hoja" o "Mantener Abierta"
-      derivacion: "", // especialidad a la que deberia ir
-      proximaCita: "", // fecha tentativa de proxima cita
-      atendidoPor: "", // id doctor atendido
-      selloYFirma: "", // sello o firma doctor
-      crearOrdenDeLaboratorio: "", // Modal que abre los datos para generar la orden
-      tipoOrdenDeLaboratorio: "",
-      instruccionesLaboratorio: "",
-      resultado: "",
-      recetaMedica: {
-        indicacionesFinales: "",
-        medicamentosRecetados: [],
-      },
-    },
+const reviewFormularioMedico = () => {
+  const params = useParams();
+  const idCita = params.idCita;
+  const { patientTriageData, loading, error } = usePatientTriageData(idCita);
+
+  if (loading) return <div>Cargando...</div>;
+  if (error) return <div>Error: {error}</div>;
+
+  const defaultTriaje = {
+    temperatura: "",
+    frecuenciaCardiaca: "",
+    frecuenciaRespiratoria: "",
+    presionArterial: "",
+    saturacionOxigeno: "",
   };
 
-  const [formData, setFormData] = useState(initialFormData);
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(formData);
+  const signosVitales = {
+    ...defaultTriaje,
+    ...patientTriageData?.triaje,
   };
 
   return (
-    <div className="p-8">
-      <h1 className="font-bold text-blue-500 text-6xl p-12">
-        Evaluacion Existente
-      </h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <MainInfoComponent
-            formData={formData.MainInfo}
-            handleInputChange={handleInputChange}
-          ></MainInfoComponent>
-
-          <VitalSigns
-            formData={formData.VitalSigns}
-            handleInputChange={handleInputChange}
-          ></VitalSigns>
-        </div>
-      </form>
-    </div>
+    <section className="p-4 md:p-14">
+      <TitleWithIcon name={"Nueva Hoja Médica"} Icon={newMedicalRecord} />
+      <MainInfoComponent patientTriageData={patientTriageData} />
+      <FormContainerMedicalRecord defaultTriaje={signosVitales} />
+    </section>
   );
 };
 
-export default FormularioMedico;
+export default reviewFormularioMedico;
