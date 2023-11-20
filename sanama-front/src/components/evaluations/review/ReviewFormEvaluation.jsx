@@ -14,6 +14,8 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
   const fechaNacimientoFormateada = formatearFecha(patientData.fechaNacimiento);
   const sexo = patientData.sexo === "M" ? "Masculino" : "Femenino";
   const evaluacionMedica = hojaMedicaData.evaluacionMedica;
+  const recetaMedica = hojaMedicaData.recetaMedica;
+  const medicamentos = recetaMedica.medicamentos;
   const vitalSigns = evaluacionMedica.signosVitales || {};
   const diagnosticos = evaluacionMedica.diagnosticos;
   return (
@@ -147,10 +149,10 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
         </div>
       </Accordion>
 
-      <Accordion title="Diagnostico" id="glasgow">
-        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-          <table class="text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <Accordion title="Diagnostico" id="diagnostico">
+        <div className="w-full grid justify-items-center">
+          <table className="w-3/6 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th className="px-6 py-3">CIE-10</th>
                 <th className="px-6 py-3">Descripción</th>
@@ -164,6 +166,30 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
                 >
                   <td className="px-6 py-3">{diagnostico.idCiex}</td>
                   <td className="px-6 py-3">{diagnostico.ciex}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Accordion>
+
+      <Accordion title="Receta Medica" id="receta">
+        <div className="w-full grid justify-items-center">
+          <table className="w-3/6 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                <th className="px-6 py-3">Descripción</th>
+                <th className="px-6 py-3">Indicaciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {medicamentos.map((medicamento, index) => (
+                <tr
+                  key={index}
+                  className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
+                >
+                  <td className="px-6 py-3">{medicamento.nombre}</td>
+                  <td className="px-6 py-3">{medicamento.indicacion}</td>
                 </tr>
               ))}
             </tbody>
