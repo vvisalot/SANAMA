@@ -27,14 +27,16 @@ export default function RootLayout({ children }) {
       <body className={`${inter.className} bg-[#EFEFEF] w-auto h-screen`}>
         <Navbar />
         <main className={`h-screen`}>
-          {/* <NextBreadcrumb
-            homeElement={"Inicio"}
-            separator={<span>/</span>}
-            activeClasses="text-gray-700 font-bold text-md"
-            containerClasses="flex py-5 bg-transparent rounded-t-md"
-            listClasses="px-4 text-md text-slate-200 hover:text-blue-700"
-            capitalizeLinks
-          /> */}
+          {
+            <NextBreadcrumb
+              homeElement={"Inicio"}
+              separator={<span>/</span>}
+              activeClasses="text-gray-700 font-bold text-md"
+              containerClasses="flex py-5 bg-transparent rounded-t-md"
+              listClasses="px-4 text-md text-slate-200 hover:text-blue-700"
+              capitalizeLinks
+            />
+          }
           {children}
           <Toaster position="top-right" richColors />
         </main>
