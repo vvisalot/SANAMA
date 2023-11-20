@@ -26,24 +26,24 @@
 // },
 
 //Para la tabla de doctores
-export function parseDoctorsTable(data) {
-    const columns = ["idPersona", "nombres", "cmp", "especialidad", "area"]
-    const table = data.map(row => {
-        return columns.map(column => {
-            if (column === "nombres") {
-                return {
-                    "data": `${row["nombres"]} ${row["apellidoPaterno"]} ${row["apellidoMaterno"]}`
-                }
-            } else if (column === "especialidad") {
-                return { "data": row["especialidad"]["nombre"] }
-            }
-            else {
-                return { "data": row[column] }
-            }
-        })
-    })
-    return table
-}
+// export function parseDoctorsTable(data) {
+//     const columns = ["idPersona", "nombres", "cmp", "especialidad", "area"]
+//     const table = data.map(row => {
+//         return columns.map(column => {
+//             if (column === "nombres") {
+//                 return {
+//                     "data": `${row["nombres"]} ${row["apellidoPaterno"]} ${row["apellidoMaterno"]}`
+//                 }
+//             } else if (column === "especialidad") {
+//                 return { "data": row["especialidad"]["nombre"] }
+//             }
+//             else {
+//                 return { "data": row[column] }
+//             }
+//         })
+//     })
+//     return table
+// }
 
 //Para el dropdown del form de citas
 export function parseDoctorsDropdown(data) {
@@ -54,4 +54,27 @@ export function parseDoctorsDropdown(data) {
         }
     })
     return table
-} 
+}
+const formatFullName = ({ nombres, apellidoPaterno, apellidoMaterno }) =>
+    `${nombres} ${apellidoPaterno} ${apellidoMaterno}`
+
+
+//NOTA: Los accessory key de cada table deben coincidir con los nombres de las columnas en el parse
+//Ej:    
+//  {
+//     accessorKey: "idPersona", // <-- esto debe coincidir
+//     header: "ID",
+//     enableSorting: true,
+//  },
+
+
+
+export function parseDoctorsTable(data) {
+    return data.map((row) => ({
+        idPersona: row.idPersona,
+        doctorName: row.nombres + ' ' + row.apellidoPaterno + ' ' + row.apellidoMaterno,
+        cmp: row.cmp,
+        specialty: row.especialidad.nombre,
+        area: row.area,
+    }))
+}

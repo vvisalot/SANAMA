@@ -1,6 +1,7 @@
 import Table from "@/components/table/Table"
 import { usePathname } from "next/navigation"
 
+
 const columns = [
   // { name: "ID" },
   { name: "Código" },
@@ -8,18 +9,35 @@ const columns = [
   { name: "Especialidad" },
   { name: "Fecha de Atención" },
   { name: "Hora de Atención" },
-  { name: "Hoja medica" },
-  { name: "Resultados" },
+  { name: "Opciones" },
+]
+
+
+const options = [
+  {
+    text: "Ver cita",
+    link: "/info",
+  },
+
+  {
+    text: "Ver resultados",
+    link: "/historyLabResults",
+  }
 ]
 
 const MedicalRecordsTable = ({ data }) => {
   const pathname = usePathname()
+
+  const modifiedOptions = options.map((option) => ({
+    ...option,
+    link: `${pathname}/${option.link}`,
+  }))
+
   return (
     <Table
       columns={columns}
       data={data}
-      url={`${pathname}/view`}
-      optionsText="Ver"
+      options={modifiedOptions}
     />
   )
 }

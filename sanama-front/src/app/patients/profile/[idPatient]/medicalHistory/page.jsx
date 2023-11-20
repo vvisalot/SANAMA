@@ -1,54 +1,54 @@
-"use client";
+"use client"
 
-import React, { useState, useEffect } from "react";
-import { patientService, createMedicalRecord } from "@/services/patientService";
-import { useParams } from "next/navigation";
-import MedicalRecordsTable from "@/components/MedicalRecordsTable";
-import { parseHojaMedicaTable } from "@/util/medicalRecordParser";
-import usePatientForm from "@/hooks/usePatientForm";
-import { sexParser } from "@/util/patientParser";
-import TitleWithIcon from "@/components/TitleWithIcon";
-import iconoHistorial from "@/components/icons/iconoHistorial";
+import React, { useState, useEffect } from "react"
+import { patientService, createMedicalRecord } from "@/services/patientService"
+import { useParams } from "next/navigation"
+import MedicalRecordsTable from "@/components/MedicalRecordsTable"
+import { parseHojaMedicaTable } from "@/util/medicalRecordParser"
+import usePatientForm from "@/hooks/usePatientForm"
+import { sexParser } from "@/util/patientParser"
+import TitleWithIcon from "@/components/TitleWithIcon"
+import iconoHistorial from "@/components/icons/iconoHistorial"
 
 const HistorialClinico = () => {
-  const params = useParams();
-  const idPaciente = params.idPatient;
+  const params = useParams()
+  const idPaciente = params.idPatient
 
-  const { patientForm, setPatientForm } = usePatientForm();
+  const { patientForm, setPatientForm } = usePatientForm()
 
-  const [historialClinico, setHistorialClinico] = useState(null);
-  const [hojasMedicas, setHojasMedicas] = useState([]);
+  const [historialClinico, setHistorialClinico] = useState(null)
+  const [hojasMedicas, setHojasMedicas] = useState([])
 
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     const fetchHistorial = async () => {
       try {
-        const data = await patientService.buscarHistorialClinico(idPaciente);
-        const tableData = parseHojaMedicaTable(data.hojasMedicas);
+        const data = await patientService.buscarHistorialClinico(idPaciente)
+        const tableData = parseHojaMedicaTable(data.hojasMedicas)
         setHistorialClinico({
           idHistorialClinico: data.idHistorialClinico,
           codigo: data.codigo,
           estadoHojaMedica: true,
-        });
-        setHojasMedicas(tableData);
+        })
+        setHojasMedicas(tableData)
       } catch (error) {
-        setError(error);
+        setError(error)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
+    }
 
     if (idPaciente) {
-      fetchHistorial();
+      fetchHistorial()
     }
-  }, [idPaciente]);
+  }, [idPaciente])
 
   const fetchData = async () => {
     try {
-      const data = await patientService.mostrarPacienteRegistrado(idPaciente);
-      console.log(data.idPersona);
+      const data = await patientService.mostrarPacienteRegistrado(idPaciente)
+      console.log(data.idPersona)
 
       setPatientForm({
         ...patientForm,
@@ -63,21 +63,21 @@ const HistorialClinico = () => {
         correo: data.correo,
         sexo: sexParser(data.sexo),
         fechaNacimiento: data.fechaNacimiento,
-      });
+      })
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
   useEffect(() => {
     if (idPaciente) {
-      fetchData();
+      fetchData()
     }
-  }, [idPaciente]);
+  }, [idPaciente])
 
-  if (loading) return <p>Cargando...</p>;
-  if (error) return <p>Error al cargar el historial clínico</p>;
-  if (!historialClinico) return <p>No se encontró el historial clínico</p>;
+  if (loading) return <p>Cargando...</p>
+  if (error) return <p>Error al cargar el historial clínico</p>
+  if (!historialClinico) return <p>No se encontró el historial clínico</p>
 
   const PatientDataDisplay = ({ patient }) => (
     <div className="flex flex-wrap mb-2 space-x-32 px-4">
@@ -123,7 +123,7 @@ const HistorialClinico = () => {
         </p>
       </div>
     </div>
-  );
+  )
 
   return (
     <section className="p-4 md:p-14">
@@ -149,12 +149,12 @@ const HistorialClinico = () => {
                 <input className="border rounded p-2 w-full" type="date" />
               </div>
             </div>
-            <MedicalRecordsTable data={hojasMedicas}></MedicalRecordsTable>
+            <MedicalRecordsTable data={hojasMedicas} />
           </div>
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default HistorialClinico;
+export default HistorialClinico

@@ -11,9 +11,21 @@ const columns = [
     { name: "Opciones" }
 ]
 
+const options = [
+    {
+        text: "Ver laboratorio",
+        link: "/laboratories/profile",
+        icon: "fa fa-file",
+    },
+]
+
 const LaboratoryTable = ({ data }) => {
     return (
-        <Table columns={columns} data={data} url="/laboratories/profile" iconName="fa fa-file" />
+        <Table
+            columns={columns}
+            data={data}
+            options={options}
+        />
     )
 }
 

@@ -1,4 +1,5 @@
 import Table from "@/components/table/Table"
+import { usePathname } from "next/navigation"
 
 // Columns for the Laboratory table
 const columns = [
@@ -9,10 +10,28 @@ const columns = [
     { name: "Opciones" }
 ]
 
-const LaboratoryTable = ({ data, id }) => {
-    
+const options = [
+    {
+        text: "Ver resultados",
+        link: "/lab-results",
+    }
+]
+
+const LaboratoryTable = ({ data }) => {
+    const pathname = usePathname()
+    const modifiedOptions = options.map((option) => ({
+        ...option,
+        link: `${pathname}/${option.link}`,
+    }))
+
     return (
-        <Table columns={columns} data={data} url={`/patients/profile/${id}/lab-results`} iconName="fa fa-file" />
+        <Table
+            columns={columns}
+            data={data}
+            options={modifiedOptions}
+        // url={`/patients/profile/${id}/lab-results`}
+        // iconName="fa fa-file"
+        />
     )
 }
 

@@ -1,18 +1,24 @@
 import TableRow from "./TableRow";
 
-const TableBody = ({ data, url, optionsText, iconName }) => {
+const TableBody = ({
+  data,
+  // url,
+  // optionsText,
+  // iconName
+  options
+}) => {
+
   return (
     <tbody className="border-2 border-gray-200">
       {data.map((row, index) => {
+        console.log(row)
         return (
           <TableRow
             key={index}
             row={row}
-            url={url}
-            optionsText={optionsText}
-            iconName={iconName}
+            options={options}
           />
-        );
+        )
       })}
     </tbody>
   );

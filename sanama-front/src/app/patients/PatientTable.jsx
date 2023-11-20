@@ -9,13 +9,20 @@ const columns = [
   { name: "Opciones" },
 ]
 
+const options = [
+  {
+    text: "Ver perfil",
+    link: "/patients/profile",
+    icon: "/icons/eye.svg",
+  },
+]
+
 const PatientTable = ({ data }) => {
   return (
     <Table
       columns={columns}
       data={data}
-      url="/patients/profile"
-      optionsText="Ver perfil"
+      options={options}
     />
   )
 }

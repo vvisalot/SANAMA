@@ -1,13 +1,11 @@
-"use client";
+"use client"
 
-import PatientInfo from "@/app/patients/profile/[idPatient]/PatientInfo";
-import ProfileCard from "@/components/cards/ProfileCard";
-import { patientService } from "@/services/patientService";
-import { useEffect, useState } from "react";
-import PatientActions from "./PatientActions";
-import LatestAppointments from "./LatestAppointments";
-import LatestLabResults from "./LatestLabResults";
-import Link from "next/link";
+import PatientInfo from "@/app/patients/profile/[idPatient]/PatientInfo"
+import ProfileCard from "@/components/cards/ProfileCard"
+import { patientService } from "@/services/patientService"
+import { useEffect, useState } from "react"
+import PatientActions from "./PatientActions"
+import LatestAppointments from "./LatestAppointments"
 
 const PatientProfile = ({ params }) => {
   const [dataPatient, setDataPatient] = useState({
@@ -23,19 +21,19 @@ const PatientProfile = ({ params }) => {
     estado: "",
     codigoSeguro: "",
     tipoSeguro: "",
-  });
+  })
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await patientService.buscarPorFiltro(params.idPatient);
-        setDataPatient(data[0]);
+        const data = await patientService.buscarPorFiltro(params.idPatient)
+        setDataPatient(data[0])
       } catch (error) {
-        console.error(error);
+        console.error(error)
       }
-    };
-    fetchData();
-  }, [params.idPatient]);
+    }
+    fetchData()
+  }, [params.idPatient])
 
   return (
     <article className="flex flex-row justify-between items-start p-10 box-border">
@@ -66,7 +64,7 @@ const PatientProfile = ({ params }) => {
         </div>
       </section>
     </article>
-  );
-};
+  )
+}
 
-export default PatientProfile;
+export default PatientProfile
