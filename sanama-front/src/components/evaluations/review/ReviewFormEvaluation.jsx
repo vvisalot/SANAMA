@@ -1,6 +1,7 @@
 import React from "react";
 import Accordion from "@/components/evaluations/acordeon";
 import InputField from "@/components/common/InputField";
+import TextAreaField from "@/components/common/TextAreaField";
 import { calcularEdad, formatearFecha } from "@/util/formValidations";
 
 const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
@@ -11,6 +12,8 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
   const edad = calcularEdad(patientData.fechaNacimiento);
   const fechaNacimientoFormateada = formatearFecha(patientData.fechaNacimiento);
   const sexo = patientData.sexo === "M" ? "Masculino" : "Femenino";
+  const evaluacionMedica = hojaMedicaData.evaluacionMedica;
+  const vitalSigns = evaluacionMedica.signosVitales || {};
 
   return (
     <>
@@ -36,8 +39,8 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
           <InputField
             label="Peso (kg)"
             value={
-              hojaMedicaData.signosVitales
-                ? hojaMedicaData.signosVitales.peso
+              evaluacionMedica.signosVitales
+                ? evaluacionMedica.signosVitales.peso
                 : "-"
             }
             disabled
@@ -45,16 +48,50 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
           <InputField
             label="Talla (cm)"
             value={
-              hojaMedicaData.signosVitales
-                ? hojaMedicaData.signosVitales.talla
+              evaluacionMedica.signosVitales
+                ? evaluacionMedica.signosVitales.talla
                 : "-"
             }
             disabled
           />
         </div>
       </div>
-      <Accordion title="Ultimo Triaje" id="triage">
-        <viewVitalSigns defaultTriaje={hojaMedicaData.signosVitales} />
+
+      <Accordion title="Signos Vitales" id="triage">
+        <div className="ml-4 grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+          <InputField
+            key={"temperatura"}
+            label={"Temperatura"}
+            value={vitalSigns.temperatura}
+            disabled
+          />
+        </div>
+        <div className="ml-4 grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+          <InputField
+            key={"frecuenciaCardiaca"}
+            label={"Frecuencia Cardiaca"}
+            value={vitalSigns.frecuenciaCardiaca}
+            disabled
+          />
+        </div>
+      </Accordion>
+
+      <Accordion title="Motivo de la Consulta" id="triage">
+        <TextAreaField
+          label="Antecedentes:"
+          name="evaluacionMedica.antecedentes"
+          placeholder="Ingresa los antecentes.."
+        />
+        <TextAreaField
+          label="Motivo de Consulta:"
+          name="evaluacionMedica.motivoConsulta"
+          placeholder="Ingresa el motivo.."
+        />
+        <TextAreaField
+          label="Observaciones Adicionales:"
+          name="evaluacionMedica.observaciones"
+          placeholder="Ingresa observación.."
+        />
       </Accordion>
     </>
   );
