@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import SearchMedicalSheet from "./SearchHojaMedica";
 import { useParams } from "next/navigation";
 import TextAreaField from "../common/TextAreaField";
+
 const ChiefComplaint = ({ setMedicalRecordData }) => {
   const [showModal, setShowModal] = useState(false);
   const params = useParams();

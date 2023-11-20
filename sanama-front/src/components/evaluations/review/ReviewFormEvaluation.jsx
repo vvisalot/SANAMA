@@ -14,8 +14,10 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
   const fechaNacimientoFormateada = formatearFecha(patientData.fechaNacimiento);
   const sexo = patientData.sexo === "M" ? "Masculino" : "Femenino";
   const evaluacionMedica = hojaMedicaData.evaluacionMedica;
+  const recetaMedica = hojaMedicaData.recetaMedica;
+  const medicamentos = recetaMedica.medicamentos;
   const vitalSigns = evaluacionMedica.signosVitales || {};
-
+  const diagnosticos = evaluacionMedica.diagnosticos;
   return (
     <>
       <div className="col-span-2">
@@ -146,6 +148,54 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
           />
         </div>
       </Accordion>
+
+      <Accordion title="Diagnostico" id="diagnostico">
+        <div className="w-full grid justify-items-center">
+          <table className="w-3/6 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                <th className="px-6 py-3">CIE-10</th>
+                <th className="px-6 py-3">Descripción</th>
+              </tr>
+            </thead>
+            <tbody>
+              {diagnosticos.map((diagnostico, index) => (
+                <tr
+                  key={index}
+                  className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
+                >
+                  <td className="px-6 py-3">{diagnostico.idCiex}</td>
+                  <td className="px-6 py-3">{diagnostico.ciex}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Accordion>
+
+      <Accordion title="Receta Medica" id="receta">
+        <div className="w-full grid justify-items-center">
+          <table className="w-3/6 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                <th className="px-6 py-3">Descripción</th>
+                <th className="px-6 py-3">Indicaciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {medicamentos.map((medicamento, index) => (
+                <tr
+                  key={index}
+                  className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
+                >
+                  <td className="px-6 py-3">{medicamento.nombre}</td>
+                  <td className="px-6 py-3">{medicamento.indicacion}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Accordion>
     </>
   );
 };
@@ -164,27 +214,6 @@ const ExplorationTab = ({ evaluationData }) => {
     "extremidades",
     "snc",
   ];
-
-  const renderCheckbox = (label, section, key) => (
-    <motion.div
-      key={key}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      className="flex items-center ml-12 mb-2 "
-      transition={{ duration: 0.2 }}
-    >
-      <input
-        type="checkbox"
-        checked={Boolean(evaluationData[section])} // Marca la casilla si hay datos
-        readOnly // Hace que la casilla sea de solo lectura
-        className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring dark:bg-gray-700 dark:border-gray-600"
-      />
-      <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-        {label}
-      </label>
-    </motion.div>
-  );
 
   const renderTextArea = (label, name, section, key) => {
     if (!evaluationData[section]) return null; // No muestra el área si no hay datos
@@ -217,32 +246,18 @@ const ExplorationTab = ({ evaluationData }) => {
 
   return (
     <div className="ml-2 mr-4 col-span-2">
-      <h5 className="text-base font-medium text-gray-700 mb-2">Exploración:</h5>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+      <div className="resize-none grid grid-cols-1 md:grid-cols-2 gap-4">
         {sectionNames.map((section) =>
-          renderCheckbox(
+          renderTextArea(
             section
               .replace(/([A-Z])/g, " $1")
               .replace(/^./, (str) => str.toUpperCase()),
+            `evaluacionMedica.${section}`,
             section,
-            `checkbox-${section}`
+            `textarea-${section}`
           )
         )}
       </div>
-      <AnimatePresence>
-        <div className="resize-none grid grid-cols-1 md:grid-cols-2 gap-4">
-          {sectionNames.map((section) =>
-            renderTextArea(
-              section
-                .replace(/([A-Z])/g, " $1")
-                .replace(/^./, (str) => str.toUpperCase()),
-              `evaluacionMedica.${section}`,
-              section,
-              `textarea-${section}`
-            )
-          )}
-        </div>
-      </AnimatePresence>
     </div>
   );
 };

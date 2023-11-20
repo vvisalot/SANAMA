@@ -25,6 +25,7 @@ const ExplorationTab = ({ setMedicalRecordData }) => {
     "extremidades",
     "snc",
   ];
+
   const handleOnBlurChange = (e) => {
     const { name, value } = e.target;
     setMedicalRecordData((prevData) => {
@@ -43,6 +44,7 @@ const ExplorationTab = ({ setMedicalRecordData }) => {
       return prevData;
     });
   };
+
   const toggleSectionVisibility = (section) => {
     setVisibleSections((prev) => ({ ...prev, [section]: !prev[section] }));
   };

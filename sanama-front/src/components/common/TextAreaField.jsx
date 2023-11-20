@@ -15,7 +15,7 @@ const TextAreaField = ({ label, name, onBlur, placeholder, data }) => {
         maxLength="255"
         disabled={Boolean(data)} // Deshabilita el campo si data está presente
         readOnly={Boolean(data)} // Hace el campo solo lectura si data está presente
-        value={data ? data : ""} // Muestra data si está presente
+        defaultValue={data ? data : ""} // Muestra data si está presente
       ></textarea>
     </div>
   );
