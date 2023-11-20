@@ -41,8 +41,8 @@ const PatientTable = ({ data, options }) => {
         )
       }
     },
-  ], []
-  )
+  ], [])
+
   return (
     <AdvancedTable
       columns={columns}

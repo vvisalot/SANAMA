@@ -30,14 +30,14 @@ const TablePagination = ({ table }) => {
                 {">>"}
             </button>
             <span className="flex items-center gap-1">
-                <div>Page</div>
+                <div>Página</div>
                 <strong>
                     {table.getState().pagination.pageIndex + 1} of{" "}
                     {table.getPageCount()}
                 </strong>
             </span>
             <span className="flex items-center gap-1">
-                | Go to page:
+                | Ir a la página:
                 <input
                     type="number"
                     defaultValue={table.getState().pagination.pageIndex + 1}
@@ -45,7 +45,7 @@ const TablePagination = ({ table }) => {
                         const page = e.target.value ? Number(e.target.value) - 1 : 0
                         table.setPageIndex(page)
                     }}
-                    className="border p-1 rounded w-16"
+                    className="border p-2 rounded w-16"
                 />
             </span>
             <select
@@ -53,10 +53,11 @@ const TablePagination = ({ table }) => {
                 onChange={(e) => {
                     table.setPageSize(Number(e.target.value))
                 }}
+                className="rounded"
             >
-                {[10, 20, 30, 40, 50].map((pageSize) => (
-                    <option key={pageSize} value={pageSize}>
-                        Show {pageSize}
+                {[10, 20, 30, 40].map((pageSize) => (
+                    <option key={pageSize} value={pageSize} >
+                        Mostrar {pageSize}
                     </option>
                 ))}
             </select>
