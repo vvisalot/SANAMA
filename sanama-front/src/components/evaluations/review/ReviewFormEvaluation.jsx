@@ -215,27 +215,6 @@ const ExplorationTab = ({ evaluationData }) => {
     "snc",
   ];
 
-  const renderCheckbox = (label, section, key) => (
-    <motion.div
-      key={key}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      className="flex items-center ml-12 mb-2 "
-      transition={{ duration: 0.2 }}
-    >
-      <input
-        type="checkbox"
-        checked={Boolean(evaluationData[section])} // Marca la casilla si hay datos
-        readOnly // Hace que la casilla sea de solo lectura
-        className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring dark:bg-gray-700 dark:border-gray-600"
-      />
-      <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-        {label}
-      </label>
-    </motion.div>
-  );
-
   const renderTextArea = (label, name, section, key) => {
     if (!evaluationData[section]) return null; // No muestra el área si no hay datos
     return (
@@ -267,32 +246,18 @@ const ExplorationTab = ({ evaluationData }) => {
 
   return (
     <div className="ml-2 mr-4 col-span-2">
-      <h5 className="text-base font-medium text-gray-700 mb-2">Exploración:</h5>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+      <div className="resize-none grid grid-cols-1 md:grid-cols-2 gap-4">
         {sectionNames.map((section) =>
-          renderCheckbox(
+          renderTextArea(
             section
               .replace(/([A-Z])/g, " $1")
               .replace(/^./, (str) => str.toUpperCase()),
+            `evaluacionMedica.${section}`,
             section,
-            `checkbox-${section}`
+            `textarea-${section}`
           )
         )}
       </div>
-      <AnimatePresence>
-        <div className="resize-none grid grid-cols-1 md:grid-cols-2 gap-4">
-          {sectionNames.map((section) =>
-            renderTextArea(
-              section
-                .replace(/([A-Z])/g, " $1")
-                .replace(/^./, (str) => str.toUpperCase()),
-              `evaluacionMedica.${section}`,
-              section,
-              `textarea-${section}`
-            )
-          )}
-        </div>
-      </AnimatePresence>
     </div>
   );
 };
