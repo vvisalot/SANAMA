@@ -10,14 +10,14 @@ import TratamientoYDecisionCita from "@/components/evaluations/TreatmentTab";
 const FormEvaluation = ({ defaultTriaje, setMedicalRecordData }) => {
   return (
     <>
-      <Accordion title="Ultimo Triaje" id="triage">
+      <Accordion title="Motivo de la Consulta" id="consulta">
+        <ChiefComplaint setMedicalRecordData={setMedicalRecordData} />
+      </Accordion>
+      <Accordion title="Signos Vitales" id="triage">
         <VitalSigns
           defaultTriaje={defaultTriaje}
           setMedicalRecordData={setMedicalRecordData}
         />
-      </Accordion>
-      <Accordion title="Motivo de la Consulta" id="consulta">
-        <ChiefComplaint setMedicalRecordData={setMedicalRecordData} />
       </Accordion>
       <Accordion title="Exploracion Fisica" id="expfisica">
         <ExplorationTab setMedicalRecordData={setMedicalRecordData} />

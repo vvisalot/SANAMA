@@ -58,6 +58,27 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
         </div>
       </div>
 
+      <Accordion title="Motivo de la Consulta" id="triage">
+        <TextAreaField
+          label="Antecedentes:"
+          name="evaluacionMedica.antecedentes"
+          placeholder="Ingresa los antecentes.."
+          data={evaluacionMedica.antecedentes}
+        />
+        <TextAreaField
+          label="Motivo de Consulta:"
+          name="evaluacionMedica.motivoConsulta"
+          placeholder="Ingresa el motivo.."
+          data={evaluacionMedica.motivoConsulta}
+        />
+        <TextAreaField
+          label="Observaciones Adicionales:"
+          name="evaluacionMedica.observaciones"
+          placeholder="Ingresa observación.."
+          data={evaluacionMedica.observaciones}
+        />
+      </Accordion>
+
       <Accordion title="Signos Vitales" id="triage">
         <div className="ml-4 grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <InputField
@@ -93,34 +114,43 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
         </div>
       </Accordion>
 
-      <Accordion title="Motivo de la Consulta" id="triage">
-        <TextAreaField
-          label="Antecedentes:"
-          name="evaluacionMedica.antecedentes"
-          placeholder="Ingresa los antecentes.."
-          data={evaluacionMedica.antecedentes}
-        />
-        <TextAreaField
-          label="Motivo de Consulta:"
-          name="evaluacionMedica.motivoConsulta"
-          placeholder="Ingresa el motivo.."
-          data={evaluacionMedica.motivoConsulta}
-        />
-        <TextAreaField
-          label="Observaciones Adicionales:"
-          name="evaluacionMedica.observaciones"
-          placeholder="Ingresa observación.."
-          data={evaluacionMedica.observaciones}
-        />
-      </Accordion>
       <Accordion title="Exploracion Fisica" id="expfisica">
-        <ExplorationTab evaluacionMedica={evaluacionMedica} />
+        <ExplorationTab evaluationData={evaluacionMedica} />
+      </Accordion>
+
+      <Accordion title="Nivel de Consciencia" id="glasgow">
+        <div className="ml-4 grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <InputField
+            key={"glasgow"}
+            label={"Prueba de Glasgow"}
+            value={evaluacionMedica.glasgow}
+            disabled
+          />
+          <InputField
+            key={"eyesOpen"}
+            label={"Abertura Ocular"}
+            value={evaluacionMedica.eyesOpen}
+            disabled
+          />
+          <InputField
+            key={"talkingCorrectly"}
+            label={"Respuesta Verbal)"}
+            value={evaluacionMedica.talkingCorrectly}
+            disabled
+          />
+          <InputField
+            key={"ableToMoveBody"}
+            label={"Respuesta Motriz"}
+            value={evaluacionMedica.ableToMoveBody}
+            disabled
+          />
+        </div>
       </Accordion>
     </>
   );
 };
 
-const ExplorationTab = ({ evaluacionMedica }) => {
+const ExplorationTab = ({ evaluationData }) => {
   // Suponiendo que medicalRecordData.evaluacionMedica contiene los datos necesarios
 
   const sectionNames = [
