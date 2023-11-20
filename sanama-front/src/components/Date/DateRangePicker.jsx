@@ -82,15 +82,15 @@ const DateRangePicker = ({
     <section className="flex h-16 items-center w-full">
       <Datepicker
         classNames="pr-2 min-w-7xl"
-        options={optionsInitial}
         onChange={handleChangeInitial}
+        options={optionsInitial}
         show={showInitial}
         setShow={handleCloseInitial}
       ></Datepicker>
       <Datepicker
         classNames="pr-2 min-w-7xl"
-        options={optionsFinal}
         onChange={handleChangeFinal}
+        options={optionsFinal}
         show={showFinal}
         setShow={handleCloseFinal}
       />

@@ -1,72 +1,70 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
+import Datepicker from "tailwind-datepicker-react";
+import { useTratamientoData } from "@/hooks/useTratamientoData";
 
 const TratamientoYDecisionCita = ({ setMedicalRecordData }) => {
-  const [tratamientoData, setTratamientoData] = useState({
-    recetasMedicas: [
-      {
-        medicamento: "",
-        indicaciones: "",
-      },
-    ],
+  const initialState = {
+    recetasMedicas: [{ medicamento: "", indicaciones: "" }],
     fechaDeCaducidad: "",
+  };
+  const {
+    tratamientoData,
+    handleArrayChange,
+    addRecetaMedica,
+    removeRecetaMedica,
+  } = useTratamientoData(initialState);
+
+  const handleOnChange = (selectedDate) => {
+    setMedicalRecordData((prevData) => ({
+      ...prevData,
+      recetaMedica: {
+        ...prevData.recetaMedica,
+        fechaDeCaducidad: selectedDate,
+      },
+    }));
+  };
+
+  const [showFinal, setShowFinal] = useState(false);
+
+  const defaultOptions = {
+    autoHide: false,
+    todayBtn: true,
+    todayBtnText: "Hoy",
+    clearBtn: false,
+    datepickerClassNames: "top-17",
+    defaultDate: null,
+    language: "es",
+    disabledDates: [],
+    theme: {
+      input: "py-12",
+    },
+    weekDays: ["Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"],
+
+    inputPlaceholderProp: "Selecciona una fecha",
+    inputDateFormatProp: {
+      day: "numeric",
+      month: "numeric",
+      year: "numeric",
+    },
+    theme: {
+      disabled: "bg-gray-800 text-gray-600",
+    },
+  };
+
+  const [optionsFinal, setOptionsFinal] = useState({
+    ...defaultOptions,
+    inputPlaceholderProp: "Fecha Final",
+    inputNameProp: "fecha_final",
+    inputIdProp: "fecha_final",
   });
+
+  const handleCloseFinal = (state) => {
+    setShowFinal(state);
+  };
+
   const [editMode, setEditMode] = useState(false);
   const toggleEditMode = (index) => {
     setEditMode((prevEditMode) => !prevEditMode);
-  };
-
-  const handleArrayChange = (index, field, value) => {
-    setTratamientoData((prevState) => {
-      const updatedRecetasMedicas = [...prevState.recetasMedicas];
-      updatedRecetasMedicas[index][field] = value;
-      return { ...prevState, recetasMedicas: updatedRecetasMedicas };
-    });
-  };
-
-  const addRecetaMedicaField = () => {
-    const lastReceta =
-      tratamientoData.recetasMedicas[tratamientoData.recetasMedicas.length - 1];
-
-    if (!lastReceta || (lastReceta.medicamento && lastReceta.indicaciones)) {
-      setTratamientoData((prevState) => {
-        const newRecetasMedicas = [
-          ...prevState.recetasMedicas,
-          { medicamento: "", indicaciones: "" },
-        ];
-
-        setMedicalRecordData((prevMedicalState) => ({
-          ...prevMedicalState,
-          recetaMedica: {
-            ...prevMedicalState.recetaMedica,
-            medicamentos: newRecetasMedicas.map((receta) => ({
-              nombre: receta.medicamento,
-              indicacion: receta.indicaciones,
-            })),
-          },
-        }));
-
-        return {
-          ...prevState,
-          recetasMedicas: newRecetasMedicas,
-        };
-      });
-    }
-  };
-
-  const removeRecetaMedicaField = (index) => {
-    setTratamientoData((prevState) => {
-      const updatedRecetasMedicas = [...prevState.recetasMedicas];
-      updatedRecetasMedicas.splice(index, 1);
-      return { ...prevState, recetasMedicas: updatedRecetasMedicas };
-    });
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setTratamientoData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
   };
 
   return (
@@ -121,7 +119,7 @@ const TratamientoYDecisionCita = ({ setMedicalRecordData }) => {
             )}
             <button
               type="button"
-              onClick={() => removeRecetaMedicaField(index)}
+              onClick={() => removeRecetaMedica(index)}
               className="bg-red-500 text-white p-2 rounded-md"
             >
               X
@@ -130,7 +128,7 @@ const TratamientoYDecisionCita = ({ setMedicalRecordData }) => {
         ))}
         <button
           type="button"
-          onClick={addRecetaMedicaField}
+          onClick={addRecetaMedica}
           className="mt-2 px-4 py-2 bg-green-500 text-white rounded-md"
         >
           Añadir Receta Médica
@@ -140,13 +138,14 @@ const TratamientoYDecisionCita = ({ setMedicalRecordData }) => {
         <label className="block text-sm font-medium text-gray-700">
           Fecha de Caducidad
         </label>
-        <input
-          type="date"
-          name="fechaDeCaducidad"
+        <Datepicker
+          className="mt-1 p-2 min-w-7xl border-gray-300 rounded-md"
           value={tratamientoData.fechaDeCaducidad}
-          onChange={handleInputChange}
-          className="mt-1 p-2 w-full border-gray-300 rounded-md"
+          onChange={handleOnChange}
           placeholder="Fecha de Caducidad"
+          show={showFinal}
+          setShow={handleCloseFinal}
+          options={optionsFinal}
         />
       </div>
     </div>
