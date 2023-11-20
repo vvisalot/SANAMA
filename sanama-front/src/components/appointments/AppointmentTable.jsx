@@ -1,6 +1,7 @@
 import React from "react"
 import TableOptions from "../table/TableOptions"
 import AdvancedTable from "../table/Table"
+import { getStatus } from "@/util/appointmentParser"
 
 const AppointmentTable = ({ data, options }) => {
   const columns = React.useMemo(() => [
@@ -44,6 +45,14 @@ const AppointmentTable = ({ data, options }) => {
       header: "Estado",
       enableSorting: true,
       width: 150,
+      cell: ({ row }) => {
+        const estadoObtenido = getStatus(row.original.status)
+        return (
+          <span className={`${estadoObtenido.className}`}>
+            {estadoObtenido.text}
+          </span>
+        )
+      },
     },
     {
       id: "expander",
@@ -60,7 +69,7 @@ const AppointmentTable = ({ data, options }) => {
 
   return (
     <div className="">
-      <AdvancedTable columns={columns} data={data} />
+      <AdvancedTable columns={columns} data={data} id={"idCita"} />
     </div>
 
   )

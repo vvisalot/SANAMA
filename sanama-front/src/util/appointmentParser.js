@@ -8,11 +8,12 @@ const STATUS = {
   IN_TRIAGE: 5,
 }
 
-const getStatus = (estado) => {
+export function getStatus(estado) {
+
   const statusMapping = {
     [STATUS.ATTENDED]: { text: "Atendida", className: "highlight-blue" },
     [STATUS.IN_CONSULTATION]: {
-      text: "En Consultorio",
+      text: "Consultorio",
       className: "highlight-orange",
     },
     [STATUS.CANCELLED]: { text: "Cancelada", className: "highlight-red" },
@@ -73,6 +74,6 @@ export function parseAppointmentTable(data) {
     patientName: formatFullName(row.paciente),
     doctorName: formatFullName(row.medico),
     specialty: row.medico.especialidad.nombre,
-    status: getStatus(row.estado).text,
+    status: row.estado,
   }))
 }
