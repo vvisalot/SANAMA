@@ -3,6 +3,7 @@ import AvailableHoursBlock from "./AvailableHoursBlock";
 import { appointmentService } from "@/services/appointmentService";
 import { CustomCalendar } from "./CustomCalendar";
 import { Modal } from "flowbite-react";
+import swal from "sweetalert";
 import PropTypes from "prop-types";
 import {
   useAvailableDays,
@@ -13,7 +14,6 @@ const RescheduleModal = ({ isOpen, onClose, medicId, appointmentId }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedHour, setSelectedHour] = useState(null);
   const [isStatusUpdated, setIsStatusUpdated] = useState(false);
-  const [confirmationMessage, setConfirmationMessage] = useState("");
   const [isConfirming, setIsConfirming] = useState(false);
 
   const highlightedDates = useAvailableDays(medicId);
@@ -29,81 +29,86 @@ const RescheduleModal = ({ isOpen, onClose, medicId, appointmentId }) => {
 
   const handleConfirm = async () => {
     if (selectedDate && selectedHour) {
-      setIsConfirming(true);
-      try {
-        const selectedHourNewFormat = selectedHour.substr(0, 5);
-        const response = await appointmentService.actualizarHoraFecha(
-          appointmentId,
-          selectedHourNewFormat,
-          selectedDate
-        );
-        setIsStatusUpdated(true);
-        setConfirmationMessage(
-          "El horario de la cita se ha actualizado exitosamente."
-        );
-      } catch (error) {
-        console.error("Error al confirmar reprogramación:", error);
-      } finally {
-        setIsConfirming(false);
-      }
+      swal({
+        title: "¿Estás seguro?",
+        text: "Confirmarás la nueva fecha y hora para la cita.",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      }).then(async (willConfirm) => {
+        if (willConfirm) {
+          setIsConfirming(true);
+          try {
+            const selectedHourNewFormat = selectedHour.substr(0, 5);
+            const response = await appointmentService.actualizarHoraFecha(
+              appointmentId,
+              selectedHourNewFormat,
+              selectedDate
+            );
+            setIsStatusUpdated(true);
+            swal(
+              "¡Confirmado!",
+              "El horario de la cita se ha actualizado exitosamente.",
+              "success"
+            );
+          } catch (error) {
+            console.error("Error al confirmar reprogramación:", error);
+            swal(
+              "Error",
+              "No se pudo actualizar el horario de la cita.",
+              "error"
+            );
+          } finally {
+            setIsConfirming(false);
+            onClose();
+          }
+        }
+      });
     } else {
-      console.error("Fecha y hora no seleccionadas");
+      swal(
+        "Información incompleta",
+        "Por favor, selecciona una fecha y hora.",
+        "info"
+      );
     }
-  };
-
-  const handleAccept = () => {
-    onClose();
   };
 
   return (
     <Modal show={isOpen} size="lg" onClose={onClose}>
       <Modal.Header>Selecciona una Fecha y hora disponible:</Modal.Header>
-      {isStatusUpdated ? (
-        <>
-          <Modal.Body>
-            <p>{confirmationMessage}</p>
-          </Modal.Body>
-          <Modal.Footer>
-            <button onClick={handleAccept}>Aceptar</button>
-          </Modal.Footer>
-        </>
-      ) : (
-        <>
-          <Modal.Body>
-            <div>
-              <div>
-                <p className="mb-4">
-                  {selectedDate && selectedHour
-                    ? `Reservar el: ${selectedDate} ${selectedHour}`
-                    : "No hay fecha ni hora reservada"}
-                </p>
-              </div>
-              <div className="flex gap-4">
-                <CustomCalendar
-                  highlightedDates={highlightedDates}
-                  onDaySelect={setSelectedDate}
-                />
-                <AvailableHoursBlock
-                  availableHours={availableHours}
-                  onHourClick={handleHourChange}
-                  selectedHour={selectedHour}
-                />
-              </div>
-            </div>
-          </Modal.Body>
-          <Modal.Footer>
-            <button
-              onClick={handleConfirm}
-              disabled={isConfirming || isStatusUpdated}
-            >
-              {isConfirming ? "Confirmando..." : "Confirmar"}
-            </button>
-            <button onClick={onClose} disabled={isConfirming}>
-              Cancelar
-            </button>
-          </Modal.Footer>
-        </>
-      )}
+      <Modal.Body>
+        <div>
+          <div>
+            <p className="mb-4">
+              {selectedDate && selectedHour
+                ? `Reservar el: ${selectedDate} ${selectedHour}`
+                : "No hay fecha ni hora reservada"}
+            </p>
+          </div>
+          <div className="flex gap-4">
+            <CustomCalendar
+              highlightedDates={highlightedDates}
+              onDaySelect={setSelectedDate}
+            />
+            <AvailableHoursBlock
+              availableHours={availableHours}
+              onHourClick={handleHourChange}
+              selectedHour={selectedHour}
+            />
+          </div>
+        </div>
+      </Modal.Body>
+      <Modal.Footer>
+        <button
+          onClick={handleConfirm}
+          disabled={isConfirming || isStatusUpdated}
+        >
+          {"Confirmar"}
+        </button>
+        <button onClick={onClose} disabled={isConfirming}>
+          Cancelar
+        </button>
+      </Modal.Footer>
     </Modal>
   );
 };

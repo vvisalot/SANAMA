@@ -10,7 +10,6 @@ moment.locale("es");
 const localizer = momentLocalizer(moment);
 
 function combinarEventosContiguos(eventos) {
-  // Ordenar los eventos por la propiedad "start" en orden ascendente
   eventos.sort((a, b) => new Date(a.start) - new Date(b.start));
 
   const eventosCombinados = [];
@@ -25,7 +24,9 @@ function combinarEventosContiguos(eventos) {
 
       if (finEventoActual >= inicioEvento) {
         // Los eventos se superponen o son contiguos, combínalos
-        eventoActual.end = new Date(Math.max(finEventoActual, new Date(evento.end)));
+        eventoActual.end = new Date(
+          Math.max(finEventoActual, new Date(evento.end))
+        );
       } else {
         // No son contiguos, agrega el evento actual a la lista de eventos combinados
         eventosCombinados.push(eventoActual);
@@ -44,7 +45,9 @@ function combinarEventosContiguos(eventos) {
 
 function convertirDatosParaCalendar(datos) {
   const eventos = datos.map((dato) => {
-    const fecha = dato.fecha ? new Date(dato.fecha.replace(/-/g, "/")) : new Date(); // Usamos la fecha actual si fecha es nula
+    const fecha = dato.fecha
+      ? new Date(dato.fecha.replace(/-/g, "/"))
+      : new Date(); // Usamos la fecha actual si fecha es nula
     const horaInicio = new Date(`1970-01-01T${dato.horaInicio}`);
     const horaFin = new Date(`1970-01-01T${dato.horaFin}`);
     const start = new Date(fecha);
@@ -64,11 +67,10 @@ function convertirDatosParaCalendar(datos) {
   return combinarEventosContiguos(eventos);
 }
 
-function SeleccionarHorarioMedico({doctor}) {
+function SeleccionarHorarioMedico({ doctor }) {
   const idDoctor = doctor;
   const [isLoading, setIsLoading] = useState(true);
   const [isCalendarEnabled, setIsCalendarEnabled] = useState(false);
-  const [showConfirmationPopup, setShowConfirmationPopup] = useState(false);
   const [backData, setBackData] = useState([]);
   const [events, setEvents] = useState([]);
   const [view, setView] = useState("month");
@@ -85,8 +87,6 @@ function SeleccionarHorarioMedico({doctor}) {
   const fechaLimite = new Date();
   fechaLimite.setMonth(fechaLimite.getMonth() + 2, 0); // Establece el mes como el mes siguiente y el día como el último día del mes
   fechaLimite.setHours(23, 59, 59, 999); // Establece el mes como el mes siguiente y el día como el último día del mes
-  //console.log(fechaHoy);
-  //console.log(fechaLimite);
   //Aquí defino que tambien quiero traer data hasta 14 dias despues*********
   const [seHaModificadoHorario, setSeHaModificadoHorario] = useState(false);
   const handleIngresarDisponibilidad = () => {
@@ -110,17 +110,19 @@ function SeleccionarHorarioMedico({doctor}) {
         setEvents(backData);
         setIsCalendarEnabled(false);
         setSeHaModificadoHorario(false);
-        // swal({ text: "Cancelado", icon: "success" });
       } else {
         return;
       }
     });
-
   };
 
   const handleGuardar = () => {
     if (!seHaModificadoHorario) {
-      swal({ title: "No se encontraron cambios en la disponibilidad", icon: "warning", timer: "2500" });
+      swal({
+        title: "No se encontraron cambios en la disponibilidad",
+        icon: "warning",
+        timer: "2500",
+      });
       setIsCalendarEnabled(false);
       return;
     }
@@ -148,8 +150,16 @@ function SeleccionarHorarioMedico({doctor}) {
         let fechaFinReg = events[0].start.toISOString().split("T")[0];
 
         const eventosTransformados = events.map((evento) => {
-          const horaInicio = evento.start.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false });
-          const horaFin = evento.end.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false });
+          const horaInicio = evento.start.toLocaleTimeString("en-US", {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false,
+          });
+          const horaFin = evento.end.toLocaleTimeString("en-US", {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false,
+          });
           const fecha = evento.start.toISOString().split("T")[0];
 
           // Actualiza fechaInicioReg si la fecha actual es anterior
@@ -169,7 +179,12 @@ function SeleccionarHorarioMedico({doctor}) {
           };
         });
 
-        function crearJSONParaServidor(eventosTransformados, idMedico, fechaInicioReg, fechaFinReg) {
+        function crearJSONParaServidor(
+          eventosTransformados,
+          idMedico,
+          fechaInicioReg,
+          fechaFinReg
+        ) {
           const jsonParaServidor = {
             pn_id_medico: idMedico,
             pd_fecha_inicio: fechaInicioReg,
@@ -184,10 +199,12 @@ function SeleccionarHorarioMedico({doctor}) {
           return jsonParaServidor;
         }
 
-        const jsonParaServidor = crearJSONParaServidor(eventosTransformados, idDoctor, fechaInicioReg, fechaFinReg);
-
-        //console.log(jsonParaServidor);
-
+        const jsonParaServidor = crearJSONParaServidor(
+          eventosTransformados,
+          idDoctor,
+          fechaInicioReg,
+          fechaFinReg
+        );
 
         const registrarEvento = async (jsonParaServidor) => {
           const url = "http://localhost:8080/rrhh/post/registrarHorarioMedico";
@@ -205,7 +222,10 @@ function SeleccionarHorarioMedico({doctor}) {
               setIsCalendarEnabled(false);
               setSeHaModificadoHorario(false);
               swal.close();
-              swal({ text: "El registro se realizó con éxito", icon: "success" });
+              swal({
+                text: "El registro se realizó con éxito",
+                icon: "success",
+              });
             } else {
               console.error("Error en la solicitud:", response.statusText);
               setSeHaModificadoHorario(false);
@@ -228,7 +248,6 @@ function SeleccionarHorarioMedico({doctor}) {
     });
   };
 
-
   useEffect(() => {
     const obtenerEventos = async () => {
       const eventosTotales = [];
@@ -245,7 +264,8 @@ function SeleccionarHorarioMedico({doctor}) {
         pd_fecha_inicio: `${year}-${month}-${day}`,
         pd_fecha_fin: `${year2}-${month2}-${day2}`,
       };
-      const url = "http://localhost:8080/rrhh/post/horarios_por_medico_e_intervaloFechas";
+      const url =
+        "http://localhost:8080/rrhh/post/horarios_por_medico_e_intervaloFechas";
       const requestOptions = {
         method: "POST",
         headers: {
@@ -255,7 +275,7 @@ function SeleccionarHorarioMedico({doctor}) {
       };
 
       try {
-        console.log("r o",requestOptions);
+        console.log("r o", requestOptions);
         const response = await fetch(url, requestOptions);
         if (response.ok) {
           const data = await response.json();
@@ -287,10 +307,9 @@ function SeleccionarHorarioMedico({doctor}) {
     return false;
   };
 
-
   const handleSelectSlot = (slotInfo) => {
     setSeHaModificadoHorario(true);
-    console.log(slotInfo)
+    console.log(slotInfo);
     if (view === "week") {
       const newEvent = {
         start: slotInfo.start,
@@ -299,20 +318,26 @@ function SeleccionarHorarioMedico({doctor}) {
       };
 
       if (!isEventOverlapping(newEvent)) {
-        if (slotInfo.start >= fechaInicioManana && slotInfo.start <= fechaLimite) {
+        if (
+          slotInfo.start >= fechaInicioManana &&
+          slotInfo.start <= fechaLimite
+        ) {
           setEvents((prevEvents) => [...prevEvents, newEvent]);
-
         } else {
           swal({
             title: "Acción no permitida",
-            text: "Solo puedes ingresar tu disponibilidad desde el día de mañana y hasta máximo el siguiente mes.", icon: "warning", timer: "5000"
+            text: "Solo puedes ingresar tu disponibilidad desde el día de mañana y hasta máximo el siguiente mes.",
+            icon: "warning",
+            timer: "5000",
           });
           //alert("");
         }
       } else {
         swal({
           title: "Acción no permitida",
-          text: "El nuevo turno se superpone con un turno existente. Por favor, seleccione otra hora.", icon: "warning", timer: "3000"
+          text: "El nuevo turno se superpone con un turno existente. Por favor, seleccione otra hora.",
+          icon: "warning",
+          timer: "3000",
         });
       }
     }
@@ -340,18 +365,20 @@ function SeleccionarHorarioMedico({doctor}) {
       } else {
         swal({
           title: "Acción no permitida",
-          text: "Puedes eliminar/modificar tu disponibilidad desde el día de mañana y hasta máximo el siguiente mes.", icon: "warning", timer: "3000"
+          text: "Puedes eliminar/modificar tu disponibilidad desde el día de mañana y hasta máximo el siguiente mes.",
+          icon: "warning",
+          timer: "3000",
         });
       }
     }
   };
 
   const messages = {
-    week: 'Semana', // Cambia el nombre de la vista de semana
-    month: 'Mes',
-    today: 'Hoy',
-    previous: 'Anterior',
-    next: 'Siguiente'
+    week: "Semana", // Cambia el nombre de la vista de semana
+    month: "Mes",
+    today: "Hoy",
+    previous: "Anterior",
+    next: "Siguiente",
   };
   return (
     <>
@@ -363,32 +390,48 @@ function SeleccionarHorarioMedico({doctor}) {
           <p>Cargando...</p>
         ) : (
           <div style={{ height: "auto" }}>
-            <div className="flex justify-center space-x-4" style={{ margin: "2rem 0" }}>
-              <button className={`${!isCalendarEnabled
-                ? 'text-white bg-purple-800 border border-purple-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 '
-                : 'text-gray-400 bg-gray-100 border border-black-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 '
+            <div
+              className="flex justify-center space-x-4"
+              style={{ margin: "2rem 0" }}
+            >
+              <button
+                className={`${
+                  !isCalendarEnabled
+                    ? "text-white bg-purple-800 border border-purple-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 "
+                    : "text-gray-400 bg-gray-100 border border-black-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 "
                 }`}
-                onClick={handleIngresarDisponibilidad} disabled={isCalendarEnabled}>
+                onClick={handleIngresarDisponibilidad}
+                disabled={isCalendarEnabled}
+              >
                 Ingresar Disponibilidad
               </button>
               <button
-                className={`${isCalendarEnabled
-                  ? 'text-white bg-red-800 border border-red-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 '
-                  : 'text-gray-400 bg-gray-100 border border-black-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 '
-                  }`}
+                className={`${
+                  isCalendarEnabled
+                    ? "text-white bg-red-800 border border-red-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 "
+                    : "text-gray-400 bg-gray-100 border border-black-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 "
+                }`}
                 onClick={handleCancelarIngresoDisponibilidad}
                 disabled={!isCalendarEnabled}
               >
                 Cancelar
               </button>
-              <button className={`${isCalendarEnabled
-                ? 'text-white bg-blue-800 border border-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 '
-                : 'text-gray-400 bg-gray-100 border border-black-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 '
+              <button
+                className={`${
+                  isCalendarEnabled
+                    ? "text-white bg-blue-800 border border-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 "
+                    : "text-gray-400 bg-gray-100 border border-black-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 "
                 }`}
-                onClick={handleGuardar} disabled={!isCalendarEnabled}>
+                onClick={handleGuardar}
+                disabled={!isCalendarEnabled}
+              >
                 Guardar
               </button>
-              <Mensaje text={"Podrá visualizar y registrar su disponibilidad en los meses actual y siguiente"}></Mensaje>
+              <Mensaje
+                text={
+                  "Podrá visualizar y registrar su disponibilidad en los meses actual y siguiente"
+                }
+              ></Mensaje>
             </div>
             <Calendar
               messages={messages}
