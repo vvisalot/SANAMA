@@ -85,7 +85,7 @@ const LaboratoryPage = () => {
   };
 
   return (
-    <section className="p-4 md:p-14">
+    <section className="w-full px-14 py-6">
       <TitleWithIcon name={"Laboratorios"} Icon={LabIcon} />
 
       <form className="w-full" onSubmit={handleSubmit}>
@@ -111,7 +111,7 @@ const LaboratoryPage = () => {
           />
           <button
             type="submit"
-            className="ml-2 text-white bg-[#28539E] hover:bg-primary-dusk-blue focus:ring-4 focus:outline-none focus:ring-primary-light-periwinkle font-medium rounded-lg text-sm px-4 py-2.5"
+            className="h-[45px] text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-400 font-medium rounded-lg text-sm px-4 py-2.5"
           >
             Buscar
           </button>
