@@ -131,7 +131,7 @@ const HistorialClinico = () => {
     },
     {
       text: "Ver laboratorios",
-      link: "/",
+      link: "/laboratories",
       icon: "/icons/eye.svg",
     },
   ];

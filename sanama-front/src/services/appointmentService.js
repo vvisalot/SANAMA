@@ -14,7 +14,7 @@ const ENDPOINTS = {
   CAMBIAR_ESTADO: "/admision/post/cambiarEstadoCita",
   CAMBIAR_HORA_FECHA: "/admision/post/cambiarHorarioCita",
   LISTAR_ESTADOS_CITAS: "/configuracion/get/listarEstadosCitas",
-  LISTAR_LABORATORIOS: "/atencion/post/buscarHojaMedicaPaciente",
+  LISTAR_LABORATORIOS: "/atencion/post/buscarResultadosPaciente",
 };
 
 const formatDate = (date) => {
