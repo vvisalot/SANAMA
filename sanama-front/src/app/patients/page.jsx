@@ -36,7 +36,7 @@ const PatientPage = () => {
     {
       text: "Ver perfil",
       link: "/patients/profile",
-      icon: "/icons/eye.svg",
+      icon: "fa fa-eye",
     },
   ]
 
@@ -54,18 +54,12 @@ const PatientPage = () => {
 
         <button
           type="submit"
-          className="h-[50px] text-white bg-primary-dark-blue hover:bg-primary-dusk-blue 
+          className="h-[50px] text-white bg-blue-800 hover:bg-primary-dusk-blue 
           focus:ring-4 focus:outline-none focus:ring-primary-light-periwinkle font-medium rounded-lg text-sm px-4 py-2.5"
         >
           Buscar
         </button>
-
       </form>
-
-      <div className="py-4">
-        Número de resultados: {patientTable.length}
-      </div>
-
       <section className="w-full">
         <PatientTable data={patientTable} options={options}></PatientTable>
       </section>

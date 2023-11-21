@@ -17,6 +17,7 @@ const TriajePage = () => {
   const [dateFinal, setDateFinal] = useState(null)
   const [statusList, setStatusList] = useState([])
   const [statusState, setStatusState] = useState({})
+
   const initialRequest = {
     pn_id_triaje: null,
     pv_filtro: "",
@@ -34,6 +35,7 @@ const TriajePage = () => {
     try {
       const data = await triajeService.listarTriajePorFiltro(request)
       const tableData = parseTriajeTable(data)
+      console.log(tableData)
       setTriajeTable(tableData)
     } catch (error) {
       console.log("No se pudo obtener los datos de los triajes")
@@ -48,7 +50,7 @@ const TriajePage = () => {
       data.forEach((status) => {
         initialValues[status.idValue] = false
       })
-      console.log(initialValues)
+      // console.log(initialValues)
       setStatusState(initialValues)
     } catch (error) {
       console.log("No se pudo obtener la lista de estados")
@@ -83,6 +85,14 @@ const TriajePage = () => {
     fetchData(request)
   }
 
+
+  const options = [
+    {
+      text: "Ver triaje",
+      link: "/triajes/profile",
+      icon: "fa fa-eye",
+    },
+  ]
 
   return (
     <section className="p-4 md:p-14">
@@ -124,7 +134,7 @@ const TriajePage = () => {
         Número de resultados: {triajeTable.length}
       </div>
       <section>
-        <TriajeTable data={triajeTable}></TriajeTable>
+        <TriajeTable data={triajeTable} options={options}></TriajeTable>
       </section>
     </section>
   )

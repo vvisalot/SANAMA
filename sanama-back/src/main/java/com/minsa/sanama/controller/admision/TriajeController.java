@@ -93,7 +93,9 @@ public class TriajeController {
             int pn_talla = Integer.parseInt(json.get("pn_talla").toString());
             int pn_temperatura = Integer.parseInt(json.get("pn_temperatura").toString());
             String pv_motivo_visita = json.get("pv_motivo_visita").toString();
-            int pn_presion_arterial = Integer.parseInt(json.get("pn_presion_arterial").toString());
+
+            String pv_presion_sistolica = json.get("pv_presion_sistolica").toString();
+            String pv_presion_diastolica = json.get("pv_presion_diastolica").toString();
             String pv_condicionesPrexistentes = json.get("pv_condicionesPrexistentes").toString();
             String pv_prioridad = json.get("pv_prioridad").toString();
             int pn_estado = Integer.parseInt(json.get("pn_estado").toString());
@@ -111,7 +113,8 @@ public class TriajeController {
             triaje.setTalla(pn_talla);
             triaje.setTemperatura(pn_temperatura);
             triaje.setMotivoVisita(pv_motivo_visita);
-            triaje.setPresionArterial(pn_presion_arterial);
+            triaje.setPresionSistolica(pv_presion_sistolica);
+            triaje.setPresionDiastolica(pv_presion_diastolica);
             triaje.setCondicionesPrexistentes(pv_condicionesPrexistentes);
             triaje.setPrioridad(pv_prioridad);
             triaje.setEstado(pn_estado);
@@ -146,7 +149,8 @@ public class TriajeController {
             int pn_talla = Integer.parseInt(json.get("pn_talla").toString());
             int pn_temperatura = Integer.parseInt(json.get("pn_temperatura").toString());
             String pv_motivo_visita = json.get("pv_motivo_visita").toString();
-            int pn_presion_arterial = Integer.parseInt(json.get("pn_presion_arterial").toString());
+            String pv_presion_sistolica = json.get("pv_presion_sistolica").toString();
+            String pv_presion_diastolica = json.get("pv_presion_diastolica").toString();
             String pv_condicionesPrexistentes = json.get("pv_condicionesPrexistentes").toString();
             String pv_prioridad = json.get("pv_prioridad").toString();
             int pn_estado = Integer.parseInt(json.get("pn_estado").toString());
@@ -164,7 +168,8 @@ public class TriajeController {
             triaje.setTalla(pn_talla);
             triaje.setTemperatura(pn_temperatura);
             triaje.setMotivoVisita(pv_motivo_visita);
-            triaje.setPresionArterial(pn_presion_arterial);
+            triaje.setPresionSistolica(pv_presion_sistolica);
+            triaje.setPresionDiastolica(pv_presion_diastolica);
             triaje.setCondicionesPrexistentes(pv_condicionesPrexistentes);
             triaje.setPrioridad(pv_prioridad);
             triaje.setEstado(pn_estado);

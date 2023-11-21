@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import SearchMedicalSheet from "./SearchHojaMedica";
 import { useParams } from "next/navigation";
+import TextAreaField from "../common/TextAreaField";
 
 const ChiefComplaint = ({ setMedicalRecordData }) => {
   const [showModal, setShowModal] = useState(false);
@@ -66,6 +67,12 @@ const ChiefComplaint = ({ setMedicalRecordData }) => {
           placeholder="Ingresa el motivo.."
           onBlur={handleOnBlurChange}
         />
+        <TextAreaField
+          label="Observaciones Adicionales:"
+          name="evaluacionMedica.observaciones"
+          placeholder="Ingresa observación.."
+          onBlur={handleOnBlurChange}
+        />
         <div className="flex flex-row-reverse">
           <button
             type="button"
@@ -90,26 +97,6 @@ const ChiefComplaint = ({ setMedicalRecordData }) => {
           onSelect={addEvaluation}
         />
       </div>
-    </div>
-  );
-};
-
-const TextAreaField = ({ label, name, onBlur, placeholder }) => {
-  return (
-    <div>
-      <label htmlFor={name} className="block text-sm font-medium text-gray-700">
-        {label}
-      </label>
-      <textarea
-        id={name}
-        name={name}
-        onBlur={onBlur} // Usar el prop onBlur aquí
-        className="resize-none mt-1 p-2 w-full border-gray-300 rounded-md"
-        placeholder={placeholder}
-        rows={4}
-        aria-label={label}
-        maxLength="255"
-      ></textarea>
     </div>
   );
 };

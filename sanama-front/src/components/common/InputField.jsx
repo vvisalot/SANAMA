@@ -1,4 +1,4 @@
-const InputField = ({ label, value, disabled, type = "text" }) => {
+const InputField = ({ label, value, disabled, readOnly, type = "text" }) => {
   return (
     <div>
       <label className="block text-sm font-medium text-primary-dusk-blue">

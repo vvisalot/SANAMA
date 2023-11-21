@@ -11,6 +11,7 @@ const ENDPOINTS = {
   BUSCAR_DATOS_PACIENTE_TRIAGE: "/atencion/post/buscarTriajeCitaHojaMedica",
   LISTAR_DIAGNOSTICOS_FILTRO: "/atencion/post/listarDiagnosticosFiltro",
   LISTAR_HOJAS_MEDICAS_FILTRO: "/atencion/post/ListarHojasMedicasFiltro",
+  BUSCAR_HOJA_MEDICA: "/atencion/post/buscarHojaMedicaPaciente",
 };
 
 export const attentionService = {
@@ -79,6 +80,18 @@ export const attentionService = {
       return response.data;
     } catch (error) {
       console.error("Error al listar las hojas médicas", error);
+      throw error;
+    }
+  },
+
+  buscarHojaMedicaPaciente: async (idHojaMedica) => {
+    try {
+      const response = await axiosInstance.post(ENDPOINTS.BUSCAR_HOJA_MEDICA, {
+        pn_id_hoja_medica: idHojaMedica,
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error al buscar hoja médica del paciente", error);
       throw error;
     }
   },

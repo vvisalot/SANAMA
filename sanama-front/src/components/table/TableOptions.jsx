@@ -1,17 +1,29 @@
-import React, { useState } from "react"
+import { useRef, useState, useEffect } from "react"
 import Link from "next/link"
 import "font-awesome/css/font-awesome.min.css"
 
 const TableOptions = ({ id, options, estado }) => {
-  const [isLoading, setIsLoading] = useState(false)
   const [showOptions, setShowOptions] = useState(false)
-  const handleClick = () => {
-    setIsLoading(true)
-  }
+  const dropdownRef = useRef(null)
+
 
   const handleDropdown = () => {
     setShowOptions(!showOptions)
   }
+
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setShowOptions(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
 
   return (
     <div className="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
@@ -22,13 +34,13 @@ const TableOptions = ({ id, options, estado }) => {
         </svg>
       </button>
 
-      <div id="options-dropdown" className={`${showOptions ? '' : 'hidden'} absolute z-10 w-fit bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}>
-        <ul className="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="options-dropdown-button">
+      <div ref={dropdownRef} id="options-dropdown" className={`${showOptions ? '' : 'hidden'} absolute z-10 w-fit bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}>
+        <ul className=" text-sm text-gray-700 dark:text-gray-200" aria-labelledby="options-dropdown-button">
           {options.map((option, index) => (
             <li key={index}>
-              <Link href={`${option.link}/${id}`} className="flex items-center w-fit">
-                <img src={option.icon} alt="" className="w-4 h-4" />
-                <span className="items-center space-x-2 py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{option.text}</span>
+              <Link href={`${option.link}/${id}`} className="flex items-center w-full h-full py-2  hover:bg-gray-100">
+                <i className={`${option.icon} px-2 `} aria-hidden="true"></i>
+                <span className=" px-2">{option.text}</span>
               </Link>
             </li>
           ))

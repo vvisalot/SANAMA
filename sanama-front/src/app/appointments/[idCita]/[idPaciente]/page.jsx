@@ -122,6 +122,14 @@ const HistorialClinico = () => {
     </div>
   );
 
+  const options = [
+    {
+      text: "Ver",
+      link: "/",
+      icon: "/icons/eye.svg",
+    },
+  ];
+
   return (
     <section className="p-4 md:p-14 h-screen">
       <TitleWithIcon name={`Atencion Medica`} Icon={iconoHistorial} />
@@ -156,7 +164,7 @@ const HistorialClinico = () => {
           </div>
           <MedicalRecordsTable
             data={hojasMedicas}
-            extrapath={"view"}
+            options={options}
           ></MedicalRecordsTable>
         </div>
       </div>

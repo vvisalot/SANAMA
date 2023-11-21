@@ -1,94 +1,76 @@
-"use client"
-import { useEffect, useState } from "react"
-import { appointmentService } from "@/services/appointmentService"
-import { parseAppointmentTable } from "@/util/appointmentParser"
-import SearchBar from "@/components/bars/SearchBar"
-import DateRangePicker from "@/components/Date/DateRangePicker"
-import DropdownCheckbox from "@/components/Dropdowns/DropdownCheckbox"
-import { format } from "date-fns"
-import AppointmentIcon from "@/components/icons/AppointmentIcon"
-import TitleWithIcon from "@/components/TitleWithIcon"
-import Link from "next/link"
-import Dropdown from "@/components/Dropdowns/Dropdown"
-import { doctorService } from "@/services/doctorService"
-import AppointmentTable from "@/components/appointments/AppointmentTable"
+"use client";
+import { useEffect, useState, useCallback } from "react";
+import { appointmentService } from "@/services/appointmentService";
+import { doctorService } from "@/services/doctorService";
+import { useAppointmentData } from "@/hooks/useAppointmentData";
+import AppointmentTable from "@/components/appointments/AppointmentTable";
+import SearchBar from "@/components/bars/SearchBar";
+import DateRangePicker from "@/components/Date/DateRangePicker";
+import DropdownCheckbox from "@/components/Dropdowns/DropdownCheckbox";
+import AppointmentIcon from "@/components/icons/AppointmentIcon";
+import TitleWithIcon from "@/components/TitleWithIcon";
+import Dropdown from "@/components/Dropdowns/Dropdown";
+import { format } from "date-fns";
+import Link from "next/link";
 
 const initialRequest = {
   pn_id_especialidad: null,
   pv_filtro: "",
   pd_fecha_inicio: null,
   pd_fecha_fin: null,
-  arregloEstados: [
-    {
-      estado: null,
-    },
-  ],
-}
+  arregloEstados: [],
+};
 
 const AppointmentPage = () => {
-  const [appointmentTable, setAppointmentTable] = useState([])
-  const [statusList, setStatusList] = useState([])
-  const [statusState, setStatusState] = useState({})
-  const [dateInitial, setDateInitial] = useState(null)
-  const [dateFinal, setDateFinal] = useState(null)
-
-  const fetchStateList = async () => {
-    try {
-      const data = await appointmentService.listarEstados()
-      setStatusList(data)
-      let initialValues = {}
-      data.forEach((status) => {
-        initialValues[status.idValue] = false
-      })
-      setStatusState(initialValues)
-    } catch (error) {
-      console.log("No se pudo obtener la lista de estados")
-    }
-  }
-
-  const [specialties, setSpecialties] = useState([])
+  const [specialties, setSpecialties] = useState([]);
+  const [statusList, setStatusList] = useState([]);
+  const [statusState, setStatusState] = useState({});
+  const [dateInitial, setDateInitial] = useState(null);
+  const [dateFinal, setDateFinal] = useState(null);
   const [especialidadSeleccionada, setEspecialidadSeleccionada] = useState(
     "Todas las especialidades"
-  )
+  );
 
-  const fetchSpecialty = async () => {
-    try {
-      const data = await doctorService.listarEspecialidades()
-      setSpecialties(data)
-    } catch (error) {
-      console.log("No se pudo obtener los datos de las especialidades")
-    }
-  }
+  const { appointmentTable, fetchData } = useAppointmentData();
 
-  const fetchData = async (request) => {
+  const fetchInitialData = useCallback(async () => {
     try {
-      const data = await appointmentService.listarCitasFiltro(request)
-      const tableData = parseAppointmentTable(data)
-      setAppointmentTable(tableData)
+      const [statusData, specialtyData] = await Promise.all([
+        appointmentService.listarEstados(),
+        doctorService.listarEspecialidades(),
+      ]);
+
+      setStatusList(statusData);
+      setSpecialties(specialtyData);
+
+      const statusStateInit = statusData.reduce(
+        (acc, status) => ({ ...acc, [status.idValue]: false }),
+        {}
+      );
+      setStatusState(statusStateInit);
     } catch (error) {
-      console.log("No se pudo obtener la lista de las citas")
+      console.error("Error al obtener datos iniciales:", error);
     }
-  }
+  }, []);
 
   useEffect(() => {
-    fetchStateList()
-    fetchSpecialty()
-    fetchData(initialRequest)
-  }, [])
+    fetchInitialData();
+    fetchData(initialRequest);
+  }, [fetchInitialData]);
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    const elements = e.target.elements
-    const filtro = elements.namedItem("search-bar-appointments").value
-    const filtroEspecialidad = elements.namedItem("speciality-dropdown").value
+    e.preventDefault();
+    const elements = e.target.elements;
+    const filtro = elements.namedItem("search-bar-appointments").value;
+    const filtroEspecialidad = elements.namedItem("speciality-dropdown").value;
 
     const stateArray = Object.entries(statusState)
       .filter(([key, value]) => value)
       .map(([key, value]) => {
         return {
           estado: key,
-        }
-      })
+        };
+      });
 
     const request = {
       pn_id_especialidad: filtroEspecialidad ? filtroEspecialidad : null,
@@ -96,9 +78,9 @@ const AppointmentPage = () => {
       pd_fecha_inicio: dateInitial ? format(dateInitial, "yyyy-MM-dd") : null,
       pd_fecha_fin: dateFinal ? format(dateFinal, "yyyy-MM-dd") : null,
       arregloEstados: stateArray,
-    }
-    fetchData(request)
-  }
+    };
+    fetchData(request);
+  };
 
   const options = [
     {
@@ -106,8 +88,7 @@ const AppointmentPage = () => {
       link: "/appointments",
       icon: "/icons/eye.svg",
     },
-  ]
-
+  ];
 
   return (
     <section className="w-full px-14 py-6">
@@ -143,7 +124,7 @@ const AppointmentPage = () => {
           width={"w-[240px]"}
           height={"h-[43px]"}
           handleChange={(event) => {
-            setEspecialidadSeleccionada(event.target.value)
+            setEspecialidadSeleccionada(event.target.value);
           }}
         ></Dropdown>
 
@@ -161,15 +142,14 @@ const AppointmentPage = () => {
         </button>
       </form>
 
-      <div className="px-2 py-4">
-        Número de resultados: {appointmentTable.length}
-      </div>
-
       <section className="w-full">
-        <AppointmentTable data={appointmentTable} options={options}></AppointmentTable>
+        <AppointmentTable
+          data={appointmentTable}
+          options={options}
+        ></AppointmentTable>
       </section>
     </section>
-  )
-}
+  );
+};
 
-export default AppointmentPage
+export default AppointmentPage;
