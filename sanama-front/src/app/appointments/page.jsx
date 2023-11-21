@@ -2,8 +2,8 @@
 import { useEffect, useState, useCallback } from "react";
 import { appointmentService } from "@/services/appointmentService";
 import { doctorService } from "@/services/doctorService";
+import { useAppointmentData } from "@/hooks/useAppointmentData";
 import AppointmentTable from "@/components/appointments/AppointmentTable";
-import { parseAppointmentTable } from "@/util/appointmentParser";
 import SearchBar from "@/components/bars/SearchBar";
 import DateRangePicker from "@/components/Date/DateRangePicker";
 import DropdownCheckbox from "@/components/Dropdowns/DropdownCheckbox";
@@ -22,7 +22,6 @@ const initialRequest = {
 };
 
 const AppointmentPage = () => {
-  const [appointmentTable, setAppointmentTable] = useState([]);
   const [specialties, setSpecialties] = useState([]);
   const [statusList, setStatusList] = useState([]);
   const [statusState, setStatusState] = useState({});
@@ -31,6 +30,8 @@ const AppointmentPage = () => {
   const [especialidadSeleccionada, setEspecialidadSeleccionada] = useState(
     "Todas las especialidades"
   );
+
+  const { appointmentTable, fetchData } = useAppointmentData();
 
   const fetchInitialData = useCallback(async () => {
     try {
@@ -56,17 +57,6 @@ const AppointmentPage = () => {
     fetchInitialData();
     fetchData(initialRequest);
   }, [fetchInitialData]);
-
-  const fetchData = async (request) => {
-    try {
-      const data = await appointmentService.listarCitasFiltro(request);
-      const tableData = parseAppointmentTable(data);
-      console.log(tableData);
-      setAppointmentTable(tableData);
-    } catch (error) {
-      console.log("No se pudo obtener la lista de las citas");
-    }
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
