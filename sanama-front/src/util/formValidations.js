@@ -14,6 +14,15 @@ export function calcularEdad(fechaNacimiento) {
   return edad;
 }
 
+export function calcularIMC(peso, altura) {
+  if (altura > 0 && peso > 0) {
+    const imc = peso / (altura * altura);
+    return Math.round(imc * 100) / 100; // Redondea a dos decimales
+  } else {
+    return 0;
+  }
+}
+
 export function formatearFecha(fecha) {
   const fechaNac = new Date(fecha);
   return `${fechaNac.getDate().toString().padStart(2, "0")}/${(

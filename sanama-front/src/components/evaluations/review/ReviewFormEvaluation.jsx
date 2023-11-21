@@ -2,7 +2,11 @@ import React from "react";
 import Accordion from "@/components/evaluations/acordeon";
 import InputField from "@/components/common/InputField";
 import TextAreaField from "@/components/common/TextAreaField";
-import { calcularEdad, formatearFecha } from "@/util/formValidations";
+import {
+  calcularEdad,
+  calcularIMC,
+  formatearFecha,
+} from "@/util/formValidations";
 
 const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
   if (!patientData) {
@@ -16,6 +20,7 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
   const recetaMedica = hojaMedicaData.recetaMedica;
   const medicamentos = recetaMedica.medicamentos;
   const vitalSigns = evaluacionMedica.signosVitales || {};
+  const IMC = vitalSigns ? calcularIMC(vitalSigns.peso, vitalSigns.talla) : "-";
   const diagnosticos = evaluacionMedica.diagnosticos;
 
   return (
@@ -89,6 +94,13 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
       <Accordion title="Signos Vitales" id="triage" active={true}>
         <div className="ml-4 grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <InputField
+            key={"imc"}
+            label={"Indice de Masa Corporal (IMC)"}
+            value={IMC}
+            readOnly
+            disabled
+          />
+          <InputField
             key={"temperatura"}
             label={"Temperatura (°C)"}
             value={vitalSigns.temperatura}
@@ -136,6 +148,7 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
               <span className="mr-4">:</span>
               <textarea
                 readOnly
+                disabled
                 className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
                 rows={3}
                 value={evaluacionMedica.examenGeneral}
@@ -151,6 +164,7 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
               <span className="mr-4">:</span>
               <textarea
                 readOnly
+                disabled
                 className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
                 rows={3}
                 value={evaluacionMedica.pielYFaneras}
@@ -166,6 +180,7 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
               <span className="mr-4">:</span>
               <textarea
                 readOnly
+                disabled
                 className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
                 rows={3}
                 value={evaluacionMedica.cabezaYCuello}
@@ -181,6 +196,7 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
               <span className="mr-4">:</span>
               <textarea
                 readOnly
+                disabled
                 className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
                 rows={3}
                 value={evaluacionMedica.toraxYPulmones}
@@ -196,6 +212,7 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
               <span className="mr-4">:</span>
               <textarea
                 readOnly
+                disabled
                 className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
                 rows={3}
                 value={evaluacionMedica.toraxYPulmones}
@@ -211,6 +228,7 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
               <span className="mr-4">:</span>
               <textarea
                 readOnly
+                disabled
                 className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
                 rows={3}
                 value={evaluacionMedica.cardiovascular}
@@ -226,6 +244,7 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
               <span className="mr-4">:</span>
               <textarea
                 readOnly
+                disabled
                 className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
                 rows={3}
                 value={evaluacionMedica.abdomen}
@@ -241,6 +260,7 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
               <span className="mr-4">:</span>
               <textarea
                 readOnly
+                disabled
                 className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
                 rows={3}
                 value={evaluacionMedica.urogenital}
@@ -256,6 +276,7 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
               <span className="mr-4">:</span>
               <textarea
                 readOnly
+                disabled
                 className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
                 rows={3}
                 value={evaluacionMedica.extremidades}
@@ -271,6 +292,7 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
               <span className="mr-4">:</span>
               <textarea
                 readOnly
+                disabled
                 className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
                 rows={3}
                 value={evaluacionMedica.snc}
