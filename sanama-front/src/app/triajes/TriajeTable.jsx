@@ -39,10 +39,10 @@ const TriajeTable = ({ data, options }) => {
             header: "Prioridad",
             enableSorting: true,
             cell: ({ row }) => {
+                console.log(row.original.prioridad)
                 return (
                     <span>
-                        {priorityMapping[row.original.prioridad].icon}                        {priorityMapping[row.original.prioridad]}
-                        {priorityMapping[row.original.prioridad].text}
+                        {getPriority(row.original.prioridad).icon} {row.original.prioridad}
                     </span>
                 )
             }

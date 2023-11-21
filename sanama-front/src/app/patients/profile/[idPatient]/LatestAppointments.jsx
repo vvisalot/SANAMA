@@ -20,8 +20,8 @@ const LatestAppointments = ({ id }) => {
     }, [])
 
     return (
-        <section className="my-10  p-6 w-full h-full  bg-white border border-gray-200 rounded-xl shadow">
-            <div className="px-4 flex items-center justify-between">
+        <section className="my-10  p-6 w-full bg-white border border-gray-200 rounded-xl shadow  h-[400px]">
+            <div className="px-4 flex items-center justify-between  ">
                 <h1 className="font-bold text-lg pb-1"> Últimas citas realizadas</h1>
                 <Link href={`/patients/profile/${id}/appointments`}
                     className="text-blue-700 hover:text-white border 
