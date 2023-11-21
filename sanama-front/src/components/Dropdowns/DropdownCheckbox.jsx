@@ -1,49 +1,50 @@
-import { useEffect, useRef, useState } from "react"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faHourglass } from "@fortawesome/free-solid-svg-icons"
+import { useEffect, useRef, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHourglass } from "@fortawesome/free-solid-svg-icons";
 
 const DropdownCheckbox = ({
   statusList,
   statusState,
   setStatusState,
   text,
+  height,
 }) => {
-  const [showDropdown, setShowDropdown] = useState(false)
-  const dropdownRef = useRef(null)
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef(null);
 
   const toggleDropdown = () => {
-    setShowDropdown(!showDropdown)
-  }
+    setShowDropdown(!showDropdown);
+  };
 
   const handleCheckboxChange = (id) => (event) => {
-    const value = event.target.checked
-    setStatusState((prevState) => ({ ...prevState, [id]: value }))
-  }
+    const value = event.target.checked;
+    setStatusState((prevState) => ({ ...prevState, [id]: value }));
+  };
 
   const getStatusText = () => {
     const selectedItems = statusList.filter(
       (item) => statusState[item.idValue]
-    )
+    );
     if (selectedItems.length === 0) {
-      return text
+      return text;
     }
     if (selectedItems.length === statusList.length) {
-      return "Todos los estados seleccionados"
+      return "Todos";
     }
-    return selectedItems.map((item) => item.descripcion).join(", ")
-  }
+    return selectedItems.map((item) => item.descripcion).join(", ");
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setShowDropdown(false)
+        setShowDropdown(false);
       }
-    }
-    document.addEventListener("mousedown", handleClickOutside)
+    };
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside)
-    }
-  }, [dropdownRef])
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dropdownRef]);
 
   return (
     <div ref={dropdownRef} className="mr-2">
@@ -51,12 +52,11 @@ const DropdownCheckbox = ({
         onClick={toggleDropdown}
         id="dropdownBgHoverButton"
         type="button"
-        className="text-slate-900 hover:bg-slate-400 w-[180px] justify-between bg-gray-50
+        className={`${height} truncate text-slate-900 hover:bg-slate-400 w-[180px] justify-between bg-gray-50
                             border border-gray-300 focus:ring-4 focus:outline-none focus:ring-blue-300 
                             font-normal rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center 
-                            dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800`}
       >
-        <FontAwesomeIcon icon={faHourglass} className="w-4 h-4 text-gray-500" />
         {getStatusText()}
         <svg
           className="w-2.5 h-2.5 ml-2.5 "
@@ -108,7 +108,7 @@ const DropdownCheckbox = ({
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default DropdownCheckbox
+export default DropdownCheckbox;

@@ -106,10 +106,12 @@ const AppointmentPage = () => {
         <SearchBar
           name={"search-bar-appointments"}
           width={"w-full"}
+          height={"h-[45px]"}
           placeholderText={"Buscar por Nombre, DNI o Código"}
         />
         <DropdownCheckbox
           text={"Estado"}
+          height={"h-[45px]"}
           statusList={statusList}
           statusState={statusState}
           setStatusState={setStatusState}
@@ -122,7 +124,7 @@ const AppointmentPage = () => {
           value={"idEspecialidad"}
           name={"speciality-dropdown"}
           width={"w-[240px]"}
-          height={"h-[43px]"}
+          height={"h-[45px]"}
           handleChange={(event) => {
             setEspecialidadSeleccionada(event.target.value);
           }}
