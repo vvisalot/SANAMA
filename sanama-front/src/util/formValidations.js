@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 
 export function calcularEdad(fechaNacimiento) {
   const hoy = new Date();
@@ -15,8 +15,11 @@ export function calcularEdad(fechaNacimiento) {
 }
 
 export function calcularIMC(peso, altura) {
-  if (altura > 0 && peso > 0) {
-    const imc = peso / (altura * altura);
+  const pesoNum = Number(peso);
+  const alturaNum = Number(altura);
+
+  if (alturaNum > 0 && pesoNum > 0) {
+    const imc = pesoNum / (alturaNum * alturaNum);
     return Math.round(imc * 100) / 100; // Redondea a dos decimales
   } else {
     return 0;
@@ -24,12 +27,13 @@ export function calcularIMC(peso, altura) {
 }
 
 export function formatearFecha(fecha) {
-  const fechaNac = new Date(fecha);
-  return `${fechaNac.getDate().toString().padStart(2, "0")}/${(
-    fechaNac.getMonth() + 1
-  )
-    .toString()
-    .padStart(2, "0")}/${fechaNac.getFullYear()}`;
+  try {
+    const fechaParsed = parseISO(fecha);
+    return format(fechaParsed, "dd/MM/yyyy");
+  } catch (error) {
+    console.error("Error al formatear la fecha:", error);
+    return fecha; // Devuelve la fecha original en caso de error
+  }
 }
 
 export function validateNumberInput(input) {
