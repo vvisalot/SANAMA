@@ -128,7 +128,7 @@ const AppointmentPage = () => {
           handleChange={(event) => {
             setEspecialidadSeleccionada(event.target.value);
           }}
-        ></Dropdown>
+        />
 
         <DateRangePicker
           dateInitial={dateInitial}
@@ -136,9 +136,10 @@ const AppointmentPage = () => {
           dateFinal={dateFinal}
           setDateFinal={setDateFinal}
         />
+
         <button
           type="submit"
-          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-400 font-medium rounded-lg text-sm px-4 py-2.5"
+          className="h-[45px] text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-400 font-medium rounded-lg text-sm px-4 py-2.5"
         >
           Buscar
         </button>

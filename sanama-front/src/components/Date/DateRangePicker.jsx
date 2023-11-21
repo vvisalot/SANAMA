@@ -23,12 +23,7 @@ const defaultOptions = {
   },
 };
 
-const DateRangePicker = ({
-  dateInitial,
-  setDateInitial,
-  dateFinal,
-  setDateFinal,
-}) => {
+const DateRangePicker = ({ dateInitial, setDateInitial, setDateFinal }) => {
   const [showInitial, setShowInitial] = useState(false);
   const [showFinal, setShowFinal] = useState(false);
 
@@ -57,16 +52,16 @@ const DateRangePicker = ({
   };
 
   return (
-    <section className="flex h-16 items-center w-full">
+    <section className="flex items-center h-[45px] w-full">
       <Datepicker
-        classNames="pr-2 min-w-7xl"
+        classNames="pr-2 min-w-7xl h-full"
         onChange={handleChangeInitial}
         options={optionsInitial}
         show={showInitial}
         setShow={setShowInitial}
       ></Datepicker>
       <Datepicker
-        classNames="pr-2 min-w-7xl"
+        classNames="pr-2 min-w-7xl h-full"
         onChange={handleChangeFinal}
         options={optionsFinal}
         show={showFinal}
