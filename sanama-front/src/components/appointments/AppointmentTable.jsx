@@ -1,7 +1,7 @@
 import React from "react";
 import TableOptions from "../table/TableOptions";
 import AdvancedTable from "../table/Table";
-import { getStatus } from "@/util/appointmentParser";
+import { getStatus } from "@/util/status";
 
 const AppointmentTable = ({ data, options }) => {
   const columns = React.useMemo(
