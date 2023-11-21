@@ -27,8 +27,6 @@ const RescheduleModal = ({ isOpen, onClose, medicId, appointmentId }) => {
     }
   }, [isOpen]);
 
-  console.log(highlightedDates);
-
   const handleHourChange = (newHour) => setSelectedHour(newHour);
 
   const handleConfirm = async () => {

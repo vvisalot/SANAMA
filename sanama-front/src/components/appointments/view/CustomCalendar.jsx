@@ -1,6 +1,5 @@
 import React from "react";
 import dayjs from "dayjs";
-import { motion } from "framer-motion";
 
 export const CustomCalendar = ({ highlightedDates, onDaySelect }) => {
   return (
@@ -8,7 +7,7 @@ export const CustomCalendar = ({ highlightedDates, onDaySelect }) => {
       {highlightedDates.map((dateString, index) => {
         const date = dayjs(dateString);
         return (
-          <motion.div
+          <div
             key={dateString}
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -20,7 +19,7 @@ export const CustomCalendar = ({ highlightedDates, onDaySelect }) => {
             >
               {date.format("DD MMM YYYY")}
             </button>
-          </motion.div>
+          </div>
         );
       })}
     </div>
