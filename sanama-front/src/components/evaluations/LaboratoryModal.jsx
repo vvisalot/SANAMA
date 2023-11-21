@@ -54,8 +54,8 @@ const LaboratoryModal = ({ isOpen, onClose, appointmentId }) => {
 
   const confirmAndSave = () => {
     swal({
-      title: "¿Confirmar guardado?",
-      text: "Esta acción guardará los datos del laboratorio.",
+      title: "¿Confirmar Orden?",
+      text: "Esta acción registrara la orden de laboratorio.",
       icon: "warning",
       buttons: true,
       dangerMode: true,
@@ -64,8 +64,8 @@ const LaboratoryModal = ({ isOpen, onClose, appointmentId }) => {
         setIsConfirming(true);
         onClose(); // Cierra el modal después de guardar
         toast.promise(handleSave(), {
-          loading: "Guardando datos...",
-          success: "Datos guardados exitosamente",
+          loading: "Registrando...",
+          success: "Orden registrada exitosamente",
           error: "Error al guardar los datos",
         });
       }
