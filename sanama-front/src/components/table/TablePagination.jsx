@@ -31,13 +31,7 @@ const TablePagination = ({ table }) => {
           {">>"}
         </button>
       </div>
-      <span className="flex items-center justify-center px-3  ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-        <strong>
-          {table.getState().pagination.pageIndex + 1} de {table.getPageCount()}
-        </strong>
-      </span>
-      <span className="flex items-center gap-1">
-        | Ir a la página:
+      <div className="inline-flex -space-x-px">
         <input
           type="number"
           defaultValue={table.getState().pagination.pageIndex + 1}
@@ -45,26 +39,22 @@ const TablePagination = ({ table }) => {
             const page = e.target.value ? Number(e.target.value) - 1 : 0;
             table.setPageIndex(page);
           }}
-          className="border p-2 rounded w-16"
+          className="w-2/6 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg"
+          aria-label="Número de página"
         />
-      </span>
-      <select
-        value={table.getState().pagination.pageSize}
-        onChange={(e) => {
-          table.setPageSize(Number(e.target.value));
-        }}
-        className="flex items-center gap-1"
-      >
-        {[10, 20, 30, 40].map((pageSize) => (
-          <option
-            key={pageSize}
-            value={pageSize}
-            className="border p-2 rounded w-full"
-          >
-            Mostrar {pageSize}
-          </option>
-        ))}
-      </select>
+        <select
+          value={table.getState().pagination.pageSize}
+          onChange={(e) => table.setPageSize(Number(e.target.value))}
+          className="flex items-center justify-center px-3  leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          aria-label="Elementos por página"
+        >
+          {[10, 20, 30, 40].map((pageSize) => (
+            <option key={pageSize} value={pageSize}>
+              Mostrar {pageSize}
+            </option>
+          ))}
+        </select>
+      </div>
     </div>
   );
 };
