@@ -33,6 +33,7 @@ const HistorialClinico = () => {
           estadoHojaMedica: true,
         })
         setHojasMedicas(tableData)
+        console.log(historialClinico.idHistorialClinico)
       } catch (error) {
         setError(error)
       } finally {

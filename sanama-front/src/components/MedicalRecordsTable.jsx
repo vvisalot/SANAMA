@@ -5,20 +5,6 @@ import TableOptions from "./table/TableOptions"
 import AdvancedTable from "@/components/table/Table"
 
 
-// const columns = [
-//   { name: "ID" },
-//   { name: "Código" },
-//   { name: "Médico" },
-//   { name: "Especialidad" },
-//   { name: "Fecha de Atención" },
-//   { name: "Hora de Atención" },
-//   { name: "Opciones" },
-// ]
-
-
-
-
-
 const MedicalRecordsTable = ({ data, options }) => {
   const columns = React.useMemo(() => [
     {
