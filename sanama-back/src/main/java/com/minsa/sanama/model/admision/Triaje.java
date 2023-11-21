@@ -16,8 +16,13 @@ public class Triaje {
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private int temperatura=0;
     private String motivoVisita;
+
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private int presionArterial=0;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    private String presionSistolica="0";
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    private String presionDiastolica="0";
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private int estado=0;
     private String prioridad;
@@ -53,6 +58,22 @@ public class Triaje {
 
     public void setEyesOpen(String eyesOpen) {
         this.eyesOpen = eyesOpen;
+    }
+
+    public String getPresionSistolica() {
+        return presionSistolica;
+    }
+
+    public void setPresionSistolica(String presionSistolica) {
+        this.presionSistolica = presionSistolica;
+    }
+
+    public String getPresionDiastolica() {
+        return presionDiastolica;
+    }
+
+    public void setPresionDiastolica(String presionDiastolica) {
+        this.presionDiastolica = presionDiastolica;
     }
 
     public String getTalkingCorrectly() {
