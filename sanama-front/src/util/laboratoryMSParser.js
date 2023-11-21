@@ -1,4 +1,4 @@
-const parseLaboratoryMSTable = (data) => {
+export const parseLaboratoryMSTable = (data) => {
   return data.resultados.map((resultado) => {
     const downloadUrl = `data:application/pdf;base64,${resultado.archivo}`;
     return {
@@ -9,5 +9,4 @@ const parseLaboratoryMSTable = (data) => {
     };
   });
 };
-
   
