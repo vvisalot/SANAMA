@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import dayjs from "dayjs";
 import AvailableHoursBlock from "./AvailableHoursBlock";
 import { appointmentService } from "@/services/appointmentService";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider, DateCalendar } from "@mui/x-date-pickers";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { CustomCalendar } from "./CustomCalendar";
 import { Modal } from "flowbite-react";
 import PropTypes from "prop-types";
 import {
@@ -18,7 +18,7 @@ const RescheduleModal = ({ isOpen, onClose, medicId, appointmentId }) => {
   const [confirmationMessage, setConfirmationMessage] = useState("");
   const [isConfirming, setIsConfirming] = useState(false);
 
-  const highlightedDays = useAvailableDays(medicId);
+  const highlightedDates = useAvailableDays(medicId);
   const availableHours = useAvailableHours(selectedDate, medicId);
 
   useEffect(() => {
@@ -27,8 +27,8 @@ const RescheduleModal = ({ isOpen, onClose, medicId, appointmentId }) => {
     }
   }, [isOpen]);
 
-  const handleDateChange = (newDate) =>
-    setSelectedDate(dayjs(newDate).format("YYYY-MM-DD"));
+  console.log(highlightedDates);
+
   const handleHourChange = (newHour) => setSelectedHour(newHour);
 
   const handleConfirm = async () => {
@@ -41,7 +41,6 @@ const RescheduleModal = ({ isOpen, onClose, medicId, appointmentId }) => {
           selectedHourNewFormat,
           selectedDate
         );
-        console.log(response);
         setIsStatusUpdated(true);
         setConfirmationMessage(
           "El horario de la cita se ha actualizado exitosamente."
@@ -77,10 +76,9 @@ const RescheduleModal = ({ isOpen, onClose, medicId, appointmentId }) => {
           <Modal.Body>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <div className="flex">
-                <DateCalendar
-                  onChange={handleDateChange}
-                  value={selectedDate ? dayjs(selectedDate) : null}
-                  highlightDates={highlightedDays}
+                <CustomCalendar
+                  highlightedDates={highlightedDates}
+                  onDaySelect={setSelectedDate}
                 />
                 <div className="ml-4">
                   <p className="mb-4">
