@@ -1,16 +1,14 @@
-import { usePathname } from "next/navigation"
-import AppointmentIcon from "../icons/AppointmentIcon"
-import DoctorIcon from "../icons/DoctorIcon"
-import LabIcon from "../icons/LabIcon"
-import PatientIcon from "../icons/PatientIcon"
-import TriageIcon from "../icons/TriageIcon"
-import NavbarItem from "./NavbarItem"
-import Link from "next/link"
-import MenuIcon from "../icons/MenuIcon"
-import SanamaIcon from "../icons/SanamaIcon"
+import { usePathname } from "next/navigation";
+import AppointmentIcon from "../icons/AppointmentIcon";
+import DoctorIcon from "../icons/DoctorIcon";
+import LabIcon from "../icons/LabIcon";
+import PatientIcon from "../icons/PatientIcon";
+import TriageIcon from "../icons/TriageIcon";
+import NavbarItem from "./NavbarItem";
+import Link from "next/link";
+import SanamaIcon from "../icons/SanamaIcon";
 
 const Navbar = () => {
-
   const navbarItems = [
     { name: "Pacientes", route: "/patients", Icon: PatientIcon },
     { name: "Doctores", route: "/doctors", Icon: DoctorIcon },
@@ -18,11 +16,10 @@ const Navbar = () => {
     { name: "Triajes", route: "/triajes", Icon: TriageIcon },
     { name: "Laboratorio", route: "/laboratories", Icon: LabIcon },
     { name: "pruebas", route: "/todoList", Icon: LabIcon },
-    // { name: "Resultados paciente", route: "/todoList", Icon: LabIcon }
-  ]
-  const pathname = usePathname()
+  ];
+  const pathname = usePathname();
 
-  const isActive = (route) => pathname.startsWith(route)
+  const isActive = (route) => pathname.startsWith(route);
 
   return (
     <nav className="bg-[#28539E] px-6 py-2 flex justify-between">
@@ -51,7 +48,7 @@ const Navbar = () => {
         </div>
       </div>
     </nav>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;
