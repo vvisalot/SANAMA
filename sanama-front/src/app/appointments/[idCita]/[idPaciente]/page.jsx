@@ -145,7 +145,7 @@ const HistorialClinico = () => {
         <div className=" flex mb-6 space-x-4">
           <button
             type="submit"
-            className="text-white  bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-4"
+            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
             onClick={() => router.push(`${pathname}/new/`)}
           >
             Nueva Evaluacion Medica
@@ -154,7 +154,7 @@ const HistorialClinico = () => {
             onClick={() => SetisModalOpen(true)}
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           >
-            Abrir Orden de Laboratorio
+            Nueva Orden de Laboratorio
           </button>
 
           <LaboratoryModal
