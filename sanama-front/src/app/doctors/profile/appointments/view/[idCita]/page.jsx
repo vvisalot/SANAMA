@@ -11,7 +11,6 @@ import TitleWithIcon from "@/components/TitleWithIcon";
 import ActionButtons from "@/components/appointments/view/ActionButtons";
 import viewAppointmentIcon from "@/components/icons/viewAppointmentIcon";
 import { toast } from "sonner";
-import { id } from "date-fns/esm/locale";
 
 const ReviewAppointment = ({ params }) => {
   const pathname = usePathname();
