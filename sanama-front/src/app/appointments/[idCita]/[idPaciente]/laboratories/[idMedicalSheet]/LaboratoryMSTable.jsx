@@ -22,9 +22,11 @@ const LaboratoryMSTable = ({ data }) => {
       accessorKey: "downloadUrl",
       header: "Archivo",
       cell: ({ row }) => (
-        <a href={row.original.downloadUrl} download={row.original.nombreArchivo}>
-          Descargar
-        </a>
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          <a href={row.original.downloadUrl} download={row.original.nombreArchivo} className="inline-block">
+            Descargar
+          </a>
+        </button>
       ),
     },
   ], []);

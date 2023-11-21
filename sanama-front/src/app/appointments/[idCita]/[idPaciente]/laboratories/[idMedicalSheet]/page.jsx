@@ -7,8 +7,8 @@ import LabIcon from '@/components/icons/LabIcon';
 import { parseLaboratoryMSTable } from '@/util/laboratoryMSParser'; 
 
 const LaboratoryMSPage = () => {
+    
     const [laboratoryData, setLaboratoryData] = useState([]);
-
     
     const idHojaMedica = 30;
 
