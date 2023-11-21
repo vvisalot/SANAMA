@@ -76,9 +76,9 @@ const ReviewAppointment = ({ params }) => {
   if (!state.appointmentData) return null;
 
   return (
-    <section className="p-14 h-screen content-end">
+    <section className="w-full px-14 py-6">
       <TitleWithIcon name={"Cita Medica"} Icon={viewAppointmentIcon} />
-      <div className="flex place-content-between w-full mb-10 mt-8">
+      <div className="flex place-content-between w-full mb-4">
         <div>
           <Link
             href="/appointments"
