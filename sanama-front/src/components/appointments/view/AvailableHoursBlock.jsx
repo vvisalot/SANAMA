@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo } from "react";
 import PropTypes from "prop-types";
+import { motion } from "framer-motion";
 
 function AvailableHoursBlock({
   availableHours = [],
@@ -28,18 +29,24 @@ function AvailableHoursBlock({
 
   return (
     <div className="flex flex-col gap-1 w-full overflow-y-auto max-h-[250px] mt-2">
-      {formattedHours.map((horario) => (
-        <button
+      {formattedHours.map((horario, index) => (
+        <motion.div
           key={horario.idTurno}
-          onClick={() => onHourClick(horario.horaInicio)}
-          className={`px-4 py-2 text-sm w-full border rounded-md transition-all ${
-            selectedHour === horario.horaInicio
-              ? "bg-blue-500 text-white border-blue-500"
-              : "text-gray-700 border-gray-300 hover:bg-blue-100 hover:border-blue-500"
-          }`}
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: index * 0.1 }}
         >
-          {horario.rangoHorario}
-        </button>
+          <button
+            onClick={() => onHourClick(horario.horaInicio)}
+            className={`px-4 py-2 text-sm w-full border rounded-md transition-all ${
+              selectedHour === horario.horaInicio
+                ? "bg-blue-500 text-white border-blue-500"
+                : "text-gray-700 border-gray-300 hover:bg-blue-100 hover:border-blue-500"
+            }`}
+          >
+            {horario.rangoHorario}
+          </button>
+        </motion.div>
       ))}
     </div>
   );
