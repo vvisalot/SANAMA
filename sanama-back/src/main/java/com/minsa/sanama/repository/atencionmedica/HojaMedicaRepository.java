@@ -471,12 +471,19 @@ public class HojaMedicaRepository {
         if (result.containsKey("ERROR_CODE") || result.containsKey("ERROR_MESSAGE")) {
             return null;
         } else{
-            hojaMedica.setMedicoConsulta(result.get("pv_nombre_medico").toString());
-            hojaMedica.setObservaciones(result.get("pv_observaciones").toString());
-            // Manejamos el json de Resultados
-            String jsonResultados = (String) result.get("pj_resultados");
 
-            hojaMedica.setResultados(obtenerResultados(jsonResultados));
+            Object nombreMedicoObject = result.get("pv_nombre_medico");
+            hojaMedica.setMedicoConsulta(nombreMedicoObject != null ? nombreMedicoObject.toString() : "");
+
+            Object observacionesObject = result.get("pv_observaciones");
+            hojaMedica.setObservaciones(observacionesObject != null ? observacionesObject.toString() : "");
+
+            // Manejamos el json de Resultados
+            Object resultadosObject = result.get("pj_resultados");
+            hojaMedica.setResultados(resultadosObject != null ? obtenerResultados(resultadosObject.toString()) : null);
+
+            //String jsonResultados = (String) result.get("pj_resultados");
+            //hojaMedica.setResultados(obtenerResultados(jsonResultados));
 
             return hojaMedica;
         }
