@@ -1,5 +1,5 @@
-"use client"
-import Link from "next/link"
+"use client";
+
 const SearchBar = ({ name, width, height, placeholderText }) => {
   return (
     <div className={`py-2 ${width} flex items-center`}>
@@ -27,12 +27,11 @@ const SearchBar = ({ name, width, height, placeholderText }) => {
           id={name}
           type="search"
           placeholder={placeholderText}
-          className={`${height} block w-full p-2.5 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-periwinkle focus:border-primary-periwinkle`}
+          className={`${height} truncate block w-full p-2.5 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-periwinkle focus:border-primary-periwinkle`}
         />
       </div>
-
     </div>
-  )
-}
+  );
+};
 
-export default SearchBar
+export default SearchBar;

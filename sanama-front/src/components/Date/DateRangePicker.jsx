@@ -11,9 +11,8 @@ const defaultOptions = {
   language: "es",
   disabledDates: [],
   theme: {
-    input: "py-10 h-[45px] ",
+    input: "py-10 h-[45px] text-end",
     disabled: "text-gray-900 text-gray-600",
-    text: "text-right",
   },
   weekDays: ["Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"],
   inputPlaceholderProp: "Selecciona una fecha",
@@ -39,7 +38,7 @@ const DateRangePicker = ({ dateInitial, setDateInitial, setDateFinal }) => {
 
   const optionsInitial = {
     ...defaultOptions,
-    inputPlaceholderProp: ".     Fecha Inicial",
+    inputPlaceholderProp: "Fecha Inicial",
     inputNameProp: "fecha_inicial",
     inputIdProp: "fecha_inicial",
   };
@@ -47,22 +46,22 @@ const DateRangePicker = ({ dateInitial, setDateInitial, setDateFinal }) => {
   const optionsFinal = {
     ...defaultOptions,
     minDate: dateInitial,
-    inputPlaceholderProp: ".     Fecha Final",
+    inputPlaceholderProp: "Fecha Final",
     inputNameProp: "fecha_final",
     inputIdProp: "fecha_final",
   };
 
   return (
-    <section className="flex items-center h-[45px] w-full">
+    <section className="flex items-center h-[45px] w-full max-w-[400px]">
       <Datepicker
-        classNames="pr-2 min-w-7xl"
+        classNames="pr-2 min-w-7xl w-full"
         onChange={handleChangeInitial}
         options={optionsInitial}
         show={showInitial}
         setShow={setShowInitial}
       ></Datepicker>
       <Datepicker
-        classNames="pr-2 min-w-7xl"
+        classNames="pr-2 min-w-7xl w-full"
         onChange={handleChangeFinal}
         options={optionsFinal}
         show={showFinal}
