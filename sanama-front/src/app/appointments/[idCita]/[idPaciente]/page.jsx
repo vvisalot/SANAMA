@@ -125,7 +125,12 @@ const HistorialClinico = () => {
 
   const options = [
     {
-      text: "Ver",
+      text: "Ver resultados",
+      link: "/",
+      icon: "/icons/eye.svg",
+    },
+    {
+      text: "Ver laboratorios",
       link: "/",
       icon: "/icons/eye.svg",
     },
