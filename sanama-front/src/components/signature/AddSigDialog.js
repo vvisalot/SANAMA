@@ -1,10 +1,34 @@
-import { useRef } from "react";
+import React, { useRef } from "react";
 import ReactSignatureCanvas from "react-signature-canvas";
-import { ConfirmOrCancel } from "./ConfirmOrCancel";
 import { Modal } from "flowbite-react";
+import swal from "sweetalert";
+import { toast } from "sonner";
 
 export function AddSigDialog({ onConfirm, onClose, autoDate, setAutoDate }) {
   const sigRef = useRef(null);
+
+  const handleConfirm = () => {
+    swal({
+      title: "¿Confirmar firma?",
+      text: "Esto guardará la firma actual.",
+      icon: "warning",
+      buttons: true,
+      dangerMode: false,
+    }).then((willConfirm) => {
+      if (willConfirm) {
+        const sigURL = sigRef.current.toDataURL();
+        toast.promise(
+          onConfirm(sigURL), // Asegúrate de que onConfirm retorna una promesa
+          {
+            loading: "Guardando firma...",
+            success: "Firma guardada exitosamente",
+            error: "Error al guardar la firma",
+          }
+        );
+        onClose(); // Cerrar el modal después de confirmar
+      }
+    });
+  };
 
   return (
     <>
@@ -39,13 +63,20 @@ export function AddSigDialog({ onConfirm, onClose, autoDate, setAutoDate }) {
               </div>
             </div>
           </div>
-          <ConfirmOrCancel
-            onCancel={onClose}
-            onConfirm={() => {
-              const sigURL = sigRef.current.toDataURL();
-              onConfirm(sigURL);
-            }}
-          />
+          <div className="flex justify-end space-x-2 mt-4">
+            <button
+              onClick={handleConfirm}
+              className="bg-blue-500 text-white px-4 py-2 rounded"
+            >
+              Confirmar
+            </button>
+            <button
+              onClick={onClose}
+              className="bg-gray-500 text-white px-4 py-2 rounded"
+            >
+              Cancelar
+            </button>
+          </div>
         </div>
       </Modal>
     </>

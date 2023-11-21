@@ -14,13 +14,14 @@ const HistorialClinico = () => {
   const params = useParams();
   const pathname = usePathname();
   const idPaciente = params.idPaciente;
+  const idCita = params.idCita;
   const router = useRouter();
   const { patientForm, setPatientForm } = usePatientForm();
   const [historialClinico, setHistorialClinico] = useState(null);
   const [hojasMedicas, setHojasMedicas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const [isModalOpen, SetisModalOpen] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -149,7 +150,18 @@ const HistorialClinico = () => {
           >
             Nueva Evaluacion Medica
           </button>
-          <LaboratoryModal></LaboratoryModal>
+          <button
+            onClick={() => SetisModalOpen(true)}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Abrir Orden de Laboratorio
+          </button>
+
+          <LaboratoryModal
+            isOpen={isModalOpen}
+            onClose={() => SetisModalOpen(false)}
+            appointmentId={idCita}
+          />
         </div>
 
         <div className="bg-white p-4 rounded shadow-md">
