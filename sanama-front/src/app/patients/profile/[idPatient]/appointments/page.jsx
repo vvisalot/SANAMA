@@ -21,6 +21,13 @@ const PatientAppointments = ({ params }) => {
         getPatientMedicalRecords()
     }, [params.idPatient])
 
+    const options = [
+        {
+            text: "Ver",
+            link: "/appointments",
+            icon: "/icons/eye.svg",
+        },
+    ]
     return (
         <div>
             <h1 className="font-bold text-blue-500 text-6xl p-12" >Citas del paciente</h1>

@@ -29,15 +29,16 @@ export function getTriajeStatus(estado) {
 }
 
 
-export function priorityMapping() {
-	return {
-		1: { text: "Resucitacion", icon: "🔴" },
-		2: { text: "Emergencia", icon: "🟠" },
-		3: { text: "Urgencia", icon: "🟡" },
-		4: { text: "Urgencia menor", icon: "🟢" },
-		5: { text: "Sin Urgencia", icon: "🔵" },
-		6: { text: "N.A.", icon: "⚪" },
+export function getPriority(priority) {
+	const priorityMapping = {
+		"Resucitacion": { icon: "🔴" },
+		"Emergencia": { icon: "🟠" },
+		"Urgencia": { icon: "🟡" },
+		"Urgencia menor": { icon: "🟢" },
+		"Sin Urgencia": { icon: "🔵" },
+		"N.A.": { icon: "⚪" },
 	}
+	return priorityMapping[priority]
 };
 
 const formatDateAndTime = (fechaCita, horaCita) => {

@@ -56,7 +56,7 @@ const AdvancedTable = ({ data, id, columns }) => {
               {row.getVisibleCells().map((cell) => (
                 <td
                   key={cell.id}
-                  className={`px-4 py-4 text-gray-900 whitespace-nowrap truncate min-w-[80px] max-w-[150px] bg-white border-b`}
+                  className={`px-4 py-4 text-gray-900  min-w-[80px] max-w-[150px] bg-white border-b`}
                 >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>

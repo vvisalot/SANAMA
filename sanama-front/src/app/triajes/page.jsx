@@ -96,6 +96,7 @@ const TriajePage = () => {
 
   return (
     <section className="p-4 md:p-14">
+
       <TitleWithIcon name={"Triajes"} Icon={TriageIcon} />
       <form className="w-full" onSubmit={handleSubmit}>
         <div className="flex justify-start items-center">
