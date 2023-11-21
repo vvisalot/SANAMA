@@ -6,7 +6,6 @@ function AvailableHoursBlock({
   availableHours = [],
   onHourClick,
   selectedHour,
-  isLoading,
 }) {
   useEffect(() => {
     if (availableHours.length > 0 && !selectedHour) {
@@ -18,17 +17,16 @@ function AvailableHoursBlock({
     () =>
       (Array.isArray(availableHours) ? availableHours : []).map((horario) => {
         const horaInicioFormateada = horario.horaInicio.slice(0, 5);
-        const horaFinFormateada = horario.horaFin.slice(0, 5);
         return {
           ...horario,
-          rangoHorario: `${horaInicioFormateada} - ${horaFinFormateada}`,
+          rangoHorario: `${horaInicioFormateada}`,
         };
       }),
     [availableHours]
   );
 
   return (
-    <div className="flex flex-col gap-1 w-full overflow-y-auto max-h-[250px] mt-2">
+    <div className="flex flex-col gap-1 w-full overflow-y-auto max-h-[250px] mt-2 overflow-x-hidden">
       {formattedHours.map((horario, index) => (
         <motion.div
           key={horario.idTurno}
@@ -40,8 +38,8 @@ function AvailableHoursBlock({
             onClick={() => onHourClick(horario.horaInicio)}
             className={`px-4 py-2 text-sm w-full border rounded-md transition-all ${
               selectedHour === horario.horaInicio
-                ? "bg-blue-500 text-white border-blue-500"
-                : "text-gray-700 border-gray-300 hover:bg-blue-100 hover:border-blue-500"
+                ? "bg-orange-500 text-white"
+                : "bg-[#e2e7eb] text-[#4f4f4f]"
             }`}
           >
             {horario.rangoHorario}

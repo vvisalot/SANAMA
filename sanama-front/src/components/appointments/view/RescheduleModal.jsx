@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AvailableHoursBlock from "./AvailableHoursBlock";
 import { appointmentService } from "@/services/appointmentService";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers";
 import { CustomCalendar } from "./CustomCalendar";
 import { Modal } from "flowbite-react";
 import PropTypes from "prop-types";
@@ -72,28 +70,26 @@ const RescheduleModal = ({ isOpen, onClose, medicId, appointmentId }) => {
       ) : (
         <>
           <Modal.Body>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <div>
               <div>
-                <div>
-                  <p className="mb-4">
-                    {selectedDate && selectedHour
-                      ? `Fecha y Hora: ${selectedDate} ${selectedHour}`
-                      : "No hay fecha ni hora reservada"}
-                  </p>
-                </div>
-                <div className="flex">
-                  <CustomCalendar
-                    highlightedDates={highlightedDates}
-                    onDaySelect={setSelectedDate}
-                  />
-                  <AvailableHoursBlock
-                    availableHours={availableHours}
-                    onHourClick={handleHourChange}
-                    selectedHour={selectedHour}
-                  />
-                </div>
+                <p className="mb-4">
+                  {selectedDate && selectedHour
+                    ? `Reservar el: ${selectedDate} ${selectedHour}`
+                    : "No hay fecha ni hora reservada"}
+                </p>
               </div>
-            </LocalizationProvider>
+              <div className="flex gap-4">
+                <CustomCalendar
+                  highlightedDates={highlightedDates}
+                  onDaySelect={setSelectedDate}
+                />
+                <AvailableHoursBlock
+                  availableHours={availableHours}
+                  onHourClick={handleHourChange}
+                  selectedHour={selectedHour}
+                />
+              </div>
+            </div>
           </Modal.Body>
           <Modal.Footer>
             <button

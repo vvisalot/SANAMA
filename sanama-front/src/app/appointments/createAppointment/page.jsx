@@ -1,209 +1,213 @@
-"use client"
-import TitleWithIcon from "@/components/TitleWithIcon"
-import createAppointmentIcon from "@/components/icons/createAppointmentIcon"
-import PatientForm from "@/components/appointments/create/PatientForm"
-import AppointementForm from "@/components/appointments/create/AppointementForm"
-import { useRouter } from "next/navigation"
-import { useState } from "react"
-import usePatientForm from "@/hooks/usePatientForm"
-import useAppointmentForm from "@/hooks/useAppointmentForm"
-import { appointmentService } from "@/services/appointmentService"
-import { patientService } from "@/services/patientService"
-import { toast } from "sonner"
+"use client";
+import TitleWithIcon from "@/components/TitleWithIcon";
+import createAppointmentIcon from "@/components/icons/createAppointmentIcon";
+import PatientForm from "@/components/appointments/create/PatientForm";
+import AppointementForm from "@/components/appointments/create/AppointementForm";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import usePatientForm from "@/hooks/usePatientForm";
+import useAppointmentForm from "@/hooks/useAppointmentForm";
+import { appointmentService } from "@/services/appointmentService";
+import { patientService } from "@/services/patientService";
+import { toast } from "sonner";
 
 const CreateAppointmentForm = () => {
-	const router = useRouter()
-	const [allFormComplete, setAllFormComplete] = useState(false)
+  const router = useRouter();
+  const [allFormComplete, setAllFormComplete] = useState(false);
 
-	const {
-		validatePatientForm,
-		patientFormComplete,
-		setPatientFormComplete,
-		patientForm,
-		setPatientForm,
-		fechaNacimiento,
-		setFechaNacimiento,
-		sexo,
-		setSexo,
-	} = usePatientForm()
+  const {
+    validatePatientForm,
+    patientFormComplete,
+    setPatientFormComplete,
+    patientForm,
+    setPatientForm,
+    fechaNacimiento,
+    setFechaNacimiento,
+    sexo,
+    setSexo,
+  } = usePatientForm();
 
-	const {
-		patientId,
-		setPatientId,
-		doctorId,
-		setDoctorId,
-		legalResponsibilityForm,
-		setLegalResponsibilityForm,
-		schedule,
-		setSchedule,
-		triageRequirement,
-		setTriageRequirement,
-		validateAppointmentForm,
-		setAppointmentFormComplete,
-	} = useAppointmentForm()
+  const {
+    patientId,
+    setPatientId,
+    doctorId,
+    setDoctorId,
+    legalResponsibilityForm,
+    setLegalResponsibilityForm,
+    schedule,
+    setSchedule,
+    triageRequirement,
+    setTriageRequirement,
+    validateAppointmentForm,
+    setAppointmentFormComplete,
+  } = useAppointmentForm();
 
-	const loadingRegister = async (data) => {
-		console.log(data)
-		await appointmentService.registrarCita(data)
-		router.push("/appointments")
-	}
+  const loadingRegister = async (data) => {
+    console.log(data);
+    await appointmentService.registrarCita(data);
+    router.push("/appointments");
+  };
 
-	const handleSubmit = async (event) => {
-		event.preventDefault()
-		if (validateAppointmentForm(fechaNacimiento, validatePatientForm)) {
-			console.log("El formulario es válido. Enviar datos.")
-			setAllFormComplete(true)
-		} else {
-			console.log("No se han completado correctamente los campos.")
-			setAllFormComplete(false)
-			return
-		}
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (validateAppointmentForm(fechaNacimiento, validatePatientForm)) {
+      console.log("El formulario es válido. Enviar datos.");
+      setAllFormComplete(true);
+    } else {
+      console.log("No se han completado correctamente los campos.");
+      setAllFormComplete(false);
+      return;
+    }
 
-		if (patientId.idPersona == -1) {
-			try {
-				const patientData = {
-					nombres: patientForm.nombres,
-					apellidoPaterno: patientForm.apellidoPaterno,
-					apellidoMaterno: patientForm.apellidoMaterno,
-					dni: patientForm.dni,
-					fechaNacimiento: fechaNacimiento,
-					sexo: sexo.charAt(0),
-					telefono: patientForm.telefono,
-					estado: 1,
-					codigoSeguro: patientForm.codigoSeguro,
-					tipoSeguro: patientForm.tipoSeguro,
-					direccion: patientForm.direccion,
-					correo: patientForm.correo,
-				}
-				const patientResponse = await patientService.registrarPaciente(
-					patientData
-				)
+    if (patientId.idPersona == -1) {
+      try {
+        const patientData = {
+          nombres: patientForm.nombres,
+          apellidoPaterno: patientForm.apellidoPaterno,
+          apellidoMaterno: patientForm.apellidoMaterno,
+          dni: patientForm.dni,
+          fechaNacimiento: fechaNacimiento,
+          sexo: sexo.charAt(0),
+          telefono: patientForm.telefono,
+          estado: 1,
+          codigoSeguro: patientForm.codigoSeguro,
+          tipoSeguro: patientForm.tipoSeguro,
+          direccion: patientForm.direccion,
+          correo: patientForm.correo,
+        };
+        const patientResponse = await patientService.registrarPaciente(
+          patientData
+        );
 
-				if (patientResponse !== null || patientResponse !== -1) {
-					const newPatientId = patientResponse
+        if (patientResponse !== null || patientResponse !== -1) {
+          const newPatientId = patientResponse;
 
-					setPatientId({
-						idPersona: newPatientId,
-					})
+          setPatientId({
+            idPersona: newPatientId,
+          });
 
-					const appointmentFormData = {
-						paciente: {
-							idPersona: newPatientId,
-						},
-						medico: doctorId,
-						horaCita: schedule.hora,
-						fechaCita: schedule.fecha,
-						tieneAcompanhante: legalResponsibilityForm.tieneAcompañante === "Si" ? true : false,
-						nombreAcompanhante:
-							legalResponsibilityForm.tieneAcompañante === "Si"
-								? `${legalResponsibilityForm.nombres} ${legalResponsibilityForm.apellidoPaterno} ${legalResponsibilityForm.apellidoMaterno}`
-								: null,
-						dniAcompanhante:
-							legalResponsibilityForm.tieneAcompañante === "Si"
-								? legalResponsibilityForm.dni
-								: null,
-						parentezco:
-							legalResponsibilityForm.tieneAcompañante === "Si"
-								? legalResponsibilityForm.parentesco
-								: null,
-						requiereTriaje: triageRequirement === "Si" ? 1 : 0,
-					}
-					// let response = await appointmentService.registrarCita(appointmentFormData)
-					// const promise = () => new Promise((resolve) => setTimeout(resolve, 2000));
+          const appointmentFormData = {
+            paciente: {
+              idPersona: newPatientId,
+            },
+            medico: doctorId,
+            horaCita: schedule.hora,
+            fechaCita: schedule.fecha,
+            tieneAcompanhante:
+              legalResponsibilityForm.tieneAcompañante === "Si" ? true : false,
+            nombreAcompanhante:
+              legalResponsibilityForm.tieneAcompañante === "Si"
+                ? `${legalResponsibilityForm.nombres} ${legalResponsibilityForm.apellidoPaterno} ${legalResponsibilityForm.apellidoMaterno}`
+                : null,
+            dniAcompanhante:
+              legalResponsibilityForm.tieneAcompañante === "Si"
+                ? legalResponsibilityForm.dni
+                : null,
+            parentezco:
+              legalResponsibilityForm.tieneAcompañante === "Si"
+                ? legalResponsibilityForm.parentesco
+                : null,
+            requiereTriaje: triageRequirement === "Si" ? 1 : 0,
+          };
+          // let response = await appointmentService.registrarCita(appointmentFormData)
+          // const promise = () => new Promise((resolve) => setTimeout(resolve, 2000));
 
-					console.log("Paciente registrado y cita registrada")
-					toast.promise(() => loadingRegister(appointmentFormData), {
-						loading: "Registrando paciente y cita",
-						success: "Paciente y cita registrados",
-						error: "Error al registrar paciente y cita",
-					})
-				} else {
-					console.log("Error al registrar paciente y cita")
-					toast.error("Error al registrar paciente y cita")
-				}
-			} catch (error) {
-				console.log("Error en la respuesta del servidor para registrar un paciente y cita")
-				toast.error(
-					"Error en la respuesta del servidor para registrar un paciente y cita")
-			}
-		} else {
-			try {
-				const appointmentFormData = {
-					paciente: patientId,
-					medico: doctorId,
-					horaCita: schedule.hora,
-					fechaCita: schedule.fecha,
-					tieneAcompanhante:
-						legalResponsibilityForm.tieneAcompañante === "Si" ? true : false,
-					nombreAcompanhante:
-						legalResponsibilityForm.tieneAcompañante === "Si"
-							? `${legalResponsibilityForm.nombres} ${legalResponsibilityForm.apellidoPaterno} ${legalResponsibilityForm.apellidoMaterno}`
-							: null,
-					dniAcompanhante:
-						legalResponsibilityForm.tieneAcompañante === "Si"
-							? legalResponsibilityForm.dni
-							: null,
-					parentezco:
-						legalResponsibilityForm.tieneAcompañante === "Si"
-							? legalResponsibilityForm.parentesco
-							: null,
-					requiereTriaje: triageRequirement === "Si" ? 1 : 0,
-				}
+          console.log("Paciente registrado y cita registrada");
+          toast.promise(() => loadingRegister(appointmentFormData), {
+            loading: "Registrando paciente y cita",
+            success: "Paciente y cita registrados",
+            error: "Error al registrar paciente y cita",
+          });
+        } else {
+          console.log("Error al registrar paciente y cita");
+          toast.error("Error al registrar paciente y cita");
+        }
+      } catch (error) {
+        console.log(
+          "Error en la respuesta del servidor para registrar un paciente y cita"
+        );
+        toast.error(
+          "Error en la respuesta del servidor para registrar un paciente y cita"
+        );
+      }
+    } else {
+      try {
+        const appointmentFormData = {
+          paciente: patientId,
+          medico: doctorId,
+          horaCita: schedule.hora,
+          fechaCita: schedule.fecha,
+          tieneAcompanhante:
+            legalResponsibilityForm.tieneAcompañante === "Si" ? true : false,
+          nombreAcompanhante:
+            legalResponsibilityForm.tieneAcompañante === "Si"
+              ? `${legalResponsibilityForm.nombres} ${legalResponsibilityForm.apellidoPaterno} ${legalResponsibilityForm.apellidoMaterno}`
+              : null,
+          dniAcompanhante:
+            legalResponsibilityForm.tieneAcompañante === "Si"
+              ? legalResponsibilityForm.dni
+              : null,
+          parentezco:
+            legalResponsibilityForm.tieneAcompañante === "Si"
+              ? legalResponsibilityForm.parentesco
+              : null,
+          requiereTriaje: triageRequirement === "Si" ? 1 : 0,
+        };
 
-				// let response = await appointmentService.registrarCita(appointmentFormData)
+        toast.promise(() => loadingRegister(appointmentFormData), {
+          loading: "Registrando cita",
+          success: "Cita registrada",
+        });
+      } catch (error) {
+        toast.error("Error al registrar cita para un paciente existente");
+        console.log("Error al registrar cita para un paciente existente");
+      }
+    }
+  };
+  return (
+    <section className="w-full px-14 py-6">
+      <form onSubmit={handleSubmit} className="w-full">
+        <TitleWithIcon name={"Nueva cita"} Icon={createAppointmentIcon} />
 
-				toast.promise(() => loadingRegister(appointmentFormData), {
-					loading: "Registrando cita",
-					success: "Cita registrada",
-				})
-			} catch (error) {
-				toast.error("Error al registrar cita para un paciente existente")
-				console.log("Error al registrar cita para un paciente existente")
-			}
-		}
-	}
-	return (
-		<form onSubmit={handleSubmit} className="px-80 py-10 w-fit">
-			<TitleWithIcon name={"Nueva cita"} Icon={createAppointmentIcon} />
+        <PatientForm
+          formComplete={patientFormComplete}
+          setFormComplete={setPatientFormComplete}
+          setPatientId={setPatientId}
+          patientForm={patientForm}
+          setPatientForm={setPatientForm}
+          fechaNacimiento={fechaNacimiento}
+          setFechaNacimiento={setFechaNacimiento}
+          sexo={sexo}
+          setSexo={setSexo}
+        />
 
-			<PatientForm
-				formComplete={patientFormComplete}
-				setFormComplete={setPatientFormComplete}
-				setPatientId={setPatientId}
-				patientForm={patientForm}
-				setPatientForm={setPatientForm}
-				fechaNacimiento={fechaNacimiento}
-				setFechaNacimiento={setFechaNacimiento}
-				sexo={sexo}
-				setSexo={setSexo}
-			/>
+        <hr className="bg-gray-600 mt-20" />
 
-			<hr className="bg-gray-600 mt-20" />
+        <AppointementForm
+          setFormComplete={setAppointmentFormComplete}
+          legalResponsibilityForm={legalResponsibilityForm}
+          setLegalResponsibilityForm={setLegalResponsibilityForm}
+          setDoctorId={setDoctorId}
+          schedule={schedule}
+          setSchedule={setSchedule}
+          triageRequirement={triageRequirement}
+          setTriageRequirement={setTriageRequirement}
+          allFormComplete={allFormComplete}
+          setAllFormComplete={setAllFormComplete}
+        />
 
-			<AppointementForm
-				setFormComplete={setAppointmentFormComplete}
-				legalResponsibilityForm={legalResponsibilityForm}
-				setLegalResponsibilityForm={setLegalResponsibilityForm}
-				setDoctorId={setDoctorId}
-				schedule={schedule}
-				setSchedule={setSchedule}
-				triageRequirement={triageRequirement}
-				setTriageRequirement={setTriageRequirement}
-				allFormComplete={allFormComplete}
-				setAllFormComplete={setAllFormComplete}
-			/>
-
-			<div className="flex flex-row-reverse">
-				<button
-					type="submit"
-					onClick={handleSubmit}
-					className=" m-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300
+        <div className="flex flex-row-reverse">
+          <button
+            type="submit"
+            onClick={handleSubmit}
+            className=" m-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300
                             font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center"
-				>
-					Registrar cita
-				</button>
-			</div>
-		</form>
-	)
-}
-export default CreateAppointmentForm
+          >
+            Registrar cita
+          </button>
+        </div>
+      </form>
+    </section>
+  );
+};
+export default CreateAppointmentForm;
