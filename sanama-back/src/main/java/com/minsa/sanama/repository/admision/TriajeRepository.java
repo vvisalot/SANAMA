@@ -58,7 +58,8 @@ public class TriajeRepository {
                         new SqlParameter("pn_talla", Types.INTEGER),
                         new SqlParameter("pn_temperatura", Types.INTEGER),
                         new SqlParameter("pv_motivo_visita", Types.VARCHAR),
-                        new SqlParameter("pn_presion_arterial", Types.INTEGER),
+                        new SqlParameter("pv_presion_sistolica", Types.VARCHAR),
+                        new SqlParameter("pv_presion_diastolica", Types.VARCHAR),
                         new SqlParameter("pv_condicionesPrexistentes", Types.VARCHAR),
                         new SqlParameter("pv_prioridad", Types.VARCHAR),
                         new SqlParameter("pn_estado", Types.INTEGER),
@@ -79,7 +80,8 @@ public class TriajeRepository {
                 .addValue("pn_talla", triaje.getTalla())
                 .addValue("pn_temperatura", triaje.getTemperatura())
                 .addValue("pv_motivo_visita", triaje.getMotivoVisita())
-                .addValue("pn_presion_arterial", triaje.getPresionArterial())
+                .addValue("pv_presion_sistolica", triaje.getPresionSistolica())
+                .addValue("pv_presion_diastolica", triaje.getPresionDiastolica())
                 .addValue("pv_condicionesPrexistentes", triaje.getCondicionesPrexistentes())
                 .addValue("pv_prioridad", triaje.getPrioridad())
                 .addValue("pn_estado", triaje.getEstado())
@@ -112,7 +114,8 @@ public class TriajeRepository {
                         new SqlParameter("pn_talla", Types.INTEGER),
                         new SqlParameter("pn_temperatura", Types.INTEGER),
                         new SqlParameter("pv_motivo_visita", Types.VARCHAR),
-                        new SqlParameter("pn_presion_arterial", Types.INTEGER),
+                        new SqlParameter("pv_presion_sistolica", Types.VARCHAR),
+                        new SqlParameter("pv_presion_diastolica", Types.VARCHAR),
                         new SqlParameter("pv_condicionesPrexistentes", Types.VARCHAR),
                         new SqlParameter("pv_prioridad", Types.VARCHAR),
                         new SqlParameter("pn_estado", Types.INTEGER),
@@ -133,7 +136,8 @@ public class TriajeRepository {
                 .addValue("pn_talla", triaje.getTalla())
                 .addValue("pn_temperatura", triaje.getTemperatura())
                 .addValue("pv_motivo_visita", triaje.getMotivoVisita())
-                .addValue("pn_presion_arterial", triaje.getPresionArterial())
+                .addValue("pv_presion_sistolica", triaje.getPresionSistolica())
+                .addValue("pv_presion_diastolica", triaje.getPresionDiastolica())
                 .addValue("pv_condicionesPrexistentes", triaje.getCondicionesPrexistentes())
                 .addValue("pv_prioridad", triaje.getPrioridad())
                 .addValue("pn_estado", triaje.getEstado())
@@ -168,7 +172,9 @@ public class TriajeRepository {
             triaje.setTalla(rs.getInt("talla"));
             triaje.setTemperatura(rs.getInt("temperatura"));
             triaje.setMotivoVisita(rs.getString("motivo_visita"));
-            triaje.setPresionArterial(rs.getInt("presion_arterial"));
+            triaje.setPresionSistolica(rs.getString("presion_sistolica"));
+            triaje.setPresionDiastolica(rs.getString("presion_diastolica"));
+            triaje.setPresionArterial(rs.getInt("presion_arterial"));           //Eliminar
             triaje.setPrioridad(rs.getString("prioridad"));
             triaje.setEstado(rs.getInt("estado"));
             triaje.setFechaTriaje(rs.getDate("fecha").toLocalDate());
