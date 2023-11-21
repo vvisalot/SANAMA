@@ -4,6 +4,7 @@ import { appointmentService } from "@/services/appointmentService";
 import { CustomCalendar } from "./CustomCalendar";
 import { Modal } from "flowbite-react";
 import swal from "sweetalert";
+import { toast } from "sonner";
 import PropTypes from "prop-types";
 import {
   useAvailableDays,
@@ -34,34 +35,19 @@ const RescheduleModal = ({ isOpen, onClose, medicId, appointmentId }) => {
         text: "Confirmarás la nueva fecha y hora para la cita.",
         icon: "warning",
         buttons: true,
-        dangerMode: true,
+        dangerMode: false,
       }).then(async (willConfirm) => {
         if (willConfirm) {
           setIsConfirming(true);
-          try {
-            const selectedHourNewFormat = selectedHour.substr(0, 5);
-            const response = await appointmentService.actualizarHoraFecha(
-              appointmentId,
-              selectedHourNewFormat,
-              selectedDate
-            );
-            setIsStatusUpdated(true);
-            swal(
-              "¡Confirmado!",
-              "El horario de la cita se ha actualizado exitosamente.",
-              "success"
-            );
-          } catch (error) {
-            console.error("Error al confirmar reprogramación:", error);
-            swal(
-              "Error",
-              "No se pudo actualizar el horario de la cita.",
-              "error"
-            );
-          } finally {
-            setIsConfirming(false);
-            onClose();
-          }
+          onClose();
+          toast.promise(
+            actualizarCita(), // Llamada a la función que actualiza la cita
+            {
+              loading: "Actualizando cita...",
+              success: "Cita actualizada exitosamente",
+              error: "Error al actualizar la cita",
+            }
+          );
         }
       });
     } else {
@@ -73,8 +59,25 @@ const RescheduleModal = ({ isOpen, onClose, medicId, appointmentId }) => {
     }
   };
 
+  const actualizarCita = async () => {
+    try {
+      const selectedHourNewFormat = selectedHour.substr(0, 5);
+      await appointmentService.actualizarHoraFecha(
+        appointmentId,
+        selectedHourNewFormat,
+        selectedDate
+      );
+      setIsStatusUpdated(true);
+    } catch (error) {
+      console.error("Error al confirmar reprogramación:", error);
+      throw new Error("Error al actualizar la cita"); // Esto activará el mensaje de error en toast.promise
+    } finally {
+      setIsConfirming(false);
+    }
+  };
+
   return (
-    <Modal show={isOpen} size="lg" onClose={onClose}>
+    <Modal show={isOpen} size="xl" onClose={onClose}>
       <Modal.Header>Selecciona una Fecha y hora disponible:</Modal.Header>
       <Modal.Body>
         <div>
