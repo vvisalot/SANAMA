@@ -95,7 +95,7 @@ const AppointmentPage = () => {
       <section className="flex justify-between items-center">
         <TitleWithIcon name={"Citas"} Icon={AppointmentIcon} />
         <Link
-          className="font-bold text-white  bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-sm px-4 py-4"
+          className="w-[180px] text-center font-bold text-white  bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-sm px-4 py-4"
           href="/appointments/createAppointment"
         >
           Nueva Cita

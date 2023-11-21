@@ -68,7 +68,7 @@ const DoctorsPage = () => {
       <section className="flex justify-between items-center ">
         <TitleWithIcon name={"Doctores"} Icon={DoctorIcon} />
         <Link
-          className="font-bold text-white  bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-sm px-4 py-4"
+          className="w-[180px] text-center font-bold text-white  bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-sm px-4 py-4"
           href="/doctors/newDoctor"
         >
           Agregar doctor
@@ -99,8 +99,7 @@ const DoctorsPage = () => {
 
         <button
           type="submit"
-          className="h-[50px] text-white bg-primary-dark-blue hover:bg-primary-dusk-blue 
-          focus:ring-4 focus:outline-none focus:ring-primary-light-periwinkle font-medium rounded-lg text-sm px-4 py-2.5"
+          className="h-[45px] text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-400 font-medium rounded-lg text-sm px-4 py-2.5"
         >
           Buscar
         </button>

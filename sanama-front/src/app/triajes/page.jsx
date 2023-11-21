@@ -1,22 +1,22 @@
-"use client"
-import { useEffect, useState } from "react"
-import TriajeTable from "./TriajeTable"
-import { parseTriajeTable } from "@/util/triajeParser"
-import SearchBar from "@/components/bars/SearchBar"
-import { triajeService } from "@/services/triajeService"
-import TitleWithIcon from "@/components/TitleWithIcon"
-import TriageIcon from "@/components/icons/TriageIcon"
-import DateRangePicker from "@/components/Date/DateRangePicker"
-import DropdownCheckbox from "@/components/Dropdowns/DropdownCheckbox"
-import { laboratoryService } from "@/services/laboratoryService"
-import { format } from "date-fns"
+"use client";
+import { useEffect, useState } from "react";
+import TriajeTable from "./TriajeTable";
+import { parseTriajeTable } from "@/util/triajeParser";
+import SearchBar from "@/components/bars/SearchBar";
+import { triajeService } from "@/services/triajeService";
+import TitleWithIcon from "@/components/TitleWithIcon";
+import TriageIcon from "@/components/icons/TriageIcon";
+import DateRangePicker from "@/components/Date/DateRangePicker";
+import DropdownCheckbox from "@/components/Dropdowns/DropdownCheckbox";
+import { laboratoryService } from "@/services/laboratoryService";
+import { format } from "date-fns";
 
 const TriajePage = () => {
-  const [triajeTable, setTriajeTable] = useState([])
-  const [dateInitial, setDateInitial] = useState(null)
-  const [dateFinal, setDateFinal] = useState(null)
-  const [statusList, setStatusList] = useState([])
-  const [statusState, setStatusState] = useState({})
+  const [triajeTable, setTriajeTable] = useState([]);
+  const [dateInitial, setDateInitial] = useState(null);
+  const [dateFinal, setDateFinal] = useState(null);
+  const [statusList, setStatusList] = useState([]);
+  const [statusState, setStatusState] = useState({});
 
   const initialRequest = {
     pn_id_triaje: null,
@@ -28,39 +28,38 @@ const TriajePage = () => {
         estado: null,
       },
     ],
-  }
-
+  };
 
   const fetchData = async (request) => {
     try {
-      const data = await triajeService.listarTriajePorFiltro(request)
-      const tableData = parseTriajeTable(data)
-      console.log(tableData)
-      setTriajeTable(tableData)
+      const data = await triajeService.listarTriajePorFiltro(request);
+      const tableData = parseTriajeTable(data);
+      console.log(tableData);
+      setTriajeTable(tableData);
     } catch (error) {
-      console.log("No se pudo obtener los datos de los triajes")
+      console.log("No se pudo obtener los datos de los triajes");
     }
-  }
+  };
 
   const fetchStateList = async () => {
     try {
-      const data = await laboratoryService.listarEstadosOrdenesLaboratorio()
-      setStatusList(data)
-      let initialValues = {}
+      const data = await laboratoryService.listarEstadosOrdenesLaboratorio();
+      setStatusList(data);
+      let initialValues = {};
       data.forEach((status) => {
-        initialValues[status.idValue] = false
-      })
+        initialValues[status.idValue] = false;
+      });
       // console.log(initialValues)
-      setStatusState(initialValues)
+      setStatusState(initialValues);
     } catch (error) {
-      console.log("No se pudo obtener la lista de estados")
+      console.log("No se pudo obtener la lista de estados");
     }
-  }
+  };
 
   useEffect(() => {
-    fetchStateList()
-    fetchData(initialRequest)
-  }, [])
+    fetchStateList();
+    fetchData(initialRequest);
+  }, []);
 
   const handleSubmit = async (e) => {
     const stateArray = Object.entries(statusState)
@@ -68,23 +67,22 @@ const TriajePage = () => {
       .map(([key, value]) => {
         return {
           estado: key,
-        }
-      })
-    e.preventDefault()
-    const elements = e.target.elements
-    const filtro = elements.namedItem("patients-search").value
-    const fechaDesde = dateInitial ? format(dateInitial, "yyyy-MM-dd") : null
-    const fechaHasta = dateFinal ? format(dateFinal, "yyyy-MM-dd") : null
+        };
+      });
+    e.preventDefault();
+    const elements = e.target.elements;
+    const filtro = elements.namedItem("patients-search").value;
+    const fechaDesde = dateInitial ? format(dateInitial, "yyyy-MM-dd") : null;
+    const fechaHasta = dateFinal ? format(dateFinal, "yyyy-MM-dd") : null;
     const request = {
       pn_id_triaje: null,
       pv_filtro: filtro,
       pd_fecha_inicio: fechaDesde,
       pd_fecha_fin: fechaHasta,
       arregloEstados: stateArray,
-    }
-    fetchData(request)
-  }
-
+    };
+    fetchData(request);
+  };
 
   const options = [
     {
@@ -92,11 +90,10 @@ const TriajePage = () => {
       link: "/triajes/profile",
       icon: "fa fa-eye",
     },
-  ]
+  ];
 
   return (
-    <section className="p-4 md:p-14">
-
+    <section className="w-full px-14 py-6">
       <TitleWithIcon name={"Triajes"} Icon={TriageIcon} />
       <form className="w-full" onSubmit={handleSubmit}>
         <div className="flex justify-start items-center">
@@ -122,23 +119,18 @@ const TriajePage = () => {
 
           <button
             type="submit"
-            className="ml-2 text-white bg-[#28539E] hover:bg-primary-dusk-blue focus:ring-4 focus:outline-none focus:ring-primary-light-periwinkle font-medium rounded-lg text-sm px-4 py-2.5"
+            className="h-[45px] text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-400 font-medium rounded-lg text-sm px-4 py-2.5"
           >
             Buscar
           </button>
         </div>
       </form>
-      <div
-        style={{ marginBottom: "1rem", color: "black" }}
-        className="pl-12 pr-14 mt-2 mb-8"
-      >
-        Número de resultados: {triajeTable.length}
-      </div>
+
       <section>
         <TriajeTable data={triajeTable} options={options}></TriajeTable>
       </section>
     </section>
-  )
-}
+  );
+};
 
-export default TriajePage
+export default TriajePage;
