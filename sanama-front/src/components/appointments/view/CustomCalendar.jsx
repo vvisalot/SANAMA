@@ -1,23 +1,26 @@
 import React from "react";
 import dayjs from "dayjs";
+import { motion } from "framer-motion";
 
 export const CustomCalendar = ({ highlightedDates, onDaySelect }) => {
   return (
-    <div>
-      {highlightedDates.map((dateString) => {
-        const date = dayjs(dateString); // Convertir la cadena de texto a un objeto de fecha
+    <div className="flex flex-col gap-1 w-full overflow-y-auto max-h-[250px] mt-2">
+      {highlightedDates.map((dateString, index) => {
+        const date = dayjs(dateString);
         return (
-          <button
-            key={dateString} // Usar la cadena de texto como clave
-            onClick={() => onDaySelect(dateString)}
-            style={{
-              backgroundColor: "lightgreen",
-              margin: "5px",
-              // Otros estilos que desees agregar
-            }}
+          <motion.div
+            key={dateString}
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: index * 0.1 }}
           >
-            {date.format("DD MMM YYYY")} {/* Formatear la fecha para mostrar */}
-          </button>
+            <button
+              onClick={() => onDaySelect(dateString)}
+              className="px-4 py-2 text-sm w-full border rounded-md transition-all hover:bg-blue-100 hover:border-blue-500"
+            >
+              {date.format("DD MMM YYYY")}
+            </button>
+          </motion.div>
         );
       })}
     </div>

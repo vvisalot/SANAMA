@@ -75,17 +75,19 @@ const RescheduleModal = ({ isOpen, onClose, medicId, appointmentId }) => {
         <>
           <Modal.Body>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <div className="flex">
-                <CustomCalendar
-                  highlightedDates={highlightedDates}
-                  onDaySelect={setSelectedDate}
-                />
-                <div className="ml-4">
+              <div>
+                <div>
                   <p className="mb-4">
                     {selectedDate && selectedHour
                       ? `Fecha y Hora: ${selectedDate} ${selectedHour}`
                       : "No hay fecha ni hora reservada"}
                   </p>
+                </div>
+                <div className="flex">
+                  <CustomCalendar
+                    highlightedDates={highlightedDates}
+                    onDaySelect={setSelectedDate}
+                  />
                   <AvailableHoursBlock
                     availableHours={availableHours}
                     onHourClick={handleHourChange}
