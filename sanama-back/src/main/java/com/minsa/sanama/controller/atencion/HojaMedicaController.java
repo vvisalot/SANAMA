@@ -154,6 +154,7 @@ public class HojaMedicaController {
         return null;
     }
 
+    //http://localhost:8080/atencion/post/buscarResultadosPaciente
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE},
             value = "/post/buscarResultadosPaciente")
