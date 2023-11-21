@@ -10,6 +10,7 @@ import useUpdateAppointmentStatus from "@/hooks/useUpdateAppointmentStatus";
 import TitleWithIcon from "@/components/TitleWithIcon";
 import ActionButtons from "@/components/appointments/view/ActionButtons";
 import viewAppointmentIcon from "@/components/icons/viewAppointmentIcon";
+import { toast } from "sonner";
 
 const ReviewAppointment = ({ params }) => {
   const pathname = usePathname();
@@ -49,30 +50,47 @@ const ReviewAppointment = ({ params }) => {
 
   const handleActionClick = useCallback(
     async (status) => {
-      updateState({ loading: true });
-      try {
-        await updateAppointmentStatus(state.appointmentData.idCita, status);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        updateState({ loading: false });
-      }
+      return new Promise(async (resolve, reject) => {
+        updateState({ loading: true });
+        try {
+          await updateAppointmentStatus(state.appointmentData.idCita, status);
+          resolve();
+        } catch (error) {
+          console.error(error);
+          reject(error);
+        } finally {
+          updateState({ loading: false });
+        }
+      });
     },
     [state.appointmentData, updateAppointmentStatus]
   );
 
   const handleAttendClick = useCallback(() => {
-    handleActionClick(2).then(
-      router.push(`${pathname}/${state.appointmentData.paciente.idPersona}`)
-    );
+    handleActionClick(2)
+      .then(() => {
+        // Realizar la navegación solo si la acción fue exitosa
+        router.push(`${pathname}/${state.appointmentData.paciente.idPersona}`);
+      })
+      .catch((error) => {
+        console.error("Error al asistir: ", error);
+      });
   }, [handleActionClick, state.appointmentData, pathname, router]);
 
-  const handleCancelClick = useCallback(() => {
-    handleActionClick(3).then(() => updateState({ hasBeenCanceled: true }));
+  const handleCancelClick = useCallback(async () => {
+    updateState({ loading: true });
+
+    try {
+      await handleActionClick(3);
+      toast.success("Cita cancelada exitosamente");
+      updateState({ hasBeenCanceled: true, loading: false });
+    } catch (error) {
+      console.error("Error al cancelar la cita", error);
+      toast.error("Error al cancelar la cita");
+      updateState({ loading: false });
+    }
   }, [handleActionClick]);
 
-  if (state.loading) return <p>Cargando...</p>;
-  if (state.error) return <p className="text-red-500">{state.error}</p>;
   if (!state.appointmentData) return null;
 
   return (
