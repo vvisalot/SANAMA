@@ -14,6 +14,7 @@ const ENDPOINTS = {
   CAMBIAR_ESTADO: "/admision/post/cambiarEstadoCita",
   CAMBIAR_HORA_FECHA: "/admision/post/cambiarHorarioCita",
   LISTAR_ESTADOS_CITAS: "/configuracion/get/listarEstadosCitas",
+  LISTAR_LABORATORIOS: "/atencion/post/buscarResultadosPaciente",
 };
 
 const formatDate = (date) => {
@@ -26,6 +27,19 @@ const formatDate = (date) => {
 };
 
 export const appointmentService = {
+
+  listarLaboratorios: async (pn_id_hoja_medica) => {
+    try {
+      const response = await axiosInstance.post(ENDPOINTS.LISTAR_LABORATORIOS, {
+        pn_id_hoja_medica,
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error al listar laboratorios: ", error);
+      throw error;
+    }
+  },
+
   registrarCita: async (form) => {
     try {
       const response = await axiosInstance.post(ENDPOINTS.REGISTRAR_CITA, form);
