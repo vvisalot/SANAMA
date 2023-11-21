@@ -22,45 +22,36 @@ const ESTADOS = [
 ];
 
 const PatientInfo = ({ pacienteData, appointmentData, doctor }) => {
-  const getValue = (id) => {
-    switch (id) {
-      case "nombres":
-        return `${pacienteData.nombres} ${pacienteData.apellidoPaterno} ${pacienteData.apellidoMaterno}`;
-      case "dni":
-        return pacienteData.dni;
-      case "fecha-atencion":
-        return appointmentData.fechaCita;
-      case "hora-atencion":
-        return appointmentData.horaCita;
-      case "medico-responsable":
-        return `${doctor.nombres} ${doctor.apellidoPaterno} ${doctor.apellidoMaterno}`;
-      case "especialidad":
-        return doctor.especialidad ? doctor.especialidad.nombre : "";
-      case "dniAcompanhante":
-        return appointmentData.dniAcompanhante || "No especificado";
-      case "nombreAcompanhante":
-        return appointmentData.nombreAcompanhante || "No especificado";
-      case "estado":
-        return ESTADOS[appointmentData.estado - 1] || "Desconocido";
-      default:
-        return "Desconocido";
-    }
+  if (!pacienteData) return null;
+
+  const { nombres, apellidoPaterno, apellidoMaterno, dni } = pacienteData;
+  const { fechaCita, horaCita, codigoCita, estado, dniAcompanhante, nombreAcompanhante } = appointmentData;
+  const { nombres: nombresDoc, apellidoPaterno: apellidoPaternoDoc, apellidoMaterno: apellidoMaternoDoc, especialidad } = doctor;
+
+  const values = {
+    "nombres": `${nombres} ${apellidoPaterno} ${apellidoMaterno}`,
+    "dni": dni,
+    "fecha-atencion": fechaCita,
+    "hora-atencion": horaCita,
+    "medico-responsable": `${nombresDoc} ${apellidoPaternoDoc} ${apellidoMaternoDoc}`,
+    "especialidad": especialidad?.nombre || "",
+    "nombreAcompanhante": nombreAcompanhante || "No especificado",
+    "dniAcompanhante": dniAcompanhante || "No especificado",
+    "estado": ESTADOS[estado - 1] || "Desconocido",
   };
 
-  return pacienteData ? (
+  return (
     <>
       <div className="flex items-center space-x-2 w-full">
-        <h2 className="text-2xl font-bold mb-4 text-primary-dusk-blue">{`${appointmentData.codigoCita}`}</h2>
+        <h2 className="text-2xl font-bold mb-4 text-primary-dusk-blue">{codigoCita}</h2>
       </div>
       <div className="grid grid-cols-2 gap-4">
-        {CAMPOS.map(({ id, label, type }) => (
-          <div key={id}>
-            <InputField label={label} value={getValue(id)} disabled />
-          </div>
+        {CAMPOS.map(({ id, label }) => (
+          <InputField key={id} label={label} value={values[id]} disabled />
         ))}
       </div>
     </>
-  ) : null;
+  );
 };
 
 export default PatientInfo;
