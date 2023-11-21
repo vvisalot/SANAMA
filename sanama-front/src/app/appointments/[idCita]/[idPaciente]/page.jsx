@@ -16,112 +16,63 @@ const HistorialClinico = () => {
   const idPaciente = params.idPaciente;
   const idCita = params.idCita;
   const router = useRouter();
+
   const { patientForm, setPatientForm } = usePatientForm();
   const [historialClinico, setHistorialClinico] = useState(null);
   const [hojasMedicas, setHojasMedicas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isModalOpen, SetisModalOpen] = useState(false);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await patientService.mostrarPacienteRegistrado(idPaciente);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-        setPatientForm({
-          ...patientForm,
-          apellidoPaterno: data.apellidoPaterno,
-          apellidoMaterno: data.apellidoMaterno,
-          nombres: data.nombres,
-          tipoSeguro: data.tipoSeguro,
-          codigoSeguro: data.codigoSeguro,
-          dni: data.dni,
-          direccion: data.direccion,
-          telefono: data.telefono,
-          correo: data.correo,
-          sexo: sexParser(data.sexo),
-          fechaNacimiento: data.fechaNacimiento,
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  const fetchData = useCallback(async () => {
+    setLoading(true);
+    try {
+      const [patientData, medicalHistoryData] = await Promise.all([
+        patientService.mostrarPacienteRegistrado(idPaciente),
+        patientService.buscarHistorialClinico(idPaciente),
+      ]);
+
+      setPatientForm((prevForm) => ({
+        ...prevForm,
+        ...patientData,
+        sexo: sexParser(patientData.sexo),
+      }));
+
+      const tableData = parseHojaMedicaTable(medicalHistoryData.hojasMedicas);
+      setHistorialClinico({
+        idHistorialClinico: medicalHistoryData.idHistorialClinico,
+        codigo: medicalHistoryData.codigo,
+        estadoHojaMedica: true,
+      });
+      setHojasMedicas(tableData);
+    } catch (error) {
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
+  }, [idPaciente, setPatientForm]);
+
+  useEffect(() => {
     if (idPaciente) {
       fetchData();
     }
-  }, [idPaciente]);
+  }, [idPaciente, fetchData]);
 
-  useEffect(() => {
-    const fetchHistorial = async () => {
-      try {
-        const data = await patientService.buscarHistorialClinico(idPaciente);
-        const tableData = parseHojaMedicaTable(data.hojasMedicas);
-        setHistorialClinico({
-          idHistorialClinico: data.idHistorialClinico,
-          codigo: data.codigo,
-          estadoHojaMedica: true,
-        });
-        setHojasMedicas(tableData);
-      } catch (error) {
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const handleNewMedicalEvaluation = useCallback(() => {
+    router.push(`${pathname}/new/`);
+  }, [router, pathname]);
 
-    if (idPaciente) {
-      fetchHistorial();
-    }
-  }, [idPaciente]);
+  const handleOpenModal = useCallback(() => {
+    setIsModalOpen(true);
+  }, []);
+
+  const handleCloseModal = useCallback(() => {
+    setIsModalOpen(false);
+  }, []);
 
   if (loading) return <p>Cargando...</p>;
   if (error) return <p>Error al cargar el historial clínico</p>;
   if (!historialClinico) return <p>No se encontró el historial clínico</p>;
-
-  const PatientDataDisplay = ({ patient }) => (
-    <div className="flex flex-wrap mb-2 space-x-32 px-4">
-      <div className="flex-1 min-w-1/2">
-        <p className="flex justify-between">
-          <strong className="mr-2">Nombre:</strong>
-          <span>{`${patient.nombres} ${patient.apellidoPaterno} ${patient.apellidoMaterno}`}</span>
-        </p>
-        <p className="flex justify-between">
-          <strong className="mr-2">DNI:</strong>
-          <span>{patient.dni}</span>
-        </p>
-        <p className="flex justify-between">
-          <strong className="mr-2">Fecha de Nacimiento:</strong>
-          <span>{patient.fechaNacimiento}</span>
-        </p>
-        <p className="flex justify-between">
-          <strong className="mr-2">Sexo:</strong>
-          <span>{patient.sexo}</span>
-        </p>
-        <p className="flex justify-between">
-          <strong className="mr-2">Código de Seguro:</strong>
-          <span>{patient.codigoSeguro}</span>
-        </p>
-      </div>
-
-      <div className="flex-1 min-w-1/2">
-        <p className="flex justify-between">
-          <strong className="mr-2">Dirección:</strong>
-          <span>{patient.direccion}</span>
-        </p>
-        <p className="flex justify-between">
-          <strong className="mr-2">Teléfono:</strong>
-          <span>{patient.telefono}</span>
-        </p>
-        <p className="flex justify-between">
-          <strong className="mr-2">Correo Electrónico:</strong>
-          <span>{patient.correo}</span>
-        </p>
-        <p className="flex justify-between">
-          <strong className="mr-2">Tipo de Seguro:</strong>
-          <span>{patient.tipoSeguro}</span>
-        </p>
-      </div>
-    </div>
-  );
 
   const options = [
     {
@@ -144,19 +95,60 @@ const HistorialClinico = () => {
           <h1 className="text-3xl font-bold mb-4">
             Historial Clínico: {historialClinico.codigo}
           </h1>
-          <PatientDataDisplay patient={patientForm} />
+          <div className="flex flex-wrap mb-2 space-x-32 px-4">
+            <div className="flex-1 min-w-1/2">
+              <p className="flex justify-between">
+                <strong className="mr-2">Nombre:</strong>
+                <span>{`${patientForm.nombres} ${patientForm.apellidoPaterno} ${patientForm.apellidoMaterno}`}</span>
+              </p>
+              <p className="flex justify-between">
+                <strong className="mr-2">DNI:</strong>
+                <span>{patientForm.dni}</span>
+              </p>
+              <p className="flex justify-between">
+                <strong className="mr-2">Fecha de Nacimiento:</strong>
+                <span>{patientForm.fechaNacimiento}</span>
+              </p>
+              <p className="flex justify-between">
+                <strong className="mr-2">Sexo:</strong>
+                <span>{patientForm.sexo}</span>
+              </p>
+              <p className="flex justify-between">
+                <strong className="mr-2">Código de Seguro:</strong>
+                <span>{patientForm.codigoSeguro}</span>
+              </p>
+            </div>
+            <div className="flex-1 min-w-1/2">
+              <p className="flex justify-between">
+                <strong className="mr-2">Dirección:</strong>
+                <span>{patientForm.direccion}</span>
+              </p>
+              <p className="flex justify-between">
+                <strong className="mr-2">Teléfono:</strong>
+                <span>{patientForm.telefono}</span>
+              </p>
+              <p className="flex justify-between">
+                <strong className="mr-2">Correo Electrónico:</strong>
+                <span>{patientForm.correo}</span>
+              </p>
+              <p className="flex justify-between">
+                <strong className="mr-2">Tipo de Seguro:</strong>
+                <span>{patientForm.tipoSeguro}</span>
+              </p>
+            </div>
+          </div>
         </div>
 
         <div className=" flex mb-6 space-x-4">
           <button
-            type="submit"
+            type="button"
             className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-            onClick={() => router.push(`${pathname}/new/`)}
+            onClick={handleNewMedicalEvaluation}
           >
             Nueva Evaluacion Medica
           </button>
           <button
-            onClick={() => SetisModalOpen(true)}
+            onClick={handleOpenModal}
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           >
             Nueva Orden de Laboratorio
@@ -164,7 +156,7 @@ const HistorialClinico = () => {
 
           <LaboratoryModal
             isOpen={isModalOpen}
-            onClose={() => SetisModalOpen(false)}
+            onClose={handleCloseModal}
             appointmentId={idCita}
           />
         </div>

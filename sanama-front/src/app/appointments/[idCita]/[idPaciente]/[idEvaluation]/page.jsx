@@ -6,7 +6,6 @@ import ReviewFormEvaluation from "@/components/evaluations/review/ReviewFormEval
 import { toast } from "sonner";
 import TitleWithIcon from "@/components/TitleWithIcon";
 import newMedicalRecord from "@/components/icons/newMedicalRecord";
-import MainInfoComponent from "@/components/evaluations/MainInfoTab";
 
 const ReviewContainerMedicalRecord = ({}) => {
   const params = useParams();
