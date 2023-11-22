@@ -15,7 +15,7 @@ const AddMedicationForm = ({ onAddMedication }) => {
   return (
     <div>
       <label className="block text-sm font-medium text-gray-700">
-        Medicamentos recetados
+        Medicamentos recetados:
       </label>
       <div className="mb-4 w-full flex space-x-2 items-center rounded-lg ">
         <input
@@ -35,7 +35,8 @@ const AddMedicationForm = ({ onAddMedication }) => {
         <button
           type="button"
           onClick={handleAddMedication}
-          className="w-1/6 space-x-3 uppercase text-gray-500"
+          className=" m-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 
+          font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center"
         >
           Añadir
         </button>
