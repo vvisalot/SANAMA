@@ -3,22 +3,19 @@ import React, { useState, useCallback } from "react";
 export function useTratamientoData(initialState) {
   const [tratamientoData, setTratamientoData] = useState(initialState);
 
-  const handleArrayChange = useCallback((index, field, value) => {
+  const updateRecetaMedica = useCallback((index, updatedMedication) => {
     setTratamientoData((prevState) => {
       const updatedRecetasMedicas = [...prevState.recetasMedicas];
-      updatedRecetasMedicas[index][field] = value;
+      updatedRecetasMedicas[index] = updatedMedication;
       return { ...prevState, recetasMedicas: updatedRecetasMedicas };
     });
   }, []);
 
-  const addRecetaMedica = useCallback(() => {
-    setTratamientoData((prevState) => {
-      const newReceta = { medicamento: "", indicaciones: "" };
-      return {
-        ...prevState,
-        recetasMedicas: [...prevState.recetasMedicas, newReceta],
-      };
-    });
+  const addRecetaMedica = useCallback((newMedication) => {
+    setTratamientoData((prevState) => ({
+      ...prevState,
+      recetasMedicas: [...prevState.recetasMedicas, newMedication],
+    }));
   }, []);
 
   const removeRecetaMedica = useCallback((index) => {
@@ -31,8 +28,8 @@ export function useTratamientoData(initialState) {
 
   return {
     tratamientoData,
-    handleArrayChange,
     addRecetaMedica,
     removeRecetaMedica,
+    updateRecetaMedica,
   };
 }

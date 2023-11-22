@@ -12,7 +12,7 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
   if (!patientData) {
     return <p>Cargando...</p>;
   }
-
+  console.log("Error:", hojaMedicaData);
   const edad = calcularEdad(patientData.fechaNacimiento);
   const fechaNacimientoFormateada = formatearFecha(patientData.fechaNacimiento);
   const sexo = patientData.sexo === "M" ? "Masculino" : "Femenino";
