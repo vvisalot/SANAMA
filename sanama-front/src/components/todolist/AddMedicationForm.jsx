@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { CiCirclePlus } from "react-icons/ci";
 
 const AddMedicationForm = ({ onAddMedication }) => {
   const [nombre, setNombre] = useState("");
@@ -14,29 +13,33 @@ const AddMedicationForm = ({ onAddMedication }) => {
   };
 
   return (
-    <div className="mb-4 w-full flex space-x-2 items-center rounded-lg px-4">
-      <CiCirclePlus size={28} className="text-gray-500" />
-      <input
-        className="bg-transparent w-full h-fit p-1 py-2 text-lg"
-        type="text"
-        placeholder="Nombre del medicamento"
-        value={nombre}
-        onChange={(e) => setNombre(e.target.value)}
-      />
-      <input
-        className="bg-transparent w-full h-fit p-1 py-2 text-lg"
-        type="text"
-        placeholder="Indicación"
-        value={indicacion}
-        onChange={(e) => setIndicacion(e.target.value)}
-      />
-      <button
-        type="button"
-        onClick={handleAddMedication}
-        className="px-4 uppercase text-gray-500"
-      >
-        Añadir
-      </button>
+    <div>
+      <label className="block text-sm font-medium text-gray-700">
+        Medicamentos recetados
+      </label>
+      <div className="mb-4 w-full flex space-x-2 items-center rounded-lg ">
+        <input
+          className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-3/6 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          type="text"
+          placeholder="Nombre del medicamento"
+          value={nombre}
+          onChange={(e) => setNombre(e.target.value)}
+        />
+        <input
+          className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          type="text"
+          placeholder="Indicación"
+          value={indicacion}
+          onChange={(e) => setIndicacion(e.target.value)}
+        />
+        <button
+          type="button"
+          onClick={handleAddMedication}
+          className="w-1/6 space-x-3 uppercase text-gray-500"
+        >
+          Añadir
+        </button>
+      </div>
     </div>
   );
 };

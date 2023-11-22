@@ -38,18 +38,15 @@ const TratamientoYDecisionCita = ({ setMedicalRecordData }) => {
     language: "es",
     disabledDates: [],
     theme: {
-      input: "py-12",
+      input: "py-10 h-[45px] text-end w-1/6",
+      disabled: "text-gray-900 text-gray-600",
     },
     weekDays: ["Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"],
-
     inputPlaceholderProp: "Selecciona una fecha",
     inputDateFormatProp: {
       day: "numeric",
       month: "numeric",
       year: "numeric",
-    },
-    theme: {
-      disabled: "bg-gray-800 text-gray-600",
     },
   };
 
@@ -60,15 +57,7 @@ const TratamientoYDecisionCita = ({ setMedicalRecordData }) => {
   return (
     <div className="p-8">
       <h4 className="text-lg font-bold text-gray-700 mb-2">Receta Médica</h4>
-      <AddMedicationForm
-        onAddMedication={(newMedication) => addRecetaMedica(newMedication)}
-      />
-      <MedicationList
-        medications={tratamientoData.recetasMedicas}
-        onEditMedication={updateRecetaMedica}
-        onDeleteMedication={removeRecetaMedica}
-      />
-      <div>
+      <div className="my-4">
         <label className="block text-sm font-medium text-gray-700">
           Fecha de Caducidad
         </label>
@@ -82,6 +71,14 @@ const TratamientoYDecisionCita = ({ setMedicalRecordData }) => {
           options={defaultOptions}
         />
       </div>
+      <AddMedicationForm
+        onAddMedication={(newMedication) => addRecetaMedica(newMedication)}
+      />
+      <MedicationList
+        medications={tratamientoData.recetasMedicas}
+        onEditMedication={updateRecetaMedica}
+        onDeleteMedication={removeRecetaMedica}
+      />
     </div>
   );
 };
