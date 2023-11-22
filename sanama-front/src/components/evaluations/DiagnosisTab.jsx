@@ -62,7 +62,7 @@ const DiagnosticoMedico = ({ setMedicalRecordData }) => {
             <button
               type="button"
               onClick={() => removeDiagnostic(index)}
-              className="bg-red-500 text-white p-2 rounded-md"
+              className="mt-1 h-full w-[40px] bg-red-500 hover:bg-red-600 text-white p-2 rounded-md"
             >
               X
             </button>
@@ -72,9 +72,9 @@ const DiagnosticoMedico = ({ setMedicalRecordData }) => {
       <button
         type="button"
         onClick={handleOpenModal}
-        className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-md"
+        className="mt-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md"
       >
-        Search Diagnostic
+        Buscar Diagnostico
       </button>
 
       <SearchDiagnostic
