@@ -13,6 +13,7 @@ const FormContainerMedicalRecord = ({ defaultTriaje }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const loadingRegister = async (data) => {
+    console.log(data);
     await patientService.registrarHojaMedica(data);
   };
 
@@ -47,8 +48,6 @@ const FormContainerMedicalRecord = ({ defaultTriaje }) => {
         setMedicalRecordData={setMedicalRecordData}
       />
       <div className="flex flex-row-reverse">
-        <Signature setMedicalRecordData={setMedicalRecordData} />
-
         <button
           type="submit"
           onClick={handleSubmit}

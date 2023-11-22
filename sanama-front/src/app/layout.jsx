@@ -25,14 +25,14 @@ export default function RootLayout({ children }) {
             <div></div>
             <div>
               {
-                <NextBreadcrumb
-                  homeElement={"Inicio"}
-                  separator={<span>/</span>}
-                  activeClasses="text-gray-700 font-extrabold text-md"
-                  containerClasses="flex py-5 bg-transparent rounded-t-md text-black"
-                  listClasses="px-4 text-md text-slate-700 hover:text-blue-700"
-                  capitalizeLinks
-                />
+                // <NextBreadcrumb
+                //   homeElement={"Inicio"}
+                //   separator={<span>/</span>}
+                //   activeClasses="text-gray-700 font-extrabold text-md"
+                //   containerClasses="flex py-5 bg-transparent rounded-t-md text-black"
+                //   listClasses="px-4 text-md text-slate-700 hover:text-blue-700"
+                //   capitalizeLinks
+                // />
               }
 
               {children}
