@@ -51,17 +51,47 @@ const useMedicalRecordForm = () => {
     useState("");
 
   const validateMedicalRecordForm = () => {
-    if (!medicalRecordData.idCitaMedica) {
-      setErrorMessageMedicalRecordForm(
-        "Please specify the medical appointment ID."
-      );
-      toast.error(errorMessageMedicalRecordForm);
-      return false;
-    }
-    // More validations...
+    let isValid = true;
+    let errors = [];
 
-    setErrorMessageMedicalRecordForm("");
-    return true;
+    // Validate 'motivoConsulta' and 'antecedentes' - Mandatory
+    if (!medicalRecordData.evaluacionMedica.motivoConsulta.trim()) {
+      errors.push("Motivo de la consulta es obligatorio.");
+      isValid = false;
+    }
+    if (!medicalRecordData.evaluacionMedica.antecedentes.trim()) {
+      errors.push("Antecedentes son obligatorios.");
+      isValid = false;
+    }
+
+    // Validate 'diagnosticos' - Mandatory
+    if (!medicalRecordData.evaluacionMedica.diagnosticos.length) {
+      errors.push("Debe agregar al menos un diagnóstico.");
+      isValid = false;
+    }
+
+    // Validate 'recetaMedica.fechaCaducidad' - Mandatory
+    if (!medicalRecordData.recetaMedica.fechaCaducidad.trim()) {
+      errors.push("La fecha de caducidad de la receta es obligatoria.");
+      isValid = false;
+    }
+
+    // Validate 'recetaMedica.medicamentos' - At least one is mandatory
+    if (!medicalRecordData.recetaMedica.medicamentos.length) {
+      errors.push("Debe agregar al menos un medicamento en la receta.");
+      isValid = false;
+    }
+
+    // Set error message
+    if (!isValid) {
+      const errorMessage = errors.join(" ");
+      setErrorMessageMedicalRecordForm(errorMessage);
+      toast.error(errorMessage);
+    } else {
+      setErrorMessageMedicalRecordForm("");
+    }
+
+    return isValid;
   };
 
   return {
