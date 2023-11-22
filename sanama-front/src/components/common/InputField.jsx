@@ -1,9 +1,7 @@
 const InputField = ({ label, value, disabled, readOnly, type = "text" }) => {
   return (
     <div>
-      <label className="block text-sm font-medium text-primary-dusk-blue">
-        {label}
-      </label>
+      <label className="block text-sm font-medium text-gray-500">{label}</label>
       <input
         type={type}
         value={value}

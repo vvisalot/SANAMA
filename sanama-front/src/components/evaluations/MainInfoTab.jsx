@@ -1,16 +1,15 @@
-import React from "react"
-import InputField from "../common/InputField"
-import { calcularEdad, formatearFecha } from "@/util/formValidations"
+import React from "react";
+import InputField from "../common/InputField";
+import { calcularEdad, formatearFecha } from "@/util/formValidations";
 
 const MainInfoComponent = ({ patientTriageData }) => {
   if (!patientTriageData) {
-    return <p>Cargando...</p>
+    return <p>Cargando...</p>;
   }
-
-  const { paciente, triaje } = patientTriageData//?????????????
-  const edad = calcularEdad(paciente.fechaNacimiento)
-  const fechaNacimientoFormateada = formatearFecha(paciente.fechaNacimiento)
-  const sexo = paciente.sexo === "M" ? "Masculino" : "Femenino"
+  const { paciente, triaje } = patientTriageData;
+  const edad = calcularEdad(paciente.fechaNacimiento);
+  const fechaNacimientoFormateada = formatearFecha(paciente.fechaNacimiento);
+  const sexo = paciente.sexo === "M" ? "Masculino" : "Femenino";
 
   return (
     <div className="col-span-2">
@@ -44,7 +43,7 @@ const MainInfoComponent = ({ patientTriageData }) => {
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default MainInfoComponent
+export default MainInfoComponent;

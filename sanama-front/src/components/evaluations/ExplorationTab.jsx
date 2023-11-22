@@ -29,7 +29,6 @@ const ExplorationTab = ({ setMedicalRecordData }) => {
   const handleOnBlurChange = (e) => {
     const { name, value } = e.target;
     setMedicalRecordData((prevData) => {
-      // Asumiendo que los nombres de los campos siguen el patrón "evaluacionMedica.[section]"
       const sections = name.split(".");
       if (sections.length === 2) {
         const section = sections[1];
