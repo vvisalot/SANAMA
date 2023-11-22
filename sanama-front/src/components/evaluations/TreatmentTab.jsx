@@ -57,7 +57,7 @@ const TratamientoYDecisionCita = ({ setMedicalRecordData }) => {
     language: "es",
     disabledDates: [],
     theme: {
-      input: "py-10 text-center w-1/6",
+      input: "mb-4 text-center w-1/6",
       disabled: "text-gray-900 text-gray-600",
     },
     weekDays: ["Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"],
