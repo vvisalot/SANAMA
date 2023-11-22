@@ -30,6 +30,8 @@ const ChiefComplaint = ({ setMedicalRecordData }) => {
   const [hojaRefencia, setHojaRefencia] = useState(null);
 
   const addEvaluation = (selectedHoja) => {
+    setHojaRefencia(selectedHoja);
+
     if (selectedHoja && selectedHoja.idHojaMedica) {
       setMedicalRecordData((prevData) => ({
         ...prevData,
@@ -41,6 +43,7 @@ const ChiefComplaint = ({ setMedicalRecordData }) => {
   };
 
   const removeEvaluation = () => {
+    setHojaRefencia(null);
     setMedicalRecordData((prevData) => ({
       ...prevData,
       hojaRefencia: null,
@@ -56,6 +59,26 @@ const ChiefComplaint = ({ setMedicalRecordData }) => {
     setShowModal(false);
   };
 
+  const MedicalSheetDetails = () => {
+    if (!hojaRefencia) return null;
+
+    return (
+      <div className="bg-white p-4 rounded-md shadow">
+        <h3 className="font-semibold text-lg">
+          Continuar {hojaRefencia.codigo}
+        </h3>
+        <p>
+          Especialidad: {hojaRefencia.citaMedica.medico.especialidad.nombre}
+        </p>
+        <p>
+          Doctor: {hojaRefencia.citaMedica.medico.nombres}{" "}
+          {hojaRefencia.citaMedica.medico.apellidoPaterno}{" "}
+          {hojaRefencia.citaMedica.medico.apellidoMaterno}
+        </p>
+      </div>
+    );
+  };
+
   return (
     <div className="my-4 ml-4">
       <div className="grid grid-cols-1 gap-4">
@@ -66,7 +89,7 @@ const ChiefComplaint = ({ setMedicalRecordData }) => {
         font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center"
             onClick={handleOpenModal}
           >
-            Asociar Hoja Medica Existente
+            Continuar Evaluación Existente
           </button>
           <button
             type="button"
@@ -77,12 +100,13 @@ const ChiefComplaint = ({ setMedicalRecordData }) => {
             Limpiar
           </button>
         </div>
+        <MedicalSheetDetails />
 
         <TextAreaField
           label="Antecedentes:"
           name="evaluacionMedica.antecedentes"
           placeholder="Ingresa los antecentes.."
-          onBlur={handleOnBlurChange} // Cambio aquí
+          onBlur={handleOnBlurChange}
         />
         <TextAreaField
           label="Motivo de Consulta:"
