@@ -8,6 +8,7 @@ import { doctorService } from '@/services/doctorService';
 import { es } from 'date-fns/locale';
 import swal from "sweetalert";
 import { useRouter } from "next/navigation"
+import { toast} from 'sonner'
 const NewDoctor = () => {
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
@@ -42,14 +43,25 @@ const NewDoctor = () => {
   }, []);
 
   const handleImagenChange = (event) => {
+
     const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagenPerfil(reader.result);
-      };
-      reader.readAsDataURL(file);
+    // Obtener el nombre del archivo
+    const fileName = file.name;
+    // Obtener la extensión del archivo
+    const fileExtension = fileName.split('.').pop().toLowerCase();;
+    if (fileExtension === "jpeg" || fileExtension === "png" || fileExtension === "jpg") {
+
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setImagenPerfil(reader.result);
+        };
+        reader.readAsDataURL(file);
+      }
+    } else {
+      toast.error(`No se permite imagen con extensión .${fileExtension}. Por favor usar imágenes con extensión .jpg, .jpeg o .png.`)
     }
+
   };
 
   const handleRegister = () => {
