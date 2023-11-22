@@ -42,7 +42,7 @@ const MedicationItem = ({
           onChange={handleChangeNombre}
           readOnly={!editing}
           className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-3/6 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="Nombre del medicamento"
+          placeholder="Ingresa medicamento..."
         />
         <input
           type="text"
@@ -50,9 +50,9 @@ const MedicationItem = ({
           onChange={handleChangeIndicacion}
           readOnly={!editing}
           className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="Indicación"
+          placeholder="Ingresa Indicaciones..."
         />
-        <div className="w-1/6 flex space-x-3">
+        <div className="w-[130px] flex space-x-3">
           {editing ? (
             <>
               <button type="button" onClick={handleDone}>
