@@ -4,6 +4,7 @@ import com.minsa.sanama.model.admision.Paciente;
 import com.minsa.sanama.model.admision.ProgramacionCita;
 import com.minsa.sanama.model.admision.Triaje;
 import com.minsa.sanama.model.atencionmedica.*;
+import com.minsa.sanama.model.laboratorio.OrdenLaboratorio;
 import com.minsa.sanama.model.rrhh.Especialidad;
 import com.minsa.sanama.model.rrhh.Medico;
 import org.json.simple.JSONArray;
@@ -24,6 +25,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +38,7 @@ public class HojaMedicaRepository {
     public HojaMedicaRepository(JdbcTemplate jdbcTemplate) {this.jdbcTemplate = jdbcTemplate;}
     private final TriajeMap triajeMap = new TriajeMap();
     private final HojaMedicaMapper hojaMedicaMapper = new HojaMedicaMapper();
+    private final DatosResultadosMapper datosResultadosMapper = new DatosResultadosMapper();
 
     public List<HojaMedica> listarHojasMedicasFiltro(String pn_id_paciente, String pn_id_especialidad, String pd_fecha_inicio, String pd_fecha_fin) {
         if (pn_id_paciente != null)pn_id_paciente = "'"+pn_id_paciente+"'";
@@ -49,6 +52,24 @@ public class HojaMedicaRepository {
     public List<ProgramacionCita> buscarTriajeCitaMedica(int pn_id_cita) {
         String procedureCall = "{call dbSanama.ssm_ate_buscar_triaje_x_cita_medica("+pn_id_cita+")};";
         return jdbcTemplate.query(procedureCall, triajeMap);
+    }
+
+    public List<HojaMedica> buscarDatosResultadosHojaMedica(int pn_id_hoja_medica) {
+        String procedureCall = "{call dbSanama.ssm_ate_buscar_resultados_hoja_medica("+pn_id_hoja_medica+")};";
+        return jdbcTemplate.query(procedureCall, datosResultadosMapper);
+    }
+
+    private static class DatosResultadosMapper implements RowMapper<HojaMedica> {
+        @Override
+        public HojaMedica mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+            HojaMedica hojaMedica = new HojaMedica();
+
+            hojaMedica.setMedicoConsulta(rs.getString("nombre_medico"));
+            hojaMedica.setObservaciones(rs.getString("observaciones"));
+
+            return hojaMedica;
+        }
     }
 
     private static class HojaMedicaMapper implements RowMapper<HojaMedica> {
@@ -500,8 +521,15 @@ public class HojaMedicaRepository {
                 resultado.setNombre(jobResult.get("nombre").toString());
                 resultado.setMedicoFirmante(jobResult.get("medico_firmante").toString());
                 resultado.setTipoMuestra(jobResult.get("tipo_muestra").toString());
-                String archivoString = (String) jobResult.get("archivo");
+                String archivoString = jobResult.get("archivo").toString();
+
+                //byte[] bytes = Base64.getDecoder().decode(archivoString.substring(14));
+                //System.out.println(bytes);
+                //resultado.setArchivo(bytes);
+                //System.out.println(archivoString);
                 resultado.setArchivo(archivoString.getBytes(StandardCharsets.UTF_8));
+                //archivoString = archivoString.replaceAll("\\s", "");
+                //resultado.setArchivo(Base64.getDecoder().decode(archivoString));
 
                 lresultados.add(resultado);
             }
