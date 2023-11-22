@@ -243,7 +243,6 @@ public class CitaRepository {
                 .withProcedureName("ssm_adm_registrar_cita_medica")
                 .declareParameters(new SqlParameter[] {
                         new SqlOutParameter("pn_id_cita", Types.INTEGER),
-                        new SqlParameter("pn_id_hoja_medica", Types.INTEGER),
                         new SqlParameter("pn_id_paciente", Types.INTEGER),
                         new SqlParameter("pn_id_medico", Types.INTEGER),
                         new SqlParameter("pt_hora_cita", Types.TIME),
@@ -256,7 +255,6 @@ public class CitaRepository {
                 });
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
         mapSqlParameterSource
-                .addValue("pn_id_hoja_medica", citaMedica.getHojaMedica().getIdHojaMedica())
                 .addValue("pn_id_paciente", citaMedica.getPaciente().getIdPersona())
                 .addValue("pn_id_medico", citaMedica.getMedico().getIdPersona())
                 .addValue("pt_hora_cita", citaMedica.getHoraCita())
