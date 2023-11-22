@@ -96,6 +96,7 @@ const useMedicalRecordForm = () => {
 
   return {
     medicalRecordData,
+    errorMessageMedicalRecordForm,
     setMedicalRecordData,
     validateMedicalRecordForm,
   };
