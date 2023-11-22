@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { triajeService } from "@/services/triajeService";
 
 const TriajeProfile = ({ params }) => {
-  
   const [isEditable, setIsEditable] = useState(false);
 
   const handleEditClick = () => {
@@ -17,14 +16,26 @@ const TriajeProfile = ({ params }) => {
     talla: null,
     temperatura: null,
     motivoVisita: "",
-    presionArterial: null,
+
+    // presionArterial: null,
+
+    presionSistolica: null,
+    presionDiastolica: null,
+
     estado: null,
     prioridad: "",
     fechaTriaje: "",
     horaTriaje: "",
     saturacionOxigeno: "",
     frecuenciaCardiaca: "",
+
     nivelConciencia: "",
+
+    glasgow: "",
+    eyesOpen: "",
+    talkingCorrectly: "",
+    ableToMoveBody: "",
+
     nivelDolor: "",
     condicionesPrexistentes: "",
     paciente: {
@@ -46,13 +57,25 @@ const TriajeProfile = ({ params }) => {
     pn_talla: "Talla (cm)",
     pn_temperatura: "Temperatura (°C)",
     pv_motivo_visita: "Motivo de consulta",
-    pn_presion_arterial: "Presión arterial (mm Hg)",
+
+    // pn_presion_arterial: "Presión arterial (mm Hg)",
+
+    pn_presion_sistolica: "Presión sistólica (mm Hg)",
+    pn_presion_diastolica: "Presión diastólica (mm Hg)",
+
     pn_estado: "Estado",
     pv_prioridad: "Prioridad",
     pn_saturacionOxigeno: "Saturación de Oxígeno (%)",
     pn_frecuenciaCardiaca: "Frecuencia Cardiaca (bpm)",
     pn_frecuenciaRespiratoria: "Frecuencia Respiratoria (rpm)",
+
     pv_nivelConciencia: "Nivel de conciencia",
+
+    pn_glasgow: "Glasglow",
+    pn_eyes_open: "Apertura Ocular",
+    pn_talking_correctly: "Respuesta Verbal",
+    pn_able_to_move_body: "Respuesta Motora",
+
     pv_nivelDolor: "Evaluación del dolor",
     pv_condicionesPrexistentes: "Condiciones preexistentes",
   };
@@ -64,13 +87,25 @@ const TriajeProfile = ({ params }) => {
       pn_talla: dataTriaje.talla,
       pn_temperatura: dataTriaje.temperatura,
       pv_motivo_visita: dataTriaje.motivoVisita,
-      pn_presion_arterial: dataTriaje.presionArterial,
+
+      // pn_presion_arterial: dataTriaje.presionArterisal,
+
+      pn_presion_sistolica: dataTriaje.presionSistolica,
+      pn_presion_sistolica: dataTriaje.presionDiastolica,
+
       pn_estado: 1,
       pv_prioridad: dataTriaje.prioridad,
       pn_saturacionOxigeno: dataTriaje.saturacionOxigeno,
       pn_frecuenciaCardiaca: dataTriaje.frecuenciaCardiaca,
       pn_frecuenciaRespiratoria: dataTriaje.frecuenciaRespiratoria,
+
       pv_nivelConciencia: dataTriaje.nivelConciencia,
+
+      pn_glasgow: dataTriaje.glasgow,
+      pn_eyes_open: dataTriaje.eyesOpen,
+      pn_talking_correctly: dataTriaje.talkingCorrectly,
+      pn_able_to_move_body: dataTriaje.ableToMoveBody,
+
       pv_nivelDolor: dataTriaje.nivelDolor,
       pv_condicionesPrexistentes: dataTriaje.condicionesPrexistentes,
     };
@@ -198,13 +233,25 @@ const TriajeProfile = ({ params }) => {
       pn_talla: 0,
       pn_temperatura: 0,
       pv_motivo_visita: "-",
-      pn_presion_arterial: 0,
+
+      // pn_presion_arterial: 0,
+
+      pn_presion_sistolica: 0,
+      pn_presion_diastolica: 0,
+
       pn_estado: 3,
       pv_prioridad: "N.A.",
       pn_saturacionOxigeno: "0",
       pn_frecuenciaCardiaca: "0",
       pn_frecuenciaRespiratoria: "0",
+
       pv_nivelConciencia: "-",
+
+      pn_glasgow: "-",
+      pn_eyes_open: "-",
+      pn_talking_correctly: "-",
+      pn_able_to_move_body: "-",
+
       pv_nivelDolor: "4",
       pv_condicionesPrexistentes: "-",
     };
@@ -323,7 +370,7 @@ const TriajeProfile = ({ params }) => {
         </div>
       )}
 
-      {/* <section style={{ maxWidth: '87rem' }} className="rounded-lg p-8 mx-auto flex flex-col space-y-6"> */}
+      {/* <section style={{ maxWidth: '100rem' }} className="rounded-lg p-8 mx-auto flex flex-col space-y-6"> */}
       <section className="rounded-lg p-8 mx-auto flex flex-col space-y-6 md:max-w-5xl lg:max-w-6xl xl:max-w-7xl">
         <div className="flex justify-end space-x-4">
           <button
@@ -341,47 +388,11 @@ const TriajeProfile = ({ params }) => {
         </div>
 
         <div>
-          <h1 style={{ fontSize: "2.0525rem" }} className="font-bold mb-4">Información básica</h1>
-          {/* <div className="flex justify-between mb-4">
-            <div className="flex-grow">
-              <InputField
-                label="Nombre completo"
-                value={`${dataTriaje?.paciente?.nombres} ${dataTriaje?.paciente?.apellidoPaterno} ${dataTriaje?.paciente?.apellidoMaterno}`}
-                disabled
-                width="w-full" 
-                labelWidth="w-full"
-              />
-            </div>
-            <div className="flex-grow">
-              <InputField
-                label="Documento de identidad"
-                value={dataTriaje?.paciente?.dni}
-                disabled
-                width="w-3/2" 
-                labelWidth="w-full"
-              />
-            </div>
-            <div className="mr-auto">
-              <InputField
-                label="Sexo"
-                value={dataTriaje?.paciente?.sexo === 'F' ? 'Femenino' : 'Masculino'}
-                disabled
-                width="w-3/2" 
-                labelWidth="w-full"
-              />
-            </div>
-            <div className="mr-auto">
-              <InputField
-                label="Edad"
-                value={edad}
-                disabled
-                width="w-2/3"
-              />
-            </div>
-          </div> */}
-
-          <div className="flex flex-wrap mb-4 gap-4">
-            <div className="flex-grow" style={{ flex: '3 0 0%' }}> 
+          <h1 style={{ fontSize: "2.2525rem" }} className="font-bold mb-2">
+            Información básica
+          </h1>
+          <div className="flex flex-wrap gap-4">
+            <div style={{ flex: "3 0 0%" }}>
               <InputField
                 label="Nombre completo"
                 value={`${dataTriaje?.paciente?.nombres} ${dataTriaje?.paciente?.apellidoPaterno} ${dataTriaje?.paciente?.apellidoMaterno}`}
@@ -390,7 +401,7 @@ const TriajeProfile = ({ params }) => {
                 labelWidth="w-full"
               />
             </div>
-            <div className="flex-grow" style={{ flex: '1 0 0%' }}> 
+            <div style={{ flex: "1.2 0 0%" }}>
               <InputField
                 label="Documento de identidad"
                 value={dataTriaje?.paciente?.dni}
@@ -399,27 +410,24 @@ const TriajeProfile = ({ params }) => {
                 labelWidth="w-full"
               />
             </div>
-            <div className="flex-grow" style={{ flex: '1 0 0%' }}> 
+            <div style={{ flex: "1 0 0%" }}>
               <InputField
                 label="Sexo"
-                value={dataTriaje?.paciente?.sexo === 'F' ? 'Femenino' : 'Masculino'}
+                value={
+                  dataTriaje?.paciente?.sexo === "F" ? "Femenino" : "Masculino"
+                }
                 disabled
                 width="w-full"
                 labelWidth="w-full"
               />
             </div>
-            <div className="flex-grow" style={{ flex: '0 0 90px' }}> 
-              <InputField
-                label="Edad"
-                value={edad}
-                disabled
-                width="w-full"
-              />
+            <div style={{ flex: "0 0 90px" }}>
+              <InputField label="Edad" value={edad} disabled width="w-full" />
             </div>
           </div>
 
           <div className="flex justify-start">
-            <div className="flex-grow" style={{ flex: '0 0 90px', marginRight: '1rem'  }}>  
+            <div style={{ flex: "0 0 90px", marginRight: "1rem" }}>
               <InputField
                 label="Talla (cm)"
                 value={dataTriaje?.talla}
@@ -427,14 +435,14 @@ const TriajeProfile = ({ params }) => {
                 type="number"
                 name="talla"
                 onChange={handleChange}
-                onInput={(e) => { 
+                onInput={(e) => {
                   e.target.value = e.target.value.replace(/[^\d]/g, "");
                 }}
                 pattern="\d*"
               />
             </div>
 
-            <div className="flex-grow" style={{ flex: '0 0 90px' }}>  
+            <div style={{ flex: "0 0 90px" }}>
               <InputField
                 label="Peso (kg)"
                 value={dataTriaje?.peso}
@@ -442,7 +450,7 @@ const TriajeProfile = ({ params }) => {
                 type="number"
                 name="peso"
                 onChange={handleChange}
-                onInput={(e) => { 
+                onInput={(e) => {
                   e.target.value = e.target.value.replace(/[^\d]/g, "");
                 }}
                 pattern="\d*"
@@ -450,124 +458,221 @@ const TriajeProfile = ({ params }) => {
             </div>
           </div>
 
-
-
           <div className="col-span-3">
             <h2 className="text-3xl font-bold mb-4 mt-4">Motivo de consulta</h2>
-
             <InputField
               value={dataTriaje?.motivoVisita}
-              isEditable={isEditable} 
-              type="textarea" 
+              isEditable={isEditable}
+              type="textarea"
               name="motivoVisita"
               onChange={handleChange}
               maxLength={1000}
-            />            
+            />
             <span className="text-right block" id="charCount">
               {(dataTriaje?.motivoVisita || "").length}/1000
             </span>
-            
           </div>
 
-          <div className="grid grid-cols-3 gap-6 mb-6">
-            <div className="col-span-3">
-              <h2 className="text-3xl font-bold mt-4">Signos vitales</h2>
+          <div className="col-span-3">
+            <h2 className="text-3xl font-bold mb-4">Signos vitales</h2>
+          </div>
+
+          <div className="flex justify-start">
+            <div style={{ flex: "0 0 90px", marginRight: "14rem" }}>
+              <InputField
+                label="Temperatura (°C)"
+                value={dataTriaje?.temperatura}
+                isEditable={isEditable}
+                type="number"
+                labelWidth="labelWidth"
+                name="temperatura"
+                onChange={handleChange}
+                onInput={(e) => {
+                  e.target.value = e.target.value.replace(/[^\d]/g, "");
+                }}
+                pattern="\d*"
+              />
             </div>
 
-            <InputField
-              label="Temperatura (°C)"
-              value={dataTriaje?.temperatura}
-              isEditable={isEditable}
-              type="number"
-              width="w-1/3"
-              name="temperatura"
-              onChange={handleChange}
-              onInput={(e) => { 
-                e.target.value = e.target.value.replace(/[^\d]/g, "");
-              }}
-              pattern="\d*"
-            />
+            <div style={{ flex: "0 0 90px", marginRight: "14rem" }}>
+              <InputField
+                label="Frecuencia Cardíaca (lpm)"
+                value={dataTriaje?.frecuenciaCardiaca}
+                isEditable={isEditable}
+                type="number"
+                labelWidth="labelWidth"
+                name="frecuenciaCardiaca"
+                onChange={handleChange}
+                onInput={(e) => {
+                  e.target.value = e.target.value.replace(/[^\d]/g, "");
+                }}
+                pattern="\d*"
+              />
+            </div>
 
-            <InputField
-              label="Presión Arterial (mm Hg)"
-              value={dataTriaje?.presionArterial}
-              isEditable={isEditable}
-              type="number"
-              width="w-1/3"
-              name="presionArterial"
-              onChange={handleChange}
-              onInput={(e) => { 
-                e.target.value = e.target.value.replace(/[^\d]/g, "");
-              }}
-              pattern="\d*"
-            />
+            <div style={{ flex: "0 0 90px" }}>
+              <InputField
+                label="Frecuencia Respiratoria (rpm)"
+                value={dataTriaje?.frecuenciaRespiratoria}
+                isEditable={isEditable}
+                type="number"
+                labelWidth="labelWidth"
+                name="frecuenciaRespiratoria"
+                onChange={handleChange}
+                onInput={(e) => {
+                  e.target.value = e.target.value.replace(/[^\d]/g, "");
+                }}
+                pattern="\d*"
+              />
+            </div>
+          </div>
 
-            <InputField
-              label="Saturación de Oxígeno (%)"
-              value={dataTriaje?.saturacionOxigeno}
-              isEditable={isEditable}
-              type="number"
-              width="w-1/3"
-              name="saturacionOxigeno"
-              onChange={handleChange}
-              onInput={(e) => { 
-                e.target.value = e.target.value.replace(/[^\d]/g, "");
-              }}
-              pattern="\d*"
-            />
+          <div className="flex justify-start">
+            <div style={{ flex: "0 0 90px", marginRight: "14rem" }}>
+              <InputField
+                label="Saturación de Oxígeno (%)"
+                value={dataTriaje?.saturacionOxigeno}
+                isEditable={isEditable}
+                type="number"
+                labelWidth="labelWidth"
+                name="saturacionOxigeno"
+                onChange={handleChange}
+                onInput={(e) => {
+                  e.target.value = e.target.value.replace(/[^\d]/g, "");
+                }}
+                pattern="\d*"
+              />
+            </div>
+            <div className="flex items-center justify-start space-x-3">
+              <InputField
+                label="Presión Sistólica (mm Hg)"
+                value={dataTriaje?.presionSistolica}
+                isEditable={isEditable}
+                type="number"
+                labelWidth="labelWidth"
+                name="presionSistolica"
+                onChange={handleChange}
+                onInput={(e) => {
+                  e.target.value = e.target.value.replace(/[^\d]/g, "");
+                }}
+                pattern="\d*"
+              />
 
-            
-            <InputField
-              label="Frecuencia Cardíaca (lpm)"
-              value={dataTriaje?.frecuenciaCardiaca}
-              isEditable={isEditable}
-              type="number"
-              width="w-1/3"
-              name="frecuenciaCardiaca"
-              onChange={handleChange}
-              onInput={(e) => { 
-                e.target.value = e.target.value.replace(/[^\d]/g, "");
-              }}
-              pattern="\d*"
-            />
+              <span className="text-4xl mt-8">/</span>
 
-            <InputField
-              label="Frecuencia Respiratoria (rpm)"
-              value={dataTriaje?.frecuenciaRespiratoria}
-              isEditable={isEditable}
-              type="number"
-              width="w-1/3"
-              name="frecuenciaRespiratoria"
-              onChange={handleChange}
-              onInput={(e) => { 
-                e.target.value = e.target.value.replace(/[^\d]/g, "");
-              }}
-              pattern="\d*"
-            />
+              <InputField
+                label="Presión Diastólica (mm Hg)"
+                value={dataTriaje?.presionDiastolica}
+                isEditable={isEditable}
+                type="number"
+                labelWidth="labelWidth"
+                name="presionDiastolica"
+                onChange={handleChange}
+                onInput={(e) => {
+                  e.target.value = e.target.value.replace(/[^\d]/g, "");
+                }}
+                pattern="\d*"
+              />
+            </div>
+          </div>
+
+          <div className="col-span-3">
+            <h2 className="text-3xl font-bold mb-4 mt-5">
+              Nivel de conciencia
+            </h2>
           </div>
 
           <div className="flex justify-between items-center">
+            <div className="flex justify-start">
+              <div style={{ flex: "0 0 90px", marginRight: "14rem" }}>
+                <InputField
+                  label="Apertura Ocular"
+                  name="eyesOpen"
+                  value={dataTriaje?.eyesOpen}
+                  onChange={handleChange}
+                  type="select"
+                  isEditable={isEditable}
+                  labelWidth="labelWidth"
+                  options={[
+                    { value: "Ninguna", label: "Ninguna" },
+                    {
+                      value: "Respuesta al Dolor",
+                      label: "Respuesta al Dolor",
+                    },
+                    {
+                      value: "Respuesta al Estímulo Verbal",
+                      label: "Respuesta al Estímulo Verbal",
+                    },
+                    { value: "Espontánea", label: "Espontánea" },
+                  ]}
+                  width="w-full"
+                />
+              </div>
 
-            <InputField
-              label="Nivel de conciencia"
-              name="nivelConciencia"
-              value={dataTriaje?.nivelConciencia}
-              onChange={handleChange}
-              type="select"
-              isEditable={isEditable}
-              options={[
-                { value: "Alerta", label: "Alerta" },
-                { value: "Responde a la voz", label: "Responde a la voz" },
-                { value: "Responde al dolor", label: "Responde al dolor" },
-                { value: "Inconsciente", label: "Inconsciente" }
-              ]}
-              width="w-full"
-            />
+              <div style={{ flex: "0 0 90px", marginRight: "14rem" }}>
+                <InputField
+                  label="Respuesta Verbal"
+                  name="talkingCorrectly"
+                  value={dataTriaje?.talkingCorrectly}
+                  onChange={handleChange}
+                  type="select"
+                  isEditable={isEditable}
+                  labelWidth="labelWidth"
+                  options={[
+                    { value: "Ninguna", label: "Ninguna" },
+                    {
+                      value: "Sonidos Incomprensibles",
+                      label: "Sonidos Incomprensibles",
+                    },
+                    {
+                      value: "Palabras Inapropiadas",
+                      label: "Palabras Inapropiadas",
+                    },
+                    { value: "Confuso", label: "Confuso" },
+                    { value: "Orientado", label: "Orientado" },
+                  ]}
+                  width="w-full"
+                />
+              </div>
 
-            <div className="col-span-2">
-              <label className="text-black block mb-4">
-                Evaluación del dolor
-              </label>
+              <div style={{ flex: "0 0 90px" }}>
+                <InputField
+                  label="Respuesta Motora"
+                  name="ableToMoveBody"
+                  value={dataTriaje?.ableToMoveBody}
+                  onChange={handleChange}
+                  type="select"
+                  isEditable={isEditable}
+                  labelWidth="labelWidth"
+                  options={[
+                    { value: "Ninguna", label: "Ninguna" },
+                    {
+                      value: "Extensión al Dolor",
+                      label: "Extensión al Dolor",
+                    },
+                    { value: "Flexión al Dolor", label: "Flexión al Dolor" },
+                    {
+                      value: "Retirada del Dolor",
+                      label: "Retirada del Dolor",
+                    },
+                    {
+                      value: "Localización del Dolor",
+                      label: "Localización del Dolor",
+                    },
+                    { value: "Obedece Órdenes", label: "Obedece Órdenes" },
+                  ]}
+                  width="w-full"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="col-span-3">
+            <h2 className="text-3xl font-bold mb-4 mt-5">Nivel de dolor</h2>
+          </div>
+
+          <div className="mt-4">
+            <div className="flex justify-start">
               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
                 <button
                   key={num}
@@ -587,25 +692,25 @@ const TriajeProfile = ({ params }) => {
           </div>
 
           <div className="col-span-3">
-            <h4 className="text-3xl font-bold mb-4 mt-4">
+            <h4 className="text-3xl font-bold mb-4 mt-8">
               Condiciones preexistentes
             </h4>
 
             <InputField
               value={dataTriaje?.condicionesPrexistentes}
-              isEditable={isEditable} 
-              type="textarea" 
+              isEditable={isEditable}
+              type="textarea"
               name="condicionesPrexistentes"
               onChange={handleChange}
               maxLength={1000}
-            />       
+            />
             <span className="text-right block" id="charCountPreexistentes">
               {(dataTriaje?.condicionesPrexistentes || "").length}/1000
             </span>
           </div>
 
-          <div className="flex-grow">
-            <h4 className="text-3xl font-bold mb-4 mt-4">Prioridad</h4>
+          <div>
+            <h4 className="text-3xl font-bold mb-4">Prioridad</h4>
 
             <InputField
               name="prioridad"
@@ -613,17 +718,17 @@ const TriajeProfile = ({ params }) => {
               onChange={handleChange}
               type="select"
               isEditable={isEditable}
-              placeholder="Seleccione el nivel"
+              placeholder=" "
               options={[
+                { value: "N.A.", label: "Seleccione una opción" },
                 { value: "Resucitacion", label: "🔴 Resucitación" },
                 { value: "Emergencia", label: "🟠 Emergencia" },
                 { value: "Urgencia", label: "🟡 Urgencia" },
                 { value: "Urgencia menor", label: "🟢 Urgencia menor" },
-                { value: "Sin Urgencia", label: "🔵 Sin urgencia" }
+                { value: "Sin Urgencia", label: "🔵 Sin urgencia" },
               ]}
               width="w-full"
             />
-
           </div>
 
           <div>
@@ -705,57 +810,6 @@ const TriajeProfile = ({ params }) => {
   );
 };
 
-// const InputField = ({
-//   label,
-//   name,
-//   value,
-//   isEditable,
-//   type = "text",
-//   onChange,
-//   onInput,
-//   pattern,
-//   width = "w-full",
-//   labelWidth = "w-full",
-//   maxLength,
-// }) => {
-//   const inputClass = `border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block ${width} p-2.5 ${
-//     isEditable ? 'bg-white cursor-text' : 'bg-gray-300 cursor-not-allowed'
-//   }`;
-
-//   return (
-//     <div className={`flex flex-wrap items-center ${width}`}>
-//       <label className={`block text-lg font-medium text-gray-700 ${labelWidth}`} htmlFor={name}>
-//         {label}
-//       </label>
-//       {type === 'textarea' ? (
-//         <textarea
-//           name={name}
-//           id={name}
-//           value={value}
-//           disabled={!isEditable}
-//           onChange={onChange}
-//           onInput={onInput}
-//           pattern={pattern}
-//           maxLength={maxLength}
-//           className={`flex-1 ${inputClass}`}
-//         />
-//       ) : (
-//         <input
-//           type={type}
-//           name={name}
-//           id={name}
-//           value={value}
-//           disabled={!isEditable}
-//           onChange={onChange}
-//           onInput={onInput}
-//           pattern={pattern}
-//           className={`flex-1 ${inputClass}`}
-//         />
-//       )}
-//     </div>
-//   );
-// };
-
 const InputField = ({
   label,
   name,
@@ -767,14 +821,16 @@ const InputField = ({
   width = "w-full",
   labelWidth,
   placeholder = "Seleccione una opción",
+  minWidth = "w-0",
+  maxWidth = "w-full",
 }) => {
   const inputClass = `border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block ${width}  ${
-    isEditable ? 'bg-white cursor-text' : 'bg-gray-300 cursor-not-allowed'
+    isEditable ? "bg-white cursor-text" : "bg-gray-300 cursor-not-allowed"
   }`;
 
   const renderInput = () => {
     switch (type) {
-      case 'textarea':
+      case "textarea":
         return (
           <textarea
             name={name}
@@ -785,7 +841,7 @@ const InputField = ({
             className={`flex-1 ${inputClass}`}
           />
         );
-      case 'select':
+      case "select":
         return (
           <select
             name={name}
@@ -795,7 +851,9 @@ const InputField = ({
             onChange={onChange}
             className={`flex-1 ${inputClass}`}
           >
-            <option value="" disabled selected>{placeholder}</option> 
+            <option value="" disabled selected>
+              {placeholder}
+            </option>
             {options.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
@@ -813,6 +871,7 @@ const InputField = ({
             disabled={!isEditable}
             onChange={onChange}
             className={`flex-1 ${inputClass}`}
+            style={{ minWidth: minWidth, maxWidth: maxWidth }}
           />
         );
     }
@@ -820,14 +879,15 @@ const InputField = ({
 
   return (
     <div className={`mb-2 ${width}`}>
-      <label className={`block text-lg font-medium text-gray-700 mb-2 ${labelWidth}`} htmlFor={name}>
+      <label
+        className={`block text-lg font-medium text-gray-700 mb-2 ${labelWidth}`}
+        htmlFor={name}
+      >
         {label}
       </label>
       {renderInput()}
     </div>
   );
 };
-
-
 
 export default TriajeProfile;

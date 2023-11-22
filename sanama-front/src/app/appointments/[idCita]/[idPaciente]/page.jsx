@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { patientService } from "@/services/patientService";
 import { useRouter, useParams, usePathname } from "next/navigation";
 import MedicalRecordsTable from "@/components/MedicalRecordsTable";

@@ -5,18 +5,22 @@ import { appointmentService } from '@/services/appointmentService';
 import TitleWithIcon from '@/components/TitleWithIcon';
 import LabIcon from '@/components/icons/LabIcon';
 import { parseLaboratoryMSTable } from '@/util/laboratoryMSParser'; 
+import { useParams } from 'next/navigation';
 
 const LaboratoryMSPage = () => {
-    
+ 
     const [laboratoryData, setLaboratoryData] = useState([]);
     const [unparsedData, setUnparsedData] = useState([]);
         
-    const idHojaMedica = 30;
+    const params = useParams();
+    const idMedicalSheet = params.idMedicalSheet;
+    // const idMedicalSheet = 30;
+    console.log("EL ID ES: ", idMedicalSheet)
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = await appointmentService.listarLaboratorios(idHojaMedica);
+                const data = await appointmentService.listarLaboratorios(idMedicalSheet);
                 setUnparsedData(data);
                 console.log("LA DATA SIN PARSEAR ES: ", data)
                 const parsedData = parseLaboratoryMSTable(data);
@@ -28,7 +32,7 @@ const LaboratoryMSPage = () => {
         };
 
         fetchData();
-    }, [idHojaMedica]);
+    }, [idMedicalSheet]); 
 
     return (
         <section className="p-4 md:p-14">
