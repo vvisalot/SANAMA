@@ -3,7 +3,7 @@ import React from "react";
 const GlasgowComaScale = ({ setMedicalRecordData }) => {
   const gcsValues = {
     eyesOpen: {
-      Espontánea: 4,
+      "Espontánea": 4,
       "Al estímulo verbal": 3,
       "Al estímulo doloroso": 2,
       "Sin respuesta": 1,
