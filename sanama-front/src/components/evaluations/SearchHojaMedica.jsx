@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal } from "flowbite-react";
 import { useMedicalSheets } from "@/hooks/useMedicalSheets";
 import { doctorService } from "@/services/doctorService";
@@ -23,11 +23,20 @@ const SearchMedicalSheet = ({ idPaciente, show, onClose, onSelect }) => {
   useEffect(() => {
     const cargarEspecialidades = async () => {
       const especialidadesData = await doctorService.listarEspecialidades();
-      setEspecialidades(especialidadesData);
+      setEspecialidades(especialidadesData || []);
     };
 
     cargarEspecialidades();
   }, []);
+
+  const handleSubmit = () => {
+    setSearchFilters({
+      pn_id_paciente: idPaciente,
+      pn_id_especialidad: especialidadId || null,
+      pd_fecha_inicio: fechaInicio || null,
+      pd_fecha_fin: fechaFin || null,
+    });
+  };
 
   const handleConfirm = () => {
     if (selectedMedicalSheet) {
@@ -35,15 +44,6 @@ const SearchMedicalSheet = ({ idPaciente, show, onClose, onSelect }) => {
       onClose();
       resetData();
     }
-  };
-
-  const handleSubmit = () => {
-    setSearchFilters({
-      pn_id_paciente: idPaciente,
-      pn_id_especialidad: null,
-      pd_fecha_inicio: fechaInicio || null,
-      pd_fecha_fin: fechaFin || null,
-    });
   };
 
   return (
@@ -65,7 +65,7 @@ const SearchMedicalSheet = ({ idPaciente, show, onClose, onSelect }) => {
                 </label>
                 <select
                   id="especialidadId"
-                  value={"especialidad.id"}
+                  value={especialidadId}
                   onChange={(e) => setEspecialidadId(e.target.value)}
                   className="mt-1 block w-full p-2 border-gray-300 rounded-md shadow-sm"
                 >
