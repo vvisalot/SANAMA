@@ -25,7 +25,7 @@ const TratamientoYDecisionCita = ({ setMedicalRecordData }) => {
   };
 
   const initialState = {
-    recetasMedicas: [{ medicamento: "", indicaciones: "" }],
+    recetasMedicas: [],
     fechaDeCaducidad: "",
   };
   const {
