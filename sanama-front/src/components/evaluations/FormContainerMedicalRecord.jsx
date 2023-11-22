@@ -5,7 +5,6 @@ import FormEvaluation from "./FormEvaluation";
 import { toast } from "sonner";
 import { patientService } from "@/services/patientService";
 import swal from "sweetalert";
-import Signature from "@/components/evaluations/Signature";
 
 const FormContainerMedicalRecord = ({
   defaultTriaje,
