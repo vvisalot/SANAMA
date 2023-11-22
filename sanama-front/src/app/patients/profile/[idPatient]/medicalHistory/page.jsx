@@ -10,46 +10,37 @@ import { sexParser } from "@/util/patientParser"
 import TitleWithIcon from "@/components/TitleWithIcon"
 import iconoHistorial from "@/components/icons/iconoHistorial"
 
-const HistorialClinico = () => {
-  const params = useParams()
-  const idPaciente = params.idPatient
-
+const HistorialClinico = ({ params }) => {
   const { patientForm, setPatientForm } = usePatientForm()
 
-  const [historialClinico, setHistorialClinico] = useState(null)
+  const [historialClinico, setHistorialClinico] = useState({
+    idHistorialClinico: "",
+    codigo: "",
+    estadoHojaMedica: true,
+  })
   const [hojasMedicas, setHojasMedicas] = useState([])
 
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
 
-  useEffect(() => {
-    const fetchHistorial = async () => {
-      try {
-        const data = await patientService.buscarHistorialClinico(idPaciente)
-        const tableData = parseHojaMedicaTable(data.hojasMedicas)
-        setHistorialClinico({
-          idHistorialClinico: data.idHistorialClinico,
-          codigo: data.codigo,
-          estadoHojaMedica: true,
-        })
-        setHojasMedicas(tableData)
-        console.log(historialClinico.idHistorialClinico)
-      } catch (error) {
-        setError(error)
-      } finally {
-        setLoading(false)
-      }
+  const fetchHistorial = async () => {
+    try {
+      const data = await patientService.buscarHistorialClinico(params.idPatient)
+      const tableData = parseHojaMedicaTable(data.hojasMedicas)
+      setHistorialClinico({
+        idHistorialClinico: data.idHistorialClinico,
+        codigo: data.codigo,
+        estadoHojaMedica: true,
+      })
+      console.log(historialClinico.codigo)
+      setHojasMedicas(tableData)
+      console.log(tableData)
+    } catch (error) {
+      console.log("Error al obtener el historial clinico")
     }
-
-    if (idPaciente) {
-      fetchHistorial()
-    }
-  }, [idPaciente])
+  }
 
   const fetchData = async () => {
     try {
-      const data = await patientService.mostrarPacienteRegistrado(idPaciente)
-      console.log(data.idPersona)
+      const data = await patientService.mostrarPacienteRegistrado(params.idPatient)
 
       setPatientForm({
         ...patientForm,
@@ -71,14 +62,10 @@ const HistorialClinico = () => {
   }
 
   useEffect(() => {
-    if (idPaciente) {
-      fetchData()
-    }
-  }, [idPaciente])
+    fetchData()
+    fetchHistorial()
+  }, [params.idPatient])
 
-  if (loading) return <p>Cargando...</p>
-  if (error) return <p>Error al cargar el historial clínico</p>
-  if (!historialClinico) return <p>No se encontró el historial clínico</p>
 
   const PatientDataDisplay = ({ patient }) => (
     <div className="flex flex-wrap mb-2 space-x-32 px-4">

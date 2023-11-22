@@ -1,13 +1,9 @@
-"use client";
-import React, { useState } from "react";
-import MainInfoComponent from "@/components/evaluations/MainInfoTab";
-import VitalSigns from "@/components/evaluations/VitalSigns";
-import DiagnosticoMedico from "@/components/evaluations/DiagnosisTab";
-import GlasgowComaScale from "@/components/evaluations/MentalStatusTab";
-import TratamientoYDecisionCita from "@/components/evaluations/TreatmentTab";
-import LaboratoryModal from "@/components/evaluations/LaboratoryModal";
+"use client"
+import React, { useState } from "react"
+import MainInfoComponent from "@/components/evaluations/MainInfoTab"
+import VitalSigns from "@/components/evaluations/VitalSigns"
 
-// evauliacion existente
+
 const FormularioMedico = () => {
   const initialFormData = {
     MainInfo: {
@@ -17,6 +13,7 @@ const FormularioMedico = () => {
       edad: "",
       peso: "",
       talla: "",
+      fechaNacimiento: "",
       personaResponsable: {
         nombre: "",
         dni: "",
@@ -72,22 +69,23 @@ const FormularioMedico = () => {
         medicamentosRecetados: [],
       },
     },
-  };
+  }
 
-  const [formData, setFormData] = useState(initialFormData);
+  const [formData, setFormData] = useState(initialFormData)
+  //Y LA DATA DE DONDE SALE?????
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     setFormData((prevState) => ({
       ...prevState,
       [name]: value,
-    }));
-  };
+    }))
+  }
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(formData);
-  };
+    e.preventDefault()
+    console.log(formData)
+  }
 
   return (
     <div className="p-8">
@@ -97,18 +95,17 @@ const FormularioMedico = () => {
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <MainInfoComponent
-            formData={formData.MainInfo}
-            handleInputChange={handleInputChange}
+            formData={formData.MainInfo} //Grave error de concepto
           ></MainInfoComponent>
 
           <VitalSigns
-            formData={formData.ClinicalTab}
-            handleInputChange={handleInputChange}
+            defaultTriaje={formData.ClinicalTab}
+            setMedicalRecordData={handleInputChange}
           ></VitalSigns>
         </div>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default FormularioMedico;
+export default FormularioMedico
