@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import { TextInput } from "flowbite-react"
+import { TextInput , validateNumberInput} from "flowbite-react"
 import DatePicker from "@/components/buttons/DatePicker"
 import Picker from "@/components/buttons/Picker"
 import Dropdown from "@/components/Dropdowns/Dropdown"
@@ -8,7 +8,7 @@ import { doctorService } from '@/services/doctorService';
 import { es, id } from 'date-fns/locale';
 import swal from "sweetalert";
 import { useRouter, useParams } from "next/navigation";
-import { toast } from 'sonner';
+import { Toaster, toast } from 'sonner';
 const EditDoctorProfile = () => {
   const params = useParams();
   const idDoctor = params.idDoctor;
@@ -70,10 +70,12 @@ const EditDoctorProfile = () => {
             setSexo("Femenino")
 
           }
-          
           setImagenPerfil(`data:image/png;base64,${data[0].foto}`) //hardcodeado. Falta guarda su extensión en la bbdd para que sea exacto.
           //por ahora el navegador sabe qué hacer para que se muestre la imagen, lo corrige
           //setImagenPerfil(data[0].foto)
+          setFotoBack(`data:image/png;base64,${data[0].foto}`);
+          setTelefonoBack(data[0].telefono);
+          setCorreoBack(data[0].correoElectronico);
         }
       } catch (error) {
         console.log(error);
@@ -134,6 +136,22 @@ const EditDoctorProfile = () => {
   const handleCancel = () => {
     // Lógica para el botón "Cancelar"
     // ...
+    toast.warning("¿Seguro que quieres cancelar?", {
+      action: {
+        label: "Sí",
+        onClick: () => { 
+          setImagenPerfil(fotoBack);
+          setCorreo(correoBack);
+          setTelefono(telefonoBack);
+        }
+      },
+      cancel: {
+        label: "No",
+        onClick: () => {
+          
+        }
+      }
+    })
   };
 
   function validarCorreoElectronico(correo) {
@@ -152,12 +170,13 @@ const EditDoctorProfile = () => {
   const handleSave = () => { //validar correo y teléfono
     let hayErrores = false;
     if(!validarNumeroTelefono(telefono)){
-      toast.error("El teléfono debe tener 9 dígitos");
+      toast.error("El número telefónico es incorrecto.");
       hayErrores = true; 
     }
     if(!validarCorreoElectronico(correo)){
       toast.error("Por favor, ingrese un correo electrónico válido.");
       hayErrores = true; 
+      console.log(correo)
     }
     if(hayErrores) return;
 
@@ -226,6 +245,29 @@ const EditDoctorProfile = () => {
     })
   };
 
+  function handleVolver(){
+    if(fotoBack!=imagenPerfil || telefono!=telefonoBack || correo != correoBack){
+      //si hubo cambios
+      toast.warning("Salir y cancelar cambios?", {
+        action: {
+          label: "Sí",
+          onClick: () => { 
+            setImagenPerfil(fotoBack);
+            setCorreo(correoBack);
+            setTelefono(telefonoBack);
+          }
+        },
+        cancel: {
+          label: "No",
+          onClick: () => {
+            
+          }
+        }
+      })
+    }else{
+      router.back();
+    }
+  }
 
   const validateForm = () => {
     // Lógica para validar el formulario antes de pasar a la siguiente parte
@@ -481,9 +523,10 @@ const EditDoctorProfile = () => {
               </div>
 
               <div className="flex flex-row-reverse">
+                
                 <button
                   type="button"
-                  className="m-2 text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300 
+                  className="m-2 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 
             font-medium rounded-lg w-full sm:w-auto px-5 py-3 text-center"
                   onClick={handleSave}
                 >
@@ -491,11 +534,19 @@ const EditDoctorProfile = () => {
                 </button>
                 <button
                   type="button"
-                  className="m-2 text-white bg-gray-500 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-blue-300 
+                  className="m-2 text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-blue-300 
             font-medium rounded-lg  w-full sm:w-auto px-5 py-3 text-center"
                   onClick={handleCancel}
                 >
                   Cancelar
+                </button>
+                <button
+                  type="button"
+                  className="m-2 text-white bg-gray-500 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-blue-300 
+            font-medium rounded-lg w-full sm:w-auto px-5 py-3 text-center"
+                  onClick={handleVolver}
+                >
+                  Volver
                 </button>
               </div>
             </div>
