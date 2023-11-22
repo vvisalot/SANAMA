@@ -4,6 +4,7 @@ import com.minsa.sanama.model.admision.ProgramacionCita;
 import com.minsa.sanama.model.atencionmedica.CitaMedica;
 import com.minsa.sanama.model.atencionmedica.HistorialClinico;
 import com.minsa.sanama.model.atencionmedica.HojaMedica;
+import com.minsa.sanama.model.laboratorio.OrdenLaboratorio;
 import com.minsa.sanama.services.atencion.HojaMedicaService;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -172,4 +173,5 @@ public class HojaMedicaController {
         }
         return null;
     }
+
 }
