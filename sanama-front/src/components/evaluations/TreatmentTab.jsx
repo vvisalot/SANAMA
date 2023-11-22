@@ -3,8 +3,27 @@ import Datepicker from "tailwind-datepicker-react";
 import AddMedicationForm from "../todolist/AddMedicationForm";
 import MedicationList from "../todolist/MedicationList";
 import { useTratamientoData } from "@/hooks/useTratamientoData";
+import TextAreaField from "../common/TextAreaField";
 
 const TratamientoYDecisionCita = ({ setMedicalRecordData }) => {
+  const handleOnBlurChange = (e) => {
+    const { name, value } = e.target;
+    setMedicalRecordData((prevData) => {
+      const sections = name.split(".");
+      if (sections.length === 2) {
+        const section = sections[1];
+        return {
+          ...prevData,
+          evaluacionMedica: {
+            ...prevData.evaluacionMedica,
+            [section]: value,
+          },
+        };
+      }
+      return prevData;
+    });
+  };
+
   const initialState = {
     recetasMedicas: [{ medicamento: "", indicaciones: "" }],
     fechaDeCaducidad: "",
@@ -55,7 +74,7 @@ const TratamientoYDecisionCita = ({ setMedicalRecordData }) => {
   };
 
   return (
-    <div className="p-8">
+    <div className="ml-4">
       <h4 className="text-lg font-bold text-gray-700 mb-2">Receta Médica</h4>
       <div className="my-4">
         <label className="block text-sm font-medium text-gray-700">
@@ -70,14 +89,22 @@ const TratamientoYDecisionCita = ({ setMedicalRecordData }) => {
           setShow={handleCloseFinal}
           options={defaultOptions}
         />
+        <AddMedicationForm
+          onAddMedication={(newMedication) => addRecetaMedica(newMedication)}
+        />
+        <div className="my-4 h-[300px] overflow-y-auto border-2">
+          <MedicationList
+            medications={tratamientoData.recetasMedicas}
+            onEditMedication={updateRecetaMedica}
+            onDeleteMedication={removeRecetaMedica}
+          />
+        </div>
       </div>
-      <AddMedicationForm
-        onAddMedication={(newMedication) => addRecetaMedica(newMedication)}
-      />
-      <MedicationList
-        medications={tratamientoData.recetasMedicas}
-        onEditMedication={updateRecetaMedica}
-        onDeleteMedication={removeRecetaMedica}
+      <TextAreaField
+        label="Indicaciones Finales:"
+        name="evaluacionMedica.indicacionesFinales"
+        placeholder="Ingresa indicaciones adicionales.."
+        onBlur={handleOnBlurChange} // Cambio aquí
       />
     </div>
   );

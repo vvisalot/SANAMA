@@ -100,11 +100,11 @@ const ExplorationTab = ({ setMedicalRecordData }) => {
   };
 
   return (
-    <div className="ml-2 mr-4 col-span-2">
-      <h5 className="text-base font-medium text-gray-700 mb-2">
+    <div className="ml-4 col-span-2">
+      <h5 className="text-base font-medium text-gray-700 my-4">
         Añadir Exploración:
       </h5>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
         {sectionNames.map((section) =>
           renderCheckbox(
             section

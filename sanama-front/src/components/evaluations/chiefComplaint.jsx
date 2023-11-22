@@ -27,6 +27,8 @@ const ChiefComplaint = ({ setMedicalRecordData }) => {
     });
   };
 
+  const [hojaRefencia, setHojaRefencia] = useState(null);
+
   const addEvaluation = (selectedHoja) => {
     if (selectedHoja && selectedHoja.idHojaMedica) {
       setMedicalRecordData((prevData) => ({

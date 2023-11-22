@@ -43,7 +43,7 @@ const DiagnosticoMedico = ({ setMedicalRecordData }) => {
   };
 
   return (
-    <div className="p-8">
+    <div className="ml-4 py-8">
       <h4 className="text-lg font-bold text-gray-700 mb-2">
         Diagnóstico Médico
       </h4>
