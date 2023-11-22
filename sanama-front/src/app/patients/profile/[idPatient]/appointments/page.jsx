@@ -9,6 +9,7 @@ const PatientAppointments = ({ params }) => {
     const getPatientMedicalRecords = async () => {
         try {
             const data = await patientService.listarCitasPorPaciente(params.idPatient)
+            console.log(data)
             const tableData = parsePatientAppointmentTable(data)
             console.log(tableData)
             setPatientAppointmentsTable(tableData)
@@ -21,19 +22,17 @@ const PatientAppointments = ({ params }) => {
         getPatientMedicalRecords()
     }, [params.idPatient])
 
-    const options = [
-        {
-            text: "Ver",
-            link: "/appointments",
-            icon: "/icons/eye.svg",
-        },
-    ]
+
+    const options = []
+
+
     return (
         <div>
             <h1 className="font-bold text-blue-500 text-6xl p-12" >Citas del paciente</h1>
             <section className="pl-12 pr-14">
                 <PatientAppointmentTable
                     data={patientAppointmentsTable}
+                    options={options}
                 />
             </section>
         </div>

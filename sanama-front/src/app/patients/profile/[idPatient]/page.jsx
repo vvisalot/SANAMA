@@ -1,11 +1,11 @@
 "use client"
 
-import PatientInfo from "@/app/patients/profile/[idPatient]/PatientInfo"
+import LatestAppointments from "@/components/_patients/LatestAppointments"
+import PatientActions from "@/components/_patients/PatientActions"
+import PatientInfo from "@/components/_patients/PatientInfo"
 import ProfileCard from "@/components/cards/ProfileCard"
 import { patientService } from "@/services/patientService"
 import { useEffect, useState } from "react"
-import PatientActions from "./PatientActions"
-import LatestAppointments from "./LatestAppointments"
 
 const PatientProfile = ({ params }) => {
   const [dataPatient, setDataPatient] = useState({

@@ -1,36 +1,36 @@
-"use client";
-import { useEffect, useState } from "react";
-import PatientTable from "./PatientTable";
-import { patientService } from "@/services/patientService";
-import { parsePatientTable } from "@/util/patientParser";
-import SearchBar from "@/components/bars/SearchBar";
-import PatientIcon from "@/components/icons/PatientIcon";
-import TitleWithIcon from "@/components/TitleWithIcon";
+"use client"
+import { useEffect, useState } from "react"
+import PatientTable from "./PatientTable"
+import { patientService } from "@/services/patientService"
+import { parsePatientTable } from "@/util/patientParser"
+import SearchBar from "@/components/bars/SearchBar"
+import PatientIcon from "@/components/icons/PatientIcon"
+import TitleWithIcon from "@/components/TitleWithIcon"
 
 const PatientPage = () => {
-  const [patientTable, setPatientTable] = useState([]);
+  const [patientTable, setPatientTable] = useState([])
 
   const fetchData = async (filtro) => {
     try {
-      const data = await patientService.buscarPorFiltro(filtro);
-      const tableData = parsePatientTable(data);
-      console.log(tableData);
-      setPatientTable(tableData);
+      const data = await patientService.buscarPorFiltro(filtro)
+      const tableData = parsePatientTable(data)
+      console.log(tableData)
+      setPatientTable(tableData)
     } catch (error) {
-      console.log("No se pudo obtener los datos de los pacientes");
+      console.log("No se pudo obtener los datos de los pacientes")
     }
-  };
+  }
 
   useEffect(() => {
-    fetchData("");
-  }, []);
+    fetchData("")
+  }, [])
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    const elements = e.target.elements;
-    const filtro = elements.namedItem("patients-search").value;
-    fetchData(filtro);
-  };
+    e.preventDefault()
+    const elements = e.target.elements
+    const filtro = elements.namedItem("patients-search").value
+    fetchData(filtro)
+  }
 
   const options = [
     {
@@ -38,7 +38,7 @@ const PatientPage = () => {
       link: "/patients/profile",
       icon: "fa fa-eye",
     },
-  ];
+  ]
 
   return (
     <section className="w-full px-14 py-6">
@@ -60,10 +60,10 @@ const PatientPage = () => {
         </button>
       </form>
       <section className="w-full">
-        <PatientTable data={patientTable} options={options}></PatientTable>
+        <PatientTable data={patientTable} options={options} />
       </section>
     </section>
-  );
-};
+  )
+}
 
-export default PatientPage;
+export default PatientPage

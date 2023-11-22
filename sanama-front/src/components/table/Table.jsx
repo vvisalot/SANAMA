@@ -4,8 +4,8 @@ import {
   getSortedRowModel,
   getPaginationRowModel,
   useReactTable,
-} from "@tanstack/react-table";
-import TablePagination from "./TablePagination";
+} from "@tanstack/react-table"
+import TablePagination from "./TablePagination"
 
 const AdvancedTable = ({ data, id, columns }) => {
   const table = useReactTable({
@@ -19,23 +19,23 @@ const AdvancedTable = ({ data, id, columns }) => {
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-  });
+  })
 
   return (
     <div>
       <TablePagination table={table} />
-      <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table className="table-fixed min-w-full">
           <thead className="border-gray-200 border-2 text-left text-md tracking-wider text-blue-50 uppercase bg-[#28539E]">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
-                  const sortingState = header.column.getIsSorted();
-                  let sortingIndicator;
+                  const sortingState = header.column.getIsSorted()
+                  let sortingIndicator
                   if (sortingState === "asc") {
-                    sortingIndicator = " 🔼";
+                    sortingIndicator = " 🔼"
                   } else if (sortingState === "desc") {
-                    sortingIndicator = " 🔽";
+                    sortingIndicator = " 🔽"
                   }
                   return (
                     <th
@@ -49,7 +49,7 @@ const AdvancedTable = ({ data, id, columns }) => {
                       )}
                       {sortingIndicator}
                     </th>
-                  );
+                  )
                 })}
               </tr>
             ))}
@@ -71,7 +71,7 @@ const AdvancedTable = ({ data, id, columns }) => {
         </table>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AdvancedTable;
+export default AdvancedTable

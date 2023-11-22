@@ -2,6 +2,7 @@ import ActionButton from "@/components/buttons/ActionButton"
 import Link from "next/link"
 
 const PatientActions = ({ id }) => {
+
   return (
     <section className="my-10 rounded-2xl h-full grid grid-rows-2 items-center bg-white shadow">
       <ActionButton
