@@ -76,7 +76,7 @@ const HistorialClinico = () => {
 
   const options = [
     {
-      text: "Ver resultados",
+      text: "Ver hoja médica",
       link: "/",
       icon: "/icons/eye.svg",
     },
