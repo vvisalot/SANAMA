@@ -31,7 +31,7 @@ const useAppointmentForm = () => {
 
 
     const validateAppointmentForm = (fechaNacimiento, validatePatientForm) => {
-        validatePatientForm()
+        if (!validatePatientForm()) return false
 
         if (schedule.fecha === "" || schedule.hora === "") {
             setErrorMessageAppointmentForm("Por favor, complete todos los campos para reservar la cita")

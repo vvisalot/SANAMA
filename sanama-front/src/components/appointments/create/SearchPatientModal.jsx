@@ -50,8 +50,7 @@ const SearchPatientModal = ({ show, onClose, onSelect }) => {
 
 
     return (
-
-        <Modal show={show} size="6xl" popup onClose={onClose} >
+        <Modal show={show} className='bg-opacity-30' size="6xl" popup onClose={onClose} >
             <Modal.Header>
             </Modal.Header>
             <Modal.Body>

@@ -1,19 +1,19 @@
-import Picker from "@/components/buttons/Picker";
-import { useEffect, useState } from "react";
-import ScheduleChip from "./ScheduleChip";
-import { TextInput } from "flowbite-react";
-import { format } from "date-fns";
-import Calendar from "@/components/Calendar";
-import Dropdown from "@/components/Dropdowns/Dropdown";
-import { doctorService } from "@/services/doctorService";
-import { parseDoctorsDropdown } from "@/util/doctorParser";
-import PickerHider from "@/components/buttons/PickerHider";
-import { patientService } from "@/services/patientService";
+import Picker from "@/components/buttons/Picker"
+import { useEffect, useState } from "react"
+import ScheduleChip from "./ScheduleChip"
+import { TextInput } from "flowbite-react"
+import { format } from "date-fns"
+import Calendar from "@/components/Calendar"
+import Dropdown from "@/components/Dropdowns/Dropdown"
+import { doctorService } from "@/services/doctorService"
+import { parseDoctorsDropdown } from "@/util/doctorParser"
+import PickerHider from "@/components/buttons/PickerHider"
+import { patientService } from "@/services/patientService"
 import {
   formatHour,
   validateNumberInput,
   validateTextInput,
-} from "@/util/formValidations";
+} from "@/util/formValidations"
 
 const AppointementForm = ({
   legalResponsibilityForm,
@@ -24,68 +24,70 @@ const AppointementForm = ({
   triageRequirement,
   setTriageRequirement,
 }) => {
+
+
   //Seccion 2
-  const [relationships, setRelationships] = useState([]);
+  const [relationships, setRelationships] = useState([])
 
   //Seccion 3
-  const [specialties, setSpecialties] = useState([]);
-  const [doctors, setDoctors] = useState([]);
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [availableHours, setAvailableHours] = useState([]);
-  const [selectedHour, setSelectedHour] = useState(null);
-  const [disabled, setDisabled] = useState(true);
+  const [specialties, setSpecialties] = useState([])
+  const [doctors, setDoctors] = useState([])
+  const [selectedDate, setSelectedDate] = useState(null)
+  const [availableHours, setAvailableHours] = useState([])
+  const [selectedHour, setSelectedHour] = useState(null)
+  const [disabled, setDisabled] = useState(true)
 
   useEffect(() => {
-    fetchSpecialty();
-    fetchRelationships();
-  }, []);
+    fetchSpecialty()
+    fetchRelationships()
+  }, [])
 
   const fetchSpecialty = async () => {
     try {
-      const data = await doctorService.listarEspecialidades();
-      setSpecialties(data);
+      const data = await doctorService.listarEspecialidades()
+      setSpecialties(data)
     } catch (error) {
-      console.log("No se pudo obtener el listado de especialidades");
+      console.log("No se pudo obtener el listado de especialidades")
     }
-  };
+  }
 
   const fetchDoctors = async (filtro, especialidad) => {
     try {
       const data = await doctorService.buscarPorMedicoEspecialidad(
         filtro,
         especialidad
-      );
-      const drop = parseDoctorsDropdown(data);
-      setDoctors(drop);
+      )
+      const drop = parseDoctorsDropdown(data)
+      setDoctors(drop)
     } catch (error) {
       console.log(
         "No se pudo obtener el listado de medicos para esta especialidad"
-      );
+      )
     }
-  };
+  }
 
   const fetchAvailableHours = async (date, doctorId) => {
     try {
       const data = await doctorService.buscarHorariosMedicoFecha(
         date,
         doctorId
-      );
-      setAvailableHours(data);
+      )
+      setAvailableHours(data)
     } catch (error) {
       console.log(
         "No se pudo obtener el listado de medicos para esta especialidad"
-      );
+      )
     }
-  };
+  }
 
   const fetchRelationships = async () => {
     try {
-      const data = await patientService.listarParentescos();
-      setRelationships(data);
+      const data = await patientService.listarParentescos()
+      setRelationships(data)
     } catch (error) {
-      console.log("No se pudo obtener el listado de parentescos");
+      console.log("No se pudo obtener el listado de parentescos")
     }
-  };
+  }
 
   const handleResponsibilityChange = (option) => {
     if (option === "No") {
@@ -96,51 +98,51 @@ const AppointementForm = ({
         apellidoMaterno: "",
         dni: "",
         parentesco: "",
-      });
+      })
     } else {
       setLegalResponsibilityForm((prev) => ({
         ...prev,
         tieneAcompañante: option,
-      }));
+      }))
     }
-  };
+  }
 
   const handleSpecialityChange = (e) => {
-    document.getElementById("dropdown-doctor").value = "";
-    setDisabled(true);
-    setAvailableHours([]);
-    setSelectedHour(null);
-    setSelectedDate(null);
-    fetchDoctors("", e.target.value);
-  };
+    document.getElementById("dropdown-doctor").value = ""
+    setDisabled(true)
+    setAvailableHours([])
+    setSelectedHour(null)
+    setSelectedDate(null)
+    fetchDoctors("", e.target.value)
+  }
 
   const handleDoctorChange = (e) => {
-    const selectedDoctorId = e.target.value;
+    const selectedDoctorId = e.target.value
     setDoctorId({
       idPersona: selectedDoctorId,
-    });
-    setAvailableHours([]);
-    setSelectedHour(null);
-    setSelectedDate(null);
+    })
+    setAvailableHours([])
+    setSelectedHour(null)
+    setSelectedDate(null)
     if (e.target.value === "") {
-      setDisabled(true);
+      setDisabled(true)
     } else {
-      setDisabled(false);
+      setDisabled(false)
     }
-  };
+  }
 
   const handleDateClick = (date) => () => {
-    setSelectedDate(date);
-    setSelectedHour(null);
-    setSchedule({ ...schedule, fecha: format(date, "yyyy-MM-dd") });
-    const selectedDoctor = document.getElementById("dropdown-doctor").value;
-    fetchAvailableHours(format(date, "yyyy-MM-dd"), selectedDoctor);
-  };
+    setSelectedDate(date)
+    setSelectedHour(null)
+    setSchedule({ ...schedule, fecha: format(date, "yyyy-MM-dd") })
+    const selectedDoctor = document.getElementById("dropdown-doctor").value
+    fetchAvailableHours(format(date, "yyyy-MM-dd"), selectedDoctor)
+  }
 
   const handleHourSelect = (hour) => {
-    setSelectedHour(hour);
-    setSchedule({ ...schedule, hora: hour });
-  };
+    setSelectedHour(hour)
+    setSchedule({ ...schedule, hora: hour })
+  }
 
   return (
     <fieldset>
@@ -166,11 +168,11 @@ const AppointementForm = ({
                   id="r_first_name"
                   value={legalResponsibilityForm.apellidoPaterno}
                   onChange={(event) => {
-                    validateTextInput(event.target);
+                    validateTextInput(event.target)
                     setLegalResponsibilityForm((prev) => ({
                       ...prev,
                       apellidoPaterno: event.target.value,
-                    }));
+                    }))
                   }}
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent "
                   placeholder=" "
@@ -190,11 +192,11 @@ const AppointementForm = ({
                   id="floating_last_name"
                   value={legalResponsibilityForm.apellidoMaterno}
                   onChange={(event) => {
-                    validateTextInput(event.target);
+                    validateTextInput(event.target)
                     setLegalResponsibilityForm((prev) => ({
                       ...prev,
                       apellidoMaterno: event.target.value,
-                    }));
+                    }))
                   }}
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent  appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
@@ -215,11 +217,11 @@ const AppointementForm = ({
                 id="floating_name"
                 value={legalResponsibilityForm.nombres}
                 onChange={(event) => {
-                  validateTextInput(event.target);
+                  validateTextInput(event.target)
                   setLegalResponsibilityForm((prev) => ({
                     ...prev,
                     nombres: event.target.value,
-                  }));
+                  }))
                 }}
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent  appearance-none   "
                 placeholder=" "
@@ -243,11 +245,11 @@ const AppointementForm = ({
                   minLength={8}
                   value={legalResponsibilityForm.dni}
                   onChange={(event) => {
-                    validateNumberInput(event.target);
+                    validateNumberInput(event.target)
                     setLegalResponsibilityForm((prev) => ({
                       ...prev,
                       dni: event.target.value,
-                    }));
+                    }))
                   }}
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent  appearance-none   "
                   placeholder=" "
@@ -274,7 +276,7 @@ const AppointementForm = ({
                     setLegalResponsibilityForm((prev) => ({
                       ...prev,
                       parentesco: event.target.value,
-                    }));
+                    }))
                   }}
                 />
                 <label
@@ -348,11 +350,9 @@ const AppointementForm = ({
             name="fechaSeleccionada"
             className=" bg-transparent"
             id="fechaSeleccionada"
-            value={`${
-              selectedDate !== null ? format(selectedDate, "dd/MM/yyyy") : ""
-            } a las ${
-              selectedHour !== null ? selectedHour.substring(0, 5) : "..."
-            }`}
+            value={`${selectedDate !== null ? format(selectedDate, "dd/MM/yyyy") : ""
+              } a las ${selectedHour !== null ? selectedHour.substring(0, 5) : "..."
+              }`}
             disabled
           />
         </div>
@@ -373,7 +373,7 @@ const AppointementForm = ({
         ></Picker>
       </section>
     </fieldset>
-  );
-};
+  )
+}
 
-export default AppointementForm;
+export default AppointementForm
