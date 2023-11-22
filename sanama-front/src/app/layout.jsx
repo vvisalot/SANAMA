@@ -1,21 +1,18 @@
-"use client";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import NextBreadcrumb from "@/components/NextBreadcrumb";
-import { Toaster } from "sonner";
-import Navbar from "@/components/navbar/Navbar";
+"use client"
+import { Inter } from "next/font/google"
+import "./globals.css"
+import NextBreadcrumb from "@/components/NextBreadcrumb"
+import { Toaster } from "sonner"
+import Navbar from "@/components/navbar/Navbar"
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"] })
 
 export default function RootLayout({ children }) {
   return (
     <html lang="es">
       <head>
         <title>Sanama</title>
-        <link
-          href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.1.1/flowbite.min.css"
-          rel="stylesheet"
-        />
+
       </head>
 
       <body className={`${inter.className} bg-[#EFEFEF] w-auto h-screen`}>
@@ -44,5 +41,5 @@ export default function RootLayout({ children }) {
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.1.1/flowbite.min.js"></script>
       </body>
     </html>
-  );
+  )
 }

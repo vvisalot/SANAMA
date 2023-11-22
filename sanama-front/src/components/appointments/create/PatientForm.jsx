@@ -1,18 +1,19 @@
-"use client";
-import DatePicker from "@/components/buttons/DatePicker";
-import Picker from "@/components/buttons/Picker";
-import { useState, useEffect } from "react";
+"use client"
+import DatePicker from "@/components/buttons/DatePicker"
+import Picker from "@/components/buttons/Picker"
+import { useState, useEffect } from "react"
 import {
   validateNumberInput,
   validateSecurityCode,
   validateTextInput,
-} from "@/util/formValidations";
-import SearchPatientModal from "./SearchPatientModal";
-import { TextInput } from "flowbite-react";
-import { patientService } from "@/services/patientService";
-import { sexParser } from "@/util/patientParser";
-import Dropdown from "@/components/Dropdowns/Dropdown";
-import { toast } from "sonner";
+} from "@/util/formValidations"
+import SearchPatientModal from "./SearchPatientModal"
+import { TextInput } from "flowbite-react"
+import { patientService } from "@/services/patientService"
+import { sexParser } from "@/util/patientParser"
+import Dropdown from "@/components/Dropdowns/Dropdown"
+import { toast } from "sonner"
+import { differenceInYears, parse } from "date-fns"
 const PatientForm = ({
   formComplete,
   setFormComplete,
@@ -23,29 +24,34 @@ const PatientForm = ({
   sexo,
   setSexo,
   setPatientForm,
+  setLegalResponsibilityForm
 }) => {
-  const [showModal, setShowModal] = useState(false);
-  const [isFormEnabled, setIsFormEnabled] = useState(false);
-  const [cancelButton, setCancelButton] = useState(false);
-  const [obtainedPatientId, setObtainedPatientId] = useState("");
-  const [securityTypes, setSecurityTypes] = useState([]);
+  const [showModal, setShowModal] = useState(false)
+  const [isFormEnabled, setIsFormEnabled] = useState(false)
+  const [cancelButton, setCancelButton] = useState(false)
+  const [obtainedPatientId, setObtainedPatientId] = useState("")
+  const [securityTypes, setSecurityTypes] = useState([])
 
-  const [isDataFromModal, setIsDataFromModal] = useState(false);
+  const [isDataFromModal, setIsDataFromModal] = useState(false)
 
   const fetchSecurityTypes = async () => {
     try {
-      const data = await patientService.listarSeguros();
+      const data = await patientService.listarSeguros()
       // console.log(data)
-      setSecurityTypes(data);
+      setSecurityTypes(data)
     } catch (error) {
-      console.log("No se pudo obtener el listado de seguros");
+      console.log("No se pudo obtener el listado de seguros")
     }
-  };
+  }
+  //Funcion para ver la edad del paciente
+  const verificarMayoriaDeEdad = (fechaNacimiento) => {
+    return differenceInYears(new Date(), parse(fechaNacimiento, "yyyy-MM-dd", new Date())) >= 18
+  }
 
   const fetchData = async (filtro) => {
     try {
-      const data = await patientService.mostrarPacienteRegistrado(filtro);
-      console.log(data.idPersona);
+      const data = await patientService.mostrarPacienteRegistrado(filtro)
+      console.log(data.idPersona)
       setPatientForm({
         ...patientForm,
         apellidoPaterno: data.apellidoPaterno,
@@ -57,30 +63,69 @@ const PatientForm = ({
         direccion: data.direccion,
         telefono: data.telefono,
         correo: data.correo,
-      });
-      setFechaNacimiento(data.fechaNacimiento);
-      setSexo(sexParser(data.sexo));
+      })
+      setFechaNacimiento(data.fechaNacimiento)
+      let mayoriaDeEdad = verificarMayoriaDeEdad(data.fechaNacimiento)
+      if (mayoriaDeEdad) {
+        setLegalResponsibilityForm({
+          tieneAcompañante: "No",
+          nombres: "",
+          apellidoPaterno: "",
+          apellidoMaterno: "",
+          dni: "",
+          parentesco: "",
+        })
+      } else {
+        setLegalResponsibilityForm((prev) => ({
+          ...prev,
+          tieneAcompañante: "Si",
+        }))
+      }
+      setSexo(sexParser(data.sexo))
       setPatientId({
         idPersona: data.idPersona,
-      });
+      })
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
   const handlePatientSelect = (selectedPatient) => {
     //console.log('Paciente seleccionado:', selectedPatient.idPersona)
-    setObtainedPatientId(selectedPatient.idPersona);
-    setIsDataFromModal(true); // Para saber si los datos vienen del modal o no
-  };
+    setObtainedPatientId(selectedPatient.idPersona)
+    setIsDataFromModal(true) // Para saber si los datos vienen del modal o no
+  }
+
+
+  const handleFechaNacimiento = (fechaNacimiento) => {
+    setFechaNacimiento(fechaNacimiento)
+    let mayoriaDeEdad = verificarMayoriaDeEdad(data.fechaNacimiento)
+
+    if (mayoriaDeEdad) {
+      setLegalResponsibilityForm({
+        tieneAcompañante: "No",
+        nombres: "",
+        apellidoPaterno: "",
+        apellidoMaterno: "",
+        dni: "",
+        parentesco: "",
+      })
+    } else {
+      setLegalResponsibilityForm((prev) => ({
+        ...prev,
+        tieneAcompañante: "Si",
+      }))
+    }
+
+  }
 
   const handleOpenModal = () => {
-    setShowModal(true);
-  };
+    setShowModal(true)
+  }
 
   const handleCloseModal = () => {
-    setShowModal(false);
-  };
+    setShowModal(false)
+  }
 
   const clearForm = () => {
     setPatientForm({
@@ -93,93 +138,78 @@ const PatientForm = ({
       direccion: "",
       telefono: "",
       correo: "",
-    });
+    })
 
-    setFechaNacimiento("");
-    setSexo("");
-    setIsDataFromModal(false);
-    setFormComplete(false);
-  };
+    setFechaNacimiento("")
+    setSexo("")
+    setIsDataFromModal(false)
+    setFormComplete(false)
+  }
 
-  const confirmClearForm = async () => {
-    clearForm();
-    setIsFormEnabled(false);
-  };
-
-  const modifyOrClearForm = () => {
-    const isFormEmpty =
-      Object.values(patientForm).every((value) => !value) &&
-      !fechaNacimiento &&
-      !sexo;
-
-    if (isFormEmpty) {
-      toast.warning("No hay datos en el formulario para modificar.");
-      return;
-    } else {
-      if (isDataFromModal) {
-        toast("Este paciente ya existe, ¿deseas crear otro?", {
-          action: {
-            label: "Si",
-            onClick: () => confirmClearForm(),
-          },
-          cancel: {
-            label: "No",
-            onClick: () => toast.dismiss(),
-          },
-        });
-      }
-    }
-  };
+  const confirmClearForm = () => {
+    clearForm()
+    setIsFormEnabled(!isFormEnabled)
+    setCancelButton(!cancelButton)
+  }
 
   const handleRegister = () => {
-    const isFormFilled =
-      Object.values(patientForm).some((value) => value) ||
-      fechaNacimiento ||
-      sexo;
+    const isFormFilled = Object.values(patientForm).some((value) => value) || fechaNacimiento || sexo
+    console.log(isFormFilled)
+    console.log(isDataFromModal)
+    //Si al traer datos del modal le doy a nuevo paciente.
     if (isFormFilled && isDataFromModal) {
-      const confirmNewPatient = window.confirm(
-        "Este paciente ya existe, sus datos no pueden ser alterados, ¿desea ingresar uno nuevo?"
-      );
-      if (confirmNewPatient) {
-        clearForm();
-      }
-      return;
+      toast("Este paciente ya existe, ¿deseas crear otro?", {
+        action: {
+          label: "Si",
+          onClick: () => confirmClearForm(),
+        },
+        cancel: {
+          label: "No",
+          onClick: () => toast.dismiss(),
+        },
+      })
+      return
     }
-    if (
-      isFormFilled &&
-      !window.confirm(
-        "¿Está seguro de que desea limpiar el formulario? Los datos actuales se perderán."
-      )
-    ) {
-      return;
+
+    //Si al estar en plena creacion de un paciente, le doy a cancelar
+    if (isFormFilled) {
+      toast("Los datos ingresados se borraran, ¿esta seguro?", {
+        action: {
+          label: "Si",
+          onClick: () => confirmClearForm(),
+        },
+        cancel: {
+          label: "No",
+          onClick: () => toast.dismiss(),
+        },
+      })
+      return
+    } else {
+      confirmClearForm()
     }
-    setIsFormEnabled(!isFormEnabled);
-    setCancelButton(!cancelButton);
-    clearForm();
-  };
+  }
 
   useEffect(() => {
-    fetchSecurityTypes();
+    fetchSecurityTypes()
     if (obtainedPatientId) {
-      fetchData(obtainedPatientId);
+      fetchData(obtainedPatientId)
     }
-  }, [obtainedPatientId]);
+  }, [obtainedPatientId])
 
   return (
     <section id="section1">
       <div className="pb-8 flex justify-between items-center">
-        <h2 className="w-full font-bold break-normal text-gray-700  pb-8 text-2xl">
+        <h2 className="w-full font-bold break-normal text-gray-700 pb-8 text-2xl">
           Informacion del paciente
         </h2>
         <div className="flex w-full flex-row-reverse">
           <button
             type="button"
             onClick={handleRegister}
-            className={`m-2 text-white ${
-              cancelButton
-                ? "bg-red-600 hover:bg-red-700"
-                : "bg-orange-500 hover:bg-orange-600"
-            } focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center`}
+            className={`m-2 text-white ${cancelButton
+              ? "bg-red-600 hover:bg-red-700"
+              : "bg-orange-500 hover:bg-orange-600"
+              } focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center`}
           >
             {cancelButton ? "Cancelar" : "Nuevo paciente"}
           </button>
@@ -188,13 +218,11 @@ const PatientForm = ({
             disabled={isFormEnabled}
             onClick={handleOpenModal}
             className={`m-2 text-white 
-                        ${
-                          isFormEnabled
-                            ? "bg-gray-400 cursor-not-allowed"
-                            : "bg-green-500 hover:bg-green-600"
-                        } focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center ${
-              isFormEnabled ? "text-gray-700" : ""
-            }`}
+                        ${isFormEnabled
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-green-500 hover:bg-green-600"
+              } focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center ${isFormEnabled ? "text-gray-700" : ""
+              }`}
           >
             Buscar paciente
           </button>
@@ -220,11 +248,11 @@ const PatientForm = ({
               placeholder=""
               value={patientForm.apellidoPaterno}
               onChange={(event) => {
-                validateTextInput(event.target);
+                validateTextInput(event.target)
                 setPatientForm({
                   ...patientForm,
                   apellidoPaterno: event.target.value,
-                });
+                })
               }}
               required
             />
@@ -246,11 +274,11 @@ const PatientForm = ({
               placeholder=" "
               value={patientForm.apellidoMaterno}
               onChange={(event) => {
-                validateTextInput(event.target);
+                validateTextInput(event.target)
                 setPatientForm({
                   ...patientForm,
                   apellidoMaterno: event.target.value,
-                });
+                })
               }}
               required
             />
@@ -274,11 +302,11 @@ const PatientForm = ({
             placeholder=" "
             value={patientForm.nombres}
             onChange={(event) => {
-              validateTextInput(event.target);
+              validateTextInput(event.target)
               setPatientForm({
                 ...patientForm,
                 nombres: event.target.value,
-              });
+              })
             }}
             required
           />
@@ -305,7 +333,7 @@ const PatientForm = ({
                 setPatientForm({
                   ...patientForm,
                   tipoSeguro: event.target.value,
-                });
+                })
               }}
             />
             <label
@@ -326,11 +354,11 @@ const PatientForm = ({
               maxLength={6}
               value={patientForm.codigoSeguro}
               onChange={(event) => {
-                validateSecurityCode(event.target);
+                validateSecurityCode(event.target)
                 setPatientForm({
                   ...patientForm,
                   codigoSeguro: event.target.value,
-                });
+                })
               }}
               required
             />
@@ -355,11 +383,11 @@ const PatientForm = ({
               placeholder=" "
               value={patientForm.dni}
               onChange={(event) => {
-                validateNumberInput(event.target);
+                validateNumberInput(event.target)
                 setPatientForm({
                   ...patientForm,
                   dni: event.target.value,
-                });
+                })
               }}
               required
             />
@@ -409,11 +437,11 @@ const PatientForm = ({
               placeholder=" "
               value={patientForm.telefono}
               onChange={(event) => {
-                validateNumberInput(event.target);
+                validateNumberInput(event.target)
                 setPatientForm({
                   ...patientForm,
                   telefono: event.target.value,
-                });
+                })
               }}
               required
             />
@@ -440,7 +468,7 @@ const PatientForm = ({
                 setPatientForm({
                   ...patientForm,
                   correo: event.target.value,
-                });
+                })
               }}
               required
             />
@@ -457,7 +485,7 @@ const PatientForm = ({
           <DatePicker
             name={"fecha-nacimiento-paciente"}
             value={fechaNacimiento}
-            setValue={setFechaNacimiento}
+            setValue={handleFechaNacimiento}
           />
           <Picker
             name1={"masculino"}
@@ -470,18 +498,8 @@ const PatientForm = ({
           />
         </div>
       </fieldset>
-
-      <div className="flex flex-row-reverse">
-        <button
-          type="button"
-          className=" m-2 text-white bg-orange-500 hover:bg-orange-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center"
-          onClick={modifyOrClearForm}
-        >
-          Modificar datos del paciente
-        </button>
-      </div>
     </section>
-  );
-};
+  )
+}
 
-export default PatientForm;
+export default PatientForm
