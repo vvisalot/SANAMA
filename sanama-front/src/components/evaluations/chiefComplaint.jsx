@@ -6,7 +6,9 @@ import TextAreaField from "../common/TextAreaField";
 const ChiefComplaint = ({ setMedicalRecordData }) => {
   const [showModal, setShowModal] = useState(false);
   const params = useParams();
+
   const idPaciente = params.idPaciente;
+
   const handleOnBlurChange = (e) => {
     const { name, value } = e.target;
     setMedicalRecordData((prevData) => {
@@ -55,6 +57,25 @@ const ChiefComplaint = ({ setMedicalRecordData }) => {
   return (
     <div className="my-4 ml-4">
       <div className="grid grid-cols-1 gap-4">
+        <div className="flex flex-row-reverse">
+          <button
+            type="button"
+            className=" m-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 
+        font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center"
+            onClick={handleOpenModal}
+          >
+            Asociar Hoja Medica Existente
+          </button>
+          <button
+            type="button"
+            onClick={removeEvaluation}
+            className=" m-2 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 
+        font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center"
+          >
+            Limpiar
+          </button>
+        </div>
+
         <TextAreaField
           label="Antecedentes:"
           name="evaluacionMedica.antecedentes"
@@ -73,23 +94,6 @@ const ChiefComplaint = ({ setMedicalRecordData }) => {
           placeholder="Ingresa observación.."
           onBlur={handleOnBlurChange}
         />
-        <div className="flex flex-row-reverse">
-          <button
-            type="button"
-            className=" m-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 
-        font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center"
-            onClick={handleOpenModal}
-          >
-            Asociar Hoja Medica Existente
-          </button>
-          <button
-            type="button"
-            onClick={removeEvaluation}
-            className="bg-red-500 text-white p-2 rounded-md"
-          >
-            X
-          </button>
-        </div>
         <SearchMedicalSheet
           idPaciente={idPaciente}
           show={showModal}

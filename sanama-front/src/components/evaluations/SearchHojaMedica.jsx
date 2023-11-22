@@ -136,9 +136,20 @@ const SearchMedicalSheet = ({ idPaciente, show, onClose, onSelect }) => {
                   onClick={() => handleMedicalSheetSelect(result)}
                   className="cursor-pointer py-2 px-3 hover:bg-slate-100 rounded"
                 >
-                  <p className="text-m font-semibold text-black">
-                    {`${result.codigo} ${result.citaMedica.medico.especialidad.nombre} ${result.fechaAtencion}`}
-                  </p>
+                  <div className="py-2 px-3">
+                    <p className="text-m font-semibold text-black">
+                      Código de Hoja Médica: {result.codigo}
+                    </p>
+                    <p className="text-sm text-black">
+                      Especialidad:{" "}
+                      {result.citaMedica.medico.especialidad.nombre}
+                    </p>
+                    <p className="text-sm text-black">
+                      Doctor: {result.citaMedica.medico.nombres}{" "}
+                      {result.citaMedica.medico.apellidoPaterno}{" "}
+                      {result.citaMedica.medico.apellidoMaterno}
+                    </p>
+                  </div>
                 </div>
               ))}
               {loading && (
