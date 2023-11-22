@@ -76,7 +76,6 @@ const TriajeProfile = ({ params }) => {
     pn_talking_correctly: "Respuesta Verbal",
     pn_able_to_move_body: "Respuesta Motora",
 
-
     pv_nivelDolor: "Evaluación del dolor",
     pv_condicionesPrexistentes: "Condiciones preexistentes",
   };
@@ -106,7 +105,6 @@ const TriajeProfile = ({ params }) => {
       pn_eyes_open: dataTriaje.eyesOpen,
       pn_talking_correctly: dataTriaje.talkingCorrectly,
       pn_able_to_move_body: dataTriaje.ableToMoveBody,
-  
 
       pv_nivelDolor: dataTriaje.nivelDolor,
       pv_condicionesPrexistentes: dataTriaje.condicionesPrexistentes,
@@ -253,7 +251,7 @@ const TriajeProfile = ({ params }) => {
       pn_eyes_open: "-",
       pn_talking_correctly: "-",
       pn_able_to_move_body: "-",
-  
+
       pv_nivelDolor: "4",
       pv_condicionesPrexistentes: "-",
     };
@@ -390,11 +388,11 @@ const TriajeProfile = ({ params }) => {
         </div>
 
         <div>
-          <h1 style={{ fontSize: "2.2525rem" }} className="font-bold mb-4">
+          <h1 style={{ fontSize: "2.2525rem" }} className="font-bold mb-2">
             Información básica
           </h1>
           <div className="flex flex-wrap gap-4">
-            <div className="flex-grow" style={{ flex: "3 0 0%" }}>
+            <div style={{ flex: "3 0 0%" }}>
               <InputField
                 label="Nombre completo"
                 value={`${dataTriaje?.paciente?.nombres} ${dataTriaje?.paciente?.apellidoPaterno} ${dataTriaje?.paciente?.apellidoMaterno}`}
@@ -403,7 +401,7 @@ const TriajeProfile = ({ params }) => {
                 labelWidth="w-full"
               />
             </div>
-            <div className="flex-grow" style={{ flex: "1.2 0 0%" }}>
+            <div style={{ flex: "1.2 0 0%" }}>
               <InputField
                 label="Documento de identidad"
                 value={dataTriaje?.paciente?.dni}
@@ -412,7 +410,7 @@ const TriajeProfile = ({ params }) => {
                 labelWidth="w-full"
               />
             </div>
-            <div className="flex-grow" style={{ flex: "1 0 0%" }}>
+            <div style={{ flex: "1 0 0%" }}>
               <InputField
                 label="Sexo"
                 value={
@@ -423,16 +421,13 @@ const TriajeProfile = ({ params }) => {
                 labelWidth="w-full"
               />
             </div>
-            <div className="flex-grow" style={{ flex: "0 0 90px" }}>
+            <div style={{ flex: "0 0 90px" }}>
               <InputField label="Edad" value={edad} disabled width="w-full" />
             </div>
           </div>
 
           <div className="flex justify-start">
-            <div
-              className="flex-grow"
-              style={{ flex: "0 0 90px", marginRight: "1rem" }}
-            >
+            <div style={{ flex: "0 0 90px", marginRight: "1rem" }}>
               <InputField
                 label="Talla (cm)"
                 value={dataTriaje?.talla}
@@ -447,7 +442,7 @@ const TriajeProfile = ({ params }) => {
               />
             </div>
 
-            <div className="flex-grow" style={{ flex: "0 0 90px" }}>
+            <div style={{ flex: "0 0 90px" }}>
               <InputField
                 label="Peso (kg)"
                 value={dataTriaje?.peso}
@@ -479,12 +474,11 @@ const TriajeProfile = ({ params }) => {
           </div>
 
           <div className="col-span-3">
-            <h2 className="text-3xl font-bold mt-4">Signos vitales</h2>
-            <div className="mt-5"></div>
+            <h2 className="text-3xl font-bold mb-4">Signos vitales</h2>
           </div>
 
           <div className="flex justify-start">
-            <div className="flex-grow" style={{ flex: "0 0 90px", marginRight: "14rem" }}>
+            <div style={{ flex: "0 0 90px", marginRight: "14rem" }}>
               <InputField
                 label="Temperatura (°C)"
                 value={dataTriaje?.temperatura}
@@ -500,7 +494,7 @@ const TriajeProfile = ({ params }) => {
               />
             </div>
 
-            <div className="flex-grow" style={{ flex: "0 0 90px", marginRight: "14rem" }}>
+            <div style={{ flex: "0 0 90px", marginRight: "14rem" }}>
               <InputField
                 label="Frecuencia Cardíaca (lpm)"
                 value={dataTriaje?.frecuenciaCardiaca}
@@ -516,7 +510,7 @@ const TriajeProfile = ({ params }) => {
               />
             </div>
 
-            <div className="flex-grow" style={{ flex: "0 0 90px" }}>
+            <div style={{ flex: "0 0 90px" }}>
               <InputField
                 label="Frecuencia Respiratoria (rpm)"
                 value={dataTriaje?.frecuenciaRespiratoria}
@@ -534,8 +528,7 @@ const TriajeProfile = ({ params }) => {
           </div>
 
           <div className="flex justify-start">
-
-            <div className="flex-grow" style={{ flex: "0 0 90px", marginRight: "14rem" }}>
+            <div style={{ flex: "0 0 90px", marginRight: "14rem" }}>
               <InputField
                 label="Saturación de Oxígeno (%)"
                 value={dataTriaje?.saturacionOxigeno}
@@ -550,87 +543,136 @@ const TriajeProfile = ({ params }) => {
                 pattern="\d*"
               />
             </div>
-              <div className="flex items-center justify-start space-x-3">
+            <div className="flex items-center justify-start space-x-3">
+              <InputField
+                label="Presión Sistólica (mm Hg)"
+                value={dataTriaje?.presionSistolica}
+                isEditable={isEditable}
+                type="number"
+                labelWidth="labelWidth"
+                name="presionSistolica"
+                onChange={handleChange}
+                onInput={(e) => {
+                  e.target.value = e.target.value.replace(/[^\d]/g, "");
+                }}
+                pattern="\d*"
+              />
 
-                <InputField
-                  label="Presión Sistólica (mm Hg)"
-                  value={dataTriaje?.presionSistolica}
-                  isEditable={isEditable}
-                  type="number"
-                  labelWidth="labelWidth"
-                  name="presionSistolica"
-                  onChange={handleChange}
-                  onInput={(e) => {
-                    e.target.value = e.target.value.replace(/[^\d]/g, "");
-                  }}
-                  pattern="\d*"
-                />
+              <span className="text-4xl mt-8">/</span>
 
-                <span className="text-4xl mt-8">/</span>
+              <InputField
+                label="Presión Diastólica (mm Hg)"
+                value={dataTriaje?.presionDiastolica}
+                isEditable={isEditable}
+                type="number"
+                labelWidth="labelWidth"
+                name="presionDiastolica"
+                onChange={handleChange}
+                onInput={(e) => {
+                  e.target.value = e.target.value.replace(/[^\d]/g, "");
+                }}
+                pattern="\d*"
+              />
+            </div>
+          </div>
 
-                <InputField
-                  label="Presión Diastólica (mm Hg)"
-                  value={dataTriaje?.presionDiastolica}
-                  isEditable={isEditable}
-                  type="number"
-                  labelWidth="labelWidth"
-                  name="presionDiastolica"
-                  onChange={handleChange}
-                  onInput={(e) => {
-                    e.target.value = e.target.value.replace(/[^\d]/g, "");
-                  }}
-                  pattern="\d*"
-                />
-              </div>
-
+          <div className="col-span-3">
+            <h2 className="text-3xl font-bold mb-4 mt-5">
+              Nivel de conciencia
+            </h2>
           </div>
 
           <div className="flex justify-between items-center">
+            <div className="flex justify-start">
+              <div style={{ flex: "0 0 90px", marginRight: "14rem" }}>
+                <InputField
+                  label="Apertura Ocular"
+                  name="eyesOpen"
+                  value={dataTriaje?.eyesOpen}
+                  onChange={handleChange}
+                  type="select"
+                  isEditable={isEditable}
+                  labelWidth="labelWidth"
+                  options={[
+                    { value: "Ninguna", label: "Ninguna" },
+                    {
+                      value: "Respuesta al Dolor",
+                      label: "Respuesta al Dolor",
+                    },
+                    {
+                      value: "Respuesta al Estímulo Verbal",
+                      label: "Respuesta al Estímulo Verbal",
+                    },
+                    { value: "Espontánea", label: "Espontánea" },
+                  ]}
+                  width="w-full"
+                />
+              </div>
 
-            <InputField
-              label="Nivel de conciencia"
-              name="nivelConciencia"
-              value={dataTriaje?.nivelConciencia}
-              onChange={handleChange}
-              type="select"
-              isEditable={isEditable}
-              labelWidth="labelWidth"
-              options={[
-                { value: "Alerta", label: "Alerta" },
-                { value: "Responde a la voz", label: "Responde a la voz" },
-                { value: "Responde al dolor", label: "Responde al dolor" },
-                { value: "Inconsciente", label: "Inconsciente" },
-              ]}
-              width="w-1/2"
-            />
+              <div style={{ flex: "0 0 90px", marginRight: "14rem" }}>
+                <InputField
+                  label="Respuesta Verbal"
+                  name="talkingCorrectly"
+                  value={dataTriaje?.talkingCorrectly}
+                  onChange={handleChange}
+                  type="select"
+                  isEditable={isEditable}
+                  labelWidth="labelWidth"
+                  options={[
+                    { value: "Ninguna", label: "Ninguna" },
+                    {
+                      value: "Sonidos Incomprensibles",
+                      label: "Sonidos Incomprensibles",
+                    },
+                    {
+                      value: "Palabras Inapropiadas",
+                      label: "Palabras Inapropiadas",
+                    },
+                    { value: "Confuso", label: "Confuso" },
+                    { value: "Orientado", label: "Orientado" },
+                  ]}
+                  width="w-full"
+                />
+              </div>
 
-            {/* SEPARADOR */}
+              <div style={{ flex: "0 0 90px" }}>
+                <InputField
+                  label="Respuesta Motora"
+                  name="ableToMoveBody"
+                  value={dataTriaje?.ableToMoveBody}
+                  onChange={handleChange}
+                  type="select"
+                  isEditable={isEditable}
+                  labelWidth="labelWidth"
+                  options={[
+                    { value: "Ninguna", label: "Ninguna" },
+                    {
+                      value: "Extensión al Dolor",
+                      label: "Extensión al Dolor",
+                    },
+                    { value: "Flexión al Dolor", label: "Flexión al Dolor" },
+                    {
+                      value: "Retirada del Dolor",
+                      label: "Retirada del Dolor",
+                    },
+                    {
+                      value: "Localización del Dolor",
+                      label: "Localización del Dolor",
+                    },
+                    { value: "Obedece Órdenes", label: "Obedece Órdenes" },
+                  ]}
+                  width="w-full"
+                />
+              </div>
+            </div>
+          </div>
 
-            <InputField
-              label="Nivel de conciencia"
-              name="eyesOpen"
-              value={dataTriaje?.eyesOpen}
-              onChange={handleChange}
-              type="select"
-              isEditable={isEditable}
-              labelWidth="labelWidth"
-              options={[
-                { value: "Alerta", label: "Alerta" },
-                { value: "Responde a la voz", label: "Responde a la voz" },
-                { value: "Responde al dolor", label: "Responde al dolor" },
-                { value: "Inconsciente", label: "Inconsciente" },
-              ]}
-              width="w-1/2"
-            />
+          <div className="col-span-3">
+            <h2 className="text-3xl font-bold mb-4 mt-5">Nivel de dolor</h2>
+          </div>
 
-
-
-
-
-            <div className="col-span-2">
-              <label className="block text-lg font-medium text-gray-700 mb-2">
-                Evaluación del dolor
-              </label>
+          <div className="mt-4">
+            <div className="flex justify-start">
               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
                 <button
                   key={num}
@@ -650,7 +692,7 @@ const TriajeProfile = ({ params }) => {
           </div>
 
           <div className="col-span-3">
-            <h4 className="text-3xl font-bold mb-4 mt-4">
+            <h4 className="text-3xl font-bold mb-4 mt-8">
               Condiciones preexistentes
             </h4>
 
@@ -667,8 +709,8 @@ const TriajeProfile = ({ params }) => {
             </span>
           </div>
 
-          <div className="flex-grow">
-            <h4 className="text-3xl font-bold mb-4 mt-4">Prioridad</h4>
+          <div>
+            <h4 className="text-3xl font-bold mb-4">Prioridad</h4>
 
             <InputField
               name="prioridad"
