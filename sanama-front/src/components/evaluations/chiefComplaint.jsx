@@ -6,7 +6,9 @@ import TextAreaField from "../common/TextAreaField";
 const ChiefComplaint = ({ setMedicalRecordData }) => {
   const [showModal, setShowModal] = useState(false);
   const params = useParams();
+
   const idPaciente = params.idPaciente;
+
   const handleOnBlurChange = (e) => {
     const { name, value } = e.target;
     setMedicalRecordData((prevData) => {
@@ -25,7 +27,11 @@ const ChiefComplaint = ({ setMedicalRecordData }) => {
     });
   };
 
+  const [hojaRefencia, setHojaRefencia] = useState(null);
+
   const addEvaluation = (selectedHoja) => {
+    setHojaRefencia(selectedHoja);
+
     if (selectedHoja && selectedHoja.idHojaMedica) {
       setMedicalRecordData((prevData) => ({
         ...prevData,
@@ -37,6 +43,7 @@ const ChiefComplaint = ({ setMedicalRecordData }) => {
   };
 
   const removeEvaluation = () => {
+    setHojaRefencia(null);
     setMedicalRecordData((prevData) => ({
       ...prevData,
       hojaRefencia: null,
@@ -52,14 +59,54 @@ const ChiefComplaint = ({ setMedicalRecordData }) => {
     setShowModal(false);
   };
 
+  const MedicalSheetDetails = () => {
+    if (!hojaRefencia) return null;
+
+    return (
+      <div className="bg-white p-4 rounded-md shadow">
+        <h3 className="font-semibold text-lg">
+          Continuar {hojaRefencia.codigo}
+        </h3>
+        <p>
+          Especialidad: {hojaRefencia.citaMedica.medico.especialidad.nombre}
+        </p>
+        <p>
+          Doctor: {hojaRefencia.citaMedica.medico.nombres}{" "}
+          {hojaRefencia.citaMedica.medico.apellidoPaterno}{" "}
+          {hojaRefencia.citaMedica.medico.apellidoMaterno}
+        </p>
+      </div>
+    );
+  };
+
   return (
     <div className="my-4 ml-4">
       <div className="grid grid-cols-1 gap-4">
+        <div className="flex flex-row-reverse">
+          <button
+            type="button"
+            className=" m-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 
+        font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center"
+            onClick={handleOpenModal}
+          >
+            Continuar Evaluación Existente
+          </button>
+          <button
+            type="button"
+            onClick={removeEvaluation}
+            className=" m-2 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 
+        font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center"
+          >
+            Limpiar
+          </button>
+        </div>
+        <MedicalSheetDetails />
+
         <TextAreaField
           label="Antecedentes:"
           name="evaluacionMedica.antecedentes"
           placeholder="Ingresa los antecentes.."
-          onBlur={handleOnBlurChange} // Cambio aquí
+          onBlur={handleOnBlurChange}
         />
         <TextAreaField
           label="Motivo de Consulta:"
@@ -73,23 +120,6 @@ const ChiefComplaint = ({ setMedicalRecordData }) => {
           placeholder="Ingresa observación.."
           onBlur={handleOnBlurChange}
         />
-        <div className="flex flex-row-reverse">
-          <button
-            type="button"
-            className=" m-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 
-        font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center"
-            onClick={handleOpenModal}
-          >
-            Asociar Hoja Medica Existente
-          </button>
-          <button
-            type="button"
-            onClick={removeEvaluation}
-            className="bg-red-500 text-white p-2 rounded-md"
-          >
-            X
-          </button>
-        </div>
         <SearchMedicalSheet
           idPaciente={idPaciente}
           show={showModal}

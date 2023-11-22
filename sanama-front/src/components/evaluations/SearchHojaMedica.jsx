@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal } from "flowbite-react";
 import { useMedicalSheets } from "@/hooks/useMedicalSheets";
 import { doctorService } from "@/services/doctorService";
@@ -23,11 +23,20 @@ const SearchMedicalSheet = ({ idPaciente, show, onClose, onSelect }) => {
   useEffect(() => {
     const cargarEspecialidades = async () => {
       const especialidadesData = await doctorService.listarEspecialidades();
-      setEspecialidades(especialidadesData);
+      setEspecialidades(especialidadesData || []);
     };
 
     cargarEspecialidades();
   }, []);
+
+  const handleSubmit = () => {
+    setSearchFilters({
+      pn_id_paciente: idPaciente,
+      pn_id_especialidad: especialidadId || null,
+      pd_fecha_inicio: fechaInicio || null,
+      pd_fecha_fin: fechaFin || null,
+    });
+  };
 
   const handleConfirm = () => {
     if (selectedMedicalSheet) {
@@ -35,15 +44,6 @@ const SearchMedicalSheet = ({ idPaciente, show, onClose, onSelect }) => {
       onClose();
       resetData();
     }
-  };
-
-  const handleSubmit = () => {
-    setSearchFilters({
-      pn_id_paciente: idPaciente,
-      pn_id_especialidad: null,
-      pd_fecha_inicio: fechaInicio || null,
-      pd_fecha_fin: fechaFin || null,
-    });
   };
 
   return (
@@ -65,7 +65,7 @@ const SearchMedicalSheet = ({ idPaciente, show, onClose, onSelect }) => {
                 </label>
                 <select
                   id="especialidadId"
-                  value={"especialidad.id"}
+                  value={especialidadId}
                   onChange={(e) => setEspecialidadId(e.target.value)}
                   className="mt-1 block w-full p-2 border-gray-300 rounded-md shadow-sm"
                 >
@@ -136,9 +136,20 @@ const SearchMedicalSheet = ({ idPaciente, show, onClose, onSelect }) => {
                   onClick={() => handleMedicalSheetSelect(result)}
                   className="cursor-pointer py-2 px-3 hover:bg-slate-100 rounded"
                 >
-                  <p className="text-m font-semibold text-black">
-                    {`${result.codigo} ${result.citaMedica.medico.especialidad.nombre} ${result.fechaAtencion}`}
-                  </p>
+                  <div className="py-2 px-3">
+                    <p className="text-m font-semibold text-black">
+                      Código de Hoja Médica: {result.codigo}
+                    </p>
+                    <p className="text-sm text-black">
+                      Especialidad:{" "}
+                      {result.citaMedica.medico.especialidad.nombre}
+                    </p>
+                    <p className="text-sm text-black">
+                      Doctor: {result.citaMedica.medico.nombres}{" "}
+                      {result.citaMedica.medico.apellidoPaterno}{" "}
+                      {result.citaMedica.medico.apellidoMaterno}
+                    </p>
+                  </div>
                 </div>
               ))}
               {loading && (

@@ -25,8 +25,6 @@ const MedicationItem = ({
   };
 
   const handleDone = () => {
-    e.preventDefault();
-    e.stopPropagation();
     if (nombre.trim() && indicacion.trim()) {
       onEditMedication(index, {
         nombre: nombre.trim(),
@@ -49,26 +47,24 @@ const MedicationItem = ({
   };
 
   return (
-    <li className="mb-1 border-b border-gray-300 space-y-2">
+    <li className="mb-1 border-gray-300">
       {editing ? (
-        <div className="flex items-center justify-between p-1 px-3 w-full">
-          <div className="flex items-center space-x-3 w-full">
-            <input
-              type="text"
-              value={nombre}
-              onChange={handleChangeNombre}
-              className="w-full bg-transparent py-3 text-lg"
-              placeholder="Nombre del medicamento"
-            />
-            <input
-              type="text"
-              value={indicacion}
-              onChange={handleChangeIndicacion}
-              className="w-full bg-transparent py-3 text-lg"
-              placeholder="Indicación"
-            />
-          </div>
-          <div className="flex space-x-3">
+        <div className="mb-4 w-full flex space-x-2 items-center rounded-lg ">
+          <input
+            type="text"
+            value={nombre}
+            onChange={handleChangeNombre}
+            className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-3/6 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Nombre del medicamento"
+          />
+          <input
+            type="text"
+            value={indicacion}
+            onChange={handleChangeIndicacion}
+            className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Indicación"
+          />
+          <div className="w-1/6 flex space-x-3">
             <button type="button" onClick={handleDone}>
               <MdOutlineDone
                 size={20}
@@ -84,13 +80,24 @@ const MedicationItem = ({
           </div>
         </div>
       ) : (
-        <div className="flex items-center justify-between p-4 px-3">
-          <div className="flex items-center space-x-3">
-            <span className="text-lg">
-              {nombre} - {indicacion}
-            </span>
+        <div className="mb-4 w-full flex space-x-2 items-center rounded-lg">
+          <div className="flex items-center space-x-3 w-full">
+            <input
+              type="text"
+              readOnly
+              value={nombre}
+              className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-3/6 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Nombre del medicamento"
+            />
+            <input
+              type="text"
+              readOnly
+              value={indicacion}
+              className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Indicación"
+            />
           </div>
-          <div className="flex items-center space-x-3">
+          <div className="w-1/6 flex space-x-3">
             <button type="button" onClick={handleEdit}>
               <CiEdit
                 size={20}

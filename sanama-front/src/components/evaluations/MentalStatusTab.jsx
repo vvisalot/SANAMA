@@ -58,7 +58,7 @@ const GlasgowComaScale = ({ setMedicalRecordData }) => {
     ));
   };
   return (
-    <div>
+    <div className="ml-4">
       <div>
         <label className="block text-sm font-medium text-gray-700">
           Apertura de Ojos

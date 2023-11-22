@@ -365,7 +365,7 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
           <table className="w-3/6 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
-                <th className="px-6 py-3">Descripción</th>
+                <th className="px-6 py-3">Medicamento</th>
                 <th className="px-6 py-3">Indicaciones</th>
               </tr>
             </thead>
@@ -390,6 +390,13 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
               disabled
             />
           </div>
+          <textarea
+            readOnly
+            disabled
+            className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
+            rows={3}
+            value={evaluacionMedica.indicacionesFinales}
+          />
         </div>
       </Accordion>
     </>
