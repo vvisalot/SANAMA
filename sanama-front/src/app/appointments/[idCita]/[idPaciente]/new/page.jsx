@@ -6,11 +6,13 @@ import usePatientTriageData from "@/hooks/usePatientTriageData";
 import FormContainerMedicalRecord from "@/components/evaluations/FormContainerMedicalRecord";
 import newMedicalRecord from "@/components/icons/newMedicalRecord";
 import TitleWithIcon from "@/components/TitleWithIcon";
+import useUpdateAppointmentStatus from "@/hooks/useUpdateAppointmentStatus";
 
 const newFormularioMedico = () => {
   const params = useParams();
   const idCita = params.idCita;
   const { patientTriageData, loading, error } = usePatientTriageData(idCita);
+  const { updateAppointmentStatus } = useUpdateAppointmentStatus();
 
   if (loading) return <div>Cargando...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -32,7 +34,11 @@ const newFormularioMedico = () => {
     <section className="p-4 md:p-14">
       <TitleWithIcon name={"Nueva Hoja Médica"} Icon={newMedicalRecord} />
       <MainInfoComponent patientTriageData={patientTriageData} />
-      <FormContainerMedicalRecord defaultTriaje={signosVitales} />
+      <FormContainerMedicalRecord
+        defaultTriaje={signosVitales}
+        idCita={idCita}
+        updateAppointmentStatus={updateAppointmentStatus}
+      />
     </section>
   );
 };

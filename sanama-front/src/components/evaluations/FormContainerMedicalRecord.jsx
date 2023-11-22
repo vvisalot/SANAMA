@@ -7,7 +7,11 @@ import { patientService } from "@/services/patientService";
 import swal from "sweetalert";
 import Signature from "@/components/evaluations/Signature";
 
-const FormContainerMedicalRecord = ({ defaultTriaje }) => {
+const FormContainerMedicalRecord = ({
+  defaultTriaje,
+  idCita,
+  updateAppointmentStatus,
+}) => {
   const { medicalRecordData, setMedicalRecordData, validateMedicalRecordForm } =
     useMedicalRecordForm();
 
@@ -37,6 +41,7 @@ const FormContainerMedicalRecord = ({ defaultTriaje }) => {
         try {
           await loadingRegister(medicalRecordData);
           toast.success("Atención registrada con éxito.");
+          await updateAppointmentStatus(idCita, 1); // Suponiendo que '1' es el estado deseado
         } catch (error) {
           console.error("Error:", error);
           toast.error("Error al registrar. Intente de nuevo.");
