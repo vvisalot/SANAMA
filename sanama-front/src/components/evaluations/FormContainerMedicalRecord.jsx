@@ -74,21 +74,12 @@ const FormContainerMedicalRecord = ({
         setMedicalRecordData={setMedicalRecordData}
       />
 
-      {signatureURL ? (
+      {signatureURL && (
         <ViewSignature
           url={signatureURL}
           onSet={resetSignature}
           onCancel={resetSignature}
         />
-      ) : (
-        <button
-          type="button"
-          onClick={handleOpenModal}
-          className="m-2 text-white bg-green-400 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 
-          font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center"
-        >
-          Agregar Firma
-        </button>
       )}
 
       <div className="flex flex-row-reverse">
@@ -99,6 +90,14 @@ const FormContainerMedicalRecord = ({
             font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center"
         >
           {isSubmitting ? "Registrando..." : "Registrar cita"}
+        </button>
+        <button
+          type="button"
+          onClick={handleOpenModal}
+          className="m-2 text-white bg-green-400 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 
+          font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center"
+        >
+          Agregar Firma
         </button>
       </div>
 
