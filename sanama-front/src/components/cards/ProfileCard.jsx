@@ -1,5 +1,4 @@
 import Link from "next/link"
-import noPerfil from "./noPerfil.png"
 const ProfileCard = ({ name, phone, email, address, id, module, urlEdit, imagenPerfil }) => {
 
   return (
