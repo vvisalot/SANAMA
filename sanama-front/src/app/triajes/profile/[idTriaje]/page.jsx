@@ -5,10 +5,46 @@ import { triajeService } from "@/services/triajeService";
 
 const TriajeProfile = ({ params }) => {
   const [isEditable, setIsEditable] = useState(false);
+  const [glasgow, setGlasgow] = useState(0);
+
+  const calculateGlasgow = (eyesOpen, talkingCorrectly, ableToMoveBody) => {
+    const scores = {
+      "Ninguna": 1,
+      "Respuesta al Dolor": 2,
+      "Respuesta al Estímulo Verbal": 3,
+      "Espontánea": 4,
+      "Sonidos Incomprensibles": 2,
+      "Palabras Inapropiadas": 3,
+      "Confuso": 4,
+      "Orientado": 5,
+      "Extensión al Dolor": 2,
+      "Flexión al Dolor": 3,
+      "Retirada del Dolor": 4,
+      "Localización del Dolor": 5,
+      "Obedece Órdenes": 6
+    };
+
+    let totalScore = 0;
+    totalScore += scores[eyesOpen] || 0;
+    totalScore += scores[talkingCorrectly] || 0;
+    totalScore += scores[ableToMoveBody] || 0;
+  
+    return totalScore;
+  };
+
+  const updateGlasgow = (eyesOpen, talkingCorrectly, ableToMoveBody) => {
+
+    let newGlasgow = 1;
+
+    newGlasgow = calculateGlasgow(eyesOpen, talkingCorrectly, ableToMoveBody);
+    
+    setGlasgow(newGlasgow);
+  };
 
   const handleEditClick = () => {
     setIsEditable(!isEditable);
   };
+
   const [dataTriaje, setDataTriaje] = useState({
     idTriaje: null,
     codigoTriaje: "",
@@ -312,6 +348,10 @@ const TriajeProfile = ({ params }) => {
       document.getElementById(
         "charCountPreexistentes"
       ).textContent = `${count}/1000`;
+    }
+
+    if (['eyesOpen', 'talkingCorrectly', 'ableToMoveBody'].includes(name)) {
+      updateGlasgow('eyesOpen', 'talkingCorrectly', 'ableToMoveBody');
     }
   };
 
@@ -665,6 +705,16 @@ const TriajeProfile = ({ params }) => {
                 />
               </div>
             </div>
+          </div>
+
+          <div className="flex justify-start">
+            <InputField
+                label="Escala Glasgow"
+                value={glasgow}
+                disabled
+                width="w-1/4"
+                labelWidth="w-full"
+              />
           </div>
 
           <div className="col-span-3">

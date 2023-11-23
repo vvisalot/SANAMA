@@ -15,6 +15,7 @@ const ENDPOINTS = {
   CAMBIAR_HORA_FECHA: "/admision/post/cambiarHorarioCita",
   LISTAR_ESTADOS_CITAS: "/configuracion/get/listarEstadosCitas",
   LISTAR_LABORATORIOS: "/atencion/post/buscarResultadosPaciente",
+  GET_STATUS_CITA: "/configuracion/post/getStatusCita",
 };
 
 const formatDate = (date) => {
@@ -36,6 +37,18 @@ export const appointmentService = {
       return response.data;
     } catch (error) {
       console.error("Error al listar laboratorios: ", error);
+      throw error;
+    }
+  },
+
+  getStatusCita: async (pn_id_cita) => {
+    try {
+      const response = await axiosInstance.post('/configuracion/post/getStatusCita', {
+        pn_id_cita,
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error al obtener el estado de la cita: ", error);
       throw error;
     }
   },

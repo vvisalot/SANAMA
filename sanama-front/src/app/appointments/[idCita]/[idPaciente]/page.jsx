@@ -9,6 +9,7 @@ import { sexParser } from "@/util/patientParser";
 import TitleWithIcon from "@/components/TitleWithIcon";
 import iconoHistorial from "@/components/icons/iconoHistorial";
 import LaboratoryModal from "@/components/evaluations/LaboratoryModal";
+import { appointmentService } from "@/services/appointmentService";
 
 const HistorialClinico = () => {
   const params = useParams();
@@ -23,7 +24,30 @@ const HistorialClinico = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentStatusId, setCurrentStatusId] = useState(null);
+  const [isEvaluationCreated, setIsEvaluationCreated] = useState(false);
+  const [idValue, setIdValue] = useState(null);
 
+  const fetchCitaStatus = async () => {
+    try {
+      const data = await appointmentService.getStatusCita(idCita);
+      console.log("EL ESTADO ES: ", data)
+      const idValue = data.idValue;
+      console.log("ID Value: ", idValue); 
+      setIdValue(data.idValue); 
+    } catch (error) {
+      console.error(error);
+    }
+  };  
+  fetchCitaStatus(); 
+
+  useEffect(() => {
+    fetchCitaStatus();
+  }, [idCita]);
+
+  const isEvaluationButtonDisabled = idValue === 1 || idValue === 4 || idValue === 5;
+  const isOrderButtonDisabled = idValue === 2 || idValue === 4 || idValue === 5;
+  
   const fetchData = useCallback(async () => {
     setLoading(true);
     try {
@@ -60,6 +84,7 @@ const HistorialClinico = () => {
 
   const handleNewMedicalEvaluation = useCallback(() => {
     router.push(`${pathname}/new/`);
+    setIsEvaluationCreated(true);
   }, [router, pathname]);
 
   const handleOpenModal = useCallback(() => {
@@ -144,12 +169,14 @@ const HistorialClinico = () => {
             type="button"
             className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
             onClick={handleNewMedicalEvaluation}
+            disabled={isEvaluationButtonDisabled}
           >
             Nueva Evaluacion Medica
           </button>
           <button
             onClick={handleOpenModal}
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            disabled={isOrderButtonDisabled}
           >
             Nueva Orden de Laboratorio
           </button>
