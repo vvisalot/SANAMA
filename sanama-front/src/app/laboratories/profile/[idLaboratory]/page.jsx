@@ -4,8 +4,10 @@ import { useEffect, useState, useRef } from "react";
 import { laboratoryService } from "@/services/laboratoryService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-
+import { useRouter, usePathname } from "next/navigation";
+import { MdArrowBack } from 'react-icons/md';
 const LaboratoryProfile = ({ params }) => {
+  const router = useRouter();
   const [medicos, setMedicos] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const hiddenFileInput = useRef(null);
@@ -404,7 +406,18 @@ const LaboratoryProfile = ({ params }) => {
           </div>
         </div>
       )}
-
+      <div className="flex justify-end mb-6">
+        <div className="flex-end">
+          <button
+            type="button"
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-400 font-medium rounded-lg text-sm px-4 py-2.5 flex items-center"
+            onClick={() => router.back()}
+          >
+            <MdArrowBack className="mr-1" style={{ fontSize: '24px' }} />
+            Volver
+          </button>
+        </div>
+      </div>
       <button
         className="text-xl bg-red-500 text-white hover:bg-red-600 px-4 py-2 rounded float-right mb-4"
         onClick={handleAnularLaboratoryClick}

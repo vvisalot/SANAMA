@@ -11,7 +11,7 @@ import { appointmentService } from "@/services/appointmentService"
 import { patientService } from "@/services/patientService"
 import { toast } from "sonner"
 import { differenceInYears, format } from "date-fns"
-
+import { MdArrowBack } from 'react-icons/md';
 const CreateAppointmentForm = () => {
   const router = useRouter()
   const [allFormComplete, setAllFormComplete] = useState(false)
@@ -133,6 +133,18 @@ const CreateAppointmentForm = () => {
 
   return (
     <section className="">
+      <div className="flex justify-end ">
+        <div className="flex-end">
+          <button
+            type="button"
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-400 font-medium rounded-lg text-sm px-4 py-2.5 flex items-center"
+            onClick={() => router.back()}
+          >
+            <MdArrowBack className="mr-1" style={{ fontSize: '24px' }} />
+            Volver
+          </button>
+        </div>
+      </div>
       <form onSubmit={handleSubmit} className="">
         <TitleWithIcon name={"Nueva cita"} Icon={createAppointmentIcon} />
 

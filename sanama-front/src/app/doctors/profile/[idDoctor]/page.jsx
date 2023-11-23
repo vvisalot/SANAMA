@@ -57,7 +57,7 @@ const DoctorProfile = ({ params }) => {
         <button
           type="button"
           className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-400 font-medium rounded-lg text-sm px-4 py-2.5 flex items-center"
-          onClick={() => router.back()}
+          onClick={() => router.push("/doctors/")}
         >
           <MdArrowBack className="mr-1" style={{ fontSize: '24px' }} />
           Volver
