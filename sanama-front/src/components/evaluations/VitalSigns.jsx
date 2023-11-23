@@ -42,24 +42,31 @@ const VitalSigns = ({ defaultTriaje, setMedicalRecordData }) => {
     },
     {
       type: "number",
-      label: "Frecuencia Cardiaca (FC)",
+      label: "Frecuencia Cardiaca (lat/min)",
       name: "evaluacionMedica.signosVitales.frecuenciaCardiaca",
       value: defaultTriaje.frecuenciaCardiaca,
       pattern: "^([6-9]\\d|100)$", // Valores entre 60 y 100
     },
     {
       type: "number",
-      label: "Frecuencia Respiratoria (FR)",
+      label: "Frecuencia Respiratoria (res/min)",
       name: "evaluacionMedica.signosVitales.frecuenciaRespiratoria",
       value: defaultTriaje.frecuenciaRespiratoria,
       pattern: "^1[2-9]|20$", // Valores entre 12 y 20
     },
     {
-      type: "text",
-      label: "Presión Arterial (Sistolica / Diastolica)",
-      name: "evaluacionMedica.signosVitales.presionArterial",
-      value: defaultTriaje.presionArterial,
-      pattern: "^(1[0-2]\\d|130)\\/(6\\d|7[0-9]|80)$", // Formato como "120/80"
+      type: "number",
+      label: "Presión Arterial Diastolica (mm Hg)",
+      name: "evaluacionMedica.signosVitales.presionDiastolica",
+      value: defaultTriaje.presionDiastolica,
+      pattern: "^(1[0-2]\\d|130)$", // Formato como "120/80"
+    },
+    {
+      type: "number",
+      label: "Presión Arterial Diastolica (mm Hg)",
+      name: "evaluacionMedica.signosVitales.presionSistolica",
+      value: defaultTriaje.presionSistolica,
+      pattern: "^80|9[5-9]$", // Formato como "120/80"
     },
     {
       type: "number",
