@@ -15,7 +15,7 @@ const PatientActions = ({ id }) => {
         url={`/patients/profile/${id}/medicalHistory`}
         color={"bg-red-400"}
         shadow={"shadow-red-200"}
-        name={"Historia clinica"}
+        name={"Historial Clínico"}
       />
     </section>
   )

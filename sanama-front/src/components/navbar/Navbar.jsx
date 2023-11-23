@@ -14,7 +14,7 @@ const Navbar = () => {
     { name: "Doctores", route: "/doctors", Icon: DoctorIcon },
     { name: "Citas", route: "/appointments", Icon: AppointmentIcon },
     { name: "Triajes", route: "/triajes", Icon: TriageIcon },
-    { name: "Laboratorio", route: "/laboratories", Icon: LabIcon },
+    { name: "Laboratorios", route: "/laboratories", Icon: LabIcon },
   ]
   const pathname = usePathname()
 
