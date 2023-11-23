@@ -87,7 +87,7 @@ const TriajePage = () => {
   const options = [
     {
       text: "Ver triaje",
-      link: "/triajes/profile",
+      link: "/triajes/",
       icon: "fa fa-eye",
     },
   ];

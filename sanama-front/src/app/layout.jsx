@@ -1,18 +1,17 @@
-"use client"
-import { Inter } from "next/font/google"
-import "./globals.css"
-import NextBreadcrumb from "@/components/NextBreadcrumb"
-import { Toaster } from "sonner"
-import Navbar from "@/components/navbar/Navbar"
+"use client";
+import { Inter } from "next/font/google";
+import "./globals.css";
+import NextBreadcrumb from "@/components/NextBreadcrumb";
+import { Toaster } from "sonner";
+import Navbar from "@/components/navbar/Navbar";
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({ children }) {
   return (
     <html lang="es">
       <head>
         <title>Sanama</title>
-
       </head>
 
       <body className={`${inter.className} bg-[#EFEFEF] w-auto h-screen`}>
@@ -22,14 +21,14 @@ export default function RootLayout({ children }) {
             <div></div>
             <div>
               {
-                // <NextBreadcrumb
-                //   homeElement={"Inicio"}
-                //   separator={<span>/</span>}
-                //   activeClasses="text-gray-700 font-extrabold text-md"
-                //   containerClasses="flex py-5 bg-transparent rounded-t-md text-black"
-                //   listClasses="px-4 text-md text-slate-700 hover:text-blue-700"
-                //   capitalizeLinks
-                // />
+                <NextBreadcrumb
+                  homeElement={"Inicio"}
+                  separator={<span>/</span>}
+                  activeClasses="text-gray-700 font-extrabold text-md"
+                  containerClasses="flex py-5 bg-transparent rounded-t-md text-black"
+                  listClasses="px-4 text-md text-slate-700 hover:text-blue-700"
+                  capitalizeLinks
+                />
               }
 
               {children}
@@ -40,5 +39,5 @@ export default function RootLayout({ children }) {
         </main>
       </body>
     </html>
-  )
+  );
 }

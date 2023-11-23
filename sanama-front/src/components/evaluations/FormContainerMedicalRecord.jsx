@@ -7,12 +7,14 @@ import { patientService } from "@/services/patientService";
 import swal from "sweetalert";
 import { SignatureModal } from "../signature/SignatureModal";
 import ViewSignature from "../signature/ViewSignature";
+import { useRouter } from "next/navigation";
 
 const FormContainerMedicalRecord = ({
   defaultTriaje,
   idCita,
   updateAppointmentStatus,
 }) => {
+  const router = useRouter();
   const { medicalRecordData, setMedicalRecordData, validateMedicalRecordForm } =
     useMedicalRecordForm();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -30,18 +32,10 @@ const FormContainerMedicalRecord = ({
   const handleConfirmSignature = (url) => {
     setSignatureURL(url);
     setShowModal(false);
-    setMedicalRecordData((prevData) => ({
-      ...prevData,
-      firma: url, // Aquí estamos actualizando el estado con la URL de la firma
-    }));
   };
 
   const resetSignature = () => {
     setSignatureURL(null);
-    setMedicalRecordData((prevData) => ({
-      ...prevData,
-      firma: null, // Aquí estamos actualizando el estado con la URL de la firma
-    }));
   };
 
   const handleSubmit = async (event) => {
@@ -70,6 +64,7 @@ const FormContainerMedicalRecord = ({
           toast.error("Error al registrar. Intente de nuevo.");
         } finally {
           setIsSubmitting(false);
+          router.back();
         }
       }
     });
