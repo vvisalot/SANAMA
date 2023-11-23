@@ -6,6 +6,7 @@ import {
   calcularEdad,
   calcularIMC,
   formatearFecha,
+  getDescription,
 } from "@/util/formValidations";
 
 const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
@@ -314,21 +315,27 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
           <InputField
             key={"eyesOpen"}
             label={"Abertura Ocular"}
-            value={evaluacionMedica.eyesOpen}
+            value={getDescription("eyesOpen", evaluacionMedica.eyesOpen)}
             readOnly
             disabled
           />
           <InputField
             key={"talkingCorrectly"}
             label={"Respuesta Verbal)"}
-            value={evaluacionMedica.talkingCorrectly}
+            value={getDescription(
+              "talkingCorrectly",
+              evaluacionMedica.talkingCorrectly
+            )}
             readOnly
             disabled
           />
           <InputField
             key={"ableToMoveBody"}
             label={"Respuesta Motriz"}
-            value={evaluacionMedica.ableToMoveBody}
+            value={getDescription(
+              "ableToMoveBody",
+              evaluacionMedica.ableToMoveBody
+            )}
             readOnly
             disabled
           />
