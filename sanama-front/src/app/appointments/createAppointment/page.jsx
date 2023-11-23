@@ -61,7 +61,12 @@ const CreateAppointmentForm = () => {
 
         const patientResponse = await patientService.registrarPaciente(patientData)
 
+        if (patientResponse === -2) {
+          toast.error("El DNI del paciente ya se encuentra en nuestro sistema. Revisar datos.")
+          return
+        }
         if (patientResponse !== null || patientResponse !== -1) {
+
           const newPatientId = patientResponse
 
           setPatientId({ idPersona: newPatientId })

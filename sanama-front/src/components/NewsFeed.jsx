@@ -28,7 +28,7 @@ const NewsFeed = () => {
   }
 
   return (
-    <div className="news-feed">
+    <div className="news-feed grid grid-cols-4 gap-4">
       {newsList.map((news, index) => (
         <NewsItem key={index} news={news} />
       ))}
