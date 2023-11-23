@@ -25,7 +25,7 @@ const TratamientoYDecisionCita = ({ setMedicalRecordData }) => {
   };
 
   const initialState = {
-    recetasMedicas: [{ medicamento: "", indicaciones: "" }],
+    recetasMedicas: [],
     fechaDeCaducidad: "",
   };
   const {
@@ -57,7 +57,7 @@ const TratamientoYDecisionCita = ({ setMedicalRecordData }) => {
     language: "es",
     disabledDates: [],
     theme: {
-      input: "py-10 h-[45px] text-center w-1/6",
+      input: "mb-4 text-center w-1/6",
       disabled: "text-gray-900 text-gray-600",
     },
     weekDays: ["Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"],
@@ -77,18 +77,20 @@ const TratamientoYDecisionCita = ({ setMedicalRecordData }) => {
     <div className="ml-4">
       <h4 className="text-lg font-bold text-gray-700 mb-2">Receta Médica</h4>
       <div className="my-4">
-        <label className="block text-sm font-medium text-gray-700">
-          Fecha de Caducidad:
-        </label>
-        <Datepicker
-          className="mt-1 p-2 min-w-7xl border-gray-300 rounded-md"
-          value={tratamientoData.fechaDeCaducidad}
-          onChange={handleOnChange}
-          placeholder="Fecha de Caducidad"
-          show={showFinal}
-          setShow={handleCloseFinal}
-          options={defaultOptions}
-        />
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Fecha de Caducidad:
+          </label>
+          <Datepicker
+            className="mt-1 p-2 min-w-7xl border-gray-300 rounded-md"
+            value={tratamientoData.fechaDeCaducidad}
+            onChange={handleOnChange}
+            placeholder="Fecha de Caducidad"
+            show={showFinal}
+            setShow={handleCloseFinal}
+            options={defaultOptions}
+          />
+        </div>
         <AddMedicationForm
           onAddMedication={(newMedication) => addRecetaMedica(newMedication)}
         />

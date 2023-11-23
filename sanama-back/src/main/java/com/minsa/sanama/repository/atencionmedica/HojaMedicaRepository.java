@@ -170,14 +170,15 @@ public class HojaMedicaRepository {
             ProgramacionCita programacionCita = new ProgramacionCita();
 
             Paciente paciente = new Paciente();
-            if(rs.getInt("id_triaje") != 0){
+            if(rs.getInt("id_triaje") != 0 && rs.getInt("estado") == 1){
                 Triaje triaje = new Triaje();
 
                 // Mapea los campos de Triaje
                 triaje.setPeso(rs.getInt("peso"));
                 triaje.setTalla(rs.getInt("talla"));
                 triaje.setTemperatura(rs.getInt("temperatura"));
-                triaje.setPresionArterial(rs.getInt("presion_arterial"));
+                triaje.setPresionSistolica(rs.getString("presion_sistolica"));
+                triaje.setPresionDiastolica(rs.getString("presion_diastolica"));
                 triaje.setSaturacionOxigeno(rs.getString("saturacionOxigeno"));
                 triaje.setFrecuenciaCardiaca(rs.getString("frecuenciaCardiaca"));
                 triaje.setFrecuenciaRespiratoria(rs.getString("frecuenciaRespiratoria"));

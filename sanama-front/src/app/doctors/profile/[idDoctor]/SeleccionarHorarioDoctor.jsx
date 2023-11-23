@@ -119,7 +119,7 @@ function SeleccionarHorarioMedico({ doctor }) {
   const handleGuardar = () => {
     if (!seHaModificadoHorario) {
       swal({
-        title: "No se encontraron cambios en la disponibilidad",
+        title: "No se encontraron cambios",
         icon: "warning",
         timer: "2500",
       });
@@ -275,7 +275,6 @@ function SeleccionarHorarioMedico({ doctor }) {
       };
 
       try {
-        console.log("r o", requestOptions);
         const response = await fetch(url, requestOptions);
         if (response.ok) {
           const data = await response.json();
@@ -380,11 +379,28 @@ function SeleccionarHorarioMedico({ doctor }) {
     previous: "Anterior",
     next: "Siguiente",
   };
+
+  const dayPropGetter = (date) => {
+    const today = moment().startOf('day');
+    const isPastDay = moment(date).isBefore(today, 'day') || moment(date).isSame(today, 'day');
+
+    // Personaliza los estilos según tus necesidades para los días pasados
+    const style = {
+      backgroundColor: isPastDay ? '#EAF6FF' : 'white',
+      // color: isPastDay ? 'gray' : 'black',
+      // Otros estilos...
+    };
+
+    return {
+      style,
+    };
+  };
+  
   return (
     <>
-      <header className="p-5  text-2xl font-bold tracking-wider text-gray-900">
+      {/* <header className="p-5  text-2xl font-bold tracking-wider text-gray-900">
         Disponibilidad:
-      </header>
+      </header> */}
       <div>
         {isLoading ? (
           <p>Cargando...</p>
@@ -439,13 +455,14 @@ function SeleccionarHorarioMedico({ doctor }) {
               events={events}
               startAccessor="start"
               endAccessor="end"
+              dayPropGetter={dayPropGetter}
               style={{ height: calendarHeight }}
               views={{
                 month: true,
                 week: true,
               }}
               formats={{
-                dayFormat: "dddd",
+                dayFormat: "dddd D",
               }}
               onSelectSlot={handleSelectSlot}
               onDoubleClickEvent={isCalendarEnabled && handleDoubleClickEvent}

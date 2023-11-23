@@ -9,7 +9,7 @@ const useMedicalRecordForm = () => {
 
   const [medicalRecordData, setMedicalRecordData] = useState({
     hojaRefencia: null,
-    firma: "",
+    firma: null,
     idCitaMedica: idCita, // default value
     evaluacionMedica: {
       motivoConsulta: "",
@@ -96,6 +96,7 @@ const useMedicalRecordForm = () => {
 
   return {
     medicalRecordData,
+    errorMessageMedicalRecordForm,
     setMedicalRecordData,
     validateMedicalRecordForm,
   };
