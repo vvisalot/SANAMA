@@ -7,7 +7,7 @@ import FormContainerMedicalRecord from "@/components/evaluations/FormContainerMe
 import newMedicalRecord from "@/components/icons/newMedicalRecord";
 import TitleWithIcon from "@/components/TitleWithIcon";
 import useUpdateAppointmentStatus from "@/hooks/useUpdateAppointmentStatus";
-import Signature from "@/components/evaluations/Signature";
+
 const newFormularioMedico = () => {
   const params = useParams();
   const idCita = params.idCita;
@@ -39,7 +39,6 @@ const newFormularioMedico = () => {
         idCita={idCita}
         updateAppointmentStatus={updateAppointmentStatus}
       />
-      <Signature />
     </section>
   );
 };
