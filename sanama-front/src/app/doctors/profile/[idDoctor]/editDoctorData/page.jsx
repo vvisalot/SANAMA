@@ -71,10 +71,19 @@ const EditDoctorProfile = () => {
             setSexo("Femenino")
 
           }
-          setImagenPerfil(`data:image/png;base64,${data[0].foto}`) //hardcodeado. Falta guarda su extensión en la bbdd para que sea exacto.
+          if(undefined === data[0].foto){
+            setImagenPerfil(`data:image/png;base64,${data[0].foto}`) //hardcodeado. Falta guarda su extensión en la bbdd para que sea exacto.
+            setFotoBack(`data:image/png;base64,${data[0].foto}`)
+            setImagenPerfil(null) //hardcodeado. Falta guarda su extensión en la bbdd para que sea exacto.
+            setFotoBack(null)
+
+          }else{
+            setImagenPerfil(`data:image/png;base64,${data[0].foto}`) //hardcodeado. Falta guarda su extensión en la bbdd para que sea exacto.
+            setFotoBack(`data:image/png;base64,${data[0].foto}`)
+
+          }
           //por ahora el navegador sabe qué hacer para que se muestre la imagen, lo corrige
           //setImagenPerfil(data[0].foto)
-          setFotoBack(`data:image/png;base64,${data[0].foto}`)
           setTelefonoBack(data[0].telefono)
           setCorreoBack(data[0].correoElectronico)
         }
@@ -198,9 +207,9 @@ const EditDoctorProfile = () => {
           closeOnClickOutside: false,
           closeOnEsc: false,
         })
-        let base64Data
+        let base64Data = null
         if (imagenPerfil) {
-          console.log("da", imagenPerfil)
+          console.log("das", imagenPerfil)
           const partes = imagenPerfil.split("data:image/")[1].split(";base64,")
           const extension = partes[0] // Aquí obtendrás la extensión de la imagen (por ejemplo, 'jpeg', 'png', etc.)
           base64Data = partes[1] // Aquí obtendrás los datos en formato base64
