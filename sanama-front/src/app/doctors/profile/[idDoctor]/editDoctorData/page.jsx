@@ -209,7 +209,6 @@ const ModificarDoctor = ({ params }) => {
                             />
                         </div>
 
-
                         <div className="relative z-0 w-full mb-6 group">
                             <label className="text-gray-500">
                                 Teléfono

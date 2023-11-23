@@ -20,7 +20,7 @@ const TriajeTable = ({ data, options }) => {
         },
         {
             accessorKey: "fechaHoraActualizacion",
-            header: "Fecha y hora de actualización",
+            header: "Fecha y hora",
             enableSorting: true,
         },
         {
@@ -38,14 +38,14 @@ const TriajeTable = ({ data, options }) => {
             accessorKey: "prioridad",
             header: "Prioridad",
             enableSorting: true,
-            // cell: ({ row }) => {
-            //     console.log(row.original.prioridad)
-            //     return (
-            //         <span>
-            //             {getPriority(row.original.prioridad).icon} {row.original.prioridad}
-            //         </span>
-            //     )
-            // }
+            cell: ({ row }) => {
+                console.log(row.original.prioridad)
+                return (
+                    <span>
+                        {getPriority(row.original.prioridad).icon} {row.original.prioridad}
+                    </span>
+                )
+            }
         },
         {
             accessorKey: "estado",
