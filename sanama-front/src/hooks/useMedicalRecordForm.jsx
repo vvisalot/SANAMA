@@ -54,12 +54,19 @@ const useMedicalRecordForm = () => {
     let isValid = true;
     let errors = [];
 
-    // Validate 'motivoConsulta' and 'antecedentes' - Mandatory
-    if (!medicalRecordData.evaluacionMedica.motivoConsulta.trim()) {
+    if (
+      !medicalRecordData.evaluacionMedica.motivoConsulta ||
+      !medicalRecordData.evaluacionMedica.motivoConsulta.trim()
+    ) {
       errors.push("Motivo de la consulta es obligatorio.");
       isValid = false;
     }
-    if (!medicalRecordData.evaluacionMedica.antecedentes.trim()) {
+
+    // Validate 'antecedentes' - Mandatory
+    if (
+      !medicalRecordData.evaluacionMedica.antecedentes ||
+      !medicalRecordData.evaluacionMedica.antecedentes.trim()
+    ) {
       errors.push("Antecedentes son obligatorios.");
       isValid = false;
     }

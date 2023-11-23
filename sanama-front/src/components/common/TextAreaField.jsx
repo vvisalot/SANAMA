@@ -7,7 +7,7 @@ const TextAreaField = ({ label, name, onBlur, placeholder, data }) => {
       <textarea
         id={name}
         name={name}
-        onBlur={onBlur} // Usar el prop onBlur aquí
+        onChange={onBlur} // Usar el prop onBlur aquí
         className="resize-none mt-1 p-2 w-full border-gray-300 rounded-md"
         placeholder={placeholder}
         rows={4}

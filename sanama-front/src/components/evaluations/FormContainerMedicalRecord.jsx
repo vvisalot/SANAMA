@@ -47,8 +47,8 @@ const FormContainerMedicalRecord = ({
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    console.log(medicalRecordData);
     if (!validateMedicalRecordForm()) {
+      console.log(medicalRecordData);
       setIsSubmitting(false);
       return;
     }
