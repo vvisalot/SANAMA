@@ -170,7 +170,7 @@ public class HojaMedicaRepository {
             ProgramacionCita programacionCita = new ProgramacionCita();
 
             Paciente paciente = new Paciente();
-            if(rs.getInt("id_triaje") != 0 || rs.getInt("estado") == 1){
+            if(rs.getInt("id_triaje") != 0 && rs.getInt("estado") == 1){
                 Triaje triaje = new Triaje();
 
                 // Mapea los campos de Triaje
