@@ -157,7 +157,10 @@ const TriajeProfile = ({ params }) => {
         value === undefined ||
         (typeof value === "string" && !value.trim())
       ) {
-        incompleteFields.push(fieldNames[key] || key);
+        // incompleteFields.push(fieldNames[key] || key);
+        if (key !== 'pv_nivelConciencia' && key !== 'pn_glasgow') {
+          incompleteFields.push(fieldNames[key] || key);
+        }
       }
     }
 
@@ -168,6 +171,7 @@ const TriajeProfile = ({ params }) => {
     }
 
     try {
+      console.log("LA DATA QUE ESTOY SUBIENDO ES: ", triajeData)
       const result = await triajeService.actualizarTriaje(triajeData);
 
       if (result === 1) {
@@ -207,7 +211,6 @@ const TriajeProfile = ({ params }) => {
     const fetchData = async () => {
       try {
         const data = await triajeService.buscarPorFiltro(params.idTriaje);
-        console.log("LA DATA TRAIDA ES: ", data);
         setDataTriaje(data);
       } catch (error) {
         console.error(error);
