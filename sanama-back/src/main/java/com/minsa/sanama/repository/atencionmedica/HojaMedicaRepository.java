@@ -40,6 +40,8 @@ public class HojaMedicaRepository {
     private final HojaMedicaMapper hojaMedicaMapper = new HojaMedicaMapper();
     private final DatosResultadosMapper datosResultadosMapper = new DatosResultadosMapper();
 
+    private final CodigoHojaMedicaMapper codigoHojaMedicaMapper = new CodigoHojaMedicaMapper();
+
     public List<HojaMedica> listarHojasMedicasFiltro(String pn_id_paciente, String pn_id_especialidad, String pd_fecha_inicio, String pd_fecha_fin) {
         if (pn_id_paciente != null)pn_id_paciente = "'"+pn_id_paciente+"'";
         if (pn_id_especialidad != null)pn_id_especialidad = "'"+pn_id_especialidad+"'";
@@ -59,6 +61,11 @@ public class HojaMedicaRepository {
         return jdbcTemplate.query(procedureCall, datosResultadosMapper);
     }
 
+    public List<HojaMedica> mostrarCodigoHojaMedicaCita(int pn_id_cita) {
+        String procedureCall = "{call dbSanama.ssm_ate_mostrar_codigo_hoja_medica_x_cita("+pn_id_cita+")};";
+        return jdbcTemplate.query(procedureCall, codigoHojaMedicaMapper);
+    }
+
     private static class DatosResultadosMapper implements RowMapper<HojaMedica> {
         @Override
         public HojaMedica mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -67,6 +74,18 @@ public class HojaMedicaRepository {
 
             hojaMedica.setMedicoConsulta(rs.getString("nombre_medico"));
             hojaMedica.setObservaciones(rs.getString("observaciones"));
+
+            return hojaMedica;
+        }
+    }
+
+    private static class CodigoHojaMedicaMapper implements RowMapper<HojaMedica> {
+        @Override
+        public HojaMedica mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+            HojaMedica hojaMedica = new HojaMedica();
+
+            hojaMedica.setCodigo(rs.getString("codigo"));
 
             return hojaMedica;
         }

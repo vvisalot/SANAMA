@@ -106,6 +106,23 @@ public class HojaMedicaController {
         return -1;
     }
 
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE},
+            value = "/post/mostrarCodigoHojaMedicaCita")
+    @ResponseBody
+    public HojaMedica mostrarCodigoHojaMedicaCita(@RequestBody String pv_datos){
+        HojaMedica hojaMedica = null;
+        try{
+            JSONObject job = (JSONObject) new JSONParser().parse(pv_datos);
+            int pn_id_cita = Integer.parseInt(job.get("pn_id_cita").toString());
+            hojaMedica = hojaMedicaService.mostrarCodigoHojaMedicaCita(pn_id_cita);
+            return hojaMedica;
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
     @PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = {
             MediaType.APPLICATION_JSON_VALUE }, value = "/post/ListarHojasMedicasFiltro")
     @ResponseBody
