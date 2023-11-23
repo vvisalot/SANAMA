@@ -13,7 +13,7 @@ const YourComponent = ({ imagenPerfil, name, email, phone, address, doctor, modu
           ) : (
             <>
               {imagenPerfil ? (
-                <div className="mt-2" style={{ width: '14rem', height: '14rem', position: 'relative' }}>
+                <div className="mt-2" style={{ width: '12rem', height: '12rem', position: 'relative' }}>
                   <img
                     src={imagenPerfil}
                     alt="Vista previa de la imagen"
@@ -22,7 +22,7 @@ const YourComponent = ({ imagenPerfil, name, email, phone, address, doctor, modu
                   />
                 </div>
               ) : (
-                <div className="mt-2" style={{ width: '14rem', position: 'relative' }}>
+                <div className="mt-2" style={{ width: '12rem', height: '12rem', position: 'relative' }}>
                   <img
                     src={noPerfil.src}
                     alt="Vista previa de la imagen"
