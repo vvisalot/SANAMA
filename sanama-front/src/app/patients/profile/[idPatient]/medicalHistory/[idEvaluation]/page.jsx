@@ -10,7 +10,7 @@ import newMedicalRecord from "@/components/icons/newMedicalRecord";
 const ReviewContainerMedicalRecord = ({}) => {
   const params = useParams();
   const idHojaMedica = params.idEvaluation;
-  const idPaciente = params.idPaciente;
+  const idPaciente = params.idPatient;
   const {
     patientData,
     medicalRecordData,
