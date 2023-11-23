@@ -6,6 +6,10 @@ import { triajeService } from "@/services/triajeService";
 const TriajeProfile = ({ params }) => {
   const [isEditable, setIsEditable] = useState(false);
   const [glasgow, setGlasgow] = useState(0);
+  
+  const [eyesOpen, setEyesOpen] = useState('');
+  const [talkingCorrectly, setTalkingCorrectly] = useState('');
+  const [ableToMoveBody, setAbleToMoveBody] = useState('');
 
   const calculateGlasgow = (eyesOpen, talkingCorrectly, ableToMoveBody) => {
     const scores = {
@@ -32,14 +36,10 @@ const TriajeProfile = ({ params }) => {
     return totalScore;
   };
 
-  const updateGlasgow = (eyesOpen, talkingCorrectly, ableToMoveBody) => {
-
-    let newGlasgow = 1;
-
-    newGlasgow = calculateGlasgow(eyesOpen, talkingCorrectly, ableToMoveBody);
-    
+  useEffect(() => {
+    const newGlasgow = calculateGlasgow(eyesOpen, talkingCorrectly, ableToMoveBody);
     setGlasgow(newGlasgow);
-  };
+  }, [eyesOpen, talkingCorrectly, ableToMoveBody]);
 
   const handleEditClick = () => {
     setIsEditable(!isEditable);
@@ -350,8 +350,12 @@ const TriajeProfile = ({ params }) => {
       ).textContent = `${count}/1000`;
     }
 
-    if (['eyesOpen', 'talkingCorrectly', 'ableToMoveBody'].includes(name)) {
-      updateGlasgow('eyesOpen', 'talkingCorrectly', 'ableToMoveBody');
+    if (name === "eyesOpen") {
+      setEyesOpen(value);
+    } else if (name === "talkingCorrectly") {
+      setTalkingCorrectly(value);
+    } else if (name === "ableToMoveBody") {
+      setAbleToMoveBody(value);
     }
   };
 
