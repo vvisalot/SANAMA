@@ -20,7 +20,7 @@ const FormContainerMedicalRecord = ({
   const [signatureURL, setSignatureURL] = useState(null);
 
   const handleOpenModal = () => {
-    setShowModal(true);
+    console.log(medicalRecordData);
   };
 
   const handleCloseModal = () => {

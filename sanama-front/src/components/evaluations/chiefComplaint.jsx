@@ -102,22 +102,28 @@ const ChiefComplaint = ({ setMedicalRecordData }) => {
         </div>
         <MedicalSheetDetails />
 
-        <TextAreaField
+        <textarea
           label="Antecedentes:"
           name="evaluacionMedica.antecedentes"
+          className="resize-none mt-1 p-2 w-full border-gray-300 rounded-md"
           placeholder="Ingresa los antecentes.."
+          rows={4}
           onBlur={handleOnBlurChange}
         />
-        <TextAreaField
+        <textarea
           label="Motivo de Consulta:"
           name="evaluacionMedica.motivoConsulta"
+          className="resize-none mt-1 p-2 w-full border-gray-300 rounded-md"
           placeholder="Ingresa el motivo.."
+          rows={4}
           onBlur={handleOnBlurChange}
         />
-        <TextAreaField
+        <textarea
           label="Observaciones Adicionales:"
           name="evaluacionMedica.observaciones"
+          className="resize-none mt-1 p-2 w-full border-gray-300 rounded-md"
           placeholder="Ingresa observación.."
+          rows={4}
           onBlur={handleOnBlurChange}
         />
         <SearchMedicalSheet

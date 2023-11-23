@@ -16,6 +16,7 @@ const VitalSigns = ({ defaultTriaje, setMedicalRecordData }) => {
         return {
           ...prevState,
           evaluacionMedica: {
+            ...prevState.evaluacionMedica,
             [section]: {
               ...prevState.evaluacionMedica[section],
               [key]: value,
