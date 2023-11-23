@@ -1,3 +1,5 @@
+"use client"
+
 import {
   flexRender,
   getCoreRowModel,
@@ -24,7 +26,7 @@ const AdvancedTable = ({ data, id, columns }) => {
   return (
     <div>
       <TablePagination table={table} />
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+      <div className="relative shadow-md sm:rounded-lg">
         <table className="table-fixed min-w-full">
           <thead className="border-gray-200 border-2 text-left text-md tracking-wider text-blue-50 uppercase bg-[#28539E]">
             {table.getHeaderGroups().map((headerGroup) => (
@@ -55,18 +57,25 @@ const AdvancedTable = ({ data, id, columns }) => {
             ))}
           </thead>
           <tbody className="border-2 border-gray-200 text-ellipsis overflow-hidden">
-            {table.getRowModel().rows.map((row) => (
-              <tr key={row.id}>
-                {row.getVisibleCells().map((cell) => (
-                  <td
-                    key={cell.id}
-                    className={`px-4 py-4 text-gray-900  min-w-[80px] max-w-[150px] bg-white border-b`}
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                ))}
+            {table.getRowModel().rows.length > 0 ?
+              (
+                table.getRowModel().rows.map((row) => (
+                  <tr key={row.id}>
+                    {row.getVisibleCells().map((cell) => (
+                      <td
+                        key={cell.id}
+                        className={`px-4 py-4 text-gray-900  min-w-[80px] max-w-[150px] bg-white border-b`}
+                      >
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </td>
+                    ))}
+                  </tr>
+                ))
+              ) :
+              <tr className="bg-white w-fullh-[500px] flex justify-center">
+                <img src="/no-table-data.jpg" className="object-cover w-[500px] h-[500px]"></img>
               </tr>
-            ))}
+            }
           </tbody>
         </table>
       </div>

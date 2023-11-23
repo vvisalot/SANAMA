@@ -1,70 +1,69 @@
-"use client";
-import ProfileCard from "@/components/cards/ProfileCard";
-import { doctorService } from "@/services/doctorService";
-import { useState, useEffect } from "react";
-import DoctorActions from "./DoctorActions";
-import LatestAppointmentsDoctor from "./LastestAppointmentsDoctor";
-import { MdArrowBack } from 'react-icons/md';
-import ProfileCardDoctor from "./ProfileCardDoctor";
-import { useRouter } from "next/navigation";
+"use client"
+import ProfileCard from "@/components/cards/ProfileCard"
+import { doctorService } from "@/services/doctorService"
+import { useState, useEffect } from "react"
+import DoctorActions from "./DoctorActions"
+import LatestAppointmentsDoctor from "./LastestAppointmentsDoctor"
+import { MdArrowBack } from 'react-icons/md'
+import ProfileCardDoctor from "./ProfileCardDoctor"
+import { useRouter } from "next/navigation"
 function formatearFechaNacimiento(fechaNacimiento) {
   if (!fechaNacimiento) {
-    return "No especifica";
+    return "No especifica"
   }
 
-  const fechaNacimientoObj = new Date(fechaNacimiento);
-  const dia = ("0" + fechaNacimientoObj.getDate()).slice(-2); // Agrega un cero inicial si es necesario
-  const mes = ("0" + (fechaNacimientoObj.getMonth() + 1)).slice(-2); // Agrega un cero inicial si es necesario
-  const año = fechaNacimientoObj.getFullYear();
+  const fechaNacimientoObj = new Date(fechaNacimiento)
+  const dia = ("0" + fechaNacimientoObj.getDate()).slice(-2) // Agrega un cero inicial si es necesario
+  const mes = ("0" + (fechaNacimientoObj.getMonth() + 1)).slice(-2) // Agrega un cero inicial si es necesario
+  const año = fechaNacimientoObj.getFullYear()
 
-  const fechaFormateada = `${dia}/${mes}/${año}`;
-  return fechaFormateada;
+  const fechaFormateada = `${dia}/${mes}/${año}`
+  return fechaFormateada
 }
 const DoctorProfile = ({ params }) => {
-  const [dataDoctor, setDataDoctor] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [imagenPerfil, setImagenPerfil] = useState(null);
-  const router = useRouter();
+  const [dataDoctor, setDataDoctor] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [imagenPerfil, setImagenPerfil] = useState(null)
+  const router = useRouter()
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await doctorService.buscarPorNombre(params.idDoctor);
+        const data = await doctorService.buscarPorNombre(params.idDoctor)
         if (data && data.length > 0) {
-          console.log("data", data[0]);
-          setDataDoctor(data[0]);
+          console.log("data", data[0])
+          setDataDoctor(data[0])
           if (data[0].foto) {
-            setImagenPerfil(`data:image/png;base64,${data[0].foto}`);
+            setImagenPerfil(`data:image/png;base64,${data[0].foto}`)
           }
         }
       } catch (error) {
-        console.log(error);
+        console.log(error)
       } finally {
-        setLoading(false); // Marca la carga como completa
+        setLoading(false) // Marca la carga como completa
       }
-    };
-    fetchData();
-  }, [params.idDoctor]); // Asegúrate de depender de 'params.idDoctor'
+    }
+    fetchData()
+  }, [params.idDoctor]) // Asegúrate de depender de 'params.idDoctor'
 
   if (loading) {
-    return ""; // Muestra un mensaje de carga mientras los datos se obtienen
+    return "" // Muestra un mensaje de carga mientras los datos se obtienen
   }
 
   return (
     <article className="flex-column box-content p-10">
-      
       <div className="flex justify-end">
         <div className="flex-end pr-10 pf-10">
-        <button
-          type="button"
-          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-400 font-medium rounded-lg text-sm px-4 py-2.5 flex items-center"
-          onClick={() => router.back()}
-        >
-          <MdArrowBack className="mr-1" style={{ fontSize: '24px' }} />
-          Volver
-        </button>
+          <button
+            type="button"
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-400 font-medium rounded-lg text-sm px-4 py-2.5 flex items-center"
+            onClick={() => router.back()}
+          >
+            <MdArrowBack className="mr-1" style={{ fontSize: '24px' }} />
+            Volver
+          </button>
         </div>
       </div>
-      
+
       <div className="flex">
         <div className="w-1/2 flex-row p-10">
           <ProfileCardDoctor
@@ -136,7 +135,7 @@ const DoctorProfile = ({ params }) => {
         </div>
       </div>
     </article>
-  );
-};
+  )
+}
 
-export default DoctorProfile;
+export default DoctorProfile

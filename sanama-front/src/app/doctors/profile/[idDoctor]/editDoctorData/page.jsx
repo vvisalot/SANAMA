@@ -40,7 +40,6 @@ const ModificarDoctor = ({ params }) => {
         }
     }
 
-
     const putData = async (data) => {
         try {
             const response = await doctorService.modificarDoctor(data)
@@ -62,10 +61,11 @@ const ModificarDoctor = ({ params }) => {
             "foto": base64Data
         }
         putData(dataToUpdate)
+        //Faltan promises y cargas. Y que me lleve atras xd.
     }
 
     const handleCancel = (e) => {
-        console.log("A")
+        console.log("A") //Pendiente, esto debe llevarme atras.
     }
     const handleImagenChange = (event) => {
         event.preventDefault()
