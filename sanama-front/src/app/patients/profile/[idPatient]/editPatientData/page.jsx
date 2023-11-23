@@ -86,7 +86,7 @@ const EditPatientData = ({ params }) => {
 
             })
         } else {
-            toast.error("Los datos ingresados son los mismos")
+            toast.error("No puedes ingresar los mismos datoss")
             return
         }
 
@@ -108,6 +108,8 @@ const EditPatientData = ({ params }) => {
                     onClick: () => toast.dismiss(),
                 },
             })
+        } else {
+            router.back()
         }
 
     }
