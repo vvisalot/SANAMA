@@ -47,11 +47,11 @@ const FormContainerMedicalRecord = ({
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    console.log(medicalRecordData);
     if (!validateMedicalRecordForm()) {
       setIsSubmitting(false);
       return;
     }
-
     swal({
       title: "¿Estás seguro?",
       text: "Estás a punto de registrar esta atención médica.",

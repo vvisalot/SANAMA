@@ -71,7 +71,7 @@ const useMedicalRecordForm = () => {
     }
 
     // Validate 'recetaMedica.fechaCaducidad' - Mandatory
-    if (!medicalRecordData.recetaMedica.fechaCaducidad.trim()) {
+    if (!medicalRecordData.recetaMedica.fechaCaducidad) {
       errors.push("La fecha de caducidad de la receta es obligatoria.");
       isValid = false;
     }
