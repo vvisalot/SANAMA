@@ -1,11 +1,11 @@
-"use client";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import NextBreadcrumb from "@/components/NextBreadcrumb";
-import { Toaster } from "sonner";
-import Navbar from "@/components/navbar/Navbar";
+"use client"
+import { Inter } from "next/font/google"
+import "./globals.css"
+import NextBreadcrumb from "@/components/NextBreadcrumb"
+import { Toaster } from "sonner"
+import Navbar from "@/components/navbar/Navbar"
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"] })
 
 export default function RootLayout({ children }) {
   return (
@@ -30,7 +30,6 @@ export default function RootLayout({ children }) {
                   capitalizeLinks
                 />
               }
-
               {children}
             </div>
             <div></div>
@@ -39,5 +38,5 @@ export default function RootLayout({ children }) {
         </main>
       </body>
     </html>
-  );
+  )
 }

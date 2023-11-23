@@ -20,7 +20,7 @@ const TriajeTable = ({ data, options }) => {
         },
         {
             accessorKey: "fechaHoraActualizacion",
-            header: "Fecha y hora de actualización",
+            header: "Fecha y hora",
             enableSorting: true,
         },
         {

@@ -99,8 +99,8 @@ const TriajeProfile = ({ params }) => {
 
     // pn_presion_arterial: "Presión arterial (mm Hg)",
 
-    pn_presion_sistolica: "Presión sistólica (mm Hg)",
-    pn_presion_diastolica: "Presión diastólica (mm Hg)",
+    pv_presion_sistolica: "Presión sistólica (mm Hg)",
+    pv_presion_diastolica: "Presión diastólica (mm Hg)",
 
     pn_estado: "Estado",
     pv_prioridad: "Prioridad",
@@ -129,8 +129,8 @@ const TriajeProfile = ({ params }) => {
 
       // pn_presion_arterial: dataTriaje.presionArterisal,
 
-      pn_presion_sistolica: dataTriaje.presionSistolica,
-      pn_presion_diastolica: dataTriaje.presionDiastolica,
+      pv_presion_sistolica: dataTriaje.presionSistolica,
+      pv_presion_diastolica: dataTriaje.presionDiastolica,
 
       pn_estado: 1,
       pv_prioridad: dataTriaje.prioridad,
@@ -157,7 +157,10 @@ const TriajeProfile = ({ params }) => {
         value === undefined ||
         (typeof value === "string" && !value.trim())
       ) {
-        incompleteFields.push(fieldNames[key] || key);
+        // incompleteFields.push(fieldNames[key] || key);
+        if (key !== 'pv_nivelConciencia' && key !== 'pn_glasgow') {
+          incompleteFields.push(fieldNames[key] || key);
+        }
       }
     }
 
@@ -168,6 +171,7 @@ const TriajeProfile = ({ params }) => {
     }
 
     try {
+      console.log("LA DATA QUE ESTOY SUBIENDO ES: ", triajeData)
       const result = await triajeService.actualizarTriaje(triajeData);
 
       if (result === 1) {
@@ -207,7 +211,6 @@ const TriajeProfile = ({ params }) => {
     const fetchData = async () => {
       try {
         const data = await triajeService.buscarPorFiltro(params.idTriaje);
-        console.log("LA DATA TRAIDA ES: ", data);
         setDataTriaje(data);
       } catch (error) {
         console.error(error);
@@ -275,8 +278,8 @@ const TriajeProfile = ({ params }) => {
 
       // pn_presion_arterial: 0,
 
-      pn_presion_sistolica: 0,
-      pn_presion_diastolica: 0,
+      pv_presion_sistolica: 0,
+      pv_presion_diastolica: 0,
 
       pn_estado: 3,
       pv_prioridad: "N.A.",

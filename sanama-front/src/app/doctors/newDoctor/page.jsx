@@ -177,16 +177,6 @@ const NewDoctor = () => {
   return (
     <section className="rounded-lg p-8 w-full flex flex-col space-y-6">
 
-
-      {/* <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '10px' }}>
-        <button
-          className="w-[180px] text-center font-bold text-white  bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-sm px-4 py-4"
-          style={{ marginLeft: 'auto' }}
-          onClick={()=> router.back()}
-        >
-          Volver
-        </button>
-      </div> */}
       <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px' }}>
         <h2 className="font-sans font-bold break-normal text-gray-700 text-2xl">Crear perfil de doctor</h2>
         <button
@@ -263,6 +253,7 @@ const NewDoctor = () => {
               placeholder=" "
               value={cmp}
               onChange={(event) => setCmp(event.target.value)}
+              placeholder={"Ej: 955745, 845256"}
               required
             />
           </div>
