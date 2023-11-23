@@ -40,6 +40,33 @@ const ModificarDoctor = ({ params }) => {
         }
     }
 
+
+    const putData = async (data) => {
+        try {
+            const response = await doctorService.modificarDoctor(data)
+            console.log(response)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        const partes = doctorData.fotoPerfil.split("data:image/")[1].split(";base64,")
+        const base64Data = partes[1]
+
+        const dataToUpdate = {
+            "idPersona": idDoctor,
+            "telefono": doctorData.telefono,
+            "correoElectronico": doctorData.correo,
+            "foto": base64Data
+        }
+        putData(dataToUpdate)
+    }
+
+    const handleCancel = (e) => {
+        console.log("A")
+    }
     const handleImagenChange = (event) => {
         event.preventDefault()
         const file = event.target.files[0]
@@ -67,7 +94,7 @@ const ModificarDoctor = ({ params }) => {
     }, [])
 
     return (
-        <>
+        <form onSubmit={handleSubmit}>
             <h1 className="text-4xl w-full py-10 font-semibold">Modificar datos del doctor</h1>
             <div className="flex ">
                 <div className="w-2/3">
@@ -230,10 +257,15 @@ const ModificarDoctor = ({ params }) => {
                     />
                     <p className="mt-1 text-sm text-gray-500" id="file_input_help">SVG, PNG, JPG.</p>
                 </div>
-
-
             </div >
-        </>
+
+            <button type="button" onClick={handleCancel}>
+                Cancelar
+            </button>
+            <button type="submit" >
+                Registrar datos
+            </button>
+        </form>
     )
 }
 
