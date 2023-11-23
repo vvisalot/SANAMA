@@ -89,23 +89,7 @@ const AppointementForm = ({
     }
   }
 
-  const handleResponsibilityChange = (option) => {
-    if (option === "No") {
-      setLegalResponsibilityForm({
-        tieneAcompañante: "No",
-        nombres: "",
-        apellidoPaterno: "",
-        apellidoMaterno: "",
-        dni: "",
-        parentesco: "",
-      })
-    } else {
-      setLegalResponsibilityForm((prev) => ({
-        ...prev,
-        tieneAcompañante: option,
-      }))
-    }
-  }
+
 
   const handleSpecialityChange = (e) => {
     document.getElementById("dropdown-doctor").value = ""
@@ -142,6 +126,24 @@ const AppointementForm = ({
   const handleHourSelect = (hour) => {
     setSelectedHour(hour)
     setSchedule({ ...schedule, hora: hour })
+  }
+
+  const handleResponsibilityChange = (option) => {
+    if (option === "No") {
+      setLegalResponsibilityForm({
+        tieneAcompañante: "No",
+        nombres: "",
+        apellidoPaterno: "",
+        apellidoMaterno: "",
+        dni: "",
+        parentesco: "",
+      })
+    } else {
+      setLegalResponsibilityForm((prev) => ({
+        ...prev,
+        tieneAcompañante: option,
+      }))
+    }
   }
 
   return (
@@ -289,6 +291,11 @@ const AppointementForm = ({
             </div>
           </>
         ) : null}
+
+        {/* Error por si no desea un acompañante siendo menor de edad */}
+        <label>
+
+        </label>
       </section>
 
       <section id="section3" className="py-10">

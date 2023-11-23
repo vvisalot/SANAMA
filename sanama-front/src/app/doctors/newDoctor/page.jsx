@@ -1,34 +1,34 @@
-"use client";
-import React, { useEffect, useState } from 'react';
+"use client"
+import React, { useEffect, useState } from 'react'
 import { TextInput } from "flowbite-react"
-import DatePicker from "@/components/buttons/DatePicker"
+import DatePicker from "@/components/Date/DatePicker"
 import Picker from "@/components/buttons/Picker"
 import Dropdown from "@/components/Dropdowns/Dropdown"
-import { doctorService } from '@/services/doctorService';
-import { es } from 'date-fns/locale';
-import swal from "sweetalert";
+import { doctorService } from '@/services/doctorService'
+import { es } from 'date-fns/locale'
+import swal from "sweetalert"
 import { useRouter } from "next/navigation"
-import { toast} from 'sonner'
+import { toast } from 'sonner'
 const NewDoctor = () => {
-  const router = useRouter();
-  const [showModal, setShowModal] = useState(false);
-  const [isFormEnabled, setIsFormEnabled] = useState(true);
-  const [isNextPart, setIsNextPart] = useState(false);
-  const [cancelButton, setCancelButton] = useState(false);
-  const [imagenPerfil, setImagenPerfil] = useState(null);
+  const router = useRouter()
+  const [showModal, setShowModal] = useState(false)
+  const [isFormEnabled, setIsFormEnabled] = useState(true)
+  const [isNextPart, setIsNextPart] = useState(false)
+  const [cancelButton, setCancelButton] = useState(false)
+  const [imagenPerfil, setImagenPerfil] = useState(null)
   // Estados para campos del médico
-  const [nombreMedico, setNombreMedico] = useState('');
-  const [apellidoPaterno, setApellidoPaterno] = useState('');
-  const [apellidoMaterno, setApellidoMaterno] = useState('');
-  const [dni, setDni] = useState('');
-  const [fechaNacimiento, setFechaNacimiento] = useState('');
-  const [sexo, setSexo] = useState('');
-  const [telefono, setTelefono] = useState('');
-  const [correo, setCorreo] = useState('');
-  const [area, setArea] = useState('');
-  const [cmp, setCmp] = useState('');
-  const [especialidad, setEspecialidad] = useState('');
-  const [especialidades, setEspecialidades] = useState([]);
+  const [nombreMedico, setNombreMedico] = useState('')
+  const [apellidoPaterno, setApellidoPaterno] = useState('')
+  const [apellidoMaterno, setApellidoMaterno] = useState('')
+  const [dni, setDni] = useState('')
+  const [fechaNacimiento, setFechaNacimiento] = useState('')
+  const [sexo, setSexo] = useState('')
+  const [telefono, setTelefono] = useState('')
+  const [correo, setCorreo] = useState('')
+  const [area, setArea] = useState('')
+  const [cmp, setCmp] = useState('')
+  const [especialidad, setEspecialidad] = useState('')
+  const [especialidades, setEspecialidades] = useState([])
   const fetchSpecialty = async () => {
     try {
       const data = await doctorService.listarEspecialidades()
@@ -40,54 +40,54 @@ const NewDoctor = () => {
 
   useEffect(() => {
     fetchSpecialty()
-  }, []);
+  }, [])
 
   const handleImagenChange = (event) => {
 
-    const file = event.target.files[0];
+    const file = event.target.files[0]
     // Obtener el nombre del archivo
-    const fileName = file.name;
+    const fileName = file.name
     // Obtener la extensión del archivo
     const fileExtension = fileName.split('.').pop().toLowerCase();;
     if (fileExtension === "jpeg" || fileExtension === "png" || fileExtension === "jpg") {
 
       if (file) {
-        const reader = new FileReader();
+        const reader = new FileReader()
         reader.onloadend = () => {
-          setImagenPerfil(reader.result);
-        };
-        reader.readAsDataURL(file);
+          setImagenPerfil(reader.result)
+        }
+        reader.readAsDataURL(file)
       }
     } else {
       toast.error(`No se permite imagen con extensión .${fileExtension}. Por favor usar imágenes con extensión .jpg, .jpeg o .png.`)
     }
 
-  };
+  }
 
   const handleRegister = () => {
     // Lógica para el botón "Nuevo médico"
     // ...
-  };
+  }
 
   const handleMedicoSelect = (selectedMedico) => {
     // Lógica para manejar la selección de un médico
     // ...
-  };
+  }
 
   const validateTextInput = (target) => {
     // Lógica de validación para campos de texto
     // ...
-  };
+  }
 
   const validateNumberInput = (target) => {
     // Lógica de validación para campos numéricos
     // ...
-  };
+  }
 
   const handleCancel = () => {
     // Lógica para el botón "Cancelar"
     // ...
-  };
+  }
 
   const handleSave = () => {
     swal({
@@ -106,11 +106,11 @@ const NewDoctor = () => {
           },
           closeOnClickOutside: false,
           closeOnEsc: false,
-        });
-        const partes = imagenPerfil.split("data:image/")[1].split(";base64,");
-        const extension = partes[0]; // Aquí obtendrás la extensión de la imagen (por ejemplo, 'jpeg', 'png', etc.)
-        const base64Data = partes[1]; // Aquí obtendrás los datos en formato base64
-        const url = 'http://localhost:8080/rrhh/post/registrarMedico';
+        })
+        const partes = imagenPerfil.split("data:image/")[1].split(";base64,")
+        const extension = partes[0] // Aquí obtendrás la extensión de la imagen (por ejemplo, 'jpeg', 'png', etc.)
+        const base64Data = partes[1] // Aquí obtendrás los datos en formato base64
+        const url = 'http://localhost:8080/rrhh/post/registrarMedico'
 
         const data = {
           nombres: nombreMedico,
@@ -127,17 +127,17 @@ const NewDoctor = () => {
             idEspecialidad: especialidad, // Cambia esto según el valor correcto
           },
           foto: base64Data, // Puedes manejar la lógica para la foto aquí si es necesario
-        };
+        }
         if (sexo.toLowerCase() === 'masculino') {
           // Si la cadena es "Masculino", guarda "M"
-          data.sexo = 'M';
+          data.sexo = 'M'
         } else if (sexo.toLowerCase() === 'femenino') {
           // Si la cadena es "Femenino", guarda "F"
-          data.sexo = 'F';
+          data.sexo = 'F'
         } else {
           // Puedes manejar otro caso si es necesario o dejarlo como está
-          console.error('Valor de sexo no reconocido:', sexo);
-          return; // Puedes decidir qué hacer en este caso, por ejemplo, salir de la función
+          console.error('Valor de sexo no reconocido:', sexo)
+          return // Puedes decidir qué hacer en este caso, por ejemplo, salir de la función
         }
         console.log("e", data)
         fetch(url, {
@@ -147,31 +147,31 @@ const NewDoctor = () => {
           },
           body: JSON.stringify(data),
         }).then(response => {
-            if (!response.ok) {
-              throw new Error('Network response was not ok');
-            }
-            swal.close();
-            swal({ text: "El registro se realizó con éxito", icon: "success", timer: "2500" });
-            router.push('/doctors');
-            //return response.json();
-          })
+          if (!response.ok) {
+            throw new Error('Network response was not ok')
+          }
+          swal.close()
+          swal({ text: "El registro se realizó con éxito", icon: "success", timer: "2500" })
+          router.push('/doctors')
+          //return response.json();
+        })
           .then(responseData => {
             // Manejar la respuesta del servidor si es necesario
-            console.log('Respuesta del servidor:', responseData);
+            console.log('Respuesta del servidor:', responseData)
           })
           .catch(error => {
             // Manejar errores de la red u otros errores
-            console.error('Error al enviar los datos:', error);
-          });
+            console.error('Error al enviar los datos:', error)
+          })
       }
     })
-  };
+  }
 
 
   const validateForm = () => {
     // Lógica para validar el formulario antes de pasar a la siguiente parte
     // ...
-  };
+  }
 
   return (
     <section className="rounded-lg p-8 w-full flex flex-col space-y-6">
@@ -219,8 +219,8 @@ const NewDoctor = () => {
               placeholder=" "
               value={nombreMedico}
               onChange={(event) => {
-                validateTextInput(event.target);
-                setNombreMedico(event.target.value);
+                validateTextInput(event.target)
+                setNombreMedico(event.target.value)
               }}
               required
             />
@@ -256,8 +256,8 @@ const NewDoctor = () => {
               placeholder=" "
               value={apellidoPaterno}
               onChange={(event) => {
-                validateTextInput(event.target);
-                setApellidoPaterno(event.target.value);
+                validateTextInput(event.target)
+                setApellidoPaterno(event.target.value)
               }}
               required
             />
@@ -276,8 +276,8 @@ const NewDoctor = () => {
               placeholder=" "
               value={apellidoMaterno}
               onChange={(event) => {
-                validateTextInput(event.target);
-                setApellidoMaterno(event.target.value);
+                validateTextInput(event.target)
+                setApellidoMaterno(event.target.value)
               }}
               required
             />
@@ -299,8 +299,8 @@ const NewDoctor = () => {
               placeholder=" "
               value={dni}
               onChange={(event) => {
-                validateTextInput(event.target);
-                setDni(event.target.value);
+                validateTextInput(event.target)
+                setDni(event.target.value)
               }}
               required
             />
@@ -344,8 +344,8 @@ const NewDoctor = () => {
               placeholder=" "
               value={telefono}
               onChange={(event) => {
-                validateNumberInput(event.target);
-                setTelefono(event.target.value);
+                validateNumberInput(event.target)
+                setTelefono(event.target.value)
               }}
               required
             />
@@ -437,7 +437,7 @@ const NewDoctor = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default NewDoctor;
+export default NewDoctor

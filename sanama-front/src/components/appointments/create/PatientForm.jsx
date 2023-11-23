@@ -1,7 +1,7 @@
 "use client"
-import DatePicker from "@/components/buttons/DatePicker"
+import DatePicker from "@/components/Date/DatePicker"
 import Picker from "@/components/buttons/Picker"
-import { useState, useEffect } from "react"
+import { useState, useEffect, use } from "react"
 import {
   validateNumberInput,
   validateSecurityCode,
@@ -13,18 +13,12 @@ import { patientService } from "@/services/patientService"
 import { sexParser } from "@/util/patientParser"
 import Dropdown from "@/components/Dropdowns/Dropdown"
 import { toast } from "sonner"
-import { differenceInYears, parse } from "date-fns"
+import { differenceInYears, format, parse } from "date-fns"
 const PatientForm = ({
-  formComplete,
-  setFormComplete,
-  setPatientId,
-  patientForm,
-  fechaNacimiento,
-  setFechaNacimiento,
-  sexo,
-  setSexo,
-  setPatientForm,
-  setLegalResponsibilityForm
+  formComplete, setFormComplete,
+  setPatientId, patientForm, setPatientForm,
+  fechaNacimiento, setFechaNacimiento,
+  sexo, setSexo, setLegalResponsibilityForm
 }) => {
   const [showModal, setShowModal] = useState(false)
   const [isFormEnabled, setIsFormEnabled] = useState(false)
@@ -33,11 +27,11 @@ const PatientForm = ({
   const [securityTypes, setSecurityTypes] = useState([])
 
   const [isDataFromModal, setIsDataFromModal] = useState(false)
+  const [selectedDate, setSelectedDate] = useState(false)
 
   const fetchSecurityTypes = async () => {
     try {
       const data = await patientService.listarSeguros()
-      // console.log(data)
       setSecurityTypes(data)
     } catch (error) {
       console.log("No se pudo obtener el listado de seguros")
@@ -64,7 +58,13 @@ const PatientForm = ({
         telefono: data.telefono,
         correo: data.correo,
       })
+
+      console.log(data.fechaNacimiento)
+      const variable = parse(data.fechaNacimiento, 'yyyy-MM-dd', new Date())
+      console.log(variable)
+      setSelectedDate(variable)
       setFechaNacimiento(data.fechaNacimiento)
+
       let mayoriaDeEdad = verificarMayoriaDeEdad(data.fechaNacimiento)
       if (mayoriaDeEdad) {
         setLegalResponsibilityForm({
@@ -91,15 +91,14 @@ const PatientForm = ({
   }
 
   const handlePatientSelect = (selectedPatient) => {
-    //console.log('Paciente seleccionado:', selectedPatient.idPersona)
     setObtainedPatientId(selectedPatient.idPersona)
     setIsDataFromModal(true) // Para saber si los datos vienen del modal o no
   }
-
-
-  const handleFechaNacimiento = (fechaNacimiento) => {
+  const handleFechaNacimiento = (newDate) => {
+    setSelectedDate(newDate)
+    let fechaNacimiento = format(newDate, 'yyyy-MM-dd', new Date())
     setFechaNacimiento(fechaNacimiento)
-    let mayoriaDeEdad = verificarMayoriaDeEdad(data.fechaNacimiento)
+    let mayoriaDeEdad = verificarMayoriaDeEdad(fechaNacimiento)
 
     if (mayoriaDeEdad) {
       setLegalResponsibilityForm({
@@ -140,6 +139,7 @@ const PatientForm = ({
       correo: "",
     })
 
+    setSelectedDate(false)
     setFechaNacimiento("")
     setSexo("")
     setIsDataFromModal(false)
@@ -154,8 +154,7 @@ const PatientForm = ({
 
   const handleRegister = () => {
     const isFormFilled = Object.values(patientForm).some((value) => value) || fechaNacimiento || sexo
-    console.log(isFormFilled)
-    console.log(isDataFromModal)
+
     //Si al traer datos del modal le doy a nuevo paciente.
     if (isFormFilled && isDataFromModal) {
       toast("Este paciente ya existe, ¿deseas crear otro?", {
@@ -217,12 +216,9 @@ const PatientForm = ({
             type="button"
             disabled={isFormEnabled}
             onClick={handleOpenModal}
-            className={`m-2 text-white 
-                        ${isFormEnabled
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-green-500 hover:bg-green-600"
-              } focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center ${isFormEnabled ? "text-gray-700" : ""
-              }`}
+            className={`m-2 text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-l w-full sm:w-auto px-5 py-3 text-center 
+                        ${isFormEnabled ? "bg-gray-400 cursor-not-allowed" : "bg-green-500 hover:bg-green-600"} 
+                        ${isFormEnabled ? "text-gray-700" : ""}`}
           >
             Buscar paciente
           </button>
@@ -483,9 +479,9 @@ const PatientForm = ({
 
         <div className="grid grid-cols-2 md:gap-6">
           <DatePicker
-            name={"fecha-nacimiento-paciente"}
-            value={fechaNacimiento}
-            setValue={handleFechaNacimiento}
+            name={"fecha-nacimiento"}
+            selectedDate={selectedDate}
+            setSelectedDate={handleFechaNacimiento}
           />
           <Picker
             name1={"masculino"}
