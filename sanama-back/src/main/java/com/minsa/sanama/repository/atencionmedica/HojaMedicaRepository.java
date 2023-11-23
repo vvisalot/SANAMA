@@ -177,7 +177,8 @@ public class HojaMedicaRepository {
                 triaje.setPeso(rs.getInt("peso"));
                 triaje.setTalla(rs.getInt("talla"));
                 triaje.setTemperatura(rs.getInt("temperatura"));
-                triaje.setPresionArterial(rs.getInt("presion_arterial"));
+                triaje.setPresionSistolica(rs.getString("presion_sistolica"));
+                triaje.setPresionDiastolica(rs.getString("presion_diastolica"));
                 triaje.setSaturacionOxigeno(rs.getString("saturacionOxigeno"));
                 triaje.setFrecuenciaCardiaca(rs.getString("frecuenciaCardiaca"));
                 triaje.setFrecuenciaRespiratoria(rs.getString("frecuenciaRespiratoria"));
