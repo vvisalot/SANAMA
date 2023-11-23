@@ -552,14 +552,7 @@ const EditDoctorProfile = () => {
                 >
                   Cancelar
                 </button>
-                <button
-                  type="button"
-                  className="m-2 text-white bg-gray-500 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-blue-300 
-            font-medium rounded-lg w-full sm:w-auto px-5 py-3 text-center"
-                  onClick={handleVolver}
-                >
-                  Volver
-                </button>
+                
               </div>
             </div>
           </section>

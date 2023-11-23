@@ -6,6 +6,7 @@ import DoctorActions from "./DoctorActions";
 import LatestAppointmentsDoctor from "./LastestAppointmentsDoctor";
 import { MdArrowBack } from 'react-icons/md';
 import ProfileCardDoctor from "./ProfileCardDoctor";
+import { useRouter } from "next/navigation";
 function formatearFechaNacimiento(fechaNacimiento) {
   if (!fechaNacimiento) {
     return "No especifica";
@@ -23,6 +24,7 @@ const DoctorProfile = ({ params }) => {
   const [dataDoctor, setDataDoctor] = useState(null);
   const [loading, setLoading] = useState(true);
   const [imagenPerfil, setImagenPerfil] = useState(null);
+  const router = useRouter();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -50,8 +52,8 @@ const DoctorProfile = ({ params }) => {
   return (
     <article className="flex-column box-content p-10">
       
-      {/* <div className="flex justify-end">
-        <div className="flex-end p-10">
+      <div className="flex justify-end">
+        <div className="flex-end pr-10 pf-10">
         <button
           type="button"
           className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-400 font-medium rounded-lg text-sm px-4 py-2.5 flex items-center"
@@ -61,7 +63,7 @@ const DoctorProfile = ({ params }) => {
           Volver
         </button>
         </div>
-      </div> */}
+      </div>
       
       <div className="flex">
         <div className="w-1/2 flex-row p-10">
