@@ -11,6 +11,7 @@ import TitleWithIcon from "@/components/TitleWithIcon";
 import ActionButtons from "@/components/appointments/view/ActionButtons";
 import viewAppointmentIcon from "@/components/icons/viewAppointmentIcon";
 import { toast } from "sonner";
+import { MdArrowBack } from 'react-icons/md';
 
 const ReviewAppointment = ({ params }) => {
   const pathname = usePathname();
@@ -93,45 +94,55 @@ const ReviewAppointment = ({ params }) => {
   if (!state.appointmentData) return null;
 
   return (
-    <section className="w-full px-14 py-6">
-      <TitleWithIcon name={"Cita Medica"} Icon={viewAppointmentIcon} />
-      <div className="flex place-content-between w-full mb-4">
-        <div>
-          <Link
-            href="/appointments"
-            className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white"
+    <>
+      <div className="flex justify-end ">
+        <div className="flex-end pr-14 pf-14">
+          <button
+            type="button"
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-400 font-medium rounded-lg text-sm px-4 py-2.5 flex items-center"
+            onClick={() => router.back()}
           >
-            Volver a Citas
-          </Link>
-        </div>
-        <div className="flex">
-          <ActionButtons
-            estado={state.appointmentData.estado}
-            loading={state.loading}
-            openRescheduleModal={() =>
-              updateState({ isRescheduleModalOpen: true })
-            }
-            handleCancelClick={handleCancelClick}
-            hasBeenCanceled={state.hasBeenCanceled}
-            handleAttendClick={handleAttendClick}
-            idMedico={state.appointmentData.medico.idPersona}
-            idPaciente={state.appointmentData.paciente.idPersona}
-          />
+            <MdArrowBack className="mr-1" style={{ fontSize: '24px' }} />
+            Volver
+          </button>
         </div>
       </div>
-      <PatientInfo
-        pacienteData={state.appointmentData.paciente}
-        appointmentData={state.appointmentData}
-        doctor={state.appointmentData.medico}
-      />
 
-      <RescheduleModal
-        isOpen={state.isRescheduleModalOpen}
-        onClose={() => updateState({ isRescheduleModalOpen: false })}
-        medicId={String(state.appointmentData.medico.idPersona)}
-        appointmentId={String(state.appointmentData.idCita)}
-      />
-    </section>
+      <section className="w-full px-14 py-6">
+        <TitleWithIcon name={"Cita Medica"} Icon={viewAppointmentIcon} />
+
+        <div className="flex place-content-between w-full mb-4 justify-end">
+
+          
+          <div className="flex">
+            <ActionButtons
+              estado={state.appointmentData.estado}
+              loading={state.loading}
+              openRescheduleModal={() =>
+                updateState({ isRescheduleModalOpen: true })
+              }
+              handleCancelClick={handleCancelClick}
+              hasBeenCanceled={state.hasBeenCanceled}
+              handleAttendClick={handleAttendClick}
+              idMedico={state.appointmentData.medico.idPersona}
+              idPaciente={state.appointmentData.paciente.idPersona}
+            />
+          </div>
+        </div>
+        <PatientInfo
+          pacienteData={state.appointmentData.paciente}
+          appointmentData={state.appointmentData}
+          doctor={state.appointmentData.medico}
+        />
+
+        <RescheduleModal
+          isOpen={state.isRescheduleModalOpen}
+          onClose={() => updateState({ isRescheduleModalOpen: false })}
+          medicId={String(state.appointmentData.medico.idPersona)}
+          appointmentId={String(state.appointmentData.idCita)}
+        />
+      </section>
+    </>
   );
 };
 
