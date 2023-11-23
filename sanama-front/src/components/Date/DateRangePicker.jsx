@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import Datepicker from "tailwind-datepicker-react";
+import React, { useState } from "react"
+import Datepicker from "tailwind-datepicker-react"
 
 const defaultOptions = {
   autoHide: false,
@@ -21,27 +21,27 @@ const defaultOptions = {
     month: "numeric",
     year: "numeric",
   },
-};
+}
 
 const DateRangePicker = ({ dateInitial, setDateInitial, setDateFinal }) => {
-  const [showInitial, setShowInitial] = useState(false);
-  const [showFinal, setShowFinal] = useState(false);
+  const [showInitial, setShowInitial] = useState(false)
+  const [showFinal, setShowFinal] = useState(false)
 
   const handleChangeInitial = (selectedDate) => {
-    const dateObject = new Date(selectedDate);
-    setDateInitial(dateObject);
-  };
+    const dateObject = new Date(selectedDate)
+    setDateInitial(dateObject)
+  }
 
   const handleChangeFinal = (selectedDate) => {
-    setDateFinal(new Date(selectedDate));
-  };
+    setDateFinal(new Date(selectedDate))
+  }
 
   const optionsInitial = {
     ...defaultOptions,
     inputPlaceholderProp: "Fecha Inicial",
     inputNameProp: "fecha_inicial",
     inputIdProp: "fecha_inicial",
-  };
+  }
 
   const optionsFinal = {
     ...defaultOptions,
@@ -49,7 +49,7 @@ const DateRangePicker = ({ dateInitial, setDateInitial, setDateFinal }) => {
     inputPlaceholderProp: "Fecha Final",
     inputNameProp: "fecha_final",
     inputIdProp: "fecha_final",
-  };
+  }
 
   return (
     <section className="flex items-center h-[45px] w-full max-w-[400px]">
@@ -68,7 +68,7 @@ const DateRangePicker = ({ dateInitial, setDateInitial, setDateFinal }) => {
         setShow={setShowFinal}
       />
     </section>
-  );
-};
+  )
+}
 
-export default DateRangePicker;
+export default DateRangePicker

@@ -1,37 +1,37 @@
-"use client";
-import React, { useEffect, useState } from 'react';
-import { TextInput , validateNumberInput} from "flowbite-react"
-import DatePicker from "@/components/buttons/DatePicker"
+"use client"
+import React, { useEffect, useState } from 'react'
+import { TextInput, validateNumberInput } from "flowbite-react"
+import DatePicker from "@/components/Date/DatePicker"
 import Picker from "@/components/buttons/Picker"
 import Dropdown from "@/components/Dropdowns/Dropdown"
-import { doctorService } from '@/services/doctorService';
-import { es, id } from 'date-fns/locale';
-import swal from "sweetalert";
-import { useRouter, useParams } from "next/navigation";
-import { Toaster, toast } from 'sonner';
+import { doctorService } from '@/services/doctorService'
+import { es, id } from 'date-fns/locale'
+import swal from "sweetalert"
+import { useRouter, useParams } from "next/navigation"
+import { Toaster, toast } from 'sonner'
 const EditDoctorProfile = () => {
-  const params = useParams();
-  const idDoctor = params.idDoctor;
-  const router = useRouter();
-  const [cancelButton, setCancelButton] = useState(false);
-  const [imagenPerfil, setImagenPerfil] = useState(null);
+  const params = useParams()
+  const idDoctor = params.idDoctor
+  const router = useRouter()
+  const [cancelButton, setCancelButton] = useState(false)
+  const [imagenPerfil, setImagenPerfil] = useState(null)
   // Estados para campos del médico
-  const [nombreMedico, setNombreMedico] = useState('');
-  const [apellidoPaterno, setApellidoPaterno] = useState('');
-  const [apellidoMaterno, setApellidoMaterno] = useState('');
-  const [dni, setDni] = useState('');
-  const [fechaNacimiento, setFechaNacimiento] = useState('');
-  const [sexo, setSexo] = useState('');
-  const [telefono, setTelefono] = useState('');
-  const [correo, setCorreo] = useState('');
-  const [area, setArea] = useState('');
-  const [cmp, setCmp] = useState('');
-  const [especialidad, setEspecialidad] = useState('');
-  const [especialidades, setEspecialidades] = useState([]);
+  const [nombreMedico, setNombreMedico] = useState('')
+  const [apellidoPaterno, setApellidoPaterno] = useState('')
+  const [apellidoMaterno, setApellidoMaterno] = useState('')
+  const [dni, setDni] = useState('')
+  const [fechaNacimiento, setFechaNacimiento] = useState('')
+  const [sexo, setSexo] = useState('')
+  const [telefono, setTelefono] = useState('')
+  const [correo, setCorreo] = useState('')
+  const [area, setArea] = useState('')
+  const [cmp, setCmp] = useState('')
+  const [especialidad, setEspecialidad] = useState('')
+  const [especialidades, setEspecialidades] = useState([])
 
-  const [telefonoBack, setTelefonoBack] = useState(null);
-  const [correoBack, setCorreoBack] = useState(null);
-  const [fotoBack, setFotoBack] = useState(null);
+  const [telefonoBack, setTelefonoBack] = useState(null)
+  const [correoBack, setCorreoBack] = useState(null)
+  const [fotoBack, setFotoBack] = useState(null)
   const fetchSpecialty = async () => {
     try {
       const data = await doctorService.listarEspecialidades()
@@ -43,18 +43,18 @@ const EditDoctorProfile = () => {
 
   useEffect(() => {
     fetchSpecialty()
-  }, []);
+  }, [])
 
-  const [dataDoctor, setDataDoctor] = useState(null);
+  const [dataDoctor, setDataDoctor] = useState(null)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await doctorService.buscarPorNombre(idDoctor);
-        console.log("doc", data);
+        const data = await doctorService.buscarPorNombre(idDoctor)
+        console.log("doc", data)
         if (data && data.length > 0) {
-          setDataDoctor(data[0]);
-          setNombreMedico(data[0].nombres);
+          setDataDoctor(data[0])
+          setNombreMedico(data[0].nombres)
           setApellidoPaterno(data[0].apellidoPaterno)
           setApellidoMaterno(data[0].apellidoMaterno)
           setCmp(data[0].cmp)
@@ -73,65 +73,65 @@ const EditDoctorProfile = () => {
           setImagenPerfil(`data:image/png;base64,${data[0].foto}`) //hardcodeado. Falta guarda su extensión en la bbdd para que sea exacto.
           //por ahora el navegador sabe qué hacer para que se muestre la imagen, lo corrige
           //setImagenPerfil(data[0].foto)
-          setFotoBack(`data:image/png;base64,${data[0].foto}`);
-          setTelefonoBack(data[0].telefono);
-          setCorreoBack(data[0].correoElectronico);
+          setFotoBack(`data:image/png;base64,${data[0].foto}`)
+          setTelefonoBack(data[0].telefono)
+          setCorreoBack(data[0].correoElectronico)
         }
       } catch (error) {
-        console.log(error);
+        console.log(error)
       } finally {
       }
-    };
-    fetchData();
-  }, []);
+    }
+    fetchData()
+  }, [])
 
 
   const handleImagenChange = (event) => {
-    event.preventDefault();
-    const file = event.target.files[0];
+    event.preventDefault()
+    const file = event.target.files[0]
     // Obtener el nombre del archivo
-    const fileName = file.name;
+    const fileName = file.name
     // Obtener la extensión del archivo
     const fileExtension = fileName.split('.').pop().toLowerCase();;
     if (fileExtension === "jpeg" || fileExtension === "png" || fileExtension === "jpg") {
       if (file) {
-        const reader = new FileReader();
+        const reader = new FileReader()
         reader.onloadend = () => {
           //Si la imagen no es jpg o png, no se permite
-          const imageData = reader.result;
+          const imageData = reader.result
           // Verificar la extensión de la imagen
           // Es una imagen jpg o png, puedes procesarla
 
-          setImagenPerfil(imageData);
-        };
-        reader.readAsDataURL(file);
+          setImagenPerfil(imageData)
+        }
+        reader.readAsDataURL(file)
       }
     } else {
       toast.error(`No se permite imagen con extensión .${fileExtension}. Por favor usar imágenes con extensión .jpg, .jpeg o .png.`)
     }
 
     //console.log("foto", imagenPerfil)
-  };
+  }
 
   const handleRegister = () => {
     // Lógica para el botón "Nuevo médico"
     // ...
-  };
+  }
 
   const handleMedicoSelect = (selectedMedico) => {
     // Lógica para manejar la selección de un médico
     // ...
-  };
+  }
 
   const validateTextInput = (target) => {
     // Lógica de validación para campos de texto
     // ...
-  };
+  }
 
   const validateNumberInput = (target) => {
     // Lógica de validación para campos numéricos
     // ...
-  };
+  }
 
   const handleCancel = () => {
     // Lógica para el botón "Cancelar"
@@ -139,46 +139,46 @@ const EditDoctorProfile = () => {
     toast.warning("¿Seguro que quieres cancelar?", {
       action: {
         label: "Sí",
-        onClick: () => { 
-          setImagenPerfil(fotoBack);
-          setCorreo(correoBack);
-          setTelefono(telefonoBack);
+        onClick: () => {
+          setImagenPerfil(fotoBack)
+          setCorreo(correoBack)
+          setTelefono(telefonoBack)
         }
       },
       cancel: {
         label: "No",
         onClick: () => {
-          
+
         }
       }
     })
-  };
+  }
 
   function validarCorreoElectronico(correo) {
     // Patrón para validar dirección de correo electrónico
-    const patronCorreo = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-  
-    return patronCorreo.test(correo);
+    const patronCorreo = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
+
+    return patronCorreo.test(correo)
   }
   function validarNumeroTelefono(numero) {
     // Patrón para validar número de teléfono (10 dígitos, opcionalmente con guiones, paréntesis y espacios)
-    const patronTelefono = /^\d{9}$/;
-  
-    return patronTelefono.test(numero);
+    const patronTelefono = /^\d{9}$/
+
+    return patronTelefono.test(numero)
   }
 
   const handleSave = () => { //validar correo y teléfono
-    let hayErrores = false;
-    if(!validarNumeroTelefono(telefono)){
-      toast.error("El número telefónico es incorrecto.");
-      hayErrores = true; 
+    let hayErrores = false
+    if (!validarNumeroTelefono(telefono)) {
+      toast.error("El número telefónico es incorrecto.")
+      hayErrores = true
     }
-    if(!validarCorreoElectronico(correo)){
-      toast.error("Por favor, ingrese un correo electrónico válido.");
-      hayErrores = true; 
+    if (!validarCorreoElectronico(correo)) {
+      toast.error("Por favor, ingrese un correo electrónico válido.")
+      hayErrores = true
       console.log(correo)
     }
-    if(hayErrores) return;
+    if (hayErrores) return
 
     swal({
       title: "Confirmar",
@@ -196,26 +196,26 @@ const EditDoctorProfile = () => {
           },
           closeOnClickOutside: false,
           closeOnEsc: false,
-        });
-        let base64Data;
+        })
+        let base64Data
         if (imagenPerfil) {
           console.log("da", imagenPerfil)
-          const partes = imagenPerfil.split("data:image/")[1].split(";base64,");
-          const extension = partes[0]; // Aquí obtendrás la extensión de la imagen (por ejemplo, 'jpeg', 'png', etc.)
-          base64Data = partes[1]; // Aquí obtendrás los datos en formato base64
+          const partes = imagenPerfil.split("data:image/")[1].split(";base64,")
+          const extension = partes[0] // Aquí obtendrás la extensión de la imagen (por ejemplo, 'jpeg', 'png', etc.)
+          base64Data = partes[1] // Aquí obtendrás los datos en formato base64
         } else {
           base64Data = null
         }
 
-        const url = 'http://localhost:8080/rrhh/put/actualizarMedicoShort';
+        const url = 'http://localhost:8080/rrhh/put/actualizarMedicoShort'
 
         const data = {
           idPersona: idDoctor,
           telefono: telefono,
           foto: base64Data,
           correoElectronico: correo
-        };
-        console.log("data", data);
+        }
+        console.log("data", data)
         fetch(url, {
           method: 'PUT',
           headers: {
@@ -225,54 +225,54 @@ const EditDoctorProfile = () => {
         })
           .then(response => {
             if (!response.ok) {
-              throw new Error('Network response was not ok');
+              throw new Error('Network response was not ok')
 
             }
-            swal.close();
-            swal({ text: "El registro se realizó con éxito", icon: "success", timer: "2500" });
+            swal.close()
+            swal({ text: "El registro se realizó con éxito", icon: "success", timer: "2500" })
             // router.push('/doctors');
             //return response.json();
           })
           .then(responseData => {
             // Manejar la respuesta del servidor si es necesario
-            console.log('Respuesta del servidor:', responseData);
+            console.log('Respuesta del servidor:', responseData)
           })
           .catch(error => {
             // Manejar errores de la red u otros errores
-            console.error('Error al enviar los datos:', error);
-          });
+            console.error('Error al enviar los datos:', error)
+          })
       }
     })
-  };
+  }
 
-  function handleVolver(){
-    if(fotoBack!=imagenPerfil || telefono!=telefonoBack || correo != correoBack){
+  function handleVolver() {
+    if (fotoBack != imagenPerfil || telefono != telefonoBack || correo != correoBack) {
       //si hubo cambios
       toast.warning("Salir y cancelar cambios?", {
         action: {
           label: "Sí",
-          onClick: () => { 
-            setImagenPerfil(fotoBack);
-            setCorreo(correoBack);
-            setTelefono(telefonoBack);
+          onClick: () => {
+            setImagenPerfil(fotoBack)
+            setCorreo(correoBack)
+            setTelefono(telefonoBack)
           }
         },
         cancel: {
           label: "No",
           onClick: () => {
-            
+
           }
         }
       })
-    }else{
-      router.back();
+    } else {
+      router.back()
     }
   }
 
   const validateForm = () => {
     // Lógica para validar el formulario antes de pasar a la siguiente parte
     // ...
-  };
+  }
 
   return (
     <div>
@@ -326,8 +326,8 @@ const EditDoctorProfile = () => {
                     placeholder=" "
                     value={nombreMedico}
                     onChange={(event) => {
-                      validateTextInput(event.target);
-                      setNombreMedico(event.target.value);
+                      validateTextInput(event.target)
+                      setNombreMedico(event.target.value)
                     }}
                     disabled
                   />
@@ -363,8 +363,8 @@ const EditDoctorProfile = () => {
                     placeholder=" "
                     value={apellidoPaterno}
                     onChange={(event) => {
-                      validateTextInput(event.target);
-                      setApellidoPaterno(event.target.value);
+                      validateTextInput(event.target)
+                      setApellidoPaterno(event.target.value)
                     }}
                     disabled
                   />
@@ -383,8 +383,8 @@ const EditDoctorProfile = () => {
                     placeholder=" "
                     value={apellidoMaterno}
                     onChange={(event) => {
-                      validateTextInput(event.target);
-                      setApellidoMaterno(event.target.value);
+                      validateTextInput(event.target)
+                      setApellidoMaterno(event.target.value)
                     }}
                     disabled
                   />
@@ -406,8 +406,8 @@ const EditDoctorProfile = () => {
                     placeholder=" "
                     value={dni}
                     onChange={(event) => {
-                      validateTextInput(event.target);
-                      setDni(event.target.value);
+                      validateTextInput(event.target)
+                      setDni(event.target.value)
                     }}
                     disabled
                   />
@@ -451,8 +451,8 @@ const EditDoctorProfile = () => {
                     placeholder=" "
                     value={telefono}
                     onChange={(event) => {
-                      validateNumberInput(event.target);
-                      setTelefono(event.target.value);
+                      validateNumberInput(event.target)
+                      setTelefono(event.target.value)
                     }}
                     required
                   />
@@ -523,7 +523,7 @@ const EditDoctorProfile = () => {
               </div>
 
               <div className="flex flex-row-reverse">
-                
+
                 <button
                   type="button"
                   className="m-2 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 
@@ -556,7 +556,7 @@ const EditDoctorProfile = () => {
         )
       }
     </div>
-  );
-};
+  )
+}
 
-export default EditDoctorProfile;
+export default EditDoctorProfile
