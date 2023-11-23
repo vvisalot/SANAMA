@@ -13,7 +13,7 @@ import iconoHistorial from "@/components/icons/iconoHistorial";
 
 const HistorialClinico = () => {
   const params = useParams();
-  const idPaciente = params.idPatient;
+  const idPaciente = params.idPatient; //cambien este id cochino csm!!
 
   const [historialClinico, setHistorialClinico] = useState(null);
   const [hojasMedicas, setHojasMedicas] = useState([]);
