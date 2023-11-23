@@ -4,6 +4,9 @@ import { doctorService } from "@/services/doctorService";
 import { useState, useEffect } from "react";
 import DoctorActions from "./DoctorActions";
 import LatestAppointmentsDoctor from "./LastestAppointmentsDoctor";
+import { MdArrowBack } from 'react-icons/md';
+import ProfileCardDoctor from "./ProfileCardDoctor";
+import { useRouter } from "next/navigation";
 function formatearFechaNacimiento(fechaNacimiento) {
   if (!fechaNacimiento) {
     return "No especifica";
@@ -21,6 +24,7 @@ const DoctorProfile = ({ params }) => {
   const [dataDoctor, setDataDoctor] = useState(null);
   const [loading, setLoading] = useState(true);
   const [imagenPerfil, setImagenPerfil] = useState(null);
+  const router = useRouter();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -47,12 +51,25 @@ const DoctorProfile = ({ params }) => {
 
   return (
     <article className="flex-column box-content p-10">
+      
+      <div className="flex justify-end">
+        <div className="flex-end pr-10 pf-10">
+        <button
+          type="button"
+          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-400 font-medium rounded-lg text-sm px-4 py-2.5 flex items-center"
+          onClick={() => router.back()}
+        >
+          <MdArrowBack className="mr-1" style={{ fontSize: '24px' }} />
+          Volver
+        </button>
+        </div>
+      </div>
+      
       <div className="flex">
         <div className="w-1/2 flex-row p-10">
-          <ProfileCard
-            name={`${dataDoctor?.apellidoPaterno ?? ""} ${
-              dataDoctor?.apellidoMaterno ?? ""
-            }, ${dataDoctor?.nombres ?? ""}`}
+          <ProfileCardDoctor
+            name={`${dataDoctor?.apellidoPaterno ?? ""} ${dataDoctor?.apellidoMaterno ?? ""
+              }, ${dataDoctor?.nombres ?? ""}`}
             email={dataDoctor?.correoElectronico ?? ""}
             phone={dataDoctor?.telefono ?? ""}
             address={dataDoctor?.direccion ?? "No especifica"}
@@ -91,8 +108,8 @@ const DoctorProfile = ({ params }) => {
                   {dataDoctor?.sexo === "F"
                     ? "Femenino"
                     : dataDoctor?.sexo === "M"
-                    ? "Masculino"
-                    : "No especifica"}
+                      ? "Masculino"
+                      : "No especifica"}
                 </dd>
               </dl>
               <dl className="basis-1/2">

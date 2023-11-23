@@ -81,3 +81,32 @@ export function formatHour(hour) {
     return hour; // Devuelve la hora original en caso de error
   }
 }
+
+// gcsUtils.js
+
+const gcsDescriptions = {
+  eyesOpen: {
+    4: "Espontánea",
+    3: "Al estímulo verbal",
+    2: "Al estímulo doloroso",
+    1: "Sin respuesta",
+  },
+  talkingCorrectly: {
+    5: "Orientado y conversando",
+    3: "Palabras inapropiadas",
+    2: "Sonidos incomprensibles",
+    1: "Sin respuesta",
+  },
+  ableToMoveBody: {
+    6: "Obedece órdenes verbales",
+    5: "Localiza el dolor",
+    4: "Retirada al dolor",
+    3: "Flexión anormal al dolor",
+    2: "Extensión anormal al dolor",
+    1: "Sin respuesta",
+  },
+};
+
+export const getDescription = (category, value) => {
+  return gcsDescriptions[category][value] || "No definido";
+};

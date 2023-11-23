@@ -2,13 +2,51 @@
 
 import { useEffect, useState } from "react";
 import { triajeService } from "@/services/triajeService";
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
 
 const TriajeProfile = ({ params }) => {
   const [isEditable, setIsEditable] = useState(false);
+  const [glasgow, setGlasgow] = useState(0);
+  
+  const [eyesOpen, setEyesOpen] = useState('');
+  const [talkingCorrectly, setTalkingCorrectly] = useState('');
+  const [ableToMoveBody, setAbleToMoveBody] = useState('');
+
+  const calculateGlasgow = (eyesOpen, talkingCorrectly, ableToMoveBody) => {
+    const scores = {
+      "Ninguna": 1,
+      "Respuesta al Dolor": 2,
+      "Respuesta al Estímulo Verbal": 3,
+      "Espontánea": 4,
+      "Sonidos Incomprensibles": 2,
+      "Palabras Inapropiadas": 3,
+      "Confuso": 4,
+      "Orientado": 5,
+      "Extensión al Dolor": 2,
+      "Flexión al Dolor": 3,
+      "Retirada del Dolor": 4,
+      "Localización del Dolor": 5,
+      "Obedece Órdenes": 6
+    };
+
+    let totalScore = 0;
+    totalScore += scores[eyesOpen] || 0;
+    totalScore += scores[talkingCorrectly] || 0;
+    totalScore += scores[ableToMoveBody] || 0;
+  
+    return totalScore;
+  };
+
+  useEffect(() => {
+    const newGlasgow = calculateGlasgow(eyesOpen, talkingCorrectly, ableToMoveBody);
+    setGlasgow(newGlasgow);
+  }, [eyesOpen, talkingCorrectly, ableToMoveBody]);
 
   const handleEditClick = () => {
     setIsEditable(!isEditable);
   };
+
   const [dataTriaje, setDataTriaje] = useState({
     idTriaje: null,
     codigoTriaje: "",
@@ -313,6 +351,14 @@ const TriajeProfile = ({ params }) => {
         "charCountPreexistentes"
       ).textContent = `${count}/1000`;
     }
+
+    if (name === "eyesOpen") {
+      setEyesOpen(value);
+    } else if (name === "talkingCorrectly") {
+      setTalkingCorrectly(value);
+    } else if (name === "ableToMoveBody") {
+      setAbleToMoveBody(value);
+    }
   };
 
   return (
@@ -377,13 +423,13 @@ const TriajeProfile = ({ params }) => {
             className="bg-blue-500 text-white hover:bg-blue-600 px-4 py-2 rounded"
             onClick={handleEditClick}
           >
-            Editar
+            <i className="fas fa-pencil-alt mr-2"></i> Editar
           </button>
           <button
             className="bg-red-500 text-white hover:bg-red-600 px-4 py-2 rounded"
             onClick={handleAnularTriajeClick}
           >
-            Anular Triaje
+            <i className="fas fa-times-circle mr-2"></i>  Anular Triaje
           </button>
         </div>
 
@@ -667,6 +713,16 @@ const TriajeProfile = ({ params }) => {
             </div>
           </div>
 
+          <div className="flex justify-start">
+            <InputField
+                label="Escala Glasgow"
+                value={glasgow}
+                disabled
+                width="w-1/4"
+                labelWidth="w-full"
+              />
+          </div>
+
           <div className="col-span-3">
             <h2 className="text-3xl font-bold mb-4 mt-5">Nivel de dolor</h2>
           </div>
@@ -738,13 +794,13 @@ const TriajeProfile = ({ params }) => {
                   className="px-4 py-2 bg-gray-300 mr-4 rounded hover:bg-gray-400"
                   onClick={handleCancel}
                 >
-                  Cancelar
+                  <i className="fas fa-times mr-2"></i>Cancelar
                 </button>
                 <button
                   className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
                   onClick={handleSave}
                 >
-                  Guardar
+                  <i className="fas fa-save mr-2"></i>Guardar
                 </button>
               </div>
             </div>

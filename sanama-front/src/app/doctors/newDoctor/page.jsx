@@ -9,6 +9,7 @@ import { es } from 'date-fns/locale'
 import swal from "sweetalert"
 import { useRouter } from "next/navigation"
 import { toast } from 'sonner'
+import { MdArrowBack } from 'react-icons/md';
 const NewDoctor = () => {
   const router = useRouter()
   const [showModal, setShowModal] = useState(false)
@@ -175,15 +176,39 @@ const NewDoctor = () => {
 
   return (
     <section className="rounded-lg p-8 w-full flex flex-col space-y-6">
-      <h2 className="font-sans font-bold break-normal text-gray-700 text-2xl">Crear perfil de doctor</h2>
-      <br />
+
+
+      {/* <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '10px' }}>
+        <button
+          className="w-[180px] text-center font-bold text-white  bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-sm px-4 py-4"
+          style={{ marginLeft: 'auto' }}
+          onClick={()=> router.back()}
+        >
+          Volver
+        </button>
+      </div> */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px' }}>
+        <h2 className="font-sans font-bold break-normal text-gray-700 text-2xl">Crear perfil de doctor</h2>
+        <button
+          type="button"
+          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-400 font-medium rounded-lg text-sm px-4 py-2.5 flex items-center"
+          onClick={()=> router.back()}
+        >
+          <MdArrowBack className="mr-1" style={{ fontSize: '24px' }} />
+          Volver
+        </button>
+      </div>
 
       <div className='text-sm'>
         {/* Nuevo código */}
         <div className="relative z-0 mb-6 group text-center">
+
+
+
           <label htmlFor="imagenPerfil" className="text-gray-500">
             Foto de perfil
           </label>
+
           <input
             type="file"
             accept="image/*"

@@ -6,6 +6,7 @@ import {
   calcularEdad,
   calcularIMC,
   formatearFecha,
+  getDescription,
 } from "@/util/formValidations";
 
 const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
@@ -300,7 +301,6 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
             </div>
           )}
         </div>
-        ;
       </Accordion>
 
       <Accordion title="Nivel de Consciencia" id="glasgow" active={true}>
@@ -315,21 +315,27 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
           <InputField
             key={"eyesOpen"}
             label={"Abertura Ocular"}
-            value={evaluacionMedica.eyesOpen}
+            value={getDescription("eyesOpen", evaluacionMedica.eyesOpen)}
             readOnly
             disabled
           />
           <InputField
             key={"talkingCorrectly"}
             label={"Respuesta Verbal)"}
-            value={evaluacionMedica.talkingCorrectly}
+            value={getDescription(
+              "talkingCorrectly",
+              evaluacionMedica.talkingCorrectly
+            )}
             readOnly
             disabled
           />
           <InputField
             key={"ableToMoveBody"}
             label={"Respuesta Motriz"}
-            value={evaluacionMedica.ableToMoveBody}
+            value={getDescription(
+              "ableToMoveBody",
+              evaluacionMedica.ableToMoveBody
+            )}
             readOnly
             disabled
           />
@@ -337,7 +343,7 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
       </Accordion>
 
       <Accordion title="Diagnostico" id="diagnostico" active={true}>
-        <div className="w-full grid justify-items-center">
+        <div className="w-full grid mt-4">
           <table className="w-3/6 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
@@ -361,7 +367,7 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
       </Accordion>
 
       <Accordion title="Receta Medica" id="receta" active={true}>
-        <div className="w-full grid justify-items-center">
+        <div className="w-full grid mt-4">
           <table className="w-3/6 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
@@ -381,7 +387,9 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
               ))}
             </tbody>
           </table>
-          <div className="w-3/6 mt-2">
+        </div>
+        <div className="col-span-2 ">
+          <div className="w-[200px] mt-2">
             <InputField
               key={"fechaCaducidad"}
               label={"Fecha de Caducidad"}
@@ -390,6 +398,9 @@ const ReviewFormEvaluation = ({ patientData, hojaMedicaData }) => {
               disabled
             />
           </div>
+          <label className="block resize-none text-sm font-medium text-gray-700 w-1/6">
+            Indicaciones Finales:
+          </label>
           <textarea
             readOnly
             disabled
