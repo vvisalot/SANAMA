@@ -23,11 +23,6 @@ const HistorialClinico = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isEvaluationCreated, setIsEvaluationCreated] = useState(false);
-
-  const handleEvaluationCreated = () => {
-    setIsEvaluationCreated(true);
-  };
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -65,7 +60,6 @@ const HistorialClinico = () => {
 
   const handleNewMedicalEvaluation = useCallback(() => {
     router.push(`${pathname}/new/`);
-    setIsEvaluationCreated(true);
   }, [router, pathname]);
 
   const handleOpenModal = useCallback(() => {
@@ -151,22 +145,20 @@ const HistorialClinico = () => {
             className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
             onClick={handleNewMedicalEvaluation}
           >
-            Nueva Evaluación Médica
+            Nueva Evaluacion Medica
           </button>
-          {isEvaluationCreated && (
-            <button
-              onClick={handleOpenModal}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Nueva Orden de Laboratorio
-            </button>
-                    )}
+          <button
+            onClick={handleOpenModal}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Nueva Orden de Laboratorio
+          </button>
 
-            <LaboratoryModal
-              isOpen={isModalOpen}
-              onClose={handleCloseModal}
-              appointmentId={idCita}
-            />
+          <LaboratoryModal
+            isOpen={isModalOpen}
+            onClose={handleCloseModal}
+            appointmentId={idCita}
+          />
         </div>
 
         <div className="bg-white p-4 rounded shadow-md">
