@@ -1,15 +1,17 @@
 "use client";
 import React, { useState, useEffect, useCallback } from "react";
-import { patientService } from "@/services/patientService";
 import { useRouter, useParams, usePathname } from "next/navigation";
+import { patientService } from "@/services/patientService";
+import { appointmentService } from "@/services/appointmentService";
+import { attentionService } from "@/services/attentionService";
+import { doctorService } from "@/services/doctorService";
 import MedicalRecordsTable from "@/components/MedicalRecordsTable";
-import { parseHojaMedicaTable } from "@/util/medicalRecordParser";
 import usePatientForm from "@/hooks/usePatientForm";
+import { parseHojaMedicaTable } from "@/util/medicalRecordParser";
 import { sexParser } from "@/util/patientParser";
 import TitleWithIcon from "@/components/TitleWithIcon";
-import iconoHistorial from "@/components/icons/iconoHistorial";
 import LaboratoryModal from "@/components/evaluations/LaboratoryModal";
-import { appointmentService } from "@/services/appointmentService";
+import iconoHistorial from "@/components/icons/iconoHistorial";
 
 const HistorialClinico = () => {
   const params = useParams();
@@ -18,15 +20,18 @@ const HistorialClinico = () => {
   const idCita = params.idCita;
   const router = useRouter();
 
-  const { patientForm, setPatientForm } = usePatientForm();
   const [historialClinico, setHistorialClinico] = useState(null);
   const [hojasMedicas, setHojasMedicas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentStatusId, setCurrentStatusId] = useState(null);
-  const [isEvaluationCreated, setIsEvaluationCreated] = useState(false);
   const [idValue, setIdValue] = useState(null);
+  const { patientForm, setPatientForm } = usePatientForm();
+
+  const [especialidades, setEspecialidades] = useState([]);
+  const [especialidadId, setEspecialidadId] = useState("");
+  const [fechaInicio, setFechaInicio] = useState("");
+  const [fechaFin, setFechaFin] = useState("");
 
   const fetchCitaStatus = async () => {
     try {
@@ -83,9 +88,33 @@ const HistorialClinico = () => {
     }
   }, [idPaciente, fetchData]);
 
+  useEffect(() => {
+    const cargarEspecialidades = async () => {
+      const especialidadesData = await doctorService.listarEspecialidades();
+      setEspecialidades(especialidadesData || []);
+    };
+    cargarEspecialidades();
+  }, []);
+
+  const handleSearch = useCallback(async () => {
+    try {
+      const filteredData = await attentionService.listarHojasMedicasFiltro({
+        pn_id_paciente: idPaciente,
+        pn_id_especialidad: especialidadId || null,
+        pd_fecha_inicio: fechaInicio || null,
+        pd_fecha_fin: fechaFin || null,
+      });
+
+      setHojasMedicas(parseHojaMedicaTable(filteredData));
+    } catch (error) {
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
+  }, [especialidadId, fechaInicio, fechaFin, idPaciente]);
+
   const handleNewMedicalEvaluation = useCallback(() => {
     router.push(`${pathname}/new/`);
-    setIsEvaluationCreated(true);
   }, [router, pathname]);
 
   const handleOpenModal = useCallback(() => {
@@ -95,10 +124,6 @@ const HistorialClinico = () => {
   const handleCloseModal = useCallback(() => {
     setIsModalOpen(false);
   }, []);
-
-  if (loading) return <p>Cargando...</p>;
-  if (error) return <p>Error al cargar el historial clínico</p>;
-  if (!historialClinico) return <p>No se encontró el historial clínico</p>;
 
   const options = [
     {
@@ -113,6 +138,9 @@ const HistorialClinico = () => {
     },
   ];
 
+  if (loading) return <p>Cargando...</p>;
+  if (error) return <p>Error al cargar el historial clínico</p>;
+  if (!historialClinico) return <p>No se encontró el historial clínico</p>;
   return (
     <section className="p-4 md:p-14 h-screen">
       <TitleWithIcon name={`Atencion Medica`} Icon={iconoHistorial} />
@@ -201,11 +229,68 @@ const HistorialClinico = () => {
           <h2 className="text-xl font-bold mb-4 border-b pb-2">
             Hojas Medicas Existentes:
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 mt-4">
-            <div className="flex flex-col">
-              <label className="font-semibold mb-2 text-gray-600">Desde:</label>
-              <input className="border rounded p-2 w-full" type="date" />
+          <div className="flex gap-4 rounded-md m-2">
+            <div className="flex-1 min-w-[200px]">
+              <label
+                htmlFor="especialidadId"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Especialidad
+              </label>
+              <select
+                id="especialidadId"
+                value={especialidadId}
+                onChange={(e) => setEspecialidadId(e.target.value)}
+                className="mt-1 block w-full p-2 border-gray-300 rounded-md shadow-sm"
+              >
+                <option value="">Seleccione una especialidad</option>
+                {especialidades.map((especialidad) => (
+                  <option
+                    key={especialidad.idEspecialidad}
+                    value={especialidad.idEspecialidad}
+                  >
+                    {especialidad.nombre}
+                  </option>
+                ))}
+              </select>
             </div>
+            <div className="flex-1 min-w-[200px]">
+              <label
+                htmlFor="fechaFin"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Fecha de Inicio
+              </label>
+              <input
+                type="date"
+                id="fechaInicio"
+                value={fechaInicio}
+                onChange={(e) => setFechaInicio(e.target.value)}
+                className="mt-1 block w-full p-2 border-gray-300 rounded-md shadow-sm"
+              />
+            </div>
+            <div className="flex-1 min-w-[200px]">
+              <label
+                htmlFor="fechaFin"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Fecha de Fin
+              </label>
+              <input
+                type="date"
+                id="fechaFin"
+                value={fechaFin}
+                onChange={(e) => setFechaFin(e.target.value)}
+                className="mt-1 block w-full p-2 border-gray-300 rounded-md shadow-sm"
+              />
+            </div>
+            <button
+              type="button"
+              onClick={handleSearch}
+              className="inline-flex align-bottom justify-center rounded-md border border-transparent bg-blue-600 mt-6 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700"
+            >
+              Buscar
+            </button>
           </div>
           <MedicalRecordsTable
             data={hojasMedicas}
