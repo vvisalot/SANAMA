@@ -3,7 +3,7 @@ import ReactSignatureCanvas from "react-signature-canvas";
 import { Modal } from "flowbite-react";
 import { toast } from "sonner";
 
-export function AddSigDialog({ onConfirm, onClose }) {
+export function SignatureModal({ show, onConfirm, onClose }) {
   const sigRef = useRef(null);
 
   const handleConfirm = () => {
@@ -14,7 +14,7 @@ export function AddSigDialog({ onConfirm, onClose }) {
   };
 
   return (
-    <Modal onClose={onClose} show={true}>
+    <Modal show={show} onClose={onClose}>
       <Modal.Header className="bg-gray-200 text-black p-2 flex justify-between items-center">
         Firma del Doctor
       </Modal.Header>
@@ -28,7 +28,7 @@ export function AddSigDialog({ onConfirm, onClose }) {
             ref={sigRef}
             canvasProps={{
               width: "600",
-              height: 200,
+              height: "200",
               className: "sigCanvas",
             }}
           />

@@ -1,7 +1,7 @@
 import React from "react";
 import { FaCheck, FaTimes } from "react-icons/fa";
 
-export default function DraggableSignature({ url, onSet, onCancel }) {
+export default function ViewSignature({ url, onSet, onCancel }) {
   return (
     <div className="relative my-4 p-2 border-2 border-dashed border-gray-300">
       <div className="flex justify-end space-x-2 mb-2">

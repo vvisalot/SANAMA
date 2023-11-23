@@ -11,7 +11,7 @@ const defaultOptions = {
   language: "es",
   disabledDates: [],
   theme: {
-    input: "py-10 h-[45px] text-end",
+    input: "h-[45px] text-end",
     disabled: "text-gray-900 text-gray-600",
   },
   weekDays: ["Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"],
