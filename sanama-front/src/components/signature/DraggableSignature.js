@@ -3,16 +3,30 @@ import { FaCheck, FaTimes } from "react-icons/fa";
 
 export default function DraggableSignature({ url, onSet, onCancel }) {
   return (
-    <div className="absolute z-50 border-2 border-blue-800">
-      <div className="absolute right-0 inline-block bg-blue-800">
-        <div className="inline-block cursor-pointer p-1" onClick={onSet}>
-          <FaCheck />
-        </div>
-        <div className="inline-block cursor-pointer p-1" onClick={onCancel}>
-          <FaTimes />
-        </div>
+    <div className="relative my-4 p-2 border-2 border-dashed border-gray-300">
+      <div className="flex justify-end space-x-2 mb-2">
+        <button
+          onClick={onSet}
+          className="text-white bg-green-500 hover:bg-green-600 rounded-full p-2 focus:outline-none"
+          aria-label="Confirmar firma"
+        >
+          <FaCheck className="w-4 h-4" />
+        </button>
+        <button
+          onClick={onCancel}
+          className="text-white bg-red-500 hover:bg-red-600 rounded-full p-2 focus:outline-none"
+          aria-label="Cancelar firma"
+        >
+          <FaTimes className="w-4 h-4" />
+        </button>
       </div>
-      <img src={url} width={200} className="block" draggable={false} />
+      <img
+        src={url}
+        alt="Firma"
+        className="block mx-auto"
+        style={{ maxWidth: "100%", maxHeight: "150px" }} // Se ajusta a la dimensión máxima disponible
+        draggable={false}
+      />
     </div>
   );
 }
