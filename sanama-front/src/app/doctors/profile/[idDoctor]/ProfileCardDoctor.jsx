@@ -2,9 +2,8 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-
-const YourComponent = ({ imagenPerfil, noPerfil, name, email, phone, address, doctor, module, id, urlEdit }) => {
-
+import noPerfil from '../../../../components/cards/noPerfil.png'
+const YourComponent = ({ imagenPerfil, name, email, phone, address, doctor, module, id, urlEdit }) => {
   return (
     <>
       <section className="w-full h-[300px] bg-white border border-gray-200 rounded-xl shadow flex flex-row">
@@ -14,7 +13,7 @@ const YourComponent = ({ imagenPerfil, noPerfil, name, email, phone, address, do
           ) : (
             <>
               {imagenPerfil ? (
-                <div className="mt-2" style={{ width: '14rem', height: '14rem', position: 'relative' }}>
+                <div className="mt-2" style={{ width: '12rem', height: '12rem', position: 'relative' }}>
                   <img
                     src={imagenPerfil}
                     alt="Vista previa de la imagen"
@@ -23,7 +22,7 @@ const YourComponent = ({ imagenPerfil, noPerfil, name, email, phone, address, do
                   />
                 </div>
               ) : (
-                <div className="mt-2" style={{ width: '14rem', position: 'relative' }}>
+                <div className="mt-2" style={{ width: '12rem', height: '12rem', position: 'relative' }}>
                   <img
                     src={noPerfil.src}
                     alt="Vista previa de la imagen"

@@ -36,9 +36,7 @@ const HistorialClinico = () => {
   const fetchCitaStatus = async () => {
     try {
       const data = await appointmentService.getStatusCita(idCita);
-      console.log("EL ESTADO ES: ", data);
       const idValue = data.idValue;
-      console.log("ID Value: ", idValue);
       setIdValue(data.idValue);
     } catch (error) {
       console.error(error);

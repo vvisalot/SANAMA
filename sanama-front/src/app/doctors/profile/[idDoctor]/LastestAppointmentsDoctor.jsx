@@ -59,41 +59,39 @@ const LatestAppointmentsDoctor = ({ id }) => {
       </div>
 
       <div className="grid grid-cols-2">
-        {latestAppointments.slice(0, 4).map((appointment, index) => (
-          <div key={index} className="p-4 m-4 rounded-lg text-sm border border-gray shadow-sm">
-            <p>
-              <strong className="text-gray-500 pr-3">Fecha:
-              </strong>
-              {appointment.fechaCita}
-            </p>
-            <p>
-              <strong className="text-gray-500 pr-3">Hora:
-              </strong> {appointment.horaCita}
-            </p>
-            <p>
-              <strong className="text-gray-500 pr-3">Paciente:
-              </strong>
-              {appointment.paciente.apellidoPaterno + " " + appointment.paciente.apellidoMaterno + ", " + appointment.paciente.nombres}
-            </p>
-            <p>
-              <strong className="text-gray-500 pr-3">Estado:</strong>
-              {appointment.estado === 1
-                ? "Atendida"
-                : appointment.estado === 2
-                  ? "En Consultorio"
-                  : appointment.estado === 3
-                    ? "Cancelada"
-                    : appointment.estado === 4
-                      ? "Pendiente"
-                      : appointment.estado === 5
-                        ? "En Triaje"
-                        : "Estado Desconocido"}
-            </p>
-
-
-          </div>
-        ))
-        }
+        {latestAppointments.length > 0 ? (
+          latestAppointments.slice(0, 4).map((appointment, index) => (
+            <div key={index} className="p-4 m-4 rounded-lg text-sm border border-gray shadow-sm">
+              <p>
+                <strong className="text-gray-500 pr-3">Fecha:</strong>
+                {appointment.fechaCita}
+              </p>
+              <p>
+                <strong className="text-gray-500 pr-3">Hora:</strong> {appointment.horaCita}
+              </p>
+              <p>
+                <strong className="text-gray-500 pr-3">Paciente:</strong>
+                {appointment.paciente.apellidoPaterno + " " + appointment.paciente.apellidoMaterno + ", " + appointment.paciente.nombres}
+              </p>
+              <p>
+                <strong className="text-gray-500 pr-3">Estado:</strong>
+                {appointment.estado === 1
+                  ? "Atendida"
+                  : appointment.estado === 2
+                    ? "En Consultorio"
+                    : appointment.estado === 3
+                      ? "Cancelada"
+                      : appointment.estado === 4
+                        ? "Pendiente"
+                        : appointment.estado === 5
+                          ? "En Triaje"
+                          : "Estado Desconocido"}
+              </p>
+            </div>
+          ))
+        ) : (
+          <p className="p-4">No hay citas existentes</p>
+        )}
       </div >
 
 
