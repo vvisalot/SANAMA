@@ -130,7 +130,7 @@ const TriajeProfile = ({ params }) => {
       // pn_presion_arterial: dataTriaje.presionArterisal,
 
       pn_presion_sistolica: dataTriaje.presionSistolica,
-      pn_presion_sistolica: dataTriaje.presionDiastolica,
+      pn_presion_diastolica: dataTriaje.presionDiastolica,
 
       pn_estado: 1,
       pv_prioridad: dataTriaje.prioridad,
@@ -138,9 +138,9 @@ const TriajeProfile = ({ params }) => {
       pn_frecuenciaCardiaca: dataTriaje.frecuenciaCardiaca,
       pn_frecuenciaRespiratoria: dataTriaje.frecuenciaRespiratoria,
 
-      pv_nivelConciencia: dataTriaje.nivelConciencia,
+      pv_nivelConciencia: "",
 
-      pn_glasgow: dataTriaje.glasgow,
+      pn_glasgow: 1,
       pn_eyes_open: dataTriaje.eyesOpen,
       pn_talking_correctly: dataTriaje.talkingCorrectly,
       pn_able_to_move_body: dataTriaje.ableToMoveBody,
