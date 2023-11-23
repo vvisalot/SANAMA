@@ -2,9 +2,8 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-
-const YourComponent = ({ imagenPerfil, noPerfil, name, email, phone, address, doctor, module, id, urlEdit }) => {
-
+import noPerfil from '../../../../components/cards/noPerfil.png'
+const YourComponent = ({ imagenPerfil, name, email, phone, address, doctor, module, id, urlEdit }) => {
   return (
     <>
       <section className="w-full h-[300px] bg-white border border-gray-200 rounded-xl shadow flex flex-row">
