@@ -13,7 +13,7 @@ import iconoHistorial from "@/components/icons/iconoHistorial";
 
 const HistorialClinico = () => {
   const params = useParams();
-  const idPaciente = params.idPaciente;
+  const idPaciente = params.idPatient;
 
   const [historialClinico, setHistorialClinico] = useState(null);
   const [hojasMedicas, setHojasMedicas] = useState([]);
@@ -103,7 +103,7 @@ const HistorialClinico = () => {
   if (!historialClinico) return <p>No se encontró el historial clínico</p>;
   return (
     <section className="p-4 md:p-14 h-screen">
-      <TitleWithIcon name={`Historial Medico`} Icon={iconoHistorial} />
+      <TitleWithIcon name={`Ver Historial Medico`} Icon={iconoHistorial} />
       <div className="bg-gray-100 max-h-screen p-4 md:p-8">
         <div className="bg-white p-4 rounded shadow-md mb-6">
           <h1 className="text-3xl font-bold mb-4">
