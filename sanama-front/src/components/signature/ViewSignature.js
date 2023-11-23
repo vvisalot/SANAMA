@@ -1,17 +1,10 @@
 import React from "react";
-import { FaCheck, FaTimes } from "react-icons/fa";
+import { FaTimes } from "react-icons/fa";
 
-export default function ViewSignature({ url, onSet, onCancel }) {
+export default function ViewSignature({ url, onCancel }) {
   return (
     <div className="relative my-4 p-2 border-2 border-dashed border-gray-300">
       <div className="flex justify-end space-x-2 mb-2">
-        <button
-          onClick={onSet}
-          className="text-white bg-green-500 hover:bg-green-600 rounded-full p-2 focus:outline-none"
-          aria-label="Confirmar firma"
-        >
-          <FaCheck className="w-4 h-4" />
-        </button>
         <button
           onClick={onCancel}
           className="text-white bg-red-500 hover:bg-red-600 rounded-full p-2 focus:outline-none"

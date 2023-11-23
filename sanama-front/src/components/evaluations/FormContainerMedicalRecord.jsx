@@ -75,11 +75,7 @@ const FormContainerMedicalRecord = ({
       />
 
       {signatureURL && (
-        <ViewSignature
-          url={signatureURL}
-          onSet={resetSignature}
-          onCancel={resetSignature}
-        />
+        <ViewSignature url={signatureURL} onCancel={resetSignature} />
       )}
 
       <div className="flex flex-row-reverse">

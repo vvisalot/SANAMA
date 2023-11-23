@@ -1,7 +1,6 @@
 import React, { useRef } from "react";
 import ReactSignatureCanvas from "react-signature-canvas";
 import { Modal } from "flowbite-react";
-import { toast } from "sonner";
 
 export function SignatureModal({ show, onConfirm, onClose }) {
   const sigRef = useRef(null);
@@ -9,7 +8,6 @@ export function SignatureModal({ show, onConfirm, onClose }) {
   const handleConfirm = () => {
     const sigURL = sigRef.current.toDataURL();
     onConfirm(sigURL); // Llama directamente a onConfirm sin esperar una promesa
-    toast.success("Firma Registrada"); // Muestra el mensaje de éxito
     onClose(); // Cierra el modal
   };
 
