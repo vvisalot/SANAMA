@@ -26,7 +26,7 @@ const defaultOptions = {
     },
 }
 
-const DatePicker = ({ name, selectedDate, setSelectedDate }) => {
+const DatePicker = ({ name, selectedDate, setSelectedDate, disabled }) => {
     const [showDate, setShowDate] = useState(false)
 
     const options = {
@@ -44,6 +44,7 @@ const DatePicker = ({ name, selectedDate, setSelectedDate }) => {
             value={selectedDate}
             show={showDate}
             setShow={setShowDate}
+            disabled={disabled}
         />
     )
 }
