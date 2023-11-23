@@ -151,9 +151,15 @@ function CitasMedico({ dataDoctor }) {
                 width={"w-full"}
                 placeholderText={"Buscar por Nombre, DNI o Código de la Cita"}
               />
-              <button
+              {/* <button
                 type="submit"
                 className="text-white bg-primary-dark-blue hover:bg-primary-dusk-blue focus:ring-4 focus:outline-none focus:ring-primary-light-periwinkle font-medium rounded-lg text-sm px-4 py-2.5"
+              >
+                Buscar
+              </button> */}
+              <button
+                type="submit"
+                className="h-[45px] text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-400 font-medium rounded-lg text-sm px-4 py-2.5"
               >
                 Buscar
               </button>
