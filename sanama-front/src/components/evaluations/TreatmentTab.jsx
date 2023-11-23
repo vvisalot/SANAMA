@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import Datepicker from "tailwind-datepicker-react";
 import AddMedicationForm from "../todolist/AddMedicationForm";
 import MedicationList from "../todolist/MedicationList";
@@ -33,7 +33,7 @@ const TratamientoYDecisionCita = ({ setMedicalRecordData }) => {
     addRecetaMedica,
     removeRecetaMedica,
     updateRecetaMedica,
-  } = useTratamientoData(initialState);
+  } = useTratamientoData(initialState, setMedicalRecordData);
 
   const handleOnChange = (selectedDate) => {
     setMedicalRecordData((prevData) => ({
@@ -106,7 +106,7 @@ const TratamientoYDecisionCita = ({ setMedicalRecordData }) => {
         label="Indicaciones Finales:"
         name="evaluacionMedica.indicacionesFinales"
         placeholder="Ingresa indicaciones adicionales.."
-        onBlur={handleOnBlurChange} // Cambio aquí
+        onBlur={handleOnBlurChange}
       />
     </div>
   );
