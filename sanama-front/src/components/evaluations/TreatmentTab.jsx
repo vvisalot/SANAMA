@@ -26,7 +26,7 @@ const TratamientoYDecisionCita = ({ setMedicalRecordData }) => {
 
   const initialState = {
     recetasMedicas: [],
-    fechaDeCaducidad: "",
+    fechaCaducidad: "",
   };
   const {
     tratamientoData,
@@ -40,7 +40,7 @@ const TratamientoYDecisionCita = ({ setMedicalRecordData }) => {
       ...prevData,
       recetaMedica: {
         ...prevData.recetaMedica,
-        fechaDeCaducidad: selectedDate,
+        fechaCaducidad: selectedDate,
       },
     }));
   };
@@ -83,7 +83,7 @@ const TratamientoYDecisionCita = ({ setMedicalRecordData }) => {
           </label>
           <Datepicker
             className="mt-1 p-2 min-w-7xl border-gray-300 rounded-md"
-            value={tratamientoData.fechaDeCaducidad}
+            value={tratamientoData.fechaCaducidad}
             onChange={handleOnChange}
             placeholder="Fecha de Caducidad"
             show={showFinal}
