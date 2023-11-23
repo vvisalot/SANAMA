@@ -30,10 +30,18 @@ const FormContainerMedicalRecord = ({
   const handleConfirmSignature = (url) => {
     setSignatureURL(url);
     setShowModal(false);
+    setMedicalRecordData((prevData) => ({
+      ...prevData,
+      firma: url, // Aquí estamos actualizando el estado con la URL de la firma
+    }));
   };
 
   const resetSignature = () => {
     setSignatureURL(null);
+    setMedicalRecordData((prevData) => ({
+      ...prevData,
+      firma: null, // Aquí estamos actualizando el estado con la URL de la firma
+    }));
   };
 
   const handleSubmit = async (event) => {
