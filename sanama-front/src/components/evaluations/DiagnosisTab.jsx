@@ -47,7 +47,15 @@ const DiagnosticoMedico = ({ setMedicalRecordData }) => {
       <h4 className="text-lg font-bold text-gray-700 mb-2">
         Diagnóstico Médico
       </h4>
-
+      <div className="flex flex-row-reverse">
+        <button
+          type="button"
+          onClick={handleOpenModal}
+          className="mt-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md"
+        >
+          Buscar Diagnostico
+        </button>
+      </div>
       <div className="col-span-2">
         <label className="block text-sm font-medium text-gray-700">
           Diagnóstico (CIE-10)
@@ -69,13 +77,6 @@ const DiagnosticoMedico = ({ setMedicalRecordData }) => {
           </div>
         ))}
       </div>
-      <button
-        type="button"
-        onClick={handleOpenModal}
-        className="mt-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md"
-      >
-        Buscar Diagnostico
-      </button>
 
       <SearchDiagnostic
         show={showModal}
