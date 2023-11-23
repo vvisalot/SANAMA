@@ -80,7 +80,7 @@ const VitalSigns = ({ defaultTriaje, setMedicalRecordData }) => {
 
   const renderInputField = (field) => (
     <div key={field.name}>
-      <label className="block text-sm font-medium text-gray-700">
+      <label className="truncate block text-sm font-medium text-gray-700">
         {field.label}
       </label>
       <input
@@ -88,7 +88,7 @@ const VitalSigns = ({ defaultTriaje, setMedicalRecordData }) => {
         name={field.name}
         defaultValue={defaultTriaje[field.name]}
         onChange={handleInputChange}
-        className={`mt-1 p-2 w-full border-gray-300 rounded-md ${
+        className={`truncate mt-1 p-2 w-full border-gray-300 rounded-md ${
           errors[field.name] ? "border-red-500" : ""
         }`}
         placeholder={field.label}

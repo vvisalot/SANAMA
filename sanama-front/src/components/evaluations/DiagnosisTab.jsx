@@ -65,6 +65,7 @@ const DiagnosticoMedico = ({ setMedicalRecordData }) => {
             <input
               type="text"
               value={`${diagnose.idCiex} - ${diagnose.ciex}`}
+              readOnly
               className="mt-1 p-2 w-full border-gray-300 rounded-md"
             />
             <button
