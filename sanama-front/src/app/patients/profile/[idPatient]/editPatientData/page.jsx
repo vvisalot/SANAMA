@@ -5,11 +5,15 @@ import { patientService } from "@/services/patientService"
 import { TextInput } from "flowbite-react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
+import { toast } from "sonner"
 
 const EditPatientData = ({ params }) => {
     //console.log(params.idPatient)
     const router = useRouter()
     const [isEditing, setIsEditing] = useState(false)
+    const [isFormChanged, setIsFormChanged] = useState(false)
+    const [originalData, setOriginalData] = useState(null)
+
     console.log("Is editing", isEditing)
     const {
         patientForm,
@@ -23,6 +27,15 @@ const EditPatientData = ({ params }) => {
 
             setPatientForm({
                 ...patientForm,
+                apellidoPaterno: data.apellidoPaterno,
+                apellidoMaterno: data.apellidoMaterno,
+                nombres: data.nombres,
+                direccion: data.direccion,
+                telefono: data.telefono,
+                correo: data.correo
+            })
+
+            setOriginalData({
                 apellidoPaterno: data.apellidoPaterno,
                 apellidoMaterno: data.apellidoMaterno,
                 nombres: data.nombres,
@@ -47,6 +60,12 @@ const EditPatientData = ({ params }) => {
         }
     }
 
+    const loadingChange = async (data) => {
+        console.log(data)
+        await patientService.modificarPaciente(data)
+        router.back()
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault()
         const dataToUpdate = {
@@ -56,18 +75,47 @@ const EditPatientData = ({ params }) => {
             "pv_direccion": patientForm.direccion
         }
 
-        try {
-            await putData(dataToUpdate)
-            router.back()
-        } catch (error) {
-            console.log("Error al actualizar datos")
+
+        if (patientForm.telefono !== originalData?.telefono ||
+            patientForm.correo !== originalData?.correo ||
+            patientForm.direccion !== originalData?.direccion) {
+            toast.promise(() => loadingChange(dataToUpdate), {
+                loading: "Modificando datos del paciente",
+                success: "Se modificó los datos con éxito",
+                error: "Error al modificar los datos del paciente"
+
+            })
+        } else {
+            toast.error("Los datos ingresados son los mismos")
+            return
         }
+
+
     }
 
+    const handleCancel = (e) => {
+        if (isEditing) {
+            toast("¿Estas seguro que deseas cancelar?, La informacion ingresada se borrara.", {
+                action: {
+                    label: "Si",
+                    onClick: () => {
+                        setIsEditing(false)
+                        setPatientForm(originalData)
+                    }
+                },
+                cancel: {
+                    label: "No",
+                    onClick: () => toast.dismiss(),
+                },
+            })
+        }
+
+    }
     useEffect(() => {
         if (params.idPatient !== null) {
             fetchData(params.idPatient)
         }
+
 
     }, [params.idPatient])
 
@@ -166,7 +214,7 @@ const EditPatientData = ({ params }) => {
 
 
             <div className="my-4 px-16 justify-end flex">
-                <button type="button"
+                <button type="button" onClick={handleCancel}
                     className="mr-4 text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                     Cancelar
                 </button>

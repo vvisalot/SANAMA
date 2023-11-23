@@ -72,8 +72,8 @@ const AdvancedTable = ({ data, id, columns }) => {
                   </tr>
                 ))
               ) :
-              <tr className="bg-white w-fullh-[500px] flex justify-center">
-                <img src="/no-table-data.jpg" className="object-cover w-[500px] h-[500px]"></img>
+              <tr className="bg-white w-full h-full flex justify-center">
+                <td className="w-full h-full">No hay datos</td>
               </tr>
             }
           </tbody>
