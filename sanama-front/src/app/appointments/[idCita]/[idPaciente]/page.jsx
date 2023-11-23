@@ -31,23 +31,24 @@ const HistorialClinico = () => {
   const fetchCitaStatus = async () => {
     try {
       const data = await appointmentService.getStatusCita(idCita);
-      console.log("EL ESTADO ES: ", data)
+      console.log("EL ESTADO ES: ", data);
       const idValue = data.idValue;
-      console.log("ID Value: ", idValue); 
-      setIdValue(data.idValue); 
+      console.log("ID Value: ", idValue);
+      setIdValue(data.idValue);
     } catch (error) {
       console.error(error);
     }
-  };  
-  fetchCitaStatus(); 
+  };
+  fetchCitaStatus();
 
   useEffect(() => {
     fetchCitaStatus();
   }, [idCita]);
 
-  const isEvaluationButtonDisabled = idValue === 1 || idValue === 4 || idValue === 5;
+  const isEvaluationButtonDisabled =
+    idValue === 1 || idValue === 4 || idValue === 5;
   const isOrderButtonDisabled = idValue === 2 || idValue === 4 || idValue === 5;
-  
+
   const fetchData = useCallback(async () => {
     setLoading(true);
     try {
@@ -164,10 +165,14 @@ const HistorialClinico = () => {
           </div>
         </div>
 
-        <div className=" flex mb-6 space-x-4">
+        <div className="flex mb-6 space-x-4">
           <button
             type="button"
-            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+            className={`font-bold py-2 px-4 rounded ${
+              isEvaluationButtonDisabled
+                ? "bg-gray-500 hover:bg-gray-600"
+                : "bg-green-500 hover:bg-green-700"
+            } text-white`}
             onClick={handleNewMedicalEvaluation}
             disabled={isEvaluationButtonDisabled}
           >
@@ -175,7 +180,11 @@ const HistorialClinico = () => {
           </button>
           <button
             onClick={handleOpenModal}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className={`font-bold py-2 px-4 rounded ${
+              isOrderButtonDisabled
+                ? "bg-gray-500 hover:bg-gray-600"
+                : "bg-blue-500 hover:bg-blue-700"
+            } text-white`}
             disabled={isOrderButtonDisabled}
           >
             Nueva Orden de Laboratorio
