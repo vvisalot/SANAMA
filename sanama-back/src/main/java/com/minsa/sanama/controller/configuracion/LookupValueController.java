@@ -1,7 +1,10 @@
 package com.minsa.sanama.controller.configuracion;
 
+import com.minsa.sanama.model.atencionmedica.HojaMedica;
 import com.minsa.sanama.model.configuracion.LookupValue;
 import com.minsa.sanama.services.configuracion.LookupValueService;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,5 +62,20 @@ public class LookupValueController {
         List<LookupValue> lcitas;
         lcitas = valueService.listarEstadosCitasOrdenes();
         return lcitas;
+    }
+
+    @PostMapping(value = "/post/getStatusCita")
+    @ResponseBody
+    public LookupValue getStatusCita(@RequestBody String pv_datos){
+        LookupValue cita=null;
+        try{
+            JSONObject job = (JSONObject) new JSONParser().parse(pv_datos);
+            int pn_id_cita = Integer.parseInt(job.get("pn_id_cita").toString());
+            cita = valueService.getStatusCita(pn_id_cita);
+            return cita;
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return null;
     }
 }

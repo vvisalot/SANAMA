@@ -44,6 +44,12 @@ public class LookupValueRepository {
         return jdbcTemplate.query(procedureCall, listaValoresMapper);
     }
 
+    public List<LookupValue> getStatusCita(int pn_id_cita) {
+        String procedureCall = "{call dbSanama.ssm_conf_get_status_cita("+pn_id_cita+")};";
+        return jdbcTemplate.query(procedureCall, listaValoresMapper);
+    }
+
+
     private static class ListaValoresMapper implements RowMapper<LookupValue> {
         @Override
         public LookupValue mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -52,7 +58,7 @@ public class LookupValueRepository {
 
             lookupValue.setIdValue(rs.getInt("id_value"));
             lookupValue.setDescripcion(rs.getString("descripcion"));
-            lookupValue.setEstado(1);
+            //lookupValue.setEstado(1);
 
             return lookupValue;
         }
@@ -70,4 +76,6 @@ public class LookupValueRepository {
             return lookupValue;
         }
     }
+
+
 }

@@ -3,9 +3,11 @@ package com.minsa.sanama.model.configuracion;
 import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class LookupValue {
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private int idValue=0;
     private String descripcion;
-    private int estado;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    private int estado=0;
 
     public LookupValue(){
     }

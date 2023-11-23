@@ -41,4 +41,10 @@ public class LookupValueService {
         return lcitas;
     }
 
+    public LookupValue getStatusCita(int pn_id_cita) {
+        LookupValue cita;
+        cita = valueRepository.getStatusCita(pn_id_cita).get(0);
+        return cita;
+    }
+
 }
