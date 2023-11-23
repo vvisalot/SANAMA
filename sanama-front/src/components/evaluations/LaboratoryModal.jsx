@@ -1,14 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import swal from "sweetalert";
 import { toast } from "sonner";
 import { Modal } from "flowbite-react";
+import { appointmentService } from "@/services/appointmentService";
+
 
 const LaboratoryModal = ({ isOpen, onClose, appointmentId }) => {
+  const tiposDeMuestra = ["Heces", "Sangre", "Orina"];
   const [dataLaboratorio, setDataLaboratorio] = useState({
     tipoMuestra: "",
     instrucciones: "",
   });
   const [isConfirming, setIsConfirming] = useState(false);
+  const [idHojaMedica, setIdHojaMedica] = useState(null);
+  const [codigoHojaMedica, setCodigoHojaMedica] = useState("");
+
+  const fetchCodigoHojaMedica = async () => {
+    try {
+      const data = await appointmentService.mostrarCodigoHojaMedicaCita(appointmentId);
+      console.log("El código de la hoja médica es: ", data.codigo);
+      setCodigoHojaMedica(data.codigo);
+    } catch (error) {
+      console.error("Error al obtener el código de la hoja médica: ", error);
+    }
+  };
+  
+  useEffect(() => {
+    fetchCodigoHojaMedica();    
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -74,7 +93,7 @@ const LaboratoryModal = ({ isOpen, onClose, appointmentId }) => {
 
   return (
     <Modal show={isOpen} size="xl" onClose={onClose}>
-      <Modal.Header>Registrar Orden de Laboratorio</Modal.Header>
+      <Modal.Header>Registrar Orden de Laboratorio <br /> Asociada a {codigoHojaMedica}</Modal.Header>
       <Modal.Body>
         {" "}
         <div className="mb-2 mt-2">
@@ -84,15 +103,20 @@ const LaboratoryModal = ({ isOpen, onClose, appointmentId }) => {
           >
             Tipo de Muestra
           </label>
-          <input
+          <select
             className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="tipoMuestra"
             name="tipoMuestra"
-            type="text"
-            placeholder="Tipo de muestra"
             value={dataLaboratorio.tipoMuestra}
             onChange={handleChange}
-          />
+          >
+            <option value="">Seleccione una opción</option>
+            {tiposDeMuestra.map((muestra) => (
+              <option key={muestra} value={muestra}>
+                {muestra}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="mb-2 mt-2">
           <label

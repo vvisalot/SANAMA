@@ -16,6 +16,7 @@ const ENDPOINTS = {
   LISTAR_ESTADOS_CITAS: "/configuracion/get/listarEstadosCitas",
   LISTAR_LABORATORIOS: "/atencion/post/buscarResultadosPaciente",
   GET_STATUS_CITA: "/configuracion/post/getStatusCita",
+  GET_CODE_MEDICAL_SHEET: "/atencion/post/mostrarCodigoHojaMedicaCita",
 };
 
 const formatDate = (date) => {
@@ -28,6 +29,18 @@ const formatDate = (date) => {
 };
 
 export const appointmentService = {
+
+  mostrarCodigoHojaMedicaCita: async (pn_id_cita) => {
+    try {
+      const response = await axiosInstance.post(ENDPOINTS.GET_CODE_MEDICAL_SHEET, {
+        pn_id_cita,
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error al mostrar el código de la hoja médica: ", error);
+      throw error; 
+    }
+  },
 
   listarLaboratorios: async (pn_id_hoja_medica) => {
     try {
