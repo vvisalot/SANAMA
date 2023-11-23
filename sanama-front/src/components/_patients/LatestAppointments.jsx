@@ -21,8 +21,8 @@ const LatestAppointments = ({ id }) => {
 
     return (
         <section className="my-10  p-6 w-full bg-white border border-gray-200 rounded-xl shadow  h-[400px]">
-            <div className="px-4 flex items-center justify-between  ">
-                <h1 className="font-bold text-lg pb-1"> Últimas citas realizadas</h1>
+            <h1 className="font-bold text-lg pb-1 px-4"> Últimas citas realizadas</h1>
+            {/* <div className="px-4 flex items-center justify-between  ">
                 <Link href={`/patients/profile/${id}/appointments`}
                     className="text-blue-700 hover:text-white border 
                          hover:bg-blue-800 focus:ring-4 focus:outline-none 
@@ -30,7 +30,7 @@ const LatestAppointments = ({ id }) => {
                         dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">
                     Ver todos
                 </Link>
-            </div>
+            </div> */}
 
             <div className="grid grid-cols-2">
                 {latestAppointments.slice(0, 4).map((appointment, index) => (
