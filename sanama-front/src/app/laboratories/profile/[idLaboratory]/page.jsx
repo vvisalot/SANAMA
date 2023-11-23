@@ -10,33 +10,33 @@ const LaboratoryProfile = ({ params }) => {
   const [isLoading, setIsLoading] = useState(false);
   const hiddenFileInput = useRef(null);
 
-
   const handleAddExamenClick = () => {
-    // Añadir un nuevo examen médico al estado
-    setDataLaboratory(prevState => {
-      const lastId = prevState.examenMedico.length > 0
-        ? Math.max(...prevState.examenMedico.map(e => e.idExamen || 0))
-        : 0;
-  
+    setDataLaboratory((prevState) => {
+      const lastId =
+        prevState.examenMedico.length > 0
+          ? Math.max(...prevState.examenMedico.map((e) => e.idExamen || 0))
+          : 0;
+
       return {
         ...prevState,
         examenMedico: [
           ...prevState.examenMedico,
-          { idExamen: lastId + 1, nombreArchivo: "", archivo: null }
-        ]
+          { idExamen: lastId + 1, nombreArchivo: "", archivo: null },
+        ],
       };
     });
-  
-    // Espera a que el estado se actualice y luego abre el diálogo de archivo
+
     setTimeout(() => {
-      const newExamenIndex = dataLaboratory.examenMedico.length; // Index del nuevo examen médico
-      const newFileInput = document.querySelector(`input[name="examenMedico.${newExamenIndex}.archivo"]`);
+      const newExamenIndex = dataLaboratory.examenMedico.length;
+      const newFileInput = document.querySelector(
+        `input[name="examenMedico.${newExamenIndex}.archivo"]`
+      );
       if (newFileInput) {
         newFileInput.click();
       }
     }, 0);
   };
-  
+
   useEffect(() => {
     const fetchMedicos = async () => {
       try {
@@ -333,27 +333,9 @@ const LaboratoryProfile = ({ params }) => {
     }));
   };
 
-  // const handleAddExamen = () => {
-  //     setDataLaboratory(prevState => {
-  //       // Encuentra el idExamen más alto en la lista actual o comienza desde 1 si está vacío
-  //       const lastId = prevState.examenMedico.length > 0
-  //         ? Math.max(...prevState.examenMedico.map(e => e.idExamen || 0))
-  //         : 0;
-
-  //       // Retorna el nuevo estado con el nuevo examen añadido
-  //       return {
-  //         ...prevState,
-  //         examenMedico: [
-  //           ...prevState.examenMedico,
-  //           { idExamen: lastId + 1, nombreArchivo: "", archivo: "" } // archivo debe ser null inicialmente
-  //         ]
-  //       };
-  //     });
-  //   };
-
   const handleAddExamen = (event) => {
     const files = event.target.files;
-    
+
     if (!files.length) {
       return;
     }
@@ -362,8 +344,6 @@ const LaboratoryProfile = ({ params }) => {
     const reader = new FileReader();
 
     reader.onloadend = () => {
-      // Agregar lógica para manejar el archivo leído
-      // Por ejemplo, actualizar el estado con el contenido y nombre del archivo
       setDataLaboratory((prevState) => {
         const lastId =
           prevState.examenMedico.length > 0
@@ -376,7 +356,7 @@ const LaboratoryProfile = ({ params }) => {
             {
               idExamen: lastId + 1,
               nombreArchivo: file.name,
-              archivo: reader.result, // Asumiendo que quieres guardar el archivo como Data URL
+              archivo: reader.result,
             },
           ],
         };
@@ -384,36 +364,33 @@ const LaboratoryProfile = ({ params }) => {
     };
 
     if (file) {
-      reader.readAsDataURL(file); // Esto iniciará el proceso de lectura del archivo
+      reader.readAsDataURL(file);
     }
   };
 
   const downloadFile = (base64, fileName) => {
-    // Convertir base64 a un objeto Blob
     const blob = base64ToBlob(base64, "application/pdf");
-    // Crear un enlace para la descarga
+
     const link = document.createElement("a");
-    // Crear un URL para el Blob
+
     const url = URL.createObjectURL(blob);
     link.href = url;
-    link.download = fileName; // Asignar el nombre de archivo para la descarga
-    document.body.appendChild(link); // Agregar el enlace al cuerpo del documento
-    link.click(); // Simular un click para iniciar la descarga
-    document.body.removeChild(link); // Eliminar el enlace una vez iniciada la descarga
-    URL.revokeObjectURL(url); // Liberar el objeto URL
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   };
 
-  // Función auxiliar para convertir Base64 a Blob
   const base64ToBlob = (base64, mimeType) => {
-    // Decodificar la cadena base64 a un array de enteros
     const byteCharacters = atob(base64);
     const byteNumbers = new Array(byteCharacters.length);
     for (let i = 0; i < byteCharacters.length; i++) {
       byteNumbers[i] = byteCharacters.charCodeAt(i);
     }
-    // Convertir el array de enteros a un Uint8Array
+
     const byteArray = new Uint8Array(byteNumbers);
-    // Crear el Blob a partir del Uint8Array
+
     return new Blob([byteArray], { type: mimeType });
   };
 
@@ -652,63 +629,6 @@ const LaboratoryProfile = ({ params }) => {
               ))}
             </select>
           </div>
-
-          {/* <div className="col-span-3"> 
-            <label className="text-xl text-black block mb-2">Subir archivo</label>
-            {dataLaboratory.examenMedico.map((examen, index) => (
-                <div key={index} className="mt-4">
-                    <input
-                        name={`examenMedico.${index}.archivo`}
-                        className="text-xl border rounded p-4 w-full"
-                        type="file"
-                        onChange={(e) => handleFileChange(e, index)}
-                    />
-                    {examen.nombreArchivo && (
-                        <div className="mt-2">
-                            <span className="text-lg">Archivo actual: </span>
-                            <a
-                                href="#"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    downloadFile(examen.archivo, examen.nombreArchivo);
-                                }}
-                                className="bg-blue-500 text-white py-2 px-4 mt-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 inline-block"  // Estilos de botón agregados
-                            >
-                                {examen.nombreArchivo}
-                            </a>
-                        </div>
-                    )}
-
-
-                    <button 
-                        onClick={() => handleRemoveExamen(index)} 
-                        className="bg-red-500 text-white py-2 px-4 mt-4 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-50"
-                    >
-                        Eliminar Examen
-                    </button>
-                </div>
-            ))}
-
-            <button 
-                onClick={() => { 
-                    setDataLaboratory(prevState => {
-                        // Encuentra el idExamen más alto en la lista actual o comienza desde 1 si está vacío
-                        const lastId = prevState.examenMedico.length > 0 
-                            ? Math.max(...prevState.examenMedico.map(e => e.idExamen || 0))
-                            : 0;
-
-                        // Retorna el nuevo estado con el nuevo examen añadido
-                        return {
-                            ...prevState,
-                            examenMedico: [...prevState.examenMedico, { idExamen: lastId + 1, nombreArchivo: "", archivo: "" }]
-                        };
-                    });
-                }}
-                className="bg-blue-500 text-white py-2 px-4 mt-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
-            >
-                Añadir Examen
-            </button>
-        </div> */}
 
           <div className="col-span-3">
             <h4 className="text-2xl font-bold mb-4">Subir archivos</h4>

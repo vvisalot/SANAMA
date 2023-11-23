@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { triajeService } from "@/services/triajeService";
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
 
 const TriajeProfile = ({ params }) => {
   const [isEditable, setIsEditable] = useState(false);
@@ -421,13 +423,13 @@ const TriajeProfile = ({ params }) => {
             className="bg-blue-500 text-white hover:bg-blue-600 px-4 py-2 rounded"
             onClick={handleEditClick}
           >
-            Editar
+            <i className="fas fa-pencil-alt mr-2"></i> Editar
           </button>
           <button
             className="bg-red-500 text-white hover:bg-red-600 px-4 py-2 rounded"
             onClick={handleAnularTriajeClick}
           >
-            Anular Triaje
+            <i className="fas fa-times-circle mr-2"></i>  Anular Triaje
           </button>
         </div>
 
@@ -792,13 +794,13 @@ const TriajeProfile = ({ params }) => {
                   className="px-4 py-2 bg-gray-300 mr-4 rounded hover:bg-gray-400"
                   onClick={handleCancel}
                 >
-                  Cancelar
+                  <i className="fas fa-times mr-2"></i>Cancelar
                 </button>
                 <button
                   className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
                   onClick={handleSave}
                 >
-                  Guardar
+                  <i className="fas fa-save mr-2"></i>Guardar
                 </button>
               </div>
             </div>
