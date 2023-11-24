@@ -1,5 +1,5 @@
 const connection = {
-	 backend: "http://3.213.29.160:8080",
+	 backend: "http://44.221.26.224:8080",
 	//backend: 'http://localhost:8080'
 }
 
