@@ -477,12 +477,19 @@ const PatientForm = ({
           </div>
         </div>
 
+
+
         <div className="grid grid-cols-2 md:gap-6">
-          <DatePicker
-            name={"fecha-nacimiento"}
-            selectedDate={selectedDate}
-            setSelectedDate={handleFechaNacimiento}
-          />
+          <div>
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="fecha-nacimiento">
+              Fecha de nacimiento
+            </label>
+            <DatePicker
+              name={"fecha-nacimiento"}
+              selectedDate={selectedDate}
+              setSelectedDate={handleFechaNacimiento}
+            />
+          </div>
           <Picker
             name1={"masculino"}
             name2={"femenino"}
