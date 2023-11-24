@@ -79,7 +79,7 @@ const AppointmentPage = () => {
 		{
 			text: 'Ver',
 			link: '/appointments',
-			icon: '/icons/eye.svg'
+			icon: 'fa fa-eye'
 		}
 	]
 
