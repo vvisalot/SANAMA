@@ -118,20 +118,6 @@ const TriajeProfile = ({ params }) => {
     pv_nivelDolor: "Evaluación del dolor",
     pv_condicionesPrexistentes: "Condiciones preexistentes",
   };
-  
-  useEffect(() => {
-
-    setEyesOpen(dataTriaje?.eyesOpen || '');
-    setTalkingCorrectly(dataTriaje?.talkingCorrectly || '');
-    setAbleToMoveBody(dataTriaje?.ableToMoveBody || '');
-
-    const initialGlasgow = calculateGlasgow(
-      dataTriaje?.eyesOpen || '',
-      dataTriaje?.talkingCorrectly || '',
-      dataTriaje?.ableToMoveBody || ''
-    );
-    setGlasgow(initialGlasgow);
-  }, [dataTriaje]);
 
   const handleSave = async () => {
     const triajeData = {
@@ -200,6 +186,22 @@ const TriajeProfile = ({ params }) => {
       alert("Hubo un error al guardar. Por favor, inténtalo de nuevo.");
     }
   };
+
+  
+  useEffect(() => {
+
+    setEyesOpen(dataTriaje?.eyesOpen || '');
+    setTalkingCorrectly(dataTriaje?.talkingCorrectly || '');
+    setAbleToMoveBody(dataTriaje?.ableToMoveBody || '');
+  
+    const initialGlasgow = calculateGlasgow(
+      dataTriaje?.eyesOpen || '',
+      dataTriaje?.talkingCorrectly || '',
+      dataTriaje?.ableToMoveBody || ''
+    );
+    setGlasgow(initialGlasgow);
+  }, [dataTriaje]);
+
 
   const handleAcceptModal = () => {
     setShowModal(false);

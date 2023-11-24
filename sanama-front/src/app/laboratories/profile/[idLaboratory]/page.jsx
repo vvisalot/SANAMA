@@ -1,16 +1,22 @@
 "use client";
-
 import { useEffect, useState, useRef } from "react";
 import { laboratoryService } from "@/services/laboratoryService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useRouter, usePathname } from "next/navigation";
 import { MdArrowBack } from 'react-icons/md';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
 const LaboratoryProfile = ({ params }) => {
   const router = useRouter();
   const [medicos, setMedicos] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const hiddenFileInput = useRef(null);
+  const [isEditable, setIsEditable] = useState(false);
+
+  const handleEditClick = () => {
+    setIsEditable(!isEditable);
+  };
 
   const handleAddExamenClick = () => {
     setDataLaboratory((prevState) => {
@@ -214,7 +220,7 @@ const LaboratoryProfile = ({ params }) => {
     } else if (sexo === "F") {
       return "Femenino";
     }
-    return ""; // o puedes retornar null o un mensaje como 'No especificado'
+    return ""; 
   }
 
   function calcularEdad(fechaNacimiento) {
@@ -406,7 +412,10 @@ const LaboratoryProfile = ({ params }) => {
           </div>
         </div>
       )}
-      <div className="flex justify-end mb-6">
+
+      <section className="rounded-lg p-8 mx-auto flex flex-col space-y-6 md:max-w-5xl lg:max-w-6xl xl:max-w-7xl">
+
+      <div className="flex justify-end">
         <div className="flex-end">
           <button
             type="button"
@@ -418,12 +427,21 @@ const LaboratoryProfile = ({ params }) => {
           </button>
         </div>
       </div>
-      <button
-        className="text-xl bg-red-500 text-white hover:bg-red-600 px-4 py-2 rounded float-right mb-4"
-        onClick={handleAnularLaboratoryClick}
-      >
-        Anular Laboratorio
-      </button>
+
+      <div className="flex justify-end space-x-4">
+        <button
+              className="bg-blue-500 text-white hover:bg-blue-600 px-4 py-2 rounded"
+              onClick={handleEditClick}
+            >
+              <i className="fas fa-pencil-alt mr-2"></i> Editar
+        </button>
+        <button
+          className="bg-red-500 text-white hover:bg-red-600 px-4 py-2 rounded"
+          onClick={handleAnularLaboratoryClick}
+        >
+          <i className="fas fa-times-circle mr-2"></i>  Anular Laboratorio
+        </button>
+      </div>
 
       {showConfirmPopup && (
         <div
@@ -477,182 +495,123 @@ const LaboratoryProfile = ({ params }) => {
           </div>
         </div>
       )}
-      <section className="rounded-lg p-8 w-full flex flex-col space-y-6">
-        <h4 className="text-2xl font-bold mb-4 mt-4">
+
+        
+        <h4 style={{ fontSize: "2.2525rem" }}  className="text-2xl font-bold">
           Información del paciente
         </h4>
 
-        <div className="grid grid-cols-3 gap-6 mb-6">
-          <div>
-            <label className="text-xl text-black block mb-2">Nombres</label>
-            <input
-              className="text-xl border rounded p-4 w-full bg-gray-200 cursor-not-allowed"
-              type="text"
-              value={dataLaboratory?.citaMedica?.paciente?.nombres}
-              onChange={handleChange}
+        <div className="flex flex-wrap gap-4">
+          <div style={{ flex: "3 0 0%" }}>
+            <InputField
+              label="Nombre completo"
+              value={`${dataLaboratory?.citaMedica?.paciente?.nombres} ${dataLaboratory?.citaMedica?.paciente?.apellidoPaterno} ${dataLaboratory?.citaMedica?.paciente?.apellidoMaterno}`}
               disabled
+              width="w-full"
+              labelWidth="w-full"
             />
           </div>
-          <div>
-            <label className="text-xl text-black block mb-2">
-              Primer Apellido
-            </label>
-            <input
-              name="primerApellido"
-              className="text-xl border rounded p-4 w-full bg-gray-200 cursor-not-allowed"
-              type="text"
-              value={dataLaboratory?.citaMedica?.paciente?.apellidoPaterno}
-              onChange={handleChange}
-              disabled
-            />
-          </div>
-
-          <div>
-            <label className="text-xl text-black block mb-2">
-              Segundo Apellido
-            </label>
-            <input
-              name="segundoApellido"
-              className="text-xl border rounded p-4 w-full bg-gray-200 cursor-not-allowed"
-              type="text"
-              value={dataLaboratory?.citaMedica?.paciente?.apellidoMaterno}
-              onChange={handleChange}
-              disabled
-            />
-          </div>
-
-          <div>
-            <label className="text-xl text-black block mb-2">
-              Documento de identidad
-            </label>
-            <input
-              name="documentoIdentidad"
-              className="text-xl border rounded p-4 w-full bg-gray-200 cursor-not-allowed"
-              type="text"
+          <div style={{ flex: "1.2 0 0%" }}>
+            <InputField
+              label="Documento de identidad"
               value={dataLaboratory?.citaMedica?.paciente?.dni}
-              onChange={handleChange}
               disabled
+              width="w-full"
+              labelWidth="w-full"
             />
           </div>
-
-          <div>
-            <label className="text-xl text-black block mb-2">Sexo</label>
-            <input
-              name="sexo"
-              className="text-xl border rounded p-4 w-full bg-gray-200 cursor-not-allowed"
-              type="text"
-              value={getSexoLabel(dataLaboratory?.citaMedica?.paciente?.sexo)}
-              onChange={handleChange}
+          <div style={{ flex: "1 0 0%" }}>
+            <InputField
+              label="Sexo"
+              value={dataLaboratory?.paciente?.sexo === "F" ? "Femenino" : "Masculino"}
               disabled
+              width="w-full"
+              labelWidth="w-full"
             />
           </div>
-
-          <div className="w-1/4">
-            <label className="text-xl text-black block mb-2">Edad</label>
-            <input
-              name="edad"
-              className="text-xl border rounded p-4 w-full bg-gray-200 cursor-not-allowed"
-              type="number"
-              value={calcularEdad(
-                dataLaboratory?.citaMedica?.paciente?.fechaNacimiento
-              )}
-              onChange={handleChange}
+          <div style={{ flex: "0 0 90px" }}>
+            <InputField
+              label="Edad"
+              value={calcularEdad(dataLaboratory?.citaMedica?.paciente?.fechaNacimiento)}
               disabled
+              width="w-full"
             />
           </div>
         </div>
 
-        <h4 className="text-2xl font-bold mb-4 mt-4">
-          Información de orden de laboratorio
-        </h4>
+        <div className="col-span-3">
+          <h2 className="text-3xl font-bold mt-5">Información de orden de laboratorio</h2>
+        </div>
 
-        <div className="grid grid-cols-3 gap-6 mb-6">
-          <div>
-            <label className="text-xl text-black block mb-2">
-              Tipo de muestra
-            </label>
-            <input
-              name="tipoMuestra"
-              className="text-xl border rounded p-4 w-full bg-gray-200 cursor-not-allowed"
-              type="text"
+        
+        <div className="flex justify-start">
+          <div style={{ flex: "0 0 150px", marginRight: "1rem" }}>
+            <InputField
+              label="Tipo de muestra"
               value={dataLaboratory?.tipoMuestra}
-              onChange={handleChange}
               disabled
+              width="w-full"
+              labelWidth="w-full"
             />
           </div>
-
-          <div>
-            <label className="text-xl text-black block mb-2">
-              Médico prescriptor
-            </label>
-            <input
-              name="medicoPrescriptor"
-              className="text-xl border rounded p-4 w-full bg-gray-200 cursor-not-allowed"
-              type="text"
+          <div style={{ flex: "0 0 390px" }}>
+            <InputField
+              label="Médico prescriptor"
               value={`${dataLaboratory?.citaMedica?.medico?.nombres} ${dataLaboratory?.citaMedica?.medico?.apellidoPaterno} ${dataLaboratory?.citaMedica?.medico?.apellidoMaterno}`}
-              onChange={handleChange}
               disabled
+              width="w-full"
+              labelWidth="w-full"
             />
-          </div>
-
-          <div className="text-xl col-span-3">
-            <label className="text-black block mb-2">Examenes a realizar</label>
-            <textarea
-              name="listaPruebas"
-              style={{ fontSize: "20px" }}
-              className="textarea-custom w-full bg-gray-200 cursor-not-allowed"
-              value={dataLaboratory?.instrucciones}
-              onChange={handleChange}
-              disabled
-            ></textarea>
           </div>
         </div>
 
-        <h4 className="text-2xl font-bold mb-4 mt-4">
-          Información de los exámenes
-        </h4>
+        <div className="flex">
+            <div className="flex-1 col-span-3">
+              <InputField
+                label="Examenes a realizar"
+                value={dataLaboratory?.instrucciones}
+                disabled
+                type="textarea"
+                width="w-full"
+                labelWidth="w-full"
+              />
+            </div>
+        </div>
+
+        <div>
+          <h2 className="text-3xl font-bold mt-5">Información de los exámenes</h2>
+        </div>
 
         <div className="grid grid-cols-3 gap-6 mb-6">
-          <div>
-            <label className="text-xl text-black block mb-2">
-              Médico de Laboratorio
-            </label>
-            <select
-              name="medicoLaboratorio"
-              className="text-xl border rounded w-full py-4 px-3"
-              onChange={handleMedicoChange}
-              value={
-                medicos.find(
-                  (medico) =>
-                    medico.descripcion === dataLaboratory.doctorFirmante
-                )?.idValue || ""
-              }
-            >
-              <option value="" disabled className="text-xl">
-                Seleccionar médico
-              </option>
-              {medicos.map((medico) => (
-                <option
-                  key={medico.idValue}
-                  value={medico.idValue}
-                  className="text-xl"
-                >
-                  {medico.descripcion}
-                </option>
-              ))}
-            </select>
+          <div className="flex justify-start">
+            <div style={{ flex: "0 0 350px", marginRight: "14rem" }}>
+              <InputField
+                label="Médico de Laboratorio"
+                name="medicoLaboratorio"
+                value={
+                  medicos.find(
+                    (medico) => medico.descripcion === dataLaboratory.doctorFirmante
+                  )?.idValue || ""
+                }
+                type="select"
+                onChange={handleMedicoChange}
+                options={medicos.map(medico => ({ value: medico.idValue, label: medico.descripcion }))}
+                isEditable={isEditable} 
+                labelWidth="w-full"
+                width="w-full"
+              />
+            </div>
           </div>
 
           <div className="col-span-3">
-            <h4 className="text-2xl font-bold mb-4">Subir archivos</h4>
 
             <table className="min-w-full divide-y divide-gray-200 shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-              <thead className="bg-gray-50">
+              <thead className="bg-gray-300">
                 <tr>
-                  <th className="px-6 py-3 text-left text-lg font-medium text-gray-500 tracking-wider">
+                  <th className="px-6 py-3 text-left text-lg font-medium text-gray-700 tracking-wider">
                     Nombre del archivo
                   </th>
-                  <th className="px-6 py-3 text-right text-lg font-medium text-gray-500 tracking-wider">
+                  <th className="px-6 py-3 text-right text-lg font-medium text-gray-700 tracking-wider">
                     Acciones
                   </th>
                 </tr>
@@ -692,13 +651,13 @@ const LaboratoryProfile = ({ params }) => {
                         onClick={() =>
                           downloadFile(examen.archivo, examen.nombreArchivo)
                         }
-                        className="text-xl text-indigo-600 hover:text-indigo-900"
+                        className="text-lg text-indigo-600 hover:text-indigo-900"
                       >
                         Descargar
                       </button>
                       <button
                         onClick={() => handleRemoveExamen(index)}
-                        className="text-xl text-red-600 hover:text-red-900 ml-4"
+                        className="text-lg text-red-600 hover:text-red-900 ml-4"
                       >
                         Eliminar
                       </button>
@@ -715,46 +674,54 @@ const LaboratoryProfile = ({ params }) => {
                 style={{ display: "none" }}
                 onChange={handleAddExamen}
               />
-              <button
+              
+              {/* <button
                 onClick={handleAddExamenClick}
                 className="bg-blue-500 text-white py-2 px-4 mt-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 flex items-center text-xl"
               >
                 <FontAwesomeIcon icon={faPlus} className="mr-2" />
                 Añadir
-              </button>
+              </button> */}
+                <button
+                  onClick={handleAddExamenClick}
+                  className="bg-blue-500 text-white hover:bg-blue-600 px-4 py-2 mt-4 rounded"
+                >
+                  <i className="fas fa-plus mr-2"></i> Añadir
+                </button>
+
             </div>
           </div>
 
-          <div className="col-span-3">
-            <h4 className="text-2xl font-bold mb-4 mt-4">Observaciones</h4>
-            <textarea
-              value={dataLaboratory?.observaciones}
-              style={{ fontSize: "20px" }}
-              onChange={handleChange}
-              name="observaciones"
-              className="text-4xl textarea-custom w-full"
-              maxLength={1000}
-            ></textarea>
-            <span className="text-right block mt-2" id="charCount">
-              {(dataLaboratory?.observaciones || "").length}/1000
-            </span>
-          </div>
+            <div className="col-span-3">
+              <h2 className="text-3xl font-bold mb-4">Observaciones</h2>
+              <InputField
+                value={dataLaboratory?.observaciones}
+                isEditable={isEditable}
+                type="textarea"
+                name="observaciones"
+                onChange={handleChange}
+                maxLength={1000}
+              />
+              <span className="text-right block" id="charCountObservaciones">
+                {(dataLaboratory?.observaciones || "").length}/1000
+              </span>
+            </div>
         </div>
 
         <div>
-          <div className="grid grid-cols-3 gap-6 mb-6">
-            <div className="col-span-3 mt-6 flex justify-end">
+          <div className="grid grid-cols-3">
+            <div className="col-span-3 flex justify-end">
               <button
-                className="text-xl px-4 py-2 bg-gray-300 mr-4 rounded hover:bg-gray-400"
+                className="bg-gray-600 text-white hover:bg-blue-600 px-4 py-2 rounded mr-4"
                 onClick={handleCancel}
               >
-                Cancelar
+                <i className="fas fa-times mr-2"></i>Cancelar
               </button>
               <button
-                className="text-xl px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                className="bg-blue-500 text-white hover:bg-blue-600 px-4 py-2 rounded"
                 onClick={handleSave}
               >
-                Guardar
+                <i className="fas fa-save mr-2"></i>Guardar
               </button>
             </div>
           </div>
@@ -820,5 +787,86 @@ const LaboratoryProfile = ({ params }) => {
     </div>
   );
 };
+
+const InputField = ({
+  label,
+  name,
+  value,
+  isEditable,
+  type = "text",
+  onChange,
+  options = [],
+  width = "w-full",
+  labelWidth,
+  placeholder = "Seleccione una opción",
+  minWidth = "w-0",
+  maxWidth = "w-full",
+}) => {
+  const inputClass = `border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block ${width}  ${isEditable ? "bg-white cursor-text" : "bg-gray-300 cursor-not-allowed"
+    }`;
+
+  const renderInput = () => {
+    switch (type) {
+      case "textarea":
+        return (
+          <textarea
+            name={name}
+            id={name}
+            value={value}
+            disabled={!isEditable}
+            onChange={onChange}
+            className={`flex-1 ${inputClass}`}
+          />
+        );
+      case "select":
+        console.log(`Current value for ${name}:`, value);
+        return (
+          <select
+            name={name}
+            id={name}
+            value={value}
+            disabled={!isEditable}
+            onChange={onChange}
+            className={`flex-1 ${inputClass}`}
+          >          
+            <option value="" disabled selected>
+              {placeholder}
+            </option>
+            {options.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        );
+      default:
+        return (
+          <input
+            type={type}
+            name={name}
+            id={name}
+            value={value}
+            disabled={!isEditable}
+            onChange={onChange}
+            className={`flex-1 ${inputClass}`}
+            style={{ minWidth: minWidth, maxWidth: maxWidth }}
+          />
+        );
+    }
+  };
+
+  return (
+    <div className={`${width}`}>
+      <label
+        className={`block text-lg font-medium text-gray-700 mb-2 ${labelWidth}`}
+        htmlFor={name}
+      >
+        {label}
+      </label>
+      {renderInput()}
+    </div>
+  );
+};
+
 
 export default LaboratoryProfile;
