@@ -5,6 +5,7 @@ import "moment/locale/es"; // Importa la localización en español
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import Mensaje from "./Mensaje";
 import swal from "sweetalert";
+import { ENDPOINTS, MAURICIO_LISTAR, MAURICIO_REGISTRO } from "@/services/doctorService";
 
 moment.locale("es");
 const localizer = momentLocalizer(moment);
@@ -179,12 +180,7 @@ function SeleccionarHorarioMedico({ doctor }) {
           };
         });
 
-        function crearJSONParaServidor(
-          eventosTransformados,
-          idMedico,
-          fechaInicioReg,
-          fechaFinReg
-        ) {
+        function crearJSONParaServidor(eventosTransformados, idMedico, fechaInicioReg, fechaFinReg) {
           const jsonParaServidor = {
             pn_id_medico: idMedico,
             pd_fecha_inicio: fechaInicioReg,
@@ -206,50 +202,36 @@ function SeleccionarHorarioMedico({ doctor }) {
           fechaFinReg
         );
 
+        console.log(MAURICIO_REGISTRO)
+
+
         const registrarEvento = async (jsonParaServidor) => {
+          const requestOptions = {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(jsonParaServidor),
+          };
+
           try {
-            const response = await registrarHorarioMedico(jsonParaServidor);
-            setIsCalendarEnabled(false);
-            setSeHaModificadoHorario(false);
-            swal.close();
-            swal({
-              text: "El registro se realizó con éxito",
-              icon: "success",
-            });
+            const response = await fetch(MAURICIO_REGISTRO, requestOptions);
+            if (response.ok) {
+              setIsCalendarEnabled(false);
+              setSeHaModificadoHorario(false);
+              swal.close();
+              swal({
+                text: "El registro se realizó con éxito",
+                icon: "success",
+              });
+            } else {
+              console.error("Error en la solicitud:", response.statusText);
+              setSeHaModificadoHorario(false);
+            }
           } catch (error) {
-            console.error("Error al registrar el horario del médico", error);
-            setSeHaModificadoHorario(false);
+            console.error("Error en la solicitud:", error);
           }
         };
-
-        // const registrarEvento = async (jsonParaServidor) => {
-        //   const url = "http://localhost:8080/rrhh/post/registrarHorarioMedico";
-        //   const requestOptions = {
-        //     method: "POST",
-        //     headers: {
-        //       "Content-Type": "application/json",
-        //     },
-        //     body: JSON.stringify(jsonParaServidor),
-        //   };
-
-        //   try {
-        //     const response = await fetch(url, requestOptions);
-        //     if (response.ok) {
-        //       setIsCalendarEnabled(false);
-        //       setSeHaModificadoHorario(false);
-        //       swal.close();
-        //       swal({
-        //         text: "El registro se realizó con éxito",
-        //         icon: "success",
-        //       });
-        //     } else {
-        //       console.error("Error en la solicitud:", response.statusText);
-        //       setSeHaModificadoHorario(false);
-        //     }
-        //   } catch (error) {
-        //     console.error("Error en la solicitud:", error);
-        //   }
-        // };
 
         const registrarEventos = async () => {
           await registrarEvento(jsonParaServidor);
@@ -265,6 +247,8 @@ function SeleccionarHorarioMedico({ doctor }) {
   };
 
   useEffect(() => {
+    console.log(MAURICIO_REGISTRO)
+
     const obtenerEventos = async () => {
       const eventosTotales = [];
       fechaHoy.setDate(fechaHoy.getDate()); //mi limite inferior. Fecha hoy - 7 dias
@@ -281,16 +265,24 @@ function SeleccionarHorarioMedico({ doctor }) {
         pd_fecha_fin: `${year2}-${month2}-${day2}`,
       };
 
-      const obtenerEventos = async (requestData) => {
-        try {
-          const data = await obtenerHorariosPorMedicoEIntervaloFechas(requestData);
-          eventosTotales.push(...convertirDatosParaCalendar(data));
-        } catch (error) {
-          console.error("Error al obtener horarios por médico e intervalo de fechas", error);
-        }
-        setEvents(eventosTotales); //guardamos eventos
-        setIsLoading(false); //permitimos su visualización en front
+      const url = MAURICIO_LISTAR;
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestData),
       };
+
+      try {
+        const response = await fetch(url, requestOptions);
+        if (response.ok) {
+          const data = await response.json();
+          eventosTotales.push(...convertirDatosParaCalendar(data));
+        }
+      } catch (error) {
+        console.error("Error al obtener los horarios:", error);
+      }
       setEvents(eventosTotales); //guardamos eventos
       setIsLoading(false); //permitimos su visualizacion en front
     };
@@ -410,13 +402,12 @@ function SeleccionarHorarioMedico({ doctor }) {
   maxTime.setHours(22, 0, 0); // Establece la hora máxima a las 10:00 PM
   return (
     <>
+
       {/* <header className="p-5  text-2xl font-bold tracking-wider text-gray-900">
         Disponibilidad:
       </header> */}
       <div>
-        {isLoading ? (
-          <p>Cargando...</p>
-        ) : (
+        {isLoading ? (<p>Cargando...</p>) : (
           <div style={{ height: "auto" }}>
             <div
               className="flex justify-center space-x-4"
@@ -424,28 +415,30 @@ function SeleccionarHorarioMedico({ doctor }) {
             >
               <button
                 className={`${!isCalendarEnabled
-                    ? "text-white bg-purple-800 border border-purple-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 "
-                    : "text-gray-400 bg-gray-100 border border-black-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 "
+                  ? "text-white bg-purple-800 border border-purple-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 "
+                  : "text-gray-400 bg-gray-100 border border-black-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 "
                   }`}
                 onClick={handleIngresarDisponibilidad}
                 disabled={isCalendarEnabled}
               >
                 Ingresar Disponibilidad
               </button>
+
               <button
                 className={`${isCalendarEnabled
-                    ? "text-white bg-red-800 border border-red-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 "
-                    : "text-gray-400 bg-gray-100 border border-black-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 "
+                  ? "text-white bg-red-800 border border-red-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 "
+                  : "text-gray-400 bg-gray-100 border border-black-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 "
                   }`}
                 onClick={handleCancelarIngresoDisponibilidad}
                 disabled={!isCalendarEnabled}
               >
                 Cancelar
+
               </button>
               <button
                 className={`${isCalendarEnabled
-                    ? "text-white bg-blue-800 border border-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 "
-                    : "text-gray-400 bg-gray-100 border border-black-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 "
+                  ? "text-white bg-blue-800 border border-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 "
+                  : "text-gray-400 bg-gray-100 border border-black-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 "
                   }`}
                 onClick={handleGuardar}
                 disabled={!isCalendarEnabled}

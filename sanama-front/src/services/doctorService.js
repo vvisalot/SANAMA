@@ -5,20 +5,24 @@ const axiosInstance = axios.create({
   baseURL: connection.backend,
 })
 
-const ENDPOINTS = {
+export const MAURICIO_REGISTRO = "http://localhost:8080/rrhh/post/registrarHorarioMedico"
+export const MAURICIO_LISTAR = "http://localhost:8080/rrhh/post/horarios_por_medico_e_intervaloFechas"
+
+export const ENDPOINTS = {
   INSERTAR_DOCTOR: "/rrhh/put/doctor",
   BUSCAR_POR_NOMBRE: "/rrhh/post/buscarMedico",
   LISTAR_ESPECIALIDADES: "/rrhh/get/especialidad",
   BUSCAR_POR_MEDICO_ESPECIALIDAD:
     "/rrhh/post/listarMedicosPorEspecialidadNombreCmp",
 
-    
+
   BUSCAR_HORARIOS_MEDICO_FECHA: "/rrhh/post/horarios_por_medico_y_fecha",
   DIAS_DISPONIBLES_POR_ID: "/rrhh/post/dias_disponibles_por_medico",
   REGISTRAR_MEDICO: "/rrhh/post/registrarMedico",
   REGISTRAR_HORARIO_MEDICO: "/rrhh/post/registrarHorarioMedico",
   HORARIOS_POR_MEDICO_E_INTERVALO_FECHAS: "/rrhh/post/horarios_por_medico_e_intervaloFechas",
-  ACTUALIZAR_MEDICO_SHORT: "/rrhh/put/actualizarMedicoShort"
+  ACTUALIZAR_MEDICO_SHORT: "/rrhh/put/actualizarMedicoShort",
+
 }
 
 export const doctorService = {
