@@ -281,25 +281,16 @@ function SeleccionarHorarioMedico({ doctor }) {
         pd_fecha_fin: `${year2}-${month2}-${day2}`,
       };
 
-      const url =
-        "http://localhost:8080/rrhh/post/horarios_por_medico_e_intervaloFechas";
-      const requestOptions = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestData),
-      };
-
-      try {
-        const response = await fetch(url, requestOptions);
-        if (response.ok) {
-          const data = await response.json();
+      const obtenerEventos = async (requestData) => {
+        try {
+          const data = await obtenerHorariosPorMedicoEIntervaloFechas(requestData);
           eventosTotales.push(...convertirDatosParaCalendar(data));
+        } catch (error) {
+          console.error("Error al obtener horarios por médico e intervalo de fechas", error);
         }
-      } catch (error) {
-        console.error("Error al obtener los horarios:", error);
-      }
+        setEvents(eventosTotales); //guardamos eventos
+        setIsLoading(false); //permitimos su visualización en front
+      };
       setEvents(eventosTotales); //guardamos eventos
       setIsLoading(false); //permitimos su visualizacion en front
     };
