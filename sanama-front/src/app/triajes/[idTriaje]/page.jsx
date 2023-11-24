@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { triajeService } from "@/services/triajeService";
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import { MdArrowBack } from 'react-icons/md';
+import { MdArrowBack } from 'react-icons/md'; 
 import { useRouter, usePathname } from "next/navigation";
 const TriajeProfile = ({ params }) => {
   const router = useRouter();
@@ -118,6 +118,20 @@ const TriajeProfile = ({ params }) => {
     pv_nivelDolor: "Evaluación del dolor",
     pv_condicionesPrexistentes: "Condiciones preexistentes",
   };
+  
+  useEffect(() => {
+
+    setEyesOpen(dataTriaje?.eyesOpen || '');
+    setTalkingCorrectly(dataTriaje?.talkingCorrectly || '');
+    setAbleToMoveBody(dataTriaje?.ableToMoveBody || '');
+
+    const initialGlasgow = calculateGlasgow(
+      dataTriaje?.eyesOpen || '',
+      dataTriaje?.talkingCorrectly || '',
+      dataTriaje?.ableToMoveBody || ''
+    );
+    setGlasgow(initialGlasgow);
+  }, [dataTriaje]);
 
   const handleSave = async () => {
     const triajeData = {
@@ -212,6 +226,7 @@ const TriajeProfile = ({ params }) => {
       try {
         const data = await triajeService.buscarPorFiltro(params.idTriaje);
         setDataTriaje(data);
+        console.log("LA DATA QUE LLEGA ES: ", dataTriaje)
       } catch (error) {
         console.error(error);
       }
@@ -367,8 +382,6 @@ const TriajeProfile = ({ params }) => {
 
   return (
     <>
-
-
       <div>
         {showConfirmPopup && (
           <div
@@ -916,6 +929,7 @@ const InputField = ({
           />
         );
       case "select":
+        console.log(`Current value for ${name}:`, value);
         return (
           <select
             name={name}
@@ -924,7 +938,7 @@ const InputField = ({
             disabled={!isEditable}
             onChange={onChange}
             className={`flex-1 ${inputClass}`}
-          >
+          >          
             <option value="" disabled selected>
               {placeholder}
             </option>

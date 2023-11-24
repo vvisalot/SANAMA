@@ -64,7 +64,7 @@ const LaboratoryTable = ({ data }) => {
     {
       text: "Ver laboratorio",
       link: "/laboratories/profile",
-      icon: "fa fa-file",
+      icon: "fa fa-eye",
     },
   ];
 
