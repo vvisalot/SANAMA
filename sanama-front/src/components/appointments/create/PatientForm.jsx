@@ -199,7 +199,7 @@ const PatientForm = ({
     <section id="section1">
       <div className="pb-8 flex justify-between items-center">
         <h2 className="w-full font-bold break-normal text-gray-700 pb-8 text-2xl">
-          Informacion del paciente
+          Información del paciente
         </h2>
         <div className="flex w-full flex-row-reverse">
           <button
