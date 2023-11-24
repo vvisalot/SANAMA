@@ -4,7 +4,7 @@ import TableOptions from "@/components/table/TableOptions"
 import { getPriority, getTriajeStatus, priorityMapping } from "@/util/triajeParser"
 import React from "react"
 
-const TriajeTable = ({ data, options }) => {
+const TriajeTable = ({ data, options, loadingTable }) => {
 
     const columns = React.useMemo(() => [
         {
@@ -73,7 +73,7 @@ const TriajeTable = ({ data, options }) => {
 
     return (
         <div>
-            <AdvancedTable columns={columns} data={data} id={"idTriaje"} />
+            <AdvancedTable columns={columns} data={data} id={"idTriaje"} loadingTable={loadingTable} />
         </div>
     )
 }

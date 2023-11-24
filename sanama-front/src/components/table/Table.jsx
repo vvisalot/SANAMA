@@ -9,7 +9,7 @@ import {
 } from "@tanstack/react-table"
 import TablePagination from "./TablePagination"
 
-const AdvancedTable = ({ data, id, columns }) => {
+const AdvancedTable = ({ data, id, columns, loadingTable }) => {
   const table = useReactTable({
     data,
     columns,
@@ -40,15 +40,8 @@ const AdvancedTable = ({ data, id, columns }) => {
                     sortingIndicator = " 🔽"
                   }
                   return (
-                    <th
-                      key={header.id}
-                      onClick={header.column.getToggleSortingHandler()}
-                      className={`px-4 py-4 w-fit`}
-                    >
-                      {flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
+                    <th key={header.id} onClick={header.column.getToggleSortingHandler()} className={`px-4 py-4 w-fit`}>
+                      {flexRender(header.column.columnDef.header, header.getContext())}
                       {sortingIndicator}
                     </th>
                   )
@@ -71,15 +64,26 @@ const AdvancedTable = ({ data, id, columns }) => {
                     ))}
                   </tr>
                 ))
-              ) :
-              <tr className="bg-white w-full h-full flex justify-center">
-                <td className="w-full h-full">No hay datos</td>
-              </tr>
+              ) : (!loadingTable ?
+                <tr className="	display: table-row bg-white w-full h-full  text-center ">
+                  <td colSpan={columns.length - 1} className="w-full h-full">
+                    <p className="font-semibold text-lg text-gray-600 pt-10">No se encontraron datos</p>
+                    <img src="/no-table-data.svg" className="h-[500px] w-[500px] m-auto object-cover">
+                    </img>
+                  </td>
+                </tr> :
+                <tr className="	display: table-row bg-white w-full h-full  text-center ">
+                  <td colSpan={columns.length - 1} className="w-full h-full">
+                    <p className="font-semibold text-lg text-gray-600 py-10">Cargando tabla...</p>
+
+                  </td>
+                </tr>
+              )
             }
           </tbody>
         </table>
       </div>
-    </div>
+    </div >
   )
 }
 

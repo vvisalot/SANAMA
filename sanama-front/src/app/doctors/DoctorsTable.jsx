@@ -3,7 +3,7 @@ import Table from "@/components/table/Table"
 import TableOptions from "@/components/table/TableOptions"
 import React from "react"
 
-const DoctorTable = ({ data, options }) => {
+const DoctorTable = ({ data, options, loadingTable }) => {
   const columns = React.useMemo(() => [
     {
       accessorKey: "idPersona",
@@ -49,6 +49,7 @@ const DoctorTable = ({ data, options }) => {
       data={data}
       id={"idPersona"}
       options={options}
+      loadingTable={loadingTable}
     />
   )
 }

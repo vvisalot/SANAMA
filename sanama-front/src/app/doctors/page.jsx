@@ -12,9 +12,9 @@ import Link from "next/link"
 const DoctorsPage = () => {
   const [doctorTable, setDoctorTable] = useState([])
   const [specialties, setSpecialties] = useState([])
-  const [especialidadSeleccionada, setEspecialidadSeleccionada] = useState(
-    "Todas las especialidades"
-  )
+  const [especialidadSeleccionada, setEspecialidadSeleccionada] = useState("Todas las especialidades")
+  const [loadingTable, setLoadingTable] = useState(true)
+
   const fetchData = async (filtro, especialidad) => {
     try {
       const data = await doctorService.buscarPorMedicoEspecialidad(
@@ -23,8 +23,10 @@ const DoctorsPage = () => {
       )
       const tableData = parseDoctorsTable(data)
       setDoctorTable(tableData)
+      setLoadingTable(false)
     } catch (error) {
       console.log("No se pudo obtener los datos de los doctores")
+      setLoadingTable(false)
     }
   }
 
@@ -42,7 +44,7 @@ const DoctorsPage = () => {
     {
       text: "Ver perfil",
       link: "/doctors/profile",
-      icon: "/icons/eye.svg",
+      icon: "fa fa-eye",
     },
   ]
 
@@ -106,7 +108,7 @@ const DoctorsPage = () => {
       </form>
 
       <section className="w-full">
-        <DoctorTable data={doctorTable} options={options}></DoctorTable>
+        <DoctorTable data={doctorTable} options={options} loadingTable={loadingTable}></DoctorTable>
       </section>
     </section>
   )

@@ -9,6 +9,7 @@ import TitleWithIcon from "@/components/TitleWithIcon"
 
 const PatientPage = () => {
   const [patientTable, setPatientTable] = useState([])
+  const [loadingTable, setLoadingTable] = useState(true)
 
   const fetchData = async (filtro) => {
     try {
@@ -16,8 +17,10 @@ const PatientPage = () => {
       const tableData = parsePatientTable(data)
       console.log(tableData)
       setPatientTable(tableData)
+      setLoadingTable(false)
     } catch (error) {
       console.log("No se pudo obtener los datos de los pacientes")
+      setLoadingTable(false)
     }
   }
 
@@ -60,7 +63,7 @@ const PatientPage = () => {
         </button>
       </form>
       <section className="w-full">
-        <PatientTable data={patientTable} options={options} />
+        <PatientTable data={patientTable} options={options} loadingTable={loadingTable} />
       </section>
     </section>
   )

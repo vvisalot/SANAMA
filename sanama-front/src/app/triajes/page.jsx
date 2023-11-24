@@ -18,6 +18,8 @@ const TriajePage = () => {
   const [statusList, setStatusList] = useState([])
   const [statusState, setStatusState] = useState({})
 
+  const [loadingTable, setLoadingTable] = useState(true)
+
   const initialRequest = {
     pn_id_triaje: null,
     pv_filtro: "",
@@ -34,10 +36,11 @@ const TriajePage = () => {
     try {
       const data = await triajeService.listarTriajePorFiltro(request)
       const tableData = parseTriajeTable(data)
-      console.log(tableData)
       setTriajeTable(tableData)
+      setLoadingTable(false)
     } catch (error) {
       console.log("No se pudo obtener los datos de los triajes")
+      setLoadingTable(false)
     }
   }
 
@@ -129,7 +132,7 @@ const TriajePage = () => {
       </form>
 
       <section>
-        <TriajeTable data={triajeTable} options={options}></TriajeTable>
+        <TriajeTable data={triajeTable} options={options} loadingTable={loadingTable}></TriajeTable>
       </section>
     </section>
   )

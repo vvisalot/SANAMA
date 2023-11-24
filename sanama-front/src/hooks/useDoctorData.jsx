@@ -17,7 +17,6 @@ const useDoctorData = () => {
         fotoPerfil: null
     })
 
-
     return {
         doctorData,
         setDoctorData

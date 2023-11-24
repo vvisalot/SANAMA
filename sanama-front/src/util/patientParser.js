@@ -9,8 +9,9 @@ export function parsePatientTable(data) {
         idPersona: row.idPersona,
         patientName: row.nombres + ' ' + row.apellidoPaterno + ' ' + row.apellidoMaterno,
         dni: row.dni,
-        birthdate: format(new Date(row.fechaNacimiento), "dd/MM/yyyy"),
+        correo: row.correo,
         phone: row.telefono,
+
     }))
 }
 
