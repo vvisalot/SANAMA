@@ -24,14 +24,17 @@ const NewsFeed = () => {
   }, []);
 
   if (loading) {
-    return <p>Loading news...</p>;
+    return <p className="w-[23.5rem] flex flex-col">Loading news...</p>;
   }
 
   return (
-    <div className="news-feed grid grid-cols-4 gap-4">
-      {newsList.map((news, index) => (
-        <NewsItem key={index} news={news} />
-      ))}
+    <div className="w-[23.5rem]">
+      <div className="text-xl font-bold text-black-500 px-4" style={{ color: "#28539E" }}>Noticias</div>
+      <div className="flex flex-col">
+        {newsList.slice(1, 6).map((news, index) => (
+          <NewsItem key={index} news={news} />
+        ))}
+      </div>
     </div>
   );
 };

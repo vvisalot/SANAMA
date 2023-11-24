@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
 						<div>
 							{
 								<NextBreadcrumb
-									homeElement={'Inicio'}
+									homeElement={''}
 									separator={<span>/</span>}
 									activeClasses="text-gray-700 font-extrabold text-md"
 									containerClasses="flex py-5 bg-transparent rounded-t-md text-black"
