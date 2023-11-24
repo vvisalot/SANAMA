@@ -11,6 +11,8 @@ const ENDPOINTS = {
   LISTAR_ESPECIALIDADES: "/rrhh/get/especialidad",
   BUSCAR_POR_MEDICO_ESPECIALIDAD:
     "/rrhh/post/listarMedicosPorEspecialidadNombreCmp",
+
+    
   BUSCAR_HORARIOS_MEDICO_FECHA: "/rrhh/post/horarios_por_medico_y_fecha",
   DIAS_DISPONIBLES_POR_ID: "/rrhh/post/dias_disponibles_por_medico",
   REGISTRAR_MEDICO: "/rrhh/post/registrarMedico",
