@@ -207,33 +207,49 @@ function SeleccionarHorarioMedico({ doctor }) {
         );
 
         const registrarEvento = async (jsonParaServidor) => {
-          const url = "http://localhost:8080/rrhh/post/registrarHorarioMedico";
-          const requestOptions = {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(jsonParaServidor),
-          };
-
           try {
-            const response = await fetch(url, requestOptions);
-            if (response.ok) {
-              setIsCalendarEnabled(false);
-              setSeHaModificadoHorario(false);
-              swal.close();
-              swal({
-                text: "El registro se realizó con éxito",
-                icon: "success",
-              });
-            } else {
-              console.error("Error en la solicitud:", response.statusText);
-              setSeHaModificadoHorario(false);
-            }
+            const response = await registrarHorarioMedico(jsonParaServidor);
+            setIsCalendarEnabled(false);
+            setSeHaModificadoHorario(false);
+            swal.close();
+            swal({
+              text: "El registro se realizó con éxito",
+              icon: "success",
+            });
           } catch (error) {
-            console.error("Error en la solicitud:", error);
+            console.error("Error al registrar el horario del médico", error);
+            setSeHaModificadoHorario(false);
           }
         };
+
+        // const registrarEvento = async (jsonParaServidor) => {
+        //   const url = "http://localhost:8080/rrhh/post/registrarHorarioMedico";
+        //   const requestOptions = {
+        //     method: "POST",
+        //     headers: {
+        //       "Content-Type": "application/json",
+        //     },
+        //     body: JSON.stringify(jsonParaServidor),
+        //   };
+
+        //   try {
+        //     const response = await fetch(url, requestOptions);
+        //     if (response.ok) {
+        //       setIsCalendarEnabled(false);
+        //       setSeHaModificadoHorario(false);
+        //       swal.close();
+        //       swal({
+        //         text: "El registro se realizó con éxito",
+        //         icon: "success",
+        //       });
+        //     } else {
+        //       console.error("Error en la solicitud:", response.statusText);
+        //       setSeHaModificadoHorario(false);
+        //     }
+        //   } catch (error) {
+        //     console.error("Error en la solicitud:", error);
+        //   }
+        // };
 
         const registrarEventos = async () => {
           await registrarEvento(jsonParaServidor);
@@ -264,6 +280,7 @@ function SeleccionarHorarioMedico({ doctor }) {
         pd_fecha_inicio: `${year}-${month}-${day}`,
         pd_fecha_fin: `${year2}-${month2}-${day2}`,
       };
+
       const url =
         "http://localhost:8080/rrhh/post/horarios_por_medico_e_intervaloFechas";
       const requestOptions = {
