@@ -13,9 +13,54 @@ const ENDPOINTS = {
     "/rrhh/post/listarMedicosPorEspecialidadNombreCmp",
   BUSCAR_HORARIOS_MEDICO_FECHA: "/rrhh/post/horarios_por_medico_y_fecha",
   DIAS_DISPONIBLES_POR_ID: "/rrhh/post/dias_disponibles_por_medico",
+  REGISTRAR_MEDICO: "/rrhh/post/registrarMedico",
+  REGISTRAR_HORARIO_MEDICO: "/rrhh/post/registrarHorarioMedico",
+  HORARIOS_POR_MEDICO_E_INTERVALO_FECHAS: "/rrhh/post/horarios_por_medico_e_intervaloFechas",
+  ACTUALIZAR_MEDICO_SHORT: "/rrhh/put/actualizarMedicoShort"
 }
 
 export const doctorService = {
+
+  actualizarMedicoShort: async (data) => {
+    try {
+      const response = await axiosInstance.put(ENDPOINTS.ACTUALIZAR_MEDICO_SHORT, data);
+      return response.data;
+    } catch (error) {
+      console.error("Error al actualizar los datos del médico", error);
+      throw error;
+    }
+  },
+
+  obtenerHorariosPorMedicoEIntervaloFechas: async (requestData) => {
+    try {
+      const response = await axiosInstance.post(ENDPOINTS.HORARIOS_POR_MEDICO_E_INTERVALO_FECHAS, requestData);
+      return response.data;
+    } catch (error) {
+      console.error("Error al obtener horarios por médico e intervalo de fechas", error);
+      throw error;
+    }
+  },
+
+  registrarHorarioMedico: async (horarioData) => {
+    try {
+      const response = await axiosInstance.post(ENDPOINTS.REGISTRAR_HORARIO_MEDICO, horarioData);
+      return response.data;
+    } catch (error) {
+      console.error("Error al registrar el horario del médico", error);
+      throw error;
+    }
+  },
+
+  registrarMedico: async (doctorData) => {
+    try {
+      const response = await axiosInstance.post(ENDPOINTS.REGISTRAR_MEDICO, doctorData);
+      return response.data;
+    } catch (error) {
+      console.error("Error al registrar el médico", error);
+      throw error;
+    }
+  },
+
   insertar: async (doctorForm) => {
     try {
       const response = await axiosInstance.put(
