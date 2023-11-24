@@ -203,68 +203,105 @@ const NewDoctor = () => {
           base64Data = null;
         }
 
-        const url = 'http://localhost:8080/rrhh/post/registrarMedico'
-        const fechaFormateada = `${fechaNacimiento.getFullYear()}-${String(fechaNacimiento.getMonth() + 1).padStart(2, '0')}-${String(fechaNacimiento.getDate()).padStart(2, '0')}`;
-        const data = {
-          nombres: nombreMedico,
-          apellidoPaterno: apellidoPaterno,
-          apellidoMaterno: apellidoMaterno,
-          dni: dni,
-          fechaNacimiento: fechaFormateada,
-          sexo: sexo,
-          telefono: telefono,
-          correoElectronico: correo,
-          area: area,
-          cmp: cmp,
-          especialidad: {
-            idEspecialidad: especialidad, // Cambia esto según el valor correcto
-          },
-          foto: base64Data, // Puedes manejar la lógica para la foto aquí si es necesario
-        }
-        if (sexo.toLowerCase() === 'masculino') {
-          // Si la cadena es "Masculino", guarda "M"
-          data.sexo = 'M'
-        } else if (sexo.toLowerCase() === 'femenino') {
-          // Si la cadena es "Femenino", guarda "F"
-          data.sexo = 'F'
-        }
-        console.log("e", data)
-        fetch(url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-        })
-          .then(response => {
-            if (!response.ok) {
-              throw new Error('Network response was not ok');
-            }
-            return response.json(); // Agregar esta línea para extraer la respuesta JSON
-          })
-          .then(responseData => {
-            // Manejar la respuesta del servidor si es necesario
-            console.log('Respuesta del servidor:', responseData);
-            swal.close();
+        // const url = 'http://localhost:8080/rrhh/post/registrarMedico'
+        // const fechaFormateada = `${fechaNacimiento.getFullYear()}-${String(fechaNacimiento.getMonth() + 1).padStart(2, '0')}-${String(fechaNacimiento.getDate()).padStart(2, '0')}`;
+        // const data = {
+        //   nombres: nombreMedico,
+        //   apellidoPaterno: apellidoPaterno,
+        //   apellidoMaterno: apellidoMaterno,
+        //   dni: dni,
+        //   fechaNacimiento: fechaFormateada,
+        //   sexo: sexo,
+        //   telefono: telefono,
+        //   correoElectronico: correo,
+        //   area: area,
+        //   cmp: cmp,
+        //   especialidad: {
+        //     idEspecialidad: especialidad, // Cambia esto según el valor correcto
+        //   },
+        //   foto: base64Data, // Puedes manejar la lógica para la foto aquí si es necesario
+        // }
+        // if (sexo.toLowerCase() === 'masculino') {
+        //   // Si la cadena es "Masculino", guarda "M"
+        //   data.sexo = 'M'
+        // } else if (sexo.toLowerCase() === 'femenino') {
+        //   // Si la cadena es "Femenino", guarda "F"
+        //   data.sexo = 'F'
+        // }
+        // console.log("e", data)
+        // fetch(url, {
+        //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        //   body: JSON.stringify(data),
+        // })
+        //   .then(response => {
+        //     if (!response.ok) {
+        //       throw new Error('Network response was not ok');
+        //     }
+        //     return response.json(); // Agregar esta línea para extraer la respuesta JSON
+        //   })
+        //   .then(responseData => {
+        //     // Manejar la respuesta del servidor si es necesario
+        //     console.log('Respuesta del servidor:', responseData);
+        //     swal.close();
+        //     if (responseData >= 0) {
+        //       swal({ text: "El registro se realizó con éxito", icon: "success", timer: "2500" });
+
+        //     } else {
+        //       if (responseData == -1) {
+        //         toast.error("El CMP ya existe en el sistema", { duration: 3000 })
+        //       } else {
+        //         if (responseData == -2) {
+        //           toast.error("El DNI ya existe en el sistema", { duration: 3000 })
+        //         }
+        //       }
+        //     }
+        //     // Puedes realizar otras acciones o redireccionar aquí según la respuesta del servidor
+        //     // router.push('/doctors');
+        //   })
+        //   .catch(error => {
+        //     // Manejar errores de la red u otros errores
+        //     console.error('Error al enviar los datos:', error);
+        //   });
+
+        const enviarDatosMedico = async (nombreMedico, apellidoPaterno, apellidoMaterno, dni, fechaNacimiento, sexo, telefono, correo, area, cmp, especialidad, base64Data) => {
+          const fechaFormateada = `${fechaNacimiento.getFullYear()}-${String(fechaNacimiento.getMonth() + 1).padStart(2, '0')}-${String(fechaNacimiento.getDate()).padStart(2, '0')}`;
+          let sexoFormateado = sexo.toLowerCase() === 'masculino' ? 'M' : sexo.toLowerCase() === 'femenino' ? 'F' : sexo;
+          const doctorData = {
+            nombres: nombreMedico,
+            apellidoPaterno: apellidoPaterno,
+            apellidoMaterno: apellidoMaterno,
+            dni: dni,
+            fechaNacimiento: fechaFormateada,
+            sexo: sexoFormateado,
+            telefono: telefono,
+            correoElectronico: correo,
+            area: area,
+            cmp: cmp,
+            especialidad: {
+              idEspecialidad: especialidad, // Ajusta esto según el valor correcto
+            },
+            foto: base64Data, // Lógica para la foto aquí si es necesario
+          };
+        
+          try {
+            const responseData = await registrarMedico(doctorData);
+            // Aquí manejas la respuesta del servidor
             if (responseData >= 0) {
               swal({ text: "El registro se realizó con éxito", icon: "success", timer: "2500" });
-
             } else {
               if (responseData == -1) {
-                toast.error("El CMP ya existe en el sistema", { duration: 3000 })
-              } else {
-                if (responseData == -2) {
-                  toast.error("El DNI ya existe en el sistema", { duration: 3000 })
-                }
+                toast.error("El CMP ya existe en el sistema", { duration: 3000 });
+              } else if (responseData == -2) {
+                toast.error("El DNI ya existe en el sistema", { duration: 3000 });
               }
             }
-            // Puedes realizar otras acciones o redireccionar aquí según la respuesta del servidor
-            // router.push('/doctors');
-          })
-          .catch(error => {
-            // Manejar errores de la red u otros errores
-            console.error('Error al enviar los datos:', error);
-          });
+          } catch (error) {
+            console.error("Error al registrar el médico", error);
+          }
+        };
 
       }
     })
