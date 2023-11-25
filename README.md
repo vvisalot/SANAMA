@@ -12,5 +12,5 @@ Proyecto de Ingenieria de Software
 
 
 # Links
-Drive del equipo: https://drive.google.com/drive/u/1/folders/1Lv4uGk8YaQbaODLGUtiw0kLwJHH3_llN
-Despligue: sanama.net.pe
+- Drive del equipo: https://drive.google.com/drive/u/1/folders/1Lv4uGk8YaQbaODLGUtiw0kLwJHH3_llN
+- Despligue: sanama.net.pe
