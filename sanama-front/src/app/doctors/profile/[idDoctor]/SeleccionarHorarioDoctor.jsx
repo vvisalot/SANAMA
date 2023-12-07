@@ -239,9 +239,9 @@ function SeleccionarHorarioMedico({ doctor }) {
 
         registrarEventos();
       } else {
-        setIsCalendarEnabled(false);
-        setSeHaModificadoHorario(false);
-        console.log("Cancelado");
+        // setIsCalendarEnabled(false);
+        // setSeHaModificadoHorario(false);
+        // console.log("Cancelado");
       }
     });
   };
