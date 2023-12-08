@@ -10,7 +10,7 @@ import { parseHojaMedicaTable } from '@/util/medicalRecordParser'
 import { sexParser } from '@/util/patientParser'
 import TitleWithIcon from '@/components/TitleWithIcon'
 import iconoHistorial from '@/components/icons/iconoHistorial'
-import { MdArrowBack } from 'react-icons/md'
+
 const HistorialClinico = () => {
 	const params = useParams()
 	const idPaciente = params.idPatient //cambien este id cochino csm!!
