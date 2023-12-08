@@ -1,8 +1,8 @@
 "use client";
-import DoctorTable from "@/components/doctors/DoctorsTable";
-import { doctorService } from "@/services/doctorService";
 import { useEffect, useState } from "react";
+import { doctorService } from "@/services/doctorService";
 import { parseDoctorsTable } from "@/util/doctorParser";
+import DoctorTable from "@/components/doctors/DoctorsTable";
 import Dropdown from "@/components/Dropdowns/Dropdown";
 import SearchBar from "@/components/bars/SearchBar";
 import DoctorIcon from "@/components/icons/DoctorIcon";
