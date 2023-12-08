@@ -1,14 +1,14 @@
-"use client"
+"use client";
 import SeleccionarHorarioMedico from "../SeleccionarHorarioDoctor";
-import { useRouter, useParams } from 'next/navigation';
-import { MdArrowBack } from 'react-icons/md';
+import { useRouter, useParams } from "next/navigation";
+
 export default function RegistrarDisponibilidad() {
   const params = useParams();
   const idDoctor = params.idDoctor;
   const router = useRouter();
   return (
     <>
-      <h1 className="font-bold text-blue-500 text-6xl p-12" >Disponibilidad</h1>
+      <h1 className="font-bold text-blue-500 text-6xl p-12">Disponibilidad</h1>
       <section className="pl-12 pr-14">
         <div className="">
           {/* <div className="flex justify-start pb-5">
@@ -29,5 +29,4 @@ export default function RegistrarDisponibilidad() {
       </section>
     </>
   );
-
 }
