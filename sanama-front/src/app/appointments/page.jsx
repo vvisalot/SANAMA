@@ -125,7 +125,7 @@ const AppointmentPage = () => {
           value={"idEspecialidad"}
           name={"speciality-dropdown"}
           width={"w-[240px]"}
-          height={"h-[44px]"}
+          height={"h-[46.5px]"}
           handleChange={(event) => {
             setEspecialidadSeleccionada(event.target.value);
           }}

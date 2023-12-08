@@ -85,21 +85,21 @@ const DoctorsPage = () => {
           width={"w-full"}
           height={"h-[45px]"}
           placeholderText={"Buscar por Nombre o CMP"}
-        ></SearchBar>
+        />
 
         <Dropdown
           data={specialties}
           defaultText={"Todas las especialidades"}
           text={"nombre"}
           defaultValue={""}
-          value={"nombre"}
+          value={"idEspecialidad"}
           name={"speciality-dropdown"}
-          width={"w-[400px]"}
-          height={"h-[44px]"}
+          width={"w-[240px]"}
+          height={"h-[46.5px]"}
           handleChange={(event) => {
             setEspecialidadSeleccionada(event.target.value);
           }}
-        ></Dropdown>
+        />
 
         <button
           type="submit"
