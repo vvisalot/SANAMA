@@ -5,8 +5,6 @@ const axiosInstance = axios.create({
   baseURL: connection.backend,
 });
 
-export const MAURICIO_REGISTRO =
-  "http://localhost:8080/rrhh/post/registrarHorarioMedico";
 export const MAURICIO_LISTAR =
   "http://localhost:8080/rrhh/post/horarios_por_medico_e_intervaloFechas";
 
