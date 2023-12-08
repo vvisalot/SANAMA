@@ -4,10 +4,11 @@ import './globals.css'
 import NextBreadcrumb from '@/components/NextBreadcrumb'
 import { Toaster } from 'sonner'
 import Navbar from '@/components/navbar/Navbar'
-
+import { MdArrowBack } from 'react-icons/md'
 const inter = Inter({ subsets: ['latin'] })
-
+import { useRouter } from "next/navigation"
 export default function RootLayout({ children }) {
+	const router = useRouter()
 	return (
 		<html lang="es">
 			<head>
@@ -30,12 +31,20 @@ export default function RootLayout({ children }) {
 									capitalizeLinks
 								/>
 							}
-
+							<div className="flex justify-start pl-10">
+								<button
+									type="button"
+									className="text-black hover:bg-gray-300 hover:underline font-medium rounded-lg text-sm px-2 py-2 flex items-center"
+									onClick={() => router.back()}>
+									<MdArrowBack className="mr-2 h-5 w-5" />
+									Volver
+								</button>
+							</div>
 							{children}
 						</div>
 						<div></div>
 					</div>
-					<Toaster position="top-right" richColors visibleToasts={12}/>
+					<Toaster position="top-right" richColors visibleToasts={12} />
 				</main>
 			</body>
 		</html>

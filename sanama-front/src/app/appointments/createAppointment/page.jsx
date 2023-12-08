@@ -133,7 +133,7 @@ const CreateAppointmentForm = () => {
 
   return (
     <section className="">
-      <div className="flex justify-end ">
+      {/* <div className="flex justify-end ">
         <div className="flex-end">
           <button
             type="button"
@@ -144,7 +144,7 @@ const CreateAppointmentForm = () => {
             Volver
           </button>
         </div>
-      </div>
+      </div> */}
       <form onSubmit={handleSubmit} className="">
         <TitleWithIcon name={"Nueva cita"} Icon={createAppointmentIcon} />
 

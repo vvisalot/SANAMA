@@ -150,19 +150,19 @@ const ModificarDoctor = ({ params }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="flex justify-end ">
-        <div className="flex-end">
+      {/* <div className="flex justify-start pt-5">
+        <div className="flex-start justify-start">
           <button
             type="button"
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-400 font-medium rounded-lg text-sm px-4 py-2.5 flex items-center"
-            onClick={() => router.back()}
-          >
-            <MdArrowBack className="mr-1" style={{ fontSize: '24px' }} />
+            className="text-black hover:bg-gray-300 hover:underline font-medium rounded-lg text-sm px-2 py-2 flex items-center"
+            onClick={() => router.back()}>
+            <MdArrowBack className="mr-2 h-5 w-5" />
             Volver
           </button>
         </div>
-      </div>
-      <h1 className="text-4xl w-full py-10 font-semibold">Modificar datos del doctor</h1>
+      </div> */}
+      <h1 className="text-2xl font-bold tracking-wider pb-10 pt-10">Modificar datos del doctor</h1>
+      
       <div className="flex ">
         <div className="w-2/3">
           <div className="grid grid-cols-2 md:gap-6">
@@ -329,14 +329,14 @@ const ModificarDoctor = ({ params }) => {
       <div className="flex flex-row-reverse">
         <button
           type="submit"
-          className="m-2 text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300 
+          className="m-2 text-white bg-blue-500 hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-300 
             font-medium rounded-lg w-full sm:w-auto px-5 py-3 text-center"
         >
           Guardar
         </button>
         <button
           type="button"
-          className="m-2 text-white bg-gray-500 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-blue-300 
+          className="m-2 text-white bg-red-500 hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-blue-300 
             font-medium rounded-lg  w-full sm:w-auto px-5 py-3 text-center"
           onClick={handleCancel}
         >

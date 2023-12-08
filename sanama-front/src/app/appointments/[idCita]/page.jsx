@@ -95,7 +95,7 @@ const ReviewAppointment = ({ params }) => {
 
   return (
     <>
-      <div className="flex justify-end ">
+      {/* <div className="flex justify-end ">
         <div className="flex-end pr-14 pf-14">
           <button
             type="button"
@@ -106,7 +106,7 @@ const ReviewAppointment = ({ params }) => {
             Volver
           </button>
         </div>
-      </div>
+      </div> */}
 
       <section className="w-full px-14 py-6">
         <TitleWithIcon name={"Cita Medica"} Icon={viewAppointmentIcon} />
