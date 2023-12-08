@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState, useCallback } from "react";
-import { usePathname } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 import { appointmentService } from "@/services/appointmentService";
 import PatientInfo from "@/components/appointments/view/PatientInfo";
@@ -12,6 +12,7 @@ import viewAppointmentIcon from "@/components/icons/viewAppointmentIcon";
 import { toast } from "sonner";
 
 const ReviewAppointment = ({ params }) => {
+  const router = useRouter();
   const pathname = usePathname();
   const [state, setState] = useState({
     appointmentData: null,
