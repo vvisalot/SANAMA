@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { appointmentService } from "@/services/appointmentService";
-const LatestAppointmentsDoctor = ({ id }) => {
-  console.log("pepepe", id);
-  const [latestAppointments, setLatestAppointments] = useState([]);
 
+const LatestAppointmentsDoctor = ({ id }) => {
+  const [latestAppointments, setLatestAppointments] = useState([]);
   const fetchData = async ({
     pn_id_medico,
     pv_filtro,
