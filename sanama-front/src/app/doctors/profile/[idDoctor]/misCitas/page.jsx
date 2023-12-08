@@ -11,7 +11,6 @@ export default function MisCitasDoctor() {
 
   const fetchData = async (filtro) => {
     try {
-      console.log(filtro);
       const response = await doctorService.buscarPorNombre(filtro);
       if (!response) {
         throw new Error("Error al obtener datos del médico");
@@ -23,7 +22,9 @@ export default function MisCitasDoctor() {
   };
 
   useEffect(() => {
-    fetchData(idDoctor);
+    if (idDoctor) {
+      fetchData(idDoctor);
+    }
   }, [idDoctor]);
 
   return (
