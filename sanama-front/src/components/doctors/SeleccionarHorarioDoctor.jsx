@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
-import "moment/locale/es"; // Importa la localización en español
+import "moment/locale/es";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import Mensaje from "./Mensaje";
 import swal from "sweetalert";
@@ -337,7 +337,6 @@ function SeleccionarHorarioMedico({ doctor }) {
             icon: "warning",
             timer: "5000",
           });
-          //alert("");
         }
       } else {
         swal({
@@ -360,11 +359,6 @@ function SeleccionarHorarioMedico({ doctor }) {
   const handleDoubleClickEvent = (event) => {
     setSeHaModificadoHorario(true);
     if (view === "month") {
-      // const shouldDelete = window.confirm("¿Desea eliminar este evento?");
-      // if (shouldDelete) {
-      //   const updatedEvents = events.filter((e) => e !== event);
-      //   setEvents(updatedEvents);
-      // }
     } else {
       if (event.start >= fechaInicioManana && event.start <= fechaLimite) {
         const updatedEvents = events.filter((e) => e !== event);
@@ -393,11 +387,8 @@ function SeleccionarHorarioMedico({ doctor }) {
     const isPastDay =
       moment(date).isBefore(today, "day") || moment(date).isSame(today, "day");
 
-    // Personaliza los estilos según tus necesidades para los días pasados
     const style = {
       backgroundColor: isPastDay ? "#EAF6FF" : "white",
-      // color: isPastDay ? 'gray' : 'black',
-      // Otros estilos...
     };
 
     return {
@@ -411,9 +402,6 @@ function SeleccionarHorarioMedico({ doctor }) {
   maxTime.setHours(22, 0, 0); // Establece la hora máxima a las 10:00 PM
   return (
     <>
-      {/* <header className="p-5  text-2xl font-bold tracking-wider text-gray-900">
-        Disponibilidad:
-      </header> */}
       <div>
         {isLoading ? (
           <p>Cargando...</p>

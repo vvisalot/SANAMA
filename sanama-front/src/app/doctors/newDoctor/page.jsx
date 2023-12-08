@@ -12,7 +12,6 @@ import { toast } from "sonner";
 const NewDoctor = () => {
   const router = useRouter();
   const [imagenPerfil, setImagenPerfil] = useState(null);
-  // Estados para campos del médico
   const [nombreMedico, setNombreMedico] = useState("");
   const [apellidoPaterno, setApellidoPaterno] = useState("");
   const [apellidoMaterno, setApellidoMaterno] = useState("");
@@ -25,6 +24,7 @@ const NewDoctor = () => {
   const [cmp, setCmp] = useState("");
   const [especialidad, setEspecialidad] = useState("");
   const [especialidades, setEspecialidades] = useState([]);
+
   const fetchSpecialty = async () => {
     try {
       const data = await doctorService.listarEspecialidades();
@@ -40,66 +40,51 @@ const NewDoctor = () => {
 
   const handleImagenChange = (event) => {
     const file = event.target.files[0];
-    // Obtener el nombre del archivo
+    if (!file) return;
+
     const fileName = file.name;
-    // Obtener la extensión del archivo
     const fileExtension = fileName.split(".").pop().toLowerCase();
-    if (
-      fileExtension === "jpeg" ||
-      fileExtension === "png" ||
-      fileExtension === "jpg"
-    ) {
-      if (file) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setImagenPerfil(reader.result);
-        };
-        reader.readAsDataURL(file);
-      }
-    } else {
+
+    if (!["jpeg", "png", "jpg"].includes(fileExtension)) {
       toast.error(
         `No se permite imagen con extensión .${fileExtension}. Por favor usar imágenes con extensión .jpg, .jpeg o .png.`
       );
+      return;
     }
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImagenPerfil(reader.result);
+    };
+    reader.readAsDataURL(file);
   };
 
-  const handleFechaNacimiento = (newDate) => {
-    const fechaFormateada = `${fechaNacimiento.getFullYear()}-${String(
-      fechaNacimiento.getMonth() + 1
-    ).padStart(2, "0")}-${String(fechaNacimiento.getDate()).padStart(2, "0")}`;
-    setFechaNacimiento(fechaFormateada);
-  };
   function validarCMP(numero) {
-    // Expresión regular que verifica si el número consiste en exactamente 6 dígitos
     const regex = /^\d{6}$/;
-
-    // Verificar si el número coincide con la expresión regular
     return regex.test(numero);
   }
   function validarDNI(numero) {
-    // Expresión regular que verifica si el número consiste en exactamente 6 dígitos
     const regex = /^\d{8}$/;
-
-    // Verificar si el número coincide con la expresión regular
     return regex.test(numero);
   }
-  function handleCancel() {
+
+  const handleCancel = () => {
     toast("¿Cancelar registro de nuevo médico/a?", {
       action: {
         label: "Sí",
         onClick: () => {
-          // Aquí puedes realizar la lógica de cancelación
           router.back();
         },
       },
       cancel: {
         label: "No",
         onClick: () => {
-          // Aquí puedes realizar la lógica para no cancelar
+          // Lógica para no cancelar
         },
       },
     });
-  }
+  };
+
   function validateNumberInput(input) {
     const inputValue = input.value;
     const regex = /^[0-9]*$/; // Expresión regular que solo permite dígitos
