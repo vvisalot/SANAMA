@@ -24,6 +24,7 @@ const NewDoctor = () => {
   const [cmp, setCmp] = useState("");
   const [especialidad, setEspecialidad] = useState("");
   const [especialidades, setEspecialidades] = useState([]);
+
   const fetchSpecialty = async () => {
     try {
       const data = await doctorService.listarEspecialidades();
@@ -39,9 +40,7 @@ const NewDoctor = () => {
 
   const handleImagenChange = (event) => {
     const file = event.target.files[0];
-    // Obtener el nombre del archivo
     const fileName = file.name;
-    // Obtener la extensión del archivo
     const fileExtension = fileName.split(".").pop().toLowerCase();
     if (
       fileExtension === "jpeg" ||
@@ -188,10 +187,11 @@ const NewDoctor = () => {
         });
 
         let partes;
+        let base64Data; // Declare base64Data here
 
         if (imagenPerfil != null) {
           partes = imagenPerfil.split("data:image/")[1].split(";base64,");
-          extension = partes[0]; // Aquí obtendrás la extensión de la imagen (por ejemplo, 'jpeg', 'png', etc.)
+          extension = partes[0];
           base64Data = partes[1];
         } else {
           base64Data = null;
