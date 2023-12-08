@@ -16,7 +16,7 @@ export default function MisCitasDoctor() {
       if (!response) {
         throw new Error("Error al obtener datos del médico");
       }
-      setDoctor(response); // Remove .data
+      setDoctor(response);
     } catch (error) {
       console.error("Error al obtener datos del médico:", error);
     }
