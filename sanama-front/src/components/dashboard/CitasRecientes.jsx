@@ -8,7 +8,14 @@ const initialRequest = {
   pv_filtro: "",
   pd_fecha_inicio: null,
   pd_fecha_fin: null,
-  arregloEstados: [],
+  arregloEstados: [
+    {
+      estado: 5,
+    },
+    {
+      estado: 4,
+    },
+  ],
 };
 
 const CitasRecientes = () => {
