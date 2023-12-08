@@ -23,7 +23,7 @@ const DoctorProfile = ({ params }) => {
   const [dataDoctor, setDataDoctor] = useState(null);
   const [loading, setLoading] = useState(true);
   const [imagenPerfil, setImagenPerfil] = useState(null);
-  const router = useRouter();
+
   useEffect(() => {
     const fetchData = async () => {
       try {

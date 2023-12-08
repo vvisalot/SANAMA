@@ -107,10 +107,10 @@ export const doctorService = {
     }
   },
 
-  buscarPorNombre: async (name) => {
+  buscarPorNombre: async (pv_filtro) => {
     try {
       const response = await axiosInstance.post(ENDPOINTS.BUSCAR_POR_NOMBRE, {
-        pv_filtro: name,
+        pv_filtro: pv_filtro,
       });
       return response.data;
     } catch (error) {
