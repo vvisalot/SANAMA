@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import DoctorActions from "@/components/doctors/DoctorActions";
 import LatestAppointmentsDoctor from "@/components/doctors/LastestAppointmentsDoctor";
 import ProfileCardDoctor from "@/components/doctors/ProfileCardDoctor";
-import { useRouter } from "next/navigation";
 
 function formatearFechaNacimiento(fechaNacimiento) {
   if (!fechaNacimiento) {
@@ -27,25 +26,27 @@ const DoctorProfile = ({ params }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await doctorService.buscarPorNombre(params.idDoctor);
-        if (data && data.length > 0) {
-          console.log("data", data[0]);
-          setDataDoctor(data[0]);
-          if (data[0].foto) {
-            setImagenPerfil(`data:image/png;base64,${data[0].foto}`);
+        const [doctorData] = await doctorService.buscarPorNombre(
+          params.idDoctor
+        );
+        if (doctorData) {
+          console.log("data", doctorData);
+          setDataDoctor(doctorData);
+          if (doctorData.foto) {
+            setImagenPerfil(`data:image/png;base64,${doctorData.foto}`);
           }
         }
       } catch (error) {
         console.log(error);
       } finally {
-        setLoading(false); // Marca la carga como completa
+        setLoading(false);
       }
     };
     fetchData();
-  }, [params.idDoctor]); // Asegúrate de depender de 'params.idDoctor'
+  }, [params.idDoctor]);
 
   if (loading) {
-    return ""; // Muestra un mensaje de carga mientras los datos se obtienen
+    return "Cargando..."; // Muestra un mensaje de carga mientras los datos se obtienen
   }
 
   return (
@@ -91,11 +92,9 @@ const DoctorProfile = ({ params }) => {
                 </dd>
                 <dt className="text-sm px-5">Género</dt>
                 <dd className="text-l font-bold px-5 pb-10">
-                  {dataDoctor?.sexo === "F"
-                    ? "Femenino"
-                    : dataDoctor?.sexo === "M"
-                    ? "Masculino"
-                    : "No especifica"}
+                  {dataDoctor?.sexo === "F" && "Femenino"}
+                  {dataDoctor?.sexo === "M" && "Masculino"}
+                  {!dataDoctor?.sexo && "No especifica"}
                 </dd>
               </dl>
               <dl className="basis-1/2">
