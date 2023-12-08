@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import LaboratoryTable from "./LaboratoryTable";
+import LaboratoryTable from "@/components/laboratory/LaboratoryTable";
 import { parseLaboratoryTable } from "@/util/laboratoryParser";
 import SearchBar from "@/components/bars/SearchBar";
 import { laboratoryService } from "@/services/laboratoryService";
