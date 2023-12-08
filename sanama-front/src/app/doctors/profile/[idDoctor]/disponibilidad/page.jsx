@@ -1,6 +1,6 @@
 "use client";
 import SeleccionarHorarioMedico from "../SeleccionarHorarioDoctor";
-import { useRouter, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
 
 export default function RegistrarDisponibilidad() {
   const params = useParams();

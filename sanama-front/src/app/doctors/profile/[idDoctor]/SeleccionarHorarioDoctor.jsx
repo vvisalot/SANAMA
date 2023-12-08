@@ -5,7 +5,11 @@ import "moment/locale/es"; // Importa la localización en español
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import Mensaje from "./Mensaje";
 import swal from "sweetalert";
-import { ENDPOINTS, MAURICIO_LISTAR, MAURICIO_REGISTRO } from "@/services/doctorService";
+import {
+  ENDPOINTS,
+  MAURICIO_LISTAR,
+  MAURICIO_REGISTRO,
+} from "@/services/doctorService";
 
 moment.locale("es");
 const localizer = momentLocalizer(moment);
@@ -180,7 +184,12 @@ function SeleccionarHorarioMedico({ doctor }) {
           };
         });
 
-        function crearJSONParaServidor(eventosTransformados, idMedico, fechaInicioReg, fechaFinReg) {
+        function crearJSONParaServidor(
+          eventosTransformados,
+          idMedico,
+          fechaInicioReg,
+          fechaFinReg
+        ) {
           const jsonParaServidor = {
             pn_id_medico: idMedico,
             pd_fecha_inicio: fechaInicioReg,
@@ -202,8 +211,7 @@ function SeleccionarHorarioMedico({ doctor }) {
           fechaFinReg
         );
 
-        console.log(MAURICIO_REGISTRO)
-
+        console.log(MAURICIO_REGISTRO);
 
         const registrarEvento = async (jsonParaServidor) => {
           const requestOptions = {
@@ -247,7 +255,7 @@ function SeleccionarHorarioMedico({ doctor }) {
   };
 
   useEffect(() => {
-    console.log(MAURICIO_REGISTRO)
+    console.log(MAURICIO_REGISTRO);
 
     const obtenerEventos = async () => {
       const eventosTotales = [];
@@ -381,12 +389,13 @@ function SeleccionarHorarioMedico({ doctor }) {
   };
 
   const dayPropGetter = (date) => {
-    const today = moment().startOf('day');
-    const isPastDay = moment(date).isBefore(today, 'day') || moment(date).isSame(today, 'day');
+    const today = moment().startOf("day");
+    const isPastDay =
+      moment(date).isBefore(today, "day") || moment(date).isSame(today, "day");
 
     // Personaliza los estilos según tus necesidades para los días pasados
     const style = {
-      backgroundColor: isPastDay ? '#EAF6FF' : 'white',
+      backgroundColor: isPastDay ? "#EAF6FF" : "white",
       // color: isPastDay ? 'gray' : 'black',
       // Otros estilos...
     };
@@ -402,22 +411,24 @@ function SeleccionarHorarioMedico({ doctor }) {
   maxTime.setHours(22, 0, 0); // Establece la hora máxima a las 10:00 PM
   return (
     <>
-
       {/* <header className="p-5  text-2xl font-bold tracking-wider text-gray-900">
         Disponibilidad:
       </header> */}
       <div>
-        {isLoading ? (<p>Cargando...</p>) : (
+        {isLoading ? (
+          <p>Cargando...</p>
+        ) : (
           <div style={{ height: "auto" }}>
             <div
               className="flex justify-center space-x-4"
               style={{ margin: "2rem 0" }}
             >
               <button
-                className={`${!isCalendarEnabled
-                  ? "text-white bg-green-500 border border-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 "
-                  : "text-gray-400 bg-gray-100 border border-black-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 "
-                  }`}
+                className={`${
+                  !isCalendarEnabled
+                    ? "text-white bg-green-500 border border-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 "
+                    : "text-gray-400 bg-gray-100 border border-black-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 "
+                }`}
                 onClick={handleIngresarDisponibilidad}
                 disabled={isCalendarEnabled}
               >
@@ -425,21 +436,22 @@ function SeleccionarHorarioMedico({ doctor }) {
               </button>
 
               <button
-                className={`${isCalendarEnabled
-                  ? "text-white bg-red-500 border border-red-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 "
-                  : "text-gray-400 bg-gray-100 border border-black-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 "
-                  }`}
+                className={`${
+                  isCalendarEnabled
+                    ? "text-white bg-red-500 border border-red-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 "
+                    : "text-gray-400 bg-gray-100 border border-black-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 "
+                }`}
                 onClick={handleCancelarIngresoDisponibilidad}
                 disabled={!isCalendarEnabled}
               >
                 Cancelar
-
               </button>
               <button
-                className={`${isCalendarEnabled
-                  ? "text-white bg-blue-500 border border-blue-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 "
-                  : "text-gray-400 bg-gray-100 border border-black-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 "
-                  }`}
+                className={`${
+                  isCalendarEnabled
+                    ? "text-white bg-blue-500 border border-blue-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 "
+                    : "text-gray-400 bg-gray-100 border border-black-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 "
+                }`}
                 onClick={handleGuardar}
                 disabled={!isCalendarEnabled}
               >
