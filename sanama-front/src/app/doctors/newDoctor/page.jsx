@@ -59,6 +59,14 @@ const NewDoctor = () => {
     reader.readAsDataURL(file);
   };
 
+  function validateNumberInput(input) {
+    const inputValue = input.value;
+    const regex = /^[0-9]*$/;
+    if (!regex.test(inputValue)) {
+      input.value = inputValue.slice(0, -1);
+    }
+  }
+
   function validarCMP(numero) {
     const regex = /^\d{6}$/;
     return regex.test(numero);
@@ -66,6 +74,20 @@ const NewDoctor = () => {
   function validarDNI(numero) {
     const regex = /^\d{8}$/;
     return regex.test(numero);
+  }
+
+  function validarCorreoElectronico(correo) {
+    const patronCorreo = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    return patronCorreo.test(correo);
+  }
+
+  function validarNumeroTelefono(numero) {
+    const patronTelefono = /^\d{9}$/;
+    return patronTelefono.test(numero);
+  }
+
+  function validateField(value, validation) {
+    return validation(value);
   }
 
   const handleCancel = () => {
@@ -83,24 +105,6 @@ const NewDoctor = () => {
     });
   };
 
-  function validateNumberInput(input) {
-    const inputValue = input.value;
-    const regex = /^[0-9]*$/;
-    if (!regex.test(inputValue)) {
-      input.value = inputValue.slice(0, -1);
-    }
-  }
-
-  function validarCorreoElectronico(correo) {
-    const patronCorreo = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    return patronCorreo.test(correo);
-  }
-
-  function validarNumeroTelefono(numero) {
-    const patronTelefono = /^\d{9}$/;
-    return patronTelefono.test(numero);
-  }
-
   const handleSave = async () => {
     const camposRequeridos = [
       {
@@ -113,8 +117,16 @@ const NewDoctor = () => {
         mensaje: "Primer apellido",
         validacion: (valor) => valor === "",
       },
-      { campo: dni, mensaje: "DNI", validacion: (valor) => !validarDNI(valor) },
-      { campo: cmp, mensaje: "CMP", validacion: (valor) => !validarCMP(valor) },
+      {
+        campo: dni,
+        mensaje: "DNI",
+        validacion: (valor) => !validateField(valor, validarDNI),
+      },
+      {
+        campo: cmp,
+        mensaje: "CMP",
+        validacion: (valor) => !validateField(valor, validarCMP),
+      },
       {
         campo: fechaNacimiento,
         mensaje: "Fecha de nacimiento",
@@ -123,12 +135,12 @@ const NewDoctor = () => {
       {
         campo: correo,
         mensaje: "Correo electrónico",
-        validacion: (valor) => !validarCorreoElectronico(valor),
+        validacion: (valor) => !validateField(valor, validarCorreoElectronico),
       },
       {
         campo: telefono,
         mensaje: "Teléfono",
-        validacion: (valor) => !validarNumeroTelefono(valor),
+        validacion: (valor) => !validateField(valor, validarNumeroTelefono),
       },
       { campo: area, mensaje: "Área", validacion: (valor) => valor === "" },
       {
@@ -142,7 +154,7 @@ const NewDoctor = () => {
     let hayErrores = false;
 
     camposRequeridos.forEach(({ campo, mensaje, validacion }) => {
-      if (validacion(campo)) {
+      if (validateField(campo, validacion)) {
         toast.error(`Campo ${mensaje} incorrecto o incompleto`, {
           duration: 3000,
         });
@@ -181,7 +193,7 @@ const NewDoctor = () => {
           apellidoPaterno: apellidoPaterno,
           apellidoMaterno: apellidoMaterno,
           dni: dni,
-          fechaNacimiento: fechaNacimiento.toISOString(),
+          fechaNacimiento: fechaNacimiento,
           sexo: sexo,
           telefono: telefono,
           correoElectronico: correo,
@@ -204,6 +216,7 @@ const NewDoctor = () => {
               icon: "success",
               timer: "2500",
             });
+            router.back();
           } else {
             if (responseData == -1) {
               toast.error("El CMP ya existe en el sistema", {
