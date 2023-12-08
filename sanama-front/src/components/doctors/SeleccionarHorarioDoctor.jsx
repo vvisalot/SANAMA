@@ -12,7 +12,6 @@ const localizer = momentLocalizer(moment);
 
 function combinarEventosContiguos(eventos) {
   eventos.sort((a, b) => new Date(a.start) - new Date(b.start));
-
   const eventosCombinados = [];
   let eventoActual = null;
 
@@ -24,19 +23,16 @@ function combinarEventosContiguos(eventos) {
       const inicioEvento = new Date(evento.start);
 
       if (finEventoActual >= inicioEvento) {
-        // Los eventos se superponen o son contiguos, combínalos
         eventoActual.end = new Date(
           Math.max(finEventoActual, new Date(evento.end))
         );
       } else {
-        // No son contiguos, agrega el evento actual a la lista de eventos combinados
         eventosCombinados.push(eventoActual);
         eventoActual = evento;
       }
     }
   }
 
-  // Agregar el último evento actual (o el único si no hubo combinación)
   if (eventoActual) {
     eventosCombinados.push(eventoActual);
   }
@@ -48,7 +44,8 @@ function convertirDatosParaCalendar(datos) {
   const eventos = datos.map((dato) => {
     const fecha = dato.fecha
       ? new Date(dato.fecha.replace(/-/g, "/"))
-      : new Date(); // Usamos la fecha actual si fecha es nula
+      : new Date();
+
     const horaInicio = new Date(`1970-01-01T${dato.horaInicio}`);
     const horaFin = new Date(`1970-01-01T${dato.horaFin}`);
     const start = new Date(fecha);
@@ -57,6 +54,7 @@ function convertirDatosParaCalendar(datos) {
     const end = new Date(fecha);
     end.setHours(horaFin.getHours());
     end.setMinutes(horaFin.getMinutes());
+
     return {
       id: dato.idTurno,
       title: "Disponible",
@@ -78,18 +76,19 @@ function SeleccionarHorarioMedico({ doctor }) {
   const [calendarHeight, setCalendarHeight] = useState(600);
 
   const fechaInicioManana = new Date();
-  fechaInicioManana.setDate(fechaInicioManana.getDate() + 1); // Establece la fecha para mañana
+  fechaInicioManana.setDate(fechaInicioManana.getDate() + 1);
   fechaInicioManana.setHours(0, 0, 0, 0);
 
   const fechaHoy = new Date();
-  fechaHoy.setDate(1); // Establece el día como el primer día del mes actual
-  fechaHoy.setHours(0, 0, 0, 0); // Establece la hora a las 00:00:00
+  fechaHoy.setDate(1);
+  fechaHoy.setHours(0, 0, 0, 0);
 
   const fechaLimite = new Date();
-  fechaLimite.setMonth(fechaLimite.getMonth() + 2, 0); // Establece el mes como el mes siguiente y el día como el último día del mes
-  fechaLimite.setHours(23, 59, 59, 999); // Establece el mes como el mes siguiente y el día como el último día del mes
-  //Aquí defino que tambien quiero traer data hasta 14 dias despues*********
+  fechaLimite.setMonth(fechaLimite.getMonth() + 2, 0);
+  fechaLimite.setHours(23, 59, 59, 999);
+
   const [seHaModificadoHorario, setSeHaModificadoHorario] = useState(false);
+
   const handleIngresarDisponibilidad = () => {
     setBackData(events);
     setIsCalendarEnabled(true);
@@ -146,7 +145,6 @@ function SeleccionarHorarioMedico({ doctor }) {
           closeOnEsc: false,
         });
 
-        //FECHAS
         let fechaInicioReg = events[0].start.toISOString().split("T")[0];
         let fechaFinReg = events[0].start.toISOString().split("T")[0];
 
@@ -163,12 +161,10 @@ function SeleccionarHorarioMedico({ doctor }) {
           });
           const fecha = evento.start.toISOString().split("T")[0];
 
-          // Actualiza fechaInicioReg si la fecha actual es anterior
           if (fecha < fechaInicioReg) {
             fechaInicioReg = fecha;
           }
 
-          // Actualiza fechaFinReg si la fecha actual es posterior
           if (fecha > fechaFinReg) {
             fechaFinReg = fecha;
           }
@@ -207,8 +203,6 @@ function SeleccionarHorarioMedico({ doctor }) {
           fechaFinReg
         );
 
-        console.log(MAURICIO_REGISTRO);
-
         const registrarEvento = async (jsonParaServidor) => {
           const requestOptions = {
             method: "POST",
@@ -242,24 +236,18 @@ function SeleccionarHorarioMedico({ doctor }) {
         };
 
         registrarEventos();
-      } else {
-        // setIsCalendarEnabled(false);
-        // setSeHaModificadoHorario(false);
-        // console.log("Cancelado");
       }
     });
   };
 
   useEffect(() => {
-    console.log(MAURICIO_REGISTRO);
-
     const obtenerEventos = async () => {
       const eventosTotales = [];
-      fechaHoy.setDate(fechaHoy.getDate()); //mi limite inferior. Fecha hoy - 7 dias
+      fechaHoy.setDate(fechaHoy.getDate());
       const year = fechaHoy.getFullYear();
       const month = fechaHoy.getMonth() + 1;
       const day = fechaHoy.getDate();
-      fechaLimite.setDate(fechaLimite.getDate()); //mi limite inferior
+      fechaLimite.setDate(fechaLimite.getDate());
       const year2 = fechaLimite.getFullYear();
       const month2 = fechaLimite.getMonth() + 1;
       const day2 = fechaLimite.getDate();
@@ -287,8 +275,8 @@ function SeleccionarHorarioMedico({ doctor }) {
       } catch (error) {
         console.error("Error al obtener los horarios:", error);
       }
-      setEvents(eventosTotales); //guardamos eventos
-      setIsLoading(false); //permitimos su visualizacion en front
+      setEvents(eventosTotales);
+      setIsLoading(false);
     };
 
     obtenerEventos();
@@ -312,7 +300,7 @@ function SeleccionarHorarioMedico({ doctor }) {
 
   const handleSelectSlot = (slotInfo) => {
     setSeHaModificadoHorario(true);
-    console.log(slotInfo);
+
     if (view === "week") {
       const newEvent = {
         start: slotInfo.start,
@@ -344,16 +332,20 @@ function SeleccionarHorarioMedico({ doctor }) {
       }
     }
   };
+
   const handleView = (newView) => {
     setView(newView);
+
     if (newView === "week") {
       setCalendarHeight(1200);
     } else if (newView === "month") {
       setCalendarHeight(600);
     }
   };
+
   const handleDoubleClickEvent = (event) => {
     setSeHaModificadoHorario(true);
+
     if (view === "month") {
     } else {
       if (event.start >= fechaInicioManana && event.start <= fechaLimite) {
@@ -371,7 +363,7 @@ function SeleccionarHorarioMedico({ doctor }) {
   };
 
   const messages = {
-    week: "Semana", // Cambia el nombre de la vista de semana
+    week: "Semana",
     month: "Mes",
     today: "Hoy",
     previous: "Anterior",
@@ -391,11 +383,13 @@ function SeleccionarHorarioMedico({ doctor }) {
       style,
     };
   };
+
   const minTime = new Date();
-  minTime.setHours(6, 0, 0); // Establece la hora mínima a las 6:00 AM
+  minTime.setHours(6, 0, 0);
 
   const maxTime = new Date();
-  maxTime.setHours(22, 0, 0); // Establece la hora máxima a las 10:00 PM
+  maxTime.setHours(22, 0, 0);
+
   return (
     <>
       <div>
