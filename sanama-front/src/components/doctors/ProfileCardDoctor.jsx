@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import noPerfil from "../../../../components/cards/noPerfil.png";
+import noPerfil from "../cards/noPerfil.png";
 
-const YourComponent = ({
+const ProfileCardDoctor = ({
   imagenPerfil,
   name,
   email,
@@ -100,4 +100,4 @@ const YourComponent = ({
   );
 };
 
-export default YourComponent;
+export default ProfileCardDoctor;

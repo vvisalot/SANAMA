@@ -1,9 +1,9 @@
 "use client";
 import { doctorService } from "@/services/doctorService";
 import { useState, useEffect } from "react";
-import DoctorActions from "./DoctorActions";
-import LatestAppointmentsDoctor from "./LastestAppointmentsDoctor";
-import ProfileCardDoctor from "./ProfileCardDoctor";
+import DoctorActions from "@/components/doctors/DoctorActions";
+import LatestAppointmentsDoctor from "@/components/doctors/LastestAppointmentsDoctor";
+import ProfileCardDoctor from "@/components/doctors/ProfileCardDoctor";
 import { useRouter } from "next/navigation";
 
 function formatearFechaNacimiento(fechaNacimiento) {

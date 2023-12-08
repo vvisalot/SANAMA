@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import CitasMedico from "../CitasMedico";
+import CitasMedico from "@/components/doctors/CitasMedico";
 import { useParams } from "next/navigation";
 
 export default function MisCitasDoctor() {
@@ -34,9 +34,8 @@ export default function MisCitasDoctor() {
         console.error("Error al obtener datos del médico:", error);
       }
     };
-
     fetchData();
-  }, [idDoctor]); // se ejecutará cuando idDoctor cambie
+  }, [idDoctor]);
 
   return (
     <>

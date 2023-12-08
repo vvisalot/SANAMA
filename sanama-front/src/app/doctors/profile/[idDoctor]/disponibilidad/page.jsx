@@ -1,5 +1,5 @@
 "use client";
-import SeleccionarHorarioMedico from "../SeleccionarHorarioDoctor";
+import SeleccionarHorarioMedico from "@/components/doctors/SeleccionarHorarioDoctor";
 import { useParams } from "next/navigation";
 
 export default function RegistrarDisponibilidad() {
