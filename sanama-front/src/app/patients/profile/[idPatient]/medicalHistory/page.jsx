@@ -10,7 +10,7 @@ import { parseHojaMedicaTable } from '@/util/medicalRecordParser'
 import { sexParser } from '@/util/patientParser'
 import TitleWithIcon from '@/components/TitleWithIcon'
 import iconoHistorial from '@/components/icons/iconoHistorial'
-
+import { MdArrowBack } from 'react-icons/md'
 const HistorialClinico = () => {
 	const params = useParams()
 	const idPaciente = params.idPatient //cambien este id cochino csm!!
@@ -106,7 +106,8 @@ const HistorialClinico = () => {
 	if (!historialClinico) return <p>No se encontró el historial clínico</p>
 	return (
 		<section className="p-4 md:p-14 h-screen">
-			<TitleWithIcon name={`Ver Historial Medico`} Icon={iconoHistorial} />
+			<TitleWithIcon name={`Historial Médico`} Icon={iconoHistorial} />
+			
 			<div className="bg-white p-4 rounded shadow-md mb-6">
 				<h1 className="text-3xl font-bold mb-4"> {historialClinico.codigo}</h1>
 				<div className="flex flex-wrap mb-2 space-x-32 px-4">

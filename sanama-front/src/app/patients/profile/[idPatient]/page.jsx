@@ -52,7 +52,7 @@ const PatientProfile = ({ params }) => {
 
 	return (
 		<div className="w-full px-14 py-6">
-			<div className="flex justify-start">
+			{/* <div className="flex justify-start">
 				<button
 					type="button"
 					className="text-black hover:bg-gray-300 hover:underline font-medium rounded-lg text-sm px-2 py-2 flex items-center"
@@ -60,7 +60,7 @@ const PatientProfile = ({ params }) => {
 					<MdArrowBack className="mr-2 h-5 w-5" />
 					Volver
 				</button>
-			</div>
+			</div> */}
 
 			<article className="flex">
 				<section className=" w-1/2 flex-row p-10 ">

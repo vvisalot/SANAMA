@@ -315,7 +315,7 @@ const NewDoctor = () => {
 
   return (
     <div>
-      <div className="flex justify-end ">
+      {/* <div className="flex justify-end ">
         <div className="flex-end">
           <button
             type="button"
@@ -326,7 +326,7 @@ const NewDoctor = () => {
             Volver
           </button>
         </div>
-      </div>
+      </div> */}
       <h1 className="text-4xl w-full py-10 font-semibold">Crear perfil de doctor</h1>
       <div className="flex ">
         <div className="w-2/3">

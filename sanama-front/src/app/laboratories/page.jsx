@@ -24,20 +24,6 @@ const LaboratoryPage = () => {
     arregloEstados: [],
   };
 
-  // const fetchData = async (initialRequest) => {
-  //   try {
-  //     const data = await laboratoryService.listarOrdenLaboratorioPorFiltro(
-  //       request
-  //     )
-  //     const tableData = parseLaboratoryTable(data)
-  //     console.log("ANTES DEL PARSE LOS DATOS QUE LLEGAN SON: ", data)
-  //     console.log("DESPUES DEL PARSE LOS DATOS QUE LLEGAN SON: ", data)
-  //     setLaboratoryTable(tableData)
-  //   } catch (error) {
-  //     console.error("No se pudo obtener los datos de los laboratorios", error)
-  //   }
-  // }
-
   const fetchData = async (request) => {
     try {
       const data = await laboratoryService.listarOrdenLaboratorioPorFiltro(
@@ -66,23 +52,16 @@ const LaboratoryPage = () => {
   };
 
   useEffect(() => {
-    console.log("ENTRA AL USEEFFECT");
-    fetchStateList();
-    fetchData(initialRequest);
+    const fetchDataAndStateList = async () => {
+      try {
+        await fetchStateList();
+        fetchData(initialRequest);
+      } catch (error) {
+        console.error("Error in useEffect:", error);
+      }
+    };
+    fetchDataAndStateList();
   }, []);
-  // useEffect(() => {
-  //   console.log("ESTA ENTRANDO AL USE EFFECT: ")
-  //   const fetchDataAndStateList = async () => {
-  //     try {
-  //       await fetchStateList();
-  //       fetchData(initialRequest);
-  //     } catch (error) {
-  //       console.error("Error in useEffect:", error);
-  //     }
-  //   };
-
-  //   fetchDataAndStateList();
-  // }, []);
 
   const handleSubmit = (e) => {
     const stateArray = Object.entries(statusState)
