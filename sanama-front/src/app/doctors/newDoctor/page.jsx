@@ -62,24 +62,12 @@ const NewDoctor = () => {
     }
   };
 
-  const handleFechaNacimiento = (newDate) => {
-    const fechaFormateada = `${fechaNacimiento.getFullYear()}-${String(
-      fechaNacimiento.getMonth() + 1
-    ).padStart(2, "0")}-${String(fechaNacimiento.getDate()).padStart(2, "0")}`;
-    setFechaNacimiento(fechaFormateada);
-  };
   function validarCMP(numero) {
-    // Expresión regular que verifica si el número consiste en exactamente 6 dígitos
     const regex = /^\d{6}$/;
-
-    // Verificar si el número coincide con la expresión regular
     return regex.test(numero);
   }
   function validarDNI(numero) {
-    // Expresión regular que verifica si el número consiste en exactamente 6 dígitos
     const regex = /^\d{8}$/;
-
-    // Verificar si el número coincide con la expresión regular
     return regex.test(numero);
   }
   function handleCancel() {
@@ -87,15 +75,12 @@ const NewDoctor = () => {
       action: {
         label: "Sí",
         onClick: () => {
-          // Aquí puedes realizar la lógica de cancelación
           router.back();
         },
       },
       cancel: {
         label: "No",
-        onClick: () => {
-          // Aquí puedes realizar la lógica para no cancelar
-        },
+        onClick: () => {},
       },
     });
   }
@@ -104,21 +89,16 @@ const NewDoctor = () => {
     const regex = /^[0-9]*$/; // Expresión regular que solo permite dígitos
 
     if (!regex.test(inputValue)) {
-      // Si la entrada no es un número, eliminar el último caracter ingresado
       input.value = inputValue.slice(0, -1);
     }
   }
 
   function validarCorreoElectronico(correo) {
-    // Patrón para validar dirección de correo electrónico
     const patronCorreo = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-
     return patronCorreo.test(correo);
   }
   function validarNumeroTelefono(numero) {
-    // Patrón para validar número de teléfono (10 dígitos, opcionalmente con guiones, paréntesis y espacios)
     const patronTelefono = /^\d{9}$/;
-
     return patronTelefono.test(numero);
   }
   const handleSave = () => {
@@ -208,8 +188,6 @@ const NewDoctor = () => {
         });
 
         let partes;
-        let extension;
-        let base64Data;
 
         if (imagenPerfil != null) {
           partes = imagenPerfil.split("data:image/")[1].split(";base64,");
@@ -218,73 +196,6 @@ const NewDoctor = () => {
         } else {
           base64Data = null;
         }
-        const enviarDatosMedico = async (
-          nombreMedico,
-          apellidoPaterno,
-          apellidoMaterno,
-          dni,
-          fechaNacimiento,
-          sexo,
-          telefono,
-          correo,
-          area,
-          cmp,
-          especialidad,
-          base64Data
-        ) => {
-          const fechaFormateada = `${fechaNacimiento.getFullYear()}-${String(
-            fechaNacimiento.getMonth() + 1
-          ).padStart(2, "0")}-${String(fechaNacimiento.getDate()).padStart(
-            2,
-            "0"
-          )}`;
-          let sexoFormateado =
-            sexo.toLowerCase() === "masculino"
-              ? "M"
-              : sexo.toLowerCase() === "femenino"
-              ? "F"
-              : sexo;
-          const doctorData = {
-            nombres: nombreMedico,
-            apellidoPaterno: apellidoPaterno,
-            apellidoMaterno: apellidoMaterno,
-            dni: dni,
-            fechaNacimiento: fechaFormateada,
-            sexo: sexoFormateado,
-            telefono: telefono,
-            correoElectronico: correo,
-            area: area,
-            cmp: cmp,
-            especialidad: {
-              idEspecialidad: especialidad, // Ajusta esto según el valor correcto
-            },
-            foto: base64Data, // Lógica para la foto aquí si es necesario
-          };
-
-          try {
-            const responseData = await registrarMedico(doctorData);
-            // Aquí manejas la respuesta del servidor
-            if (responseData >= 0) {
-              swal({
-                text: "El registro se realizó con éxito",
-                icon: "success",
-                timer: "2500",
-              });
-            } else {
-              if (responseData == -1) {
-                toast.error("El CMP ya existe en el sistema", {
-                  duration: 3000,
-                });
-              } else if (responseData == -2) {
-                toast.error("El DNI ya existe en el sistema", {
-                  duration: 3000,
-                });
-              }
-            }
-          } catch (error) {
-            console.error("Error al registrar el médico", error);
-          }
-        };
       }
     });
   };
@@ -412,7 +323,6 @@ const NewDoctor = () => {
                 autoComplete="off"
                 className="block py-2.5 px-0 w-full text-gray-900 bg-transparent"
                 value={correo}
-                //PENDIENTE: HANDLE DISABLED PQ AL INICIO NO DEBERIA
                 onChange={(event) => setCorreo(event.target.value)}
                 placeholder="ej: ejemplo@gmail.com"
               />
