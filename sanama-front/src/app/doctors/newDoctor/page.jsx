@@ -78,110 +78,87 @@ const NewDoctor = () => {
       },
       cancel: {
         label: "No",
-        onClick: () => {
-          // Lógica para no cancelar
-        },
+        onClick: () => {},
       },
     });
   };
 
   function validateNumberInput(input) {
     const inputValue = input.value;
-    const regex = /^[0-9]*$/; // Expresión regular que solo permite dígitos
-
+    const regex = /^[0-9]*$/;
     if (!regex.test(inputValue)) {
-      // Si la entrada no es un número, eliminar el último caracter ingresado
       input.value = inputValue.slice(0, -1);
     }
   }
 
   function validarCorreoElectronico(correo) {
-    // Patrón para validar dirección de correo electrónico
     const patronCorreo = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-
     return patronCorreo.test(correo);
   }
-  function validarNumeroTelefono(numero) {
-    // Patrón para validar número de teléfono (10 dígitos, opcionalmente con guiones, paréntesis y espacios)
-    const patronTelefono = /^\d{9}$/;
 
+  function validarNumeroTelefono(numero) {
+    const patronTelefono = /^\d{9}$/;
     return patronTelefono.test(numero);
   }
-  const handleSave = () => {
+
+  const handleSave = async () => {
+    const camposRequeridos = [
+      {
+        campo: nombreMedico,
+        mensaje: "Nombres",
+        validacion: (valor) => valor === "",
+      },
+      {
+        campo: apellidoPaterno,
+        mensaje: "Primer apellido",
+        validacion: (valor) => valor === "",
+      },
+      { campo: dni, mensaje: "DNI", validacion: (valor) => !validarDNI(valor) },
+      { campo: cmp, mensaje: "CMP", validacion: (valor) => !validarCMP(valor) },
+      {
+        campo: fechaNacimiento,
+        mensaje: "Fecha de nacimiento",
+        validacion: (valor) => valor === "",
+      },
+      {
+        campo: correo,
+        mensaje: "Correo electrónico",
+        validacion: (valor) => !validarCorreoElectronico(valor),
+      },
+      {
+        campo: telefono,
+        mensaje: "Teléfono",
+        validacion: (valor) => !validarNumeroTelefono(valor),
+      },
+      { campo: area, mensaje: "Área", validacion: (valor) => valor === "" },
+      {
+        campo: especialidad,
+        mensaje: "Especialidad",
+        validacion: (valor) => valor === "",
+      },
+      { campo: sexo, mensaje: "Sexo", validacion: (valor) => valor === "" },
+    ];
+
     let hayErrores = false;
-    if (nombreMedico === "") {
-      toast.error("Campo incompleto: Nombres", { duration: 3000 });
-      hayErrores = true;
-    }
-    if (apellidoPaterno === "") {
-      toast.error("Campo incompleto: Primer apellido", { duration: 3000 });
-      hayErrores = true;
-    }
 
-    if (!validarDNI(dni)) {
-      toast.error("Campo incorrecto. DNI debe tener 8 dígitos", {
-        duration: 3000,
-      });
-      hayErrores = true;
-    }
-
-    if (!validarCMP(cmp)) {
-      toast.error("Campo incorrecto. CMP debe tener 6 dígitos", {
-        duration: 3000,
-      });
-      hayErrores = true;
-    }
-
-    if (fechaNacimiento === "") {
-      toast.error("Campo no seleccionado. Seleccione su fecha de nacimiento", {
-        duration: 3000,
-      });
-      hayErrores = true;
-    }
-    if (!validarCorreoElectronico(correo)) {
-      toast.error(
-        "Campo incorrecto. Correo debe estar en formato ejemplo@aaa.aaa",
-        { duration: 3000 }
-      );
-      hayErrores = true;
-    }
-
-    if (!validarNumeroTelefono(telefono)) {
-      toast.error("Campo incorrecto. Teléfono debe tener 9 dígitos", {
-        duration: 3000,
-      });
-      hayErrores = true;
-    }
-
-    if (area === "") {
-      toast.error("Campo no seleccionado. Area sin seleccionar", {
-        duration: 3000,
-      });
-      hayErrores = true;
-    }
-
-    if (especialidad === "") {
-      toast.error("Campo no seleccionado. Especialidad sin seleccionar", {
-        duration: 3000,
-      });
-      hayErrores = true;
-    }
-
-    if (sexo === "") {
-      toast.error("Campo no seleccionado. Sexo sin seleccionar", {
-        duration: 3000,
-      });
-      hayErrores = true;
-    }
+    camposRequeridos.forEach(({ campo, mensaje, validacion }) => {
+      if (validacion(campo)) {
+        toast.error(`Campo ${mensaje} incorrecto o incompleto`, {
+          duration: 3000,
+        });
+        hayErrores = true;
+      }
+    });
 
     if (hayErrores) return;
+
     swal({
       title: "Confirmar",
       text: "¿Confirmar registro de nuevo médico?",
       icon: "warning",
       buttons: ["No", "Sí"],
       showLoaderOnConfirm: true,
-    }).then((respuesta) => {
+    }).then(async (respuesta) => {
       if (respuesta) {
         swal({
           title: "Espere...",
@@ -193,99 +170,56 @@ const NewDoctor = () => {
           closeOnEsc: false,
         });
 
-        let partes;
-        let extension;
-        let base64Data;
-
+        let base64Data = null;
         if (imagenPerfil != null) {
-          partes = imagenPerfil.split("data:image/")[1].split(";base64,");
-          extension = partes[0]; // Aquí obtendrás la extensión de la imagen (por ejemplo, 'jpeg', 'png', etc.)
+          const partes = imagenPerfil.split("data:image/")[1].split(";base64,");
           base64Data = partes[1];
-        } else {
-          base64Data = null;
         }
 
-        const url = "http://localhost:8080/rrhh/post/registrarMedico";
-        const fechaFormateada = `${fechaNacimiento.getFullYear()}-${String(
-          fechaNacimiento.getMonth() + 1
-        ).padStart(2, "0")}-${String(fechaNacimiento.getDate()).padStart(
-          2,
-          "0"
-        )}`;
-        const data = {
+        const doctorData = {
           nombres: nombreMedico,
           apellidoPaterno: apellidoPaterno,
           apellidoMaterno: apellidoMaterno,
           dni: dni,
-          fechaNacimiento: fechaFormateada,
+          fechaNacimiento: fechaNacimiento.toISOString(),
           sexo: sexo,
           telefono: telefono,
           correoElectronico: correo,
           area: area,
           cmp: cmp,
           especialidad: {
-            idEspecialidad: especialidad, // Cambia esto según el valor correcto
+            idEspecialidad: especialidad,
           },
-          foto: base64Data, // Puedes manejar la lógica para la foto aquí si es necesario
+          foto: base64Data,
         };
-        if (sexo.toLowerCase() === "masculino") {
-          // Si la cadena es "Masculino", guarda "M"
-          data.sexo = "M";
-        } else if (sexo.toLowerCase() === "femenino") {
-          // Si la cadena es "Femenino", guarda "F"
-          data.sexo = "F";
-        }
-        console.log("e", data);
-        fetch(url, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        })
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error("Network response was not ok");
-            }
-            return response.json(); // Agregar esta línea para extraer la respuesta JSON
-          })
-          .then((responseData) => {
-            // Manejar la respuesta del servidor si es necesario
-            console.log("Respuesta del servidor:", responseData);
-            swal.close();
-            if (responseData >= 0) {
-              swal({
-                text: "El registro se realizó con éxito",
-                icon: "success",
-                timer: "2500",
+
+        try {
+          const responseData = await doctorService.registrarMedico(doctorData);
+
+          swal.close();
+
+          if (responseData >= 0) {
+            swal({
+              text: "El registro se realizó con éxito",
+              icon: "success",
+              timer: "2500",
+            });
+          } else {
+            if (responseData == -1) {
+              toast.error("El CMP ya existe en el sistema", {
+                duration: 3000,
               });
-            } else {
-              if (responseData == -1) {
-                toast.error("El CMP ya existe en el sistema", {
-                  duration: 3000,
-                });
-              } else {
-                if (responseData == -2) {
-                  toast.error("El DNI ya existe en el sistema", {
-                    duration: 3000,
-                  });
-                }
-              }
+            } else if (responseData == -2) {
+              toast.error("El DNI ya existe en el sistema", {
+                duration: 3000,
+              });
             }
-            // Puedes realizar otras acciones o redireccionar aquí según la respuesta del servidor
-            // router.push('/doctors');
-          })
-          .catch((error) => {
-            // Manejar errores de la red u otros errores
-            console.error("Error al enviar los datos:", error);
-          });
+          }
+        } catch (error) {
+          console.error("Error al enviar los datos:", error);
+        }
       }
     });
-  };
-
-  const validateForm = () => {
-    // Lógica para validar el formulario antes de pasar a la siguiente parte
-    // ...
   };
 
   return (
@@ -411,7 +345,6 @@ const NewDoctor = () => {
                 autoComplete="off"
                 className="block py-2.5 px-0 w-full text-gray-900 bg-transparent"
                 value={correo}
-                //PENDIENTE: HANDLE DISABLED PQ AL INICIO NO DEBERIA
                 onChange={(event) => setCorreo(event.target.value)}
                 placeholder="ej: ejemplo@gmail.com"
               />
@@ -467,10 +400,10 @@ const NewDoctor = () => {
               <label className="text-gray-500">Sexo</label>
               <div className="py-2.5 px-0">
                 <Picker
-                  name1={"masculino"}
-                  name2={"femenino"}
                   option1={"Masculino"}
                   option2={"Femenino"}
+                  name1={"M"}
+                  name2={"F"}
                   value={sexo}
                   setValue={setSexo}
                 />

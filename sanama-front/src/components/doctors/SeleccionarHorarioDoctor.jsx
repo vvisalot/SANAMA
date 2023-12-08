@@ -5,11 +5,7 @@ import "moment/locale/es";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import Mensaje from "./Mensaje";
 import swal from "sweetalert";
-import {
-  ENDPOINTS,
-  MAURICIO_LISTAR,
-  MAURICIO_REGISTRO,
-} from "@/services/doctorService";
+import { MAURICIO_LISTAR, MAURICIO_REGISTRO } from "@/services/doctorService";
 
 moment.locale("es");
 const localizer = momentLocalizer(moment);
