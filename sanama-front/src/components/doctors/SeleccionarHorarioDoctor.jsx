@@ -5,7 +5,7 @@ import "moment/locale/es";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import Mensaje from "./Mensaje";
 import swal from "sweetalert";
-import { MAURICIO_LISTAR, MAURICIO_REGISTRO } from "@/services/doctorService";
+import { MAURICIO_LISTAR, doctorService } from "@/services/doctorService";
 
 moment.locale("es");
 const localizer = momentLocalizer(moment);
@@ -204,30 +204,18 @@ function SeleccionarHorarioMedico({ doctor }) {
         );
 
         const registrarEvento = async (jsonParaServidor) => {
-          const requestOptions = {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(jsonParaServidor),
-          };
-
           try {
-            const response = await fetch(MAURICIO_REGISTRO, requestOptions);
-            if (response.ok) {
-              setIsCalendarEnabled(false);
-              setSeHaModificadoHorario(false);
-              swal.close();
-              swal({
-                text: "El registro se realizó con éxito",
-                icon: "success",
-              });
-            } else {
-              console.error("Error en la solicitud:", response.statusText);
-              setSeHaModificadoHorario(false);
-            }
+            await doctorService.registrarHorarioMedico(jsonParaServidor);
+            setIsCalendarEnabled(false);
+            setSeHaModificadoHorario(false);
+            swal.close();
+            swal({
+              text: "El registro se realizó con éxito",
+              icon: "success",
+            });
           } catch (error) {
-            console.error("Error en la solicitud:", error);
+            console.error("Error al registrar el evento:", error);
+            setSeHaModificadoHorario(false);
           }
         };
 
