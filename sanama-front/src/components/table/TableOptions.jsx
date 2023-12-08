@@ -27,7 +27,7 @@ const TableOptions = ({ id, options, estado }) => {
 
   return (
     <div className="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-      <ul className="flex justify-start text-sm text-gray-700 dark:text-gray-200" aria-labelledby="options-dropdown-button">
+      <ul className="text-sm text-gray-700 dark:text-gray-200" aria-labelledby="options-dropdown-button">
         {options.map((option, index) => (
           <li key={index}>
             <Link href={`${option.link}/${id}`} className="w-fit py-2  hover:text-blue-500 hover:underline">

@@ -62,8 +62,8 @@ const PatientProfile = ({ params }) => {
 				</button>
 			</div>
 
-			<article className="flex flex-row  justify-center">
-				<section className=" w-1/3 ">
+			<article className="flex">
+				<section className=" w-1/2 flex-row p-10 ">
 					<ProfileCard
 						name={`${dataPatient.nombres} ${dataPatient.apellidoPaterno} ${dataPatient.apellidoMaterno}`}
 						email={dataPatient.correo}
@@ -76,7 +76,7 @@ const PatientProfile = ({ params }) => {
 					<PatientActions id={params.idPatient} />
 				</section>
 
-				<section className=" w-2/3 ">
+				<section className=" w-1/2 flex-row p-10">
 					<PatientInfo
 						gender={dataPatient.sexo}
 						dni={dataPatient.dni}
