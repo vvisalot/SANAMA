@@ -5,7 +5,7 @@ import "moment/locale/es";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import Mensaje from "./Mensaje";
 import swal from "sweetalert";
-import { MAURICIO_LISTAR, doctorService } from "@/services/doctorService";
+import { doctorService } from "@/services/doctorService";
 
 moment.locale("es");
 const localizer = momentLocalizer(moment);
@@ -239,30 +239,26 @@ function SeleccionarHorarioMedico({ doctor }) {
       const year2 = fechaLimite.getFullYear();
       const month2 = fechaLimite.getMonth() + 1;
       const day2 = fechaLimite.getDate();
+
       const requestData = {
         pn_id_medico: idDoctor,
         pd_fecha_inicio: `${year}-${month}-${day}`,
         pd_fecha_fin: `${year2}-${month2}-${day2}`,
       };
 
-      const url = MAURICIO_LISTAR;
-      const requestOptions = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestData),
-      };
-
       try {
-        const response = await fetch(url, requestOptions);
-        if (response.ok) {
-          const data = await response.json();
-          eventosTotales.push(...convertirDatosParaCalendar(data));
+        const response =
+          await doctorService.obtenerHorariosPorMedicoEIntervaloFechas(
+            requestData
+          );
+
+        if (response) {
+          eventosTotales.push(...convertirDatosParaCalendar(response));
         }
       } catch (error) {
         console.error("Error al obtener los horarios:", error);
       }
+
       setEvents(eventosTotales);
       setIsLoading(false);
     };
