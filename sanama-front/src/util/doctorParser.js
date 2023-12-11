@@ -7,8 +7,6 @@ export function parseDoctorsDropdown(data) {
   });
   return table;
 }
-const formatFullName = ({ nombres, apellidoPaterno, apellidoMaterno }) =>
-  `${nombres} ${apellidoPaterno} ${apellidoMaterno}`;
 
 export function parseDoctorsTable(data) {
   return data.map((row) => ({

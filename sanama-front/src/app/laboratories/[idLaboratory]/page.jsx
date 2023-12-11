@@ -1,16 +1,18 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
-import { laboratoryService } from "@/services/laboratoryService";
+import { useState, useRef } from "react";
 import useLaboratoryProfile from "@/hooks/useLaboratoryOrder";
+import { calcularEdad } from "@/util/formValidations";
 
 const LaboratoryProfile = ({ params }) => {
   const {
     medicos,
     dataLaboratory,
     setDataLaboratory,
+    handleSave,
+    handleConfirmAnulacion,
     isLoading,
     error,
-    handleMedicoChange /* ...otras funciones del hook */,
+    handleMedicoChange,
   } = useLaboratoryProfile(params.idLaboratory);
 
   const hiddenFileInput = useRef(null);
@@ -126,105 +128,11 @@ const LaboratoryProfile = ({ params }) => {
     }
   };
 
-  const handleSave = async () => {
-    const laboratorioData = {
-      idOrdenLaboratorio: params.idLaboratory,
-      doctorFirmante: dataLaboratory.doctorFirmante,
-      estado: 1,
-      examenMedico: dataLaboratory.examenMedico,
-      observaciones: dataLaboratory.observaciones,
-    };
-
-    const incompleteFields = [];
-    for (let key in laboratorioData) {
-      const value = laboratorioData[key];
-      if (
-        value === null ||
-        value === undefined ||
-        (typeof value === "string" && !value.trim())
-      ) {
-        incompleteFields.push(fieldNames[key] || key);
-      }
-    }
-
-    if (incompleteFields.length > 0) {
-      setMissingFields(incompleteFields);
-      setMissingFieldsModal(true);
-      return;
-    }
-
-    setIsLoading(true);
-
-    try {
-      const result = await laboratoryService.atenderOrdenLaboratorio(
-        laboratorioData
-      );
-
-      if (result === 1) {
-        setShowModal(true);
-      } else {
-        alert(
-          "Ocurrió un problema al guardar la información. Por favor, inténtalo de nuevo."
-        );
-      }
-    } catch (error) {
-      console.error("Error al guardar la orden de laboratorio", error);
-      alert("Hubo un error al guardar. Por favor, inténtalo de nuevo.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  function calcularEdad(fechaNacimiento) {
-    const hoy = new Date();
-    const cumpleanos = new Date(fechaNacimiento);
-    let edad = hoy.getFullYear() - cumpleanos.getFullYear();
-    const mes = hoy.getMonth() - cumpleanos.getMonth();
-
-    if (mes < 0 || (mes === 0 && hoy.getDate() < cumpleanos.getDate())) {
-      edad--;
-    }
-
-    return edad;
-  }
-
   const handleAnularLaboratoryClick = () => {
     setShowConfirmPopup(true);
   };
 
   const handleClosePopup = () => {
-    setShowConfirmPopup(false);
-  };
-
-  const handleConfirmAnulacion = async () => {
-    const laboratorioDataCancelled = {
-      idOrdenLaboratorio: Number(params.idLaboratory),
-      doctorFirmante: "Doctor por defecto",
-      estado: 3,
-      examenMedico: [],
-      observaciones: "Anulado",
-    };
-
-    try {
-      const result = await laboratoryService.atenderOrdenLaboratorio(
-        laboratorioDataCancelled
-      );
-
-      if (result === 1) {
-        if (typeof window !== "undefined") {
-          window.history.back();
-        }
-      } else {
-        alert(
-          "Ocurrió un problema al anular la orden de laboratorio. Por favor, inténtalo de nuevo."
-        );
-      }
-    } catch (error) {
-      console.error("Error al anular la orden de laboratorio", error);
-      alert(
-        "Hubo un error al anular la orden de laboratorio. Por favor, inténtalo de nuevo."
-      );
-    }
     setShowConfirmPopup(false);
   };
 
@@ -308,15 +216,6 @@ const LaboratoryProfile = ({ params }) => {
 
   return (
     <div className="w-full p-10 rounded-lg shadow-md">
-      {isLoading && (
-        <div className="fixed inset-0 flex items-center justify-center z-50">
-          <div className="bg-white p-4 rounded shadow-md">
-            <div className="animate-spin w-6 h-6 border-t-4 border-blue-500 rounded-full"></div>
-            <div className="mt-2 text-gray-600">Cargando...</div>
-          </div>
-        </div>
-      )}
-
       <section className="rounded-lg p-8 mx-auto flex flex-col space-y-6 md:max-w-5xl lg:max-w-6xl xl:max-w-7xl">
         <div className="flex justify-end space-x-4">
           <button

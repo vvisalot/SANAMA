@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { laboratoryService } from "@/services/laboratoryService";
 
 const useLaboratoryProfile = (idLaboratory) => {
@@ -79,16 +79,95 @@ const useLaboratoryProfile = (idLaboratory) => {
     }));
   };
 
-  // Otras funciones y lógica relacionada a la manipulación de datos
+  const handleSave = async () => {
+    const laboratorioData = {
+      idOrdenLaboratorio: dataLaboratory.idOrdenLaboratorio,
+      doctorFirmante: dataLaboratory.doctorFirmante,
+      estado: 1,
+      examenMedico: dataLaboratory.examenMedico,
+      observaciones: dataLaboratory.observaciones,
+    };
+
+    const incompleteFields = [];
+    for (let key in laboratorioData) {
+      const value = laboratorioData[key];
+      if (
+        value === null ||
+        value === undefined ||
+        (typeof value === "string" && !value.trim())
+      ) {
+        incompleteFields.push(key);
+      }
+    }
+
+    if (incompleteFields.length > 0) {
+      setError(
+        `Please complete the following fields: ${incompleteFields.join(", ")}`
+      );
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const result = await laboratoryService.atenderOrdenLaboratorio(
+        laboratorioData
+      );
+
+      if (result === 1) {
+      } else {
+        setError(
+          "There was a problem saving the information. Please try again."
+        );
+      }
+    } catch (error) {
+      console.error("Error saving laboratory order", error);
+      setError("There was an error saving. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleConfirmAnulacion = async () => {
+    const laboratorioDataCancelled = {
+      idOrdenLaboratorio: dataLaboratory.idOrdenLaboratorio,
+      doctorFirmante: "Default Doctor",
+      estado: 3,
+      examenMedico: [],
+      observaciones: "Cancelled",
+    };
+
+    try {
+      const result = await laboratoryService.atenderOrdenLaboratorio(
+        laboratorioDataCancelled
+      );
+
+      if (result === 1) {
+        if (typeof window !== "undefined") {
+          window.history.back();
+        }
+      } else {
+        setError(
+          "There was a problem canceling the laboratory order. Please try again."
+        );
+      }
+    } catch (error) {
+      console.error("Error canceling laboratory order", error);
+      setError(
+        "There was an error canceling the laboratory order. Please try again."
+      );
+    }
+  };
 
   return {
     medicos,
     dataLaboratory,
     setDataLaboratory,
+    handleSave,
+    handleConfirmAnulacion,
     isLoading,
     error,
     handleMedicoChange,
-    // ... otras funciones y propiedades que necesites exponer
   };
 };
 
