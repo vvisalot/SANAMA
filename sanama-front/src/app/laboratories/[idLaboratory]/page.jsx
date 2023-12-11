@@ -2,6 +2,7 @@
 import { useState, useRef } from "react";
 import useLaboratoryProfile from "@/hooks/useLaboratoryOrder";
 import { calcularEdad } from "@/util/formValidations";
+import ActionButtonsLab from "@/components/laboratory/ActionButtonsLab";
 
 const LaboratoryProfile = ({ params }) => {
   const {
@@ -49,7 +50,7 @@ const LaboratoryProfile = ({ params }) => {
     return new Blob([byteArray], { type: mimeType });
   };
 
-  const handleEditClick = () => {
+  const handleAttendClick = () => {
     setIsEditable(!isEditable);
   };
 
@@ -217,20 +218,7 @@ const LaboratoryProfile = ({ params }) => {
   return (
     <div className="w-full p-10 rounded-lg shadow-md">
       <section className="rounded-lg p-8 mx-auto flex flex-col space-y-6 md:max-w-5xl lg:max-w-6xl xl:max-w-7xl">
-        <div className="flex justify-end space-x-4">
-          <button
-            className="bg-blue-500 text-white hover:bg-blue-600 px-4 py-2 rounded"
-            onClick={handleEditClick}
-          >
-            <i className="fas fa-pencil-alt mr-2"></i> Editar
-          </button>
-          <button
-            className="bg-red-500 text-white hover:bg-red-600 px-4 py-2 rounded"
-            onClick={handleAnularLaboratoryClick}
-          >
-            <i className="fas fa-times-circle mr-2"></i> Anular Laboratorio
-          </button>
-        </div>
+        <ActionButtonsLab />
 
         {showConfirmPopup && (
           <div
