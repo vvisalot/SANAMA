@@ -25,19 +25,27 @@ public class OrdenLaboratorioRepository {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    public OrdenLaboratorioRepository(JdbcTemplate jdbcTemplate) { this.jdbcTemplate = jdbcTemplate;}
+    public OrdenLaboratorioRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
     private final OrdenLaboratorioMapper ordenLaboratorioMapper = new OrdenLaboratorioMapper();
     private final OrdenLaboratorioUnicaMapper ordenLaboratorioUnicaMapper = new OrdenLaboratorioUnicaMapper();
 
-    public List<OrdenLaboratorio> listarOrdenLaboratorioFiltro(String pv_filtro,String pd_fecha_inicio, String pd_fecha_fin, List<String> estados) {
-        if (pd_fecha_inicio != null)pd_fecha_inicio = "'"+pd_fecha_inicio+"'";
-        if (pd_fecha_fin != null)pd_fecha_fin = "'"+pd_fecha_fin+"'";
+    public List<OrdenLaboratorio> listarOrdenLaboratorioFiltro(String pv_filtro, String pd_fecha_inicio,
+            String pd_fecha_fin, List<String> estados) {
+        if (pd_fecha_inicio != null)
+            pd_fecha_inicio = "'" + pd_fecha_inicio + "'";
+        if (pd_fecha_fin != null)
+            pd_fecha_fin = "'" + pd_fecha_fin + "'";
         String procedureCall;
-        List<OrdenLaboratorio> ordenLaboratorio= new ArrayList<>();
-        List<OrdenLaboratorio> aux=null;
+        List<OrdenLaboratorio> ordenLaboratorio = new ArrayList<>();
+        List<OrdenLaboratorio> aux = null;
         for (String pn_estado : estados) {
-            if (pn_estado != null)pn_estado = "'"+pn_estado+"'";
-            procedureCall = "{call dbSanama.ssm_lab_listar_orden_laboratorio_filtro('"+pv_filtro+"',"+pd_fecha_inicio+","+pd_fecha_fin+","+pn_estado+")};";
+            if (pn_estado != null)
+                pn_estado = "'" + pn_estado + "'";
+            procedureCall = "{call dbSanama.ssm_lab_listar_orden_laboratorio_filtro('" + pv_filtro + "',"
+                    + pd_fecha_inicio + "," + pd_fecha_fin + "," + pn_estado + ")};";
             aux = jdbcTemplate.query(procedureCall, ordenLaboratorioMapper);
             ordenLaboratorio.addAll(aux);
         }
@@ -45,7 +53,7 @@ public class OrdenLaboratorioRepository {
     }
 
     public List<OrdenLaboratorio> buscarOrdenLaboratorio(String pn_id_orden_laboratorio) {
-        String procedureCall = "{call dbSanama.ssm_lab_buscar_orden_laboratorio("+pn_id_orden_laboratorio+")};";
+        String procedureCall = "{call dbSanama.ssm_lab_buscar_orden_laboratorio(" + pn_id_orden_laboratorio + ")};";
         return jdbcTemplate.query(procedureCall, ordenLaboratorioUnicaMapper);
     }
 
@@ -95,6 +103,7 @@ public class OrdenLaboratorioRepository {
             orden.setInstrucciones(rs.getString("instrucciones"));
             orden.setObservaciones(rs.getString("observaciones"));
             orden.setDoctorFirmante(rs.getString("nombre_doctor_firmante"));
+            orden.setEstado(rs.getInt("estado"));
 
             Paciente paciente = new Paciente();
             paciente.setNombres(rs.getString("nombres_paciente"));
@@ -135,10 +144,10 @@ public class OrdenLaboratorioRepository {
                 .addValue("pn_estado", orden.getEstado());
 
         Map<String, Object> result = simpleJdbcCall.execute(mapSqlParameterSource);
-        if(result.containsKey("ERROR_CODE") || result.containsKey("ERROR_MESSAGE")){
+        if (result.containsKey("ERROR_CODE") || result.containsKey("ERROR_MESSAGE")) {
             return -1;
-        }
-        else return 1;
+        } else
+            return 1;
     }
 
     public int registrarOrdenLaboratorio(OrdenLaboratorio orden) {
@@ -197,6 +206,5 @@ public class OrdenLaboratorioRepository {
             return 1;
         }
     }
-
 
 }

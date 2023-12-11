@@ -39,10 +39,10 @@ public class SanamaApplication {
 		// Imprimir el resultado
 		System.out.println(jsonArray.toJSONString());
 
-		try{
+		try {
 			List<Medicamento> lmedicamentos = new ArrayList<>();
 			JSONArray jobArray = (JSONArray) new JSONParser().parse(jsonArray.toJSONString());
-			for(Object obj: jobArray){
+			for (Object obj : jobArray) {
 				Medicamento medicamento = new Medicamento();
 				JSONObject jobMed = (JSONObject) obj;
 				medicamento.setNombre(jobMed.get("nombre").toString());
@@ -51,22 +51,22 @@ public class SanamaApplication {
 				lmedicamentos.add(medicamento);
 			}
 
-			for(Medicamento med:lmedicamentos){
+			for (Medicamento med : lmedicamentos) {
 				System.out.println("nombre: " + med.getNombre());
 				System.out.println("indicacion: " + med.getIndicacion());
 			}
-		}catch (Exception ex){
+		} catch (Exception ex) {
 			// Manejo de excepciones aquí
 			ex.printStackTrace();
 		}
 
 	}
 
-	public List<Medicamento> obtenerMedicamentos(String jsonMedicamentos){
-		List<Medicamento> lmedicamentos= null;
-		try{
+	public List<Medicamento> obtenerMedicamentos(String jsonMedicamentos) {
+		List<Medicamento> lmedicamentos = null;
+		try {
 			JSONArray jobArray = (JSONArray) new JSONParser().parse(jsonMedicamentos);
-			for(Object obj: jobArray){
+			for (Object obj : jobArray) {
 				Medicamento medicamento = new Medicamento();
 				JSONObject jobMed = (JSONObject) obj;
 				medicamento.setNombre(jobMed.get("nombre").toString());
@@ -74,13 +74,13 @@ public class SanamaApplication {
 
 				lmedicamentos.add(medicamento);
 			}
-		}catch (Exception ex){
+		} catch (Exception ex) {
 			// Manejo de excepciones aquí
 			ex.printStackTrace();
 		}
 		return lmedicamentos;
 	}
-	//Forma1
+
 	@Bean
 	public CorsFilter corsFilter() {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -91,19 +91,5 @@ public class SanamaApplication {
 		source.registerCorsConfiguration("/**", config);
 		return new CorsFilter(source);
 	}
-
-	/*//Forma 2
-	@Bean
-	public WebMvcConfigurer corsConfigurer() {
-		return new WebMvcConfigurer() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**")
-						.allowedOrigins("*")
-						.allowedMethods("*")
-						.allowedHeaders("*");
-			}
-		};
-	}*/
 
 }
