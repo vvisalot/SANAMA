@@ -1,11 +1,7 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import { laboratoryService } from "@/services/laboratoryService";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { useRouter, usePathname } from "next/navigation";
-import { MdArrowBack } from 'react-icons/md';
-import '@fortawesome/fontawesome-free/css/all.min.css';
+import { useRouter } from "next/navigation";
 
 const LaboratoryProfile = ({ params }) => {
   const router = useRouter();
@@ -13,7 +9,7 @@ const LaboratoryProfile = ({ params }) => {
   const [isLoading, setIsLoading] = useState(false);
   const hiddenFileInput = useRef(null);
   const [isEditable, setIsEditable] = useState(false);
-
+  const charCountRef = useRef(null);
   const handleEditClick = () => {
     setIsEditable(!isEditable);
   };
@@ -96,7 +92,6 @@ const LaboratoryProfile = ({ params }) => {
         const data = await laboratoryService.buscarOrdenLaboratorioPorId(
           params.idLaboratory
         );
-        console.log(data);
         setDataLaboratory(data);
       } catch (error) {
         console.error(error);
@@ -141,7 +136,9 @@ const LaboratoryProfile = ({ params }) => {
 
     if (name === "instrucciones" || name === "observaciones") {
       const count = value.length;
-      document.getElementById("charCount").textContent = `${count}/1000`;
+      if (charCountRef.current) {
+        charCountRef.current.textContent = `${count}/1000`;
+      }
     }
   };
 
@@ -171,8 +168,6 @@ const LaboratoryProfile = ({ params }) => {
       examenMedico: dataLaboratory.examenMedico,
       observaciones: dataLaboratory.observaciones,
     };
-
-    console.log("los examenes son: ", dataLaboratory.examenMedico);
 
     const incompleteFields = [];
     for (let key in laboratorioData) {
@@ -220,7 +215,7 @@ const LaboratoryProfile = ({ params }) => {
     } else if (sexo === "F") {
       return "Femenino";
     }
-    return ""; 
+    return "";
   }
 
   function calcularEdad(fechaNacimiento) {
@@ -238,12 +233,10 @@ const LaboratoryProfile = ({ params }) => {
 
   const handleMedicoChange = (event) => {
     const selectedMedicoId = Number(event.target.value);
-    console.log("Selected Medico ID:", selectedMedicoId);
 
     const selectedMedico = medicos.find(
       (medico) => medico.idValue === selectedMedicoId
     );
-    console.log("Selected Medico:", selectedMedico);
 
     setDataLaboratory((prevData) => {
       return {
@@ -273,11 +266,9 @@ const LaboratoryProfile = ({ params }) => {
     };
 
     try {
-      console.log("Datos antes de anular:", laboratorioDataCancelled);
       const result = await laboratoryService.atenderOrdenLaboratorio(
         laboratorioDataCancelled
       );
-      console.log("Resultado después de intentar anular:", result);
 
       if (result === 1) {
         if (typeof window !== "undefined") {
@@ -414,90 +405,75 @@ const LaboratoryProfile = ({ params }) => {
       )}
 
       <section className="rounded-lg p-8 mx-auto flex flex-col space-y-6 md:max-w-5xl lg:max-w-6xl xl:max-w-7xl">
-
-      {/* <div className="flex justify-end">
-        <div className="flex-end">
+        <div className="flex justify-end space-x-4">
           <button
-            type="button"
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-400 font-medium rounded-lg text-sm px-4 py-2.5 flex items-center"
-            onClick={() => router.back()}
+            className="bg-blue-500 text-white hover:bg-blue-600 px-4 py-2 rounded"
+            onClick={handleEditClick}
           >
-            <MdArrowBack className="mr-1" style={{ fontSize: '24px' }} />
-            Volver
+            <i className="fas fa-pencil-alt mr-2"></i> Editar
+          </button>
+          <button
+            className="bg-red-500 text-white hover:bg-red-600 px-4 py-2 rounded"
+            onClick={handleAnularLaboratoryClick}
+          >
+            <i className="fas fa-times-circle mr-2"></i> Anular Laboratorio
           </button>
         </div>
-      </div> */}
 
-      <div className="flex justify-end space-x-4">
-        <button
-              className="bg-blue-500 text-white hover:bg-blue-600 px-4 py-2 rounded"
-              onClick={handleEditClick}
-            >
-              <i className="fas fa-pencil-alt mr-2"></i> Editar
-        </button>
-        <button
-          className="bg-red-500 text-white hover:bg-red-600 px-4 py-2 rounded"
-          onClick={handleAnularLaboratoryClick}
-        >
-          <i className="fas fa-times-circle mr-2"></i>  Anular Laboratorio
-        </button>
-      </div>
+        {showConfirmPopup && (
+          <div
+            className="fixed z-10 inset-0 overflow-y-auto"
+            aria-labelledby="modal-title"
+            role="dialog"
+            aria-modal="true"
+          >
+            <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+              <div
+                className="fixed inset-0 bg-gray-500 bg-opacity-75"
+                aria-hidden="true"
+              ></div>
 
-      {showConfirmPopup && (
-        <div
-          className="fixed z-10 inset-0 overflow-y-auto"
-          aria-labelledby="modal-title"
-          role="dialog"
-          aria-modal="true"
-        >
-          <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div
-              className="fixed inset-0 bg-gray-500 bg-opacity-75"
-              aria-hidden="true"
-            ></div>
+              <span
+                className="hidden sm:inline-block sm:align-middle sm:h-screen"
+                aria-hidden="true"
+              >
+                &#8203;
+              </span>
 
-            <span
-              className="hidden sm:inline-block sm:align-middle sm:h-screen"
-              aria-hidden="true"
-            >
-              &#8203;
-            </span>
-
-            <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-              <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                <h3
-                  className="text-lg leading-6 font-medium text-gray-900"
-                  id="modal-title"
-                >
-                  Confirmación
-                </h3>
-                <div className="mt-2">
-                  <p className="text-sm text-gray-500">
-                    ¿Está seguro que desea anular el laboratorio?
-                  </p>
+              <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                  <h3
+                    className="text-lg leading-6 font-medium text-gray-900"
+                    id="modal-title"
+                  >
+                    Confirmación
+                  </h3>
+                  <div className="mt-2">
+                    <p className="text-sm text-gray-500">
+                      ¿Está seguro que desea anular el laboratorio?
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                <button
-                  onClick={handleConfirmAnulacion}
-                  className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 focus:outline-none"
-                >
-                  Sí, anular
-                </button>
-                <button
-                  onClick={handleClosePopup}
-                  className="mr-2 bg-gray-200 text-black px-4 py-2 rounded hover:bg-gray-300 focus:outline-none"
-                >
-                  Cancelar
-                </button>
+                <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                  <button
+                    onClick={handleConfirmAnulacion}
+                    className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 focus:outline-none"
+                  >
+                    Sí, anular
+                  </button>
+                  <button
+                    onClick={handleClosePopup}
+                    className="mr-2 bg-gray-200 text-black px-4 py-2 rounded hover:bg-gray-300 focus:outline-none"
+                  >
+                    Cancelar
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
-        
-        <h4 style={{ fontSize: "2.2525rem" }}  className="text-2xl font-bold">
+        <h4 style={{ fontSize: "2.2525rem" }} className="text-2xl font-bold">
           Información del paciente
         </h4>
 
@@ -523,7 +499,11 @@ const LaboratoryProfile = ({ params }) => {
           <div style={{ flex: "1 0 0%" }}>
             <InputField
               label="Sexo"
-              value={dataLaboratory?.paciente?.sexo === "F" ? "Femenino" : "Masculino"}
+              value={
+                dataLaboratory?.paciente?.sexo === "F"
+                  ? "Femenino"
+                  : "Masculino"
+              }
               disabled
               width="w-full"
               labelWidth="w-full"
@@ -532,7 +512,9 @@ const LaboratoryProfile = ({ params }) => {
           <div style={{ flex: "0 0 90px" }}>
             <InputField
               label="Edad"
-              value={calcularEdad(dataLaboratory?.citaMedica?.paciente?.fechaNacimiento)}
+              value={calcularEdad(
+                dataLaboratory?.citaMedica?.paciente?.fechaNacimiento
+              )}
               disabled
               width="w-full"
             />
@@ -540,10 +522,11 @@ const LaboratoryProfile = ({ params }) => {
         </div>
 
         <div className="col-span-3">
-          <h2 className="text-3xl font-bold mt-5">Información de orden de laboratorio</h2>
+          <h2 className="text-3xl font-bold mt-5">
+            Información de orden de laboratorio
+          </h2>
         </div>
 
-        
         <div className="flex justify-start">
           <div style={{ flex: "0 0 150px", marginRight: "1rem" }}>
             <InputField
@@ -566,20 +549,22 @@ const LaboratoryProfile = ({ params }) => {
         </div>
 
         <div className="flex">
-            <div className="flex-1 col-span-3">
-              <InputField
-                label="Examenes a realizar"
-                value={dataLaboratory?.instrucciones}
-                disabled
-                type="textarea"
-                width="w-full"
-                labelWidth="w-full"
-              />
-            </div>
+          <div className="flex-1 col-span-3">
+            <InputField
+              label="Examenes a realizar"
+              value={dataLaboratory?.instrucciones}
+              disabled
+              type="textarea"
+              width="w-full"
+              labelWidth="w-full"
+            />
+          </div>
         </div>
 
         <div>
-          <h2 className="text-3xl font-bold mt-5">Información de los exámenes</h2>
+          <h2 className="text-3xl font-bold mt-5">
+            Información de los exámenes
+          </h2>
         </div>
 
         <div className="grid grid-cols-3 gap-6 mb-6">
@@ -590,13 +575,17 @@ const LaboratoryProfile = ({ params }) => {
                 name="medicoLaboratorio"
                 value={
                   medicos.find(
-                    (medico) => medico.descripcion === dataLaboratory.doctorFirmante
+                    (medico) =>
+                      medico.descripcion === dataLaboratory.doctorFirmante
                   )?.idValue || ""
                 }
                 type="select"
                 onChange={handleMedicoChange}
-                options={medicos.map(medico => ({ value: medico.idValue, label: medico.descripcion }))}
-                isEditable={isEditable} 
+                options={medicos.map((medico) => ({
+                  value: medico.idValue,
+                  label: medico.descripcion,
+                }))}
+                isEditable={isEditable}
                 labelWidth="w-full"
                 width="w-full"
               />
@@ -604,7 +593,6 @@ const LaboratoryProfile = ({ params }) => {
           </div>
 
           <div className="col-span-3">
-
             <table className="min-w-full divide-y divide-gray-200 shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
               <thead className="bg-gray-300">
                 <tr>
@@ -674,38 +662,29 @@ const LaboratoryProfile = ({ params }) => {
                 style={{ display: "none" }}
                 onChange={handleAddExamen}
               />
-              
-              {/* <button
+              <button
                 onClick={handleAddExamenClick}
-                className="bg-blue-500 text-white py-2 px-4 mt-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 flex items-center text-xl"
+                className="bg-blue-500 text-white hover:bg-blue-600 px-4 py-2 mt-4 rounded"
               >
-                <FontAwesomeIcon icon={faPlus} className="mr-2" />
-                Añadir
-              </button> */}
-                <button
-                  onClick={handleAddExamenClick}
-                  className="bg-blue-500 text-white hover:bg-blue-600 px-4 py-2 mt-4 rounded"
-                >
-                  <i className="fas fa-plus mr-2"></i> Añadir
-                </button>
-
+                <i className="fas fa-plus mr-2"></i> Añadir
+              </button>
             </div>
           </div>
 
-            <div className="col-span-3">
-              <h2 className="text-3xl font-bold mb-4">Observaciones</h2>
-              <InputField
-                value={dataLaboratory?.observaciones}
-                isEditable={isEditable}
-                type="textarea"
-                name="observaciones"
-                onChange={handleChange}
-                maxLength={1000}
-              />
-              <span className="text-right block" id="charCountObservaciones">
-                {(dataLaboratory?.observaciones || "").length}/1000
-              </span>
-            </div>
+          <div className="col-span-3">
+            <h2 className="text-3xl font-bold mb-4">Observaciones</h2>
+            <InputField
+              value={dataLaboratory?.observaciones}
+              isEditable={isEditable}
+              type="textarea"
+              name="observaciones"
+              onChange={handleChange}
+              maxLength={1000}
+            />
+            <span className="text-right block" ref={charCountRef}>
+              {(dataLaboratory?.observaciones || "").length}/1000
+            </span>
+          </div>
         </div>
 
         <div>
@@ -730,7 +709,6 @@ const LaboratoryProfile = ({ params }) => {
         {showModal && (
           <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50 bg-gray-800 bg-opacity-50">
             <div className="bg-white p-8 rounded-lg shadow-lg flex flex-col items-center space-y-4">
-              {/* Icono de check en SVG */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-16 w-16 text-green-500"
@@ -756,7 +734,6 @@ const LaboratoryProfile = ({ params }) => {
         {missingFieldsModal && (
           <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50 bg-gray-800 bg-opacity-50">
             <div className="bg-white p-8 rounded-lg shadow-lg flex flex-col items-center space-y-4">
-              {/* Icono de advertencia en SVG */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-16 w-16 text-yellow-500"
@@ -802,8 +779,9 @@ const InputField = ({
   minWidth = "w-0",
   maxWidth = "w-full",
 }) => {
-  const inputClass = `border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block ${width}  ${isEditable ? "bg-white cursor-text" : "bg-gray-300 cursor-not-allowed"
-    }`;
+  const inputClass = `border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block ${width}  ${
+    isEditable ? "bg-white cursor-text" : "bg-gray-300 cursor-not-allowed"
+  }`;
 
   const renderInput = () => {
     switch (type) {
@@ -828,7 +806,7 @@ const InputField = ({
             disabled={!isEditable}
             onChange={onChange}
             className={`flex-1 ${inputClass}`}
-          >          
+          >
             <option value="" disabled selected>
               {placeholder}
             </option>
@@ -867,6 +845,5 @@ const InputField = ({
     </div>
   );
 };
-
 
 export default LaboratoryProfile;
