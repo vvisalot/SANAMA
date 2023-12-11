@@ -1,15 +1,52 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import { laboratoryService } from "@/services/laboratoryService";
-import { useRouter } from "next/navigation";
+import useLaboratoryProfile from "@/hooks/useLaboratoryOrder";
 
 const LaboratoryProfile = ({ params }) => {
-  const router = useRouter();
-  const [medicos, setMedicos] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const {
+    medicos,
+    dataLaboratory,
+    setDataLaboratory,
+    isLoading,
+    error,
+    handleMedicoChange /* ...otras funciones del hook */,
+  } = useLaboratoryProfile(params.idLaboratory);
+
   const hiddenFileInput = useRef(null);
-  const [isEditable, setIsEditable] = useState(false);
   const charCountRef = useRef(null);
+  const [isEditable, setIsEditable] = useState(false);
+  const [missingFieldsModal, setMissingFieldsModal] = useState(false);
+  const [missingFields, setMissingFields] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [showConfirmPopup, setShowConfirmPopup] = useState(false);
+
+  const downloadFile = (base64, fileName) => {
+    const blob = base64ToBlob(base64, "application/pdf");
+
+    const link = document.createElement("a");
+
+    const url = URL.createObjectURL(blob);
+    link.href = url;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  const base64ToBlob = (base64, mimeType) => {
+    const byteCharacters = atob(base64);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+
+    const byteArray = new Uint8Array(byteNumbers);
+
+    return new Blob([byteArray], { type: mimeType });
+  };
+
   const handleEditClick = () => {
     setIsEditable(!isEditable);
   };
@@ -40,65 +77,6 @@ const LaboratoryProfile = ({ params }) => {
       }
     }, 0);
   };
-
-  useEffect(() => {
-    const fetchMedicos = async () => {
-      try {
-        const response =
-          await laboratoryService.listarMedicosLaboratorioValidado();
-        setMedicos(response);
-      } catch (error) {
-        console.error("Error al obtener los médicos", error);
-      }
-    };
-
-    fetchMedicos();
-  }, []);
-
-  const [dataLaboratory, setDataLaboratory] = useState({
-    idOrdenLaboratorio: null,
-    codigoOrden: "",
-    tipoMuestra: "",
-    instrucciones: "",
-    doctorFirmante: "",
-    observaciones: "",
-    citaMedica: {
-      paciente: {
-        nombres: "",
-        apellidoPaterno: "",
-        apellidoMaterno: "",
-        dni: "",
-        fechaNacimiento: "",
-        sexo: "",
-      },
-      medico: {
-        nombres: "",
-        apellidoPaterno: "",
-        apellidoMaterno: "",
-      },
-    },
-    examenMedico: [
-      {
-        idExamen: null,
-        nombreArchivo: "",
-        archivo: "",
-      },
-    ],
-  });
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await laboratoryService.buscarOrdenLaboratorioPorId(
-          params.idLaboratory
-        );
-        setDataLaboratory(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchData();
-  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -146,18 +124,6 @@ const LaboratoryProfile = ({ params }) => {
     if (typeof window !== "undefined") {
       window.history.back();
     }
-  };
-
-  const [missingFieldsModal, setMissingFieldsModal] = useState(false);
-  const [missingFields, setMissingFields] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-
-  const fieldNames = {
-    idOrdenLaboratorio: "ID de la Orden de Laboratorio",
-    doctorFirmante: "Médico de laboratorio",
-    estado: "Estado",
-    examenMedico: "Examen Médico",
-    observaciones: "Observaciones del Examen",
   };
 
   const handleSave = async () => {
@@ -209,15 +175,6 @@ const LaboratoryProfile = ({ params }) => {
     }
   };
 
-  function getSexoLabel(sexo) {
-    if (sexo === "M") {
-      return "Masculino";
-    } else if (sexo === "F") {
-      return "Femenino";
-    }
-    return "";
-  }
-
   function calcularEdad(fechaNacimiento) {
     const hoy = new Date();
     const cumpleanos = new Date(fechaNacimiento);
@@ -230,23 +187,6 @@ const LaboratoryProfile = ({ params }) => {
 
     return edad;
   }
-
-  const handleMedicoChange = (event) => {
-    const selectedMedicoId = Number(event.target.value);
-
-    const selectedMedico = medicos.find(
-      (medico) => medico.idValue === selectedMedicoId
-    );
-
-    setDataLaboratory((prevData) => {
-      return {
-        ...prevData,
-        doctorFirmante: selectedMedico ? selectedMedico.descripcion : "",
-      };
-    });
-  };
-
-  const [showConfirmPopup, setShowConfirmPopup] = useState(false);
 
   const handleAnularLaboratoryClick = () => {
     setShowConfirmPopup(true);
@@ -303,19 +243,18 @@ const LaboratoryProfile = ({ params }) => {
       reader.onload = () => {
         if (reader.readyState === 2) {
           const base64 = reader.result.split(",")[1];
-          console.log("EL CUERPO ES", base64),
-            setDataLaboratory((prevState) => {
-              const updatedExamenMedico = [...prevState.examenMedico];
-              updatedExamenMedico[index] = {
-                ...updatedExamenMedico[index],
-                nombreArchivo: file.name,
-                archivo: base64,
-              };
-              return {
-                ...prevState,
-                examenMedico: updatedExamenMedico,
-              };
-            });
+          setDataLaboratory((prevState) => {
+            const updatedExamenMedico = [...prevState.examenMedico];
+            updatedExamenMedico[index] = {
+              ...updatedExamenMedico[index],
+              nombreArchivo: file.name,
+              archivo: base64,
+            };
+            return {
+              ...prevState,
+              examenMedico: updatedExamenMedico,
+            };
+          });
         }
       };
     } else {
@@ -365,32 +304,6 @@ const LaboratoryProfile = ({ params }) => {
     if (file) {
       reader.readAsDataURL(file);
     }
-  };
-
-  const downloadFile = (base64, fileName) => {
-    const blob = base64ToBlob(base64, "application/pdf");
-
-    const link = document.createElement("a");
-
-    const url = URL.createObjectURL(blob);
-    link.href = url;
-    link.download = fileName;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-  };
-
-  const base64ToBlob = (base64, mimeType) => {
-    const byteCharacters = atob(base64);
-    const byteNumbers = new Array(byteCharacters.length);
-    for (let i = 0; i < byteCharacters.length; i++) {
-      byteNumbers[i] = byteCharacters.charCodeAt(i);
-    }
-
-    const byteArray = new Uint8Array(byteNumbers);
-
-    return new Blob([byteArray], { type: mimeType });
   };
 
   return (
