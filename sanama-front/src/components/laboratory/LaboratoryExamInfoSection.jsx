@@ -95,6 +95,7 @@ const LaboratoryExamInfoSection = ({
       }
     }, 0);
   };
+  const nombreDoctor = `${dataLaboratory?.citaMedica?.medico?.nombres} ${dataLaboratory?.citaMedica?.medico?.apellidoPaterno} ${dataLaboratory?.citaMedica?.medico?.apellidoMaterno}`;
 
   const handleFileChange = async (e, index) => {
     const file = e.target.files[0];
@@ -171,7 +172,7 @@ const LaboratoryExamInfoSection = ({
           name={"dropdown-doctor-lab"}
           defaultText={"Selecciona un medico"}
           text={"descripcion"}
-          defaultValue={""}
+          defaultValue={nombreDoctor || ""}
           value={"idValue"}
           width={"w-[500px]"}
           handleChange={handleMedicoChange}
@@ -185,6 +186,7 @@ const LaboratoryExamInfoSection = ({
           <textarea
             label="Observaciones"
             name="dataLaboratory.observaciones"
+            defaultValue={dataLaboratory?.observaciones || ""}
             className="resize-none mt-1 p-2 w-full border-gray-300 rounded-md"
             placeholder="Ingresa observación.."
             rows={4}
