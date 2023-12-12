@@ -178,6 +178,7 @@ const LaboratoryExamInfoSection = ({
           value={"idValue"}
           width={"w-[500px]"}
           handleChange={handleMedicoChange}
+          disabled={!isEditable}
         />
 
         <div className="col-span-3">
@@ -215,6 +216,7 @@ const LaboratoryExamInfoSection = ({
                           className="border rounded p-2 text-md"
                           type="file"
                           onChange={(e) => handleFileChange(e, index)}
+                          disabled={!isEditable}
                         />
                       )}
                     </div>
@@ -224,13 +226,15 @@ const LaboratoryExamInfoSection = ({
                       onClick={() =>
                         downloadFile(examen.archivo, examen.nombreArchivo)
                       }
-                      className="text-lg text-indigo-600 hover:text-indigo-900"
+                      className="text-lg text-indigo-600 hover:text-indigo-900 mr-4"
+                      disabled={!isEditable}
                     >
                       Descargar
                     </button>
                     <button
                       onClick={() => handleRemoveExamen(index)}
-                      className="text-lg text-red-600 hover:text-red-900 ml-4"
+                      className="text-lg text-red-600 hover:text-red-900"
+                      disabled={!isEditable}
                     >
                       Eliminar
                     </button>
@@ -240,15 +244,21 @@ const LaboratoryExamInfoSection = ({
             </tbody>
           </table>
 
-          <div className="flex justify-end">
+          <div className="flex justify-end mt-4">
             <input
               type="file"
               style={{ display: "none" }}
               onChange={handleAddExamen}
+              disabled={!isEditable}
             />
             <button
               onClick={handleAddExamenClick}
-              className="bg-blue-500 text-white hover:bg-blue-600 px-4 py-2 mt-4 rounded"
+              className={`bg-blue-500 text-white hover:bg-blue-600 px-4 py-2 rounded ${
+                !isEditable
+                  ? "bg-gray-400 text-gray-600 cursor-not-allowed"
+                  : ""
+              }`}
+              disabled={!isEditable}
             >
               <i className="fas fa-plus mr-2"></i> Añadir
             </button>
@@ -266,6 +276,7 @@ const LaboratoryExamInfoSection = ({
             placeholder="Ingresa observación.."
             rows={4}
             onBlur={handleOnBlurChange}
+            disabled={!isEditable}
           />
         </div>
       </div>
