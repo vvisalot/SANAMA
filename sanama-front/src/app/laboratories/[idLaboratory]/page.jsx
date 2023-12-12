@@ -45,7 +45,6 @@ const LaboratoryProfile = ({ params }) => {
         <ActionButtonsLab
           loading={isLoading}
           estado={dataLaboratory?.estado}
-          setDataLaboratory={setDataLaboratory}
           handleAttendClick={handleAttendClick}
           handleCancelClick={handleCancelClick}
         />
