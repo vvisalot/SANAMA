@@ -4,6 +4,8 @@ import useLaboratoryProfile from "@/hooks/useLaboratoryOrder";
 import ActionButtonsLab from "@/components/laboratory/ActionButtonsLab";
 import LaboratoryInfoSection from "@/components/laboratory/LaboratoryInfoSection";
 import LaboratoryExamInfoSection from "@/components/laboratory/LaboratoryExamInfoSection";
+import TitleWithIcon from "@/components/TitleWithIcon";
+import viewAppointmentIcon from "@/components/icons/viewAppointmentIcon";
 
 const LaboratoryProfile = ({ params }) => {
   const {
@@ -38,11 +40,14 @@ const LaboratoryProfile = ({ params }) => {
 
   return (
     <section className="rounded-lg p-8 mx-auto flex flex-col space-y-6 md:max-w-5xl lg:max-w-6xl xl:max-w-7xl">
-      <ActionButtonsLab
-        loading={isLoading}
-        handleAttendClick={handleAttendClick}
-        handleCancelClick={handleCancelClick}
-      />
+      <TitleWithIcon name={"Orden de laboratorio"} Icon={viewAppointmentIcon} />
+      <div className="flex place-content-between w-full mb-4 justify-end">
+        <ActionButtonsLab
+          loading={isLoading}
+          handleAttendClick={handleAttendClick}
+          handleCancelClick={handleCancelClick}
+        />
+      </div>
       <LaboratoryInfoSection dataLaboratory={dataLaboratory} />
       <LaboratoryExamInfoSection
         medicos={medicos}

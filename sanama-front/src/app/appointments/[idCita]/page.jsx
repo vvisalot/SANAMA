@@ -97,20 +97,18 @@ const ReviewAppointment = ({ params }) => {
         <TitleWithIcon name={"Cita Medica"} Icon={viewAppointmentIcon} />
 
         <div className="flex place-content-between w-full mb-4 justify-end">
-          <div className="flex">
-            <ActionButtons
-              estado={state.appointmentData.estado}
-              loading={state.loading}
-              openRescheduleModal={() =>
-                updateState({ isRescheduleModalOpen: true })
-              }
-              handleCancelClick={handleCancelClick}
-              hasBeenCanceled={state.hasBeenCanceled}
-              handleAttendClick={handleAttendClick}
-              idMedico={state.appointmentData.medico.idPersona}
-              idPaciente={state.appointmentData.paciente.idPersona}
-            />
-          </div>
+          <ActionButtons
+            estado={state.appointmentData.estado}
+            loading={state.loading}
+            openRescheduleModal={() =>
+              updateState({ isRescheduleModalOpen: true })
+            }
+            handleCancelClick={handleCancelClick}
+            hasBeenCanceled={state.hasBeenCanceled}
+            handleAttendClick={handleAttendClick}
+            idMedico={state.appointmentData.medico.idPersona}
+            idPaciente={state.appointmentData.paciente.idPersona}
+          />
         </div>
         <PatientInfo
           pacienteData={state.appointmentData.paciente}
