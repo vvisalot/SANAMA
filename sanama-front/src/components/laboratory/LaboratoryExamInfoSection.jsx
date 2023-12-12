@@ -181,6 +181,21 @@ const LaboratoryExamInfoSection = ({
           disabled={!isEditable}
         />
 
+        <div className="col-span-3 mb-6">
+          <h4 className="text-lg  font-bold rtl:text-right text-gray-500  mb-2">
+            Observaciones
+          </h4>
+          <textarea
+            label="Observaciones"
+            name="dataLaboratory.observaciones"
+            className="resize-none mt-1 p-2 w-full border-gray-300 rounded-md"
+            placeholder="Ingresa observación.."
+            rows={4}
+            onBlur={handleOnBlurChange}
+            disabled={!isEditable}
+          />
+        </div>
+
         <div className="col-span-3">
           <table className="min-w-full divide-y divide-gray-200 shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
             <thead className="bg-gray-300">
@@ -253,31 +268,16 @@ const LaboratoryExamInfoSection = ({
             />
             <button
               onClick={handleAddExamenClick}
-              className={`bg-blue-500 text-white hover:bg-blue-600 px-4 py-2 rounded ${
-                !isEditable
-                  ? "bg-gray-400 text-gray-600 cursor-not-allowed"
-                  : ""
-              }`}
+              className={`${
+                isEditable
+                  ? "bg-blue-600 hover:bg-blue-700"
+                  : "bg-gray-600 opacity-50 cursor-not-allowed"
+              }  text-white px-4 py-2 rounded  focus:outline-none`}
               disabled={!isEditable}
             >
               <i className="fas fa-plus mr-2"></i> Añadir
             </button>
           </div>
-        </div>
-
-        <div className="col-span-3">
-          <h4 className="text-lg  font-bold rtl:text-right text-gray-500  mb-2">
-            Observaciones
-          </h4>
-          <textarea
-            label="Observaciones"
-            name="dataLaboratory.observaciones"
-            className="resize-none mt-1 p-2 w-full border-gray-300 rounded-md"
-            placeholder="Ingresa observación.."
-            rows={4}
-            onBlur={handleOnBlurChange}
-            disabled={!isEditable}
-          />
         </div>
       </div>
     </div>
