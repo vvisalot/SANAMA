@@ -37,8 +37,8 @@ export function formatearFecha(fecha) {
 
 export function validateNumberInput(input) {
   input.value = input.value.replace(/[^0-9]/g, "");
-  if (input.value.length > 8) {
-    input.value = input.value.slice(0, 8);
+  if (input.value.length > 9) {
+    input.value = input.value.slice(0, 9);
   }
 }
 
