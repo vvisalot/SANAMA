@@ -35,42 +35,17 @@ const LaboratoryExamInfoSection = ({
     return new Blob([byteArray], { type: mimeType });
   };
 
-  const handleAddExamen = (event) => {
-    const files = event.target.files;
-
-    if (!files.length) {
-      return;
-    }
-
-    const file = files[0];
-    const reader = new FileReader();
-
-    reader.onloadend = () => {
-      setDataLaboratory((prevState) => {
-        const lastId =
-          prevState.examenMedico.length > 0
-            ? Math.max(...prevState.examenMedico.map((e) => e.idExamen || 0))
-            : 0;
-        return {
-          ...prevState,
-          examenMedico: [
-            ...prevState.examenMedico,
-            {
-              idExamen: lastId + 1,
-              nombreArchivo: file.name,
-              archivo: reader.result,
-            },
-          ],
-        };
-      });
-    };
-
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-  };
-
   const handleAddExamenClick = () => {
+    setTimeout(() => {
+      const newExamenIndex = dataLaboratory.examenMedico.length;
+      const newFileInput = document.querySelector(
+        `input[name="examenMedico.${newExamenIndex}.archivo"]`
+      );
+      if (newFileInput) {
+        newFileInput.click();
+      } else return;
+    }, 0);
+
     setDataLaboratory((prevState) => {
       const lastId =
         prevState.examenMedico.length > 0
@@ -85,16 +60,6 @@ const LaboratoryExamInfoSection = ({
         ],
       };
     });
-
-    setTimeout(() => {
-      const newExamenIndex = dataLaboratory.examenMedico.length;
-      const newFileInput = document.querySelector(
-        `input[name="examenMedico.${newExamenIndex}.archivo"]`
-      );
-      if (newFileInput) {
-        newFileInput.click();
-      }
-    }, 0);
   };
 
   const handleFileChange = async (e, index) => {
@@ -197,12 +162,6 @@ const LaboratoryExamInfoSection = ({
 
         <div className="col-span-3">
           <div className="flex mb-4">
-            <input
-              type="file"
-              style={{ display: "none" }}
-              onChange={handleAddExamen}
-              disabled={!isEditable}
-            />
             <button
               onClick={handleAddExamenClick}
               className={`${
