@@ -164,9 +164,9 @@ const LaboratoryExamInfoSection = ({
 
   return (
     <div>
-      <div>
-        <h2 className="text-3xl font-bold mt-5">Información de los exámenes</h2>
-      </div>
+      <h4 className="text-lg  font-bold rtl:text-right text-gray-500  mb-2">
+        Detalles de los Exámenes
+      </h4>
 
       <div className="grid grid-cols-3 gap-6 mb-6">
         <Dropdown
@@ -256,7 +256,9 @@ const LaboratoryExamInfoSection = ({
         </div>
 
         <div className="col-span-3">
-          <h2 className="text-3xl font-bold mb-4">Observaciones</h2>
+          <h4 className="text-lg  font-bold rtl:text-right text-gray-500  mb-2">
+            Observaciones
+          </h4>
           <textarea
             label="Observaciones"
             name="dataLaboratory.observaciones"
