@@ -21,10 +21,23 @@ const LaboratoryProfile = ({ params }) => {
   const [isEditable, setIsEditable] = useState(false);
 
   const handleAttendClick = () => {
+    if (dataLaboratory?.estado !== 3) {
+      setDataLaboratory((prevData) => ({
+        ...prevData,
+        estado: 2,
+      }));
+    }
     setIsEditable(!isEditable);
   };
 
   const handleCancelClick = () => {
+    if (dataLaboratory?.estado !== 3) {
+      setDataLaboratory((prevData) => ({
+        ...prevData,
+        estado: 3,
+      }));
+    }
+
     if (typeof window !== "undefined") {
       window.history.back();
     }
@@ -33,6 +46,10 @@ const LaboratoryProfile = ({ params }) => {
   const handleConfirm = async () => {
     try {
       await handleSave();
+      setDataLaboratory((prevData) => ({
+        ...prevData,
+        estado: 1,
+      }));
     } catch (error) {
       console.error("Error handling confirmation:", error);
     }
