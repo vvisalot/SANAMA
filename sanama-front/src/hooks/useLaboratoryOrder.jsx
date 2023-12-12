@@ -128,43 +128,11 @@ const useLaboratoryProfile = (idLaboratory) => {
     }
   };
 
-  const handleConfirmAnulacion = async () => {
-    const laboratorioDataCancelled = {
-      idOrdenLaboratorio: dataLaboratory.idOrdenLaboratorio,
-      doctorFirmante: "Default Doctor",
-      estado: 3,
-      examenMedico: [],
-      observaciones: "Cancelled",
-    };
-
-    try {
-      const result = await laboratoryService.atenderOrdenLaboratorio(
-        laboratorioDataCancelled
-      );
-
-      if (result === 1) {
-        if (typeof window !== "undefined") {
-          window.history.back();
-        }
-      } else {
-        setError(
-          "There was a problem canceling the laboratory order. Please try again."
-        );
-      }
-    } catch (error) {
-      console.error("Error canceling laboratory order", error);
-      setError(
-        "There was an error canceling the laboratory order. Please try again."
-      );
-    }
-  };
-
   return {
     medicos,
     dataLaboratory,
     setDataLaboratory,
     handleSave,
-    handleConfirmAnulacion,
     isLoading,
     error,
     handleMedicoChange,

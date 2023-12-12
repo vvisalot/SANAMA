@@ -1,4 +1,3 @@
-import Input from "postcss/lib/input";
 import React from "react";
 import InputField from "../common/InputField";
 
@@ -7,7 +6,38 @@ const LaboratoryExamInfoSection = ({
   dataLaboratory,
   setDataLaboratory,
   handleMedicoChange,
+  isEditable,
 }) => {
+  const downloadFile = (base64, fileName) => {
+    const blob = base64ToBlob(base64, "application/pdf");
+
+    const link = document.createElement("a");
+
+    const url = URL.createObjectURL(blob);
+    link.href = url;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+  const handleCancel = () => {
+    if (typeof window !== "undefined") {
+      window.history.back();
+    }
+  };
+  const base64ToBlob = (base64, mimeType) => {
+    const byteCharacters = atob(base64);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+
+    const byteArray = new Uint8Array(byteNumbers);
+
+    return new Blob([byteArray], { type: mimeType });
+  };
+
   const handleAddExamenClick = () => {
     setDataLaboratory((prevState) => {
       const lastId =
@@ -218,7 +248,6 @@ const LaboratoryExamInfoSection = ({
           <div className="flex justify-end">
             <input
               type="file"
-              ref={hiddenFileInput}
               style={{ display: "none" }}
               onChange={handleAddExamen}
             />
@@ -241,7 +270,7 @@ const LaboratoryExamInfoSection = ({
             rows={4}
             onBlur={handleOnBlurChange}
           />
-          <span className="text-right block" ref={charCountRef}>
+          <span className="text-right block">
             {(dataLaboratory?.observaciones || "").length}/1000
           </span>
         </div>
