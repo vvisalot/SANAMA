@@ -6,6 +6,7 @@ import LaboratoryInfoSection from "@/components/laboratory/LaboratoryInfoSection
 import LaboratoryExamInfoSection from "@/components/laboratory/LaboratoryExamInfoSection";
 import TitleWithIcon from "@/components/TitleWithIcon";
 import viewAppointmentIcon from "@/components/icons/viewAppointmentIcon";
+import { laboratoryService } from "@/services/laboratoryService";
 import { toast } from "sonner";
 
 const LaboratoryProfile = ({ params }) => {
@@ -14,8 +15,8 @@ const LaboratoryProfile = ({ params }) => {
     handleMedicoChange,
     dataLaboratory,
     setDataLaboratory,
-    handleSave,
     isLoading,
+    setIsLoading,
     error,
   } = useLaboratoryProfile(params.idLaboratory);
 
@@ -46,7 +47,38 @@ const LaboratoryProfile = ({ params }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(dataLaboratory);
+    setIsLoading(true);
+
+    const laboratorioData = {
+      idOrdenLaboratorio: params.idLaboratory,
+      doctorFirmante: dataLaboratory.doctorFirmante,
+      estado: 1,
+      examenMedico: dataLaboratory.examenMedico,
+      observaciones: dataLaboratory.observaciones,
+    };
+
+    console.log(laboratorioData);
+    try {
+      const result = await laboratoryService.atenderOrdenLaboratorio(
+        laboratorioData
+      );
+      console.log(result);
+      if (result === 1) {
+      } else {
+        setError(
+          "There was a problem saving the information. Please try again."
+        );
+        toast.error(
+          "There was a problem saving the information. Please try again."
+        );
+      }
+    } catch (error) {
+      console.error("Error saving laboratory order", error);
+      setError("There was an error saving. Please try again.");
+      toast.error("There was an error saving. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

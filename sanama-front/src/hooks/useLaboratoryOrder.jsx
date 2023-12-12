@@ -80,65 +80,12 @@ const useLaboratoryProfile = (idLaboratory) => {
     }));
   };
 
-  const handleSave = async () => {
-    const laboratorioData = {
-      idOrdenLaboratorio: dataLaboratory.idOrdenLaboratorio,
-      doctorFirmante: dataLaboratory.doctorFirmante,
-      examenMedico: dataLaboratory.examenMedico,
-      observaciones: dataLaboratory.observaciones,
-      estado: 1,
-    };
-
-    const incompleteFields = [];
-    for (let key in laboratorioData) {
-      const value = laboratorioData[key];
-      if (
-        value === null ||
-        value === undefined ||
-        (typeof value === "string" && !value.trim())
-      ) {
-        incompleteFields.push(key);
-      }
-    }
-
-    if (incompleteFields.length > 0) {
-      setError(
-        `Please complete the following fields: ${incompleteFields.join(", ")}`
-      );
-      return;
-    }
-
-    setIsLoading(true);
-
-    try {
-      const result = await laboratoryService.atenderOrdenLaboratorio(
-        laboratorioData
-      );
-
-      if (result === 1) {
-      } else {
-        setError(
-          "There was a problem saving the information. Please try again."
-        );
-        toast.error(
-          "There was a problem saving the information. Please try again."
-        );
-      }
-    } catch (error) {
-      console.error("Error saving laboratory order", error);
-      setError("There was an error saving. Please try again.");
-      toast.error("There was an error saving. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   return {
     medicos,
     dataLaboratory,
     setDataLaboratory,
-    handleSave,
     isLoading,
+    setIsLoading,
     error,
     handleMedicoChange,
   };
