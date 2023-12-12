@@ -9,6 +9,7 @@ import viewAppointmentIcon from "@/components/icons/viewAppointmentIcon";
 import { laboratoryService } from "@/services/laboratoryService";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import swal from "sweetalert";
 
 const LaboratoryProfile = ({ params }) => {
   const {
@@ -59,29 +60,56 @@ const LaboratoryProfile = ({ params }) => {
       observaciones: dataLaboratory.observaciones,
     };
 
-    console.log(laboratorioData);
-    try {
-      const result = await laboratoryService.atenderOrdenLaboratorio(
-        laboratorioData
-      );
-      console.log(result);
-      if (result === 1) {
-      } else {
-        setError(
-          "There was a problem saving the information. Please try again."
-        );
-        toast.error(
-          "There was a problem saving the information. Please try again."
-        );
+    swal({
+      title: "Confirmar",
+      text: "¿Desea confirmar la orden de laboratorio?",
+      icon: "warning",
+      buttons: ["Cancelar", "Confirmar"],
+      dangerMode: true,
+    }).then(async (confirmed) => {
+      if (confirmed) {
+        // Continue with the submission logic
+        setIsLoading(true);
+
+        const laboratorioData = {
+          idOrdenLaboratorio: params.idLaboratory,
+          doctorFirmante: dataLaboratory.doctorFirmante,
+          estado: 1,
+          examenMedico: dataLaboratory.examenMedico,
+          observaciones: dataLaboratory.observaciones,
+        };
+
+        try {
+          const result = await laboratoryService.atenderOrdenLaboratorio(
+            laboratorioData
+          );
+          console.log(result);
+          if (result === 1) {
+            swal(
+              "Éxito",
+              "La orden de laboratorio ha sido confirmada.",
+              "success"
+            );
+          } else {
+            setError(
+              "Hubo un problema al guardar la información. Por favor, inténtelo de nuevo."
+            );
+            toast.error(
+              "Hubo un problema al guardar la información. Por favor, inténtelo de nuevo."
+            );
+          }
+        } catch (error) {
+          console.error("Error al guardar la orden de laboratorio", error);
+          setError("Hubo un error al guardar. Por favor, inténtelo de nuevo.");
+          toast.error(
+            "Hubo un error al guardar. Por favor, inténtelo de nuevo."
+          );
+        } finally {
+          setIsLoading(false);
+          router.push("/laboratories");
+        }
       }
-    } catch (error) {
-      console.error("Error saving laboratory order", error);
-      setError("There was an error saving. Please try again.");
-      toast.error("There was an error saving. Please try again.");
-    } finally {
-      setIsLoading(false);
-      router.push("/laboratories");
-    }
+    });
   };
 
   return (
