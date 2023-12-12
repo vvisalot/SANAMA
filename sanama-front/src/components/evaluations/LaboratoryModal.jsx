@@ -52,7 +52,7 @@ const LaboratoryModal = ({ isOpen, onClose, appointmentId }) => {
       );
       setIsConfirming(false);
       console.log("ID de la orden de laboratorio:", response);
-      return response; // Retorna la respuesta para su uso en toast.promise
+      return response;
     } catch (error) {
       console.error("Error al guardar los datos del laboratorio:", error);
       throw error;

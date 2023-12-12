@@ -2,7 +2,7 @@
 import { useState, useRef } from "react";
 import useLaboratoryProfile from "@/hooks/useLaboratoryOrder";
 import ActionButtonsLab from "@/components/laboratory/ActionButtonsLab";
-import LaboratoryInfoSection from "@/components/laboratory/MainInfoLaboratory";
+import LaboratoryInfoSection from "@/components/laboratory/LaboratoryInfoSection";
 
 const LaboratoryProfile = ({ params }) => {
   const {
@@ -353,23 +353,23 @@ const LaboratoryProfile = ({ params }) => {
               </span>
             </div>
           </div>
+        </div>
 
-          <div>
-            <div className="grid grid-cols-3">
-              <div className="col-span-3 flex justify-end">
-                <button
-                  className="bg-gray-600 text-white hover:bg-blue-600 px-4 py-2 rounded mr-4"
-                  onClick={handleCancel}
-                >
-                  <i className="fas fa-times mr-2"></i>Cancelar
-                </button>
-                <button
-                  className="bg-blue-500 text-white hover:bg-blue-600 px-4 py-2 rounded"
-                  onClick={handleSave}
-                >
-                  <i className="fas fa-save mr-2"></i>Guardar
-                </button>
-              </div>
+        <div>
+          <div className="grid grid-cols-3">
+            <div className="col-span-3 flex justify-end">
+              <button
+                className="bg-gray-600 text-white hover:bg-blue-600 px-4 py-2 rounded mr-4"
+                onClick={handleCancel}
+              >
+                <i className="fas fa-times mr-2"></i>Cancelar
+              </button>
+              <button
+                className="bg-blue-500 text-white hover:bg-blue-600 px-4 py-2 rounded"
+                onClick={handleSave}
+              >
+                <i className="fas fa-save mr-2"></i>Guardar
+              </button>
             </div>
           </div>
         </div>

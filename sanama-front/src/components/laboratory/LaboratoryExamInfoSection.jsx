@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import SearchMedicalSheet from "./SearchHojaMedica";
+import SearchMedicalSheet from "../evaluations/SearchHojaMedica";
 import { useParams } from "next/navigation";
 
-const ChiefComplaint = ({ setMedicalRecordData }) => {
+const LaboratoryExamInfoSection = ({ setMedicalRecordData }) => {
   const [showModal, setShowModal] = useState(false);
   const params = useParams();
   const idPaciente = params.idPaciente;
@@ -135,4 +135,4 @@ const ChiefComplaint = ({ setMedicalRecordData }) => {
   );
 };
 
-export default ChiefComplaint;
+export default LaboratoryExamInfoSection;
