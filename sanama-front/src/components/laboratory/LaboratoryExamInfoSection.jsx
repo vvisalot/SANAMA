@@ -152,10 +152,7 @@ const LaboratoryExamInfoSection = ({
         const section = sections[1];
         return {
           ...prevData,
-          evaluacionMedica: {
-            ...prevData.evaluacionMedica,
-            [section]: value,
-          },
+          [section]: value,
         };
       }
       return prevData;
