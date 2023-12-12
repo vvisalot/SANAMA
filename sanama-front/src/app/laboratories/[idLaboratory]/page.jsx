@@ -45,12 +45,15 @@ const LaboratoryProfile = ({ params }) => {
   };
 
   const handleSubmit = async (event) => {
+    event.preventDefault();
     try {
-      await handleSave();
-      toast.success("Laboratory order confirmed successfully.");
+      toast.promise(() => handleSave(), {
+        loading: "Registrando cita",
+        success: "Cita registrada",
+      });
     } catch (error) {
-      console.error("Error handling confirmation:", error);
       toast.error("Error confirming laboratory order. Please try again.");
+      console.log("Error al registrar cita para un paciente existente");
     }
   };
 
