@@ -170,9 +170,9 @@ const LaboratoryExamInfoSection = ({
         <Dropdown
           data={medicos}
           name={"dropdown-doctor-lab"}
-          defaultText={"Selecciona un medico"}
+          defaultText={nombreDoctor || ""}
           text={"descripcion"}
-          defaultValue={nombreDoctor || ""}
+          defaultValue={""}
           value={"idValue"}
           width={"w-[500px]"}
           handleChange={handleMedicoChange}
@@ -186,7 +186,7 @@ const LaboratoryExamInfoSection = ({
           <textarea
             label="Observaciones"
             name="dataLaboratory.observaciones"
-            defaultValue={dataLaboratory?.observaciones || ""}
+            defaultValue={dataLaboratory?.observaciones}
             className="resize-none mt-1 p-2 w-full border-gray-300 rounded-md"
             placeholder="Ingresa observación.."
             rows={4}
