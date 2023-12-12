@@ -2,11 +2,9 @@ import React, { useState } from "react";
 import SearchDiagnostic from "./SearchDiagnostic";
 
 const DiagnosticoMedico = ({ setMedicalRecordData }) => {
-  // State
   const [diagnosticos, setDiagnosticos] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
-  // Function to add a diagnostic
   const addDiagnostic = (selectedDiagnostic) => {
     const newDiagnosticos = [...diagnosticos, selectedDiagnostic];
     setDiagnosticos(newDiagnosticos);
@@ -19,7 +17,6 @@ const DiagnosticoMedico = ({ setMedicalRecordData }) => {
     }));
   };
 
-  // Function to remove a diagnostic
   const removeDiagnostic = (index) => {
     const newDiagnosticos = diagnosticos.filter((_, i) => i !== index);
     setDiagnosticos(newDiagnosticos);

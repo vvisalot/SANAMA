@@ -52,7 +52,6 @@ const ChiefComplaint = ({ setMedicalRecordData }) => {
     setShowModal(true);
   };
 
-  // Function to close the modal
   const handleCloseModal = () => {
     setShowModal(false);
   };
