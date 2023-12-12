@@ -6,6 +6,7 @@ import LaboratoryInfoSection from "@/components/laboratory/LaboratoryInfoSection
 import LaboratoryExamInfoSection from "@/components/laboratory/LaboratoryExamInfoSection";
 import TitleWithIcon from "@/components/TitleWithIcon";
 import viewAppointmentIcon from "@/components/icons/viewAppointmentIcon";
+import { toast } from "sonner";
 
 const LaboratoryProfile = ({ params }) => {
   const {
@@ -27,7 +28,7 @@ const LaboratoryProfile = ({ params }) => {
         estado: 2,
       }));
     }
-    setIsEditable(!isEditable);
+    setIsEditable(true);
   };
 
   const handleCancelClick = () => {
@@ -43,15 +44,13 @@ const LaboratoryProfile = ({ params }) => {
     }
   };
 
-  const handleConfirm = async () => {
+  const handleSubmit = async (event) => {
     try {
       await handleSave();
-      setDataLaboratory((prevData) => ({
-        ...prevData,
-        estado: 1,
-      }));
+      toast.success("Laboratory order confirmed successfully.");
     } catch (error) {
       console.error("Error handling confirmation:", error);
+      toast.error("Error confirming laboratory order. Please try again.");
     }
   };
 
@@ -74,19 +73,19 @@ const LaboratoryProfile = ({ params }) => {
         setDataLaboratory={setDataLaboratory}
         isEditable={isEditable}
       />
-      <div className="sm:flex sm:flex-row-reverse">
+      <form onSubmit={handleSubmit} className="sm:flex sm:flex-row-reverse">
         <button
-          onClick={handleConfirm}
+          type="submit"
+          onClick={handleSubmit}
           className={`${
-            isLoading && isEditable
+            !isLoading && isEditable
               ? "bg-green-600 hover:bg-green-700"
               : "bg-gray-600 opacity-50 cursor-not-allowed"
-          }  text-white px-4 py-2 rounded  focus:outline-none`}
-          disabled={isLoading || isEditable}
+          } text-white px-4 py-2 rounded focus:outline-none`}
         >
           {isLoading ? "Confirming..." : "Confirmar"}
         </button>
-      </div>
+      </form>
     </section>
   );
 };

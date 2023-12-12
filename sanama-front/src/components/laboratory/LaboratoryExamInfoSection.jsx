@@ -181,7 +181,7 @@ const LaboratoryExamInfoSection = ({
           disabled={!isEditable}
         />
 
-        <div className="col-span-3 mb-6">
+        <div className="col-span-3 mb-4">
           <h4 className="text-lg  font-bold rtl:text-right text-gray-500  mb-2">
             Observaciones
           </h4>
@@ -197,6 +197,26 @@ const LaboratoryExamInfoSection = ({
         </div>
 
         <div className="col-span-3">
+          <div className="flex mb-4">
+            <input
+              type="file"
+              style={{ display: "none" }}
+              onChange={handleAddExamen}
+              disabled={!isEditable}
+            />
+            <button
+              onClick={handleAddExamenClick}
+              className={`${
+                isEditable
+                  ? "bg-blue-600 hover:bg-blue-700"
+                  : "bg-gray-600 opacity-50 cursor-not-allowed"
+              }  text-white px-4 py-2 rounded  focus:outline-none`}
+              disabled={!isEditable}
+            >
+              <i className="fas fa-plus mr-2"></i> Añadir
+            </button>
+          </div>
+
           <table className="min-w-full divide-y divide-gray-200 shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
             <thead className="bg-gray-300">
               <tr>
@@ -258,26 +278,6 @@ const LaboratoryExamInfoSection = ({
               ))}
             </tbody>
           </table>
-
-          <div className="flex justify-end mt-4">
-            <input
-              type="file"
-              style={{ display: "none" }}
-              onChange={handleAddExamen}
-              disabled={!isEditable}
-            />
-            <button
-              onClick={handleAddExamenClick}
-              className={`${
-                isEditable
-                  ? "bg-blue-600 hover:bg-blue-700"
-                  : "bg-gray-600 opacity-50 cursor-not-allowed"
-              }  text-white px-4 py-2 rounded  focus:outline-none`}
-              disabled={!isEditable}
-            >
-              <i className="fas fa-plus mr-2"></i> Añadir
-            </button>
-          </div>
         </div>
       </div>
     </div>

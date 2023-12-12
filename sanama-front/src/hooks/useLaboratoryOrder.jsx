@@ -84,9 +84,9 @@ const useLaboratoryProfile = (idLaboratory) => {
     const laboratorioData = {
       idOrdenLaboratorio: dataLaboratory.idOrdenLaboratorio,
       doctorFirmante: dataLaboratory.doctorFirmante,
-      estado: 1,
       examenMedico: dataLaboratory.examenMedico,
       observaciones: dataLaboratory.observaciones,
+      estado: 1,
     };
 
     const incompleteFields = [];
@@ -120,10 +120,14 @@ const useLaboratoryProfile = (idLaboratory) => {
         setError(
           "There was a problem saving the information. Please try again."
         );
+        toast.error(
+          "There was a problem saving the information. Please try again."
+        );
       }
     } catch (error) {
       console.error("Error saving laboratory order", error);
       setError("There was an error saving. Please try again.");
+      toast.error("There was an error saving. Please try again.");
     } finally {
       setIsLoading(false);
     }
