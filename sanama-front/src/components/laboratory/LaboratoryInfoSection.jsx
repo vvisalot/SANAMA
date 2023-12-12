@@ -28,7 +28,7 @@ const LaboratoryInfoSection = ({ dataLaboratory }) => {
   return (
     <div className="col-span-2">
       <h4 className="text-lg  font-bold rtl:text-right text-gray-500  mb-2">
-        Información de orden de laboratorio
+        Información General
       </h4>
 
       <div className="ml-4 grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">

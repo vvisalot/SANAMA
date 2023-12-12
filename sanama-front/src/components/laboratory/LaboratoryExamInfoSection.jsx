@@ -120,23 +120,27 @@ const LaboratoryExamInfoSection = ({
         Detalles de los Exámenes
       </h4>
 
-      <div className="grid grid-cols-3 gap-6 mb-6">
-        <Dropdown
-          data={medicos}
-          name="dropdown-doctor-lab"
-          defaultText={nombreDoctor || ""}
-          text="descripcion"
-          defaultValue=""
-          value="idValue"
-          width="w-[500px]"
-          handleChange={handleMedicoChange}
-          disabled={!isEditable}
-        />
-
+      <div className="ml-4 grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-500">
+            Medico Firmante
+          </label>
+          <Dropdown
+            data={medicos}
+            name="dropdown-doctor-lab"
+            defaultText={nombreDoctor || ""}
+            text="descripcion"
+            defaultValue=""
+            value="idValue"
+            width="w-[500px]"
+            handleChange={handleMedicoChange}
+            disabled={!isEditable}
+          />
+        </div>
         <div className="col-span-3 mb-4">
-          <h4 className="text-lg font-bold rtl:text-right text-gray-500 mb-2">
+          <label className="block text-sm font-medium text-gray-500">
             Observaciones
-          </h4>
+          </label>
           <textarea
             label="Observaciones"
             name="dataLaboratory.observaciones"

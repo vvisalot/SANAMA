@@ -83,7 +83,7 @@ const LaboratoryProfile = ({ params }) => {
 
   return (
     <section className="rounded-lg p-8 mx-auto flex flex-col space-y-6 md:max-w-5xl lg:max-w-6xl xl:max-w-7xl">
-      <TitleWithIcon name={"Orden de laboratorio"} Icon={viewAppointmentIcon} />
+      <TitleWithIcon name={"Orden de Laboratorio"} Icon={viewAppointmentIcon} />
       <div className="flex place-content-between w-full mb-4 justify-end">
         <ActionButtonsLab
           loading={isLoading}
