@@ -1,8 +1,9 @@
 import { useRouter } from "next/navigation";
 
 const ActionButtonsLab = ({
-  estado,
   loading,
+  estado,
+  setDataLaboratory,
   handleCancelClick,
   handleAttendClick,
   idPaciente,
@@ -62,7 +63,7 @@ const ActionButtonsLab = ({
               hasBeenCanceled ? "opacity-50 cursor-not-allowed" : ""
             }`}
             onClick={handleCancelClick}
-            disabled={hasBeenCanceled}
+            disabled={hasBeenCanceled} //aca
           >
             Cancelar
           </button>

@@ -44,6 +44,8 @@ const LaboratoryProfile = ({ params }) => {
       <div className="flex place-content-between w-full mb-4 justify-end">
         <ActionButtonsLab
           loading={isLoading}
+          estado={dataLaboratory?.estado}
+          setDataLaboratory={setDataLaboratory}
           handleAttendClick={handleAttendClick}
           handleCancelClick={handleCancelClick}
         />
