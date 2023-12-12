@@ -181,7 +181,7 @@ const LaboratoryExamInfoSection = ({
                   Nombre del archivo
                 </th>
                 <th className="px-6 py-3 text-right text-lg font-medium text-gray-700 tracking-wider">
-                  Acciones
+                  Opciones
                 </th>
               </tr>
             </thead>

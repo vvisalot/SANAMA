@@ -15,7 +15,10 @@ const LaboratoryInfoSection = ({ dataLaboratory }) => {
   const sexo =
     dataLaboratory?.citaMedica?.paciente?.sexo === "M"
       ? "Masculino"
-      : "Femenino";
+      : dataLaboratory?.citaMedica?.paciente?.sexo === "F"
+      ? "Femenino"
+      : "";
+
   const edad = isNaN(
     calcularEdad(dataLaboratory?.citaMedica?.paciente?.fechaNacimiento)
   )
