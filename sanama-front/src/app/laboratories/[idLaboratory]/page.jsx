@@ -8,6 +8,7 @@ import TitleWithIcon from "@/components/TitleWithIcon";
 import viewAppointmentIcon from "@/components/icons/viewAppointmentIcon";
 import { laboratoryService } from "@/services/laboratoryService";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const LaboratoryProfile = ({ params }) => {
   const {
@@ -21,6 +22,7 @@ const LaboratoryProfile = ({ params }) => {
   } = useLaboratoryProfile(params.idLaboratory);
 
   const [isEditable, setIsEditable] = useState(false);
+  const router = useRouter();
 
   const handleAttendClick = () => {
     if (dataLaboratory?.estado !== 3) {
@@ -78,6 +80,7 @@ const LaboratoryProfile = ({ params }) => {
       toast.error("There was an error saving. Please try again.");
     } finally {
       setIsLoading(false);
+      router.push("/laboratories");
     }
   };
 
