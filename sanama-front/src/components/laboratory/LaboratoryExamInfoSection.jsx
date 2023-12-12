@@ -1,5 +1,5 @@
 import React from "react";
-import InputField from "../common/InputField";
+import Dropdown from "@/components/Dropdowns/Dropdown";
 
 const LaboratoryExamInfoSection = ({
   medicos,
@@ -12,8 +12,8 @@ const LaboratoryExamInfoSection = ({
     const blob = base64ToBlob(base64, "application/pdf");
 
     const link = document.createElement("a");
-
     const url = URL.createObjectURL(blob);
+
     link.href = url;
     link.download = fileName;
     document.body.appendChild(link);
@@ -21,84 +21,17 @@ const LaboratoryExamInfoSection = ({
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
   };
-  const handleCancel = () => {
-    if (typeof window !== "undefined") {
-      window.history.back();
-    }
-  };
+
   const base64ToBlob = (base64, mimeType) => {
     const byteCharacters = atob(base64);
     const byteNumbers = new Array(byteCharacters.length);
+
     for (let i = 0; i < byteCharacters.length; i++) {
       byteNumbers[i] = byteCharacters.charCodeAt(i);
     }
 
     const byteArray = new Uint8Array(byteNumbers);
-
     return new Blob([byteArray], { type: mimeType });
-  };
-
-  const handleAddExamenClick = () => {
-    setDataLaboratory((prevState) => {
-      const lastId =
-        prevState.examenMedico.length > 0
-          ? Math.max(...prevState.examenMedico.map((e) => e.idExamen || 0))
-          : 0;
-
-      return {
-        ...prevState,
-        examenMedico: [
-          ...prevState.examenMedico,
-          { idExamen: lastId + 1, nombreArchivo: "", archivo: null },
-        ],
-      };
-    });
-
-    setTimeout(() => {
-      const newExamenIndex = dataLaboratory.examenMedico.length;
-      const newFileInput = document.querySelector(
-        `input[name="examenMedico.${newExamenIndex}.archivo"]`
-      );
-      if (newFileInput) {
-        newFileInput.click();
-      }
-    }, 0);
-  };
-
-  const handleFileChange = (e, index) => {
-    const file = e.target.files[0];
-    if (file && file.type === "application/pdf") {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        if (reader.readyState === 2) {
-          const base64 = reader.result.split(",")[1];
-          setDataLaboratory((prevState) => {
-            const updatedExamenMedico = [...prevState.examenMedico];
-            updatedExamenMedico[index] = {
-              ...updatedExamenMedico[index],
-              nombreArchivo: file.name,
-              archivo: base64,
-            };
-            return {
-              ...prevState,
-              examenMedico: updatedExamenMedico,
-            };
-          });
-        }
-      };
-    } else {
-      console.error("Archivo no permitido o no es un PDF.");
-    }
-  };
-
-  const handleRemoveExamen = (indexToRemove) => {
-    setDataLaboratory((prevState) => ({
-      ...prevState,
-      examenMedico: prevState.examenMedico.filter(
-        (_, index) => index !== indexToRemove
-      ),
-    }));
   };
 
   const handleAddExamen = (event) => {
@@ -136,6 +69,81 @@ const LaboratoryExamInfoSection = ({
     }
   };
 
+  const handleAddExamenClick = () => {
+    setDataLaboratory((prevState) => {
+      const lastId =
+        prevState.examenMedico.length > 0
+          ? Math.max(...prevState.examenMedico.map((e) => e.idExamen || 0))
+          : 0;
+
+      return {
+        ...prevState,
+        examenMedico: [
+          ...prevState.examenMedico,
+          { idExamen: lastId + 1, nombreArchivo: "", archivo: null },
+        ],
+      };
+    });
+
+    setTimeout(() => {
+      const newExamenIndex = dataLaboratory.examenMedico.length;
+      const newFileInput = document.querySelector(
+        `input[name="examenMedico.${newExamenIndex}.archivo"]`
+      );
+      if (newFileInput) {
+        newFileInput.click();
+      }
+    }, 0);
+  };
+
+  const handleFileChange = async (e, index) => {
+    const file = e.target.files[0];
+
+    if (file && file.type === "application/pdf") {
+      try {
+        const base64 = await convertFileToBase64(file);
+        setDataLaboratory((prevState) => {
+          const updatedExamenMedico = [...prevState.examenMedico];
+          updatedExamenMedico[index] = {
+            ...updatedExamenMedico[index],
+            nombreArchivo: file.name,
+            archivo: base64,
+          };
+          return {
+            ...prevState,
+            examenMedico: updatedExamenMedico,
+          };
+        });
+      } catch (error) {
+        console.error("Error converting file to base64:", error);
+      }
+    } else {
+      console.error("Archivo no permitido o no es un PDF.");
+    }
+  };
+
+  const convertFileToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+
+      reader.onload = () => {
+        resolve(reader.result.split(",")[1]);
+      };
+
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
+  const handleRemoveExamen = (indexToRemove) => {
+    setDataLaboratory((prevState) => ({
+      ...prevState,
+      examenMedico: prevState.examenMedico.filter(
+        (_, index) => index !== indexToRemove
+      ),
+    }));
+  };
+
   const handleOnBlurChange = (e) => {
     const { name, value } = e.target;
     setDataLaboratory((prevData) => {
@@ -161,29 +169,16 @@ const LaboratoryExamInfoSection = ({
       </div>
 
       <div className="grid grid-cols-3 gap-6 mb-6">
-        <div className="flex justify-start">
-          <div style={{ flex: "0 0 350px", marginRight: "14rem" }}>
-            <InputField
-              label="Médico de Laboratorio"
-              name="medicoLaboratorio"
-              value={
-                medicos.find(
-                  (medico) =>
-                    medico.descripcion === dataLaboratory.doctorFirmante
-                )?.idValue || ""
-              }
-              type="select"
-              onChange={handleMedicoChange}
-              options={medicos.map((medico) => ({
-                value: medico.idValue,
-                label: medico.descripcion,
-              }))}
-              isEditable={isEditable}
-              labelWidth="w-full"
-              width="w-full"
-            />
-          </div>
-        </div>
+        <Dropdown
+          data={medicos}
+          name={"dropdown-doctor-lab"}
+          defaultText={"Selecciona un medico"}
+          text={"descripcion"}
+          defaultValue={""}
+          value={"idValue"}
+          width={"w-[500px]"}
+          handleChange={handleMedicoChange}
+        />
 
         <div className="col-span-3">
           <table className="min-w-full divide-y divide-gray-200 shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
