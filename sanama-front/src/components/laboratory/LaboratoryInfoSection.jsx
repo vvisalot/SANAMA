@@ -6,9 +6,9 @@ const LaboratoryInfoSection = ({ dataLaboratory }) => {
   if (!dataLaboratory) {
     return <p>Cargando...</p>;
   }
-  const edad = calcularEdad(
-    dataLaboratory?.citaMedica?.paciente?.fechaNacimiento
-  );
+  const nombrePaciente = `${dataLaboratory?.citaMedica?.paciente?.nombres} ${dataLaboratory?.citaMedica?.paciente?.apellidoPaterno} ${dataLaboratory?.citaMedica?.paciente?.apellidoMaterno}`;
+  const nombreDoctor = `${dataLaboratory?.citaMedica?.medico?.nombres} ${dataLaboratory?.citaMedica?.medico?.apellidoPaterno} ${dataLaboratory?.citaMedica?.medico?.apellidoMaterno}`;
+  const dni = dataLaboratory?.citaMedica?.paciente?.dni;
   const fechaNacimientoFormateada = formatearFecha(
     dataLaboratory?.citaMedica?.paciente?.fechaNacimiento
   );
@@ -16,13 +16,12 @@ const LaboratoryInfoSection = ({ dataLaboratory }) => {
     dataLaboratory?.citaMedica?.paciente?.sexo === "M"
       ? "Masculino"
       : "Femenino";
-
+  const edad = isNaN(
+    calcularEdad(dataLaboratory?.citaMedica?.paciente?.fechaNacimiento)
+  )
+    ? ""
+    : calcularEdad(dataLaboratory?.citaMedica?.paciente?.fechaNacimiento);
   const estado = getStatus(dataLaboratory?.estado);
-  const nombrePaciente =
-    `${dataLaboratory?.citaMedica?.paciente?.nombres} ${dataLaboratory?.citaMedica?.paciente?.apellidoPaterno} ${dataLaboratory?.citaMedica?.paciente?.apellidoMaterno}` ||
-    "";
-  const dni = dataLaboratory?.citaMedica?.paciente?.dni || "";
-
   return (
     <div className="col-span-2">
       <h4 className="text-lg  font-bold rtl:text-right text-gray-500  mb-2">
@@ -36,7 +35,7 @@ const LaboratoryInfoSection = ({ dataLaboratory }) => {
           </label>
           <input
             type="text"
-            value={nombrePaciente}
+            value={nombrePaciente || ""}
             disabled
             className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
           />
@@ -47,7 +46,7 @@ const LaboratoryInfoSection = ({ dataLaboratory }) => {
           </label>
           <input
             type="text"
-            value={dni}
+            value={dni || ""}
             disabled
             className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
           />
@@ -58,7 +57,7 @@ const LaboratoryInfoSection = ({ dataLaboratory }) => {
           </label>
           <input
             type="text"
-            value={fechaNacimientoFormateada}
+            value={fechaNacimientoFormateada || ""}
             disabled
             className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
           />
@@ -69,7 +68,7 @@ const LaboratoryInfoSection = ({ dataLaboratory }) => {
           </label>
           <input
             type="text"
-            value={edad}
+            value={edad || ""}
             disabled
             className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
           />
@@ -80,7 +79,7 @@ const LaboratoryInfoSection = ({ dataLaboratory }) => {
           </label>
           <input
             type="text"
-            value={sexo}
+            value={sexo || ""}
             disabled
             className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
           />
@@ -91,7 +90,7 @@ const LaboratoryInfoSection = ({ dataLaboratory }) => {
           </label>
           <input
             type="text"
-            value={estado.text}
+            value={estado.text || ""}
             disabled
             className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
           />
@@ -104,7 +103,7 @@ const LaboratoryInfoSection = ({ dataLaboratory }) => {
           </label>
           <input
             type="text"
-            value={`${dataLaboratory?.citaMedica?.medico?.nombres} ${dataLaboratory?.citaMedica?.medico?.apellidoPaterno} ${dataLaboratory?.citaMedica?.medico?.apellidoMaterno}`}
+            value={nombreDoctor || ""}
             disabled
             className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
           />
@@ -115,7 +114,7 @@ const LaboratoryInfoSection = ({ dataLaboratory }) => {
           </label>
           <input
             type="text"
-            value={dataLaboratory?.tipoMuestra}
+            value={dataLaboratory?.tipoMuestra || ""}
             disabled
             className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
           />
@@ -126,7 +125,7 @@ const LaboratoryInfoSection = ({ dataLaboratory }) => {
           </label>
           <input
             type="text"
-            value={dataLaboratory?.instrucciones}
+            value={dataLaboratory?.instrucciones || ""}
             disabled
             className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
           />

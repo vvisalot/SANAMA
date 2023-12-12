@@ -1,4 +1,4 @@
-import { format, parseISO } from "date-fns";
+import { parseISO, isValid, format } from "date-fns";
 
 export function calcularEdad(fechaNacimiento) {
   const hoy = new Date();
@@ -31,8 +31,7 @@ export function formatearFecha(fecha) {
     const fechaParsed = parseISO(fecha);
     return format(fechaParsed, "dd/MM/yyyy");
   } catch (error) {
-    console.error("Error al formatear la fecha:", error);
-    return fecha; // Devuelve la fecha original en caso de error
+    return ""; // Devuelve la fecha original en caso de error
   }
 }
 
