@@ -11,6 +11,7 @@ const useLaboratoryProfile = (idLaboratory) => {
     instrucciones: "",
     doctorFirmante: "",
     observaciones: "",
+    estado: "",
     citaMedica: {
       paciente: {
         nombres: "",

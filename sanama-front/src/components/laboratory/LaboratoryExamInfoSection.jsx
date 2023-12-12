@@ -265,9 +265,6 @@ const LaboratoryExamInfoSection = ({
             rows={4}
             onBlur={handleOnBlurChange}
           />
-          <span className="text-right block">
-            {(dataLaboratory?.observaciones || "").length}/1000
-          </span>
         </div>
       </div>
     </div>
