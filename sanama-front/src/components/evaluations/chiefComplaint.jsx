@@ -99,31 +99,45 @@ const ChiefComplaint = ({ setMedicalRecordData }) => {
           </button>
         </div>
         <MedicalSheetDetails />
-
-        <textarea
-          label="Antecedentes:"
-          name="evaluacionMedica.antecedentes"
-          className="resize-none mt-1 p-2 w-full border-gray-300 rounded-md"
-          placeholder="Ingresa los antecentes.."
-          rows={4}
-          onBlur={handleOnBlurChange}
-        />
-        <textarea
-          label="Motivo de Consulta:"
-          name="evaluacionMedica.motivoConsulta"
-          className="resize-none mt-1 p-2 w-full border-gray-300 rounded-md"
-          placeholder="Ingresa el motivo.."
-          rows={4}
-          onBlur={handleOnBlurChange}
-        />
-        <textarea
-          label="Observaciones Adicionales:"
-          name="evaluacionMedica.observaciones"
-          className="resize-none mt-1 p-2 w-full border-gray-300 rounded-md"
-          placeholder="Ingresa observación.."
-          rows={4}
-          onBlur={handleOnBlurChange}
-        />
+        <div>
+          <label className="block text-sm font-medium text-gray-500">
+            Antecendentes
+          </label>
+          <textarea
+            label="Antecedentes:"
+            name="evaluacionMedica.antecedentes"
+            className="resize-none mt-1 p-2 w-full border-gray-300 rounded-md"
+            placeholder="Ingresa los antecentes.."
+            rows={4}
+            onBlur={handleOnBlurChange}
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-500">
+            Motivo
+          </label>
+          <textarea
+            label="Motivo de Consulta:"
+            name="evaluacionMedica.motivoConsulta"
+            className="resize-none mt-1 p-2 w-full border-gray-300 rounded-md"
+            placeholder="Ingresa el motivo.."
+            rows={4}
+            onBlur={handleOnBlurChange}
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-500">
+            Observaciones
+          </label>
+          <textarea
+            label="Observaciones Adicionales:"
+            name="evaluacionMedica.observaciones"
+            className="resize-none mt-1 p-2 w-full border-gray-300 rounded-md"
+            placeholder="Ingresa observación.."
+            rows={4}
+            onBlur={handleOnBlurChange}
+          />
+        </div>
         <SearchMedicalSheet
           idPaciente={idPaciente}
           show={showModal}

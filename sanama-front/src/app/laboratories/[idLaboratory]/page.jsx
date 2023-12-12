@@ -52,14 +52,6 @@ const LaboratoryProfile = ({ params }) => {
     event.preventDefault();
     setIsLoading(true);
 
-    const laboratorioData = {
-      idOrdenLaboratorio: params.idLaboratory,
-      doctorFirmante: dataLaboratory.doctorFirmante,
-      estado: 1,
-      examenMedico: dataLaboratory.examenMedico,
-      observaciones: dataLaboratory.observaciones,
-    };
-
     swal({
       title: "Confirmar",
       text: "¿Desea confirmar la orden de laboratorio?",

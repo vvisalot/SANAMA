@@ -7,7 +7,6 @@ const NewsFeed = () => {
 
   useEffect(() => {
     setLoading(true);
-    // Simula una carga de datos
     setTimeout(() => {
       setNewsList(newsData.articles);
       setLoading(false);
