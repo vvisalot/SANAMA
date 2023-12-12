@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import Dropdown from "@/components/Dropdowns/Dropdown";
 
 const LaboratoryExamInfoSection = ({
@@ -9,11 +9,11 @@ const LaboratoryExamInfoSection = ({
   isEditable,
 }) => {
   const nombreDoctor = `${dataLaboratory?.citaMedica?.medico?.nombres} ${dataLaboratory?.citaMedica?.medico?.apellidoPaterno} ${dataLaboratory?.citaMedica?.medico?.apellidoMaterno}`;
+
   const downloadFile = (base64, fileName) => {
     const blob = base64ToBlob(base64, "application/pdf");
-
-    const link = document.createElement("a");
     const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
 
     link.href = url;
     link.download = fileName;
@@ -35,56 +35,42 @@ const LaboratoryExamInfoSection = ({
     return new Blob([byteArray], { type: mimeType });
   };
 
+  const inputRef = useRef(null);
+
   const handleAddExamenClick = () => {
-    setTimeout(() => {
-      const newExamenIndex = dataLaboratory.examenMedico.length;
-      const newFileInput = document.querySelector(
-        `input[name="examenMedico.${newExamenIndex}.archivo"]`
-      );
-      if (newFileInput) {
-        newFileInput.click();
-      } else return;
-    }, 0);
-
-    setDataLaboratory((prevState) => {
-      const lastId =
-        prevState.examenMedico.length > 0
-          ? Math.max(...prevState.examenMedico.map((e) => e.idExamen || 0))
-          : 0;
-
-      return {
-        ...prevState,
-        examenMedico: [
-          ...prevState.examenMedico,
-          { idExamen: lastId + 1, nombreArchivo: "", archivo: null },
-        ],
-      };
-    });
+    inputRef.current && inputRef.current.click();
   };
 
   const handleFileChange = async (e, index) => {
     const file = e.target.files[0];
 
-    if (file && file.type === "application/pdf") {
-      try {
-        const base64 = await convertFileToBase64(file);
-        setDataLaboratory((prevState) => {
-          const updatedExamenMedico = [...prevState.examenMedico];
-          updatedExamenMedico[index] = {
-            ...updatedExamenMedico[index],
-            nombreArchivo: file.name,
-            archivo: base64,
-          };
-          return {
-            ...prevState,
-            examenMedico: updatedExamenMedico,
-          };
-        });
-      } catch (error) {
-        console.error("Error converting file to base64:", error);
+    if (file) {
+      if (file.type === "application/pdf") {
+        try {
+          const base64 = await convertFileToBase64(file);
+          setDataLaboratory((prevState) => {
+            const updatedExamenMedico = [...prevState.examenMedico];
+            // Eliminar registro vacío si existe
+            if (updatedExamenMedico[index]?.nombreArchivo === "") {
+              updatedExamenMedico.splice(index, 1);
+            }
+
+            updatedExamenMedico[index] = {
+              ...updatedExamenMedico[index],
+              nombreArchivo: file.name,
+              archivo: base64,
+            };
+            return {
+              ...prevState,
+              examenMedico: updatedExamenMedico,
+            };
+          });
+        } catch (error) {
+          console.error("Error converting file to base64:", error);
+        }
+      } else {
+        console.error("Archivo no permitido o no es un PDF.");
       }
-    } else {
-      console.error("Archivo no permitido o no es un PDF.");
     }
   };
 
@@ -102,12 +88,15 @@ const LaboratoryExamInfoSection = ({
   };
 
   const handleRemoveExamen = (indexToRemove) => {
-    setDataLaboratory((prevState) => ({
-      ...prevState,
-      examenMedico: prevState.examenMedico.filter(
-        (_, index) => index !== indexToRemove
-      ),
-    }));
+    setDataLaboratory((prevState) => {
+      const updatedExamenMedico = [...prevState.examenMedico];
+      updatedExamenMedico.splice(indexToRemove, 1);
+
+      return {
+        ...prevState,
+        examenMedico: updatedExamenMedico,
+      };
+    });
   };
 
   const handleOnBlurChange = (e) => {
@@ -127,25 +116,25 @@ const LaboratoryExamInfoSection = ({
 
   return (
     <div>
-      <h4 className="text-lg  font-bold rtl:text-right text-gray-500  mb-2">
+      <h4 className="text-lg font-bold rtl:text-right text-gray-500 mb-2">
         Detalles de los Exámenes
       </h4>
 
       <div className="grid grid-cols-3 gap-6 mb-6">
         <Dropdown
           data={medicos}
-          name={"dropdown-doctor-lab"}
+          name="dropdown-doctor-lab"
           defaultText={nombreDoctor || ""}
-          text={"descripcion"}
-          defaultValue={""}
-          value={"idValue"}
-          width={"w-[500px]"}
+          text="descripcion"
+          defaultValue=""
+          value="idValue"
+          width="w-[500px]"
           handleChange={handleMedicoChange}
           disabled={!isEditable}
         />
 
         <div className="col-span-3 mb-4">
-          <h4 className="text-lg  font-bold rtl:text-right text-gray-500  mb-2">
+          <h4 className="text-lg font-bold rtl:text-right text-gray-500 mb-2">
             Observaciones
           </h4>
           <textarea
@@ -162,13 +151,23 @@ const LaboratoryExamInfoSection = ({
 
         <div className="col-span-3">
           <div className="flex mb-4">
+            <input
+              ref={inputRef}
+              type="file"
+              style={{ display: "none" }}
+              onChange={(e) =>
+                handleFileChange(e, dataLaboratory.examenMedico.length)
+              }
+              disabled={!isEditable}
+              accept=".pdf"
+            />
             <button
               onClick={handleAddExamenClick}
               className={`${
                 isEditable
                   ? "bg-blue-600 hover:bg-blue-700"
                   : "bg-gray-600 opacity-50 cursor-not-allowed"
-              }  text-white px-4 py-2 rounded  focus:outline-none`}
+              } text-white px-4 py-2 rounded focus:outline-none`}
               disabled={!isEditable}
             >
               <i className="fas fa-plus mr-2"></i> Añadir
@@ -210,6 +209,7 @@ const LaboratoryExamInfoSection = ({
                           type="file"
                           onChange={(e) => handleFileChange(e, index)}
                           disabled={!isEditable}
+                          accept=".pdf"
                         />
                       )}
                     </div>
