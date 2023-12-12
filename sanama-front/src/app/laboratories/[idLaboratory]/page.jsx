@@ -47,12 +47,12 @@ const LaboratoryProfile = ({ params }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      toast.promise(() => handleSave(), {
+      toast.promise(handleSave(), {
         loading: "Registrando cita",
         success: "Cita registrada",
+        error: "Error confirming laboratory order. Please try again.",
       });
     } catch (error) {
-      toast.error("Error confirming laboratory order. Please try again.");
       console.log("Error al registrar cita para un paciente existente");
     }
   };
@@ -68,18 +68,19 @@ const LaboratoryProfile = ({ params }) => {
           handleCancelClick={handleCancelClick}
         />
       </div>
+
       <LaboratoryInfoSection dataLaboratory={dataLaboratory} />
-      <LaboratoryExamInfoSection
-        medicos={medicos}
-        handleMedicoChange={handleMedicoChange}
-        dataLaboratory={dataLaboratory}
-        setDataLaboratory={setDataLaboratory}
-        isEditable={isEditable}
-      />
+
       <form onSubmit={handleSubmit} className="sm:flex sm:flex-row-reverse">
+        <LaboratoryExamInfoSection
+          medicos={medicos}
+          handleMedicoChange={handleMedicoChange}
+          dataLaboratory={dataLaboratory}
+          setDataLaboratory={setDataLaboratory}
+          isEditable={isEditable}
+        />
         <button
           type="submit"
-          onClick={handleSubmit}
           className={`${
             !isLoading && isEditable
               ? "bg-green-600 hover:bg-green-700"
