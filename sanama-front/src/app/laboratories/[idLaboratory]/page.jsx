@@ -1,8 +1,8 @@
 "use client";
 import { useState, useRef } from "react";
 import useLaboratoryProfile from "@/hooks/useLaboratoryOrder";
-import { calcularEdad } from "@/util/formValidations";
 import ActionButtonsLab from "@/components/laboratory/ActionButtonsLab";
+import LaboratoryInfoSection from "@/components/laboratory/MainInfoLaboratory";
 
 const LaboratoryProfile = ({ params }) => {
   const {
@@ -52,6 +52,18 @@ const LaboratoryProfile = ({ params }) => {
 
   const handleAttendClick = () => {
     setIsEditable(!isEditable);
+  };
+
+  const handleCancelClick = () => {
+    if (typeof window !== "undefined") {
+      window.history.back();
+    }
+  };
+
+  const handleCancel = () => {
+    if (typeof window !== "undefined") {
+      window.history.back();
+    }
   };
 
   const handleAddExamenClick = () => {
@@ -121,16 +133,6 @@ const LaboratoryProfile = ({ params }) => {
         charCountRef.current.textContent = `${count}/1000`;
       }
     }
-  };
-
-  const handleCancel = () => {
-    if (typeof window !== "undefined") {
-      window.history.back();
-    }
-  };
-
-  const handleAnularLaboratoryClick = () => {
-    setShowConfirmPopup(true);
   };
 
   const handleClosePopup = () => {
@@ -218,7 +220,159 @@ const LaboratoryProfile = ({ params }) => {
   return (
     <div className="w-full p-10 rounded-lg shadow-md">
       <section className="rounded-lg p-8 mx-auto flex flex-col space-y-6 md:max-w-5xl lg:max-w-6xl xl:max-w-7xl">
-        <ActionButtonsLab />
+        <ActionButtonsLab
+          handleAttendClick={handleAttendClick}
+          handleCancelClick={handleCancelClick}
+        />
+
+        <LaboratoryInfoSection dataLaboratory={dataLaboratory} />
+
+        <div>
+          <div>
+            <h2 className="text-3xl font-bold mt-5">
+              Información de los exámenes
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-3 gap-6 mb-6">
+            <div className="flex justify-start">
+              <div style={{ flex: "0 0 350px", marginRight: "14rem" }}>
+                <input
+                  label="Médico de Laboratorio"
+                  name="medicoLaboratorio"
+                  value={
+                    medicos.find(
+                      (medico) =>
+                        medico.descripcion === dataLaboratory.doctorFirmante
+                    )?.idValue || ""
+                  }
+                  type="select"
+                  onChange={handleMedicoChange}
+                  options={medicos.map((medico) => ({
+                    value: medico.idValue,
+                    label: medico.descripcion,
+                  }))}
+                  isEditable={isEditable}
+                  labelWidth="w-full"
+                  width="w-full"
+                />
+              </div>
+            </div>
+
+            <div className="col-span-3">
+              <table className="min-w-full divide-y divide-gray-200 shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                <thead className="bg-gray-300">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-lg font-medium text-gray-700 tracking-wider">
+                      Nombre del archivo
+                    </th>
+                    <th className="px-6 py-3 text-right text-lg font-medium text-gray-700 tracking-wider">
+                      Acciones
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {dataLaboratory.examenMedico.map((examen, index) => (
+                    <tr key={index}>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center">
+                          {examen.nombreArchivo ? (
+                            <a
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                downloadFile(
+                                  examen.archivo,
+                                  examen.nombreArchivo
+                                );
+                              }}
+                              className="text-blue-600 hover:underline"
+                            >
+                              {examen.nombreArchivo}
+                            </a>
+                          ) : (
+                            <input
+                              name={`examenMedico.${index}.archivo`}
+                              className="border rounded p-2 text-md"
+                              type="file"
+                              onChange={(e) => handleFileChange(e, index)}
+                            />
+                          )}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <button
+                          onClick={() =>
+                            downloadFile(examen.archivo, examen.nombreArchivo)
+                          }
+                          className="text-lg text-indigo-600 hover:text-indigo-900"
+                        >
+                          Descargar
+                        </button>
+                        <button
+                          onClick={() => handleRemoveExamen(index)}
+                          className="text-lg text-red-600 hover:text-red-900 ml-4"
+                        >
+                          Eliminar
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+              <div className="flex justify-end">
+                <input
+                  type="file"
+                  ref={hiddenFileInput}
+                  style={{ display: "none" }}
+                  onChange={handleAddExamen}
+                />
+                <button
+                  onClick={handleAddExamenClick}
+                  className="bg-blue-500 text-white hover:bg-blue-600 px-4 py-2 mt-4 rounded"
+                >
+                  <i className="fas fa-plus mr-2"></i> Añadir
+                </button>
+              </div>
+            </div>
+
+            <div className="col-span-3">
+              <h2 className="text-3xl font-bold mb-4">Observaciones</h2>
+              <input
+                value={dataLaboratory?.observaciones}
+                isEditable={isEditable}
+                type="textarea"
+                name="observaciones"
+                onChange={handleChange}
+                maxLength={1000}
+              />
+              <span className="text-right block" ref={charCountRef}>
+                {(dataLaboratory?.observaciones || "").length}/1000
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <div className="grid grid-cols-3">
+              <div className="col-span-3 flex justify-end">
+                <button
+                  className="bg-gray-600 text-white hover:bg-blue-600 px-4 py-2 rounded mr-4"
+                  onClick={handleCancel}
+                >
+                  <i className="fas fa-times mr-2"></i>Cancelar
+                </button>
+                <button
+                  className="bg-blue-500 text-white hover:bg-blue-600 px-4 py-2 rounded"
+                  onClick={handleSave}
+                >
+                  <i className="fas fa-save mr-2"></i>Guardar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
 
         {showConfirmPopup && (
           <div
@@ -272,239 +426,6 @@ const LaboratoryProfile = ({ params }) => {
             </div>
           </div>
         )}
-
-        <h4 style={{ fontSize: "2.2525rem" }} className="text-2xl font-bold">
-          Información del paciente
-        </h4>
-
-        <div className="flex flex-wrap gap-4">
-          <div style={{ flex: "3 0 0%" }}>
-            <InputField
-              label="Nombre completo"
-              value={`${dataLaboratory?.citaMedica?.paciente?.nombres} ${dataLaboratory?.citaMedica?.paciente?.apellidoPaterno} ${dataLaboratory?.citaMedica?.paciente?.apellidoMaterno}`}
-              disabled
-              width="w-full"
-              labelWidth="w-full"
-            />
-          </div>
-          <div style={{ flex: "1.2 0 0%" }}>
-            <InputField
-              label="Documento de identidad"
-              value={dataLaboratory?.citaMedica?.paciente?.dni}
-              disabled
-              width="w-full"
-              labelWidth="w-full"
-            />
-          </div>
-          <div style={{ flex: "1 0 0%" }}>
-            <InputField
-              label="Sexo"
-              value={
-                dataLaboratory?.paciente?.sexo === "F"
-                  ? "Femenino"
-                  : "Masculino"
-              }
-              disabled
-              width="w-full"
-              labelWidth="w-full"
-            />
-          </div>
-          <div style={{ flex: "0 0 90px" }}>
-            <InputField
-              label="Edad"
-              value={calcularEdad(
-                dataLaboratory?.citaMedica?.paciente?.fechaNacimiento
-              )}
-              disabled
-              width="w-full"
-            />
-          </div>
-        </div>
-
-        <div className="col-span-3">
-          <h2 className="text-3xl font-bold mt-5">
-            Información de orden de laboratorio
-          </h2>
-        </div>
-
-        <div className="flex justify-start">
-          <div style={{ flex: "0 0 150px", marginRight: "1rem" }}>
-            <InputField
-              label="Tipo de muestra"
-              value={dataLaboratory?.tipoMuestra}
-              disabled
-              width="w-full"
-              labelWidth="w-full"
-            />
-          </div>
-          <div style={{ flex: "0 0 390px" }}>
-            <InputField
-              label="Médico prescriptor"
-              value={`${dataLaboratory?.citaMedica?.medico?.nombres} ${dataLaboratory?.citaMedica?.medico?.apellidoPaterno} ${dataLaboratory?.citaMedica?.medico?.apellidoMaterno}`}
-              disabled
-              width="w-full"
-              labelWidth="w-full"
-            />
-          </div>
-        </div>
-
-        <div className="flex">
-          <div className="flex-1 col-span-3">
-            <InputField
-              label="Examenes a realizar"
-              value={dataLaboratory?.instrucciones}
-              disabled
-              type="textarea"
-              width="w-full"
-              labelWidth="w-full"
-            />
-          </div>
-        </div>
-
-        <div>
-          <h2 className="text-3xl font-bold mt-5">
-            Información de los exámenes
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-3 gap-6 mb-6">
-          <div className="flex justify-start">
-            <div style={{ flex: "0 0 350px", marginRight: "14rem" }}>
-              <InputField
-                label="Médico de Laboratorio"
-                name="medicoLaboratorio"
-                value={
-                  medicos.find(
-                    (medico) =>
-                      medico.descripcion === dataLaboratory.doctorFirmante
-                  )?.idValue || ""
-                }
-                type="select"
-                onChange={handleMedicoChange}
-                options={medicos.map((medico) => ({
-                  value: medico.idValue,
-                  label: medico.descripcion,
-                }))}
-                isEditable={isEditable}
-                labelWidth="w-full"
-                width="w-full"
-              />
-            </div>
-          </div>
-
-          <div className="col-span-3">
-            <table className="min-w-full divide-y divide-gray-200 shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-              <thead className="bg-gray-300">
-                <tr>
-                  <th className="px-6 py-3 text-left text-lg font-medium text-gray-700 tracking-wider">
-                    Nombre del archivo
-                  </th>
-                  <th className="px-6 py-3 text-right text-lg font-medium text-gray-700 tracking-wider">
-                    Acciones
-                  </th>
-                </tr>
-              </thead>
-
-              <tbody className="bg-white divide-y divide-gray-200">
-                {dataLaboratory.examenMedico.map((examen, index) => (
-                  <tr key={index}>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        {examen.nombreArchivo ? (
-                          <a
-                            href="#"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              downloadFile(
-                                examen.archivo,
-                                examen.nombreArchivo
-                              );
-                            }}
-                            className="text-blue-600 hover:underline"
-                          >
-                            {examen.nombreArchivo}
-                          </a>
-                        ) : (
-                          <input
-                            name={`examenMedico.${index}.archivo`}
-                            className="border rounded p-2 text-md"
-                            type="file"
-                            onChange={(e) => handleFileChange(e, index)}
-                          />
-                        )}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <button
-                        onClick={() =>
-                          downloadFile(examen.archivo, examen.nombreArchivo)
-                        }
-                        className="text-lg text-indigo-600 hover:text-indigo-900"
-                      >
-                        Descargar
-                      </button>
-                      <button
-                        onClick={() => handleRemoveExamen(index)}
-                        className="text-lg text-red-600 hover:text-red-900 ml-4"
-                      >
-                        Eliminar
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-
-            <div className="flex justify-end">
-              <input
-                type="file"
-                ref={hiddenFileInput}
-                style={{ display: "none" }}
-                onChange={handleAddExamen}
-              />
-              <button
-                onClick={handleAddExamenClick}
-                className="bg-blue-500 text-white hover:bg-blue-600 px-4 py-2 mt-4 rounded"
-              >
-                <i className="fas fa-plus mr-2"></i> Añadir
-              </button>
-            </div>
-          </div>
-
-          <div className="col-span-3">
-            <h2 className="text-3xl font-bold mb-4">Observaciones</h2>
-            <InputField
-              value={dataLaboratory?.observaciones}
-              isEditable={isEditable}
-              type="textarea"
-              name="observaciones"
-              onChange={handleChange}
-              maxLength={1000}
-            />
-            <span className="text-right block" ref={charCountRef}>
-              {(dataLaboratory?.observaciones || "").length}/1000
-            </span>
-          </div>
-        </div>
-
-        <div>
-          <div className="grid grid-cols-3">
-            <div className="col-span-3 flex justify-end">
-              <button
-                className="bg-gray-600 text-white hover:bg-blue-600 px-4 py-2 rounded mr-4"
-                onClick={handleCancel}
-              >
-                <i className="fas fa-times mr-2"></i>Cancelar
-              </button>
-              <button
-                className="bg-blue-500 text-white hover:bg-blue-600 px-4 py-2 rounded"
-                onClick={handleSave}
-              >
-                <i className="fas fa-save mr-2"></i>Guardar
-              </button>
-            </div>
-          </div>
-        </div>
 
         {showModal && (
           <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50 bg-gray-800 bg-opacity-50">

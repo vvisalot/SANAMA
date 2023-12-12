@@ -34,7 +34,6 @@ public class SanamaApplication {
 				JSONObject jobMed = (JSONObject) obj;
 				medicamento.setNombre(jobMed.get("nombre").toString());
 				medicamento.setIndicacion(jobMed.get("indicacion").toString());
-
 				lmedicamentos.add(medicamento);
 			}
 
@@ -43,7 +42,6 @@ public class SanamaApplication {
 				System.out.println("indicacion: " + med.getIndicacion());
 			}
 		} catch (Exception ex) {
-			// Manejo de excepciones aquí
 			ex.printStackTrace();
 		}
 
@@ -58,7 +56,6 @@ public class SanamaApplication {
 				JSONObject jobMed = (JSONObject) obj;
 				medicamento.setNombre(jobMed.get("nombre").toString());
 				medicamento.setIndicacion(jobMed.get("indicacion").toString());
-
 				lmedicamentos.add(medicamento);
 			}
 		} catch (Exception ex) {
