@@ -8,6 +8,7 @@ const LaboratoryExamInfoSection = ({
   handleMedicoChange,
   isEditable,
 }) => {
+  const nombreDoctor = `${dataLaboratory?.citaMedica?.medico?.nombres} ${dataLaboratory?.citaMedica?.medico?.apellidoPaterno} ${dataLaboratory?.citaMedica?.medico?.apellidoMaterno}`;
   const downloadFile = (base64, fileName) => {
     const blob = base64ToBlob(base64, "application/pdf");
 
@@ -95,7 +96,6 @@ const LaboratoryExamInfoSection = ({
       }
     }, 0);
   };
-  const nombreDoctor = `${dataLaboratory?.citaMedica?.medico?.nombres} ${dataLaboratory?.citaMedica?.medico?.apellidoPaterno} ${dataLaboratory?.citaMedica?.medico?.apellidoMaterno}`;
 
   const handleFileChange = async (e, index) => {
     const file = e.target.files[0];
@@ -261,17 +261,17 @@ const LaboratoryExamInfoSection = ({
                         downloadFile(examen.archivo, examen.nombreArchivo)
                       }
                       className="text-lg text-indigo-600 hover:text-indigo-900 mr-4"
-                      disabled={!isEditable}
                     >
                       Descargar
                     </button>
-                    <button
-                      onClick={() => handleRemoveExamen(index)}
-                      className="text-lg text-red-600 hover:text-red-900"
-                      disabled={!isEditable}
-                    >
-                      Eliminar
-                    </button>
+                    {isEditable && (
+                      <button
+                        onClick={() => handleRemoveExamen(index)}
+                        className="text-lg text-red-600 hover:text-red-900"
+                      >
+                        Eliminar
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))}
