@@ -9,6 +9,7 @@ SANAMA es una aplicación web que combina un backend en Java y un frontend en Re
     Galvez Cortez, Gonzalo
     Escalante Gonzales, Sergio Alonso
     Vargas Nuñez, Pedro Matias
+    Arenales Aquino, Mauricio Lucio
 
 # Prerrequisitos
 Antes de iniciar, asegúrate de tener instalado:
